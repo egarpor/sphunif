@@ -19,7 +19,9 @@ thus Monte Carlo experiments. Furthermore, the
 a simple way. The asymptotic null distributions of the statistics are
 available through the function \code{\link{unif_stat_distr}}. The core of
 the \code{sphunif} is coded in C++ by relying on the
-\code{\link[Rcpp]{Rcpp-package}}.
+\code{\link[Rcpp]{Rcpp-package}}. The package allows the replication of
+the data application in García-Portugués, Navarro-Esteban and
+Cuesta-Albertos (2020) <arXiv:2008.09897>.
 }
 \references{
 García-Portugués, E. and Verdebout, T. (2018) An overview of uniformity

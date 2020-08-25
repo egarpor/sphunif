@@ -21,6 +21,8 @@ Description: Implementation of uniformity tests on the circle and
     parallelize them in a simple way. The asymptotic null distributions of
     the statistics are available through the function unif_stat_distr(). The
     core of the sphunif is coded in C++ by relying on the 'Rcpp' package.
+    The package allows the replication of the data application in
+    García-Portugués, Navarro-Esteban and Cuesta-Albertos (2020) <arXiv:2008.09897>.
 License: GPL-3
 LazyData: true
 Depends:

@@ -17,7 +17,7 @@ sphunif
 
 <!-- badges: start -->
 [![License](https://img.shields.io/badge/license-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Travis build status](https://travis-ci.com/egarpor/sphunif?branch=master)](https://travis-ci.com/egarpor/sphunif)
+[![Travis build status](https://travis-ci.org/egarpor/sphunif?branch=master)](https://travis-ci.org/egarpor/sphunif)
 [![CRAN status](https://www.r-pkg.org/badges/version/sphunif)](https://cran.r-project.org/package=sphunif)
 <!-- badges: end -->
 

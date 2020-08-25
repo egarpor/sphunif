@@ -1,0 +1,15 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+src/*.o
+src/*.so
+src/*.dll
+TODO/
+.DS_Store
+inst/doc
+*.html
+*.history
+man/.DS_Store
+.Renviron
+simulations/res

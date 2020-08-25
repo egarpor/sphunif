@@ -1,0 +1,24 @@
+# R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
+
+language: r
+r:
+  - 3.5.0
+cache: packages
+warnings_are_errors: false
+env:
+  global:
+    - PKG_LIBS = "-llapack"
+    - PKG_CXXFLAGS = "-std=c++11"
+sudo: required
+r_packages: statmod
+script:
+  - |
+    R CMD build .
+    travis_wait 30 R CMD check sphunif*tar.gz --as-cran
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - libglu1-mesa-dev
+      - libgsl0-dev

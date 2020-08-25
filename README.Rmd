@@ -1,0 +1,168 @@
+---
+output:
+  md_document:
+    variant: gfm
+---
+
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE, comment = "#>", fig.path = "README/README-",
+  message = FALSE, warning = FALSE, fig.asp = 1, fig.align = 'center'
+)
+```
+
+sphunif
+=======
+
+<!-- badges: start -->
+[![License](https://img.shields.io/badge/license-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![Travis build status](https://travis-ci.com/egarpor/sphunif?branch=master)](https://travis-ci.com/egarpor/sphunif)
+[![CRAN status](https://www.r-pkg.org/badges/version/sphunif)](https://cran.r-project.org/package=sphunif)
+<!-- badges: end -->
+
+## Overview
+
+Implementation of circa 30 tests of uniformity on the circle, sphere, and hypersphere. Software companion for the (evolving) review "*An overview of uniformity tests on the hypersphere*" (García-Portugués and Verdebout, 2018) and the paper "*On a projection-based class of uniformity tests on the hypersphere*" (García-Portugués, Navarro-Esteban and Cuesta-Albertos, 2020).
+
+## Installation
+
+Get the latest version from GitHub:
+
+```{r, install-devtools, eval = FALSE}
+# Install the package
+library(devtools)
+install_github("egarpor/sphunif")
+
+# Load package
+library(sphunif)
+```
+
+```{r, load, echo = FALSE}
+# Load package
+library(sphunif)
+```
+
+## Usage
+
+### Circular data
+
+You want to test if a sample of *circular* data is uniformly distributed. For example, the following circular uniform sample in *radians*:
+
+```{r, cir_data}
+set.seed(987202226)
+cir_data <- runif(n = 10, min = 0, max = 2 * pi)
+```
+
+Call the main function in the `sphunif` package, `unif_test`, specifying the `type` of test to be performed. For example, the `"Kuiper"` test:
+
+```{r, unif_test_cir}
+library(sphunif)
+unif_test(data = cir_data, type = "Kuiper", verbose = FALSE) # An htest object
+```
+
+By default, the calibration of the test statistic is done by Monte Carlo. This can be changed with `p_value = "asymp"` to employ asymptotic distributions (faster, but not available for all tests):
+
+```{r, asymp}
+unif_test(data = cir_data, type = "Kuiper", p_value = "MC",
+          verbose = FALSE) # Monte Carlo
+unif_test(data = cir_data, type = "Kuiper", p_value = "asymp") # Asymp. distr.
+```
+
+You can perform *several* tests with a *single* call to `unif_test`. Choose the available circular uniformity tests from
+
+```{r, avail_cir}
+avail_cir_tests
+```
+
+For example:
+
+```{r, unif_test_avail_cir}
+unif_test(data = cir_data, type = c("Kuiper", "Watson", "Ajne"),
+          verbose = FALSE) # A *list* of htest objects
+```
+
+### Spherical data
+
+You want to test if a sample of *spherical* data is uniformly distributed. Consider a *non*-uniformly-generated sample of directions in **Cartesian coordinates**:
+
+```{r, sph_data}
+# Sample data on S^2
+set.seed(987202226)
+theta <- runif(n = 50, min = 0, max = 2 * pi)
+phi <- runif(n = 50, min = 0, max = pi)
+sph_data <- cbind(cos(theta) * sin(phi), sin(theta) * sin(phi), cos(phi))
+```
+
+The available spherical uniformity tests:
+
+```{r, avail_sph}
+avail_sph_tests
+```
+
+The default `type = "all"`  equals `type = avail_sph_tests`:
+
+```{r, unif_test_avail_sph}
+unif_test(data = sph_data, type = "all", p_value = "MC", verbose = FALSE)
+unif_test(data = sph_data, type = "Rayleigh", p_value = "asymp")
+```
+
+### Higher dimensions
+
+The *hyperspherical* setting is treated analogously to the spherical setting, and the available tests are exactly the same (`avail_sph_tests`). An example of testing uniformity with a sample of size `100` on the $9$-sphere:
+
+```{r, hyp_data}
+# Sample data on S^9
+set.seed(987202226)
+hyp_data <- r_unif_sph(n = 50, p = 10)
+
+# Test
+unif_test(data = hyp_data, type = "Rayleigh", p_value = "asymp")
+```
+
+## Data applications in astronomy
+
+The data applications in García-Portugués, Navarro-Esteban and Cuesta-Albertos (2020) can
+be reproduced through the script [data-application-ecdf.R](https://github.com/egarpor/sphunif/blob/master/application/data-application-ecdf.R). The code snippet below illustrates the testing of the uniformity of orbits of planets and long-period comets.
+
+```{r, sunspots_births}
+## Planets
+
+# Load data
+data("planets")
+
+# Add normal vectors
+planets$normal <- cbind(sin(planets$i) * sin(planets$om),
+                       -sin(planets$i) * cos(planets$om),
+                       cos(planets$i))
+
+# Tests without Pluto
+unif_test(data = planets$normal[-9, ], type = c("PCvM", "PAD", "PRt"),
+          p_value = "MC")
+
+## Comets
+
+# Load data
+data("comets")
+
+# Add normal vectors
+comets$normal <- cbind(sin(comets$i) * sin(comets$om),
+                       -sin(comets$i) * cos(comets$om),
+                       cos(comets$i))
+
+# Exclude the C/1882 R1-X (Great September comet) records with X = B, C, D
+comets_ccf2009 <- comets[comets$ccf2009, ][-c(13:15), ]
+
+# Tests for the data in Cuesta-Albertos et al. (2009)
+tests_ccf2009 <- unif_test(data = comets_ccf2009$normal,
+                           type = c("PCvM", "PAD", "PRt"),
+                           p_value = "asymp", K_max = 5e4)
+tests_ccf2009
+```
+
+## References
+
+García-Portugués, E., Navarro-Esteban, P., and Cuesta-Albertos, J. A. (2020). On a projection-based class of uniformity tests on the hypersphere. *arXiv:2008.09897*. <https://arxiv.org/abs/2008.09897>
+
+García-Portugués, E. and Verdebout, T. (2018). An overview of uniformity tests
+on the hypersphere. *arXiv:1804.00286*. <https://arxiv.org/abs/1804.00286>

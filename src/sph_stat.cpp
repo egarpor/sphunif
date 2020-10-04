@@ -23,7 +23,8 @@ arma::vec cir_stat_An_Psi(arma::mat Psi, arma::uword n);
 arma::vec sph_stat_Gine_Gn_Psi(arma::mat Psi, arma::uword n, arma::uword p);
 arma::vec sph_stat_Gine_Fn_Psi(arma::mat Psi, arma::uword n, arma::uword p);
 arma::vec sph_stat_Pycke_Psi(arma::mat Psi, arma::uword n, arma::uword p);
-arma::vec sph_stat_Bakshaev_Psi(arma::mat Psi, arma::uword n);
+arma::vec sph_stat_Riesz(arma::cube X, bool Psi_in_X, arma::uword p, double s);
+arma::vec sph_stat_Riesz_Psi(arma::mat Psi, arma::uword n, double s);
 arma::vec sph_stat_PCvM_Psi(arma::mat Psi, arma::uword n, arma::uword p,
                             arma::vec th_grid, arma::vec int_grid);
 arma::vec sph_stat_PRt_Psi(arma::mat Psi, double t_m, double theta_t_m,
@@ -38,6 +39,7 @@ const double inv_PI = 1.0 / PI;
 const double inv_two_PI = 0.5 / PI;
 const double inv_two_PI_sq = 0.25 / (PI * PI);
 const double two_PI = 2.0 * PI;
+const double sqrt_PI = std::sqrt(PI);
 const double log_two_PI = std::log(2 * PI);
 const double log_two = std::log(2.0);
 const double const_Pycke = -0.5 * (1 - log_two) * inv_two_PI;
@@ -354,7 +356,18 @@ arma::vec sph_stat_Pycke_Psi(arma::mat Psi, arma::uword n, arma::uword p) {
 //' @export
 // [[Rcpp::export]]
 arma::vec sph_stat_Bakshaev(arma::cube X, bool Psi_in_X = false,
-                            arma::uword p = 0, arma::uword N = 160) {
+                            arma::uword p = 0) {
+
+  return sph_stat_Riesz(X, Psi_in_X, p, 1.0);
+
+}
+
+
+//' @rdname sph_stat
+//' @export
+// [[Rcpp::export]]
+arma::vec sph_stat_Riesz(arma::cube X, bool Psi_in_X = false,
+                         arma::uword p = 0, double s = 1.0) {
 
   // Sample size
   arma::uword n = Psi_in_X ? n_from_dist_vector(X.n_rows) : X.n_rows;
@@ -371,11 +384,11 @@ arma::vec sph_stat_Bakshaev(arma::cube X, bool Psi_in_X = false,
   arma::uword M = Psi_in_X ? X.n_cols : X.n_slices;
 
   // Compute statistic using precomputed Psi matrix?
-  arma::vec Nn = arma::zeros(M);
+  arma::vec Rn = arma::zeros(M);
   if (Psi_in_X) {
 
     // Compute statistic
-    Nn = sph_stat_Bakshaev_Psi(X.slice(0), n);
+    Rn = sph_stat_Riesz_Psi(X.slice(0), n, s);
 
   } else {
 
@@ -388,43 +401,38 @@ arma::vec sph_stat_Bakshaev(arma::cube X, bool Psi_in_X = false,
                                 arma::span(k)), ind_tri, true, false, false);
 
       // Compute statistic
-      Nn(k) = arma::as_scalar(sph_stat_Bakshaev_Psi(Psi, n));
+      Rn(k) = arma::as_scalar(sph_stat_Riesz_Psi(Psi, n, s));
 
     }
 
   }
 
   // Compute bias integral
+  double tau = 0;
   if (p == 2) {
 
-    Nn += 4 * n * inv_PI;
-
-  } else if (p == 3) {
-
-    Nn += 4.0 / 3.0 * n;
+    tau = std::pow(2, s);
 
   } else {
 
-    arma::vec t_k = Gauss_Legen_nodes(-1, 1, N);
-    arma::vec w_k = Gauss_Legen_weights(-1, 1, N);
-    Nn += n * std::sqrt(2.0) *
-      arma::accu((arma::sqrt(1 - t_k) % d_proj_unif(t_k, p, false)) % w_k);
+    tau = std::pow(2, p + s - 3) * (p - 2) * R::gammafn(0.5 * p - 1);
 
   }
-
-  return Nn;
+  Rn += n * tau * R::gammafn(0.5 * (p - 1 + s)) /
+    (sqrt_PI * R::gammafn(p - 1 + 0.5 * s));
+  return Rn;
 
 }
 
 
 //' @keywords internal
 // [[Rcpp::export]]
-arma::vec sph_stat_Bakshaev_Psi(arma::mat Psi, arma::uword n) {
+arma::vec sph_stat_Riesz_Psi(arma::mat Psi, arma::uword n, double s) {
 
   // Statistic
-  arma::vec Nn = -4 * arma::sum(arma::sin(0.5 * Psi), 0).t() / n;
-
-  return Nn;
+  arma::vec Rn = -std::pow(2, s + 1) *
+    arma::sum(arma::pow(arma::sin(0.5 * Psi), s), 0).t() / n;
+  return Rn;
 
 }
 

@@ -42,6 +42,8 @@
 #' \eqn{(0, 1)}. Defaults to \code{1 / 3}.
 #' @param q \eqn{q} parameter for the Pycke "\eqn{q}-test", a real in
 #' \eqn{(0, 1)}. Defaults to \code{1 / 2}.
+#' @param s \eqn{s} parameter for the \eqn{s}-Riesz test, a real in
+#' \eqn{(0, 2)}. Defaults to \code{1}.
 #' @param abs_val return the absolute value of the Darling's log gaps
 #' statistic? If \code{TRUE} (default), rejection happens for \emph{large}
 #' values of the statistic, which is consistent with the rest of tests.
@@ -201,6 +203,10 @@
 #' cir_stat_Bakshaev(Theta)
 #' cir_stat_Bakshaev(Psi, Psi_in_Theta = TRUE)
 #'
+#' # Riesz
+#' cir_stat_Riesz(Theta, s = 1)
+#' cir_stat_Riesz(Psi, Psi_in_Theta = TRUE, s = 1)
+#
 #' # Projected Cramér-von Mises
 #' cir_stat_PCvM(Theta)
 #' cir_stat_PCvM(Psi, Psi_in_Theta = TRUE)

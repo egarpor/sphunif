@@ -112,6 +112,21 @@ test_that("PRt vs. Ajne", {
 
 })
 
+test_that("Bakshaev vs. Riesz", {
+
+  expect_equal(sph_stat_Bakshaev(X2), sph_stat_Riesz(X2, s = 1),
+               tolerance = 1e-5)
+  expect_equal(sph_stat_Bakshaev(X3), sph_stat_Riesz(X3, s = 1),
+               tolerance = 1e-5)
+  expect_equal(sph_stat_Bakshaev(X4), sph_stat_Riesz(X4, s = 1),
+               tolerance = 1e-5)
+  expect_equal(sph_stat_Bakshaev(X5), sph_stat_Riesz(X5, s = 1),
+               tolerance = 1e-5)
+  expect_equal(sph_stat_Bakshaev(X9), sph_stat_Riesz(X9, s = 1),
+               tolerance = 1e-5)
+
+})
+
 test_that("sph_stat with psi_in_X = TRUE", {
 
   expect_equal(sph_stat_Ajne(Psi2, Psi_in_X = TRUE), sph_stat_Ajne(X2))

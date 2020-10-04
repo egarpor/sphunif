@@ -12,20 +12,21 @@
 d_p_k(p, k, log = FALSE)
 
 weights_dfs_Sobolev(p, K_max = 1000, thre = 0.001, type, Rothman_t = 1/3,
-  Pycke_q = 0.5, log = FALSE, verbose = TRUE, Gauss = TRUE, N = 320,
-  tol = 1e-06, force_positive = TRUE, x_tail = NULL)
+  Pycke_q = 0.5, Riesz_s = 1, log = FALSE, verbose = TRUE,
+  Gauss = TRUE, N = 320, tol = 1e-06, force_positive = TRUE,
+  x_tail = NULL)
 
 d_Sobolev(x, p, type, method = c("I", "SW", "HBE")[1], K_max = 1000,
-  thre = 0.001, Rothman_t = 1/3, Pycke_q = 0.5, verbose = TRUE,
-  N = 320, x_tail = NULL, ...)
+  thre = 0.001, Rothman_t = 1/3, Pycke_q = 0.5, Riesz_s = 1,
+  verbose = TRUE, N = 320, x_tail = NULL, ...)
 
 p_Sobolev(x, p, type, method = c("I", "SW", "HBE", "MC")[1], K_max = 1000,
-  thre = 0.001, Rothman_t = 1/3, Pycke_q = 0.5, verbose = TRUE,
-  N = 320, x_tail = NULL, ...)
+  thre = 0.001, Rothman_t = 1/3, Pycke_q = 0.5, Riesz_s = 1,
+  verbose = TRUE, N = 320, x_tail = NULL, ...)
 
 q_Sobolev(u, p, type, method = c("I", "SW", "HBE", "MC")[1], K_max = 1000,
-  thre = 0.001, Rothman_t = 1/3, Pycke_q = 0.5, verbose = TRUE,
-  N = 320, x_tail = NULL, ...)
+  thre = 0.001, Rothman_t = 1/3, Pycke_q = 0.5, Riesz_s = 1,
+  verbose = TRUE, N = 320, x_tail = NULL, ...)
 }
 \arguments{
 \item{p}{integer giving the dimension of the ambient space \eqn{R^p} that
@@ -53,6 +54,9 @@ the first terms of the truncated series of a Sobolev test. Defaults to
 
 \item{Pycke_q}{\eqn{q} parameter for the Pycke "\eqn{q}-test", a real in
 \eqn{(0, 1)}. Defaults to \code{1 / 2}.}
+
+\item{Riesz_s}{\eqn{s} parameter for the \eqn{s}-Riesz test, a real in
+\eqn{(0, 2)}. Defaults to \code{1}.}
 
 \item{verbose}{output information about the truncation? Defaults to
 \code{TRUE}.}

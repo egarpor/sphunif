@@ -36,6 +36,8 @@
 #' \eqn{(0, 1)}. Defaults to \code{1 / 3}.
 #' @param Pycke_q \eqn{q} parameter for the Pycke "\eqn{q}-test", a real in
 #' \eqn{(0, 1)}. Defaults to \code{1 / 2}.
+#' @param Riesz_s \eqn{s} parameter for the \eqn{s}-Riesz test, a real in
+#' \eqn{(0, 2)}. Defaults to \code{1}.
 #' @param Cuesta_Albertos_rand_dirs a matrix of size \code{c(n_proj, p)}
 #' containing \code{n_proj} random directions (in Cartesian coordinates) on
 #' \eqn{S^{p-1}} to perform the Cuesta-Albertos test. If \code{NULL} (default),
@@ -104,7 +106,7 @@
 #' @export
 unif_stat <- function(data, type = "all", data_sorted = FALSE,
                       Rayleigh_m = 1, coverage_a = 2 * pi, Rothman_t = 1 / 3,
-                      Cressie_t = 1 / 3, Pycke_q = 0.5,
+                      Cressie_t = 1 / 3, Pycke_q = 0.5, Riesz_s = 1, 
                       Cuesta_Albertos_rand_dirs = NULL, K_Cuesta_Albertos = 25,
                       Cai_regime = 3) {
 
@@ -218,7 +220,7 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
     # Statistics using the shortest angles matrix Psi
     stats_using_Psi <- c("Ajne", "Bakshaev", "Gine_Fn", "Gine_Gn",
                          "Hermans_Rasson", "PAD", "PCvM", "PRt", "Pycke",
-                         "Pycke_q", "Rothman")
+                         "Pycke_q", "Rothman", "Riesz")
 
     # Evaluate which statistics to apply
     run_test <- as.list(avail_cir_tests %in% stats_type)
@@ -397,8 +399,22 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
     }
     if (run_test$Bakshaev) {
 
-      stats$Bakshaev <- cir_stat_Bakshaev(Theta = data,
-                                          Psi_in_Theta = Psi_in_Theta)
+      stats$Bakshaev <- cir_stat_Riesz(Theta = data,
+                                       Psi_in_Theta = Psi_in_Theta, s = 1)
+
+    }
+    if (run_test$Riesz) {
+
+      if (Riesz_s == 1 && run_test$Bakshaev) {
+
+        stats$Riesz <- stats$Bakshaev
+
+      } else {
+
+        stats$Riesz <- cir_stat_Riesz(Theta = data, Psi_in_Theta = Psi_in_Theta,
+                                      s = Riesz_s)
+
+      }
 
     }
     if (run_test$Gine_Gn) {
@@ -482,7 +498,7 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
 
     # Statistics using the shortest angles matrix Psi
     stats_using_Psi <- c("Ajne", "Bakshaev", "Cai", "Gine_Fn", "Gine_Gn",
-                         "PAD", "PCvM", "PRt", "Pycke")
+                         "PAD", "PCvM", "PRt", "Pycke", "Riesz")
 
     # Evaluate which statistics to apply
     run_test <- as.list(avail_sph_tests %in% stats_type)
@@ -553,7 +569,22 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
     }
     if (run_test$Bakshaev) {
 
-      stats$Bakshaev <- sph_stat_Bakshaev(X = data, Psi_in_X = Psi_in_X, p = p)
+      stats$Bakshaev <- sph_stat_Riesz(X = data, Psi_in_X = Psi_in_X, p = p,
+                                       s = 1)
+
+    }
+    if (run_test$Riesz) {
+
+      if (Riesz_s == 1 && run_test$Bakshaev) {
+
+        stats$Riesz <- stats$Bakshaev
+
+      } else {
+
+        stats$Riesz <- sph_stat_Riesz(X = data, Psi_in_X = Psi_in_X, p = p,
+                                      s = Riesz_s)
+
+      }
 
     }
     if (run_test$Cai) {

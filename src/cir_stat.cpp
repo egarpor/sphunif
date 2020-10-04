@@ -22,8 +22,7 @@ arma::vec sph_stat_Gine_Gn(arma::cube X, bool Psi_in_X, arma::uword p);
 arma::vec sph_stat_Gine_Fn(arma::cube X, bool Psi_in_X, arma::uword p);
 arma::vec cir_stat_Pycke_Psi(arma::mat Psi, arma::uword n);
 arma::vec cir_stat_Pycke_q_Psi(arma::mat Psi, arma::uword n, double q);
-arma::vec sph_stat_Bakshaev(arma::cube X, bool Psi_in_X, arma::uword p,
-                            arma::uword N);
+arma::vec sph_stat_Riesz(arma::cube X, bool Psi_in_X, arma::uword p, double s);
 arma::vec sph_stat_PCvM(arma::cube X, bool Psi_in_X, arma::uword p,
                        arma::uword N, arma::uword L);
 arma::vec sph_stat_PRt(arma::cube X, double t,  bool Psi_in_X, arma::uword p,
@@ -36,14 +35,17 @@ arma::vec sph_stat_Cuesta_Albertos(arma::cube X, arma::mat rand_dirs,
 
 // Constants
 const double pi = PI;
-const double inv_PI = 1.0 / pi;
+const double inv_PI = 1.0 / pi; // To force including pi, needed for defaults
 const double inv_two_PI = 0.5 / PI;
-const double inv_two_PI_sq = 0.25 / (PI * PI);
-const double two_sq_PI = 2 * PI * PI;
+const double sq_PI = PI * PI;
+const double inv_two_PI_sq = 0.25 / sq_PI;
+const double two_sq_PI = 2 *sq_PI;
 const double two_PI = 2.0 * PI;
 const double half_PI = 0.5 * PI;
 const double two_inv_PI = 2.0 / PI;
-const double const_Hn = half_PI + 2.895 * two_inv_PI;
+const double beta2 = (sq_PI / 36) / (0.5 - 4 / sq_PI);
+const double const_Hn = half_PI + beta2 * two_inv_PI;
+
 
 /*
  * Tests based on the empirical cumulative distribution function
@@ -875,7 +877,7 @@ arma::vec cir_stat_Hermans_Rasson(arma::mat Theta, bool Psi_in_Theta = false) {
 arma::vec cir_stat_Hermans_Rasson_Psi(arma::mat Psi, arma::uword n) {
 
   // Statistic as h_3 in Pycke (2010)
-  arma::vec Hn = -arma::sum(Psi + 2.895 * arma::sin(Psi), 0).t();
+  arma::vec Hn = -arma::sum(Psi + beta2 * arma::sin(Psi), 0).t();
 
   // Factors statistic
   Hn *= 2.0 / n;
@@ -1046,11 +1048,32 @@ arma::vec cir_stat_Bakshaev(arma::mat Theta, bool Psi_in_Theta = false) {
 
     arma::cube Theta_cube(Theta.n_rows, Theta.n_cols, 1);
     Theta_cube.slice(0) = Theta;
-    return sph_stat_Bakshaev(Theta_cube, true, 2, 0);
+    return sph_stat_Riesz(Theta_cube, true, 2, 1.0);
 
   } else {
 
-    return sph_stat_Bakshaev(Theta_to_X(Theta), false, 2, 0);
+    return sph_stat_Riesz(Theta_to_X(Theta), false, 2, 1.0);
+
+  }
+
+}
+
+
+//' @rdname cir_stat
+//' @export
+// [[Rcpp::export]]
+arma::vec cir_stat_Riesz(arma::mat Theta, bool Psi_in_Theta = false, 
+                         double s = 1.0) {
+
+  if (Psi_in_Theta) {
+
+    arma::cube Theta_cube(Theta.n_rows, Theta.n_cols, 1);
+    Theta_cube.slice(0) = Theta;
+    return sph_stat_Riesz(Theta_cube, true, 2, s);
+
+  } else {
+
+    return sph_stat_Riesz(Theta_to_X(Theta), false, 2, s);
 
   }
 

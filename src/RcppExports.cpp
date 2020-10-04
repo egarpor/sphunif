@@ -557,6 +557,19 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// cir_stat_Riesz
+arma::vec cir_stat_Riesz(arma::mat Theta, bool Psi_in_Theta, double s);
+RcppExport SEXP _sphunif_cir_stat_Riesz(SEXP ThetaSEXP, SEXP Psi_in_ThetaSEXP, SEXP sSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
+    Rcpp::traits::input_parameter< bool >::type Psi_in_Theta(Psi_in_ThetaSEXP);
+    Rcpp::traits::input_parameter< double >::type s(sSEXP);
+    rcpp_result_gen = Rcpp::wrap(cir_stat_Riesz(Theta, Psi_in_Theta, s));
+    return rcpp_result_gen;
+END_RCPP
+}
 // cir_stat_PCvM
 arma::vec cir_stat_PCvM(arma::mat Theta, bool Psi_in_Theta);
 RcppExport SEXP _sphunif_cir_stat_PCvM(SEXP ThetaSEXP, SEXP Psi_in_ThetaSEXP) {
@@ -1408,28 +1421,42 @@ BEGIN_RCPP
 END_RCPP
 }
 // sph_stat_Bakshaev
-arma::vec sph_stat_Bakshaev(arma::cube X, bool Psi_in_X, arma::uword p, arma::uword N);
-RcppExport SEXP _sphunif_sph_stat_Bakshaev(SEXP XSEXP, SEXP Psi_in_XSEXP, SEXP pSEXP, SEXP NSEXP) {
+arma::vec sph_stat_Bakshaev(arma::cube X, bool Psi_in_X, arma::uword p);
+RcppExport SEXP _sphunif_sph_stat_Bakshaev(SEXP XSEXP, SEXP Psi_in_XSEXP, SEXP pSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::cube >::type X(XSEXP);
     Rcpp::traits::input_parameter< bool >::type Psi_in_X(Psi_in_XSEXP);
     Rcpp::traits::input_parameter< arma::uword >::type p(pSEXP);
-    Rcpp::traits::input_parameter< arma::uword >::type N(NSEXP);
-    rcpp_result_gen = Rcpp::wrap(sph_stat_Bakshaev(X, Psi_in_X, p, N));
+    rcpp_result_gen = Rcpp::wrap(sph_stat_Bakshaev(X, Psi_in_X, p));
     return rcpp_result_gen;
 END_RCPP
 }
-// sph_stat_Bakshaev_Psi
-arma::vec sph_stat_Bakshaev_Psi(arma::mat Psi, arma::uword n);
-RcppExport SEXP _sphunif_sph_stat_Bakshaev_Psi(SEXP PsiSEXP, SEXP nSEXP) {
+// sph_stat_Riesz
+arma::vec sph_stat_Riesz(arma::cube X, bool Psi_in_X, arma::uword p, double s);
+RcppExport SEXP _sphunif_sph_stat_Riesz(SEXP XSEXP, SEXP Psi_in_XSEXP, SEXP pSEXP, SEXP sSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::cube >::type X(XSEXP);
+    Rcpp::traits::input_parameter< bool >::type Psi_in_X(Psi_in_XSEXP);
+    Rcpp::traits::input_parameter< arma::uword >::type p(pSEXP);
+    Rcpp::traits::input_parameter< double >::type s(sSEXP);
+    rcpp_result_gen = Rcpp::wrap(sph_stat_Riesz(X, Psi_in_X, p, s));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sph_stat_Riesz_Psi
+arma::vec sph_stat_Riesz_Psi(arma::mat Psi, arma::uword n, double s);
+RcppExport SEXP _sphunif_sph_stat_Riesz_Psi(SEXP PsiSEXP, SEXP nSEXP, SEXP sSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::mat >::type Psi(PsiSEXP);
     Rcpp::traits::input_parameter< arma::uword >::type n(nSEXP);
-    rcpp_result_gen = Rcpp::wrap(sph_stat_Bakshaev_Psi(Psi, n));
+    Rcpp::traits::input_parameter< double >::type s(sSEXP);
+    rcpp_result_gen = Rcpp::wrap(sph_stat_Riesz_Psi(Psi, n, s));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1623,6 +1650,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_sphunif_cir_stat_Pycke_q", (DL_FUNC) &_sphunif_cir_stat_Pycke_q, 3},
     {"_sphunif_cir_stat_Pycke_q_Psi", (DL_FUNC) &_sphunif_cir_stat_Pycke_q_Psi, 3},
     {"_sphunif_cir_stat_Bakshaev", (DL_FUNC) &_sphunif_cir_stat_Bakshaev, 2},
+    {"_sphunif_cir_stat_Riesz", (DL_FUNC) &_sphunif_cir_stat_Riesz, 3},
     {"_sphunif_cir_stat_PCvM", (DL_FUNC) &_sphunif_cir_stat_PCvM, 2},
     {"_sphunif_cir_stat_PRt", (DL_FUNC) &_sphunif_cir_stat_PRt, 3},
     {"_sphunif_cir_stat_PAD", (DL_FUNC) &_sphunif_cir_stat_PAD, 2},
@@ -1692,8 +1720,9 @@ static const R_CallMethodDef CallEntries[] = {
     {"_sphunif_sph_stat_Gine_Fn_Psi", (DL_FUNC) &_sphunif_sph_stat_Gine_Fn_Psi, 3},
     {"_sphunif_sph_stat_Pycke", (DL_FUNC) &_sphunif_sph_stat_Pycke, 4},
     {"_sphunif_sph_stat_Pycke_Psi", (DL_FUNC) &_sphunif_sph_stat_Pycke_Psi, 3},
-    {"_sphunif_sph_stat_Bakshaev", (DL_FUNC) &_sphunif_sph_stat_Bakshaev, 4},
-    {"_sphunif_sph_stat_Bakshaev_Psi", (DL_FUNC) &_sphunif_sph_stat_Bakshaev_Psi, 2},
+    {"_sphunif_sph_stat_Bakshaev", (DL_FUNC) &_sphunif_sph_stat_Bakshaev, 3},
+    {"_sphunif_sph_stat_Riesz", (DL_FUNC) &_sphunif_sph_stat_Riesz, 4},
+    {"_sphunif_sph_stat_Riesz_Psi", (DL_FUNC) &_sphunif_sph_stat_Riesz_Psi, 3},
     {"_sphunif_sph_stat_PCvM", (DL_FUNC) &_sphunif_sph_stat_PCvM, 5},
     {"_sphunif_sph_stat_PCvM_Psi", (DL_FUNC) &_sphunif_sph_stat_PCvM_Psi, 5},
     {"_sphunif_sph_stat_PRt", (DL_FUNC) &_sphunif_sph_stat_PRt, 6},

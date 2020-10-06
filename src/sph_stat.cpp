@@ -42,7 +42,8 @@ const double two_PI = 2.0 * PI;
 const double sqrt_PI = std::sqrt(PI);
 const double log_two_PI = std::log(2 * PI);
 const double log_two = std::log(2.0);
-const double const_Pycke = -0.5 * (1 - log_two) * inv_two_PI;
+const double inv_four_PI = 0.25 / PI;
+const double const_Pycke = (1.0 - std::log(4.0)) * inv_four_PI;
 
 
 /*
@@ -283,7 +284,7 @@ arma::vec sph_stat_Gine_Fn_Psi(arma::mat Psi, arma::uword n, arma::uword p) {
 //' @export
 // [[Rcpp::export]]
 arma::vec sph_stat_Pycke(arma::cube X, bool Psi_in_X = false,
-                         arma::uword p = 0, arma::uword N = 160) {
+                         arma::uword p = 0) {
 
   // Sample size
   arma::uword n = Psi_in_X ? n_from_dist_vector(X.n_rows) : X.n_rows;
@@ -332,19 +333,21 @@ arma::vec sph_stat_Pycke(arma::cube X, bool Psi_in_X = false,
 // [[Rcpp::export]]
 arma::vec sph_stat_Pycke_Psi(arma::mat Psi, arma::uword n, arma::uword p) {
 
-  // Statistic
+  // log(Gamman) without n constants: 2 \sum_{i < j} \log(sqrt(1 - \Psi_{ij}))
   arma::vec Gamman = arma::sum(arma::log1p(-Psi), 0).t();
 
   // Factors statistic
   if (p == 2) {
 
-    Gamman *= -2.0 / (n - 1.0);
-    Gamman += -log_two * n;
+    Gamman *= -2.0 / (n - 1.0); // Factor 2 of log(Gamman^2)
+    Gamman += -log_two * n; // -n * log(2) / 2 * 2 where the
+    // last 2 is because of factor 2 of log(Gamman^2)
 
   } else {
 
-    Gamman *= -inv_two_PI / (n - 1.0);
-    Gamman += const_Pycke * n;
+    Gamman *= -inv_two_PI / (n - 1.0); // Included factor 2 of log(Gamman^2)
+    // and 1 / (4 * pi)
+    Gamman += -(log_two * inv_four_PI + const_Pycke) * n;
 
   }
   return Gamman;

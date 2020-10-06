@@ -1205,8 +1205,8 @@ sph_stat_Gine_Fn_Psi <- function(Psi, n, p) {
 
 #' @rdname sph_stat
 #' @export
-sph_stat_Pycke <- function(X, Psi_in_X = FALSE, p = 0L, N = 160L) {
-    .Call('_sphunif_sph_stat_Pycke', PACKAGE = 'sphunif', X, Psi_in_X, p, N)
+sph_stat_Pycke <- function(X, Psi_in_X = FALSE, p = 0L) {
+    .Call('_sphunif_sph_stat_Pycke', PACKAGE = 'sphunif', X, Psi_in_X, p)
 }
 
 #' @keywords internal

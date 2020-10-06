@@ -28,7 +28,7 @@ sph_stat_Gine_Gn(X, Psi_in_X = FALSE, p = 0L)
 
 sph_stat_Gine_Fn(X, Psi_in_X = FALSE, p = 0L)
 
-sph_stat_Pycke(X, Psi_in_X = FALSE, p = 0L, N = 160L)
+sph_stat_Pycke(X, Psi_in_X = FALSE, p = 0L)
 
 sph_stat_Bakshaev(X, Psi_in_X = FALSE, p = 0L)
 
@@ -60,12 +60,12 @@ internally.}
 \item{p}{integer giving the dimension of the ambient space \eqn{R^p} that
 contains \eqn{S^{p-1}}.}
 
+\item{s}{\eqn{s} parameter for the \eqn{s}-Riesz test, a real in
+\eqn{(0, 2)}. Defaults to \code{1}.}
+
 \item{N}{number of points used in the
 \link[=Gauss_Legen_nodes]{Gauss-Legendre quadrature}. Defaults to
 \code{160}.}
-
-\item{s}{\eqn{s} parameter for the \eqn{s}-Riesz test, a real in
-\eqn{(0, 2)}. Defaults to \code{1}.}
 
 \item{L}{number of discretization points to interpolate angular functions
 that require evaluating an integral. Defaults to \code{1e3}.}

@@ -23,7 +23,8 @@ arma::vec cir_stat_An_Psi(arma::mat Psi, arma::uword n);
 arma::vec sph_stat_Gine_Gn_Psi(arma::mat Psi, arma::uword n, arma::uword p);
 arma::vec sph_stat_Gine_Fn_Psi(arma::mat Psi, arma::uword n, arma::uword p);
 arma::vec sph_stat_Pycke_Psi(arma::mat Psi, arma::uword n, arma::uword p);
-arma::vec sph_stat_Riesz(arma::cube X, bool Psi_in_X, arma::uword p, double s);
+arma::vec sph_stat_Riesz(arma::cube X, bool Psi_in_X, arma::uword p, double s,
+                         arma::uword N);
 arma::vec sph_stat_Riesz_Psi(arma::mat Psi, arma::uword n, double s);
 arma::vec sph_stat_PCvM_Psi(arma::mat Psi, arma::uword n, arma::uword p,
                             arma::vec th_grid, arma::vec int_grid);
@@ -44,7 +45,6 @@ const double log_two_PI = std::log(2 * PI);
 const double log_two = std::log(2.0);
 const double inv_four_PI = 0.25 / PI;
 const double const_Pycke = (1.0 - std::log(4.0)) * inv_four_PI;
-
 
 /*
  * Sobolev tests
@@ -333,7 +333,8 @@ arma::vec sph_stat_Pycke(arma::cube X, bool Psi_in_X = false,
 // [[Rcpp::export]]
 arma::vec sph_stat_Pycke_Psi(arma::mat Psi, arma::uword n, arma::uword p) {
 
-  // log(Gamman) without n constants: 2 \sum_{i < j} \log(sqrt(1 - \Psi_{ij}))
+  // log(Gamman) without n-constants: 2 \sum_{i < j} \log(sqrt(1 - \Psi_{ij}))
+  // Psi contains scalar products!
   arma::vec Gamman = arma::sum(arma::log1p(-Psi), 0).t();
 
   // Factors statistic
@@ -361,7 +362,7 @@ arma::vec sph_stat_Pycke_Psi(arma::mat Psi, arma::uword n, arma::uword p) {
 arma::vec sph_stat_Bakshaev(arma::cube X, bool Psi_in_X = false,
                             arma::uword p = 0) {
 
-  return sph_stat_Riesz(X, Psi_in_X, p, 1.0);
+  return sph_stat_Riesz(X, Psi_in_X, p, 1.0, 1);
 
 }
 
@@ -370,7 +371,8 @@ arma::vec sph_stat_Bakshaev(arma::cube X, bool Psi_in_X = false,
 //' @export
 // [[Rcpp::export]]
 arma::vec sph_stat_Riesz(arma::cube X, bool Psi_in_X = false,
-                         arma::uword p = 0, double s = 1.0) {
+                         arma::uword p = 0, double s = 1.0,
+                         arma::uword N = 160) {
 
   // Sample size
   arma::uword n = Psi_in_X ? n_from_dist_vector(X.n_rows) : X.n_rows;
@@ -412,17 +414,46 @@ arma::vec sph_stat_Riesz(arma::cube X, bool Psi_in_X = false,
 
   // Compute bias integral
   double tau = 0;
-  if (p == 2) {
+  if (s == 0) {
 
-    tau = std::pow(2, s);
+    if (p == 2) {
+
+      tau = 0;
+
+    } else if (p == 3) {
+
+      tau = log_two - 0.5;
+
+    } else if (p == 4) {
+
+      tau = 0.25;
+
+    } else {
+
+      // Integration nodes and weights
+      arma::vec t_k = Gauss_Legen_nodes(-1, 1, N);
+      arma::vec w_k = Gauss_Legen_weights(-1, 1, N);
+      tau = 0.5 * (log_two +
+        arma::accu(w_k % arma::log(1 - t_k) % d_proj_unif(t_k, p, false)));
+
+    }
+    Rn += n * tau;
 
   } else {
 
-    tau = std::pow(2, p + s - 3) * (p - 2) * R::gammafn(0.5 * p - 1);
+    if (p == 2) {
+
+      tau = std::pow(2, s);
+
+    } else {
+
+      tau = std::pow(2, p + s - 3) * (p - 2) * R::gammafn(0.5 * p - 1);
+
+    }
+    Rn += n * tau * R::gammafn(0.5 * (p - 1 + s)) /
+      (sqrt_PI * R::gammafn(p - 1 + 0.5 * s));
 
   }
-  Rn += n * tau * R::gammafn(0.5 * (p - 1 + s)) /
-    (sqrt_PI * R::gammafn(p - 1 + 0.5 * s));
   return Rn;
 
 }
@@ -433,8 +464,22 @@ arma::vec sph_stat_Riesz(arma::cube X, bool Psi_in_X = false,
 arma::vec sph_stat_Riesz_Psi(arma::mat Psi, arma::uword n, double s) {
 
   // Statistic
-  arma::vec Rn = -std::pow(2, s + 1) *
-    arma::sum(arma::pow(arma::sin(0.5 * Psi), s), 0).t() / n;
+  arma::vec Rn = arma::zeros(Psi.n_cols);
+  if (s == 0) {
+
+    // log(Gamman) without n-constants: 2 \sum_{i < j} \log(sqrt(1 - \Psi_{ij}))
+    Rn = arma::sum(arma::log1p(-arma::cos(Psi)), 0).t();
+
+    // Divide by n and add log(sqrt(2))
+    Rn *= -1.0 / n;
+    Rn += -0.5 * log_two * (n - 1.0); // -n * log(2) / 2
+
+  } else {
+
+    Rn = -std::pow(2, s + 1) *
+      arma::sum(arma::pow(arma::sin(0.5 * Psi), s), 0).t() / n;
+
+  }
   return Rn;
 
 }

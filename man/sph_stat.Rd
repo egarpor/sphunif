@@ -32,7 +32,7 @@ sph_stat_Pycke(X, Psi_in_X = FALSE, p = 0L)
 
 sph_stat_Bakshaev(X, Psi_in_X = FALSE, p = 0L)
 
-sph_stat_Riesz(X, Psi_in_X = FALSE, p = 0L, s = 1)
+sph_stat_Riesz(X, Psi_in_X = FALSE, p = 0L, s = 1, N = 160L)
 
 sph_stat_PCvM(X, Psi_in_X = FALSE, p = 0L, N = 160L, L = 1000L)
 

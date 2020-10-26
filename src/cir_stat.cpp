@@ -22,8 +22,7 @@ arma::vec sph_stat_Gine_Gn(arma::cube X, bool Psi_in_X, arma::uword p);
 arma::vec sph_stat_Gine_Fn(arma::cube X, bool Psi_in_X, arma::uword p);
 arma::vec cir_stat_Pycke_Psi(arma::mat Psi, arma::uword n);
 arma::vec cir_stat_Pycke_q_Psi(arma::mat Psi, arma::uword n, double q);
-arma::vec sph_stat_Riesz(arma::cube X, bool Psi_in_X, arma::uword p, double s,
-                         arma::uword N);
+arma::vec sph_stat_Riesz(arma::cube X, bool Psi_in_X, arma::uword p, double s);
 arma::vec sph_stat_PCvM(arma::cube X, bool Psi_in_X, arma::uword p,
                        arma::uword N, arma::uword L);
 arma::vec sph_stat_PRt(arma::cube X, double t,  bool Psi_in_X, arma::uword p,
@@ -1049,11 +1048,11 @@ arma::vec cir_stat_Bakshaev(arma::mat Theta, bool Psi_in_Theta = false) {
 
     arma::cube Theta_cube(Theta.n_rows, Theta.n_cols, 1);
     Theta_cube.slice(0) = Theta;
-    return sph_stat_Riesz(Theta_cube, true, 2, 1.0, 1);
+    return sph_stat_Riesz(Theta_cube, true, 2, 1.0);
 
   } else {
 
-    return sph_stat_Riesz(Theta_to_X(Theta), false, 2, 1.0, 1);
+    return sph_stat_Riesz(Theta_to_X(Theta), false, 2, 1.0);
 
   }
 
@@ -1070,11 +1069,11 @@ arma::vec cir_stat_Riesz(arma::mat Theta, bool Psi_in_Theta = false,
 
     arma::cube Theta_cube(Theta.n_rows, Theta.n_cols, 1);
     Theta_cube.slice(0) = Theta;
-    return sph_stat_Riesz(Theta_cube, true, 2, s, 1);
+    return sph_stat_Riesz(Theta_cube, true, 2, s);
 
   } else {
 
-    return sph_stat_Riesz(Theta_to_X(Theta), false, 2, s, 1);
+    return sph_stat_Riesz(Theta_to_X(Theta), false, 2, s);
 
   }
 

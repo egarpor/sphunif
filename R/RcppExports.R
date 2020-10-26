@@ -1222,8 +1222,8 @@ sph_stat_Bakshaev <- function(X, Psi_in_X = FALSE, p = 0L) {
 
 #' @rdname sph_stat
 #' @export
-sph_stat_Riesz <- function(X, Psi_in_X = FALSE, p = 0L, s = 1.0, N = 160L) {
-    .Call('_sphunif_sph_stat_Riesz', PACKAGE = 'sphunif', X, Psi_in_X, p, s, N)
+sph_stat_Riesz <- function(X, Psi_in_X = FALSE, p = 0L, s = 1.0) {
+    .Call('_sphunif_sph_stat_Riesz', PACKAGE = 'sphunif', X, Psi_in_X, p, s)
 }
 
 #' @keywords internal

@@ -1433,8 +1433,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // sph_stat_Riesz
-arma::vec sph_stat_Riesz(arma::cube X, bool Psi_in_X, arma::uword p, double s, arma::uword N);
-RcppExport SEXP _sphunif_sph_stat_Riesz(SEXP XSEXP, SEXP Psi_in_XSEXP, SEXP pSEXP, SEXP sSEXP, SEXP NSEXP) {
+arma::vec sph_stat_Riesz(arma::cube X, bool Psi_in_X, arma::uword p, double s);
+RcppExport SEXP _sphunif_sph_stat_Riesz(SEXP XSEXP, SEXP Psi_in_XSEXP, SEXP pSEXP, SEXP sSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1442,8 +1442,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< bool >::type Psi_in_X(Psi_in_XSEXP);
     Rcpp::traits::input_parameter< arma::uword >::type p(pSEXP);
     Rcpp::traits::input_parameter< double >::type s(sSEXP);
-    Rcpp::traits::input_parameter< arma::uword >::type N(NSEXP);
-    rcpp_result_gen = Rcpp::wrap(sph_stat_Riesz(X, Psi_in_X, p, s, N));
+    rcpp_result_gen = Rcpp::wrap(sph_stat_Riesz(X, Psi_in_X, p, s));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1721,7 +1720,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_sphunif_sph_stat_Pycke", (DL_FUNC) &_sphunif_sph_stat_Pycke, 3},
     {"_sphunif_sph_stat_Pycke_Psi", (DL_FUNC) &_sphunif_sph_stat_Pycke_Psi, 3},
     {"_sphunif_sph_stat_Bakshaev", (DL_FUNC) &_sphunif_sph_stat_Bakshaev, 3},
-    {"_sphunif_sph_stat_Riesz", (DL_FUNC) &_sphunif_sph_stat_Riesz, 5},
+    {"_sphunif_sph_stat_Riesz", (DL_FUNC) &_sphunif_sph_stat_Riesz, 4},
     {"_sphunif_sph_stat_Riesz_Psi", (DL_FUNC) &_sphunif_sph_stat_Riesz_Psi, 3},
     {"_sphunif_sph_stat_PCvM", (DL_FUNC) &_sphunif_sph_stat_PCvM, 5},
     {"_sphunif_sph_stat_PCvM_Psi", (DL_FUNC) &_sphunif_sph_stat_PCvM_Psi, 5},

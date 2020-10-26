@@ -23,8 +23,7 @@ arma::vec cir_stat_An_Psi(arma::mat Psi, arma::uword n);
 arma::vec sph_stat_Gine_Gn_Psi(arma::mat Psi, arma::uword n, arma::uword p);
 arma::vec sph_stat_Gine_Fn_Psi(arma::mat Psi, arma::uword n, arma::uword p);
 arma::vec sph_stat_Pycke_Psi(arma::mat Psi, arma::uword n, arma::uword p);
-arma::vec sph_stat_Riesz(arma::cube X, bool Psi_in_X, arma::uword p, double s,
-                         arma::uword N);
+arma::vec sph_stat_Riesz(arma::cube X, bool Psi_in_X, arma::uword p, double s);
 arma::vec sph_stat_Riesz_Psi(arma::mat Psi, arma::uword n, double s);
 arma::vec sph_stat_PCvM_Psi(arma::mat Psi, arma::uword n, arma::uword p,
                             arma::vec th_grid, arma::vec int_grid);
@@ -362,7 +361,7 @@ arma::vec sph_stat_Pycke_Psi(arma::mat Psi, arma::uword n, arma::uword p) {
 arma::vec sph_stat_Bakshaev(arma::cube X, bool Psi_in_X = false,
                             arma::uword p = 0) {
 
-  return sph_stat_Riesz(X, Psi_in_X, p, 1.0, 1);
+  return sph_stat_Riesz(X, Psi_in_X, p, 1.0);
 
 }
 
@@ -371,8 +370,7 @@ arma::vec sph_stat_Bakshaev(arma::cube X, bool Psi_in_X = false,
 //' @export
 // [[Rcpp::export]]
 arma::vec sph_stat_Riesz(arma::cube X, bool Psi_in_X = false,
-                         arma::uword p = 0, double s = 1.0,
-                         arma::uword N = 160) {
+                         arma::uword p = 0, double s = 1.0) {
 
   // Sample size
   arma::uword n = Psi_in_X ? n_from_dist_vector(X.n_rows) : X.n_rows;
@@ -430,11 +428,11 @@ arma::vec sph_stat_Riesz(arma::cube X, bool Psi_in_X = false,
 
     } else {
 
-      // Integration nodes and weights
-      arma::vec t_k = Gauss_Legen_nodes(-1, 1, N);
-      arma::vec w_k = Gauss_Legen_weights(-1, 1, N);
-      tau = 0.5 * (log_two +
-        arma::accu(w_k % arma::log(1 - t_k) % d_proj_unif(t_k, p, false)));
+      arma::vec m = arma::regspace(1, 1, p - 2);
+      arma::vec signs = 2 * m - 4 * arma::ceil(0.5 * m) + 1;
+      tau = log_two +
+        std::pow(-1, p - 1) * (log_two + arma::accu(signs / m));
+      tau = 0.5 * tau;
 
     }
     Rn += n * tau;

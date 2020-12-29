@@ -9,6 +9,7 @@ env:
   global:
     - PKG_LIBS = "-llapack"
     - PKG_CXXFLAGS = "-std=c++11"
+    - _R_CHECK_FORCE_SUGGESTS_: false
 sudo: required
 r_packages: statmod
 script:

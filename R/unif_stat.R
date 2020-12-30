@@ -160,9 +160,6 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
 
   }
 
-  # Allow KS and CvM tests in unif_stat() (not in unif_test())
-  avail_cir_tests <- c(avail_cir_tests, "KS", "CvM")
-
   # Available statistics
   if (p == 2) {
 
@@ -185,6 +182,12 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
 
     } else {
 
+      # Allow KS and CvM in unif_stat() (not in unif_test())
+      if (p == 2) {
+
+        avail_stats <- c(avail_stats, "KS", "CvM")
+
+      }
       stats_type <- match.arg(arg = type, choices = avail_stats,
                               several.ok = TRUE)
 
@@ -224,8 +227,8 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
                          "Pycke_q", "Rothman")
 
     # Evaluate which statistics to apply
-    run_test <- as.list(avail_cir_tests %in% stats_type)
-    names(run_test) <- avail_cir_tests
+    run_test <- as.list(c(avail_cir_tests, "KS", "CvM") %in% stats_type)
+    names(run_test) <- c(avail_cir_tests, "KS", "CvM")
 
     ## Sorted-data statistics
 

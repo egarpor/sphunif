@@ -160,6 +160,9 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
 
   }
 
+  # Allow KS and CvM tests in unif_stat() (not in unif_test())
+  avail_cir_tests <- c(avail_cir_tests, "KS", "CvM")
+
   # Available statistics
   if (p == 2) {
 
@@ -212,7 +215,7 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
                           "Max_uncover", "Num_uncover", "Range", "Rao",
                           "Vacancy")
     stats_using_sorted_data <- c("Cressie", "Feltz_Goldin", "Hodges_Ajne",
-                                 "Kuiper", "Watson", "Watson_1976",
+                                 "Kuiper", "Watson", "Watson_1976", "KS", "CvM",
                                  stats_using_gaps)
 
     # Statistics using the shortest angles matrix Psi
@@ -263,7 +266,19 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
     }
     if (run_test$Watson) {
 
-      stats$Watson <- cir_stat_Watson(Theta = data, sorted = data_sorted)
+      stats$Watson <- cir_stat_Watson(Theta = data, sorted = data_sorted,
+                                      CvM = FALSE)
+
+    }
+    if (run_test$KS) {
+
+      stats$KS <- cir_stat_Kuiper(Theta = data, sorted = data_sorted, KS = TRUE)
+
+    }
+    if (run_test$CvM) {
+
+      stats$CvM <- cir_stat_Watson(Theta = data, sorted = data_sorted,
+                                   CvM = TRUE)
 
     }
     if (run_test$Watson_1976) {

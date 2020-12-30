@@ -555,7 +555,7 @@ cutoff_wschisq <- function(thre = 1e-4, weights, dfs, log = FALSE,
   }
 
   # No thresholding at all
-  if (thre == 0) {
+  if (all(thre == 0)) {
 
     cutoffs <- t(sapply(thre, function(r) {
       c("prob" = l_weights, "mean" = l_weights, "var" = l_weights)

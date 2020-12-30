@@ -153,3 +153,16 @@ test_that("Passing edge cases", {
                unif_stat(data = 1:6, type = c("Ajne", "Watson")))
 
 })
+
+test_that("KS and CvM", {
+
+  expect_equal(as.numeric(unif_stat(data = Theta_1, type = "KS")),
+               as.numeric(cir_stat_Kuiper(Theta = Theta_1, KS = TRUE)))
+  expect_equal(as.numeric(unif_stat(data = Theta_1, type = "CvM")),
+               as.numeric(cir_stat_Watson(Theta = Theta_1, CvM = TRUE)))
+  expect_equal(unif_stat(data = Theta_2, type = "KS")$KS,
+               cir_stat_Kuiper(Theta = Theta_2, KS = TRUE))
+  expect_equal(unif_stat(data = Theta_2, type = "CvM")$CvM,
+               cir_stat_Watson(Theta = Theta_2, CvM = TRUE))
+
+})

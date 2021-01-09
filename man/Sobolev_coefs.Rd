@@ -99,5 +99,5 @@ On a projection-based class of uniformity tests on the hypersphere.
 
 Prentice, M. J. (1978). On invariant tests of uniformity for directions and
 orientations. \emph{The Annals of Statistics}, 6(1):169--176.
-\url{https://doi.org/10.1214/aos/1176344075}
+\doi{10.1214/aos/1176344075}
 }

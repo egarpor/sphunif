@@ -36,6 +36,8 @@
 #' \eqn{(0, 1)}. Defaults to \code{1 / 3}.
 #' @param Pycke_q \eqn{q} parameter for the Pycke "\eqn{q}-test", a real in
 #' \eqn{(0, 1)}. Defaults to \code{1 / 2}.
+#' @param Riesz_s \eqn{s} parameter for the \eqn{s}-Riesz test, a real in
+#' \eqn{(0, 2)}. Defaults to \code{1}.
 #' @param Cuesta_Albertos_rand_dirs a matrix of size \code{c(n_proj, p)}
 #' containing \code{n_proj} random directions (in Cartesian coordinates) on
 #' \eqn{S^{p-1}} to perform the Cuesta-Albertos test. If \code{NULL} (default),
@@ -104,7 +106,7 @@
 #' @export
 unif_stat <- function(data, type = "all", data_sorted = FALSE,
                       Rayleigh_m = 1, coverage_a = 2 * pi, Rothman_t = 1 / 3,
-                      Cressie_t = 1 / 3, Pycke_q = 0.5,
+                      Cressie_t = 1 / 3, Pycke_q = 0.5, Riesz_s = 1, 
                       Cuesta_Albertos_rand_dirs = NULL, K_Cuesta_Albertos = 25,
                       Cai_regime = 3) {
 
@@ -224,7 +226,7 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
     # Statistics using the shortest angles matrix Psi
     stats_using_Psi <- c("Ajne", "Bakshaev", "Gine_Fn", "Gine_Gn",
                          "Hermans_Rasson", "PAD", "PCvM", "PRt", "Pycke",
-                         "Pycke_q", "Rothman")
+                         "Pycke_q", "Rothman", "Riesz")
 
     # Evaluate which statistics to apply
     run_test <- as.list(c(avail_cir_tests, "KS", "CvM") %in% stats_type)
@@ -264,30 +266,32 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
     if (run_test$Kuiper) {
 
       stats$Kuiper <- cir_stat_Kuiper(Theta = data, sorted = data_sorted,
-                                      KS = FALSE)
+                                      KS = FALSE, Stephens = FALSE)
 
     }
     if (run_test$Watson) {
 
       stats$Watson <- cir_stat_Watson(Theta = data, sorted = data_sorted,
-                                      CvM = FALSE)
+                                      CvM = FALSE, Stephens = FALSE)
 
     }
     if (run_test$KS) {
 
-      stats$KS <- cir_stat_Kuiper(Theta = data, sorted = data_sorted, KS = TRUE)
+      stats$KS <- cir_stat_Kuiper(Theta = data, sorted = data_sorted,
+                                  KS = TRUE, Stephens = FALSE)
 
     }
     if (run_test$CvM) {
 
       stats$CvM <- cir_stat_Watson(Theta = data, sorted = data_sorted,
-                                   CvM = TRUE)
+                                   CvM = TRUE, Stephens = FALSE)
 
     }
     if (run_test$Watson_1976) {
 
       stats$Watson_1976 <- cir_stat_Watson_1976(Theta = data,
-                                                sorted = data_sorted)
+                                                sorted = data_sorted,
+                                                minus = FALSE)
 
     }
 
@@ -310,53 +314,61 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
     if (run_test$Range) {
 
       stats$Range <- cir_stat_Range(Theta = gaps, gaps_in_Theta = gaps_in_Theta,
-                                    max_gap = TRUE)
+                                    max_gap = TRUE, sorted = data_sorted)
 
     }
     if (run_test$Rao) {
 
-      stats$Rao <- cir_stat_Rao(Theta = gaps, gaps_in_Theta = gaps_in_Theta)
+      stats$Rao <- cir_stat_Rao(Theta = gaps, gaps_in_Theta = gaps_in_Theta,
+                                sorted = data_sorted)
 
     }
     if (run_test$Gini) {
 
-      stats$Gini <- cir_stat_Gini(Theta = gaps, gaps_in_Theta = gaps_in_Theta)
+      stats$Gini <- cir_stat_Gini(Theta = gaps, gaps_in_Theta = gaps_in_Theta,
+                                  sorted = data_sorted)
 
     }
     if (run_test$Gini_squared) {
 
       stats$Gini_squared <- cir_stat_Gini_squared(Theta = gaps,
-                                                  gaps_in_Theta = gaps_in_Theta)
+                                                  gaps_in_Theta = gaps_in_Theta,
+                                                  sorted = data_sorted)
 
     }
     if (run_test$Greenwood) {
 
       stats$Greenwood <- cir_stat_Greenwood(Theta = gaps,
-                                            gaps_in_Theta = gaps_in_Theta)
+                                            gaps_in_Theta = gaps_in_Theta,
+                                            sorted = data_sorted)
 
     }
     if (run_test$Log_gaps) {
 
       stats$Log_gaps <- cir_stat_Log_gaps(Theta = gaps,
-                                          gaps_in_Theta = gaps_in_Theta)
+                                          gaps_in_Theta = gaps_in_Theta,
+                                          sorted = data_sorted)
 
     }
     if (run_test$Max_uncover) {
 
       stats$Max_uncover <- cir_stat_Max_uncover(Theta = gaps, a = coverage_a,
-                                                gaps_in_Theta = gaps_in_Theta)
+                                                gaps_in_Theta = gaps_in_Theta,
+                                                sorted = data_sorted)
 
     }
     if (run_test$Num_uncover) {
 
       stats$Num_uncover <- cir_stat_Num_uncover(Theta = gaps, a = coverage_a,
-                                                gaps_in_Theta = gaps_in_Theta)
+                                                gaps_in_Theta = gaps_in_Theta,
+                                                sorted = data_sorted)
 
     }
     if (run_test$Vacancy) {
 
       stats$Vacancy <- cir_stat_Vacancy(Theta = gaps, a = coverage_a,
-                                        gaps_in_Theta = gaps_in_Theta)
+                                        gaps_in_Theta = gaps_in_Theta,
+                                        sorted = data_sorted)
 
     }
 
@@ -415,8 +427,22 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
     }
     if (run_test$Bakshaev) {
 
-      stats$Bakshaev <- cir_stat_Bakshaev(Theta = data,
-                                          Psi_in_Theta = Psi_in_Theta)
+      stats$Bakshaev <- cir_stat_Riesz(Theta = data,
+                                       Psi_in_Theta = Psi_in_Theta, s = 1)
+
+    }
+    if (run_test$Riesz) {
+
+      if (Riesz_s == 1 && run_test$Bakshaev) {
+
+        stats$Riesz <- stats$Bakshaev
+
+      } else {
+
+        stats$Riesz <- cir_stat_Riesz(Theta = data, Psi_in_Theta = Psi_in_Theta,
+                                      s = Riesz_s)
+
+      }
 
     }
     if (run_test$Gine_Gn) {
@@ -447,7 +473,8 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
     }
     if (run_test$PAD) {
 
-      stats$PAD <- cir_stat_PAD(Theta = data, Psi_in_Theta = Psi_in_Theta)
+      stats$PAD <- cir_stat_PAD(Theta = data, Psi_in_Theta = Psi_in_Theta,
+                                AD = FALSE, sorted = FALSE)
 
     }
     if (run_test$PCvM) {
@@ -500,7 +527,7 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
 
     # Statistics using the shortest angles matrix Psi
     stats_using_Psi <- c("Ajne", "Bakshaev", "Cai", "Gine_Fn", "Gine_Gn",
-                         "PAD", "PCvM", "PRt", "Pycke")
+                         "PAD", "PCvM", "PRt", "Pycke", "Riesz")
 
     # Evaluate which statistics to apply
     run_test <- as.list(avail_sph_tests %in% stats_type)
@@ -571,7 +598,22 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
     }
     if (run_test$Bakshaev) {
 
-      stats$Bakshaev <- sph_stat_Bakshaev(X = data, Psi_in_X = Psi_in_X, p = p)
+      stats$Bakshaev <- sph_stat_Riesz(X = data, Psi_in_X = Psi_in_X, p = p,
+                                       s = 1)
+
+    }
+    if (run_test$Riesz) {
+
+      if (Riesz_s == 1 && run_test$Bakshaev) {
+
+        stats$Riesz <- stats$Bakshaev
+
+      } else {
+
+        stats$Riesz <- sph_stat_Riesz(X = data, Psi_in_X = Psi_in_X, p = p,
+                                      s = Riesz_s)
+
+      }
 
     }
     if (run_test$Cai) {

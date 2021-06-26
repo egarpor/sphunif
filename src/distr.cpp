@@ -16,8 +16,8 @@ arma::vec beta_inc_inv(arma::vec u, double a, double b, bool lower_tail,
 
 // Constants
 const double log_two = std::log(2.0);
-const double two_PI = 2.0 * PI;
-const double inv_PI = 1.0 / PI;
+const double two_M_PI = 2.0 * M_PI;
+const double inv_M_PI = 1.0 / M_PI;
 
 //' @title Density, distribution, and quantile functions of the projection of
 //' the spherical uniform distribution
@@ -119,7 +119,7 @@ arma::vec p_proj_unif(arma::vec x, arma::uword p, bool log = false) {
     // Cases
     if (p == 2) {
 
-      F0.elem(ind) = arma::log1p(-arma::acos(x.elem(ind)) * inv_PI);
+      F0.elem(ind) = arma::log1p(-arma::acos(x.elem(ind)) * inv_M_PI);
 
     } else if (p == 3) {
 
@@ -129,7 +129,7 @@ arma::vec p_proj_unif(arma::vec x, arma::uword p, bool log = false) {
 
       F0.elem(ind) = arma::log1p((x.elem(ind) %
         arma::sqrt(1 - arma::square(x.elem(ind))) -
-        arma::acos(x.elem(ind))) * inv_PI);
+        arma::acos(x.elem(ind))) * inv_M_PI);
 
     } else if (p == 5) {
 
@@ -187,7 +187,7 @@ arma::vec q_proj_unif(arma::vec u, arma::uword p) {
     // Cases
     if (p == 2) {
 
-      x.elem(ind) = arma::cos(PI * (1 - u.elem(ind)));
+      x.elem(ind) = arma::cos(M_PI * (1 - u.elem(ind)));
 
     } else if (p == 3) {
 
@@ -254,7 +254,7 @@ arma::vec q_proj_unif(arma::vec u, arma::uword p) {
 // [[Rcpp::export]]
 arma::mat r_unif_cir(arma::uword n, arma::uword M = 1, bool sorted = false) {
 
-  arma::mat sample = arma::randu(n, M) * two_PI;
+  arma::mat sample = arma::randu(n, M) * two_M_PI;
   if (sorted) {
 
     sample = arma::sort(sample);

@@ -8,7 +8,8 @@ statistics}
 unif_stat_MC(n, type = "all", p, M = 10000, r_H1 = NULL,
   crit_val = NULL, alpha = c(0.1, 0.05, 0.01), return_stats = TRUE,
   stats_sorted = FALSE, chunks = ceiling((n * M)/1e+07), cores = 1,
-  verbose = TRUE, seeds = NULL, Rothman_t = 1/3,
+  verbose = TRUE, seeds = NULL, Rayleigh_m = 1, coverage_a = 2 * pi,
+  Rothman_t = 1/3, Cressie_t = 1/3, Pycke_q = 0.5, Riesz_s = 1,
   Cuesta_Albertos_rand_dirs = NULL, K_Cuesta_Albertos = 25,
   Cai_regime = 3, ...)
 }
@@ -72,8 +73,23 @@ simulations). Specifically, for \code{k in 1:chunks}, seeds are
 set as \code{set.seed(seeds[k], kind = "Mersenne-Twister")} in each chunk.
 Defaults to \code{NULL} (no seed setting is done).}
 
+\item{Rayleigh_m}{integer \eqn{m} for the \eqn{m}-modal Rayleigh test.
+Defaults to \code{m = 1} (the standard Rayleigh test).}
+
+\item{coverage_a}{\eqn{a_n = a / n} parameter used in the length of the arcs
+of the coverage-based tests. Must be positive. Defaults to \code{2 * pi}.}
+
 \item{Rothman_t}{\eqn{t} parameter for the Rothman test, a real in
 \eqn{(0, 1)}. Defaults to \code{1 / 3}.}
+
+\item{Cressie_t}{\eqn{t} parameter for the Cressie test, a real in
+\eqn{(0, 1)}. Defaults to \code{1 / 3}.}
+
+\item{Pycke_q}{\eqn{q} parameter for the Pycke "\eqn{q}-test", a real in
+\eqn{(0, 1)}. Defaults to \code{1 / 2}.}
+
+\item{Riesz_s}{\eqn{s} parameter for the \eqn{s}-Riesz test, a real in
+\eqn{(0, 2)}. Defaults to \code{1}.}
 
 \item{Cuesta_Albertos_rand_dirs}{a matrix of size \code{c(n_proj, p)}
 containing \code{n_proj} random directions (in Cartesian coordinates) on

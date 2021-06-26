@@ -26,6 +26,7 @@
 \alias{cir_stat_Pycke}
 \alias{cir_stat_Pycke_q}
 \alias{cir_stat_Bakshaev}
+\alias{cir_stat_Riesz}
 \alias{cir_stat_PCvM}
 \alias{cir_stat_PRt}
 \alias{cir_stat_PAD}
@@ -85,11 +86,13 @@ cir_stat_Pycke_q(Theta, Psi_in_Theta = FALSE, q = 0.5)
 
 cir_stat_Bakshaev(Theta, Psi_in_Theta = FALSE)
 
+cir_stat_Riesz(Theta, Psi_in_Theta = FALSE, s = 1)
+
 cir_stat_PCvM(Theta, Psi_in_Theta = FALSE)
 
 cir_stat_PRt(Theta, t = 1/3, Psi_in_Theta = FALSE)
 
-cir_stat_PAD(Theta, Psi_in_Theta = FALSE)
+cir_stat_PAD(Theta, Psi_in_Theta = FALSE, AD = FALSE, sorted = FALSE)
 
 cir_stat_Cuesta_Albertos(Theta, rand_dirs, K_Cuesta_Albertos = 25L,
   original = FALSE)
@@ -161,6 +164,13 @@ If \code{FALSE}, the geometric construction in Ajne (1968) is employed.}
 
 \item{q}{\eqn{q} parameter for the Pycke "\eqn{q}-test", a real in
 \eqn{(0, 1)}. Defaults to \code{1 / 2}.}
+
+\item{s}{\eqn{s} parameter for the \eqn{s}-Riesz test, a real in
+\eqn{(0, 2)}. Defaults to \code{1}.}
+
+\item{AD}{compute the Anderson-Darling statistic (which is \emph{not}
+invariant under origin shifts) instead of the Projected Anderson-Darling
+statistic? Defaults to \code{FALSE}.}
 
 \item{rand_dirs}{a matrix of size \code{c(n_proj, 2)} containing
 \code{n_proj} random directions (in Cartesian coordinates) on \eqn{S^1} to
@@ -319,6 +329,9 @@ cir_stat_Pycke_q(Psi, Psi_in_Theta = TRUE)
 cir_stat_Bakshaev(Theta)
 cir_stat_Bakshaev(Psi, Psi_in_Theta = TRUE)
 
+# Riesz
+cir_stat_Riesz(Theta, s = 1)
+cir_stat_Riesz(Psi, Psi_in_Theta = TRUE, s = 1)
 # Projected Cramér-von Mises
 cir_stat_PCvM(Theta)
 cir_stat_PCvM(Psi, Psi_in_Theta = TRUE)
@@ -348,6 +361,9 @@ KS_alpha <- sapply(alpha, function(a) {
 CvM_alpha <- sapply(alpha, function(a) {
   cir_stat_Watson((Theta[, 2, drop = FALSE] + a) \%\% (2 * pi), CvM = TRUE)
 })
+AD_alpha <- sapply(alpha, function(a) {
+  cir_stat_PAD((Theta[, 2, drop = FALSE] + a) \%\% (2 * pi), AD = TRUE)
+})
 
 # Kuiper is the maximum rotated KS
 plot(alpha, KS_alpha, type = "l")
@@ -358,6 +374,11 @@ points(alpha[which.max(KS_alpha)], max(KS_alpha), col = 2, pch = 16)
 plot(alpha, CvM_alpha, type = "l")
 abline(h = cir_stat_Watson(Theta[, 2, drop = FALSE]), col = 2)
 points(alpha[which.min(CvM_alpha)], min(CvM_alpha), col = 2, pch = 16)
+
+# Anderson-Darling is the average rotated AD?
+plot(alpha, AD_alpha, type = "l")
+abline(h = cir_stat_PAD(Theta[, 2, drop = FALSE]), col = 2)
+abline(h = mean(AD_alpha), col = 3)
 }
 \references{
 García-Portugués, E. and Verdebout, T. (2018) An overview of uniformity

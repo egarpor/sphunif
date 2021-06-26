@@ -590,6 +590,12 @@ cir_stat_Bakshaev <- function(Theta, Psi_in_Theta = FALSE) {
 
 #' @rdname cir_stat
 #' @export
+cir_stat_Riesz <- function(Theta, Psi_in_Theta = FALSE, s = 1.0) {
+    .Call('_sphunif_cir_stat_Riesz', PACKAGE = 'sphunif', Theta, Psi_in_Theta, s)
+}
+
+#' @rdname cir_stat
+#' @export
 cir_stat_PCvM <- function(Theta, Psi_in_Theta = FALSE) {
     .Call('_sphunif_cir_stat_PCvM', PACKAGE = 'sphunif', Theta, Psi_in_Theta)
 }
@@ -602,8 +608,8 @@ cir_stat_PRt <- function(Theta, t = 1.0 / 3.0, Psi_in_Theta = FALSE) {
 
 #' @rdname cir_stat
 #' @export
-cir_stat_PAD <- function(Theta, Psi_in_Theta = FALSE) {
-    .Call('_sphunif_cir_stat_PAD', PACKAGE = 'sphunif', Theta, Psi_in_Theta)
+cir_stat_PAD <- function(Theta, Psi_in_Theta = FALSE, AD = FALSE, sorted = FALSE) {
+    .Call('_sphunif_cir_stat_PAD', PACKAGE = 'sphunif', Theta, Psi_in_Theta, AD, sorted)
 }
 
 #' @rdname cir_stat
@@ -1199,8 +1205,8 @@ sph_stat_Gine_Fn_Psi <- function(Psi, n, p) {
 
 #' @rdname sph_stat
 #' @export
-sph_stat_Pycke <- function(X, Psi_in_X = FALSE, p = 0L, N = 160L) {
-    .Call('_sphunif_sph_stat_Pycke', PACKAGE = 'sphunif', X, Psi_in_X, p, N)
+sph_stat_Pycke <- function(X, Psi_in_X = FALSE, p = 0L) {
+    .Call('_sphunif_sph_stat_Pycke', PACKAGE = 'sphunif', X, Psi_in_X, p)
 }
 
 #' @keywords internal
@@ -1210,13 +1216,19 @@ sph_stat_Pycke_Psi <- function(Psi, n, p) {
 
 #' @rdname sph_stat
 #' @export
-sph_stat_Bakshaev <- function(X, Psi_in_X = FALSE, p = 0L, N = 160L) {
-    .Call('_sphunif_sph_stat_Bakshaev', PACKAGE = 'sphunif', X, Psi_in_X, p, N)
+sph_stat_Bakshaev <- function(X, Psi_in_X = FALSE, p = 0L) {
+    .Call('_sphunif_sph_stat_Bakshaev', PACKAGE = 'sphunif', X, Psi_in_X, p)
+}
+
+#' @rdname sph_stat
+#' @export
+sph_stat_Riesz <- function(X, Psi_in_X = FALSE, p = 0L, s = 1.0) {
+    .Call('_sphunif_sph_stat_Riesz', PACKAGE = 'sphunif', X, Psi_in_X, p, s)
 }
 
 #' @keywords internal
-sph_stat_Bakshaev_Psi <- function(Psi, n) {
-    .Call('_sphunif_sph_stat_Bakshaev_Psi', PACKAGE = 'sphunif', Psi, n)
+sph_stat_Riesz_Psi <- function(Psi, n, s) {
+    .Call('_sphunif_sph_stat_Riesz_Psi', PACKAGE = 'sphunif', Psi, n, s)
 }
 
 #' @rdname sph_stat

@@ -67,7 +67,7 @@
 #' @references
 #' Cuesta-Albertos, J. A., Cuevas, A., Fraiman, R. (2009) On projection-based
 #' tests for directional and compositional data. \emph{Statistics and
-#' Computing}, 19:367--380. \url{https://dx.doi.org/10.1007/s11222-008-9098-3}
+#' Computing}, 19:367--380. \doi{10.1007/s11222-008-9098-3}
 #' @examples
 #' # Load data
 #' data("comets")
@@ -279,7 +279,7 @@
 #' @references
 #' Hirata, N. (2016) Differential impact cratering of Saturn's satellites by
 #' heliocentric impactors. \emph{Journal of Geophysical Research: Planets},
-#' 121:111--117. \url{https://dx.doi.org/10.1002/2015JE004940}
+#' 121:111--117. \doi{10.1002/2015JE004940}
 #' @examples
 #' # Load data
 #' data("rhea")

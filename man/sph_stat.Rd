@@ -8,6 +8,7 @@
 \alias{sph_stat_Gine_Fn}
 \alias{sph_stat_Pycke}
 \alias{sph_stat_Bakshaev}
+\alias{sph_stat_Riesz}
 \alias{sph_stat_PCvM}
 \alias{sph_stat_PRt}
 \alias{sph_stat_PAD}
@@ -27,9 +28,11 @@ sph_stat_Gine_Gn(X, Psi_in_X = FALSE, p = 0L)
 
 sph_stat_Gine_Fn(X, Psi_in_X = FALSE, p = 0L)
 
-sph_stat_Pycke(X, Psi_in_X = FALSE, p = 0L, N = 160L)
+sph_stat_Pycke(X, Psi_in_X = FALSE, p = 0L)
 
-sph_stat_Bakshaev(X, Psi_in_X = FALSE, p = 0L, N = 160L)
+sph_stat_Bakshaev(X, Psi_in_X = FALSE, p = 0L)
+
+sph_stat_Riesz(X, Psi_in_X = FALSE, p = 0L, s = 1)
 
 sph_stat_PCvM(X, Psi_in_X = FALSE, p = 0L, N = 160L, L = 1000L)
 
@@ -56,6 +59,9 @@ internally.}
 
 \item{p}{integer giving the dimension of the ambient space \eqn{R^p} that
 contains \eqn{S^{p-1}}.}
+
+\item{s}{\eqn{s} parameter for the \eqn{s}-Riesz test, a real in
+\eqn{(0, 2)}. Defaults to \code{1}.}
 
 \item{N}{number of points used in the
 \link[=Gauss_Legen_nodes]{Gauss-Legendre quadrature}. Defaults to
@@ -158,6 +164,10 @@ sph_stat_Pycke(Psi, Psi_in_X = TRUE, p = p)
 # Bakshaev
 sph_stat_Bakshaev(X)
 sph_stat_Bakshaev(Psi, Psi_in_X = TRUE, p = p)
+
+# Riesz
+sph_stat_Riesz(X, s = 1)
+sph_stat_Riesz(Psi, Psi_in_X = TRUE, p = p, s = 1)
 
 # Projected Cramér-von Mises
 sph_stat_PCvM(X)

@@ -134,7 +134,7 @@ arma::mat Psi_mat(arma::cube data, arma::uvec ind_tri = 0,
 
     } else {
 
-      return PI - arma::abs(PI - arma::abs(vec_Psi));
+      return M_PI - arma::abs(M_PI - arma::abs(vec_Psi));
 
     }
 

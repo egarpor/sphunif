@@ -103,6 +103,6 @@ tests_ccf2009
 \references{
 Cuesta-Albertos, J. A., Cuevas, A., Fraiman, R. (2009) On projection-based
 tests for directional and compositional data. \emph{Statistics and
-Computing}, 19:367--380. \url{https://dx.doi.org/10.1007/s11222-008-9098-3}
+Computing}, 19:367--380. \doi{10.1007/s11222-008-9098-3}
 }
 \keyword{datasets}

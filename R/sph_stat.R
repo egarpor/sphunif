@@ -92,6 +92,10 @@
 #' sph_stat_Bakshaev(X)
 #' sph_stat_Bakshaev(Psi, Psi_in_X = TRUE, p = p)
 #'
+#' # Riesz
+#' sph_stat_Riesz(X, s = 1)
+#' sph_stat_Riesz(Psi, Psi_in_X = TRUE, p = p, s = 1)
+#'
 #' # Projected Cramér-von Mises
 #' sph_stat_PCvM(X)
 #' sph_stat_PCvM(Psi, Psi_in_X = TRUE, p = p)

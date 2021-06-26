@@ -19,8 +19,8 @@
 using namespace Rcpp;
 
 // Constants
-const double inv_two_PI = 0.5 / PI;
-const double two_PI = 2.0 * PI;
+const double inv_two_M_PI = 0.5 / M_PI;
+const double two_M_PI = 2.0 * M_PI;
 
 //' @title Transforming between polar and Cartesian coordinates
 //'
@@ -85,7 +85,7 @@ arma::mat X_to_Theta(arma::cube X) {
     );
 
   // Convert to [0, 2 * pi)
-  Theta -= two_PI * arma::floor(Theta * inv_two_PI);
+  Theta -= two_M_PI * arma::floor(Theta * inv_two_M_PI);
   return Theta;
 
 }
@@ -137,7 +137,7 @@ arma::mat cir_gaps(arma::mat Theta, bool sorted = false) {
 
   // Gaps for each column
   Di.head_rows(n - 1) = arma::diff(Theta);
-  Di.row(n - 1) = two_PI - (Theta.row(n - 1) - Theta.row(0));
+  Di.row(n - 1) = two_M_PI - (Theta.row(n - 1) - Theta.row(0));
   return Di;
 
 }

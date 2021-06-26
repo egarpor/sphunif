@@ -97,11 +97,12 @@ x3 <- r_alt(n = n, p = p, scenario = "ACG", kappa = kappa)[, , 1]
 x4 <- r_alt(n = n, p = p, scenario = "SC", F_inv = F_inv_SC_3)[, , 1]
 x5 <- r_alt(n = n, p = p, scenario = "W", F_inv = F_inv_W_3)[, , 1]
 if (requireNamespace("rgl")) {
-rgl::plot3d(x1, size = 5, xlim = c(-1.1, 1.1), ylim = c(-1.1, 1.1),
-            zlim = c(-1.1, 1.1), col = 1)
-rgl::points3d(x2, size = 5, col = 2)
-rgl::points3d(x3, size = 5, col = 3)
-rgl::points3d(x4, size = 5, col = 4)
-rgl::points3d(x5, size = 5, col = 5)
+  rgl::plot3d(x1, size = 5, xlim = c(-1.1, 1.1), ylim = c(-1.1, 1.1),
+              zlim = c(-1.1, 1.1), col = 1)
+  rgl::points3d(x2, size = 5, col = 2)
+  rgl::points3d(x3, size = 5, col = 3)
+  rgl::points3d(x4, size = 5, col = 4)
+  rgl::points3d(x5, size = 5, col = 5)
+}
 }
 }

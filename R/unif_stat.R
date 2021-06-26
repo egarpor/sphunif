@@ -184,10 +184,10 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
 
     } else {
 
-      # Allow KS and CvM in unif_stat() (not in unif_test())
+      # Allow KS, CvM, and AD in unif_stat() (not in unif_test())
       if (p == 2) {
 
-        avail_stats <- c(avail_stats, "KS", "CvM")
+        avail_stats <- c(avail_stats, "KS", "CvM", "AD")
 
       }
       stats_type <- match.arg(arg = type, choices = avail_stats,
@@ -220,8 +220,8 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
                           "Max_uncover", "Num_uncover", "Range", "Rao",
                           "Vacancy")
     stats_using_sorted_data <- c("Cressie", "Feltz_Goldin", "Hodges_Ajne",
-                                 "Kuiper", "Watson", "Watson_1976", "KS", "CvM",
-                                 stats_using_gaps)
+                                 "Kuiper", "Watson", "Watson_1976",
+                                 "KS", "CvM", "AD", stats_using_gaps)
 
     # Statistics using the shortest angles matrix Psi
     stats_using_Psi <- c("Ajne", "Bakshaev", "Gine_Fn", "Gine_Gn",
@@ -229,8 +229,8 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
                          "Pycke_q", "Rothman", "Riesz")
 
     # Evaluate which statistics to apply
-    run_test <- as.list(c(avail_cir_tests, "KS", "CvM") %in% stats_type)
-    names(run_test) <- c(avail_cir_tests, "KS", "CvM")
+    run_test <- as.list(c(avail_cir_tests, "KS", "CvM", "AD") %in% stats_type)
+    names(run_test) <- c(avail_cir_tests, "KS", "CvM", "AD")
 
     ## Sorted-data statistics
 
@@ -285,6 +285,12 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
 
       stats$CvM <- cir_stat_Watson(Theta = data, sorted = data_sorted,
                                    CvM = TRUE, Stephens = FALSE)
+
+    }
+    if (run_test$AD) {
+
+      stats$AD <- cir_stat_PAD(Theta = data, sorted = data_sorted,
+                               AD = TRUE)
 
     }
     if (run_test$Watson_1976) {

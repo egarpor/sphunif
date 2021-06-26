@@ -92,7 +92,7 @@ cir_stat_PCvM(Theta, Psi_in_Theta = FALSE)
 
 cir_stat_PRt(Theta, t = 1/3, Psi_in_Theta = FALSE)
 
-cir_stat_PAD(Theta, Psi_in_Theta = FALSE)
+cir_stat_PAD(Theta, Psi_in_Theta = FALSE, AD = FALSE, sorted = FALSE)
 
 cir_stat_Cuesta_Albertos(Theta, rand_dirs, K_Cuesta_Albertos = 25L,
   original = FALSE)
@@ -167,6 +167,10 @@ If \code{FALSE}, the geometric construction in Ajne (1968) is employed.}
 
 \item{s}{\eqn{s} parameter for the \eqn{s}-Riesz test, a real in
 \eqn{(0, 2)}. Defaults to \code{1}.}
+
+\item{AD}{compute the Anderson-Darling statistic (which is \emph{not}
+invariant under origin shifts) instead of the Projected Anderson-Darling
+statistic? Defaults to \code{FALSE}.}
 
 \item{rand_dirs}{a matrix of size \code{c(n_proj, 2)} containing
 \code{n_proj} random directions (in Cartesian coordinates) on \eqn{S^1} to
@@ -357,6 +361,9 @@ KS_alpha <- sapply(alpha, function(a) {
 CvM_alpha <- sapply(alpha, function(a) {
   cir_stat_Watson((Theta[, 2, drop = FALSE] + a) \%\% (2 * pi), CvM = TRUE)
 })
+AD_alpha <- sapply(alpha, function(a) {
+  cir_stat_PAD((Theta[, 2, drop = FALSE] + a) \%\% (2 * pi), AD = TRUE)
+})
 
 # Kuiper is the maximum rotated KS
 plot(alpha, KS_alpha, type = "l")
@@ -367,6 +374,11 @@ points(alpha[which.max(KS_alpha)], max(KS_alpha), col = 2, pch = 16)
 plot(alpha, CvM_alpha, type = "l")
 abline(h = cir_stat_Watson(Theta[, 2, drop = FALSE]), col = 2)
 points(alpha[which.min(CvM_alpha)], min(CvM_alpha), col = 2, pch = 16)
+
+# Anderson-Darling is the average rotated AD?
+plot(alpha, AD_alpha, type = "l")
+abline(h = cir_stat_PAD(Theta[, 2, drop = FALSE]), col = 2)
+abline(h = mean(AD_alpha), col = 3)
 }
 \references{
 García-Portugués, E. and Verdebout, T. (2018) An overview of uniformity

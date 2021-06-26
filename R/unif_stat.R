@@ -260,18 +260,20 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
     if (run_test$Kuiper) {
 
       stats$Kuiper <- cir_stat_Kuiper(Theta = data, sorted = data_sorted,
-                                      KS = FALSE)
+                                      KS = FALSE, Stephens = FALSE)
 
     }
     if (run_test$Watson) {
 
-      stats$Watson <- cir_stat_Watson(Theta = data, sorted = data_sorted)
+      stats$Watson <- cir_stat_Watson(Theta = data, sorted = data_sorted,
+                                      CvM = FALSE, Stephens = FALSE)
 
     }
     if (run_test$Watson_1976) {
 
       stats$Watson_1976 <- cir_stat_Watson_1976(Theta = data,
-                                                sorted = data_sorted)
+                                                sorted = data_sorted,
+                                                minus = FALSE)
 
     }
 
@@ -294,53 +296,61 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
     if (run_test$Range) {
 
       stats$Range <- cir_stat_Range(Theta = gaps, gaps_in_Theta = gaps_in_Theta,
-                                    max_gap = TRUE)
+                                    max_gap = TRUE, sorted = data_sorted)
 
     }
     if (run_test$Rao) {
 
-      stats$Rao <- cir_stat_Rao(Theta = gaps, gaps_in_Theta = gaps_in_Theta)
+      stats$Rao <- cir_stat_Rao(Theta = gaps, gaps_in_Theta = gaps_in_Theta,
+                                sorted = data_sorted)
 
     }
     if (run_test$Gini) {
 
-      stats$Gini <- cir_stat_Gini(Theta = gaps, gaps_in_Theta = gaps_in_Theta)
+      stats$Gini <- cir_stat_Gini(Theta = gaps, gaps_in_Theta = gaps_in_Theta,
+                                  sorted = data_sorted)
 
     }
     if (run_test$Gini_squared) {
 
       stats$Gini_squared <- cir_stat_Gini_squared(Theta = gaps,
-                                                  gaps_in_Theta = gaps_in_Theta)
+                                                  gaps_in_Theta = gaps_in_Theta,
+                                                  sorted = data_sorted)
 
     }
     if (run_test$Greenwood) {
 
       stats$Greenwood <- cir_stat_Greenwood(Theta = gaps,
-                                            gaps_in_Theta = gaps_in_Theta)
+                                            gaps_in_Theta = gaps_in_Theta,
+                                            sorted = data_sorted)
 
     }
     if (run_test$Log_gaps) {
 
       stats$Log_gaps <- cir_stat_Log_gaps(Theta = gaps,
-                                          gaps_in_Theta = gaps_in_Theta)
+                                          gaps_in_Theta = gaps_in_Theta,
+                                          sorted = data_sorted)
 
     }
     if (run_test$Max_uncover) {
 
       stats$Max_uncover <- cir_stat_Max_uncover(Theta = gaps, a = coverage_a,
-                                                gaps_in_Theta = gaps_in_Theta)
+                                                gaps_in_Theta = gaps_in_Theta,
+                                                sorted = data_sorted)
 
     }
     if (run_test$Num_uncover) {
 
       stats$Num_uncover <- cir_stat_Num_uncover(Theta = gaps, a = coverage_a,
-                                                gaps_in_Theta = gaps_in_Theta)
+                                                gaps_in_Theta = gaps_in_Theta,
+                                                sorted = data_sorted)
 
     }
     if (run_test$Vacancy) {
 
       stats$Vacancy <- cir_stat_Vacancy(Theta = gaps, a = coverage_a,
-                                        gaps_in_Theta = gaps_in_Theta)
+                                        gaps_in_Theta = gaps_in_Theta,
+                                        sorted = data_sorted)
 
     }
 
@@ -445,7 +455,8 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
     }
     if (run_test$PAD) {
 
-      stats$PAD <- cir_stat_PAD(Theta = data, Psi_in_Theta = Psi_in_Theta)
+      stats$PAD <- cir_stat_PAD(Theta = data, Psi_in_Theta = Psi_in_Theta,
+                                AD = FALSE, sorted = FALSE)
 
     }
     if (run_test$PCvM) {

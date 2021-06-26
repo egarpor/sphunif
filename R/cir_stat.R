@@ -23,6 +23,9 @@
 #' @param CvM compute the Cramér-von Mises statistic (which is \emph{not}
 #' invariant under origin shifts) instead of the Watson statistic? Defaults to
 #' \code{FALSE}.
+#' @param AD compute the Anderson-Darling statistic (which is \emph{not}
+#' invariant under origin shifts) instead of the Projected Anderson-Darling
+#' statistic? Defaults to \code{FALSE}.
 #' @param m integer \eqn{m} for the \eqn{m}-modal Rayleigh test. Defaults to
 #' \code{m = 1} (the standard Rayleigh test).
 #' @param max_gap compute the maximum gap for the range statistic? If
@@ -236,6 +239,9 @@
 #' CvM_alpha <- sapply(alpha, function(a) {
 #'   cir_stat_Watson((Theta[, 2, drop = FALSE] + a) %% (2 * pi), CvM = TRUE)
 #' })
+#' AD_alpha <- sapply(alpha, function(a) {
+#'   cir_stat_PAD((Theta[, 2, drop = FALSE] + a) %% (2 * pi), AD = TRUE)
+#' })
 #'
 #' # Kuiper is the maximum rotated KS
 #' plot(alpha, KS_alpha, type = "l")
@@ -246,5 +252,10 @@
 #' plot(alpha, CvM_alpha, type = "l")
 #' abline(h = cir_stat_Watson(Theta[, 2, drop = FALSE]), col = 2)
 #' points(alpha[which.min(CvM_alpha)], min(CvM_alpha), col = 2, pch = 16)
+#' 
+#' # Anderson-Darling is the average rotated AD?
+#' plot(alpha, AD_alpha, type = "l")
+#' abline(h = cir_stat_PAD(Theta[, 2, drop = FALSE]), col = 2)
+#' abline(h = mean(AD_alpha), col = 3)
 #' @name cir_stat
 NULL

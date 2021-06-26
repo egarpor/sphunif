@@ -596,14 +596,16 @@ BEGIN_RCPP
 END_RCPP
 }
 // cir_stat_PAD
-arma::vec cir_stat_PAD(arma::mat Theta, bool Psi_in_Theta);
-RcppExport SEXP _sphunif_cir_stat_PAD(SEXP ThetaSEXP, SEXP Psi_in_ThetaSEXP) {
+arma::vec cir_stat_PAD(arma::mat Theta, bool Psi_in_Theta, bool AD, bool sorted);
+RcppExport SEXP _sphunif_cir_stat_PAD(SEXP ThetaSEXP, SEXP Psi_in_ThetaSEXP, SEXP ADSEXP, SEXP sortedSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
     Rcpp::traits::input_parameter< bool >::type Psi_in_Theta(Psi_in_ThetaSEXP);
-    rcpp_result_gen = Rcpp::wrap(cir_stat_PAD(Theta, Psi_in_Theta));
+    Rcpp::traits::input_parameter< bool >::type AD(ADSEXP);
+    Rcpp::traits::input_parameter< bool >::type sorted(sortedSEXP);
+    rcpp_result_gen = Rcpp::wrap(cir_stat_PAD(Theta, Psi_in_Theta, AD, sorted));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1652,7 +1654,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_sphunif_cir_stat_Riesz", (DL_FUNC) &_sphunif_cir_stat_Riesz, 3},
     {"_sphunif_cir_stat_PCvM", (DL_FUNC) &_sphunif_cir_stat_PCvM, 2},
     {"_sphunif_cir_stat_PRt", (DL_FUNC) &_sphunif_cir_stat_PRt, 3},
-    {"_sphunif_cir_stat_PAD", (DL_FUNC) &_sphunif_cir_stat_PAD, 2},
+    {"_sphunif_cir_stat_PAD", (DL_FUNC) &_sphunif_cir_stat_PAD, 4},
     {"_sphunif_cir_stat_Cuesta_Albertos", (DL_FUNC) &_sphunif_cir_stat_Cuesta_Albertos, 4},
     {"_sphunif_p_Kolmogorov", (DL_FUNC) &_sphunif_p_Kolmogorov, 3},
     {"_sphunif_d_Kolmogorov", (DL_FUNC) &_sphunif_d_Kolmogorov, 3},

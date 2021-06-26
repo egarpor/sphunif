@@ -608,8 +608,8 @@ cir_stat_PRt <- function(Theta, t = 1.0 / 3.0, Psi_in_Theta = FALSE) {
 
 #' @rdname cir_stat
 #' @export
-cir_stat_PAD <- function(Theta, Psi_in_Theta = FALSE) {
-    .Call('_sphunif_cir_stat_PAD', PACKAGE = 'sphunif', Theta, Psi_in_Theta)
+cir_stat_PAD <- function(Theta, Psi_in_Theta = FALSE, AD = FALSE, sorted = FALSE) {
+    .Call('_sphunif_cir_stat_PAD', PACKAGE = 'sphunif', Theta, Psi_in_Theta, AD, sorted)
 }
 
 #' @rdname cir_stat

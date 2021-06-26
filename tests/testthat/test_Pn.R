@@ -410,6 +410,12 @@ test_that("Gegen_coefs_Pn edge cases", {
 
 })
 
+test_that("psi_Pn edge cases", {
+
+  expect_error(psi_Pn(theta = Psi2, q = 1, type = "PRt2"))
+
+})
+
 test_that("axk edge cases", {
 
   expect_equal(akx(x = x, k = k, p = 2, sqr = TRUE)^2,

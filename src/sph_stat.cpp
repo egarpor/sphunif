@@ -35,15 +35,15 @@ arma::vec sph_stat_PAD_Psi(arma::mat Psi, arma::uword n, arma::uword p,
 arma::vec sph_stat_Cai_Psi(arma::mat Psi, arma::uword n, arma::uword p);
 
 // Constants
-const double inv_PI = 1.0 / PI;
-const double inv_two_PI = 0.5 / PI;
-const double inv_two_PI_sq = 0.25 / (PI * PI);
-const double two_PI = 2.0 * PI;
-const double sqrt_PI = std::sqrt(PI);
-const double log_two_PI = std::log(2 * PI);
+const double inv_M_PI = 1.0 / M_PI;
+const double inv_two_M_PI = 0.5 / M_PI;
+const double inv_two_M_PI_sq = 0.25 / (M_PI * M_PI);
+const double two_M_PI = 2.0 * M_PI;
+const double sqrt_M_PI = std::sqrt(M_PI);
+const double log_two_M_PI = std::log(2 * M_PI);
 const double log_two = std::log(2.0);
-const double inv_four_PI = 0.25 / PI;
-const double const_Pycke = (1.0 - std::log(4.0)) * inv_four_PI;
+const double inv_four_M_PI = 0.25 / M_PI;
+const double const_Pycke = (1.0 - std::log(4.0)) * inv_four_M_PI;
 
 /*
  * Sobolev tests
@@ -265,7 +265,7 @@ arma::vec sph_stat_Gine_Fn_Psi(arma::mat Psi, arma::uword n, arma::uword p) {
   arma::vec Gn = arma::sum(arma::sin(Psi), 0).t();
 
   // Factors An
-  An *= -inv_PI / n;
+  An *= -inv_M_PI / n;
   An += 0.25 * n;
 
   // Factors Gn
@@ -345,9 +345,9 @@ arma::vec sph_stat_Pycke_Psi(arma::mat Psi, arma::uword n, arma::uword p) {
 
   } else {
 
-    Gamman *= -inv_two_PI / (n - 1.0); // Included factor 2 of log(Gamman^2)
+    Gamman *= -inv_two_M_PI / (n - 1.0); // Included factor 2 of log(Gamman^2)
     // and 1 / (4 * pi)
-    Gamman += -(log_two * inv_four_PI + const_Pycke) * n;
+    Gamman += -(log_two * inv_four_M_PI + const_Pycke) * n;
 
   }
   return Gamman;
@@ -449,7 +449,7 @@ arma::vec sph_stat_Riesz(arma::cube X, bool Psi_in_X = false,
 
     }
     Rn += n * tau * R::gammafn(0.5 * (p - 1 + s)) /
-      (sqrt_PI * R::gammafn(p - 1 + 0.5 * s));
+      (sqrt_M_PI * R::gammafn(p - 1 + 0.5 * s));
 
   }
   return Rn;
@@ -504,7 +504,7 @@ arma::vec sph_stat_PCvM(arma::cube X, bool Psi_in_X = false, arma::uword p = 0,
   arma::uword M = Psi_in_X ? X.n_cols : X.n_slices;
 
   // Compute integral on a grid if p > 4
-  arma::vec th_grid = arma::linspace(0, PI, L);
+  arma::vec th_grid = arma::linspace(0, M_PI, L);
   arma::vec int_grid = arma::zeros(L);
   if (p > 4) {
 
@@ -569,10 +569,10 @@ arma::vec sph_stat_PCvM_Psi(arma::mat Psi, arma::uword n, arma::uword p,
   if (p == 2) {
 
     // Addends
-    Psi %= Psi - two_PI;
+    Psi %= Psi - two_M_PI;
 
     // Sum
-    PCvMn = 0.25 * n * (n - 1) + arma::sum(Psi, 0).t() * inv_two_PI_sq;
+    PCvMn = 0.25 * n * (n - 1) + arma::sum(Psi, 0).t() * inv_two_M_PI_sq;
 
   } else if (p == 3) {
 
@@ -585,11 +585,11 @@ arma::vec sph_stat_PCvM_Psi(arma::mat Psi, arma::uword n, arma::uword p,
   } else if (p == 4) {
 
     // Addends
-    Psi = Psi % (Psi - two_PI) + (PI - Psi) % arma::tan(0.5 * Psi) -
+    Psi = Psi % (Psi - two_M_PI) + (M_PI - Psi) % arma::tan(0.5 * Psi) -
       2 * arma::square(arma::sin(0.5 * Psi));
 
     // Sum
-    PCvMn = 0.25 * n * (n - 1) + arma::sum(Psi, 0).t() * inv_two_PI_sq;
+    PCvMn = 0.25 * n * (n - 1) + arma::sum(Psi, 0).t() * inv_two_M_PI_sq;
 
   } else if (p > 4) {
 
@@ -603,7 +603,7 @@ arma::vec sph_stat_PCvM_Psi(arma::mat Psi, arma::uword n, arma::uword p,
     arma::interp1(th_grid, int_grid, Psi, int_interp);
 
     // Addends
-    Psi = Psi * inv_two_PI +
+    Psi = Psi * inv_two_M_PI +
       2 * arma::square(p_proj_unif(arma::cos(0.5 * Psi), p, false)) -
       4 * int_interp;
     Psi.reshape(n_rows_Psi, n_cols_Psi);
@@ -651,7 +651,7 @@ arma::vec sph_stat_PRt(arma::cube X, double t = 1.0 / 3.0,
   double theta_t_m = 2.0 * std::acos(-arma::as_scalar(q_proj_unif({t_m}, p)));
 
   // Compute integral on a grid if p > 4
-  arma::vec th_grid = arma::linspace(0, PI, L);
+  arma::vec th_grid = arma::linspace(0, M_PI, L);
   arma::vec int_grid = arma::zeros(L);
   if (p > 4) {
 
@@ -716,7 +716,7 @@ arma::vec sph_stat_PRt_Psi(arma::mat Psi, double t_m, double theta_t_m,
   double t_m2 = t_m * (1 - t_m);
   if (p == 2) {
 
-    Psi = Psi * inv_two_PI - t_m2;
+    Psi = Psi * inv_two_M_PI - t_m2;
     PRtn = 0.5 * (0.5 - t_m2) * n * (n - 1) -
       arma::sum(arma::clamp(Psi, -arma::datum::inf, t_m * t_m), 0).t();
 
@@ -741,7 +741,7 @@ arma::vec sph_stat_PRt_Psi(arma::mat Psi, double t_m, double theta_t_m,
 
       Psi.elem(ind_var) *= 0.5;
       Psi.elem(ind_var) = -t_m + 0.5 +
-        inv_PI * ((2 * t_m - 1) *
+        inv_M_PI * ((2 * t_m - 1) *
           arma::acos(((0.5 - t_m) / std::sqrt(t_m * (1 - t_m))) *
             arma::tan(Psi.elem(ind_var))) +
           arma::atan(arma::sqrt(arma::square(arma::cos(Psi.elem(ind_var))) -
@@ -750,7 +750,7 @@ arma::vec sph_stat_PRt_Psi(arma::mat Psi, double t_m, double theta_t_m,
     } else if (p == 4) {
 
       Psi.elem(ind_var) = 0.5 + t_m +
-        inv_PI * (-0.5 * (Psi.elem(ind_var) + theta_t_m) +
+        inv_M_PI * (-0.5 * (Psi.elem(ind_var) + theta_t_m) +
           0.5 * std::sin(theta_t_m) + arma::tan(0.5 * Psi.elem(ind_var)) *
           std::pow(std::cos(0.5 * theta_t_m), 2));
 
@@ -761,7 +761,7 @@ arma::vec sph_stat_PRt_Psi(arma::mat Psi, double t_m, double theta_t_m,
       arma::interp1(th_grid, int_grid, Psi.elem(ind_var), int_interp);
 
       // Integral
-      Psi.elem(ind_var) = t_m - Psi.elem(ind_var) * inv_two_PI + 2 * int_interp;
+      Psi.elem(ind_var) = t_m - Psi.elem(ind_var) * inv_two_M_PI + 2 * int_interp;
 
     } else {
 
@@ -804,7 +804,7 @@ arma::vec sph_stat_PAD(arma::cube X, bool Psi_in_X = false, arma::uword p = 0,
   arma::uword M = Psi_in_X ? X.n_cols : X.n_slices;
 
   // Compute integral on a grid if p > 2
-  arma::vec th_grid = arma::linspace(0, PI, L);
+  arma::vec th_grid = arma::linspace(0, M_PI, L);
   arma::vec int_grid = arma::zeros(L);
   if (p > 2) {
 
@@ -825,7 +825,7 @@ arma::vec sph_stat_PAD(arma::cube X, bool Psi_in_X = false, arma::uword p = 0,
 
       } else if (p == 4) {
 
-        int_grid(k) = arma::accu(w_k % t_k % arma::log(PI / (arma::acos(t_k) -
+        int_grid(k) = arma::accu(w_k % t_k % arma::log(M_PI / (arma::acos(t_k) -
                                  t_k % arma::sqrt(1 - arma::square(t_k))) - 1));
 
       } else if (p > 4){
@@ -888,13 +888,13 @@ arma::vec sph_stat_PAD_Psi(arma::mat Psi, arma::uword n, arma::uword p,
   if (p == 2) {
 
     // Addends
-    Psi = Psi % arma::log(Psi) + (two_PI - Psi) % arma::log(two_PI - Psi);
+    Psi = Psi % arma::log(Psi) + (two_M_PI - Psi) % arma::log(two_M_PI - Psi);
 
     // Replace NaNs (created by theta = 0) with 0
     Psi.replace(arma::datum::nan, 0);
 
     // Sum
-    PADn = -log_two_PI * n * (n - 1) + arma::sum(Psi, 0).t() * inv_PI;
+    PADn = -log_two_M_PI * n * (n - 1) + arma::sum(Psi, 0).t() * inv_M_PI;
 
   } else {
 
@@ -914,14 +914,14 @@ arma::vec sph_stat_PAD_Psi(arma::mat Psi, arma::uword n, arma::uword p,
 
       // Sum
       int_interp.reshape(n_rows_Psi, n_cols_Psi);
-      PADn = -log_two * n * (n - 1) + 2 * inv_PI * arma::sum(int_interp, 0).t();
+      PADn = -log_two * n * (n - 1) + 2 * inv_M_PI * arma::sum(int_interp, 0).t();
 
     } else if (p == 4) {
 
       // Addends
       arma::vec s_theta = Psi - arma::sin(Psi);
       s_theta = s_theta % arma::log(s_theta) +
-        (two_PI - s_theta) % arma::log(two_PI - s_theta);
+        (two_M_PI - s_theta) % arma::log(two_M_PI - s_theta);
       Psi = s_theta - 4 * arma::tan(0.5 * Psi) % int_interp;
 
       // Replace NaNs (created by theta = 0) with 0
@@ -929,7 +929,7 @@ arma::vec sph_stat_PAD_Psi(arma::mat Psi, arma::uword n, arma::uword p,
 
       // Sum
       Psi.reshape(n_rows_Psi, n_cols_Psi);
-      PADn = -log_two_PI * n * (n - 1) + inv_PI * arma::sum(Psi, 0).t();
+      PADn = -log_two_M_PI * n * (n - 1) + inv_M_PI * arma::sum(Psi, 0).t();
 
     } else if (p > 4){
 
@@ -1002,7 +1002,7 @@ arma::vec sph_stat_Cuesta_Albertos(arma::cube X, arma::mat rand_dirs,
 
   }
 
-  // Substract i / n to slices and columns, X becomes Dn^+ when taking the
+  // Subtract i / n to slices and columns, X becomes Dn^+ when taking the
   // -min on each of the slices and columns
   arma::vec i = arma::linspace(1.0 / n, 1.0, n);
   X_proj.each_slice() -= arma::repmat(i, 1, n_proj);

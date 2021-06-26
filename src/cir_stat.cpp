@@ -34,17 +34,17 @@ arma::vec sph_stat_Cuesta_Albertos(arma::cube X, arma::mat rand_dirs,
                                    bool original = false);
 
 // Constants
-const double pi = PI;
-const double inv_PI = 1.0 / pi; // To force including pi, needed for defaults
-const double inv_two_PI = 0.5 / PI;
-const double sq_PI = PI * PI;
-const double inv_two_PI_sq = 0.25 / sq_PI;
-const double two_sq_PI = 2 *sq_PI;
-const double two_PI = 2.0 * PI;
-const double half_PI = 0.5 * PI;
-const double two_inv_PI = 2.0 / PI;
-const double beta2 = (sq_PI / 36) / (0.5 - 4 / sq_PI);
-const double const_Hn = half_PI + beta2 * two_inv_PI;
+const double pi = M_PI;
+const double inv_M_PI = 1.0 / pi; // To force including pi, needed for defaults
+const double inv_two_M_PI = 0.5 / M_PI;
+const double sq_M_PI = M_PI * M_PI;
+const double inv_two_M_PI_sq = 0.25 / sq_M_PI;
+const double two_sq_M_PI = 2 *sq_M_PI;
+const double two_M_PI = 2.0 * M_PI;
+const double half_M_PI = 0.5 * M_PI;
+const double two_inv_M_PI = 2.0 / M_PI;
+const double beta2 = (sq_M_PI / 36) / (0.5 - 4 / sq_M_PI);
+const double const_Hn = half_M_PI + beta2 * two_inv_M_PI;
 
 
 /*
@@ -69,9 +69,9 @@ arma::vec cir_stat_Kuiper(arma::mat Theta, bool sorted = false,
   }
 
   // Scale
-  Theta *= inv_two_PI;
+  Theta *= inv_two_M_PI;
 
-  // Substract i / n to columns, Theta becomes Dn^+ when taking the -min on
+  // Subtract i / n to columns, Theta becomes Dn^+ when taking the -min on
   // each of the columns
   arma::vec i = arma::linspace(1.0 / n, 1.0, n);
   Theta.each_col() -= i;
@@ -126,16 +126,16 @@ arma::vec cir_stat_Watson(arma::mat Theta, bool sorted = false,
   }
 
   // Scale
-  Theta *= inv_two_PI;
+  Theta *= inv_two_M_PI;
 
   // Mean
   arma::rowvec Theta_bar = arma::mean(Theta);
 
-  // Substract (i - 0.5) / n to columns
+  // Subtract (i - 0.5) / n to columns
   arma::vec i = arma::linspace(0.5 / n, 1.0 - 0.5 / n, n);
   Theta.each_col() -= i;
 
-  // Substract mean to rows - the only difference between the Watson and CvM
+  // Subtract mean to rows - the only difference between the Watson and CvM
   // statistics
   if (!CvM) {
 
@@ -186,12 +186,12 @@ arma::vec cir_stat_Watson_1976(arma::mat Theta, bool sorted = false,
   }
 
   // Scale
-  Theta *= inv_two_PI;
+  Theta *= inv_two_M_PI;
 
   // Mean
   arma::rowvec Theta_bar = arma::mean(Theta);
 
-  // Substract i / n to columns
+  // Subtract i / n to columns
   arma::vec i = arma::linspace(1.0 / n, 1.0, n);
   Theta.each_col() -= i;
 
@@ -237,7 +237,7 @@ arma::vec cir_stat_Range(arma::mat Theta, bool sorted = false,
   arma::vec Tn = arma::max(Theta, 0).t();
   if (!max_gap) {
 
-    Tn = two_PI - Tn;
+    Tn = two_M_PI - Tn;
 
   }
   return Tn;
@@ -262,8 +262,8 @@ arma::vec cir_stat_Rao(arma::mat Theta, bool sorted = false,
   }
 
   // Statistic for each column
-  return std::sqrt(n) * (0.5 * arma::sum(arma::abs(Theta - two_PI / n), 0).t() -
-                   two_PI / arma::datum::e);
+  return std::sqrt(n) * (0.5 * arma::sum(arma::abs(Theta - two_M_PI / n), 0).t() -
+                   two_M_PI / arma::datum::e);
 
 }
 
@@ -286,7 +286,7 @@ arma::vec cir_stat_Greenwood(arma::mat Theta, bool sorted = false,
 
   // Statistic for each column
   return std::sqrt(n) *
-    (n * sum(arma::square(Theta), 0).t() * inv_two_PI_sq - 2.0);
+    (n * sum(arma::square(Theta), 0).t() * inv_two_M_PI_sq - 2.0);
 
 }
 
@@ -309,7 +309,7 @@ arma::vec cir_stat_Log_gaps(arma::mat Theta, bool sorted = false,
 
   // Statistic for each column (minus for changing the rejection to
   // large values instead of small values)
-  arma::vec In = std::sqrt(n) * (std::log(two_PI / n) -
+  arma::vec In = std::sqrt(n) * (std::log(two_M_PI / n) -
     arma::mean(arma::log(Theta), 0).t() - arma::datum::euler);
 
   // Return the absolute value? Useful because rejection happens for large
@@ -343,10 +343,10 @@ arma::vec cir_stat_Vacancy(arma::mat Theta, double a = 2 * pi,
 
   // Statistic for each column
   Theta = arma::clamp(Theta - a / n, 0, arma::datum::inf);
-  arma::vec Yn = arma::sum(Theta, 0).t()* inv_two_PI;
+  arma::vec Yn = arma::sum(Theta, 0).t()* inv_two_M_PI;
 
   // Set a as in a unit-length circle
-  a *= inv_two_PI;
+  a *= inv_two_M_PI;
   double exp_a = std::exp(-a);
 
   // Standardize
@@ -375,10 +375,10 @@ arma::vec cir_stat_Max_uncover(arma::mat Theta, double a = 2 * pi,
 
   // Statistic for each column
   arma::vec Xn = arma::max(Theta, 0).t();
-  Xn = arma::clamp(Xn - a / n, 0, arma::datum::inf) * inv_two_PI;
+  Xn = arma::clamp(Xn - a / n, 0, arma::datum::inf) * inv_two_M_PI;
 
   // Set a as in a unit-length circle
-  a *= inv_two_PI;
+  a *= inv_two_M_PI;
 
   // Standardize
   return n * Xn - std::log(n) + a;
@@ -408,7 +408,7 @@ arma::vec cir_stat_Num_uncover(arma::mat Theta, double a = 2 * pi,
     arma::sum(arma::conv_to<arma::mat>::from(Theta > (a / n)), 0).t();
 
   // Set a as in a unit-length circle
-  a *= inv_two_PI;
+  a *= inv_two_M_PI;
   double exp_a = std::exp(-a);
 
   // Standardize
@@ -445,7 +445,7 @@ arma::vec cir_stat_Gini(arma::mat Theta, bool sorted = false,
                                              false, false, true)), 0).t();
 
   // Standardize
-  return std::sqrt(n) * (Fn / (PI * (n - 1.0)) - 1.0);
+  return std::sqrt(n) * (Fn / (M_PI * (n - 1.0)) - 1.0);
 
 }
 
@@ -476,7 +476,7 @@ arma::vec cir_stat_Gini_squared(arma::mat Theta, bool sorted = false,
                                                 false, false, true)), 0).t();
 
   // Standardize
-  return std::sqrt(n) * (n / ((n - 1.0) * two_sq_PI) * Qn - 2.0);
+  return std::sqrt(n) * (n / ((n - 1.0) * two_sq_M_PI) * Qn - 2.0);
 
 }
 
@@ -536,7 +536,7 @@ arma::vec cir_stat_An_Psi(arma::mat Psi, arma::uword n) {
   arma::vec An = arma::sum(Psi, 0).t();
 
   // Factors statistic
-  An *= -inv_PI / n;
+  An *= -inv_M_PI / n;
   An += 0.25 * n;
   return An;
 
@@ -597,7 +597,7 @@ arma::vec cir_stat_Rothman_Psi(arma::mat Psi, double t_m2, double t_min2,
                                arma::uword n) {
 
   // Statistic
-  arma::vec Ant = -arma::sum(arma::clamp(Psi * inv_two_PI - t_m2,
+  arma::vec Ant = -arma::sum(arma::clamp(Psi * inv_two_M_PI - t_m2,
                                          -arma::datum::inf, t_min2), 0).t();
 
   // Factors statistic
@@ -645,8 +645,8 @@ arma::vec cir_stat_Hodges_Ajne(arma::mat Theta, bool asymp_std = false,
     for (arma::uword k = 0; k < M; k++) {
 
       // Theta + pi
-      arma::vec Theta_shift = Theta.col(k) + PI;
-      Theta_shift -= two_PI * arma::floor(Theta_shift * inv_two_PI);
+      arma::vec Theta_shift = Theta.col(k) + M_PI;
+      Theta_shift -= two_M_PI * arma::floor(Theta_shift * inv_two_M_PI);
 
       // Sort augmented sample (only the first n elements are necessary)
       arma::uvec sort_ind = arma::sort_index(
@@ -711,14 +711,14 @@ arma::vec cir_stat_Cressie(arma::mat Theta, double t = 1.0 / 3.0,
   // cir_stat_Hodges_Ajne that was based on "A simple test for uniformity of a
   // circular distribution" (Ajne, 1968)
   arma::mat Nnt = arma::vec(M);
-  double two_PIt = two_PI * (t - arma::datum::eps);
+  double two_M_PIt = two_M_PI * (t - arma::datum::eps);
   for (arma::uword k = 0; k < M; k++) {
 
     // Winding number
-    arma::vec wind = arma::floor((Theta.col(k) + two_PIt) * inv_two_PI);
+    arma::vec wind = arma::floor((Theta.col(k) + two_M_PIt) * inv_two_M_PI);
 
     // Wrapping
-    arma::vec wrap = (Theta.col(k) + two_PIt) - two_PI * wind;
+    arma::vec wrap = (Theta.col(k) + two_M_PIt) - two_M_PI * wind;
 
     // Sort the evaluation points for ecdf_bin, keeping track of the sorting
     // that was made for later sorting -(i - 1) + n * wind_i
@@ -761,12 +761,12 @@ arma::vec cir_stat_Feltz_Goldin(arma::mat Theta, bool sorted = false) {
   }
 
   // Scale
-  Theta *= inv_two_PI;
+  Theta *= inv_two_M_PI;
 
   // Mean
   arma::rowvec Theta_bar = arma::mean(Theta);
 
-  // Substract (i - 0.5) / n to columns
+  // Subtract (i - 0.5) / n to columns
   arma::mat i = arma::repmat(arma::linspace(0.5 / n, 1.0 - 0.5 / n, n), 1, M);
 
   // Cn1 / 6
@@ -1124,17 +1124,49 @@ arma::vec cir_stat_PRt(arma::mat Theta, double t = 1.0 / 3.0,
 //' @rdname cir_stat
 //' @export
 // [[Rcpp::export]]
-arma::vec cir_stat_PAD(arma::mat Theta, bool Psi_in_Theta = false) {
+arma::vec cir_stat_PAD(arma::mat Theta, bool Psi_in_Theta = false,
+                       bool AD = false, bool sorted = false) {
 
-  if (Psi_in_Theta) {
+  if (AD) {
 
-    arma::cube Theta_cube(Theta.n_rows, Theta.n_cols, 1);
-    Theta_cube.slice(0) = Theta;
-    return sph_stat_PAD(Theta_cube, true, 2, 0, 0);
+    // Sample size
+    arma::uword n = Theta.n_rows;
+
+    // Sort data on each column
+    if (!sorted) {
+
+      Theta = arma::sort(Theta);
+
+    }
+
+    // Scale
+    Theta *= inv_two_M_PI;
+
+    // 2 * i
+    arma::vec i = arma::regspace(1.0, 2.0, 2.0 * n - 1);
+
+    // Logarithms of U
+    arma::mat log_U_1 = arma::log(Theta);
+    arma::mat log_U_2 = arma::log(1 - Theta);
+    log_U_1.each_col() %= i;
+    log_U_2.each_col() %= 2.0 * n - i;
+
+    // A-D statistic for each column
+    return -arma::mean(log_U_1 + log_U_2).t() - n;
 
   } else {
 
-    return sph_stat_PAD(Theta_to_X(Theta), false, 2, 0, 0);
+    if (Psi_in_Theta) {
+
+      arma::cube Theta_cube(Theta.n_rows, Theta.n_cols, 1);
+      Theta_cube.slice(0) = Theta;
+      return sph_stat_PAD(Theta_cube, true, 2, 0, 0);
+
+    } else {
+
+      return sph_stat_PAD(Theta_to_X(Theta), false, 2, 0, 0);
+
+    }
 
   }
 

@@ -10,10 +10,10 @@ arma::vec d_chisq(arma::vec, arma::uword df);
 arma::vec p_chisq(arma::vec, arma::uword df);
 
 // Constants
-const double eight_PI = 8.0 * PI;
-const double two_PI = 2.0 * PI;
-const double inv_sqrt_eight_PI = 1.0 / std::sqrt(eight_PI);
-const double inv_sqrt_two_PI = 1.0 / std::sqrt(two_PI);
+const double eight_M_PI = 8.0 * M_PI;
+const double two_M_PI = 2.0 * M_PI;
+const double inv_sqrt_eight_M_PI = 1.0 / std::sqrt(eight_M_PI);
+const double inv_sqrt_two_M_PI = 1.0 / std::sqrt(two_M_PI);
 
 //' @rdname sph_stat_distr
 //' @export
@@ -91,17 +91,17 @@ arma::vec p_sph_stat_Cai(arma::vec x, arma::uword regime = 1, double beta = 0) {
   double fact = 1;
   if (regime == 3) {
 
-    fact *= inv_sqrt_two_PI;
+    fact *= inv_sqrt_two_M_PI;
 
   // Exponential regime
   } else if (regime == 2) {
 
-    fact = std::sqrt(beta / (two_PI * (1 - std::exp(-4 * beta))));
+    fact = std::sqrt(beta / (two_M_PI * (1 - std::exp(-4 * beta))));
 
   // Sub-exponential regime
   } else {
 
-    fact *= inv_sqrt_eight_PI;
+    fact *= inv_sqrt_eight_M_PI;
 
   }
 
@@ -127,17 +127,17 @@ arma::vec d_sph_stat_Cai(arma::vec x, arma::uword regime = 3, double beta = 0) {
   double fact = 1;
   if (regime == 3) {
 
-    fact *= inv_sqrt_two_PI;
+    fact *= inv_sqrt_two_M_PI;
 
   // Exponential regime
   } else if (regime == 2) {
 
-    fact = std::sqrt(beta / (2 * PI * (1 - std::exp(-4 * beta))));
+    fact = std::sqrt(beta / (2 * M_PI * (1 - std::exp(-4 * beta))));
 
   // Sub-exponential regime
   } else {
 
-    fact *= inv_sqrt_eight_PI;
+    fact *= inv_sqrt_eight_M_PI;
 
   }
 

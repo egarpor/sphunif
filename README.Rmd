@@ -1,9 +1,8 @@
 ---
 output:
   md_document:
-    variant: gfm
+    variant: markdown_github
 ---
-
 
 ```{r, echo = FALSE}
 knitr::opts_chunk$set(
@@ -15,11 +14,19 @@ knitr::opts_chunk$set(
 sphunif
 =======
 
-<!-- badges: start -->
-[![License](https://img.shields.io/badge/license-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Travis build status](https://travis-ci.org/egarpor/sphunif?branch=master)](https://travis-ci.org/egarpor/sphunif)
-[![CRAN status](https://www.r-pkg.org/badges/version/sphunif)](https://cran.r-project.org/package=sphunif)
-<!-- badges: end -->
+```{r, echo = FALSE, results = 'asis'}
+cat(
+  badger::badge_license(license = "GPLv3", color = "blue",
+                        url = "https://www.gnu.org/licenses/gpl-3.0"),
+  badger::badge_travis(ref = NULL),
+	badger::badge_cran_release(color = "green"),
+	badger::badge_cran_download(pkg = NULL, type = "grand-total"),
+	badger::badge_cran_download(pkg = NULL, type = "last-month")
+)
+```
+
+<!-- <img src="" alt="sphunif  hexlogo" align="right" width="200" style="padding: 0 15px; float: right;"/> -->
+
 
 ## Overview
 

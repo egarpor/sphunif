@@ -185,9 +185,9 @@ unif_test <- function(data, type = "all", p_value = "asymp",
                       alpha = c(0.10, 0.05, 0.01), M = 1e4, stats_MC = NULL,
                       crit_val = NULL, data_sorted = FALSE, Rayleigh_m = 1,
                       coverage_a = 2 * pi, Rothman_t = 1 / 3, Cressie_t = 1 / 3,
-                      Pycke_q = 0.5, Cuesta_Albertos_rand_dirs = NULL,
-                      K_Cuesta_Albertos = 25, Cai_regime = 3, Cai_beta = 0,
-                      K_max = 1e4, ...) {
+                      Pycke_q = 0.5, Riesz_s = 1,
+                      Cuesta_Albertos_rand_dirs = NULL, K_Cuesta_Albertos = 25,
+                      Cai_regime = 3, Cai_beta = 0, K_max = 1e4, ...) {
 
   # Read data's name
   data_name <- deparse(substitute(data))
@@ -320,7 +320,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
   stat <- unif_stat(data = data, type = stats_type,
                     data_sorted = data_sorted, Rayleigh_m = Rayleigh_m,
                     coverage_a = coverage_a, Rothman_t = Rothman_t,
-                    Cressie_t = Cressie_t, Pycke_q = Pycke_q,
+                    Cressie_t = Cressie_t, Pycke_q = Pycke_q, Riesz_s = Riesz_s,
                     Cuesta_Albertos_rand_dirs = Cuesta_Albertos_rand_dirs,
                     K_Cuesta_Albertos = K_Cuesta_Albertos,
                     Cai_regime = Cai_regime)
@@ -337,7 +337,8 @@ unif_test <- function(data, type = "all", p_value = "asymp",
                                return_stats = FALSE, stats_sorted = FALSE,
                                Rayleigh_m = Rayleigh_m, coverage_a = coverage_a,
                                Rothman_t = Rothman_t, Cressie_t = Cressie_t,
-                               Pycke_q = Pycke_q, Cuesta_Albertos_rand_dirs =
+                               Pycke_q = Pycke_q, Riesz_s = Riesz_s, 
+                               Cuesta_Albertos_rand_dirs =
                                  Cuesta_Albertos_rand_dirs,
                                K_Cuesta_Albertos = K_Cuesta_Albertos,
                                Cai_regime = Cai_regime, ...)$crit_val_MC
@@ -376,7 +377,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
                                r_H1 = NULL, crit_val = NULL, alpha = alpha,
                                return_stats = TRUE, stats_sorted = TRUE,
                                Rothman_t = Rothman_t, Pycke_q = Pycke_q,
-                               Cuesta_Albertos_rand_dirs =
+                               Riesz_s = Riesz_s, Cuesta_Albertos_rand_dirs =
                                  Cuesta_Albertos_rand_dirs,
                                Cai_regime = Cai_regime, K_Cuesta_Albertos =
                                  K_Cuesta_Albertos, ...)$stats_MC
@@ -403,7 +404,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
                                  approx = "asymp", stats_MC = NULL, M = M,
                                  coverage_a = coverage_a, Rothman_t = Rothman_t,
                                  Cressie_t = Cressie_t, Pycke_q = Pycke_q,
-                                 Cuesta_Albertos_rand_dirs =
+                                 Riesz_s = Riesz_s, Cuesta_Albertos_rand_dirs =
                                    Cuesta_Albertos_rand_dirs,
                                  K_Cuesta_Albertos = K_Cuesta_Albertos,
                                  Cai_regime = Cai_regime, Cai_beta = Cai_beta,
@@ -476,6 +477,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
          "Rayleigh" = paste0("Rayleigh test of circular uniformity",
                              ifelse(Rayleigh_m > 1, paste0(" with m = ",
                                                            Rayleigh_m), "")),
+         "Riesz" = "Riesz test of circular uniformity",
          "Rothman" = paste("Rothman test of circular uniformity with t =",
                            round(Rothman_t, 3)),
          "Vacancy" = paste("Vacancy test of circular uniformity with a =",
@@ -515,6 +517,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
          "Rayleigh" = "mean direction different from zero",
          "Rothman" = paste("any alternative to circular uniformity",
                            "if t is irrational"),
+         "Riesz" = "any alternative to circular uniformity",
          "Vacancy" = "any alternative to circular uniformity",
          "Watson" = "any alternative to circular uniformity",
          "Watson_1976" = "unclear consistency"
@@ -541,7 +544,8 @@ unif_test <- function(data, type = "all", p_value = "asymp",
          "Pycke" = "Pycke test of spherical uniformity",
          "Rayleigh" = "Rayleigh test of spherical uniformity",
          "Rayleigh_HD" = paste("HD-standardized Rayleigh test of",
-                               "spherical uniformity")
+                               "spherical uniformity"),
+         "Riesz" = "Riesz test of spherical uniformity"
       )
 
       alternative <- switch(stats_type[i],
@@ -558,7 +562,8 @@ unif_test <- function(data, type = "all", p_value = "asymp",
                        "if t is irrational"),
          "Pycke" = "any alternative to spherical uniformity",
          "Rayleigh" = "mean direction different from zero",
-         "Rayleigh_HD" = "mean direction different from zero"
+         "Rayleigh_HD" = "mean direction different from zero",
+         "Riesz" = "any alternative to spherical uniformity"
       )
 
     }
@@ -629,6 +634,7 @@ avail_cir_tests <- c("Ajne",
                      "Range",
                      "Rao",
                      "Rayleigh",
+                     "Riesz",
                      "Rothman",
                      "Vacancy",
                      "Watson",
@@ -649,4 +655,5 @@ avail_sph_tests <- c("Ajne",
                      "PRt",
                      "Pycke",
                      "Rayleigh",
-                     "Rayleigh_HD")
+                     "Rayleigh_HD",
+                     "Riesz")

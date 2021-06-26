@@ -264,33 +264,33 @@ legend("topright", legend = paste0(rownames(cutoff), " (", cutoff$mean, ")"),
 Bodenham, D. A. and Adams, N. M. (2016). A comparison of efficient
 approximations for a weighted sum of chi-squared random variables.
 \emph{Statistics and Computing}, 26(4):917--928.
-\url{https://doi.org/10.1007/s11222-015-9583-4}
+\doi{10.1007/s11222-015-9583-4}
 
 Buckley, M. J. and Eagleson, G. K. (1988). An approximation to the
 distribution of quadratic forms in normal random variables.
 \emph{Australian Journal of Statistics}, 30(1):150--159.
-\url{https://doi.org/10.1111/j.1467-842X.1988.tb00471.x}
+\doi{10.1111/j.1467-842X.1988.tb00471.x}
 
 Duchesne, P. and Lafaye De Micheaux, P. (2010) Computing the distribution
 of quadratic forms: Further comparisons between the Liu--Tang--Zhang
 approximation and exact methods. \emph{Computational Statistics and Data
-Analysis}, 54(4):858--862. \url{https://doi.org/10.1016/j.csda.2009.11.025}
+Analysis}, 54(4):858--862. \doi{10.1016/j.csda.2009.11.025}
 
 Hall, P. (1983). Chi squared approximations to the distribution of a sum
 of independent random variables. \emph{Annals of Probability},
-11(4):1028--1036. \url{https://doi.org/10.1214/aop/1176993451}
+11(4):1028--1036. \doi{10.1214/aop/1176993451}
 
 Imhof, J. P. (1961). Computing the distribution of quadratic forms in normal
 variables. \emph{Biometrika}, 48(3/4):419--426.
-\url{https://doi.org/10.2307/2332763}
+\doi{10.2307/2332763}
 
 Satterthwaite, F. E. (1946). An approximate distribution of estimates of
 variance components. \emph{Biometrics Bulletin}, 2(6):110--114.
-\url{https://doi.org/10.2307/3002019}
+\doi{10.2307/3002019}
 
 Welch, B. L. (1938). The significance of the difference between two means
 when the population variances are unequal. \emph{Biometrika},
-29(3/4):350--362. \url{https://doi.org/10.2307/2332010}
+29(3/4):350--362. \doi{10.2307/2332010}
 }
 \author{
 Eduardo García-Portugués and Paula Navarro-Esteban.

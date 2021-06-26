@@ -105,3 +105,4 @@ if (requireNamespace("rgl")) {
   rgl::points3d(x5, size = 5, col = 5)
 }
 }
+}

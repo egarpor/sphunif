@@ -6,7 +6,7 @@
 statistics}
 \usage{
 unif_stat_distr(x, type, p, n, approx = "asymp", M = 10000,
-  stats_MC = NULL, Rothman_t = 1/3, Pycke_q = 0.5,
+  stats_MC = NULL, Rothman_t = 1/3, Pycke_q = 0.5, Riesz_s = 1,
   Cuesta_Albertos_rand_dirs = NULL, Cai_regime = 3, Cai_beta = 0,
   Stephens = FALSE, K_Kuiper = 25, K_Watson = 25, K_Watson_1976 = 5,
   K_Ajne = 500, K_Cuesta_Albertos = 25, K_max = 10000, ...)
@@ -56,6 +56,9 @@ Internally computed if \code{NULL} (default).}
 
 \item{Pycke_q}{\eqn{q} parameter for the Pycke "\eqn{q}-test", a real in
 \eqn{(0, 1)}. Defaults to \code{1 / 2}.}
+
+\item{Riesz_s}{\eqn{s} parameter for the \eqn{s}-Riesz test, a real in
+\eqn{(0, 2)}. Defaults to \code{1}.}
 
 \item{Cuesta_Albertos_rand_dirs}{a matrix of size \code{c(n_proj, p)}
 containing \code{n_proj} random directions (in Cartesian coordinates) on

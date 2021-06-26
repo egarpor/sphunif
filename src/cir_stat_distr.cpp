@@ -15,21 +15,21 @@ arma::vec d_chisq(arma::vec, arma::uword df);
 arma::vec p_chisq(arma::vec, arma::uword df);
 
 // Constants
-const double half_PI = 0.5 * PI;
-const double two_PI = 2.0 * PI;
-const double inv_two_PI = 0.5 / PI;
-const double sqrt_two_PI = std::sqrt(2 * PI);
-const double sqrt_PI = std::sqrt(PI);
+const double half_M_PI = 0.5 * M_PI;
+const double two_M_PI = 2.0 * M_PI;
+const double inv_two_M_PI = 0.5 / M_PI;
+const double sqrt_two_M_PI = std::sqrt(2 * M_PI);
+const double sqrt_M_PI = std::sqrt(M_PI);
 const double sqrt_eight = std::sqrt(8.0);
 const double log_two = std::log(2.0);
-const double const_1976_1 = 8.0 / (3 * sqrt_PI);
-const double const_1976_2 = 8 * sqrt_eight / (9 * sqrt_PI);
+const double const_1976_1 = 8.0 / (3 * sqrt_M_PI);
+const double const_1976_2 = 8 * sqrt_eight / (9 * sqrt_M_PI);
 const double two_thirds = 2.0 / 3.0;
 const double four_thirds = 4.0 / 3.0;
 const double three_inv_sqrt_eight = 3.0 / sqrt_eight;
-const double sqrt_PI_sixth_one = std::sqrt(PI * PI / 6.0 - 1);
+const double sqrt_M_PI_sixth_one = std::sqrt(M_PI * M_PI / 6.0 - 1);
 const double sqrt_inv_three = 1 / std::sqrt(3.0);
-const double sd_Rao = two_PI *
+const double sd_Rao = two_M_PI *
   std::sqrt((2 - 5.0 / arma::datum::e) / arma::datum::e);
 
 
@@ -76,7 +76,7 @@ arma::vec p_Kolmogorov(arma::vec x, arma::uword K_Kolmogorov = 25,
 
       // (2 * m - 1)^2 * pi^2 / 8
       arma::rowvec m_odd_pi_sq_8 =
-        arma::linspace(PI, (2 * K_Kolmogorov - 1) * PI, K_Kolmogorov).t();
+        arma::linspace(M_PI, (2 * K_Kolmogorov - 1) * M_PI, K_Kolmogorov).t();
       m_odd_pi_sq_8 = arma::square(m_odd_pi_sq_8) * 0.125;
 
       // Series
@@ -84,7 +84,7 @@ arma::vec p_Kolmogorov(arma::vec x, arma::uword K_Kolmogorov = 25,
       arma::mat S = arma::square(x1) * m_odd_pi_sq_8;
 
       // Cdf F(x)
-      F.elem(ind) = sqrt_two_PI * arma::sum(exp(-S), 1) % x1;
+      F.elem(ind) = sqrt_two_M_PI * arma::sum(exp(-S), 1) % x1;
 
     }
 
@@ -130,7 +130,7 @@ arma::vec d_Kolmogorov(arma::vec x, arma::uword K_Kolmogorov = 25,
 
       // (2 * m - 1)^2 * pi^2 / 8
       arma::rowvec m_odd_pi_sq_8 =
-        arma::linspace(PI, (2 * K_Kolmogorov - 1) * PI, K_Kolmogorov).t();
+        arma::linspace(M_PI, (2 * K_Kolmogorov - 1) * M_PI, K_Kolmogorov).t();
       m_odd_pi_sq_8 = arma::square(m_odd_pi_sq_8) * 0.125;
 
       // Series
@@ -140,7 +140,7 @@ arma::vec d_Kolmogorov(arma::vec x, arma::uword K_Kolmogorov = 25,
       S.each_col() %= x2;
 
       // Pdf f(x)
-      f.elem(ind) = sqrt_two_PI * arma::sum(S, 1);
+      f.elem(ind) = sqrt_two_M_PI * arma::sum(S, 1);
 
     }
 
@@ -281,7 +281,7 @@ arma::vec p_cir_stat_Watson(arma::vec x, arma::uword n = 0,
     }
 
     // Cdf F(x)
-    F.elem(ind) = p_Kolmogorov(arma::sqrt(x.elem(ind)) * PI, K_Watson, true);
+    F.elem(ind) = p_Kolmogorov(arma::sqrt(x.elem(ind)) * M_PI, K_Watson, true);
 
   }
 
@@ -316,8 +316,8 @@ arma::vec d_cir_stat_Watson(arma::vec x, arma::uword n = 0,
 
     // Pdf f(x)
     x = arma::sqrt(x);
-    f.elem(ind) = d_Kolmogorov(x.elem(ind) * PI, K_Watson, true) /
-      x.elem(ind) * (half_PI * c);
+    f.elem(ind) = d_Kolmogorov(x.elem(ind) * M_PI, K_Watson, true) /
+      x.elem(ind) * (half_M_PI * c);
 
   }
 
@@ -369,8 +369,8 @@ arma::vec p_cir_stat_Watson_1976(arma::vec x, arma::uword K_Watson_1976 = 8,
     alpha = two_thirds * arma::pow(alpha, 1.5);
 
     // Gauss--Legendre numerical integration
-    arma::vec x_k = Gauss_Legen_nodes(0, PI, N);
-    arma::vec w_k = Gauss_Legen_weights(0, PI, N);
+    arma::vec x_k = Gauss_Legen_nodes(0, M_PI, N);
+    arma::vec w_k = Gauss_Legen_weights(0, M_PI, N);
 
     // g(theta) for the integrand of v
     arma::rowvec g_theta = (arma::square(arma::sin(two_thirds * x_k)) %
@@ -447,8 +447,8 @@ arma::vec d_cir_stat_Watson_1976(arma::vec x, arma::uword K_Watson_1976 = 8) {
     alpha = two_thirds * arma::pow(alpha, 1.5);
 
     // Gauss--Legendre numerical integration
-    arma::vec x_k = Gauss_Legen_nodes(0, PI, 40);
-    arma::vec w_k = Gauss_Legen_weights(0, PI, 40);
+    arma::vec x_k = Gauss_Legen_nodes(0, M_PI, 40);
+    arma::vec w_k = Gauss_Legen_weights(0, M_PI, 40);
 
     // g(theta) for the integrand of v
     arma::rowvec g_theta = (arma::square(arma::sin(two_thirds * x_k)) %
@@ -492,7 +492,7 @@ arma::vec p_cir_stat_Hodges_Ajne2(arma::vec x, arma::uword n,
 
   if (asymp_std) {
 
-    return 1 - p_Kolmogorov(half_PI / x);
+    return 1 - p_Kolmogorov(half_M_PI / x);
 
   } else {
 
@@ -580,7 +580,7 @@ arma::vec p_cir_stat_Hodges_Ajne(arma::vec x, arma::uword n, bool exact = true,
     } else {
 
       F.elem(ind) = 1 -
-        p_Kolmogorov(half_PI * std::sqrt(n) / (2.0 * (x.elem(ind) + 1) - n));
+        p_Kolmogorov(half_M_PI * std::sqrt(n) / (2.0 * (x.elem(ind) + 1) - n));
 
     }
 
@@ -619,17 +619,17 @@ arma::vec d_cir_stat_Hodges_Ajne(arma::vec x, arma::uword n, bool exact = true,
     } else {
 
       // Standardize evaluation points
-      double c = half_PI;
+      double c = half_M_PI;
       if (!asymp_std) {
 
         double inv_sqrt_n = 1.0 / std::sqrt(n);
         x.elem(ind) = (2.0 * x.elem(ind) - n) * inv_sqrt_n;
-        c = PI * inv_sqrt_n;
+        c = M_PI * inv_sqrt_n;
 
       }
 
       // f(x)
-      return c * d_Kolmogorov(half_PI / x.elem(ind)) /
+      return c * d_Kolmogorov(half_M_PI / x.elem(ind)) /
         arma::square(x.elem(ind));
 
     }
@@ -659,7 +659,7 @@ arma::vec p_cir_stat_Ajne(arma::vec x, arma::uword K_Ajne = 15) {
     arma::rowvec signs = -2 * m + 4 * arma::ceil(0.5 * m) - 1;
 
     // Series
-    m = PI * (2 * m - 1);
+    m = M_PI * (2 * m - 1);
     arma::mat S = arma::exp(-0.5 * x.elem(ind) * arma::square(m));
     S.each_row() %= signs / m;
 
@@ -694,7 +694,7 @@ arma::vec d_cir_stat_Ajne(arma::vec x, arma::uword K_Ajne = 15) {
     arma::rowvec signs = -2 * m + 4 * arma::ceil(0.5 * m) - 1;
 
     // Series
-    m = PI * (2 * m - 1);
+    m = M_PI * (2 * m - 1);
     arma::mat S = arma::exp(-0.5 * x.elem(ind) * arma::square(m));
     S.each_row() %= signs % m;
 
@@ -718,7 +718,7 @@ arma::vec d_cir_stat_Ajne(arma::vec x, arma::uword K_Ajne = 15) {
 arma::vec p_cir_stat_Range(arma::vec x, arma::uword n, bool max_gap = true) {
 
   // Standardize x
-  x *= inv_two_PI;
+  x *= inv_two_M_PI;
 
   // Transform to minimum gap
   if (max_gap) {
@@ -801,7 +801,7 @@ arma::vec p_cir_stat_Range(arma::vec x, arma::uword n, bool max_gap = true) {
 arma::vec d_cir_stat_Range(arma::vec x, arma::uword n, bool max_gap = true) {
 
   // Standardize x
-  x *= inv_two_PI;
+  x *= inv_two_M_PI;
 
   // Transform to minimum gap
   if (max_gap) {
@@ -835,7 +835,7 @@ arma::vec d_cir_stat_Range(arma::vec x, arma::uword n, bool max_gap = true) {
 
     // Log-terms of the sum
     arma::mat log_S = (n - 2) * arma::log(1 - (1 - x.elem(ind)) * m);
-    log_S.each_row() += log_coef + arma::log((n - 1) * m * inv_two_PI);
+    log_S.each_row() += log_coef + arma::log((n - 1) * m * inv_two_M_PI);
 
     // Kill terms later with exp(log_S) = 0
     log_S.elem(arma::find_nonfinite(log_S)).fill(-arma::datum::inf);
@@ -910,13 +910,13 @@ arma::vec p_cir_stat_Log_gaps(arma::vec x, bool abs_val = true) {
 
   if (abs_val) {
 
-    arma::vec F = 2 * arma::normcdf(x, 0, sqrt_PI_sixth_one) - 1;
+    arma::vec F = 2 * arma::normcdf(x, 0, sqrt_M_PI_sixth_one) - 1;
     F.elem(arma::find(x < 0)).zeros();
     return F;
 
   } else {
 
-    return arma::normcdf(x, 0, sqrt_PI_sixth_one);
+    return arma::normcdf(x, 0, sqrt_M_PI_sixth_one);
 
   }
 
@@ -930,13 +930,13 @@ arma::vec d_cir_stat_Log_gaps(arma::vec x, bool abs_val = true) {
 
   if (abs_val) {
 
-    arma::vec f = 2 * arma::normpdf(x, 0, sqrt_PI_sixth_one);
+    arma::vec f = 2 * arma::normpdf(x, 0, sqrt_M_PI_sixth_one);
     f.elem(arma::find(x < 0)).zeros();
     return f;
 
   } else {
 
-    return arma::normpdf(x, 0, sqrt_PI_sixth_one);
+    return arma::normpdf(x, 0, sqrt_M_PI_sixth_one);
 
   }
 

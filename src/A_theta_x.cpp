@@ -11,8 +11,8 @@ arma::vec p_proj_unif(arma::vec x, arma::uword p, bool log);
 arma::vec t_inv_sqrt_one(arma::vec t);
 
 // Constants
-const double inv_PI = 1.0 / PI;
-const double inv_two_PI = 0.5 / PI;
+const double inv_M_PI = 1.0 / M_PI;
+const double inv_two_M_PI = 0.5 / M_PI;
 
 //' @title Surface area of the intersection of two hyperspherical caps
 //'
@@ -140,7 +140,7 @@ arma::mat A_theta_x(arma::vec theta, arma::vec x, arma::uword p,
 
       // Explicit form
       arma::vec acos = arma::acos(x);
-      A = 1 - (acos + arma::min(0.5 * theta, acos)) * inv_PI;
+      A = 1 - (acos + arma::min(0.5 * theta, acos)) * inv_M_PI;
 
     } else {
 
@@ -170,7 +170,7 @@ arma::mat A_theta_x(arma::vec theta, arma::vec x, arma::uword p,
           integrand %= w_k % d_proj_unif(t_k, p, false);
 
           // Approximate integral
-          A(i) = 0.5 - th_i * inv_two_PI;
+          A(i) = 0.5 - th_i * inv_two_M_PI;
           A(i) += 2 * arma::accu(integrand);
 
         }
@@ -197,7 +197,7 @@ arma::mat A_theta_x(arma::vec theta, arma::vec x, arma::uword p,
       // Explicit form
       arma::mat acos = arma::repmat(arma::acos(x.as_row()), theta.n_elem, 1);
       A = 1 - (acos +
-        arma::min(arma::repmat(0.5 * theta, 1, x.n_elem), acos)) * inv_PI;
+        arma::min(arma::repmat(0.5 * theta, 1, x.n_elem), acos)) * inv_M_PI;
 
     } else {
 
@@ -227,7 +227,7 @@ arma::mat A_theta_x(arma::vec theta, arma::vec x, arma::uword p,
           integrand.each_col() %= w_k % d_proj_unif(t_k, p, false);
 
           // Approximate integral
-          A_i(ind_int) = 0.5 - theta(ind_int) * inv_two_PI;
+          A_i(ind_int) = 0.5 - theta(ind_int) * inv_two_M_PI;
           A_i(ind_int) += 2 * arma::sum(integrand, 0);
 
         }

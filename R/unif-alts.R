@@ -78,7 +78,7 @@
 #'
 #' Prentice, M. J. (1978). On invariant tests of uniformity for directions and
 #' orientations. \emph{The Annals of Statistics}, 6(1):169--176.
-#' \url{https://doi.org/10.1214/aos/1176344075}
+#' \doi{10.1214/aos/1176344075}
 #' @examples
 #' ## Local alternatives diagnostics
 #'
@@ -513,7 +513,7 @@ F_inv_from_f <- function(f, p, Gauss = TRUE, N = 320, K = 1e3, tol = 1e-6,
 #'
 #' Prentice, M. J. (1978). On invariant tests of uniformity for directions and
 #' orientations. \emph{The Annals of Statistics}, 6(1):169--176.
-#' \url{https://doi.org/10.1214/aos/1176344075}
+#' \doi{10.1214/aos/1176344075}
 #' @examples
 #' # bk, vk2, and uk for the PCvM test in p = 3
 #' (bk <- Gegen_coefs_Pn(k = 1:5, type = "PCvM", p = 3))

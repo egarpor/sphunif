@@ -172,8 +172,10 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
                          crit_val = NULL, alpha = c(0.10, 0.05, 0.01),
                          return_stats = TRUE, stats_sorted = FALSE,
                          chunks = ceiling((n * M) / 1e7), cores = 1,
-                         verbose = TRUE, seeds = NULL, Rothman_t = 1 / 3,
-                         Cuesta_Albertos_rand_dirs = NULL,
+                         verbose = TRUE, seeds = NULL, Rayleigh_m = 1, 
+                         coverage_a = 2 * pi, Rothman_t = 1 / 3,
+                         Cressie_t = 1 / 3, Pycke_q = 0.5, Riesz_s = 1, 
+                         Cuesta_Albertos_rand_dirs = NULL, 
                          K_Cuesta_Albertos = 25, Cai_regime = 3, ...) {
 
   # Check dimension
@@ -266,10 +268,13 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
                                             r_H1_args))
 
     # Statistics
-    stats <- unif_stat(data = X, type = type, Rothman_t = Rothman_t,
-                       Cuesta_Albertos_rand_dirs = Cuesta_Albertos_rand_dirs,
-                       Cai_regime = Cai_regime, K_Cuesta_Albertos =
-                         K_Cuesta_Albertos)
+    stats <- unif_stat(data = X, type = type, Rayleigh_m = Rayleigh_m, 
+                       coverage_a = coverage_a, Rothman_t = Rothman_t,
+                       Cressie_t = Cressie_t, Pycke_q = Pycke_q, 
+                       Riesz_s = Riesz_s, Cuesta_Albertos_rand_dirs = 
+                         Cuesta_Albertos_rand_dirs, 
+                       K_Cuesta_Albertos = K_Cuesta_Albertos,
+                       Cai_regime = Cai_regime)
 
     # Remove X and clean memory
     rm(X)

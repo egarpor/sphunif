@@ -52,6 +52,6 @@ unif_test(data = rhea$X[rhea$diam > 15 & rhea$diam < 20, ],
 \references{
 Hirata, N. (2016) Differential impact cratering of Saturn's satellites by
 heliocentric impactors. \emph{Journal of Geophysical Research: Planets},
-121:111--117. \url{https://dx.doi.org/10.1002/2015JE004940}
+121:111--117. \doi{10.1002/2015JE004940}
 }
 \keyword{datasets}

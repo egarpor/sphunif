@@ -126,7 +126,8 @@
 #' @export
 unif_stat_distr <- function(x, type, p, n, approx = "asymp",
                             M = 1e4, stats_MC = NULL, Rothman_t = 1 / 3,
-                            Pycke_q = 0.5, Cuesta_Albertos_rand_dirs = NULL,
+                            Pycke_q = 0.5, Riesz_s = 1, 
+                            Cuesta_Albertos_rand_dirs = NULL, 
                             Cai_regime = 3, Cai_beta = 0,
                             Stephens = FALSE, K_Kuiper = 25, K_Watson = 25,
                             K_Watson_1976 = 5, K_Ajne = 5e2,
@@ -229,7 +230,7 @@ unif_stat_distr <- function(x, type, p, n, approx = "asymp",
   if (approx == "asymp") {
 
     # Optional arguments
-    args <- list("t" = Rothman_t, "q" = Pycke_q,
+    args <- list("t" = Rothman_t, "q" = Pycke_q, "s" = Riesz_s,
                  "rand_dirs" = Cuesta_Albertos_rand_dirs,
                  "regime" = Cai_regime, "beta" = Cai_beta,
                  "Stephens" = Stephens, "K_Kuiper" = K_Kuiper,

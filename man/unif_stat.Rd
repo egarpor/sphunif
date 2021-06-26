@@ -6,7 +6,7 @@
 \usage{
 unif_stat(data, type = "all", data_sorted = FALSE, Rayleigh_m = 1,
   coverage_a = 2 * pi, Rothman_t = 1/3, Cressie_t = 1/3, Pycke_q = 0.5,
-  Cuesta_Albertos_rand_dirs = NULL, K_Cuesta_Albertos = 25,
+  Riesz_s = 1, Cuesta_Albertos_rand_dirs = NULL, K_Cuesta_Albertos = 25,
   Cai_regime = 3)
 }
 \arguments{
@@ -47,6 +47,9 @@ of the coverage-based tests. Must be positive. Defaults to \code{2 * pi}.}
 
 \item{Pycke_q}{\eqn{q} parameter for the Pycke "\eqn{q}-test", a real in
 \eqn{(0, 1)}. Defaults to \code{1 / 2}.}
+
+\item{Riesz_s}{\eqn{s} parameter for the \eqn{s}-Riesz test, a real in
+\eqn{(0, 2)}. Defaults to \code{1}.}
 
 \item{Cuesta_Albertos_rand_dirs}{a matrix of size \code{c(n_proj, p)}
 containing \code{n_proj} random directions (in Cartesian coordinates) on

@@ -1,5 +1,4 @@
-sphunif
-=======
+# sphunif
 
 [![License:
 GPLv3](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
@@ -10,8 +9,7 @@ GPLv3](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://www.gnu.org
 
 <!-- <img src="" alt="sphunif  hexlogo" align="right" width="200" style="padding: 0 15px; float: right;"/> -->
 
-Overview
---------
+## Overview
 
 Implementation of circa 30 tests of uniformity on the circle, sphere,
 and hypersphere. Software companion for the (evolving) review “*An
@@ -20,8 +18,7 @@ Verdebout, 2018) and the paper “*On a projection-based class of
 uniformity tests on the hypersphere*” (García-Portugués, Navarro-Esteban
 and Cuesta-Albertos, 2020).
 
-Installation
-------------
+## Installation
 
 Get the latest version from GitHub:
 
@@ -34,8 +31,7 @@ install_github("egarpor/sphunif")
 library(sphunif)
 ```
 
-Usage
------
+## Usage
 
 ### Circular data
 
@@ -73,7 +69,7 @@ unif_test(data = cir_data, type = "Kuiper", p_value = "MC",
 #>  Kuiper test of circular uniformity
 #> 
 #> data:  cir_data
-#> statistic = 0.89659, p-value = 0.8528
+#> statistic = 0.89659, p-value = 0.847
 #> alternative hypothesis: any alternative to circular uniformity
 unif_test(data = cir_data, type = "Kuiper", p_value = "asymp") # Asymp. distr.
 #> 
@@ -95,8 +91,8 @@ avail_cir_tests
 #> [13] "Hodges_Ajne"     "Kuiper"          "Log_gaps"        "Max_uncover"    
 #> [17] "Num_uncover"     "PAD"             "PCvM"            "PRt"            
 #> [21] "Pycke"           "Pycke_q"         "Range"           "Rao"            
-#> [25] "Rayleigh"        "Riesz"           "Rothman"         "Vacancy"        
-#> [29] "Watson"          "Watson_1976"
+#> [25] "Rayleigh"        "Rothman"         "Vacancy"         "Watson"         
+#> [29] "Watson_1976"
 ```
 
 For example:
@@ -152,7 +148,7 @@ avail_sph_tests
 #>  [1] "Ajne"            "Bakshaev"        "Bingham"         "Cai"            
 #>  [5] "Cuesta_Albertos" "Gine_Fn"         "Gine_Gn"         "PAD"            
 #>  [9] "PCvM"            "PRt"             "Pycke"           "Rayleigh"       
-#> [13] "Rayleigh_HD"     "Riesz"
+#> [13] "Rayleigh_HD"
 ```
 
 The default `type = "all"` equals `type = avail_sph_tests`:
@@ -164,7 +160,7 @@ unif_test(data = sph_data, type = "all", p_value = "MC", verbose = FALSE)
 #>  Ajne test of spherical uniformity
 #> 
 #> data:  sph_data
-#> statistic = 0.079876, p-value = 0.9534
+#> statistic = 0.079876, p-value = 0.9561
 #> alternative hypothesis: any non-axial alternative to spherical uniformity
 #> 
 #> 
@@ -173,7 +169,7 @@ unif_test(data = sph_data, type = "all", p_value = "MC", verbose = FALSE)
 #>  Bakshaev test of spherical uniformity
 #> 
 #> data:  sph_data
-#> statistic = 1.2727, p-value = 0.4413
+#> statistic = 1.2727, p-value = 0.4331
 #> alternative hypothesis: any alternative to spherical uniformity
 #> 
 #> 
@@ -191,7 +187,7 @@ unif_test(data = sph_data, type = "all", p_value = "MC", verbose = FALSE)
 #>  Cai test of spherical uniformity
 #> 
 #> data:  sph_data
-#> statistic = 27.401, p-value = 0.2633
+#> statistic = 27.401, p-value = 0.2645
 #> alternative hypothesis: unclear consistency
 #> 
 #> 
@@ -209,7 +205,7 @@ unif_test(data = sph_data, type = "all", p_value = "MC", verbose = FALSE)
 #>  Gine's Fn test of spherical uniformity
 #> 
 #> data:  sph_data
-#> statistic = 1.8889, p-value = 0.2225
+#> statistic = 1.8889, p-value = 0.2114
 #> alternative hypothesis: any alternative to spherical uniformity
 #> 
 #> 
@@ -227,7 +223,7 @@ unif_test(data = sph_data, type = "all", p_value = "MC", verbose = FALSE)
 #>  Projected Anderson-Darling test of spherical uniformity
 #> 
 #> data:  sph_data
-#> statistic = 1.1068, p-value = 0.3162
+#> statistic = 1.1068, p-value = 0.3104
 #> alternative hypothesis: any alternative to spherical uniformity
 #> 
 #> 
@@ -236,7 +232,7 @@ unif_test(data = sph_data, type = "all", p_value = "MC", verbose = FALSE)
 #>  Projected Cramer-von Mises test of spherical uniformity
 #> 
 #> data:  sph_data
-#> statistic = 0.15909, p-value = 0.4413
+#> statistic = 0.15909, p-value = 0.4331
 #> alternative hypothesis: any alternative to spherical uniformity
 #> 
 #> 
@@ -245,7 +241,7 @@ unif_test(data = sph_data, type = "all", p_value = "MC", verbose = FALSE)
 #>  Projected Rothman test of spherical uniformity with t = 0.333
 #> 
 #> data:  sph_data
-#> statistic = 0.19003, p-value = 0.5164
+#> statistic = 0.19003, p-value = 0.5048
 #> alternative hypothesis: any alternative to spherical uniformity if t is irrational
 #> 
 #> 
@@ -254,7 +250,7 @@ unif_test(data = sph_data, type = "all", p_value = "MC", verbose = FALSE)
 #>  Pycke test of spherical uniformity
 #> 
 #> data:  sph_data
-#> statistic = 0.091169, p-value = 0.1857
+#> statistic = 0.091169, p-value = 0.1746
 #> alternative hypothesis: any alternative to spherical uniformity
 #> 
 #> 
@@ -263,7 +259,7 @@ unif_test(data = sph_data, type = "all", p_value = "MC", verbose = FALSE)
 #>  Rayleigh test of spherical uniformity
 #> 
 #> data:  sph_data
-#> statistic = 0.52692, p-value = 0.9125
+#> statistic = 0.52692, p-value = 0.9155
 #> alternative hypothesis: mean direction different from zero
 #> 
 #> 
@@ -272,17 +268,8 @@ unif_test(data = sph_data, type = "all", p_value = "MC", verbose = FALSE)
 #>  HD-standardized Rayleigh test of spherical uniformity
 #> 
 #> data:  sph_data
-#> statistic = -1.0096, p-value = 0.9125
+#> statistic = -1.0096, p-value = 0.9155
 #> alternative hypothesis: mean direction different from zero
-#> 
-#> 
-#> $Riesz
-#> 
-#>  Riesz test of spherical uniformity
-#> 
-#> data:  sph_data
-#> statistic = 1.2727, p-value = 0.4413
-#> alternative hypothesis: any alternative to spherical uniformity
 unif_test(data = sph_data, type = "Rayleigh", p_value = "asymp")
 #> 
 #>  Rayleigh test of spherical uniformity
@@ -314,8 +301,7 @@ unif_test(data = hyp_data, type = "Rayleigh", p_value = "asymp")
 #> alternative hypothesis: mean direction different from zero
 ```
 
-Data applications in astronomy
-------------------------------
+## Data applications in astronomy
 
 The data applications in García-Portugués, Navarro-Esteban and
 Cuesta-Albertos (2020) can be reproduced through the script
@@ -409,14 +395,12 @@ tests_ccf2009
 #> alternative hypothesis: any alternative to spherical uniformity if t is irrational
 ```
 
-References
-----------
+## References
 
 García-Portugués, E., Navarro-Esteban, P., and Cuesta-Albertos, J. A.
 (2020). On a projection-based class of uniformity tests on the
-hypersphere. *arXiv:2008.09897*.
-<a href="https://arxiv.org/abs/2008.09897" class="uri">https://arxiv.org/abs/2008.09897</a>
+hypersphere. *arXiv:2008.09897*. <https://arxiv.org/abs/2008.09897>
 
 García-Portugués, E. and Verdebout, T. (2018). An overview of uniformity
 tests on the hypersphere. *arXiv:1804.00286*.
-<a href="https://arxiv.org/abs/1804.00286" class="uri">https://arxiv.org/abs/1804.00286</a>
+<https://arxiv.org/abs/1804.00286>

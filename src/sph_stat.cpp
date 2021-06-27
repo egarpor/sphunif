@@ -516,13 +516,22 @@ arma::vec sph_stat_PCvM(arma::cube X, bool Psi_in_X = false, arma::uword p = 0,
       arma::vec t_k = Gauss_Legen_nodes(0, cos_theta, N);
       arma::vec w_k = Gauss_Legen_weights(0, cos_theta, N);
 
-      // Integral
+      // Integral with integrand in log-form
+      /*
       int_grid(k) = arma::accu(w_k % d_proj_unif(t_k, p, false) %
                                p_proj_unif(t_k, p, false) %
                                p_proj_unif(std::tan(0.5 * theta) *
                                  t_inv_sqrt_one(t_k), p - 1, false));
+      */
+      int_grid(k) = arma::accu(arma::exp(
+        arma::log(w_k) + d_proj_unif(t_k, p, true) + p_proj_unif(t_k, p, true) +
+          p_proj_unif(std::tan(0.5 * theta) * t_inv_sqrt_one(t_k), p - 1, true)
+      ));
 
     }
+
+    // Debug int_grid
+    int_grid.print();
 
   }
 
@@ -663,11 +672,22 @@ arma::vec sph_stat_PRt(arma::cube X, double t = 1.0 / 3.0,
     // Integral
     for (arma::uword k = 0; k < L; k++) {
 
+      // Integrand in log-form
+      /*
       int_grid(k) = arma::accu(w_k % d_proj_unif(t_k, p, false) %
                                p_proj_unif(std::tan(0.5 * th_grid(k)) *
                                  t_inv_sqrt_one(t_k), p - 1, false));
+      */
+      int_grid(k) = arma::accu(arma::exp(
+        arma::log(w_k) + d_proj_unif(t_k, p, true) +
+        p_proj_unif(std::tan(0.5 * th_grid(k)) * t_inv_sqrt_one(t_k),
+                    p - 1, true)
+      ));
 
     }
+
+    // Debug int_grid
+    int_grid.print();
 
   }
 
@@ -761,7 +781,8 @@ arma::vec sph_stat_PRt_Psi(arma::mat Psi, double t_m, double theta_t_m,
       arma::interp1(th_grid, int_grid, Psi.elem(ind_var), int_interp);
 
       // Integral
-      Psi.elem(ind_var) = t_m - Psi.elem(ind_var) * inv_two_M_PI + 2 * int_interp;
+      Psi.elem(ind_var) = t_m - Psi.elem(ind_var) * inv_two_M_PI +
+        2 * int_interp;
 
     } else {
 
@@ -830,12 +851,13 @@ arma::vec sph_stat_PAD(arma::cube X, bool Psi_in_X = false, arma::uword p = 0,
 
       } else if (p > 4){
 
+        // Integrand in log-form
         int_grid(k) =
           arma::accu(w_k % d_proj_unif(t_k, p, false) %
                      arma::log(1.0 / p_proj_unif(-t_k, p, false) - 1.0) %
                      p_proj_unif(-std::tan(0.5 * theta) * t_inv_sqrt_one(t_k),
                                  p - 1, false));
-
+         
       } else {
 
         stop("p must be >= 2");
@@ -843,6 +865,9 @@ arma::vec sph_stat_PAD(arma::cube X, bool Psi_in_X = false, arma::uword p = 0,
       }
 
     }
+    
+    // Debug int_grid
+    int_grid.print();
 
   }
 

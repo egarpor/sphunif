@@ -145,10 +145,8 @@ arma::vec p_proj_unif(arma::vec x, arma::uword p, bool log = false) {
   // General case
   } else {
 
-
     F0 = -log_two + arma::log1p(arma::sign(x) %
       beta_inc(arma::square(x), 0.5, 0.5 * (p - 1), true, false));
-
 
   }
 

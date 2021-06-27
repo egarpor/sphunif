@@ -1,7 +1,7 @@
 Package: sphunif
 Type: Package
 Title: Uniformity Tests on the Circle, Sphere, and Hypersphere
-Version: 0.1.0.90007
+Version: 0.1.0.90008
 Date: 2021-06-26
 Authors@R: c(
      person(given = "Eduardo", family = "García-Portugués",

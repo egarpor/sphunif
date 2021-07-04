@@ -649,6 +649,159 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// p_cir_stat_Ajne
+arma::vec p_cir_stat_Ajne(arma::vec x, arma::uword K_Ajne);
+RcppExport SEXP _sphunif_p_cir_stat_Ajne(SEXP xSEXP, SEXP K_AjneSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
+    Rcpp::traits::input_parameter< arma::uword >::type K_Ajne(K_AjneSEXP);
+    rcpp_result_gen = Rcpp::wrap(p_cir_stat_Ajne(x, K_Ajne));
+    return rcpp_result_gen;
+END_RCPP
+}
+// d_cir_stat_Ajne
+arma::vec d_cir_stat_Ajne(arma::vec x, arma::uword K_Ajne);
+RcppExport SEXP _sphunif_d_cir_stat_Ajne(SEXP xSEXP, SEXP K_AjneSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
+    Rcpp::traits::input_parameter< arma::uword >::type K_Ajne(K_AjneSEXP);
+    rcpp_result_gen = Rcpp::wrap(d_cir_stat_Ajne(x, K_Ajne));
+    return rcpp_result_gen;
+END_RCPP
+}
+// p_cir_stat_Bingham
+arma::vec p_cir_stat_Bingham(arma::vec x);
+RcppExport SEXP _sphunif_p_cir_stat_Bingham(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(p_cir_stat_Bingham(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// d_cir_stat_Bingham
+arma::vec d_cir_stat_Bingham(arma::vec x);
+RcppExport SEXP _sphunif_d_cir_stat_Bingham(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(d_cir_stat_Bingham(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// p_cir_stat_Greenwood
+arma::vec p_cir_stat_Greenwood(arma::vec x);
+RcppExport SEXP _sphunif_p_cir_stat_Greenwood(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(p_cir_stat_Greenwood(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// d_cir_stat_Greenwood
+arma::vec d_cir_stat_Greenwood(arma::vec x);
+RcppExport SEXP _sphunif_d_cir_stat_Greenwood(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(d_cir_stat_Greenwood(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// p_cir_stat_Gini
+arma::vec p_cir_stat_Gini(arma::vec x);
+RcppExport SEXP _sphunif_p_cir_stat_Gini(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(p_cir_stat_Gini(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// d_cir_stat_Gini
+arma::vec d_cir_stat_Gini(arma::vec x);
+RcppExport SEXP _sphunif_d_cir_stat_Gini(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(d_cir_stat_Gini(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// p_cir_stat_Gini_squared
+arma::vec p_cir_stat_Gini_squared(arma::vec x);
+RcppExport SEXP _sphunif_p_cir_stat_Gini_squared(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(p_cir_stat_Gini_squared(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// d_cir_stat_Gini_squared
+arma::vec d_cir_stat_Gini_squared(arma::vec x);
+RcppExport SEXP _sphunif_d_cir_stat_Gini_squared(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(d_cir_stat_Gini_squared(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// p_cir_stat_Hodges_Ajne2
+arma::vec p_cir_stat_Hodges_Ajne2(arma::vec x, arma::uword n, bool asymp_std);
+RcppExport SEXP _sphunif_p_cir_stat_Hodges_Ajne2(SEXP xSEXP, SEXP nSEXP, SEXP asymp_stdSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
+    Rcpp::traits::input_parameter< arma::uword >::type n(nSEXP);
+    Rcpp::traits::input_parameter< bool >::type asymp_std(asymp_stdSEXP);
+    rcpp_result_gen = Rcpp::wrap(p_cir_stat_Hodges_Ajne2(x, n, asymp_std));
+    return rcpp_result_gen;
+END_RCPP
+}
+// p_cir_stat_Hodges_Ajne
+arma::vec p_cir_stat_Hodges_Ajne(arma::vec x, arma::uword n, bool exact, bool asymp_std);
+RcppExport SEXP _sphunif_p_cir_stat_Hodges_Ajne(SEXP xSEXP, SEXP nSEXP, SEXP exactSEXP, SEXP asymp_stdSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
+    Rcpp::traits::input_parameter< arma::uword >::type n(nSEXP);
+    Rcpp::traits::input_parameter< bool >::type exact(exactSEXP);
+    Rcpp::traits::input_parameter< bool >::type asymp_std(asymp_stdSEXP);
+    rcpp_result_gen = Rcpp::wrap(p_cir_stat_Hodges_Ajne(x, n, exact, asymp_std));
+    return rcpp_result_gen;
+END_RCPP
+}
+// d_cir_stat_Hodges_Ajne
+arma::vec d_cir_stat_Hodges_Ajne(arma::vec x, arma::uword n, bool exact, bool asymp_std);
+RcppExport SEXP _sphunif_d_cir_stat_Hodges_Ajne(SEXP xSEXP, SEXP nSEXP, SEXP exactSEXP, SEXP asymp_stdSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
+    Rcpp::traits::input_parameter< arma::uword >::type n(nSEXP);
+    Rcpp::traits::input_parameter< bool >::type exact(exactSEXP);
+    Rcpp::traits::input_parameter< bool >::type asymp_std(asymp_stdSEXP);
+    rcpp_result_gen = Rcpp::wrap(d_cir_stat_Hodges_Ajne(x, n, exact, asymp_std));
+    return rcpp_result_gen;
+END_RCPP
+}
 // p_cir_stat_Kuiper
 arma::vec p_cir_stat_Kuiper(arma::vec x, arma::uword n, arma::uword K_Kuiper, bool second_term, bool Stephens);
 RcppExport SEXP _sphunif_p_cir_stat_Kuiper(SEXP xSEXP, SEXP nSEXP, SEXP K_KuiperSEXP, SEXP second_termSEXP, SEXP StephensSEXP) {
@@ -676,6 +829,118 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< bool >::type second_term(second_termSEXP);
     Rcpp::traits::input_parameter< bool >::type Stephens(StephensSEXP);
     rcpp_result_gen = Rcpp::wrap(d_cir_stat_Kuiper(x, n, K_Kuiper, second_term, Stephens));
+    return rcpp_result_gen;
+END_RCPP
+}
+// p_cir_stat_Log_gaps
+arma::vec p_cir_stat_Log_gaps(arma::vec x, bool abs_val);
+RcppExport SEXP _sphunif_p_cir_stat_Log_gaps(SEXP xSEXP, SEXP abs_valSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
+    Rcpp::traits::input_parameter< bool >::type abs_val(abs_valSEXP);
+    rcpp_result_gen = Rcpp::wrap(p_cir_stat_Log_gaps(x, abs_val));
+    return rcpp_result_gen;
+END_RCPP
+}
+// d_cir_stat_Log_gaps
+arma::vec d_cir_stat_Log_gaps(arma::vec x, bool abs_val);
+RcppExport SEXP _sphunif_d_cir_stat_Log_gaps(SEXP xSEXP, SEXP abs_valSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
+    Rcpp::traits::input_parameter< bool >::type abs_val(abs_valSEXP);
+    rcpp_result_gen = Rcpp::wrap(d_cir_stat_Log_gaps(x, abs_val));
+    return rcpp_result_gen;
+END_RCPP
+}
+// p_cir_stat_Max_uncover
+arma::vec p_cir_stat_Max_uncover(arma::vec x);
+RcppExport SEXP _sphunif_p_cir_stat_Max_uncover(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(p_cir_stat_Max_uncover(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// d_cir_stat_Max_uncover
+arma::vec d_cir_stat_Max_uncover(arma::vec x);
+RcppExport SEXP _sphunif_d_cir_stat_Max_uncover(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(d_cir_stat_Max_uncover(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// p_cir_stat_Num_uncover
+arma::vec p_cir_stat_Num_uncover(arma::vec x);
+RcppExport SEXP _sphunif_p_cir_stat_Num_uncover(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(p_cir_stat_Num_uncover(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// d_cir_stat_Num_uncover
+arma::vec d_cir_stat_Num_uncover(arma::vec x);
+RcppExport SEXP _sphunif_d_cir_stat_Num_uncover(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(d_cir_stat_Num_uncover(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// p_cir_stat_Pycke
+arma::vec p_cir_stat_Pycke(arma::vec x);
+RcppExport SEXP _sphunif_p_cir_stat_Pycke(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(p_cir_stat_Pycke(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// d_cir_stat_Pycke
+arma::vec d_cir_stat_Pycke(arma::vec x);
+RcppExport SEXP _sphunif_d_cir_stat_Pycke(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(d_cir_stat_Pycke(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// p_cir_stat_Vacancy
+arma::vec p_cir_stat_Vacancy(arma::vec x);
+RcppExport SEXP _sphunif_p_cir_stat_Vacancy(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(p_cir_stat_Vacancy(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// d_cir_stat_Vacancy
+arma::vec d_cir_stat_Vacancy(arma::vec x);
+RcppExport SEXP _sphunif_d_cir_stat_Vacancy(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(d_cir_stat_Vacancy(x));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -732,71 +997,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// p_cir_stat_Hodges_Ajne2
-arma::vec p_cir_stat_Hodges_Ajne2(arma::vec x, arma::uword n, bool asymp_std);
-RcppExport SEXP _sphunif_p_cir_stat_Hodges_Ajne2(SEXP xSEXP, SEXP nSEXP, SEXP asymp_stdSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
-    Rcpp::traits::input_parameter< arma::uword >::type n(nSEXP);
-    Rcpp::traits::input_parameter< bool >::type asymp_std(asymp_stdSEXP);
-    rcpp_result_gen = Rcpp::wrap(p_cir_stat_Hodges_Ajne2(x, n, asymp_std));
-    return rcpp_result_gen;
-END_RCPP
-}
-// p_cir_stat_Hodges_Ajne
-arma::vec p_cir_stat_Hodges_Ajne(arma::vec x, arma::uword n, bool exact, bool asymp_std);
-RcppExport SEXP _sphunif_p_cir_stat_Hodges_Ajne(SEXP xSEXP, SEXP nSEXP, SEXP exactSEXP, SEXP asymp_stdSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
-    Rcpp::traits::input_parameter< arma::uword >::type n(nSEXP);
-    Rcpp::traits::input_parameter< bool >::type exact(exactSEXP);
-    Rcpp::traits::input_parameter< bool >::type asymp_std(asymp_stdSEXP);
-    rcpp_result_gen = Rcpp::wrap(p_cir_stat_Hodges_Ajne(x, n, exact, asymp_std));
-    return rcpp_result_gen;
-END_RCPP
-}
-// d_cir_stat_Hodges_Ajne
-arma::vec d_cir_stat_Hodges_Ajne(arma::vec x, arma::uword n, bool exact, bool asymp_std);
-RcppExport SEXP _sphunif_d_cir_stat_Hodges_Ajne(SEXP xSEXP, SEXP nSEXP, SEXP exactSEXP, SEXP asymp_stdSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
-    Rcpp::traits::input_parameter< arma::uword >::type n(nSEXP);
-    Rcpp::traits::input_parameter< bool >::type exact(exactSEXP);
-    Rcpp::traits::input_parameter< bool >::type asymp_std(asymp_stdSEXP);
-    rcpp_result_gen = Rcpp::wrap(d_cir_stat_Hodges_Ajne(x, n, exact, asymp_std));
-    return rcpp_result_gen;
-END_RCPP
-}
-// p_cir_stat_Ajne
-arma::vec p_cir_stat_Ajne(arma::vec x, arma::uword K_Ajne);
-RcppExport SEXP _sphunif_p_cir_stat_Ajne(SEXP xSEXP, SEXP K_AjneSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
-    Rcpp::traits::input_parameter< arma::uword >::type K_Ajne(K_AjneSEXP);
-    rcpp_result_gen = Rcpp::wrap(p_cir_stat_Ajne(x, K_Ajne));
-    return rcpp_result_gen;
-END_RCPP
-}
-// d_cir_stat_Ajne
-arma::vec d_cir_stat_Ajne(arma::vec x, arma::uword K_Ajne);
-RcppExport SEXP _sphunif_d_cir_stat_Ajne(SEXP xSEXP, SEXP K_AjneSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
-    Rcpp::traits::input_parameter< arma::uword >::type K_Ajne(K_AjneSEXP);
-    rcpp_result_gen = Rcpp::wrap(d_cir_stat_Ajne(x, K_Ajne));
-    return rcpp_result_gen;
-END_RCPP
-}
 // p_cir_stat_Range
 arma::vec p_cir_stat_Range(arma::vec x, arma::uword n, bool max_gap);
 RcppExport SEXP _sphunif_p_cir_stat_Range(SEXP xSEXP, SEXP nSEXP, SEXP max_gapSEXP) {
@@ -845,162 +1045,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// p_cir_stat_Greenwood
-arma::vec p_cir_stat_Greenwood(arma::vec x);
-RcppExport SEXP _sphunif_p_cir_stat_Greenwood(SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(p_cir_stat_Greenwood(x));
-    return rcpp_result_gen;
-END_RCPP
-}
-// d_cir_stat_Greenwood
-arma::vec d_cir_stat_Greenwood(arma::vec x);
-RcppExport SEXP _sphunif_d_cir_stat_Greenwood(SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(d_cir_stat_Greenwood(x));
-    return rcpp_result_gen;
-END_RCPP
-}
-// p_cir_stat_Log_gaps
-arma::vec p_cir_stat_Log_gaps(arma::vec x, bool abs_val);
-RcppExport SEXP _sphunif_p_cir_stat_Log_gaps(SEXP xSEXP, SEXP abs_valSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
-    Rcpp::traits::input_parameter< bool >::type abs_val(abs_valSEXP);
-    rcpp_result_gen = Rcpp::wrap(p_cir_stat_Log_gaps(x, abs_val));
-    return rcpp_result_gen;
-END_RCPP
-}
-// d_cir_stat_Log_gaps
-arma::vec d_cir_stat_Log_gaps(arma::vec x, bool abs_val);
-RcppExport SEXP _sphunif_d_cir_stat_Log_gaps(SEXP xSEXP, SEXP abs_valSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
-    Rcpp::traits::input_parameter< bool >::type abs_val(abs_valSEXP);
-    rcpp_result_gen = Rcpp::wrap(d_cir_stat_Log_gaps(x, abs_val));
-    return rcpp_result_gen;
-END_RCPP
-}
-// p_cir_stat_Vacancy
-arma::vec p_cir_stat_Vacancy(arma::vec x);
-RcppExport SEXP _sphunif_p_cir_stat_Vacancy(SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(p_cir_stat_Vacancy(x));
-    return rcpp_result_gen;
-END_RCPP
-}
-// d_cir_stat_Vacancy
-arma::vec d_cir_stat_Vacancy(arma::vec x);
-RcppExport SEXP _sphunif_d_cir_stat_Vacancy(SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(d_cir_stat_Vacancy(x));
-    return rcpp_result_gen;
-END_RCPP
-}
-// p_cir_stat_Max_uncover
-arma::vec p_cir_stat_Max_uncover(arma::vec x);
-RcppExport SEXP _sphunif_p_cir_stat_Max_uncover(SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(p_cir_stat_Max_uncover(x));
-    return rcpp_result_gen;
-END_RCPP
-}
-// d_cir_stat_Max_uncover
-arma::vec d_cir_stat_Max_uncover(arma::vec x);
-RcppExport SEXP _sphunif_d_cir_stat_Max_uncover(SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(d_cir_stat_Max_uncover(x));
-    return rcpp_result_gen;
-END_RCPP
-}
-// p_cir_stat_Num_uncover
-arma::vec p_cir_stat_Num_uncover(arma::vec x);
-RcppExport SEXP _sphunif_p_cir_stat_Num_uncover(SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(p_cir_stat_Num_uncover(x));
-    return rcpp_result_gen;
-END_RCPP
-}
-// d_cir_stat_Num_uncover
-arma::vec d_cir_stat_Num_uncover(arma::vec x);
-RcppExport SEXP _sphunif_d_cir_stat_Num_uncover(SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(d_cir_stat_Num_uncover(x));
-    return rcpp_result_gen;
-END_RCPP
-}
-// p_cir_stat_Gini
-arma::vec p_cir_stat_Gini(arma::vec x);
-RcppExport SEXP _sphunif_p_cir_stat_Gini(SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(p_cir_stat_Gini(x));
-    return rcpp_result_gen;
-END_RCPP
-}
-// d_cir_stat_Gini
-arma::vec d_cir_stat_Gini(arma::vec x);
-RcppExport SEXP _sphunif_d_cir_stat_Gini(SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(d_cir_stat_Gini(x));
-    return rcpp_result_gen;
-END_RCPP
-}
-// p_cir_stat_Gini_squared
-arma::vec p_cir_stat_Gini_squared(arma::vec x);
-RcppExport SEXP _sphunif_p_cir_stat_Gini_squared(SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(p_cir_stat_Gini_squared(x));
-    return rcpp_result_gen;
-END_RCPP
-}
-// d_cir_stat_Gini_squared
-arma::vec d_cir_stat_Gini_squared(arma::vec x);
-RcppExport SEXP _sphunif_d_cir_stat_Gini_squared(SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(d_cir_stat_Gini_squared(x));
-    return rcpp_result_gen;
-END_RCPP
-}
 // p_cir_stat_Rayleigh
 arma::vec p_cir_stat_Rayleigh(arma::vec x);
 RcppExport SEXP _sphunif_p_cir_stat_Rayleigh(SEXP xSEXP) {
@@ -1020,50 +1064,6 @@ BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
     rcpp_result_gen = Rcpp::wrap(d_cir_stat_Rayleigh(x));
-    return rcpp_result_gen;
-END_RCPP
-}
-// p_cir_stat_Bingham
-arma::vec p_cir_stat_Bingham(arma::vec x);
-RcppExport SEXP _sphunif_p_cir_stat_Bingham(SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(p_cir_stat_Bingham(x));
-    return rcpp_result_gen;
-END_RCPP
-}
-// d_cir_stat_Bingham
-arma::vec d_cir_stat_Bingham(arma::vec x);
-RcppExport SEXP _sphunif_d_cir_stat_Bingham(SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(d_cir_stat_Bingham(x));
-    return rcpp_result_gen;
-END_RCPP
-}
-// p_cir_stat_Pycke
-arma::vec p_cir_stat_Pycke(arma::vec x);
-RcppExport SEXP _sphunif_p_cir_stat_Pycke(SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(p_cir_stat_Pycke(x));
-    return rcpp_result_gen;
-END_RCPP
-}
-// d_cir_stat_Pycke
-arma::vec d_cir_stat_Pycke(arma::vec x);
-RcppExport SEXP _sphunif_d_cir_stat_Pycke(SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(d_cir_stat_Pycke(x));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1211,30 +1211,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// p_sph_stat_Rayleigh
-arma::vec p_sph_stat_Rayleigh(arma::vec x, arma::uword p);
-RcppExport SEXP _sphunif_p_sph_stat_Rayleigh(SEXP xSEXP, SEXP pSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
-    Rcpp::traits::input_parameter< arma::uword >::type p(pSEXP);
-    rcpp_result_gen = Rcpp::wrap(p_sph_stat_Rayleigh(x, p));
-    return rcpp_result_gen;
-END_RCPP
-}
-// d_sph_stat_Rayleigh
-arma::vec d_sph_stat_Rayleigh(arma::vec x, arma::uword p);
-RcppExport SEXP _sphunif_d_sph_stat_Rayleigh(SEXP xSEXP, SEXP pSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
-    Rcpp::traits::input_parameter< arma::uword >::type p(pSEXP);
-    rcpp_result_gen = Rcpp::wrap(d_sph_stat_Rayleigh(x, p));
-    return rcpp_result_gen;
-END_RCPP
-}
 // p_sph_stat_Bingham
 arma::vec p_sph_stat_Bingham(arma::vec x, arma::uword p);
 RcppExport SEXP _sphunif_p_sph_stat_Bingham(SEXP xSEXP, SEXP pSEXP) {
@@ -1256,30 +1232,6 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
     Rcpp::traits::input_parameter< arma::uword >::type p(pSEXP);
     rcpp_result_gen = Rcpp::wrap(d_sph_stat_Bingham(x, p));
-    return rcpp_result_gen;
-END_RCPP
-}
-// p_sph_stat_Rayleigh_HD
-arma::vec p_sph_stat_Rayleigh_HD(arma::vec x, arma::uword p);
-RcppExport SEXP _sphunif_p_sph_stat_Rayleigh_HD(SEXP xSEXP, SEXP pSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
-    Rcpp::traits::input_parameter< arma::uword >::type p(pSEXP);
-    rcpp_result_gen = Rcpp::wrap(p_sph_stat_Rayleigh_HD(x, p));
-    return rcpp_result_gen;
-END_RCPP
-}
-// d_sph_stat_Rayleigh_HD
-arma::vec d_sph_stat_Rayleigh_HD(arma::vec x, arma::uword p);
-RcppExport SEXP _sphunif_d_sph_stat_Rayleigh_HD(SEXP xSEXP, SEXP pSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
-    Rcpp::traits::input_parameter< arma::uword >::type p(pSEXP);
-    rcpp_result_gen = Rcpp::wrap(d_sph_stat_Rayleigh_HD(x, p));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1306,6 +1258,54 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< arma::uword >::type regime(regimeSEXP);
     Rcpp::traits::input_parameter< double >::type beta(betaSEXP);
     rcpp_result_gen = Rcpp::wrap(d_sph_stat_Cai(x, regime, beta));
+    return rcpp_result_gen;
+END_RCPP
+}
+// p_sph_stat_Rayleigh
+arma::vec p_sph_stat_Rayleigh(arma::vec x, arma::uword p);
+RcppExport SEXP _sphunif_p_sph_stat_Rayleigh(SEXP xSEXP, SEXP pSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
+    Rcpp::traits::input_parameter< arma::uword >::type p(pSEXP);
+    rcpp_result_gen = Rcpp::wrap(p_sph_stat_Rayleigh(x, p));
+    return rcpp_result_gen;
+END_RCPP
+}
+// d_sph_stat_Rayleigh
+arma::vec d_sph_stat_Rayleigh(arma::vec x, arma::uword p);
+RcppExport SEXP _sphunif_d_sph_stat_Rayleigh(SEXP xSEXP, SEXP pSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
+    Rcpp::traits::input_parameter< arma::uword >::type p(pSEXP);
+    rcpp_result_gen = Rcpp::wrap(d_sph_stat_Rayleigh(x, p));
+    return rcpp_result_gen;
+END_RCPP
+}
+// p_sph_stat_Rayleigh_HD
+arma::vec p_sph_stat_Rayleigh_HD(arma::vec x, arma::uword p);
+RcppExport SEXP _sphunif_p_sph_stat_Rayleigh_HD(SEXP xSEXP, SEXP pSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
+    Rcpp::traits::input_parameter< arma::uword >::type p(pSEXP);
+    rcpp_result_gen = Rcpp::wrap(p_sph_stat_Rayleigh_HD(x, p));
+    return rcpp_result_gen;
+END_RCPP
+}
+// d_sph_stat_Rayleigh_HD
+arma::vec d_sph_stat_Rayleigh_HD(arma::vec x, arma::uword p);
+RcppExport SEXP _sphunif_d_sph_stat_Rayleigh_HD(SEXP xSEXP, SEXP pSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
+    Rcpp::traits::input_parameter< arma::uword >::type p(pSEXP);
+    rcpp_result_gen = Rcpp::wrap(d_sph_stat_Rayleigh_HD(x, p));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1658,41 +1658,41 @@ static const R_CallMethodDef CallEntries[] = {
     {"_sphunif_cir_stat_Cuesta_Albertos", (DL_FUNC) &_sphunif_cir_stat_Cuesta_Albertos, 4},
     {"_sphunif_p_Kolmogorov", (DL_FUNC) &_sphunif_p_Kolmogorov, 3},
     {"_sphunif_d_Kolmogorov", (DL_FUNC) &_sphunif_d_Kolmogorov, 3},
-    {"_sphunif_p_cir_stat_Kuiper", (DL_FUNC) &_sphunif_p_cir_stat_Kuiper, 5},
-    {"_sphunif_d_cir_stat_Kuiper", (DL_FUNC) &_sphunif_d_cir_stat_Kuiper, 5},
-    {"_sphunif_p_cir_stat_Watson", (DL_FUNC) &_sphunif_p_cir_stat_Watson, 4},
-    {"_sphunif_d_cir_stat_Watson", (DL_FUNC) &_sphunif_d_cir_stat_Watson, 4},
-    {"_sphunif_p_cir_stat_Watson_1976", (DL_FUNC) &_sphunif_p_cir_stat_Watson_1976, 3},
-    {"_sphunif_d_cir_stat_Watson_1976", (DL_FUNC) &_sphunif_d_cir_stat_Watson_1976, 2},
-    {"_sphunif_p_cir_stat_Hodges_Ajne2", (DL_FUNC) &_sphunif_p_cir_stat_Hodges_Ajne2, 3},
-    {"_sphunif_p_cir_stat_Hodges_Ajne", (DL_FUNC) &_sphunif_p_cir_stat_Hodges_Ajne, 4},
-    {"_sphunif_d_cir_stat_Hodges_Ajne", (DL_FUNC) &_sphunif_d_cir_stat_Hodges_Ajne, 4},
     {"_sphunif_p_cir_stat_Ajne", (DL_FUNC) &_sphunif_p_cir_stat_Ajne, 2},
     {"_sphunif_d_cir_stat_Ajne", (DL_FUNC) &_sphunif_d_cir_stat_Ajne, 2},
-    {"_sphunif_p_cir_stat_Range", (DL_FUNC) &_sphunif_p_cir_stat_Range, 3},
-    {"_sphunif_d_cir_stat_Range", (DL_FUNC) &_sphunif_d_cir_stat_Range, 3},
-    {"_sphunif_p_cir_stat_Rao", (DL_FUNC) &_sphunif_p_cir_stat_Rao, 1},
-    {"_sphunif_d_cir_stat_Rao", (DL_FUNC) &_sphunif_d_cir_stat_Rao, 1},
+    {"_sphunif_p_cir_stat_Bingham", (DL_FUNC) &_sphunif_p_cir_stat_Bingham, 1},
+    {"_sphunif_d_cir_stat_Bingham", (DL_FUNC) &_sphunif_d_cir_stat_Bingham, 1},
     {"_sphunif_p_cir_stat_Greenwood", (DL_FUNC) &_sphunif_p_cir_stat_Greenwood, 1},
     {"_sphunif_d_cir_stat_Greenwood", (DL_FUNC) &_sphunif_d_cir_stat_Greenwood, 1},
-    {"_sphunif_p_cir_stat_Log_gaps", (DL_FUNC) &_sphunif_p_cir_stat_Log_gaps, 2},
-    {"_sphunif_d_cir_stat_Log_gaps", (DL_FUNC) &_sphunif_d_cir_stat_Log_gaps, 2},
-    {"_sphunif_p_cir_stat_Vacancy", (DL_FUNC) &_sphunif_p_cir_stat_Vacancy, 1},
-    {"_sphunif_d_cir_stat_Vacancy", (DL_FUNC) &_sphunif_d_cir_stat_Vacancy, 1},
-    {"_sphunif_p_cir_stat_Max_uncover", (DL_FUNC) &_sphunif_p_cir_stat_Max_uncover, 1},
-    {"_sphunif_d_cir_stat_Max_uncover", (DL_FUNC) &_sphunif_d_cir_stat_Max_uncover, 1},
-    {"_sphunif_p_cir_stat_Num_uncover", (DL_FUNC) &_sphunif_p_cir_stat_Num_uncover, 1},
-    {"_sphunif_d_cir_stat_Num_uncover", (DL_FUNC) &_sphunif_d_cir_stat_Num_uncover, 1},
     {"_sphunif_p_cir_stat_Gini", (DL_FUNC) &_sphunif_p_cir_stat_Gini, 1},
     {"_sphunif_d_cir_stat_Gini", (DL_FUNC) &_sphunif_d_cir_stat_Gini, 1},
     {"_sphunif_p_cir_stat_Gini_squared", (DL_FUNC) &_sphunif_p_cir_stat_Gini_squared, 1},
     {"_sphunif_d_cir_stat_Gini_squared", (DL_FUNC) &_sphunif_d_cir_stat_Gini_squared, 1},
-    {"_sphunif_p_cir_stat_Rayleigh", (DL_FUNC) &_sphunif_p_cir_stat_Rayleigh, 1},
-    {"_sphunif_d_cir_stat_Rayleigh", (DL_FUNC) &_sphunif_d_cir_stat_Rayleigh, 1},
-    {"_sphunif_p_cir_stat_Bingham", (DL_FUNC) &_sphunif_p_cir_stat_Bingham, 1},
-    {"_sphunif_d_cir_stat_Bingham", (DL_FUNC) &_sphunif_d_cir_stat_Bingham, 1},
+    {"_sphunif_p_cir_stat_Hodges_Ajne2", (DL_FUNC) &_sphunif_p_cir_stat_Hodges_Ajne2, 3},
+    {"_sphunif_p_cir_stat_Hodges_Ajne", (DL_FUNC) &_sphunif_p_cir_stat_Hodges_Ajne, 4},
+    {"_sphunif_d_cir_stat_Hodges_Ajne", (DL_FUNC) &_sphunif_d_cir_stat_Hodges_Ajne, 4},
+    {"_sphunif_p_cir_stat_Kuiper", (DL_FUNC) &_sphunif_p_cir_stat_Kuiper, 5},
+    {"_sphunif_d_cir_stat_Kuiper", (DL_FUNC) &_sphunif_d_cir_stat_Kuiper, 5},
+    {"_sphunif_p_cir_stat_Log_gaps", (DL_FUNC) &_sphunif_p_cir_stat_Log_gaps, 2},
+    {"_sphunif_d_cir_stat_Log_gaps", (DL_FUNC) &_sphunif_d_cir_stat_Log_gaps, 2},
+    {"_sphunif_p_cir_stat_Max_uncover", (DL_FUNC) &_sphunif_p_cir_stat_Max_uncover, 1},
+    {"_sphunif_d_cir_stat_Max_uncover", (DL_FUNC) &_sphunif_d_cir_stat_Max_uncover, 1},
+    {"_sphunif_p_cir_stat_Num_uncover", (DL_FUNC) &_sphunif_p_cir_stat_Num_uncover, 1},
+    {"_sphunif_d_cir_stat_Num_uncover", (DL_FUNC) &_sphunif_d_cir_stat_Num_uncover, 1},
     {"_sphunif_p_cir_stat_Pycke", (DL_FUNC) &_sphunif_p_cir_stat_Pycke, 1},
     {"_sphunif_d_cir_stat_Pycke", (DL_FUNC) &_sphunif_d_cir_stat_Pycke, 1},
+    {"_sphunif_p_cir_stat_Vacancy", (DL_FUNC) &_sphunif_p_cir_stat_Vacancy, 1},
+    {"_sphunif_d_cir_stat_Vacancy", (DL_FUNC) &_sphunif_d_cir_stat_Vacancy, 1},
+    {"_sphunif_p_cir_stat_Watson", (DL_FUNC) &_sphunif_p_cir_stat_Watson, 4},
+    {"_sphunif_d_cir_stat_Watson", (DL_FUNC) &_sphunif_d_cir_stat_Watson, 4},
+    {"_sphunif_p_cir_stat_Watson_1976", (DL_FUNC) &_sphunif_p_cir_stat_Watson_1976, 3},
+    {"_sphunif_d_cir_stat_Watson_1976", (DL_FUNC) &_sphunif_d_cir_stat_Watson_1976, 2},
+    {"_sphunif_p_cir_stat_Range", (DL_FUNC) &_sphunif_p_cir_stat_Range, 3},
+    {"_sphunif_d_cir_stat_Range", (DL_FUNC) &_sphunif_d_cir_stat_Range, 3},
+    {"_sphunif_p_cir_stat_Rao", (DL_FUNC) &_sphunif_p_cir_stat_Rao, 1},
+    {"_sphunif_d_cir_stat_Rao", (DL_FUNC) &_sphunif_d_cir_stat_Rao, 1},
+    {"_sphunif_p_cir_stat_Rayleigh", (DL_FUNC) &_sphunif_p_cir_stat_Rayleigh, 1},
+    {"_sphunif_d_cir_stat_Rayleigh", (DL_FUNC) &_sphunif_d_cir_stat_Rayleigh, 1},
     {"_sphunif_d_proj_unif", (DL_FUNC) &_sphunif_d_proj_unif, 3},
     {"_sphunif_p_proj_unif", (DL_FUNC) &_sphunif_p_proj_unif, 3},
     {"_sphunif_q_proj_unif", (DL_FUNC) &_sphunif_q_proj_unif, 2},
@@ -1704,14 +1704,14 @@ static const R_CallMethodDef CallEntries[] = {
     {"_sphunif_p_chisq", (DL_FUNC) &_sphunif_p_chisq, 2},
     {"_sphunif_Gauss_Legen_nodes", (DL_FUNC) &_sphunif_Gauss_Legen_nodes, 3},
     {"_sphunif_Gauss_Legen_weights", (DL_FUNC) &_sphunif_Gauss_Legen_weights, 3},
-    {"_sphunif_p_sph_stat_Rayleigh", (DL_FUNC) &_sphunif_p_sph_stat_Rayleigh, 2},
-    {"_sphunif_d_sph_stat_Rayleigh", (DL_FUNC) &_sphunif_d_sph_stat_Rayleigh, 2},
     {"_sphunif_p_sph_stat_Bingham", (DL_FUNC) &_sphunif_p_sph_stat_Bingham, 2},
     {"_sphunif_d_sph_stat_Bingham", (DL_FUNC) &_sphunif_d_sph_stat_Bingham, 2},
-    {"_sphunif_p_sph_stat_Rayleigh_HD", (DL_FUNC) &_sphunif_p_sph_stat_Rayleigh_HD, 2},
-    {"_sphunif_d_sph_stat_Rayleigh_HD", (DL_FUNC) &_sphunif_d_sph_stat_Rayleigh_HD, 2},
     {"_sphunif_p_sph_stat_Cai", (DL_FUNC) &_sphunif_p_sph_stat_Cai, 3},
     {"_sphunif_d_sph_stat_Cai", (DL_FUNC) &_sphunif_d_sph_stat_Cai, 3},
+    {"_sphunif_p_sph_stat_Rayleigh", (DL_FUNC) &_sphunif_p_sph_stat_Rayleigh, 2},
+    {"_sphunif_d_sph_stat_Rayleigh", (DL_FUNC) &_sphunif_d_sph_stat_Rayleigh, 2},
+    {"_sphunif_p_sph_stat_Rayleigh_HD", (DL_FUNC) &_sphunif_p_sph_stat_Rayleigh_HD, 2},
+    {"_sphunif_d_sph_stat_Rayleigh_HD", (DL_FUNC) &_sphunif_d_sph_stat_Rayleigh_HD, 2},
     {"_sphunif_sph_stat_Rayleigh", (DL_FUNC) &_sphunif_sph_stat_Rayleigh, 1},
     {"_sphunif_sph_stat_Bingham", (DL_FUNC) &_sphunif_sph_stat_Bingham, 1},
     {"_sphunif_sph_stat_Ajne", (DL_FUNC) &_sphunif_sph_stat_Ajne, 2},

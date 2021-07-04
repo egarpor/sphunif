@@ -3,41 +3,41 @@
 \name{p_Kolmogorov}
 \alias{p_Kolmogorov}
 \alias{d_Kolmogorov}
-\alias{p_cir_stat_Kuiper}
-\alias{d_cir_stat_Kuiper}
-\alias{p_cir_stat_Watson}
-\alias{d_cir_stat_Watson}
-\alias{p_cir_stat_Watson_1976}
-\alias{d_cir_stat_Watson_1976}
-\alias{p_cir_stat_Hodges_Ajne2}
-\alias{p_cir_stat_Hodges_Ajne}
-\alias{d_cir_stat_Hodges_Ajne}
 \alias{p_cir_stat_Ajne}
 \alias{d_cir_stat_Ajne}
-\alias{p_cir_stat_Range}
-\alias{d_cir_stat_Range}
-\alias{p_cir_stat_Rao}
-\alias{d_cir_stat_Rao}
+\alias{p_cir_stat_Bingham}
+\alias{d_cir_stat_Bingham}
 \alias{p_cir_stat_Greenwood}
 \alias{d_cir_stat_Greenwood}
-\alias{p_cir_stat_Log_gaps}
-\alias{d_cir_stat_Log_gaps}
-\alias{p_cir_stat_Vacancy}
-\alias{d_cir_stat_Vacancy}
-\alias{p_cir_stat_Max_uncover}
-\alias{d_cir_stat_Max_uncover}
-\alias{p_cir_stat_Num_uncover}
-\alias{d_cir_stat_Num_uncover}
 \alias{p_cir_stat_Gini}
 \alias{d_cir_stat_Gini}
 \alias{p_cir_stat_Gini_squared}
 \alias{d_cir_stat_Gini_squared}
-\alias{p_cir_stat_Rayleigh}
-\alias{d_cir_stat_Rayleigh}
-\alias{p_cir_stat_Bingham}
-\alias{d_cir_stat_Bingham}
+\alias{p_cir_stat_Hodges_Ajne2}
+\alias{p_cir_stat_Hodges_Ajne}
+\alias{d_cir_stat_Hodges_Ajne}
+\alias{p_cir_stat_Kuiper}
+\alias{d_cir_stat_Kuiper}
+\alias{p_cir_stat_Log_gaps}
+\alias{d_cir_stat_Log_gaps}
+\alias{p_cir_stat_Max_uncover}
+\alias{d_cir_stat_Max_uncover}
+\alias{p_cir_stat_Num_uncover}
+\alias{d_cir_stat_Num_uncover}
 \alias{p_cir_stat_Pycke}
 \alias{d_cir_stat_Pycke}
+\alias{p_cir_stat_Vacancy}
+\alias{d_cir_stat_Vacancy}
+\alias{p_cir_stat_Watson}
+\alias{d_cir_stat_Watson}
+\alias{p_cir_stat_Watson_1976}
+\alias{d_cir_stat_Watson_1976}
+\alias{p_cir_stat_Range}
+\alias{d_cir_stat_Range}
+\alias{p_cir_stat_Rao}
+\alias{d_cir_stat_Rao}
+\alias{p_cir_stat_Rayleigh}
+\alias{d_cir_stat_Rayleigh}
 \alias{cir_stat_distr}
 \alias{p_cir_stat_Bakshaev}
 \alias{d_cir_stat_Bakshaev}
@@ -57,61 +57,25 @@
 \alias{d_cir_stat_Pycke_q}
 \alias{p_cir_stat_Rothman}
 \alias{d_cir_stat_Rothman}
+\alias{p_cir_stat_Riesz}
+\alias{d_cir_stat_Riesz}
 \title{Asymptotic distributions for circular uniformity statistics}
 \usage{
 p_Kolmogorov(x, K_Kolmogorov = 25L, alternating = TRUE)
 
 d_Kolmogorov(x, K_Kolmogorov = 25L, alternating = TRUE)
 
-p_cir_stat_Kuiper(x, n, K_Kuiper = 12L, second_term = TRUE, Stephens = FALSE)
-
-d_cir_stat_Kuiper(x, n, K_Kuiper = 12L, second_term = TRUE, Stephens = FALSE)
-
-p_cir_stat_Watson(x, n = 0L, K_Watson = 25L, Stephens = FALSE)
-
-d_cir_stat_Watson(x, n = 0L, K_Watson = 25L, Stephens = FALSE)
-
-p_cir_stat_Watson_1976(x, K_Watson_1976 = 8L, N = 40L)
-
-d_cir_stat_Watson_1976(x, K_Watson_1976 = 8L)
-
-p_cir_stat_Hodges_Ajne2(x, n, asymp_std = FALSE)
-
-p_cir_stat_Hodges_Ajne(x, n, exact = TRUE, asymp_std = FALSE)
-
-d_cir_stat_Hodges_Ajne(x, n, exact = TRUE, asymp_std = FALSE)
-
 p_cir_stat_Ajne(x, K_Ajne = 15L)
 
 d_cir_stat_Ajne(x, K_Ajne = 15L)
 
-p_cir_stat_Range(x, n, max_gap = TRUE)
+p_cir_stat_Bingham(x)
 
-d_cir_stat_Range(x, n, max_gap = TRUE)
-
-p_cir_stat_Rao(x)
-
-d_cir_stat_Rao(x)
+d_cir_stat_Bingham(x)
 
 p_cir_stat_Greenwood(x)
 
 d_cir_stat_Greenwood(x)
-
-p_cir_stat_Log_gaps(x, abs_val = TRUE)
-
-d_cir_stat_Log_gaps(x, abs_val = TRUE)
-
-p_cir_stat_Vacancy(x)
-
-d_cir_stat_Vacancy(x)
-
-p_cir_stat_Max_uncover(x)
-
-d_cir_stat_Max_uncover(x)
-
-p_cir_stat_Num_uncover(x)
-
-d_cir_stat_Num_uncover(x)
 
 p_cir_stat_Gini(x)
 
@@ -121,17 +85,55 @@ p_cir_stat_Gini_squared(x)
 
 d_cir_stat_Gini_squared(x)
 
-p_cir_stat_Rayleigh(x)
+p_cir_stat_Hodges_Ajne2(x, n, asymp_std = FALSE)
 
-d_cir_stat_Rayleigh(x)
+p_cir_stat_Hodges_Ajne(x, n, exact = TRUE, asymp_std = FALSE)
 
-p_cir_stat_Bingham(x)
+d_cir_stat_Hodges_Ajne(x, n, exact = TRUE, asymp_std = FALSE)
 
-d_cir_stat_Bingham(x)
+p_cir_stat_Kuiper(x, n, K_Kuiper = 12L, second_term = TRUE, Stephens = FALSE)
+
+d_cir_stat_Kuiper(x, n, K_Kuiper = 12L, second_term = TRUE, Stephens = FALSE)
+
+p_cir_stat_Log_gaps(x, abs_val = TRUE)
+
+d_cir_stat_Log_gaps(x, abs_val = TRUE)
+
+p_cir_stat_Max_uncover(x)
+
+d_cir_stat_Max_uncover(x)
+
+p_cir_stat_Num_uncover(x)
+
+d_cir_stat_Num_uncover(x)
 
 p_cir_stat_Pycke(x)
 
 d_cir_stat_Pycke(x)
+
+p_cir_stat_Vacancy(x)
+
+d_cir_stat_Vacancy(x)
+
+p_cir_stat_Watson(x, n = 0L, K_Watson = 25L, Stephens = FALSE)
+
+d_cir_stat_Watson(x, n = 0L, K_Watson = 25L, Stephens = FALSE)
+
+p_cir_stat_Watson_1976(x, K_Watson_1976 = 8L, N = 40L)
+
+d_cir_stat_Watson_1976(x, K_Watson_1976 = 8L)
+
+p_cir_stat_Range(x, n, max_gap = TRUE)
+
+d_cir_stat_Range(x, n, max_gap = TRUE)
+
+p_cir_stat_Rao(x)
+
+d_cir_stat_Rao(x)
+
+p_cir_stat_Rayleigh(x)
+
+d_cir_stat_Rayleigh(x)
 
 p_cir_stat_Bakshaev(x, K_max = 1000, thre = 0, ...)
 
@@ -168,6 +170,10 @@ d_cir_stat_Pycke_q(x, q = 0.5, K_max = 1000, thre = 0, ...)
 p_cir_stat_Rothman(x, t = 1/3, K_max = 1000, thre = 0, ...)
 
 d_cir_stat_Rothman(x, t = 1/3, K_max = 1000, thre = 0, ...)
+
+p_cir_stat_Riesz(x, s = 1, K_max = 1000, thre = 0, ...)
+
+d_cir_stat_Riesz(x, s = 1, K_max = 1000, thre = 0, ...)
 }
 \arguments{
 \item{x}{a vector of size \code{nx} or a matrix of size \code{c(nx, 1)}.}
@@ -182,6 +188,12 @@ of the Kolmogorov-Smirnov statistic? Defaults to \code{TRUE}.}
 
 \item{n}{sample size employed for computing the statistic.}
 
+\item{asymp_std}{compute the distribution associated to the normalized
+Hodges-Ajne statistic? Defaults to \code{FALSE}.}
+
+\item{exact}{use the exact distribution for the Hodges-Ajne statistic?
+Defaults to \code{TRUE}.}
+
 \item{second_term}{use the second-order series expansion for the
 distribution of the Kuiper statistic? Defaults to \code{TRUE}.}
 
@@ -189,20 +201,14 @@ distribution of the Kuiper statistic? Defaults to \code{TRUE}.}
 distribution of the is less dependent on the sample size? The modification
 does not alter the test decision.}
 
+\item{abs_val}{compute the distribution associated to the absolute value of
+the Darling's log gaps statistic? Defaults to \code{TRUE}.}
+
 \item{N}{number of points used in the
 \link[=Gauss_Legen_nodes]{Gauss-Legendre quadrature}. Defaults to \code{40}.}
 
-\item{asymp_std}{compute the distribution associated to the normalized
-Hodges-Ajne statistic? Defaults to \code{FALSE}.}
-
-\item{exact}{use the exact distribution for the Hodges-Ajne statistic?
-Defaults to \code{TRUE}.}
-
 \item{max_gap}{compute the distribution associated to the maximum gap for
 the range statistic? Defaults to \code{TRUE}.}
-
-\item{abs_val}{compute the distribution associated to the absolute value of
-the Darling's log gaps statistic? Defaults to \code{TRUE}.}
 
 \item{K_max}{integer giving the truncation of the series that compute the
 asymptotic p-value of a Sobolev test. Defaults to \code{1e3}.}
@@ -219,6 +225,9 @@ the first terms of the truncated series of a Sobolev test. Defaults to
 
 \item{q}{\eqn{q} parameter for the Pycke "\eqn{q}-test", a real in
 \eqn{(0, 1)}. Defaults to \code{1 / 2}.}
+
+\item{s}{\eqn{s} parameter for the \eqn{s}-Riesz test, a real in
+\eqn{(0, 2)}. Defaults to \code{1}.}
 }
 \value{
 A matrix of size \code{c(nx, 1)} with the evaluation of the
@@ -346,6 +355,11 @@ curve(p_cir_stat_Rao(x), n = 2e2, col = 2, add = TRUE)
 # Rayleigh
 curve(d_cir_stat_Rayleigh(x), to = 12, n = 2e2, ylim = c(0, 1))
 curve(p_cir_stat_Rayleigh(x), n = 2e2, col = 2, add = TRUE)
+
+# Riesz
+curve(d_cir_stat_Riesz(x, method = "HBE"), to = 6, n = 2e2,
+      ylim = c(0, 1))
+curve(p_cir_stat_Riesz(x, method = "HBE"), n = 2e2, add = TRUE, col = 2)
 
 # Rothman
 curve(d_cir_stat_Rothman(x, method = "HBE"), n = 2e2, ylim = c(0, 5))

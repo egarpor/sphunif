@@ -632,60 +632,6 @@ d_Kolmogorov <- function(x, K_Kolmogorov = 25L, alternating = TRUE) {
 
 #' @rdname cir_stat_distr
 #' @export
-p_cir_stat_Kuiper <- function(x, n, K_Kuiper = 12L, second_term = TRUE, Stephens = FALSE) {
-    .Call('_sphunif_p_cir_stat_Kuiper', PACKAGE = 'sphunif', x, n, K_Kuiper, second_term, Stephens)
-}
-
-#' @rdname cir_stat_distr
-#' @export
-d_cir_stat_Kuiper <- function(x, n, K_Kuiper = 12L, second_term = TRUE, Stephens = FALSE) {
-    .Call('_sphunif_d_cir_stat_Kuiper', PACKAGE = 'sphunif', x, n, K_Kuiper, second_term, Stephens)
-}
-
-#' @rdname cir_stat_distr
-#' @export
-p_cir_stat_Watson <- function(x, n = 0L, K_Watson = 25L, Stephens = FALSE) {
-    .Call('_sphunif_p_cir_stat_Watson', PACKAGE = 'sphunif', x, n, K_Watson, Stephens)
-}
-
-#' @rdname cir_stat_distr
-#' @export
-d_cir_stat_Watson <- function(x, n = 0L, K_Watson = 25L, Stephens = FALSE) {
-    .Call('_sphunif_d_cir_stat_Watson', PACKAGE = 'sphunif', x, n, K_Watson, Stephens)
-}
-
-#' @rdname cir_stat_distr
-#' @export
-p_cir_stat_Watson_1976 <- function(x, K_Watson_1976 = 8L, N = 40L) {
-    .Call('_sphunif_p_cir_stat_Watson_1976', PACKAGE = 'sphunif', x, K_Watson_1976, N)
-}
-
-#' @rdname cir_stat_distr
-#' @export
-d_cir_stat_Watson_1976 <- function(x, K_Watson_1976 = 8L) {
-    .Call('_sphunif_d_cir_stat_Watson_1976', PACKAGE = 'sphunif', x, K_Watson_1976)
-}
-
-#' @rdname cir_stat_distr
-#' @export
-p_cir_stat_Hodges_Ajne2 <- function(x, n, asymp_std = FALSE) {
-    .Call('_sphunif_p_cir_stat_Hodges_Ajne2', PACKAGE = 'sphunif', x, n, asymp_std)
-}
-
-#' @rdname cir_stat_distr
-#' @export
-p_cir_stat_Hodges_Ajne <- function(x, n, exact = TRUE, asymp_std = FALSE) {
-    .Call('_sphunif_p_cir_stat_Hodges_Ajne', PACKAGE = 'sphunif', x, n, exact, asymp_std)
-}
-
-#' @rdname cir_stat_distr
-#' @export
-d_cir_stat_Hodges_Ajne <- function(x, n, exact = TRUE, asymp_std = FALSE) {
-    .Call('_sphunif_d_cir_stat_Hodges_Ajne', PACKAGE = 'sphunif', x, n, exact, asymp_std)
-}
-
-#' @rdname cir_stat_distr
-#' @export
 p_cir_stat_Ajne <- function(x, K_Ajne = 15L) {
     .Call('_sphunif_p_cir_stat_Ajne', PACKAGE = 'sphunif', x, K_Ajne)
 }
@@ -698,26 +644,14 @@ d_cir_stat_Ajne <- function(x, K_Ajne = 15L) {
 
 #' @rdname cir_stat_distr
 #' @export
-p_cir_stat_Range <- function(x, n, max_gap = TRUE) {
-    .Call('_sphunif_p_cir_stat_Range', PACKAGE = 'sphunif', x, n, max_gap)
+p_cir_stat_Bingham <- function(x) {
+    .Call('_sphunif_p_cir_stat_Bingham', PACKAGE = 'sphunif', x)
 }
 
 #' @rdname cir_stat_distr
 #' @export
-d_cir_stat_Range <- function(x, n, max_gap = TRUE) {
-    .Call('_sphunif_d_cir_stat_Range', PACKAGE = 'sphunif', x, n, max_gap)
-}
-
-#' @rdname cir_stat_distr
-#' @export
-p_cir_stat_Rao <- function(x) {
-    .Call('_sphunif_p_cir_stat_Rao', PACKAGE = 'sphunif', x)
-}
-
-#' @rdname cir_stat_distr
-#' @export
-d_cir_stat_Rao <- function(x) {
-    .Call('_sphunif_d_cir_stat_Rao', PACKAGE = 'sphunif', x)
+d_cir_stat_Bingham <- function(x) {
+    .Call('_sphunif_d_cir_stat_Bingham', PACKAGE = 'sphunif', x)
 }
 
 #' @rdname cir_stat_distr
@@ -730,54 +664,6 @@ p_cir_stat_Greenwood <- function(x) {
 #' @export
 d_cir_stat_Greenwood <- function(x) {
     .Call('_sphunif_d_cir_stat_Greenwood', PACKAGE = 'sphunif', x)
-}
-
-#' @rdname cir_stat_distr
-#' @export
-p_cir_stat_Log_gaps <- function(x, abs_val = TRUE) {
-    .Call('_sphunif_p_cir_stat_Log_gaps', PACKAGE = 'sphunif', x, abs_val)
-}
-
-#' @rdname cir_stat_distr
-#' @export
-d_cir_stat_Log_gaps <- function(x, abs_val = TRUE) {
-    .Call('_sphunif_d_cir_stat_Log_gaps', PACKAGE = 'sphunif', x, abs_val)
-}
-
-#' @rdname cir_stat_distr
-#' @export
-p_cir_stat_Vacancy <- function(x) {
-    .Call('_sphunif_p_cir_stat_Vacancy', PACKAGE = 'sphunif', x)
-}
-
-#' @rdname cir_stat_distr
-#' @export
-d_cir_stat_Vacancy <- function(x) {
-    .Call('_sphunif_d_cir_stat_Vacancy', PACKAGE = 'sphunif', x)
-}
-
-#' @rdname cir_stat_distr
-#' @export
-p_cir_stat_Max_uncover <- function(x) {
-    .Call('_sphunif_p_cir_stat_Max_uncover', PACKAGE = 'sphunif', x)
-}
-
-#' @rdname cir_stat_distr
-#' @export
-d_cir_stat_Max_uncover <- function(x) {
-    .Call('_sphunif_d_cir_stat_Max_uncover', PACKAGE = 'sphunif', x)
-}
-
-#' @rdname cir_stat_distr
-#' @export
-p_cir_stat_Num_uncover <- function(x) {
-    .Call('_sphunif_p_cir_stat_Num_uncover', PACKAGE = 'sphunif', x)
-}
-
-#' @rdname cir_stat_distr
-#' @export
-d_cir_stat_Num_uncover <- function(x) {
-    .Call('_sphunif_d_cir_stat_Num_uncover', PACKAGE = 'sphunif', x)
 }
 
 #' @rdname cir_stat_distr
@@ -806,26 +692,68 @@ d_cir_stat_Gini_squared <- function(x) {
 
 #' @rdname cir_stat_distr
 #' @export
-p_cir_stat_Rayleigh <- function(x) {
-    .Call('_sphunif_p_cir_stat_Rayleigh', PACKAGE = 'sphunif', x)
+p_cir_stat_Hodges_Ajne2 <- function(x, n, asymp_std = FALSE) {
+    .Call('_sphunif_p_cir_stat_Hodges_Ajne2', PACKAGE = 'sphunif', x, n, asymp_std)
 }
 
 #' @rdname cir_stat_distr
 #' @export
-d_cir_stat_Rayleigh <- function(x) {
-    .Call('_sphunif_d_cir_stat_Rayleigh', PACKAGE = 'sphunif', x)
+p_cir_stat_Hodges_Ajne <- function(x, n, exact = TRUE, asymp_std = FALSE) {
+    .Call('_sphunif_p_cir_stat_Hodges_Ajne', PACKAGE = 'sphunif', x, n, exact, asymp_std)
 }
 
 #' @rdname cir_stat_distr
 #' @export
-p_cir_stat_Bingham <- function(x) {
-    .Call('_sphunif_p_cir_stat_Bingham', PACKAGE = 'sphunif', x)
+d_cir_stat_Hodges_Ajne <- function(x, n, exact = TRUE, asymp_std = FALSE) {
+    .Call('_sphunif_d_cir_stat_Hodges_Ajne', PACKAGE = 'sphunif', x, n, exact, asymp_std)
 }
 
 #' @rdname cir_stat_distr
 #' @export
-d_cir_stat_Bingham <- function(x) {
-    .Call('_sphunif_d_cir_stat_Bingham', PACKAGE = 'sphunif', x)
+p_cir_stat_Kuiper <- function(x, n, K_Kuiper = 12L, second_term = TRUE, Stephens = FALSE) {
+    .Call('_sphunif_p_cir_stat_Kuiper', PACKAGE = 'sphunif', x, n, K_Kuiper, second_term, Stephens)
+}
+
+#' @rdname cir_stat_distr
+#' @export
+d_cir_stat_Kuiper <- function(x, n, K_Kuiper = 12L, second_term = TRUE, Stephens = FALSE) {
+    .Call('_sphunif_d_cir_stat_Kuiper', PACKAGE = 'sphunif', x, n, K_Kuiper, second_term, Stephens)
+}
+
+#' @rdname cir_stat_distr
+#' @export
+p_cir_stat_Log_gaps <- function(x, abs_val = TRUE) {
+    .Call('_sphunif_p_cir_stat_Log_gaps', PACKAGE = 'sphunif', x, abs_val)
+}
+
+#' @rdname cir_stat_distr
+#' @export
+d_cir_stat_Log_gaps <- function(x, abs_val = TRUE) {
+    .Call('_sphunif_d_cir_stat_Log_gaps', PACKAGE = 'sphunif', x, abs_val)
+}
+
+#' @rdname cir_stat_distr
+#' @export
+p_cir_stat_Max_uncover <- function(x) {
+    .Call('_sphunif_p_cir_stat_Max_uncover', PACKAGE = 'sphunif', x)
+}
+
+#' @rdname cir_stat_distr
+#' @export
+d_cir_stat_Max_uncover <- function(x) {
+    .Call('_sphunif_d_cir_stat_Max_uncover', PACKAGE = 'sphunif', x)
+}
+
+#' @rdname cir_stat_distr
+#' @export
+p_cir_stat_Num_uncover <- function(x) {
+    .Call('_sphunif_p_cir_stat_Num_uncover', PACKAGE = 'sphunif', x)
+}
+
+#' @rdname cir_stat_distr
+#' @export
+d_cir_stat_Num_uncover <- function(x) {
+    .Call('_sphunif_d_cir_stat_Num_uncover', PACKAGE = 'sphunif', x)
 }
 
 #' @rdname cir_stat_distr
@@ -838,6 +766,78 @@ p_cir_stat_Pycke <- function(x) {
 #' @export
 d_cir_stat_Pycke <- function(x) {
     .Call('_sphunif_d_cir_stat_Pycke', PACKAGE = 'sphunif', x)
+}
+
+#' @rdname cir_stat_distr
+#' @export
+p_cir_stat_Vacancy <- function(x) {
+    .Call('_sphunif_p_cir_stat_Vacancy', PACKAGE = 'sphunif', x)
+}
+
+#' @rdname cir_stat_distr
+#' @export
+d_cir_stat_Vacancy <- function(x) {
+    .Call('_sphunif_d_cir_stat_Vacancy', PACKAGE = 'sphunif', x)
+}
+
+#' @rdname cir_stat_distr
+#' @export
+p_cir_stat_Watson <- function(x, n = 0L, K_Watson = 25L, Stephens = FALSE) {
+    .Call('_sphunif_p_cir_stat_Watson', PACKAGE = 'sphunif', x, n, K_Watson, Stephens)
+}
+
+#' @rdname cir_stat_distr
+#' @export
+d_cir_stat_Watson <- function(x, n = 0L, K_Watson = 25L, Stephens = FALSE) {
+    .Call('_sphunif_d_cir_stat_Watson', PACKAGE = 'sphunif', x, n, K_Watson, Stephens)
+}
+
+#' @rdname cir_stat_distr
+#' @export
+p_cir_stat_Watson_1976 <- function(x, K_Watson_1976 = 8L, N = 40L) {
+    .Call('_sphunif_p_cir_stat_Watson_1976', PACKAGE = 'sphunif', x, K_Watson_1976, N)
+}
+
+#' @rdname cir_stat_distr
+#' @export
+d_cir_stat_Watson_1976 <- function(x, K_Watson_1976 = 8L) {
+    .Call('_sphunif_d_cir_stat_Watson_1976', PACKAGE = 'sphunif', x, K_Watson_1976)
+}
+
+#' @rdname cir_stat_distr
+#' @export
+p_cir_stat_Range <- function(x, n, max_gap = TRUE) {
+    .Call('_sphunif_p_cir_stat_Range', PACKAGE = 'sphunif', x, n, max_gap)
+}
+
+#' @rdname cir_stat_distr
+#' @export
+d_cir_stat_Range <- function(x, n, max_gap = TRUE) {
+    .Call('_sphunif_d_cir_stat_Range', PACKAGE = 'sphunif', x, n, max_gap)
+}
+
+#' @rdname cir_stat_distr
+#' @export
+p_cir_stat_Rao <- function(x) {
+    .Call('_sphunif_p_cir_stat_Rao', PACKAGE = 'sphunif', x)
+}
+
+#' @rdname cir_stat_distr
+#' @export
+d_cir_stat_Rao <- function(x) {
+    .Call('_sphunif_d_cir_stat_Rao', PACKAGE = 'sphunif', x)
+}
+
+#' @rdname cir_stat_distr
+#' @export
+p_cir_stat_Rayleigh <- function(x) {
+    .Call('_sphunif_p_cir_stat_Rayleigh', PACKAGE = 'sphunif', x)
+}
+
+#' @rdname cir_stat_distr
+#' @export
+d_cir_stat_Rayleigh <- function(x) {
+    .Call('_sphunif_d_cir_stat_Rayleigh', PACKAGE = 'sphunif', x)
 }
 
 #' @title Density, distribution, and quantile functions of the projection of
@@ -1117,18 +1117,6 @@ Gauss_Legen_weights <- function(a = -1, b = 1, N = 40L) {
 
 #' @rdname sph_stat_distr
 #' @export
-p_sph_stat_Rayleigh <- function(x, p) {
-    .Call('_sphunif_p_sph_stat_Rayleigh', PACKAGE = 'sphunif', x, p)
-}
-
-#' @rdname sph_stat_distr
-#' @export
-d_sph_stat_Rayleigh <- function(x, p) {
-    .Call('_sphunif_d_sph_stat_Rayleigh', PACKAGE = 'sphunif', x, p)
-}
-
-#' @rdname sph_stat_distr
-#' @export
 p_sph_stat_Bingham <- function(x, p) {
     .Call('_sphunif_p_sph_stat_Bingham', PACKAGE = 'sphunif', x, p)
 }
@@ -1141,18 +1129,6 @@ d_sph_stat_Bingham <- function(x, p) {
 
 #' @rdname sph_stat_distr
 #' @export
-p_sph_stat_Rayleigh_HD <- function(x, p) {
-    .Call('_sphunif_p_sph_stat_Rayleigh_HD', PACKAGE = 'sphunif', x, p)
-}
-
-#' @rdname sph_stat_distr
-#' @export
-d_sph_stat_Rayleigh_HD <- function(x, p) {
-    .Call('_sphunif_d_sph_stat_Rayleigh_HD', PACKAGE = 'sphunif', x, p)
-}
-
-#' @rdname sph_stat_distr
-#' @export
 p_sph_stat_Cai <- function(x, regime = 1L, beta = 0) {
     .Call('_sphunif_p_sph_stat_Cai', PACKAGE = 'sphunif', x, regime, beta)
 }
@@ -1161,6 +1137,30 @@ p_sph_stat_Cai <- function(x, regime = 1L, beta = 0) {
 #' @export
 d_sph_stat_Cai <- function(x, regime = 3L, beta = 0) {
     .Call('_sphunif_d_sph_stat_Cai', PACKAGE = 'sphunif', x, regime, beta)
+}
+
+#' @rdname sph_stat_distr
+#' @export
+p_sph_stat_Rayleigh <- function(x, p) {
+    .Call('_sphunif_p_sph_stat_Rayleigh', PACKAGE = 'sphunif', x, p)
+}
+
+#' @rdname sph_stat_distr
+#' @export
+d_sph_stat_Rayleigh <- function(x, p) {
+    .Call('_sphunif_d_sph_stat_Rayleigh', PACKAGE = 'sphunif', x, p)
+}
+
+#' @rdname sph_stat_distr
+#' @export
+p_sph_stat_Rayleigh_HD <- function(x, p) {
+    .Call('_sphunif_p_sph_stat_Rayleigh_HD', PACKAGE = 'sphunif', x, p)
+}
+
+#' @rdname sph_stat_distr
+#' @export
+d_sph_stat_Rayleigh_HD <- function(x, p) {
+    .Call('_sphunif_d_sph_stat_Rayleigh_HD', PACKAGE = 'sphunif', x, p)
 }
 
 #' @rdname sph_stat

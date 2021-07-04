@@ -157,6 +157,11 @@
 #' curve(d_cir_stat_Rayleigh(x), to = 12, n = 2e2, ylim = c(0, 1))
 #' curve(p_cir_stat_Rayleigh(x), n = 2e2, col = 2, add = TRUE)
 #'
+#' # Riesz
+#' curve(d_cir_stat_Riesz(x, method = "HBE"), to = 6, n = 2e2,
+#'       ylim = c(0, 1))
+#' curve(p_cir_stat_Riesz(x, method = "HBE"), n = 2e2, add = TRUE, col = 2)
+#'
 #' # Rothman
 #' curve(d_cir_stat_Rothman(x, method = "HBE"), n = 2e2, ylim = c(0, 5))
 #' curve(p_cir_stat_Rothman(x, method = "HBE"), n = 2e2, add = TRUE, col = 2)
@@ -344,3 +349,20 @@ d_cir_stat_Rothman <- function(x, t = 1 / 3, K_max = 1e3, thre = 0, ...) {
 
 }
 
+
+#' @rdname cir_stat_distr
+#' @export
+p_cir_stat_Riesz <- function(x, s = 1, K_max = 1e3, thre = 0, ...) {
+
+  p_sph_stat_Riesz(x = x, p = 2, s = s, K_max = K_max, thre = thre, ...)
+
+}
+
+
+#' @rdname cir_stat_distr
+#' @export
+d_cir_stat_Riesz <- function(x, s = 1, K_max = 1e3, thre = 0, ...) {
+
+  d_sph_stat_Riesz(x = x, p = 2, s = s, K_max = K_max, thre = thre, ...)
+
+}

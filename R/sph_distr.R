@@ -92,6 +92,12 @@
 #' curve(d_sph_stat_Rayleigh_HD(x, p = 3), from = -4, to = 4, n = 2e2,
 #'       ylim = c(0, 1))
 #' curve(p_sph_stat_Rayleigh_HD(x, p = 3), n = 2e2, col = 2, add = TRUE)
+#'
+#' # Riesz
+#' curve(d_sph_stat_Riesz(x, p = 3, method = "HBE"), n = 2e2, from = 0, to = 5,
+#'       ylim = c(0, 2))
+#' curve(p_sph_stat_Riesz(x, p = 3, method = "HBE"), n = 2e2, col = 2,
+#'       add = TRUE)
 #' @name sph_stat_distr
 NULL
 
@@ -230,6 +236,26 @@ d_sph_stat_PRt <- function(x, p, t = 1 / 3, K_max = 1e3, thre = 0, ...) {
 
   cbind(d_Sobolev(x = x, p = p, type = "PRt", Rothman_t = t,
                   K_max = K_max, thre = thre, ...))
+
+}
+
+
+#' @rdname sph_stat_distr
+#' @export
+p_sph_stat_Riesz <- function(x, p, s = 1, K_max = 1e3, thre = 0, ...) {
+  
+  cbind(p_Sobolev(x = x, p = p, type = "Riesz", Riesz_s = s, K_max = K_max,
+                  thre = thre, ...))
+  
+}
+
+
+#' @rdname sph_stat_distr
+#' @export
+d_sph_stat_Riesz <- function(x, p, s = 1, K_max = 1e3, thre = 0, ...) {
+
+  cbind(d_Sobolev(x = x, p = p, type = "Riesz", Riesz_s = s, K_max = K_max,
+                  thre = thre, ...))
 
 }
 

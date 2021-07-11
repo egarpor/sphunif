@@ -3,10 +3,62 @@ Sys.unsetenv("R_TESTS")
 
 set.seed(21332)
 u <- seq(0, 1, l = 13)
+x <- seq(-1, 1, l = 13)
 v <- runif(1e3)
 f0 <- function(x) rep(1, length(x))
 f1 <- function(x, kappa) exp(kappa * x)
 f2 <- function(x, kappa) exp(kappa * x^2)
+
+test_that("F_from_f via Gauss--Legendre", {
+
+  expect_equal(F_from_f(f = f0, p = 2, Gauss = TRUE, K = 1e2)(x),
+               drop(p_proj_unif(x = x, p = 2)), tolerance = 2e-3)
+  expect_equal(F_from_f(f = f0, p = 3, Gauss = TRUE, K = 1e2)(x),
+               drop(p_proj_unif(x = x, p = 3)), tolerance = 1e-6)
+  expect_equal(F_from_f(f = f0, p = 4, Gauss = TRUE, K = 1e2)(x),
+               drop(p_proj_unif(x = x, p = 4)), tolerance = 1e-6)
+  expect_equal(F_from_f(f = f0, p = 11, Gauss = TRUE, K = 1e2)(x),
+               drop(p_proj_unif(x = x, p = 11)), tolerance = 1e-6)
+
+})
+
+test_that("F_from_f via integrate()", {
+
+  expect_equal(F_from_f(f = f0, p = 2, Gauss = FALSE, K = 1e2)(x),
+               drop(p_proj_unif(x = x, p = 2)), tolerance = 1e-3)
+  expect_equal(F_from_f(f = f0, p = 3, Gauss = FALSE, K = 1e2)(x),
+               drop(p_proj_unif(x = x, p = 3)), tolerance = 1e-6)
+  expect_equal(F_from_f(f = f0, p = 4, Gauss = FALSE, K = 1e2)(x),
+               drop(p_proj_unif(x = x, p = 4)), tolerance = 1e-6)
+  expect_equal(F_from_f(f = f0, p = 11, Gauss = FALSE, K = 1e2)(x),
+               drop(p_proj_unif(x = x, p = 11)), tolerance = 1e-6)
+
+})
+
+test_that("F_from_f for vMF", {
+
+  samp_g <- drop(rotasym::r_g_vMF(n = 1e3, p = 2, kappa = 3))
+  expect_gt(ks.test(x = F_from_f(f = f1, p = 2, Gauss = TRUE,
+                                 K = 1e2, kappa = 3)(samp_g),
+                    y = "punif")$p.value, 0.01)
+  samp_g <- drop(rotasym::r_g_vMF(n = 1e3, p = 3, kappa = 3))
+  expect_gt(ks.test(x = F_from_f(f = f1, p = 3, Gauss = TRUE,
+                                 K = 1e2, kappa = 3)(samp_g),
+                    y = "punif")$p.value, 0.01)
+  samp_g <- drop(rotasym::r_g_vMF(n = 1e3, p = 4, kappa = 5))
+  expect_gt(ks.test(x = F_from_f(f = f1, p = 4, Gauss = TRUE,
+                                 K = 1e2, kappa = 5)(samp_g),
+                    y = "punif")$p.value, 0.01)
+  samp_g <- drop(rotasym::r_g_vMF(n = 1e3, p = 5, kappa = 10))
+  expect_gt(ks.test(x = F_from_f(f = f1, p = 5, Gauss = TRUE,
+                                 K = 1e2, kappa = 10)(samp_g),
+                    y = "punif")$p.value, 0.01)
+  samp_g <- drop(rotasym::r_g_vMF(n = 1e3, p = 11, kappa = 20))
+  expect_gt(ks.test(x = F_from_f(f = f1, p = 11, Gauss = TRUE,
+                                 K = 1e2, kappa = 20)(samp_g),
+                    y = "punif")$p.value, 0.01)
+
+})
 
 test_that("F_inv_from_f via Gauss--Legendre", {
 

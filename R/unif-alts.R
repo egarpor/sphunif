@@ -358,12 +358,12 @@ cutoff_locdev <- function(p, K_max = 1e4, thre = 1e-3, type, Rothman_t = 1 / 3,
 }
 
 
-#' @title Quantile function from angular function
+#' @title Distribution and quantile functions from angular function
 #'
-#' @description Numerical computation of the quantile function \eqn{F^{-1}}
-#' for an \link[=locdev]{angular function} \eqn{f} in a
-#' \link[=tang-norm-decomp]{tangent-normal decomposition}. \eqn{F^{-1}(x)}
-#' results from the inversion of
+#' @description Numerical computation of the distribution function \eqn{F} and
+#' the quantile function \eqn{F^{-1}} for an \link[=locdev]{angular function}
+#' \eqn{f} in a \link[=tang-norm-decomp]{tangent-normal decomposition}.
+#' \eqn{F^{-1}(x)} results from the inversion of
 #' \deqn{F(x) = \int_{-1}^x \omega_{p - 1}c_f f(z) (1 - z^2)^{(p - 3) / 2}
 #' \,\mathrm{d}z}{F(x) = \int_{-1}^x \omega_{p - 1}c_f f(z)
 #' (1 - z^2)^{(p - 3) / 2} dz}
@@ -391,15 +391,23 @@ cutoff_locdev <- function(p, K_max = 1e4, thre = 1e-3, type, Rothman_t = 1 / 3,
 #' yields more accurate results, at expenses of a heavier computation.
 #'
 #' If \code{f} yields negative values, these are silently truncated to zero.
-#' @return A \code{\link{splinefun}} object ready to evaluate \eqn{F^{-1}}.
+#' @return A \code{\link{splinefun}} object ready to evaluate \eqn{F} or
+#' \eqn{F^{-1}}, as specified.
 #' @examples
 #' f <- function(x) rep(1, length(x))
+#' plot(F_from_f(f = f, p = 4, Gauss = TRUE), ylab = "F(x)", xlim = c(-1, 1))
+#' plot(F_from_f(f = f, p = 4, Gauss = FALSE), col = 2, add = TRUE,
+#'      xlim = c(-1, 1))
+#' curve(p_proj_unif(x = x, p = 4), col = 3, add = TRUE, n = 300)
 #' plot(F_inv_from_f(f = f, p = 4, Gauss = TRUE), ylab = "F^{-1}(x)")
 #' plot(F_inv_from_f(f = f, p = 4, Gauss = FALSE), col = 2, add = TRUE)
 #' curve(q_proj_unif(u = x, p = 4), col = 3, add = TRUE, n = 300)
+#' @name F_from_f
+
+
+#' @rdname F_from_f
 #' @export
-F_inv_from_f <- function(f, p, Gauss = TRUE, N = 320, K = 1e3, tol = 1e-6,
-                         ...) {
+F_from_f <- function(f, p, Gauss = TRUE, N = 320, K = 1e3, tol = 1e-6, ...) {
 
   # Integration grid
   z <- seq(-1, 1, length.out = K)
@@ -407,7 +415,7 @@ F_inv_from_f <- function(f, p, Gauss = TRUE, N = 320, K = 1e3, tol = 1e-6,
   # Integrated \omega_{p - 1} * f(z) * (1 - z^2)^{(p - 3) / 2}
   if (Gauss) {
 
-    # Using Gauss--Legendre quadrature but ensuring monotnonicity?
+    # Using Gauss--Legendre quadrature but ensuring monotonicity?
     y <- rotasym::w_p(p = p - 1) * sapply(z, function(t) {
       z_k <- drop(Gauss_Legen_nodes(a = -1, b = t, N = N))
       w_k <- drop(Gauss_Legen_weights(a = -1, b = t, N = N))
@@ -440,6 +448,18 @@ F_inv_from_f <- function(f, p, Gauss = TRUE, N = 320, K = 1e3, tol = 1e-6,
   F_appf <- switch(is.unsorted(y) + 1,
                    splinefun(x = z, y = y, method = "hyman"),
                    approxfun(x = z, y = y, method = "linear", rule = 2))
+  return(F_appf)
+
+}
+
+
+#' @rdname F_from_f
+#' @export
+F_inv_from_f <- function(f, p, Gauss = TRUE, N = 320, K = 1e3, tol = 1e-6,
+                         ...) {
+
+  # Approximate F
+  F_appf <- F_from_f(f = f, p = p, Gauss = Gauss, N = N, K = K, tol = tol, ...)
 
   # Inversion of F
   u <- seq(0, 1, length.out = K)

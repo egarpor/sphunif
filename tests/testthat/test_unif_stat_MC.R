@@ -1,8 +1,8 @@
 
 n <- 50
 set.seed(1242333)
-cir_0 <- unif_stat_MC(n = n, M = 5e2, type = "all", p = 2)
-sph_0 <- unif_stat_MC(n = n, M = 5e2, type = "all", p = 3)
+cir_0 <- unif_stat_MC(n = n, M = 5e2, type = "all", p = 2, seeds = 5)
+sph_0 <- unif_stat_MC(n = n, M = 5e2, type = "all", p = 3, seeds = 5)
 crit_val_bad <- sph_0$crit_val_MC
 colnames(crit_val_bad) <- paste0(colnames(crit_val_bad), "_bad")
 
@@ -39,9 +39,10 @@ test_that("Edge cases", {
   expect_warning(unif_stat_MC(n = n, M = 1e2, type = "all", p = 5, seeds = 1:3,
                               chunks = 2, verbose = FALSE))
   expect_equal(unif_stat_MC(n = n, M = 1e2, type = c("PAD", "Ajne"), p = 3,
-                            seeds = 2, verbose = FALSE)$stats$PAD,
+                            seeds = 5, verbose = FALSE)$stats$PAD,
                unif_stat_MC(n = n, M = 1e2, type = "PAD", p = 3,
-                            seeds = 2, verbose = FALSE)$stats$PAD)
+                            seeds = 5, verbose = FALSE,
+                            crit_val = sph_0$crit_val_MC)$stats$PAD)
 
 })
 

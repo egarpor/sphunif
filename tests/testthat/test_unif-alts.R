@@ -642,4 +642,3 @@ test_that("Watson vs. Sobolev statistic using f in MJ (2000) page 114", {
 # curve(f1_orig, from = 0, to = 2 * pi, n = 1e4, ylim = c(0, 1), main = "f functions")
 # curve(f1_mod, add = TRUE, col = 2, n = 1e4)
 # curve(f2, add = TRUE, col = 3, n = 1e4)
-

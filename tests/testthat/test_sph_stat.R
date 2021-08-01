@@ -20,6 +20,7 @@ dim(Psi5) <- c(dim(Psi5), 1)
 dim(Psi9) <- c(dim(Psi9), 1)
 dim(Psi200) <- c(dim(Psi200), 1)
 Th2 <- X_to_Theta(X2)
+rd3 <- X3[1:5, , 1]
 
 test_that("PAD with X", {
 
@@ -124,7 +125,7 @@ test_that("PRt vs. Ajne", {
 
 })
 
-test_that("Bakshaev vs. Riesz", {
+test_that("Riesz vs. Bakshaev", {
 
   expect_equal(sph_stat_Bakshaev(X2), sph_stat_Riesz(X2, s = 1),
                tolerance = 1e-5)
@@ -138,6 +139,24 @@ test_that("Bakshaev vs. Riesz", {
                tolerance = 1e-5)
   expect_equal(sph_stat_Bakshaev(X200), sph_stat_Riesz(X200, s = 1),
                tolerance = 1e-5)
+
+})
+
+test_that("Riesz vs. Pycke", {
+
+  expect_equal((n - 1) / (2 * n) * sph_stat_Pycke(X2),
+               sph_stat_Riesz(X2, s = 0))
+  expect_equal((log(4) - 1) / 2 + (2 * pi * (n - 1) / n) * sph_stat_Pycke(X3),
+               sph_stat_Riesz(X3, s = 0))
+  expect_warning(expect_equal(sph_stat_Pycke(X4), sph_stat_Riesz(X4, s = 0)))
+  expect_warning(expect_equal(sph_stat_Pycke(X5), sph_stat_Riesz(X5, s = 0)))
+  expect_warning(expect_equal(sph_stat_Pycke(X9), sph_stat_Riesz(X9, s = 0)))
+  expect_warning(expect_equal(sph_stat_Pycke(X200),
+                              sph_stat_Riesz(X200, s = 0)))
+  expect_warning(sph_stat_Pycke(X4))
+  expect_warning(sph_stat_Pycke(X5))
+  expect_warning(sph_stat_Pycke(X9))
+  expect_warning(sph_stat_Pycke(X200))
 
 })
 
@@ -160,6 +179,25 @@ test_that("sph_stat with psi_in_X = TRUE", {
 
 })
 
+test_that("Cai", {
+
+  expect_equal(sph_stat_Cai(X3, regime = 1), sph_stat_Cai(X3, regime = 2))
+  pn <- 3
+  expect_equal(drop(sph_stat_Cai(X3, regime = 1) -
+                      sph_stat_Cai(X3, regime = 3)),
+               4 * log(n) - log(log(n)) - 
+                 (4 * pn * (pn - 2) * log(n) - log(pn)))
+
+})
+
+test_that("Cuesta_Albertos", {
+
+  expect_equal(1 - p_Kolmogorov(sph_stat_Cuesta_Albertos(X3, rand_dirs = rd3)),
+               sph_stat_Cuesta_Albertos(X3, rand_dirs = rd3, original = TRUE))
+  expect_error(sph_stat_Cuesta_Albertos(X4, rand_dirs = rd3))
+
+})
+
 test_that("Edge cases", {
 
   expect_error(sph_stat_Gine_Gn(Psi2, Psi_in_X = TRUE))
@@ -173,10 +211,24 @@ test_that("Edge cases", {
 
 })
 
+test_that("Edge cases psi", {
+
+  expect_error(sphunif:::sph_stat_PCvM_Psi(cbind(drop(Psi2)), n = n, p = 1,
+                                           th_grid = 1:10, int_grid = 1:10))
+  expect_error(sphunif:::sph_stat_PAD_Psi(cbind(drop(Psi2)), n = n, p = 1,
+                                          th_grid = 1:10, int_grid = 1:10))
+  expect_error(sphunif:::sph_stat_PRt_Psi(cbind(drop(Psi2)), n = n, p = 1,
+                                          t_m = 0.5, theta_t_m = 1,
+                                          th_grid = 1:10, int_grid = 1:10))
+  expect_error(sphunif:::sph_stat_Pycke_Psi(cbind(drop(Psi2)), n = n, p = 1))
+  expect_error(sphunif:::sph_stat_Pycke_Psi(cbind(drop(Psi2)), n = n, p = 5))
+
+})
+
 # Circular projected statistic with weight w
 cir_stat_Pn <- function(samp, w, N = 2560, ...) {
 
-  # Integration nodes and weitghs
+  # Integration nodes and weighs
   x_k <- Gauss_Legen_nodes(a = -1, b = 1, N = N)
   wx_k <- Gauss_Legen_weights(a = -1, b = 1, N = N)
   s <- sort(x_k, index.return = TRUE)

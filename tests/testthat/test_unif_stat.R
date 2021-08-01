@@ -5,9 +5,11 @@ Theta_2 <- r_unif_cir(n = 10, M = 2)
 X_2 <- r_unif_sph(n = 33, p = 2, M = 1)
 X_3 <- r_unif_sph(n = 10, p = 3, M = 2)
 X_4 <- r_unif_sph(n = 10, p = 4, M = 2)
+X_9 <- r_unif_sph(n = 10, p = 9, M = 2)
 r_d_2 <- r_unif_sph(n = 5, p = 2, M = 1)[, , 1]
 r_d_3 <- r_unif_sph(n = 5, p = 3, M = 1)[, , 1]
-rand_dirs_4 <- r_unif_sph(n = 5, p = 4, M = 1)[, , 1]
+r_d_4 <- r_unif_sph(n = 5, p = 4, M = 1)[, , 1]
+r_d_9 <- r_unif_sph(n = 5, p = 9, M = 1)[, , 1]
 avail_cir_tests_s1 <- c("Gine_Fn", "Pycke", "Watson", "PCvM", "Cressie")
 avail_cir_tests_s2 <- c("Gine_Gn", "Rothman", "Watson_1976", "PRt")
 avail_sph_tests_s1 <- c("Gine_Fn", "Pycke", "PAD", "PCvM", "Cai")
@@ -35,11 +37,20 @@ test_that("unif_stat doing all or separate statistics", {
                sapply(avail_sph_tests, function(test)
                  as.matrix(unif_stat(data = X_3, type = test,
                                      Cuesta_Albertos_rand_dirs = r_d_3))))
+  expect_warning(
   expect_equal(as.matrix(unif_stat(data = X_4, type = "all",
-                                   Cuesta_Albertos_rand_dirs = rand_dirs_4)),
+                                   Cuesta_Albertos_rand_dirs = r_d_4)),
                sapply(avail_sph_tests, function(test)
                  as.matrix(unif_stat(data = X_4, type = test,
-                                     Cuesta_Albertos_rand_dirs = rand_dirs_4))))
+                                     Cuesta_Albertos_rand_dirs = r_d_4))))
+  )
+  expect_warning(
+    expect_equal(as.matrix(unif_stat(data = X_9, type = "all",
+                                     Cuesta_Albertos_rand_dirs = r_d_9)),
+                 sapply(avail_sph_tests, function(test)
+                   as.matrix(unif_stat(data = X_9, type = test,
+                                       Cuesta_Albertos_rand_dirs = r_d_9))))
+  )
 
 })
 
@@ -66,10 +77,10 @@ test_that("unif_stat with randomly-chosen and separate statistics", {
                  as.matrix(unif_stat(data = X_3, type = test,
                                      Cuesta_Albertos_rand_dirs = r_d_3))))
   expect_equal(as.matrix(unif_stat(data = X_4, type = avail_sph_tests_s2,
-                                   Cuesta_Albertos_rand_dirs = rand_dirs_4)),
+                                   Cuesta_Albertos_rand_dirs = r_d_4)),
                sapply(avail_sph_tests_s2, function(test)
                  as.matrix(unif_stat(data = X_4, type = test,
-                                     Cuesta_Albertos_rand_dirs = rand_dirs_4))))
+                                     Cuesta_Albertos_rand_dirs = r_d_4))))
 
 })
 
@@ -154,15 +165,52 @@ test_that("Passing edge cases", {
 
 })
 
-test_that("KS and CvM", {
+test_that("KS, CvM, and AD", {
 
   expect_equal(as.numeric(unif_stat(data = Theta_1, type = "KS")),
                as.numeric(cir_stat_Kuiper(Theta = Theta_1, KS = TRUE)))
   expect_equal(as.numeric(unif_stat(data = Theta_1, type = "CvM")),
                as.numeric(cir_stat_Watson(Theta = Theta_1, CvM = TRUE)))
+  expect_equal(as.numeric(unif_stat(data = Theta_1, type = "AD")),
+               as.numeric(goftest::ad.test(Theta_1, null = "punif",
+                                           min = 0, max = 2 * pi)$statistic))
   expect_equal(unif_stat(data = Theta_2, type = "KS")$KS,
                cir_stat_Kuiper(Theta = Theta_2, KS = TRUE))
   expect_equal(unif_stat(data = Theta_2, type = "CvM")$CvM,
                cir_stat_Watson(Theta = Theta_2, CvM = TRUE))
+  expect_equal(as.numeric(unif_stat(data = Theta_2, type = "AD")$AD),
+               apply(Theta_2, 2, function(x) 
+                 as.numeric(goftest::ad.test(x, null = "punif", min = 0,
+                                             max = 2 * pi)$statistic)))
+
+})
+
+test_that("Riesz vs. Pycke", {
+
+  expect_equal(
+    as.numeric(unif_stat(data = Theta_2, type = c("Riesz", "Pycke"),
+                         Riesz_s = 0)$Pycke),
+    as.numeric(unif_stat(data = Theta_2, type = "Pycke")$Pycke)
+  )
+  expect_equal(
+    as.numeric(unif_stat(data = X_2, type = c("Riesz", "Pycke"),
+                         Riesz_s = 0)$Pycke),
+    as.numeric(unif_stat(data = X_2, type = "Pycke")$Pycke)
+  )
+  expect_equal(
+    as.numeric(unif_stat(data = X_3, type = c("Riesz", "Pycke"),
+                         Riesz_s = 0)$Pycke),
+    as.numeric(unif_stat(data = X_3, type = "Pycke")$Pycke)
+  )
+  expect_warning(expect_equal(
+    as.numeric(unif_stat(data = X_4, type = c("Riesz", "Pycke"),
+                         Riesz_s = 0)$Riesz),
+    as.numeric(unif_stat(data = X_4, type = "Pycke")$Pycke)
+  ))
+  expect_warning(expect_equal(
+    as.numeric(unif_stat(data = X_9, type = c("Riesz", "Pycke"),
+                         Riesz_s = 0)$Riesz),
+    as.numeric(unif_stat(data = X_9, type = "Pycke")$Pycke)
+  ))
 
 })

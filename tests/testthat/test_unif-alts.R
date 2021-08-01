@@ -8,6 +8,8 @@ v <- runif(1e3)
 f0 <- function(x) rep(1, length(x))
 f1 <- function(x, kappa) exp(kappa * x)
 f2 <- function(x, kappa) exp(kappa * x^2)
+f3 <- function(x, kappa, p) exp(kappa * x^2)
+f4 <- function(x, kappa) exp(kappa * x^2)
 
 test_that("F_from_f via Gauss--Legendre", {
 
@@ -110,6 +112,19 @@ test_that("F_inv_from_f for vMF", {
                                          kappa = 20))$p.value, 0.01)
 
 })
+
+# test_that("r_alt rotationally symmetric", {
+# 
+#   samp_g <- r_alt(n = 100, p = 3, M = 1, kappa = 2, 
+#                   scenario = "vMF")[, 1, 1]
+#   expect_gt(ks.test(x = F_from_f(f = f1, p = 2, kappa = 2)(samp_g),
+#                     y = "punif")$p.value, 0.01)
+#   samp_g <- r_alt(n = 100, p = 3, M = 1, kappa = 2, 
+#                   scenario = "vMF")[, 1, 1]
+#   expect_gt(ks.test(x = F_from_f(f = f1, p = 2, kappa = 2)(samp_g),
+#                     y = "punif")$p.value, 0.01)
+# 
+# })
 
 set.seed(12311)
 n <- 20
@@ -556,7 +571,6 @@ test_that("Conversion of bk to uk in projected-ecdf statistics", {
 
 })
 
-
 # MJ (2000) page 114 and applying modulus
 f1_orig <- function(theta) {
   return(theta^2 / (2 * pi^2))
@@ -612,7 +626,7 @@ test_that("Watson vs. Sobolev statistic using f^PCvM", {
 
 })
 
-test_that("Watson vs.  Sobolev statistic using f in MJ (2000) page 114", {
+test_that("Watson vs. Sobolev statistic using f in MJ (2000) page 114", {
 
   expect_false(isTRUE(all.equal(wat, int1_orig, tolerance = 1e-3)))
   expect_false(isTRUE(all.equal(diff(wat / int1_orig), rep(0, M - 1), tolerance = 1e-3)))
@@ -628,3 +642,4 @@ test_that("Watson vs.  Sobolev statistic using f in MJ (2000) page 114", {
 # curve(f1_orig, from = 0, to = 2 * pi, n = 1e4, ylim = c(0, 1), main = "f functions")
 # curve(f1_mod, add = TRUE, col = 2, n = 1e4)
 # curve(f2, add = TRUE, col = 3, n = 1e4)
+

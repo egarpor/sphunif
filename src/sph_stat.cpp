@@ -155,7 +155,7 @@ arma::vec sph_stat_Gine_Gn(arma::cube X, bool Psi_in_X = false,
   p = Psi_in_X ? p : X.n_cols;
   if (Psi_in_X && (p == 0)) {
 
-    stop("p must be specified if Psi_in_X = TRUE");
+    stop("p >= 2 must be specified if Psi_in_X = TRUE");
 
   }
 
@@ -220,7 +220,7 @@ arma::vec sph_stat_Gine_Fn(arma::cube X, bool Psi_in_X = false,
   p = Psi_in_X ? p : X.n_cols;
   if (Psi_in_X && (p == 0)) {
 
-    stop("p must be specified if Psi_in_X = TRUE");
+    stop("p >= 2 must be specified if Psi_in_X = TRUE");
 
   }
 
@@ -292,7 +292,24 @@ arma::vec sph_stat_Pycke(arma::cube X, bool Psi_in_X = false,
   p = Psi_in_X ? p : X.n_cols;
   if (Psi_in_X && (p == 0)) {
 
-    stop("p must be specified if Psi_in_X = TRUE");
+    stop("p >= 2 must be specified if Psi_in_X = TRUE");
+
+  }
+
+  // Compute Riesz statistic?
+  if (p > 3) {
+
+    // Undo the cosine of shortest angles if Psi is given
+    if (Psi_in_X) {
+
+      X = arma::acos(X);
+
+    }
+
+    // Compute Riesz statistic
+    Rcpp::warning("Pycke statistic is only defined for p = 2,3. Using Riesz statistic with s = 0 instead, which behaves consistently across dimensions");
+    arma::vec Gamman = sph_stat_Riesz(X, Psi_in_X, p, 0);
+    return Gamman;
 
   }
 
@@ -343,11 +360,15 @@ arma::vec sph_stat_Pycke_Psi(arma::mat Psi, arma::uword n, arma::uword p) {
     Gamman += -log_two * n; // -n * log(2) / 2 * 2 where the
     // last 2 is because of factor 2 of log(Gamman^2)
 
-  } else {
+  } else if (p == 3) {
 
     Gamman *= -inv_two_M_PI / (n - 1.0); // Included factor 2 of log(Gamman^2)
     // and 1 / (4 * pi)
     Gamman += -(log_two * inv_four_M_PI + const_Pycke) * n;
+
+  } else {
+
+    stop("Pycke statistic is only defined for p = 2,3");
 
   }
   return Gamman;
@@ -379,7 +400,7 @@ arma::vec sph_stat_Riesz(arma::cube X, bool Psi_in_X = false,
   p = Psi_in_X ? p : X.n_cols;
   if (Psi_in_X && (p == 0)) {
 
-    stop("p must be specified if Psi_in_X = TRUE");
+    stop("p >= 2 must be specified if Psi_in_X = TRUE");
 
   }
 
@@ -496,7 +517,7 @@ arma::vec sph_stat_PCvM(arma::cube X, bool Psi_in_X = false, arma::uword p = 0,
   p = Psi_in_X ? p : X.n_cols;
   if (Psi_in_X && (p == 0)) {
 
-    stop("p must be specified if Psi_in_X = TRUE");
+    stop("p >= 2 must be specified if Psi_in_X = TRUE");
 
   }
 
@@ -642,7 +663,7 @@ arma::vec sph_stat_PRt(arma::cube X, double t = 1.0 / 3.0,
   p = Psi_in_X ? p : X.n_cols;
   if (Psi_in_X && (p == 0)) {
 
-    stop("p must be specified if Psi_in_X = TRUE");
+    stop("p >= 2 must be specified if Psi_in_X = TRUE");
 
   }
 
@@ -803,7 +824,7 @@ arma::vec sph_stat_PAD(arma::cube X, bool Psi_in_X = false, arma::uword p = 0,
   p = Psi_in_X ? p : X.n_cols;
   if (Psi_in_X && (p == 0)) {
 
-    stop("p must be specified if Psi_in_X = TRUE");
+    stop("p >= 2 must be specified if Psi_in_X = TRUE");
 
   }
 
@@ -846,10 +867,6 @@ arma::vec sph_stat_PAD(arma::cube X, bool Psi_in_X = false, arma::uword p = 0,
         int_grid(k) = arma::accu(w_k % d_proj_unif(t_k, p, false) % logs %
           p_proj_unif(-std::tan(0.5 * theta) * t_inv_sqrt_one(t_k),
                       p - 1, false));
-
-      } else {
-
-        stop("p must be >= 2");
 
       }
 
@@ -1080,7 +1097,7 @@ arma::vec sph_stat_Cai(arma::cube X, arma::uword regime = 3,
   p = Psi_in_X ? p : X.n_cols;
   if (Psi_in_X && (p == 0)) {
 
-    stop("p must be specified if Psi_in_X = TRUE");
+    stop("p >= 2 must be specified if Psi_in_X = TRUE");
 
   }
 
@@ -1112,7 +1129,7 @@ arma::vec sph_stat_Cai(arma::cube X, arma::uword regime = 3,
   }
 
   // Sub-exponential regime
-  if (regime == 1) {
+  if (regime == 1 | regime == 2) {
 
     Cn = p * Cn + 4 * std::log(n) - std::log(std::log(n));
 

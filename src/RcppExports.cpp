@@ -6,6 +6,11 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // A_theta_x
 arma::mat A_theta_x(arma::vec theta, arma::vec x, arma::uword p, arma::uword N, bool as_matrix);
 RcppExport SEXP _sphunif_A_theta_x(SEXP thetaSEXP, SEXP xSEXP, SEXP pSEXP, SEXP NSEXP, SEXP as_matrixSEXP) {

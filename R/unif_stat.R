@@ -518,7 +518,15 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
     }
     if (run_test$Pycke) {
 
-      stats$Pycke <- cir_stat_Pycke(Theta = data, Psi_in_Theta = Psi_in_Theta)
+      if (Riesz_s == 0 && run_test$Riesz) {
+
+        stats$Pycke <- stats$Riesz * (2 * n) / (n - 1)
+
+      } else {
+
+        stats$Pycke <- cir_stat_Pycke(Theta = data, Psi_in_Theta = Psi_in_Theta)
+
+      }
 
     }
     if (run_test$Pycke_q) {
@@ -681,13 +689,31 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
     }
     if (run_test$Pycke) {
 
-      if (Psi_in_X) {
+      if (Riesz_s == 0 && run_test$Riesz) {
 
-        stats$Pycke <- sph_stat_Pycke(X = cos(data), Psi_in_X = TRUE, p = p)
+        if (p == 3) {
+
+          stats$Pycke <- (stats$Riesz - (log(4) - 1) / 2) *
+            n / (2 * pi * (n - 1))
+
+        } else {
+
+          warning("Pycke statistic is only defined for p = 2,3. Using Riesz statistic with s = 0 instead, which behaves consistently across dimensions")
+          stats$Pycke <- stats$Riesz
+
+        }
 
       } else {
 
-        stats$Pycke <- sph_stat_Pycke(X = data, Psi_in_X = FALSE, p = p)
+        if (Psi_in_X) {
+
+          stats$Pycke <- sph_stat_Pycke(X = cos(data), Psi_in_X = TRUE, p = p)
+
+        } else {
+
+          stats$Pycke <- sph_stat_Pycke(X = data, Psi_in_X = FALSE, p = p)
+
+        }
 
       }
 

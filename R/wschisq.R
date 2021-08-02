@@ -312,7 +312,7 @@ d_wschisq <- function(x, weights, dfs, method = c("I", "SW", "HBE")[1],
 
     } else {
 
-      stop("method must be \"I\", \"SW\" or \"HBE\"")
+      stop("method must be \"I\", \"SW\" or \"HBE\".")
 
     }
 
@@ -403,7 +403,7 @@ p_wschisq <- function(x, weights, dfs, method = c("I", "SW", "HBE", "MC")[1],
 
     } else {
 
-      stop("method must be \"I\", \"SW\", \"HBE\" or \"MC\"")
+      stop("method must be \"I\", \"SW\", \"HBE\" or \"MC\".")
 
     }
 
@@ -502,7 +502,7 @@ q_wschisq <- function(u, weights, dfs, method = c("I", "SW", "HBE", "MC")[1],
 
     } else {
 
-      stop("method must be \"I\", \"SW\", \"HBE\" or \"MC\"")
+      stop("method must be \"I\", \"SW\", \"HBE\" or \"MC\".")
 
     }
 
@@ -543,12 +543,12 @@ cutoff_wschisq <- function(thre = 1e-4, weights, dfs, log = FALSE,
       message("NAs present in weights or dfs. ",
               "Truncated from ", l_weights,
               " elements to the last common non-NA entry (",
-              trunc - 1, ")")
+              trunc - 1, ").")
       l_weights <- trunc - 1
 
     } else {
 
-      stop("No weights or dfs without NAs")
+      stop("No weights or dfs without NAs.")
 
     }
 

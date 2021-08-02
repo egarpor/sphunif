@@ -294,7 +294,7 @@ cutoff_locdev <- function(p, K_max = 1e4, thre = 1e-3, type, Rothman_t = 1 / 3,
 
     if (verbose > 1) {
 
-      message("signs unknown for the ", type,
+      message("Signs unknown for the ", type,
               " statistic, using positive signs experimentally.")
 
     }
@@ -318,7 +318,7 @@ cutoff_locdev <- function(p, K_max = 1e4, thre = 1e-3, type, Rothman_t = 1 / 3,
     message("Series truncated from ", K_max_new, " to ", cutoff,
             " terms (", 100 * (1 - thre),
             "% of cumulated norm; last coefficient = ",
-            sprintf("%.3e", uk_cutoff[cutoff]), ")")
+            sprintf("%.3e", uk_cutoff[cutoff]), ").")
 
     # Diagnostic plots
     if (verbose > 1) {

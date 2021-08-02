@@ -195,7 +195,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
   # Stop if NA's
   if (anyNA(data)) {
 
-    stop("NAs present in data, please remove them")
+    stop("NAs present in data, please remove them.")
 
   }
 
@@ -218,13 +218,13 @@ unif_test <- function(data, type = "all", p_value = "asymp",
     if (d[3] != 1) {
 
       message(paste("data is an array with more than one slice,",
-                    "only the first one is employed"))
+                    "only the first one is employed."))
 
     }
 
   } else if (l > 3) {
 
-    stop("data must be a vector, matrix, or a 3-dimensional array")
+    stop("data must be a vector, matrix, or a 3-dimensional array.")
 
   }
 
@@ -279,7 +279,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
 
   } else {
 
-    stop("type must be a character or a numeric vector")
+    stop("type must be a character or a numeric vector.")
 
   }
 
@@ -296,7 +296,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
       stats_type <- stats_type[ind_asymp]
       if (length(stats_type) == 0) {
 
-        stop("No remaining statistics to use")
+        stop("No remaining statistics to use.")
 
       }
 
@@ -421,7 +421,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
   } else {
 
     stop(paste("Wrong choice for calibration, must be \"MC\", \"asymp\",",
-               "or \"crit_val\""))
+               "or \"crit_val\"."))
 
   }
 

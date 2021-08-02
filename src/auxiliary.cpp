@@ -74,7 +74,7 @@ arma::mat X_to_Theta(arma::cube X) {
   // Check dimension
   if (X.n_cols != 2) {
 
-    stop("The number of columns in X must be 2");
+    stop("The number of columns in X must be 2.");
 
   }
 

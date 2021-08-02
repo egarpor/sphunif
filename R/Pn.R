@@ -516,7 +516,7 @@ psi_Pn <- function(theta, q, type, Rothman_t = 1 / 3, tilde = FALSE,
 
   } else {
 
-    stop("type must be either \"PCvM\", \"PAD\" or \"PRt\"")
+    stop("type must be either \"PCvM\", \"PAD\" or \"PRt\".")
 
   }
 
@@ -597,7 +597,7 @@ Gegen_coefs_Pn <- function(k, p, type, Rothman_t = 1 / 3, Gauss = TRUE,
 
           message("Gegenbauer coefficients of the ", type,
                   " statistic with p = ", p, " unknown in analytical form, ",
-                  "using numerical integration of akx")
+                  "using numerical integration of akx.")
 
         }
 
@@ -686,7 +686,7 @@ Gegen_coefs_Pn <- function(k, p, type, Rothman_t = 1 / 3, Gauss = TRUE,
 
           message("Gegenbauer coefficients of the ", type,
                   " statistic with p = ", p, " unknown in analytical form, ",
-                  "using numerical integration of akx")
+                  "using numerical integration of akx.")
 
         }
 
@@ -712,7 +712,7 @@ Gegen_coefs_Pn <- function(k, p, type, Rothman_t = 1 / 3, Gauss = TRUE,
 
   } else {
 
-    stop("type must be either \"PCvM\", \"PAD\" or \"PRt\"")
+    stop("type must be either \"PCvM\", \"PAD\" or \"PRt\".")
 
   }
 

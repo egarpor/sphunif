@@ -136,7 +136,7 @@ unif_stat_distr <- function(x, type, p, n, approx = "asymp",
   # Stop if NA's
   if (anyNA(x)) {
 
-    stop("NAs present in x, please remove them")
+    stop("NAs present in x, please remove them.")
 
   }
 
@@ -183,7 +183,7 @@ unif_stat_distr <- function(x, type, p, n, approx = "asymp",
 
   } else {
 
-    stop("type must be a character or a numeric vector")
+    stop("type must be a character or a numeric vector.")
 
   }
 
@@ -320,7 +320,7 @@ unif_stat_distr <- function(x, type, p, n, approx = "asymp",
 
   } else {
 
-    stop("Wrong choice for approx")
+    stop("Wrong choice for approx.")
 
   }
 

@@ -54,3 +54,4 @@ Encoding: UTF-8
 RoxygenNote: 7.1.1
 Roxygen: list(old_usage = TRUE)
 VignetteBuilder: knitr
+Config/testthat/edition: 3

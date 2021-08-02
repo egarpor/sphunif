@@ -46,7 +46,7 @@ check_asymp_distr <- function(samp, stat, ...) {
 
     if (is.null(dots$p)) {
 
-      stop("p must be provided if Psi_in_X = TRUE")
+      stop("p must be provided if Psi_in_X = TRUE.")
 
     } else {
 

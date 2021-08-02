@@ -8,8 +8,11 @@ v <- runif(1e3)
 f0 <- function(x) rep(1, length(x))
 f1 <- function(x, kappa) exp(kappa * x)
 f2 <- function(x, kappa) exp(kappa * x^2)
-f3 <- function(x, kappa, p) exp(kappa * x^2)
-f4 <- function(x, kappa) exp(kappa * x^2)
+f3 <- function(x, kappa, nu) exp(-kappa * (x - nu)^2)
+f4 <- function(x, kappa, q) {
+  rho <- ((2 * kappa + 1) - sqrt(4 * kappa + 1)) / (2 * kappa)
+  (1 + rho^2 - 2 * rho * x)^(-(q + 1) / 2)
+}
 
 test_that("F_from_f via Gauss--Legendre", {
 
@@ -113,18 +116,47 @@ test_that("F_inv_from_f for vMF", {
 
 })
 
-# test_that("r_alt rotationally symmetric", {
-# 
-#   samp_g <- r_alt(n = 100, p = 3, M = 1, kappa = 2, 
-#                   scenario = "vMF")[, 1, 1]
-#   expect_gt(ks.test(x = F_from_f(f = f1, p = 2, kappa = 2)(samp_g),
-#                     y = "punif")$p.value, 0.01)
-#   samp_g <- r_alt(n = 100, p = 3, M = 1, kappa = 2, 
-#                   scenario = "vMF")[, 1, 1]
-#   expect_gt(ks.test(x = F_from_f(f = f1, p = 2, kappa = 2)(samp_g),
-#                     y = "punif")$p.value, 0.01)
-# 
-# })
+test_that("r_alt rotationally symmetric", {
+
+  for (p in 2:4) {
+
+    samp_g <- r_alt(n = 100, p = p, M = 1, kappa = 2, scenario = "vMF")[, p, 1]
+    expect_gt(ks.test(x = F_from_f(f = f1, p = p, kappa = 2)(samp_g),
+                      y = "punif")$p.value, 0.01)
+    samp_g <- r_alt(n = 100, p = p, M = 1, kappa = 2, scenario = "W")[, p, 1]
+    expect_gt(ks.test(x = F_from_f(f = f2, p = p, kappa = 2)(samp_g),
+                      y = "punif")$p.value, 0.01)
+    samp_g <- r_alt(n = 100, p = p, M = 1, kappa = 2, nu = 0.5,
+                    scenario = "SC")[, p, 1]
+    expect_gt(ks.test(x = F_from_f(f = f3, p = p, kappa = 2, nu = 0.5)(samp_g),
+                      y = "punif")$p.value, 0.01)
+    samp_g <- r_alt(n = 100, p = p, M = 1, kappa = 2, scenario = "C")[, p, 1]
+    expect_gt(ks.test(x = F_from_f(f = f4, p = p, kappa = 2, q = p - 1)(samp_g),
+                      y = "punif")$p.value, 0.01)
+
+  }
+
+})
+
+test_that("r_alt non-rotationally symmetric", {
+
+  for (p in 2:4) {
+
+    samp_1 <- r_alt(n = 100, p = p, M = 1, kappa = 1, scenario = "MvMF")[, p, 1]
+    samp_2 <- apply(diag(rep(1, p)), 1, function(mu) 
+      rotasym::r_vMF(n = round(100 / p), mu = mu, kappa = 1))[, p]
+    expect_gt(ks.test(x = samp_1, y = samp_2)$p.value, 0.01)
+    samp_1 <- r_alt(n = 100, p = p, M = 1, kappa = 1, scenario = "ACG")[, p, 1]
+    samp_2 <- mvtnorm::rmvnorm(n = 100, mean = rep(0, p),
+                               sigma = diag(c(rep(1, p - 1), 1 + 1)))
+    samp_2 <- samp_2 / sqrt(rowSums(samp_2^2))
+    samp_2 <- samp_2[, p]
+    expect_gt(ks.test(x = samp_1, y = samp_2)$p.value, 0.01)
+
+  }
+  expect_error(r_alt(n = 100, p = p, M = 1, kappa = 1, scenario = "WC"))
+
+})
 
 set.seed(12311)
 n <- 20
@@ -215,9 +247,9 @@ integrand_vec_PAD_11 <- function(x) {
 
 # PRt 1 / 3
 k_PRt <- 1:1e3
-uk_PRt_2 <-  bk_to_uk(Gegen_coefs_Pn(k = k_PRt, p = 2, type = "PRt",
-                                     N = 0, Rothman_t = 1 / 3),
-                      p = 2)
+uk_PRt_2 <- bk_to_uk(Gegen_coefs_Pn(k = k_PRt, p = 2, type = "PRt",
+                                    N = 0, Rothman_t = 1 / 3),
+                     p = 2)
 f_locdev_PRt_2 <- function(z) f_locdev(z = z, p = 2, uk = uk_PRt_2)
 integrand_vec_PRt_2 <- function(x) {
   f_gamma <- matrix(f_locdev_PRt_2(c(X_2[, , 1] %*% t(x))),
@@ -230,9 +262,9 @@ integrand_vec_PRt_2_anal <- function(x) {
                     nrow = n, ncol = nrow(x))
   colSums(rotasym::w_p(p = 2) * f_gamma - 1)^2 / n / rotasym::w_p(p = 2)
 }
-uk_PRt_3 <-  bk_to_uk(Gegen_coefs_Pn(k = k_PRt, p = 3, type = "PRt",
-                                     N = 0, Rothman_t = 1 / 3),
-                      p = 3)
+uk_PRt_3 <- bk_to_uk(Gegen_coefs_Pn(k = k_PRt, p = 3, type = "PRt",
+                                    N = 0, Rothman_t = 1 / 3),
+                     p = 3)
 f_locdev_PRt_3 <- function(z) f_locdev(z = z, p = 3, uk = uk_PRt_3)
 integrand_vec_PRt_3 <- function(x) {
   f_gamma <- matrix(f_locdev_PRt_3(c(X_3[, , 1] %*% t(x))),
@@ -245,9 +277,9 @@ integrand_vec_PRt_3_anal <- function(x) {
                     nrow = n, ncol = nrow(x))
   colSums(rotasym::w_p(p = 3) * f_gamma - 1)^2 / n / rotasym::w_p(p = 3)
 }
-uk_PRt_4 <-  bk_to_uk(Gegen_coefs_Pn(k = k_PRt, p = 4, type = "PRt",
-                                     N = 0, Rothman_t = 1 / 3),
-                      p = 4)
+uk_PRt_4 <- bk_to_uk(Gegen_coefs_Pn(k = k_PRt, p = 4, type = "PRt",
+                                    N = 0, Rothman_t = 1 / 3),
+                     p = 4)
 f_locdev_PRt_4 <- function(z) f_locdev(z = z, p = 4, uk = uk_PRt_4)
 integrand_vec_PRt_4 <- function(x) {
   f_gamma <- matrix(f_locdev_PRt_4(c(X_4[, , 1] %*% t(x))),
@@ -260,9 +292,9 @@ integrand_vec_PRt_4_anal <- function(x) {
                     nrow = n, ncol = nrow(x))
   colSums(rotasym::w_p(p = 4) * f_gamma - 1)^2 / n / rotasym::w_p(p = 4)
 }
-uk_PRt_11 <-  bk_to_uk(Gegen_coefs_Pn(k = k_PRt, p = 11, type = "PRt",
-                                      N = 0, Rothman_t = 1 / 3),
-                       p = 11)
+uk_PRt_11 <- bk_to_uk(Gegen_coefs_Pn(k = k_PRt, p = 11, type = "PRt",
+                                     N = 0, Rothman_t = 1 / 3),
+                      p = 11)
 f_locdev_PRt_11 <- function(z) f_locdev(z = z, p = 11, uk = uk_PRt_11)
 integrand_vec_PRt_11 <- function(x) {
   f_gamma <- matrix(f_locdev_PRt_11(c(X_11[, , 1] %*% t(x))),
@@ -279,7 +311,8 @@ integrand_vec_PRt_11_anal <- function(x) {
 # Ajne
 k_Ajne <- 1:1e3
 vk2_Ajne_2 <- weights_dfs_Sobolev(p = 2, K_max = max(k_Ajne),
-                                   type = "Ajne", thre = 0)$weights
+                                  type = "Ajne", thre = 0,
+                                  verbose = FALSE)$weights
 uk_Ajne_2 <- vk2_to_uk(vk2 = vk2_Ajne_2, p = 2,
                        signs = (-1)^((seq_along(vk2_Ajne_2) - 1) %/% 2))
 f_locdev_Ajne_2 <- function(z) f_locdev(z = z, p = 2, uk = uk_Ajne_2)
@@ -289,7 +322,8 @@ integrand_vec_Ajne_2 <- function(x) {
   colSums(rotasym::w_p(p = 2) * f_gamma - 1)^2 / n / rotasym::w_p(p = 2)
 }
 vk2_Ajne_3 <- weights_dfs_Sobolev(p = 3, K_max = max(k_Ajne),
-                                   type = "Ajne", thre = 0)$weights
+                                  type = "Ajne", thre = 0,
+                                  verbose = FALSE)$weights
 uk_Ajne_3 <- vk2_to_uk(vk2 = vk2_Ajne_3 , p = 3)
 f_locdev_Ajne_3 <- function(z) f_locdev(z = z, p = 3, uk = uk_Ajne_3)
 integrand_vec_Ajne_3 <- function(x) {
@@ -298,7 +332,8 @@ integrand_vec_Ajne_3 <- function(x) {
   colSums(rotasym::w_p(p = 3) * f_gamma - 1)^2 / n / rotasym::w_p(p = 3)
 }
 vk2_Ajne_4 <- weights_dfs_Sobolev(p = 4, K_max = max(k_Ajne),
-                                   type = "Ajne", thre = 0)$weights
+                                  type = "Ajne", thre = 0,
+                                  verbose = FALSE)$weights
 uk_Ajne_4 <- vk2_to_uk(vk2 = vk2_Ajne_4 , p = 4)
 f_locdev_Ajne_4 <- function(z) f_locdev(z = z, p = 4, uk = uk_Ajne_4)
 integrand_vec_Ajne_4 <- function(x) {
@@ -307,7 +342,8 @@ integrand_vec_Ajne_4 <- function(x) {
   colSums(rotasym::w_p(p = 4) * f_gamma - 1)^2 / n / rotasym::w_p(p = 4)
 }
 vk2_Ajne_11 <- weights_dfs_Sobolev(p = 11, K_max = max(k_Ajne),
-                                   type = "Ajne", thre = 0)$weights
+                                   type = "Ajne", thre = 0,
+                                   verbose = FALSE)$weights
 uk_Ajne_11 <- vk2_to_uk(vk2 = vk2_Ajne_11 , p = 11)
 f_locdev_Ajne_11 <- function(z) f_locdev(z = z, p = 11, uk = uk_Ajne_11)
 integrand_vec_Ajne_11 <- function(x) {
@@ -347,25 +383,25 @@ test_that("PCvM as the integral of its local alternative", {
 
   expect_equal(drop(sph_stat_PCvM(X = X_2)),
                sum(w_k * integrand_vec_PCvM_2(cbind(cos(th_k), sin(th_k)))),
-               tolerance = 3e-3)
+               tolerance = 5e-2)
   expect_equal(drop(sph_stat_PCvM(X = X_2)),
                integrate(function(th)
                  integrand_vec_PCvM_2_anal(x = cbind(cos(th), sin(th))),
                  lower = 0, upper = 2 * pi, abs.tol = 1e-5,
                  subdivisions = 1e3)$value,
-               tolerance = 1e-3)
+               tolerance = 5e-2)
   expect_equal(drop(sph_stat_PCvM(X = X_3)), {
     int_sph_MC(f = integrand_vec_PCvM_3, p = 3, cores = 2, chunks = 16,
-               .export = ls(), seeds = 1:16, M = 1e4)
-  }, tolerance = 1e-2)
+               .export = ls(), seeds = 1:16, M = 1e4, verbose = FALSE)
+  }, tolerance = 5e-2)
   expect_equal(drop(sph_stat_PCvM(X = X_4)), {
     int_sph_MC(f = integrand_vec_PCvM_4, p = 4, cores = 2, chunks = 16,
-               .export = ls(), seeds = 1:16, M = 1e4)
-  }, tolerance = 1e-2)
+               .export = ls(), seeds = 1:16, M = 1e4, verbose = FALSE)
+  }, tolerance = 5e-2)
   expect_equal(drop(sph_stat_PCvM(X = X_11)), {
     int_sph_MC(f = integrand_vec_PCvM_11, p = 11, cores = 2, chunks = 16,
-               .export = ls(), seeds = 1:16, M = 1e4)
-  }, tolerance = 3e-2)
+               .export = ls(), seeds = 1:16 + 10, M = 1e4, verbose = FALSE)
+  }, tolerance = 1e-1)
 
 })
 
@@ -373,18 +409,18 @@ test_that("PAD as the integral of its local alternative", {
 
   expect_equal(drop(sph_stat_PAD(X = X_2)),
                sum(w_k * integrand_vec_PAD_2(cbind(cos(th_k), sin(th_k)))),
-               tolerance = 3e-2)
+               tolerance = 1e-1)
   expect_equal(drop(sph_stat_PAD(X = X_3)), {
     int_sph_MC(f = integrand_vec_PAD_3, p = 3, cores = 2, chunks = 16,
-               .export = ls(), seeds = 1:16, M = 1e4)
-  }, tolerance = 1e-2)
+               .export = ls(), seeds = 1:16, M = 1e4, verbose = FALSE)
+  }, tolerance = 5e-2)
   expect_equal(drop(sph_stat_PAD(X = X_4)), {
     int_sph_MC(f = integrand_vec_PAD_4, p = 4, cores = 2, chunks = 16,
-               .export = ls(), seeds = 1:16, M = 1e4)
+               .export = ls(), seeds = 1:16, M = 1e4, verbose = FALSE)
   }, tolerance = 2e-2)
   expect_equal(drop(sph_stat_PAD(X = X_11)), {
     int_sph_MC(f = integrand_vec_PAD_11, p = 11, cores = 2, chunks = 16,
-               .export = ls(), seeds = 1:16 + 20, M = 1e4)
+               .export = ls(), seeds = 1:16 + 20, M = 1e4, verbose = FALSE)
   }, tolerance = 3e-2)
 
 })
@@ -393,7 +429,7 @@ test_that("PRt t = 1 / 3 as the integral of its local alternative", {
 
   expect_equal(drop(sph_stat_PRt(X = X_2, t = 1 / 3)),
                sum(w_k * integrand_vec_PRt_2(cbind(cos(th_k), sin(th_k)))),
-               tolerance = 2e-3)
+               tolerance = 5e-2)
   expect_equal(drop(sph_stat_PRt(X = X_2, t = 1 / 3)),
                integrate(function(th)
                  integrand_vec_PRt_2_anal(x = cbind(cos(th), sin(th))),
@@ -402,27 +438,27 @@ test_that("PRt t = 1 / 3 as the integral of its local alternative", {
                tolerance = 1e-4)
   expect_equal(drop(sph_stat_PRt(X = X_3, t = 1 / 3)), {
     int_sph_MC(f = integrand_vec_PRt_3, p = 3, cores = 2, chunks = 16,
-               .export = ls(), seeds = 1:16, M = 1e4)
-  }, tolerance = 1e-2)
+               .export = ls(), seeds = 1:16, M = 1e4, verbose = FALSE)
+  }, tolerance = 5e-2)
   expect_equal(drop(sph_stat_PRt(X = X_3, t = 1 / 3)), {
     int_sph_MC(f = integrand_vec_PRt_3_anal, p = 3, cores = 2, chunks = 16,
-               .export = ls(), seeds = 1:16, M = 1e4)
+               .export = ls(), seeds = 1:16, M = 1e4, verbose = FALSE)
   }, tolerance = 3e-2)
   expect_equal(drop(sph_stat_PRt(X = X_4, t = 1 / 3)), {
     int_sph_MC(f = integrand_vec_PRt_4, p = 4, cores = 2, chunks = 16,
-               .export = ls(), seeds = 1:16, M = 1e4)
-  }, tolerance = 1e-2)
+               .export = ls(), seeds = 1:16, M = 1e4, verbose = FALSE)
+  }, tolerance = 5e-2)
   expect_equal(drop(sph_stat_PRt(X = X_4, t = 1 / 3)), {
     int_sph_MC(f = integrand_vec_PRt_4_anal, p = 4, cores = 2, chunks = 16,
-               .export = ls(), seeds = 1:16, M = 1e4)
+               .export = ls(), seeds = 1:16, M = 1e4, verbose = FALSE)
   }, tolerance = 3e-2)
   expect_equal(drop(sph_stat_PRt(X = X_11, t = 1 / 3)), {
     int_sph_MC(f = integrand_vec_PRt_11, p = 11, cores = 2, chunks = 16,
-               .export = ls(), seeds = 1:16, M = 1e4)
-  }, tolerance = 3e-2)
+               .export = ls(), seeds = 1:16 + 10, M = 1e4, verbose = FALSE)
+  }, tolerance = 5e-2)
   expect_equal(drop(sph_stat_PRt(X = X_11, t = 1 / 3)), {
     int_sph_MC(f = integrand_vec_PRt_11_anal, p = 11, cores = 2, chunks = 16,
-               .export = ls(), seeds = 1:16, M = 1e4)
+               .export = ls(), seeds = 1:16, M = 1e4, verbose = FALSE)
   }, tolerance = 3e-2)
 
 })
@@ -431,19 +467,19 @@ test_that("Ajne as the integral of its local alternative (series expansion)", {
 
   expect_equal(drop(sph_stat_Ajne(X = X_2)),
                sum(w_k * integrand_vec_Ajne_2(cbind(cos(th_k), sin(th_k)))),
-               tolerance = 1e-3)
+               tolerance = 5e-2)
   expect_equal(drop(sph_stat_Ajne(X = X_3)), {
     int_sph_MC(f = integrand_vec_Ajne_3, p = 3, cores = 2, chunks = 16,
-               .export = ls(), seeds = 1:16, M = 1e4)
-  }, tolerance = 1e-2)
+               .export = ls(), seeds = 1:16, M = 1e4, verbose = FALSE)
+  }, tolerance = 5e-2)
   expect_equal(drop(sph_stat_Ajne(X = X_4)), {
     int_sph_MC(f = integrand_vec_Ajne_4, p = 4, cores = 2, chunks = 16,
-               .export = ls(), seeds = 1:16, M = 1e4)
-  }, tolerance = 1e-2)
+               .export = ls(), seeds = 1:16, M = 1e4, verbose = FALSE)
+  }, tolerance = 5e-2)
   expect_equal(drop(sph_stat_Ajne(X = X_11)), {
     int_sph_MC(f = integrand_vec_Ajne_11, p = 11, cores = 2, chunks = 16,
-               .export = ls(), seeds = 1:16 + 10, M = 1e4)
-  }, tolerance = 3e-2)
+               .export = ls(), seeds = 1:16 + 10, M = 1e4, verbose = FALSE)
+  }, tolerance = 1e-1)
 
 })
 
@@ -451,18 +487,18 @@ test_that("Ajne as the integral of its local alternative (analytical)", {
 
   expect_equal(drop(sph_stat_Ajne(X = X_2)),
                sum(w_k * integrand_vec_f_Ajne_2(cbind(cos(th_k), sin(th_k)))),
-               tolerance = 1e-3)
+               tolerance = 5e-2)
   expect_equal(drop(sph_stat_Ajne(X = X_3)), {
     int_sph_MC(f = integrand_vec_f_Ajne_3, p = 3, cores = 2, chunks = 16,
-               .export = ls(), seeds = 1:16, M = 1e4)
-  }, tolerance = 1e-2)
+               .export = ls(), seeds = 1:16, M = 1e4, verbose = FALSE)
+  }, tolerance = 5e-2)
   expect_equal(drop(sph_stat_Ajne(X = X_4)), {
     int_sph_MC(f = integrand_vec_f_Ajne_4, p = 4, cores = 2, chunks = 16,
-               .export = ls(), seeds = 1:16, M = 1e4)
-  }, tolerance = 1e-2)
+               .export = ls(), seeds = 1:16, M = 1e4, verbose = FALSE)
+  }, tolerance = 5e-2)
   expect_equal(drop(sph_stat_Ajne(X = X_11)), {
     int_sph_MC(f = integrand_vec_f_Ajne_11, p = 11, cores = 2, chunks = 16,
-               .export = ls(), seeds = 1:16 + 10, M = 1e4)
+               .export = ls(), seeds = 1:16 + 10, M = 1e4, verbose = FALSE)
   }, tolerance = 3e-2)
 
 })
@@ -571,6 +607,16 @@ test_that("Conversion of bk to uk in projected-ecdf statistics", {
 
 })
 
+test_that("cutoff_locdev verbose", {
+
+  expect_message(cutoff_locdev(K_max = 9, thre = 0, p = 9, type = "PAD",
+                               verbose = 1))
+  suppressMessages(
+    expect_message(cutoff_locdev(K_max = 1e1, thre = 1e-4, p = 4, type = "PCvM",
+                                 verbose = 2)))
+
+})
+
 # MJ (2000) page 114 and applying modulus
 f1_orig <- function(theta) {
   return(theta^2 / (2 * pi^2))
@@ -593,31 +639,31 @@ n <- 20
 int1_orig <- int1_mod <- int2 <- wat <- numeric(M)
 set.seed(1323131)
 for (i in 1:M) {
-  
+
   # Sample
   theta_i <- rnorm(n = n) %% (2 * pi)
-  
+
   # MJ (2000) (6.3.70) + (6.3.60)
   int1_orig[i] <- integrate(f = function(th) {
     sapply(th, function(theta) (sum(f1_mod(theta + theta_i)) - n / (2 * pi))^2)
   }, lower = 0, upper = 2 * pi, abs.tol = 1e-6, subdivisions = 1e4,
   stop.on.error = TRUE)$value / (2 * pi) / (4 * n)
-  
+
   # MJ (2000) (6.3.70) + (6.3.60) applying modulus
   int1_mod[i] <- integrate(f = function(th) {
     sapply(th, function(theta) (sum(f1_orig(theta + theta_i)) - n / (2 * pi))^2)
   }, lower = 0, upper = 2 * pi, abs.tol = 1e-6, subdivisions = 1e4,
   stop.on.error = TRUE)$value / (2 * pi) / (4 * n)
-  
+
   # f^CvM local deviation
   int2[i] <- 0.5 * integrate(f = function(th) {
     sapply(th, function(theta) sum((2 * pi) * f2(theta + theta_i) - 1)^2)
   }, lower = 0, upper = 2 * pi, abs.tol = 1e-6, subdivisions = 1e4,
   stop.on.error = TRUE)$value / (2 * pi * n)
-  
+
   # Watson statistic
   wat[i] <- sphunif::cir_stat_Watson(Theta = cbind(theta_i))
-  
+
 }
 
 test_that("Watson vs. Sobolev statistic using f^PCvM", {
@@ -629,9 +675,11 @@ test_that("Watson vs. Sobolev statistic using f^PCvM", {
 test_that("Watson vs. Sobolev statistic using f in MJ (2000) page 114", {
 
   expect_false(isTRUE(all.equal(wat, int1_orig, tolerance = 1e-3)))
-  expect_false(isTRUE(all.equal(diff(wat / int1_orig), rep(0, M - 1), tolerance = 1e-3)))
+  expect_false(isTRUE(all.equal(diff(wat / int1_orig), rep(0, M - 1),
+                                tolerance = 1e-3)))
   expect_false(isTRUE(all.equal(wat, int1_mod, tolerance = 1e-3)))
-  expect_false(isTRUE(all.equal(diff(wat / int1_mod), rep(0, M - 1), tolerance = 1e-3)))
+  expect_false(isTRUE(all.equal(diff(wat / int1_mod), rep(0, M - 1),
+                                tolerance = 1e-3)))
 
 })
 

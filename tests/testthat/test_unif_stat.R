@@ -37,20 +37,20 @@ test_that("unif_stat doing all or separate statistics", {
                sapply(avail_sph_tests, function(test)
                  as.matrix(unif_stat(data = X_3, type = test,
                                      Cuesta_Albertos_rand_dirs = r_d_3))))
-  expect_warning(
-  expect_equal(as.matrix(unif_stat(data = X_4, type = "all",
-                                   Cuesta_Albertos_rand_dirs = r_d_4)),
-               sapply(avail_sph_tests, function(test)
-                 as.matrix(unif_stat(data = X_4, type = test,
-                                     Cuesta_Albertos_rand_dirs = r_d_4))))
-  )
-  expect_warning(
+  suppressWarnings(expect_warning(
+    expect_equal(as.matrix(unif_stat(data = X_4, type = "all",
+                                     Cuesta_Albertos_rand_dirs = r_d_4)),
+                 sapply(avail_sph_tests, function(test)
+                   as.matrix(unif_stat(data = X_4, type = test,
+                                       Cuesta_Albertos_rand_dirs = r_d_4))))
+  ))
+  suppressWarnings(expect_warning(
     expect_equal(as.matrix(unif_stat(data = X_9, type = "all",
                                      Cuesta_Albertos_rand_dirs = r_d_9)),
                  sapply(avail_sph_tests, function(test)
                    as.matrix(unif_stat(data = X_9, type = test,
                                        Cuesta_Albertos_rand_dirs = r_d_9))))
-  )
+  ))
 
 })
 
@@ -202,15 +202,17 @@ test_that("Riesz vs. Pycke", {
                          Riesz_s = 0)$Pycke),
     as.numeric(unif_stat(data = X_3, type = "Pycke")$Pycke)
   )
-  expect_warning(expect_equal(
-    as.numeric(unif_stat(data = X_4, type = c("Riesz", "Pycke"),
-                         Riesz_s = 0)$Riesz),
-    as.numeric(unif_stat(data = X_4, type = "Pycke")$Pycke)
-  ))
-  expect_warning(expect_equal(
-    as.numeric(unif_stat(data = X_9, type = c("Riesz", "Pycke"),
-                         Riesz_s = 0)$Riesz),
-    as.numeric(unif_stat(data = X_9, type = "Pycke")$Pycke)
-  ))
+  suppressWarnings(expect_warning(
+    expect_equal(
+      as.numeric(unif_stat(data = X_4, type = c("Riesz", "Pycke"),
+                           Riesz_s = 0)$Riesz),
+      as.numeric(unif_stat(data = X_4, type = "Pycke")$Pycke)
+  )))
+  suppressWarnings(expect_warning(
+    expect_equal(
+      as.numeric(unif_stat(data = X_9, type = c("Riesz", "Pycke"),
+                           Riesz_s = 0)$Riesz),
+      as.numeric(unif_stat(data = X_9, type = "Pycke")$Pycke)
+  )))
 
 })

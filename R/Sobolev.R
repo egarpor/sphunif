@@ -430,7 +430,7 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
 
     } else {
 
-      stop("Incompatible choice of p and type")
+      stop("Incompatible choice of p and type.")
 
     }
 
@@ -456,7 +456,7 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
 
     message("Series truncated from ", K_max, " to ", cutoff,
             " terms (difference <= ", thre, " with the HBE tail probability;",
-            " last weight = ", sprintf("%.3e", exp(log_weights[cutoff])), ")")
+            " last weight = ", sprintf("%.3e", exp(log_weights[cutoff])), ").")
 
   }
 

@@ -72,7 +72,7 @@ arma::vec d_proj_unif(arma::vec x, arma::uword p, bool log = false) {
   // Check p
   if (p <= 1) {
 
-    stop("p must be >= 2");
+    stop("p must be >= 2.");
 
   }
 
@@ -103,7 +103,7 @@ arma::vec p_proj_unif(arma::vec x, arma::uword p, bool log = false) {
   // Check p
   if (p <= 1) {
 
-    stop("p must be >= 2");
+    stop("p must be >= 2.");
 
   }
 
@@ -169,7 +169,7 @@ arma::vec q_proj_unif(arma::vec u, arma::uword p) {
   // Check p
   if (p <= 1) {
 
-    stop("p must be >= 2");
+    stop("p must be >= 2.");
 
   }
 

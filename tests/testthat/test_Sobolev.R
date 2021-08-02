@@ -28,22 +28,22 @@ test_that("Gegen_coefs (Gauss = TRUE) vs weights_dfs_Sobolev for Ajne", {
   expect_equal(Gegen_coefs(psi = psi_Ajne, k = k[-K], p = 2, Gauss = TRUE),
                2 * weights_dfs_Sobolev(p = 2, K_max = K, thre = 0,
                                        type = "Ajne", verbose = FALSE)$weights,
-               tolerance = 1e-7)
+               tolerance = 1e-6)
   expect_equal(Gegen_coefs(psi = psi_Ajne, k = k[-K], p = 3, Gauss = TRUE),
                (1 + 2 * k[-K] / (3 - 2)) *
                  weights_dfs_Sobolev(p = 3, K_max = K, thre = 0,
                                      type = "Ajne", verbose = FALSE)$weights,
-               tolerance = 1e-7)
+               tolerance = 1e-6)
   expect_equal(Gegen_coefs(psi = psi_Ajne, k = k[-K], p = 4, Gauss = TRUE),
                (1 + 2 * k[-K] / (4 - 2)) *
                  weights_dfs_Sobolev(p = 4, K_max = K, thre = 0,
                                      type = "Ajne", verbose = FALSE)$weights,
-               tolerance = 1e-7)
+               tolerance = 1e-6)
   expect_equal(Gegen_coefs(psi = psi_Ajne, k = k[-K], p = 11, Gauss = TRUE),
                (1 + 2 * k[-K] / (11 - 2)) *
                  weights_dfs_Sobolev(p = 11, K_max = K, thre = 0,
                                      type = "Ajne", verbose = FALSE)$weights,
-               tolerance = 1e-7)
+               tolerance = 1e-6)
 
 })
 
@@ -52,22 +52,22 @@ test_that("Gegen_coefs (Gauss = FALSE) vs weights_dfs_Sobolev for Ajne", {
   expect_equal(Gegen_coefs(psi = psi_Ajne, k = k[-K], p = 2, Gauss = FALSE),
                2 * weights_dfs_Sobolev(p = 2, K_max = K, thre = 0,
                                        type = "Ajne", verbose = FALSE)$weights,
-               tolerance = 1e-7)
+               tolerance = 1e-6)
   expect_equal(Gegen_coefs(psi = psi_Ajne, k = k[-K], p = 3, Gauss = FALSE),
                (1 + 2 * k[-K] / (3 - 2)) *
                  weights_dfs_Sobolev(p = 3, K_max = K, thre = 0,
                                      type = "Ajne", verbose = FALSE)$weights,
-               tolerance = 1e-7)
+               tolerance = 1e-6)
   expect_equal(Gegen_coefs(psi = psi_Ajne, k = k[-K], p = 4, Gauss = FALSE),
                (1 + 2 * k[-K] / (4 - 2)) *
                  weights_dfs_Sobolev(p = 4, K_max = K, thre = 0,
                                      type = "Ajne", verbose = FALSE)$weights,
-               tolerance = 1e-7)
+               tolerance = 1e-6)
   expect_equal(Gegen_coefs(psi = psi_Ajne, k = k[-K], p = 11, Gauss = FALSE),
                (1 + 2 * k[-K] / (11 - 2)) *
                  weights_dfs_Sobolev(p = 11, K_max = K, thre = 0,
                                      type = "Ajne", verbose = FALSE)$weights,
-               tolerance = 1e-7)
+               tolerance = 1e-6)
 
 })
 
@@ -76,22 +76,22 @@ test_that("Gegen_coefs (Gauss = TRUE) for PCvM", {
   expect_equal(Gegen_coefs(psi = psi_PCvM_2, k = k, p = 2, Gauss = TRUE),
                2 * weights_dfs_Sobolev(p = 2, K_max = K, thre = 0,
                                        type = "PCvM", verbose = FALSE)$weights,
-               tolerance = 1e-7)
+               tolerance = 1e-6)
   expect_equal(Gegen_coefs(psi = psi_PCvM_3, k = k, p = 3, Gauss = TRUE),
                (1 + 2 * k / (3 - 2)) *
                  weights_dfs_Sobolev(p = 3, K_max = K, thre = 0,
                                      type = "PCvM", verbose = FALSE)$weights,
-               tolerance = 1e-7)
+               tolerance = 1e-6)
   expect_equal(Gegen_coefs(psi = psi_PCvM_4, k = k, p = 4, Gauss = TRUE),
                (1 + 2 * k / (4 - 2)) *
                  weights_dfs_Sobolev(p = 4, K_max = K, thre = 0,
                                      type = "PCvM", verbose = FALSE)$weights,
-               tolerance = 1e-7)
+               tolerance = 1e-6)
   expect_equal(Gegen_coefs(psi = psi_PCvM_11, k = k, p = 11, Gauss = TRUE),
                (1 + 2 * k / (11 - 2)) *
                  weights_dfs_Sobolev(p = 11, K_max = K, thre = 0,
                                      type = "PCvM", verbose = FALSE)$weights,
-               tolerance = 1e-7)
+               tolerance = 1e-6)
 
 })
 
@@ -100,22 +100,22 @@ test_that("Gegen_coefs (Gauss = FALSE) for PCvM", {
   expect_equal(Gegen_coefs(psi = psi_PCvM_2, k = k, p = 2, Gauss = FALSE),
                2 * weights_dfs_Sobolev(p = 2, K_max = K, thre = 0,
                                        type = "PCvM", verbose = FALSE)$weights,
-               tolerance = 1e-7)
+               tolerance = 1e-6)
   expect_equal(Gegen_coefs(psi = psi_PCvM_3, k = k, p = 3, Gauss = FALSE),
                (1 + 2 * k / (3 - 2)) *
                  weights_dfs_Sobolev(p = 3, K_max = K, thre = 0,
                                      type = "PCvM", verbose = FALSE)$weights,
-               tolerance = 1e-7)
+               tolerance = 1e-6)
   expect_equal(Gegen_coefs(psi = psi_PCvM_4, k = k, p = 4, Gauss = FALSE),
                (1 + 2 * k / (4 - 2)) *
                  weights_dfs_Sobolev(p = 4, K_max = K, thre = 0,
                                      type = "PCvM", verbose = FALSE)$weights,
-               tolerance = 1e-7)
+               tolerance = 1e-6)
   expect_equal(Gegen_coefs(psi = psi_PCvM_11, k = k, p = 11, Gauss = FALSE),
                (1 + 2 * k / (11 - 2)) *
                  weights_dfs_Sobolev(p = 11, K_max = K, thre = 0,
                                      type = "PCvM", verbose = FALSE)$weights,
-               tolerance = 1e-7)
+               tolerance = 1e-6)
 
 })
 
@@ -124,22 +124,22 @@ test_that("Gegen_coefs (Gauss = TRUE) for PAD", {
   expect_equal(Gegen_coefs(psi = psi_PAD_2, k = k, p = 2, Gauss = TRUE),
                2 * weights_dfs_Sobolev(p = 2, K_max = K, thre = 0,
                                        type = "PAD", verbose = FALSE)$weights,
-               tolerance = 1e-7)
+               tolerance = 1e-6)
   expect_equal(Gegen_coefs(psi = psi_PAD_3, k = k, p = 3, Gauss = TRUE),
                (1 + 2 * k / (3 - 2)) *
                  weights_dfs_Sobolev(p = 3, K_max = K, thre = 0,
                                      type = "PAD", verbose = FALSE)$weights,
-               tolerance = 1e-7)
+               tolerance = 1e-6)
   expect_equal(Gegen_coefs(psi = psi_PAD_4, k = k, p = 4, Gauss = TRUE),
                (1 + 2 * k / (4 - 2)) *
                  weights_dfs_Sobolev(p = 4, K_max = K, thre = 0,
                                      type = "PAD", verbose = FALSE)$weights,
-               tolerance = 1e-7)
+               tolerance = 1e-6)
   expect_equal(Gegen_coefs(psi = psi_PAD_11, k = k, p = 11, Gauss = TRUE),
                (1 + 2 * k / (11 - 2)) *
                  weights_dfs_Sobolev(p = 11, K_max = K, thre = 0,
                                      type = "PAD", verbose = FALSE)$weights,
-               tolerance = 1e-7)
+               tolerance = 1e-6)
 
 })
 
@@ -148,22 +148,22 @@ test_that("Gegen_coefs (Gauss = FALSE) for PAD", {
   expect_equal(Gegen_coefs(psi = psi_PAD_2, k = k, p = 2, Gauss = FALSE),
                2 * weights_dfs_Sobolev(p = 2, K_max = K, thre = 0,
                                        type = "PAD", verbose = FALSE)$weights,
-               tolerance = 1e-7)
+               tolerance = 1e-6)
   expect_equal(Gegen_coefs(psi = psi_PAD_3, k = k, p = 3, Gauss = FALSE),
                (1 + 2 * k / (3 - 2)) *
                  weights_dfs_Sobolev(p = 3, K_max = K, thre = 0,
                                      type = "PAD", verbose = FALSE)$weights,
-               tolerance = 1e-7)
+               tolerance = 1e-6)
   expect_equal(Gegen_coefs(psi = psi_PAD_4, k = k, p = 4, Gauss = FALSE),
                (1 + 2 * k / (4 - 2)) *
                  weights_dfs_Sobolev(p = 4, K_max = K, thre = 0,
                                      type = "PAD", verbose = FALSE)$weights,
-               tolerance = 1e-7)
+               tolerance = 1e-6)
   expect_equal(Gegen_coefs(psi = psi_PAD_11, k = k, p = 11, Gauss = FALSE),
                (1 + 2 * k / (11 - 2)) *
                  weights_dfs_Sobolev(p = 11, K_max = K, thre = 0,
                                      type = "PAD", verbose = FALSE)$weights,
-               tolerance = 1e-7)
+               tolerance = 1e-6)
 
 })
 
@@ -172,12 +172,12 @@ test_that("Gegen_coefs (Gauss = TRUE) for PRt", {
   expect_equal(Gegen_coefs(psi = psi_PRt_2, k = k, p = 2, Gauss = TRUE),
                2 * weights_dfs_Sobolev(p = 2, K_max = K, thre = 0,
                                        type = "PRt", verbose = FALSE)$weights,
-               tolerance = 1e-6)
+               tolerance = 1e-5)
   expect_equal(Gegen_coefs(psi = psi_PRt_3, k = k, p = 3, Gauss = TRUE),
                (1 + 2 * k / (3 - 2)) *
                  weights_dfs_Sobolev(p = 3, K_max = K, thre = 0,
                                      type = "PRt", verbose = FALSE)$weights,
-               tolerance = 1e-6)
+               tolerance = 1e-5)
   expect_equal(Gegen_coefs(psi = psi_PRt_4, k = k, p = 4, Gauss = TRUE),
                (1 + 2 * k / (4 - 2)) *
                  weights_dfs_Sobolev(p = 4, K_max = K, thre = 0,
@@ -201,7 +201,7 @@ test_that("Gegen_coefs (Gauss = FALSE) for PRt", {
                (1 + 2 * k / (3 - 2)) *
                  weights_dfs_Sobolev(p = 3, K_max = K, thre = 0,
                                      type = "PRt", verbose = FALSE)$weights,
-               tolerance = 1e-6)
+               tolerance = 5e-5)
   expect_equal(Gegen_coefs(psi = psi_PRt_4, k = k, p = 4, Gauss = FALSE),
                (1 + 2 * k / (4 - 2)) *
                  weights_dfs_Sobolev(p = 4, K_max = K, thre = 0,
@@ -282,24 +282,24 @@ test_that("weights_dfs_Sobolev for Ajne vs PRt with t = 1 / 2", {
                weights_dfs_Sobolev(p = 2, K_max = K - 1, thre = 0,
                                    type = "PRt", Rothman_t = 1 / 2,
                                    verbose = FALSE)$weights,
-               tolerance = 1e-7)
+               tolerance = 1e-6)
   expect_equal(weights_dfs_Sobolev(p = 3, K_max = K, thre = 0,
                                    type = "Ajne", verbose = FALSE)$weights,
                weights_dfs_Sobolev(p = 3, K_max = K - 1, thre = 0,
                                    type = "PRt", Rothman_t = 1 / 2,
                                    verbose = FALSE)$weights,
-               tolerance = 1e-7)
+               tolerance = 1e-6)
   expect_equal(weights_dfs_Sobolev(p = 4, K_max = K, thre = 0,
                                    type = "Ajne", verbose = FALSE)$weights,
                weights_dfs_Sobolev(p = 4, K_max = K - 1, thre = 0,
                                    type = "PRt", Rothman_t = 1 / 2,
                                    verbose = FALSE)$weights,
-               tolerance = 1e-7)
+               tolerance = 1e-6)
   expect_equal(weights_dfs_Sobolev(p = 11, K_max = K, thre = 0,
                                    type = "Ajne", verbose = FALSE)$weights,
                weights_dfs_Sobolev(p = 11, K_max = K - 1, thre = 0,
                                    type = "PRt", Rothman_t = 1 / 2,
                                    verbose = FALSE)$weights,
-               tolerance = 1e-7)
+               tolerance = 1e-6)
 
 })

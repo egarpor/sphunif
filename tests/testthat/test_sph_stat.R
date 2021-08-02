@@ -24,57 +24,57 @@ rd3 <- X3[1:5, , 1]
 
 test_that("PAD with X", {
 
-  expect_equal(drop(sph_stat_PAD(X2)), 0.5752646, tolerance = 1e-7)
-  expect_equal(drop(sph_stat_PAD(X3)), 0.7093266, tolerance = 1e-7)
-  expect_equal(drop(sph_stat_PAD(X4)), 1.4088836, tolerance = 1e-7)
-  expect_equal(drop(sph_stat_PAD(X5)), 0.7106791, tolerance = 1e-7)
-  expect_equal(drop(sph_stat_PAD(X9)), 1.5825283, tolerance = 1e-7)
-  expect_equal(drop(sph_stat_PAD(X200)), 0.9412612, tolerance = 1e-7)
+  expect_equal(drop(sph_stat_PAD(X2)), 0.5752646, tolerance = 1e-6)
+  expect_equal(drop(sph_stat_PAD(X3)), 0.7093266, tolerance = 1e-6)
+  expect_equal(drop(sph_stat_PAD(X4)), 1.4088836, tolerance = 1e-6)
+  expect_equal(drop(sph_stat_PAD(X5)), 0.7106791, tolerance = 1e-6)
+  expect_equal(drop(sph_stat_PAD(X9)), 1.5825283, tolerance = 1e-6)
+  expect_equal(drop(sph_stat_PAD(X200)), 0.9412612, tolerance = 1e-6)
 
 })
 
 test_that("PAD with Psi", {
 
   expect_equal(drop(sph_stat_PAD(Psi2, Psi_in_X = TRUE, p = 2)), 0.5752646,
-               tolerance = 1e-7)
+               tolerance = 1e-6)
   expect_equal(drop(sph_stat_PAD(Psi3, Psi_in_X = TRUE, p = 3)), 0.7093266,
-               tolerance = 1e-7)
+               tolerance = 1e-6)
   expect_equal(drop(sph_stat_PAD(Psi4, Psi_in_X = TRUE, p = 4)), 1.4088836,
-               tolerance = 1e-7)
+               tolerance = 1e-6)
   expect_equal(drop(sph_stat_PAD(Psi5, Psi_in_X = TRUE, p = 5)), 0.7106791,
-               tolerance = 1e-7)
+               tolerance = 1e-6)
   expect_equal(drop(sph_stat_PAD(Psi9, Psi_in_X = TRUE, p = 9)), 1.5825283,
-               tolerance = 1e-7)
+               tolerance = 1e-6)
   expect_equal(drop(sph_stat_PAD(Psi200, Psi_in_X = TRUE, p = 200)), 0.9412612,
-               tolerance = 1e-7)
+               tolerance = 1e-6)
 
 })
 
 test_that("PCvM with X", {
 
-  expect_equal(drop(sph_stat_PCvM(X2)), 0.0751836, tolerance = 1e-7)
-  expect_equal(drop(sph_stat_PCvM(X3)), 0.1027005, tolerance = 1e-7)
-  expect_equal(drop(sph_stat_PCvM(X4)), 0.2406067, tolerance = 1e-7)
-  expect_equal(drop(sph_stat_PCvM(X5)), 0.1124227, tolerance = 1e-7)
-  expect_equal(drop(sph_stat_PCvM(X9)), 0.2766211, tolerance = 1e-7)
-  expect_equal(drop(sph_stat_PCvM(X200)), 0.1553891, tolerance = 1e-7)
+  expect_equal(drop(sph_stat_PCvM(X2)), 0.0751836, tolerance = 1e-6)
+  expect_equal(drop(sph_stat_PCvM(X3)), 0.1027005, tolerance = 1e-6)
+  expect_equal(drop(sph_stat_PCvM(X4)), 0.2406067, tolerance = 1e-6)
+  expect_equal(drop(sph_stat_PCvM(X5)), 0.1124227, tolerance = 1e-6)
+  expect_equal(drop(sph_stat_PCvM(X9)), 0.2766211, tolerance = 1e-6)
+  expect_equal(drop(sph_stat_PCvM(X200)), 0.1553891, tolerance = 1e-6)
 
 })
 
 test_that("PCvM with Psi", {
 
   expect_equal(drop(sph_stat_PCvM(Psi2, Psi_in_X = TRUE, p = 2)), 0.0751836,
-               tolerance = 1e-7)
+               tolerance = 1e-6)
   expect_equal(drop(sph_stat_PCvM(Psi3, Psi_in_X = TRUE, p = 3)), 0.1027005,
-               tolerance = 1e-7)
+               tolerance = 1e-6)
   expect_equal(drop(sph_stat_PCvM(Psi4, Psi_in_X = TRUE, p = 4)), 0.2406067,
-               tolerance = 1e-7)
+               tolerance = 1e-6)
   expect_equal(drop(sph_stat_PCvM(Psi5, Psi_in_X = TRUE, p = 5)), 0.1124227,
-               tolerance = 1e-7)
+               tolerance = 1e-6)
   expect_equal(drop(sph_stat_PCvM(Psi9, Psi_in_X = TRUE, p = 9)), 0.2766211,
-               tolerance = 1e-7)
+               tolerance = 1e-6)
   expect_equal(drop(sph_stat_PCvM(Psi200, Psi_in_X = TRUE, p = 200)), 0.1553891,
-               tolerance = 1e-7)
+               tolerance = 1e-6)
 
 })
 
@@ -88,29 +88,29 @@ test_that("PCvM vs. Bakshaev", {
 
 test_that("PRt with X", {
 
-  expect_equal(drop(sph_stat_PRt(X2)), 0.0994200, tolerance = 1e-7)
-  expect_equal(drop(sph_stat_PRt(X3)), 0.1188291, tolerance = 1e-7)
-  expect_equal(drop(sph_stat_PRt(X4)), 0.3213707, tolerance = 1e-7)
-  expect_equal(drop(sph_stat_PRt(X5)), 0.1477722, tolerance = 1e-7)
-  expect_equal(drop(sph_stat_PRt(X9)), 0.3794311, tolerance = 1e-7)
-  expect_equal(drop(sph_stat_PRt(X200)), 0.2059544, tolerance = 1e-7)
+  expect_equal(drop(sph_stat_PRt(X2)), 0.0994200, tolerance = 1e-6)
+  expect_equal(drop(sph_stat_PRt(X3)), 0.1188291, tolerance = 1e-6)
+  expect_equal(drop(sph_stat_PRt(X4)), 0.3213707, tolerance = 1e-6)
+  expect_equal(drop(sph_stat_PRt(X5)), 0.1477722, tolerance = 1e-6)
+  expect_equal(drop(sph_stat_PRt(X9)), 0.3794311, tolerance = 1e-6)
+  expect_equal(drop(sph_stat_PRt(X200)), 0.2059544, tolerance = 1e-6)
 
 })
 
 test_that("PRt with Psi", {
 
   expect_equal(drop(sph_stat_PRt(Psi2, Psi_in_X = TRUE, p = 2)), 0.0994200,
-               tolerance = 1e-7)
+               tolerance = 1e-6)
   expect_equal(drop(sph_stat_PRt(Psi3, Psi_in_X = TRUE, p = 3)), 0.1188291,
-               tolerance = 1e-7)
+               tolerance = 1e-6)
   expect_equal(drop(sph_stat_PRt(Psi4, Psi_in_X = TRUE, p = 4)), 0.3213707,
-               tolerance = 1e-7)
+               tolerance = 1e-6)
   expect_equal(drop(sph_stat_PRt(Psi5, Psi_in_X = TRUE, p = 5)), 0.1477722,
-               tolerance = 1e-7)
+               tolerance = 1e-6)
   expect_equal(drop(sph_stat_PRt(Psi9, Psi_in_X = TRUE, p = 9)), 0.3794311,
-               tolerance = 1e-7)
+               tolerance = 1e-6)
   expect_equal(drop(sph_stat_PRt(Psi200, Psi_in_X = TRUE, p = 200)), 0.2059544,
-               tolerance = 1e-7)
+               tolerance = 1e-6)
 
 })
 

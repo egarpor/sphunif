@@ -75,7 +75,7 @@ int_sph_MC <- function(f, p, M = 1e4, cores = 1, chunks = ceiling(M / 1e3),
   if (!is.null(seeds) & length(seeds) != chunks) {
 
     warning(paste("seeds and chunks do not have the same length,",
-                  "seeds are ignored"))
+                  "seeds are ignored."))
     seeds <- NULL
 
   }

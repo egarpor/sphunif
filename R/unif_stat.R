@@ -113,7 +113,7 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
   # Stop if NA's
   if (anyNA(data)) {
 
-    stop("NAs present in data, please remove them")
+    stop("NAs present in data, please remove them.")
 
   }
 
@@ -202,7 +202,7 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
 
   } else {
 
-    stop("type must be a character or a numeric vector")
+    stop("type must be a character or a numeric vector.")
 
   }
 
@@ -698,7 +698,7 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
 
         } else {
 
-          warning("Pycke statistic is only defined for p = 2,3. Using Riesz statistic with s = 0 instead, which behaves consistently across dimensions")
+          warning("Pycke statistic is only defined for p = 2,3. Using Riesz statistic with s = 0 instead, which behaves consistently across dimensions.")
           stats$Pycke <- stats$Riesz
 
         }

@@ -181,7 +181,7 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
   # Check dimension
   if (p < 2) {
 
-    stop("Dimension p must be p >= 2")
+    stop("Dimension p must be p >= 2.")
 
   }
 
@@ -245,7 +245,7 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
   if (!is.null(seeds) & length(seeds) != chunks) {
 
     warning(paste("seeds and chunks do not have the same length,",
-                  "seeds are ignored"))
+                  "seeds are ignored."))
     seeds <- NULL
 
   }

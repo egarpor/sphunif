@@ -786,7 +786,7 @@ arma::vec p_cir_stat_Watson_1976(arma::vec x, arma::uword K_Watson_1976 = 8,
                        23.87156445553591856712};
     if (K_Watson_1976 > 25) {
 
-      stop("Only K_Watson_1976 smaller than 25 are implemented");
+      stop("Only K_Watson_1976 smaller than 25 are implemented.");
 
     } else {
 
@@ -864,7 +864,7 @@ arma::vec d_cir_stat_Watson_1976(arma::vec x, arma::uword K_Watson_1976 = 8) {
                        23.87156445553591856712};
     if (K_Watson_1976 > 25) {
 
-      stop("Only K_Watson_1976 smaller than 25 are implemented");
+      stop("Only K_Watson_1976 smaller than 25 are implemented.");
 
     } else {
 

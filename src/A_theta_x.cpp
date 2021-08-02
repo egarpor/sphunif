@@ -113,7 +113,7 @@ arma::mat A_theta_x(arma::vec theta, arma::vec x, arma::uword p,
   // Check if compatible lengths
   if (!as_matrix && (theta.n_elem != x.n_elem)) {
 
-    stop("Incompatible lenghts of theta and x, consider as_matrix = TRUE");
+    stop("Incompatible lenghts of theta and x, consider as_matrix = TRUE.");
 
   }
 

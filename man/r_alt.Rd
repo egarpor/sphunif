@@ -46,7 +46,7 @@ distributions:
   e_p = (0, 0, \ldots, 1)}.
   \item \code{"MvMF"}: equally-weighted mixture of \eqn{p} von Mises--Fisher
   distributions with common concentration \eqn{\kappa} and directional means
-  \eqn{{\bf e}_1, \ldots, {\bf e}_p}{e_1, \ldots, e_p}.
+  \eqn{\pm{\bf e}_1, \ldots, \pm{\bf e}_p}{±e_1, \ldots, ±e_p}.
   \item \code{"ACG"}: Angular Central Gaussian distribution with diagonal
   shape matrix with diagonal given by
   \deqn{(1, \ldots, 1, 1 + \kappa) / (p + \kappa).}

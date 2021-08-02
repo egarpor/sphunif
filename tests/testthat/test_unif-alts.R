@@ -53,14 +53,14 @@ test_that("r_locdev coherence with d_locdev", {
 
   for (p in 2:4) {
     mu <- c(rep(0, p - 1), 1)
-    samp_1 <- r_locdev(n = 100, mu = mu, kappa = 0.25, 
+    samp_1 <- r_locdev(n = 1e3, mu = mu, kappa = 0.25, 
                        f = function(z) f4(x = z, kappa = 3, q = p - 1))[, p]
     samp_2 <- F_inv_from_f(f = function(z)
       0.25 * f4(x = z, kappa = 3, q = p - 1) + 0.75 / rotasym::w_p(p = p),
-      p = p)(runif(n = 100))
+      p = p)(runif(n = 1e3))
     expect_gt(ks.test(samp_1, samp_2)$p.value, 0.01)
-    samp_1 <- r_locdev(n = 100, mu = mu, kappa = 0, f = NULL)[, 1]
-    samp_2 <- r_unif_sph(n = 100, p = p)[, 1, 1]
+    samp_1 <- r_locdev(n = 1e3, mu = mu, kappa = 0, f = NULL)[, 1]
+    samp_2 <- r_unif_sph(n = 1e3, p = p)[, 1, 1]
     expect_gt(ks.test(samp_1, samp_2)$p.value, 0.01)
   }
 
@@ -168,13 +168,15 @@ test_that("r_alt rotationally symmetric", {
 
 test_that("r_alt non-rotationally symmetric", {
 
-  for (p in 2:4) {
-    samp_1 <- r_alt(n = 100, p = p, M = 1, kappa = 1, scenario = "MvMF")[, p, 1]
-    samp_2 <- apply(diag(rep(1, p)), 1, function(mu) 
-      rotasym::r_vMF(n = round(100 / p), mu = mu, kappa = 1))[, p]
+  for (p in c(2:4, 11)) {
+    samp_1 <- r_alt(n = 1e3, p = p, M = 1, kappa = 2, scenario = "MvMF")[, p, 1]
+    samp_2 <- c(apply(diag(rep(1, p)), 1, function(mu)
+      t(rotasym::r_vMF(n = round(1e3 / p), mu = mu, kappa = 2))))
+    samp_2 <- matrix(samp_2, ncol = p, byrow = TRUE)[, p]
+    samp_2 <- samp_2 * sample(c(-1, 1), size = length(samp_2), replace = TRUE)
     expect_gt(ks.test(x = samp_1, y = samp_2)$p.value, 0.01)
-    samp_1 <- r_alt(n = 100, p = p, M = 1, kappa = 1, scenario = "ACG")[, p, 1]
-    samp_2 <- mvtnorm::rmvnorm(n = 100, mean = rep(0, p),
+    samp_1 <- r_alt(n = 1e3, p = p, M = 1, kappa = 1, scenario = "ACG")[, p, 1]
+    samp_2 <- mvtnorm::rmvnorm(n = 1e3, mean = rep(0, p),
                                sigma = diag(c(rep(1, p - 1), 1 + 1)))
     samp_2 <- samp_2 / sqrt(rowSums(samp_2^2))
     samp_2 <- samp_2[, p]

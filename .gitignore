@@ -14,3 +14,4 @@ man/.DS_Store
 .Renviron
 simulations/res
 TODO.md
+tests/testthat/Rplots.pdf

@@ -185,6 +185,61 @@ test_that("KS, CvM, and AD", {
 
 })
 
+test_that("Riesz vs. Rayleigh", {
+
+  expect_equal(
+    as.numeric(unif_stat(data = Theta_2, type = c("Riesz", "Rayleigh"),
+                         Riesz_s = 2)$Riesz),
+    as.numeric(unif_stat(data = Theta_2, type = "Riesz", Riesz_s = 2)$Riesz)
+  )
+  expect_equal(
+    as.numeric(unif_stat(data = Theta_2, type = c("Riesz", avail_sph_tests_s2),
+                         Riesz_s = 2)$Riesz),
+    as.numeric(unif_stat(data = Theta_2, type = "Riesz", Riesz_s = 2)$Riesz)
+  )
+  expect_equal(
+    as.numeric(unif_stat(data = X_2, type = c("Riesz", "Rayleigh"),
+                         Riesz_s = 2)$Riesz),
+    as.numeric(unif_stat(data = X_2, type = "Riesz", Riesz_s = 2)$Riesz)
+  )
+  expect_equal(
+    as.numeric(unif_stat(data = X_2, type = c("Riesz", avail_sph_tests_s2),
+                         Riesz_s = 2)$Riesz),
+    as.numeric(unif_stat(data = X_2, type = "Riesz", Riesz_s = 2)$Riesz)
+  )
+  expect_equal(
+    as.numeric(unif_stat(data = X_3, type = c("Riesz", "Rayleigh"),
+                         Riesz_s = 2)$Riesz),
+    as.numeric(unif_stat(data = X_3, type = "Riesz", Riesz_s = 2)$Riesz)
+  )
+  expect_equal(
+    as.numeric(unif_stat(data = X_3, type = c("Riesz", avail_sph_tests_s2),
+                         Riesz_s = 2)$Riesz),
+    as.numeric(unif_stat(data = X_3, type = "Riesz", Riesz_s = 2)$Riesz)
+  )
+  expect_equal(
+    as.numeric(unif_stat(data = X_4, type = c("Riesz", "Rayleigh"),
+                         Riesz_s = 2)$Riesz),
+    as.numeric(unif_stat(data = X_4, type = "Riesz", Riesz_s = 2)$Riesz)
+  )
+  expect_equal(
+    as.numeric(unif_stat(data = X_4, type = c("Riesz", avail_sph_tests_s2),
+                         Riesz_s = 2)$Riesz),
+    as.numeric(unif_stat(data = X_4, type = "Riesz", Riesz_s = 2)$Riesz)
+  )
+  expect_equal(
+    as.numeric(unif_stat(data = X_9, type = c("Riesz", "Rayleigh"),
+                         Riesz_s = 2)$Riesz),
+    as.numeric(unif_stat(data = X_9, type = "Riesz", Riesz_s = 2)$Riesz)
+  )
+  expect_equal(
+    as.numeric(unif_stat(data = X_9, type = c("Riesz", avail_sph_tests_s2),
+                         Riesz_s = 2)$Riesz),
+    as.numeric(unif_stat(data = X_9, type = "Riesz", Riesz_s = 2)$Riesz)
+  )
+
+})
+
 test_that("Riesz vs. Pycke", {
 
   expect_equal(
@@ -207,12 +262,12 @@ test_that("Riesz vs. Pycke", {
       as.numeric(unif_stat(data = X_4, type = c("Riesz", "Pycke"),
                            Riesz_s = 0)$Riesz),
       as.numeric(unif_stat(data = X_4, type = "Pycke")$Pycke)
-  )))
+    )))
   suppressWarnings(expect_warning(
     expect_equal(
       as.numeric(unif_stat(data = X_9, type = c("Riesz", "Pycke"),
                            Riesz_s = 0)$Riesz),
       as.numeric(unif_stat(data = X_9, type = "Pycke")$Pycke)
-  )))
+    )))
 
 })

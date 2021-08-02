@@ -409,12 +409,15 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
     ## Psi-based statistics
 
     # Is it worth to compute Psi? Only if there is more than one statistic
-    # using it (after discounting "PCvM" and "PRt" if "Watson" and "Rothman"
-    # are computed) AND if 0.5 * n * (n - 1) * M is not too large.
+    # using it (after discounting equivalent tests if they are simultaneously
+    # present) AND if 0.5 * n * (n - 1) * M is not too large.
     # CAUTION: replacement of data with Psi!
     n_stats_type_Psi <- sum(stats_type %in% stats_using_Psi)
-    n_stats_type_Psi <- n_stats_type_Psi -
-      ((run_test$Watson == run_test$PCvM) + (run_test$Rothman == run_test$PRt))
+    n_stats_type_Psi <- n_stats_type_Psi - ((run_test$Watson && run_test$PCvM) +
+         (run_test$Rothman && run_test$PRt) + (Riesz_s == 2) +
+         (Riesz_s == 0 && run_test$Pycke && run_test$Riesz) + 
+         (Riesz_s == 1 && run_test$Bakshaev && run_test$Riesz) +
+         (run_test$Gine_Fn && run_test$Gine_Gn && run_test$Ajne))
     if (n_stats_type_Psi > 1 & 0.5 * n * (n - 1) * M <= 1e8) {
 
       dim(data) <- c(n, 1, M)
@@ -442,6 +445,18 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
       if (Riesz_s == 1 && run_test$Bakshaev) {
 
         stats$Riesz <- stats$Bakshaev
+
+      } else if (Riesz_s == 2 && (run_test$Rayleigh | !Psi_in_Theta)) {
+
+        if (run_test$Rayleigh) {
+
+          stats$Riesz <- stats$Rayleigh
+
+        } else {
+
+          stats$Riesz <- cir_stat_Rayleigh(Theta = data, m = 1)
+
+        }
 
       } else {
 
@@ -520,7 +535,7 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
 
       if (Riesz_s == 0 && run_test$Riesz) {
 
-        stats$Pycke <- stats$Riesz * (2 * n) / (n - 1)
+        stats$Pycke <- (2 * n) / (n - 1) * stats$Riesz
 
       } else {
 
@@ -591,9 +606,15 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
     ## Psi-based statistics
 
     # Is it worth to compute Psi? Only if there is more than one statistic
-    # using it AND if 0.5 * n * (n - 1) * M is not too large.
+    # using it (after discounting equivalent tests if they are simultaneously
+    # present) AND if 0.5 * n * (n - 1) * M is not too large.
     # CAUTION: replacement of data with Psi!
     n_stats_type_Psi <- sum(stats_type %in% stats_using_Psi)
+    n_stats_type_Psi <- n_stats_type_Psi - ((Riesz_s == 2) +
+         (Riesz_s == 0 && run_test$Pycke && run_test$Riesz) +
+         (Riesz_s == 1 && run_test$Bakshaev && run_test$Riesz) +
+         (run_test$PCvM && run_test$Bakshaev && p == 3) +
+         (run_test$Gine_Fn && run_test$Gine_Gn && run_test$Ajne))
     if (n_stats_type_Psi > 1 & 0.5 * n * (n - 1) * M <= 1e8) {
 
       data <- Psi_mat(data = data)
@@ -621,6 +642,18 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
       if (Riesz_s == 1 && run_test$Bakshaev) {
 
         stats$Riesz <- stats$Bakshaev
+
+      } else if (Riesz_s == 2 && (run_test$Rayleigh | !Psi_in_X)) {
+
+        if (run_test$Rayleigh) {
+
+          stats$Riesz <- (2 / p) * stats$Rayleigh
+
+        } else {
+
+          stats$Riesz <- (2 / p) * sph_stat_Rayleigh(X = data) 
+
+        }
 
       } else {
 
@@ -693,8 +726,8 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
 
         if (p == 3) {
 
-          stats$Pycke <- (stats$Riesz - (log(4) - 1) / 2) *
-            n / (2 * pi * (n - 1))
+          stats$Pycke <- n / (2 * pi * (n - 1)) * 
+            (stats$Riesz - (log(4) - 1) / 2)
 
         } else {
 

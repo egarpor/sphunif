@@ -72,5 +72,8 @@ test_that("Several options", {
                             verbose = FALSE, stats_sorted = TRUE, seeds = 1,
                             chunks = 1, Cuesta_Albertos_rand_dirs =
                               Cuesta_Albertos_rand_dirs)$Cuesta_Albertos)
+  expect_true(!is.null(capture.output(
+    a <- unif_stat_MC(n = n, M = 10, type = "all", p = 2, verbose = TRUE)
+  )))
 
 })

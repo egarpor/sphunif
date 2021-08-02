@@ -11,83 +11,113 @@ f2 <- function(x, kappa) exp(kappa * x^2)
 f3 <- function(x, kappa, nu) exp(-kappa * (x - nu)^2)
 f4 <- function(x, kappa, q) {
   rho <- ((2 * kappa + 1) - sqrt(4 * kappa + 1)) / (2 * kappa)
-  (1 + rho^2 - 2 * rho * x)^(-(q + 1) / 2)
+  (1 - rho^2) / (1 + rho^2 - 2 * rho * x)^((q + 1) / 2) / 
+    rotasym::w_p(p = q + 1)
 }
+
+test_that("Correct integration of con_f", {
+
+  for (p in c(2:4, 11)) {
+    expect_equal(con_f(f = function(x)
+      rotasym::g_vMF(t = x, p = p, kappa = 3, scaled = TRUE),
+      p = p, N = 320), 1)
+    expect_equal(con_f(f = function(x) f4(x, kappa = 1, q = p - 1),
+                       p = p, N = 320), 1)
+  }
+
+})
+
+test_that("d_locdev", {
+
+  for (p in 2:4) {
+    xp <- r_unif_sph(n = 5, p = p)[, , 1]
+    mu <- c(rep(0, p - 1), 1)
+    expect_equal(d_locdev(x = xp[1, , drop = FALSE], mu = mu, kappa = 0.25,
+                          f = function(z)
+                            rotasym::g_vMF(t = z, kappa = 3, p = p)),
+                 unname(d_locdev(x = xp[1, ], mu = mu, kappa = 0.25,
+                                 f = function(z) 
+                                   rotasym::g_vMF(t = z, kappa = 3, p = p))))
+    expect_equal(d_locdev(x = xp, mu = mu, kappa = 0, f = NULL),
+                 rep(1 / rotasym::w_p(p = p), nrow(xp)))
+    expect_equal(d_locdev(x = xp, mu = mu, kappa = 0.25,
+                          f = function(z)
+                            rotasym::g_vMF(t = z, kappa = 3, p = p)),
+                 0.25 * rotasym::g_vMF(t = xp[, p], kappa = 3, p = p) +
+                 0.75 / rotasym::w_p(p = p))
+  }
+
+})
+
+test_that("r_locdev coherence with d_locdev", {
+
+  for (p in 2:4) {
+    mu <- c(rep(0, p - 1), 1)
+    samp_1 <- r_locdev(n = 100, mu = mu, kappa = 0.25, 
+                       f = function(z) f4(x = z, kappa = 3, q = p - 1))[, p]
+    samp_2 <- F_inv_from_f(f = function(z)
+      0.25 * f4(x = z, kappa = 3, q = p - 1) + 0.75 / rotasym::w_p(p = p),
+      p = p)(runif(n = 100))
+    expect_gt(ks.test(samp_1, samp_2)$p.value, 0.01)
+    samp_1 <- r_locdev(n = 100, mu = mu, kappa = 0, f = NULL)[, 1]
+    samp_2 <- r_unif_sph(n = 100, p = p)[, 1, 1]
+    expect_gt(ks.test(samp_1, samp_2)$p.value, 0.01)
+  }
+
+})
+
+test_that("Edge cases d_locdev and r_locdev", {
+
+  expect_error(d_locdev(x = 1, mu = 1, kappa = -1, f = NULL))
+  expect_error(d_locdev(x = 1:2, mu = 1:3, kappa = -1, f = NULL))
+  expect_error(r_locdev(n = 1, mu = 1, kappa = -1))
+
+})
 
 test_that("F_from_f via Gauss--Legendre", {
 
-  expect_equal(F_from_f(f = f0, p = 2, Gauss = TRUE, K = 1e2)(x),
-               drop(p_proj_unif(x = x, p = 2)), tolerance = 2e-3)
-  expect_equal(F_from_f(f = f0, p = 3, Gauss = TRUE, K = 1e2)(x),
-               drop(p_proj_unif(x = x, p = 3)), tolerance = 1e-6)
-  expect_equal(F_from_f(f = f0, p = 4, Gauss = TRUE, K = 1e2)(x),
-               drop(p_proj_unif(x = x, p = 4)), tolerance = 1e-6)
-  expect_equal(F_from_f(f = f0, p = 11, Gauss = TRUE, K = 1e2)(x),
-               drop(p_proj_unif(x = x, p = 11)), tolerance = 1e-6)
+  for (p in c(2:4, 11)) {
+    expect_equal(F_from_f(f = f0, p = p, Gauss = TRUE, K = 1e2)(x),
+                 drop(p_proj_unif(x = x, p = p)), tolerance = 1e-3)
+  }
 
 })
 
 test_that("F_from_f via integrate()", {
 
-  expect_equal(F_from_f(f = f0, p = 2, Gauss = FALSE, K = 1e2)(x),
-               drop(p_proj_unif(x = x, p = 2)), tolerance = 1e-3)
-  expect_equal(F_from_f(f = f0, p = 3, Gauss = FALSE, K = 1e2)(x),
-               drop(p_proj_unif(x = x, p = 3)), tolerance = 1e-6)
-  expect_equal(F_from_f(f = f0, p = 4, Gauss = FALSE, K = 1e2)(x),
-               drop(p_proj_unif(x = x, p = 4)), tolerance = 1e-6)
-  expect_equal(F_from_f(f = f0, p = 11, Gauss = FALSE, K = 1e2)(x),
-               drop(p_proj_unif(x = x, p = 11)), tolerance = 1e-6)
+  for (p in c(2:4, 11)) {
+    expect_equal(F_from_f(f = f0, p = p, Gauss = FALSE, K = 1e2)(x),
+                 drop(p_proj_unif(x = x, p = p)), tolerance = 1e-3)
+  }
 
 })
 
 test_that("F_from_f for vMF", {
 
-  samp_g <- drop(rotasym::r_g_vMF(n = 1e3, p = 2, kappa = 3))
-  expect_gt(ks.test(x = F_from_f(f = f1, p = 2, Gauss = TRUE,
-                                 K = 1e2, kappa = 3)(samp_g),
-                    y = "punif")$p.value, 0.01)
-  samp_g <- drop(rotasym::r_g_vMF(n = 1e3, p = 3, kappa = 3))
-  expect_gt(ks.test(x = F_from_f(f = f1, p = 3, Gauss = TRUE,
-                                 K = 1e2, kappa = 3)(samp_g),
-                    y = "punif")$p.value, 0.01)
-  samp_g <- drop(rotasym::r_g_vMF(n = 1e3, p = 4, kappa = 5))
-  expect_gt(ks.test(x = F_from_f(f = f1, p = 4, Gauss = TRUE,
-                                 K = 1e2, kappa = 5)(samp_g),
-                    y = "punif")$p.value, 0.01)
-  samp_g <- drop(rotasym::r_g_vMF(n = 1e3, p = 5, kappa = 10))
-  expect_gt(ks.test(x = F_from_f(f = f1, p = 5, Gauss = TRUE,
-                                 K = 1e2, kappa = 10)(samp_g),
-                    y = "punif")$p.value, 0.01)
-  samp_g <- drop(rotasym::r_g_vMF(n = 1e3, p = 11, kappa = 20))
-  expect_gt(ks.test(x = F_from_f(f = f1, p = 11, Gauss = TRUE,
-                                 K = 1e2, kappa = 20)(samp_g),
-                    y = "punif")$p.value, 0.01)
+  for (p in c(2:4, 11)) {
+    samp_g <- drop(rotasym::r_g_vMF(n = 100, p = p, kappa = 3))
+    expect_gt(ks.test(x = F_from_f(f = f1, p = p, Gauss = TRUE,
+                                   K = 1e2, kappa = 3)(samp_g),
+                      y = "punif")$p.value, 0.01)
+  }
 
 })
 
 test_that("F_inv_from_f via Gauss--Legendre", {
 
-  expect_equal(F_inv_from_f(f = f0, p = 2, Gauss = TRUE, K = 1e2)(u),
-               drop(q_proj_unif(u = u, p = 2)), tolerance = 2e-3)
-  expect_equal(F_inv_from_f(f = f0, p = 3, Gauss = TRUE, K = 1e2)(u),
-               drop(q_proj_unif(u = u, p = 3)), tolerance = 1e-6)
-  expect_equal(F_inv_from_f(f = f0, p = 4, Gauss = TRUE, K = 1e2)(u),
-               drop(q_proj_unif(u = u, p = 4)), tolerance = 1e-6)
-  expect_equal(F_inv_from_f(f = f0, p = 11, Gauss = TRUE, K = 1e2)(u),
-               drop(q_proj_unif(u = u, p = 11)), tolerance = 1e-6)
+  for (p in c(2:4, 11)) {
+    expect_equal(F_inv_from_f(f = f0, p = p, Gauss = TRUE, K = 1e2)(u),
+                 drop(q_proj_unif(u = u, p = p)), tolerance = 5e-3)
+  }
 
 })
 
 test_that("F_inv_from_f via integrate()", {
 
-  expect_equal(F_inv_from_f(f = f0, p = 2, Gauss = FALSE, K = 1e2)(u),
-               drop(q_proj_unif(u = u, p = 2)), tolerance = 1e-3)
-  expect_equal(F_inv_from_f(f = f0, p = 3, Gauss = FALSE, K = 1e2)(u),
-               drop(q_proj_unif(u = u, p = 3)), tolerance = 1e-6)
-  expect_equal(F_inv_from_f(f = f0, p = 4, Gauss = FALSE, K = 1e2)(u),
-               drop(q_proj_unif(u = u, p = 4)), tolerance = 1e-6)
-  expect_equal(F_inv_from_f(f = f0, p = 11, Gauss = FALSE, K = 1e2)(u),
-               drop(q_proj_unif(u = u, p = 11)), tolerance = 1e-6)
+  for (p in c(2:4, 11)) {
+    expect_equal(F_inv_from_f(f = f0, p = p, Gauss = FALSE, K = 1e2)(u),
+                 drop(q_proj_unif(u = u, p = p)), tolerance = 5e-3)
+  }
 
 })
 
@@ -95,23 +125,23 @@ test_that("F_inv_from_f for vMF", {
 
   expect_gt(ks.test(x = F_inv_from_f(f = f1, p = 2, Gauss = TRUE,
                                      K = 1e2, kappa = 3)(v),
-                    y = rotasym::r_g_vMF(n = 1e3, p = 2,
+                    y = rotasym::r_g_vMF(n = 100, p = 2,
                                          kappa = 3))$p.value, 0.01)
   expect_gt(ks.test(x = F_inv_from_f(f = f1, p = 3, Gauss = TRUE,
                                       K = 1e2, kappa = 5)(v),
-                    y = rotasym::r_g_vMF(n = 1e3, p = 3,
+                    y = rotasym::r_g_vMF(n = 100, p = 3,
                                           kappa = 5))$p.value, 0.01)
   expect_gt(ks.test(x = F_inv_from_f(f = f1, p = 4, Gauss = TRUE,
                                      K = 1e2, kappa = 5)(v),
-                    y = rotasym::r_g_vMF(n = 1e3, p = 4,
+                    y = rotasym::r_g_vMF(n = 100, p = 4,
                                          kappa = 5))$p.value, 0.01)
   expect_gt(ks.test(x = F_inv_from_f(f = f1, p = 5, Gauss = TRUE,
                                       K = 1e2, kappa = 10)(v),
-                    y = rotasym::r_g_vMF(n = 1e3, p = 5,
+                    y = rotasym::r_g_vMF(n = 100, p = 5,
                                          kappa = 10))$p.value, 0.01)
   expect_gt(ks.test(x = F_inv_from_f(f = f1, p = 11, Gauss = TRUE,
                                      K = 1e2, kappa = 20)(v),
-                    y = rotasym::r_g_vMF(n = 1e3, p = 11,
+                    y = rotasym::r_g_vMF(n = 100, p = 11,
                                          kappa = 20))$p.value, 0.01)
 
 })
@@ -119,7 +149,6 @@ test_that("F_inv_from_f for vMF", {
 test_that("r_alt rotationally symmetric", {
 
   for (p in 2:4) {
-
     samp_g <- r_alt(n = 100, p = p, M = 1, kappa = 2, scenario = "vMF")[, p, 1]
     expect_gt(ks.test(x = F_from_f(f = f1, p = p, kappa = 2)(samp_g),
                       y = "punif")$p.value, 0.01)
@@ -133,7 +162,6 @@ test_that("r_alt rotationally symmetric", {
     samp_g <- r_alt(n = 100, p = p, M = 1, kappa = 2, scenario = "C")[, p, 1]
     expect_gt(ks.test(x = F_from_f(f = f4, p = p, kappa = 2, q = p - 1)(samp_g),
                       y = "punif")$p.value, 0.01)
-
   }
 
 })
@@ -141,7 +169,6 @@ test_that("r_alt rotationally symmetric", {
 test_that("r_alt non-rotationally symmetric", {
 
   for (p in 2:4) {
-
     samp_1 <- r_alt(n = 100, p = p, M = 1, kappa = 1, scenario = "MvMF")[, p, 1]
     samp_2 <- apply(diag(rep(1, p)), 1, function(mu) 
       rotasym::r_vMF(n = round(100 / p), mu = mu, kappa = 1))[, p]
@@ -152,7 +179,6 @@ test_that("r_alt non-rotationally symmetric", {
     samp_2 <- samp_2 / sqrt(rowSums(samp_2^2))
     samp_2 <- samp_2[, p]
     expect_gt(ks.test(x = samp_1, y = samp_2)$p.value, 0.01)
-
   }
   expect_error(r_alt(n = 100, p = p, M = 1, kappa = 1, scenario = "WC"))
 
@@ -539,71 +565,27 @@ test_that("Conversion between coefficients", {
 
 test_that("Conversion of bk to vk2 in projected-ecdf statistics", {
 
-  expect_equal(bk_to_vk2(Gegen_coefs_Pn(k = 1:9, p = 2, type = "PCvM"), p = 2),
-               weights_dfs_Sobolev(K_max = 9, thre = 0, p = 2,
-                                   type = "PCvM", verbose = FALSE)$weights)
-  expect_equal(bk_to_vk2(Gegen_coefs_Pn(k = 1:9, p = 3, type = "PCvM"), p = 3),
-               weights_dfs_Sobolev(K_max = 9, thre = 0, p = 3,
-                                   type = "PCvM", verbose = FALSE)$weights)
-  expect_equal(bk_to_vk2(Gegen_coefs_Pn(k = 1:9, p = 4, type = "PCvM"), p = 4),
-               weights_dfs_Sobolev(K_max = 9, thre = 0, p = 4,
-                                   type = "PCvM", verbose = FALSE)$weights)
-  expect_equal(bk_to_vk2(Gegen_coefs_Pn(k = 1:9, p = 9, type = "PCvM"), p = 9),
-               weights_dfs_Sobolev(K_max = 9, thre = 0, p = 9,
-                                   type = "PCvM", verbose = FALSE)$weights)
-  expect_equal(bk_to_vk2(Gegen_coefs_Pn(k = 1:9, p = 2, type = "PAD"), p = 2),
-               weights_dfs_Sobolev(K_max = 9, thre = 0, p = 2,
-                                   type = "PAD", verbose = FALSE)$weights)
-  expect_equal(bk_to_vk2(Gegen_coefs_Pn(k = 1:9, p = 3, type = "PAD"), p = 3),
-               weights_dfs_Sobolev(K_max = 9, thre = 0, p = 3,
-                                   type = "PAD", verbose = FALSE)$weights)
-  expect_equal(bk_to_vk2(Gegen_coefs_Pn(k = 1:9, p = 4, type = "PAD"), p = 4),
-               weights_dfs_Sobolev(K_max = 9, thre = 0, p = 4,
-                                   type = "PAD", verbose = FALSE)$weights)
-  expect_equal(bk_to_vk2(Gegen_coefs_Pn(k = 1:9, p = 9, type = "PAD"), p = 9),
-               weights_dfs_Sobolev(K_max = 9, thre = 0, p = 9,
-                                   type = "PAD", verbose = FALSE)$weights)
-  expect_equal(bk_to_vk2(Gegen_coefs_Pn(k = 1:9, p = 3, type = "PRt"), p = 3),
-               weights_dfs_Sobolev(K_max = 9, thre = 0, p = 3,
-                                   type = "PRt", verbose = FALSE)$weights)
-  expect_equal(bk_to_vk2(Gegen_coefs_Pn(k = 1:9, p = 4, type = "PRt"), p = 4),
-               weights_dfs_Sobolev(K_max = 9, thre = 0, p = 4,
-                                   type = "PRt", verbose = FALSE)$weights)
-  expect_equal(bk_to_vk2(Gegen_coefs_Pn(k = 1:9, p = 4, type = "PRt"), p = 4),
-               weights_dfs_Sobolev(K_max = 9, thre = 0, p = 4,
-                                   type = "PRt", verbose = FALSE)$weights)
-  expect_equal(bk_to_vk2(Gegen_coefs_Pn(k = 1:9, p = 9, type = "PRt"), p = 9),
-               weights_dfs_Sobolev(K_max = 9, thre = 0, p = 9,
-                                   type = "PRt", verbose = FALSE)$weights)
+  for (type in c("PCvM", "PAD", "PRt")) {
+    for (p in c(2, 3, 4, 9)) {
+      expect_equal(bk_to_vk2(Gegen_coefs_Pn(k = 1:9, p = p, type = type),
+                             p = p),
+                   weights_dfs_Sobolev(K_max = 9, thre = 0, p = p, type = type,
+                                       verbose = FALSE)$weights)
+    }
+  }
 
 })
 
 test_that("Conversion of bk to uk in projected-ecdf statistics", {
 
-  expect_equal(bk_to_uk(Gegen_coefs_Pn(k = 1:9, p = 2, type = "PCvM"), p = 2),
-               cutoff_locdev(K_max = 9, thre = 0, p = 2, type = "PCvM"))
-  expect_equal(bk_to_uk(Gegen_coefs_Pn(k = 1:9, p = 3, type = "PCvM"), p = 3),
-               cutoff_locdev(K_max = 9, thre = 0, p = 3, type = "PCvM"))
-  expect_equal(bk_to_uk(Gegen_coefs_Pn(k = 1:9, p = 4, type = "PCvM"), p = 4),
-               cutoff_locdev(K_max = 9, thre = 0, p = 4, type = "PCvM"))
-  expect_equal(bk_to_uk(Gegen_coefs_Pn(k = 1:9, p = 9, type = "PCvM"), p = 9),
-               cutoff_locdev(K_max = 9, thre = 0, p = 9, type = "PCvM"))
-  expect_equal(bk_to_uk(Gegen_coefs_Pn(k = 1:9, p = 2, type = "PAD"), p = 2),
-               cutoff_locdev(K_max = 9, thre = 0, p = 2, type = "PAD"))
-  expect_equal(bk_to_uk(Gegen_coefs_Pn(k = 1:9, p = 3, type = "PAD"), p = 3),
-               cutoff_locdev(K_max = 9, thre = 0, p = 3, type = "PAD"))
-  expect_equal(bk_to_uk(Gegen_coefs_Pn(k = 1:9, p = 4, type = "PAD"), p = 4),
-               cutoff_locdev(K_max = 9, thre = 0, p = 4, type = "PAD"))
-  expect_equal(bk_to_uk(Gegen_coefs_Pn(k = 1:9, p = 9, type = "PAD"), p = 9),
-               cutoff_locdev(K_max = 9, thre = 0, p = 9, type = "PAD"))
-  expect_equal(bk_to_uk(Gegen_coefs_Pn(k = 1:8, p = 2, type = "PRt"), p = 2),
-               abs(cutoff_locdev(K_max = 8, thre = 0, p = 2, type = "PRt")))
-  expect_equal(bk_to_uk(Gegen_coefs_Pn(k = 1:9, p = 3, type = "PRt"), p = 3),
-               abs(cutoff_locdev(K_max = 9, thre = 0, p = 3, type = "PRt")))
-  expect_equal(bk_to_uk(Gegen_coefs_Pn(k = 1:9, p = 4, type = "PRt"), p = 4),
-               abs(cutoff_locdev(K_max = 9, thre = 0, p = 4, type = "PRt")))
-  expect_equal(bk_to_uk(Gegen_coefs_Pn(k = 1:9, p = 9, type = "PRt"), p = 9),
-               abs(cutoff_locdev(K_max = 9, thre = 0, p = 9, type = "PRt")))
+  for (type in c("PCvM", "PAD", "PRt")) {
+    for (p in c(2, 3, 4, 9)) {
+      expect_equal(bk_to_uk(Gegen_coefs_Pn(k = 1:9, p = p, type = type, 
+                                           Rothman_t = 0.1), p = p),
+                   abs(cutoff_locdev(K_max = 9, thre = 0, p = p, type = type,
+                                     Rothman_t = 0.1)))
+    }
+  }
 
 })
 

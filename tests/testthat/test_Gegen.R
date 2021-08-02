@@ -30,93 +30,51 @@ w_k <- drop(Gauss_Legen_weights(a = 0, b = pi, N = 80))
 w_k <- tcrossprod(w_k)
 sin_k <- sin(th_k) %o% sin(th_k)
 
-test_that("Gegen_coefs Orthonormality", {
+test_that("Gegen_coefs orthonormality", {
 
-  expect_equal(sapply(k, function(l) {
-    Gegen_coefs(k = k, p = 2, psi = function(th)
-      drop(Gegen_polyn(theta = th, k = l, p = 2)))
-  }), I)
-  expect_equal(sapply(k, function(l) {
-    Gegen_coefs(k = k, p = 3, psi = function(th)
-      drop(Gegen_polyn(theta = th, k = l, p = 3)))
-  }), I)
-  expect_equal(sapply(k, function(l) {
-    Gegen_coefs(k = k, p = 4, psi = function(th)
-      drop(Gegen_polyn(theta = th, k = l, p = 4)))
-  }), I)
-  expect_equal(sapply(k, function(l) {
-    Gegen_coefs(k = k, p = 11, psi = function(th)
-      drop(Gegen_polyn(theta = th, k = l, p = 11)))
-  }), I)
+  for (p in c(2, 3, 4, 11)) {
+    expect_equal(sapply(k, function(l) {
+      Gegen_coefs(k = k, p = p, psi = function(th)
+        drop(Gegen_polyn(theta = th, k = l, p = p)))
+    }), I)
+  }
 
 })
 
 test_that("Gegen_coefs normalizing constants", {
 
-  expect_equal(Gegen_coefs(k = k, p = 2, only_const = TRUE),
-               sapply(k, function(m) {
-                 f <- function(th) drop(Gegen_polyn(theta = th, k = m, p = 2))^2
-                 integrate(f = f, lower = 0, upper = pi)$value
-               }))
-  expect_equal(Gegen_coefs(k = k, p = 3, only_const = TRUE),
-               sapply(k, function(m) {
-                 f <- function(th) drop(Gegen_polyn(theta = th, k = m,
-                                                    p = 3))^2 * sin(th)
-                 integrate(f = f, lower = 0, upper = pi)$value
-               }))
-  expect_equal(Gegen_coefs(k = k, p = 4, only_const = TRUE),
-               sapply(k, function(m) {
-                 f <- function(th) drop(Gegen_polyn(theta = th, k = m,
-                                                    p = 4))^2 * sin(th)^2
-                 integrate(f = f, lower = 0, upper = pi)$value
-               }))
-  expect_equal(Gegen_coefs(k = k, p = 11, only_const = TRUE),
-               sapply(k, function(m) {
-                 f <- function(th) drop(Gegen_polyn(theta = th, k = m,
-                                                    p = 11))^2 * sin(th)^9
-                 integrate(f = f, lower = 0, upper = pi)$value
-               }))
+  for (p in c(2, 3, 4, 11)) {
+    expect_equal(Gegen_coefs(k = k, p = p, only_const = TRUE),
+                 sapply(k, function(m) {
+                   f <- function(th) 
+                     drop(Gegen_polyn(theta = th, k = m, p = p))^2 * 
+                     sin(th)^(p - 2)
+                   integrate(f = f, lower = 0, upper = pi)$value
+                 }))
+  }
+
 })
 
 test_that("Gegen_coefs_2d orthonormality", {
 
-  expect_equal(sapply(m, function(l) {
-    sum(Gegen_coefs_2d(k = k, m = m, p = 2, psi = function(th_1, th_2)
-      Gegen_polyn_2d(theta_1 = th_1, theta_2 = th_2, k = l, m = l, p = 2),
-      N = 40))
-  }), rep(1, length(m)), tolerance = 1e-4)
-  expect_equal(sapply(m, function(l) {
-    sum(Gegen_coefs_2d(k = k, m = m, p = 3, psi = function(th_1, th_2)
-      Gegen_polyn_2d(theta_1 = th_1, theta_2 = th_2, k = l, m = l, p = 3),
-      N = 40))
-  }), rep(1, length(m)), tolerance = 1e-4)
-  expect_equal(sapply(m, function(l) {
-    sum(Gegen_coefs_2d(k = k, m = m, p = 4, psi = function(th_1, th_2)
-      Gegen_polyn_2d(theta_1 = th_1, theta_2 = th_2, k = l, m = l, p = 4),
-      N = 40))
-  }), rep(1, length(m)), tolerance = 1e-4)
-  expect_equal(sapply(m, function(l) {
-    sum(Gegen_coefs_2d(k = k, m = m, p = 11, psi = function(th_1, th_2)
-      Gegen_polyn_2d(theta_1 = th_1, theta_2 = th_2, k = l, m = l, p = 11),
-      N = 40))
-  }), rep(1, length(m)), tolerance = 1e-3)
+  for (p in c(2, 3, 4, 11)) {
+    expect_equal(sapply(m, function(l) {
+      sum(Gegen_coefs_2d(k = k, m = m, p = p, psi = function(th_1, th_2)
+        Gegen_polyn_2d(theta_1 = th_1, theta_2 = th_2, k = l, m = l, p = p),
+        N = 40))
+    }), rep(1, length(m)), tolerance = 1e-4)
+  }
 
 })
 
 test_that("Gegen_coefs_2d normalizing constants", {
 
-  expect_equal(Gegen_coefs_2d(k = k, m = m, p = 2, only_const = TRUE),
-               Gegen_coefs(k = k, p = 2, only_const = TRUE) %*%
-                 t(Gegen_coefs(k = m, p = 2, only_const = TRUE)))
-  expect_equal(Gegen_coefs_2d(k = k, m = m, p = 3, only_const = TRUE),
-               Gegen_coefs(k = k, p = 3, only_const = TRUE) %*%
-                 t(Gegen_coefs(k = m, p = 3, only_const = TRUE)))
-  expect_equal(Gegen_coefs_2d(k = k, m = m, p = 4, only_const = TRUE),
-               Gegen_coefs(k = k, p = 4, only_const = TRUE) %*%
-                 t(Gegen_coefs(k = m, p = 4, only_const = TRUE)))
-  expect_equal(Gegen_coefs_2d(k = k, m = m, p = 11, only_const = TRUE),
-               Gegen_coefs(k = k, p = 11, only_const = TRUE) %*%
-                 t(Gegen_coefs(k = m, p = 11, only_const = TRUE)))
+  for (p in c(2, 3, 4, 11)) {
+    expect_equal(Gegen_coefs_2d(k = k, m = m, p = p, only_const = TRUE),
+                 Gegen_coefs(k = k, p = p, only_const = TRUE) %*%
+                   t(Gegen_coefs(k = m, p = p, only_const = TRUE)))
+  }
+
 })
 
 test_that("Gegen_series (Gauss = TRUE)", {

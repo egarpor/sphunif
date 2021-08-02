@@ -51,7 +51,7 @@
 #' @return
 #' \itemize{
 #'   \item \code{f_locdev}: angular function evaluated at \code{x}, a vector.
-#'   \item \code{cte_f}: normalizing constant \eqn{c_f} of \eqn{f}, a scalar.
+#'   \item \code{con_f}: normalizing constant \eqn{c_f} of \eqn{f}, a scalar.
 #'   \item \code{d_locdev}: density function evaluated at \code{x}, a vector.
 #'   \item \code{r_locdev}: a matrix of size \code{c(n, p)} containing a random
 #'   sample from the density \eqn{f_{\kappa, \boldsymbol{\mu}}}{
@@ -102,7 +102,7 @@
 #'   plot(z, f_proj(z), type = "l", xlab = expression(z),
 #'        ylab = expression(omega[p - 1] * f(z) * (1 - z^2)^{(p - 3) / 2}),
 #'        main = paste0("Projected density, ", type, ", p = ", p), log = "y",
-#'        sub = paste("Integral:", round(cte_f(f = f, p = p), 4)))
+#'        sub = paste("Integral:", round(con_f(f = f, p = p), 4)))
 #'
 #'   # Quantile function for projected density
 #'   mu <- c(rep(0, p - 1), 1)
@@ -169,7 +169,7 @@ f_locdev <- function(z, p, uk) {
 
 #' @rdname locdev
 #' @export
-cte_f <- function(f, p, N = 320) {
+con_f <- function(f, p, N = 320) {
 
   # Gauss--Legendre nodes and weights
   th_k <- drop(Gauss_Legen_nodes(a = 0, b = pi, N = N))
@@ -343,8 +343,9 @@ cutoff_locdev <- function(p, K_max = 1e4, thre = 1e-3, type, Rothman_t = 1 / 3,
       G2 <- Gegen_series(theta = th, coefs = c(1, uk_cutoff),
                          k = c(0, seq_along(uk_cutoff)), p = p)
       plot(z, G1, ylim = c(1e-3, max(c(G1, G2))), xlab = expression(z),
-           ylab = expression(f(z) == 1 + sum(u[k] * C[k]^{(p / 2 - 1)} * (z),
-                                             k == 1, K)), type = "l", log = "y")
+           ylab = expression(f(z) == 1 +
+                               sum(u[k] * C[k]^{(p / 2 - 1)} * (z), k == 1, K)),
+           type = "l", log = "y")
       lines(z, G2, col = 2)
       legend("top", legend = paste("K =", c(K_max_new, cutoff)),
              col = 1:2, lwd = 2)
@@ -745,8 +746,8 @@ uk_to_bk <- function(uk, p) {
 #' rho <- ((2 * kappa + 1) - sqrt(4 * kappa + 1)) / (2 * kappa)
 #' F_inv_SC_2 <- F_inv_from_f(f = function(z) exp(-kappa * (z - nu)^2), p = 2)
 #' F_inv_W_2 <- F_inv_from_f(f = function(z) exp(kappa * z^2), p = 2)
-#' F_inv_C_2 <- F_inv_from_f(f = function(z) (1 + rho^2 - 2 * rho * z)^(-p / 2),
-#'                           p = 2)
+#' F_inv_C_2 <- F_inv_from_f(f = function(z) (1 - rho^2) / 
+#'                             (1 + rho^2 - 2 * rho * z)^(p / 2), p = 2)
 #' x1 <- r_alt(n = n, p = p, scenario = "vMF", kappa = kappa)[, , 1]
 #' x2 <- r_alt(n = n, p = p, scenario = "MvMF", kappa = kappa)[, , 1]
 #' x3 <- r_alt(n = n, p = p, scenario = "ACG", kappa = kappa)[, , 1]
@@ -770,8 +771,8 @@ uk_to_bk <- function(uk, p) {
 #' rho <- ((2 * kappa + 1) - sqrt(4 * kappa + 1)) / (2 * kappa)
 #' F_inv_SC_3 <- F_inv_from_f(f = function(z) exp(-kappa * (z - nu)^2), p = 3)
 #' F_inv_W_3 <- F_inv_from_f(f = function(z) exp(kappa * z^2), p = 3)
-#' F_inv_C_3 <- F_inv_from_f(f = function(z) (1 + rho^2 - 2 * rho * z)^(-p / 2),
-#'                           p = 3)
+#' F_inv_C_3 <- F_inv_from_f(f = function(z) (1 - rho^2) / 
+#'                             (1 + rho^2 - 2 * rho * z)^(p / 2), p = 3)
 #' x1 <- r_alt(n = n, p = p, scenario = "vMF", kappa = kappa)[, , 1]
 #' x2 <- r_alt(n = n, p = p, scenario = "MvMF", kappa = kappa)[, , 1]
 #' x3 <- r_alt(n = n, p = p, scenario = "ACG", kappa = kappa)[, , 1]
@@ -866,7 +867,7 @@ r_alt <- function(n, p, M = 1, scenario = "vMF", kappa = 1, nu = 0.5,
     if (is.null(F_inv)) {
 
       rho <- ((2 * kappa + 1) - sqrt(4 * kappa + 1)) / (2 * kappa)
-      f <- function(z) (1 + rho^2 - 2 * rho * z)^(-p / 2)
+      f <- function(z) (1 - rho^2) / (1 + rho^2 - 2 * rho * z)^(p / 2)
       F_inv <- F_inv_from_f(f = f, p = p, K = K)
 
     }

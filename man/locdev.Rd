@@ -3,7 +3,7 @@
 \name{locdev}
 \alias{locdev}
 \alias{f_locdev}
-\alias{cte_f}
+\alias{con_f}
 \alias{d_locdev}
 \alias{r_locdev}
 \alias{cutoff_locdev}
@@ -11,7 +11,7 @@
 \usage{
 f_locdev(z, p, uk)
 
-cte_f(f, p, N = 320)
+con_f(f, p, N = 320)
 
 d_locdev(x, mu, f, kappa)
 
@@ -83,7 +83,7 @@ in the computation of the Gegenbauer coefficients? Otherwise, call
 \value{
 \itemize{
   \item \code{f_locdev}: angular function evaluated at \code{x}, a vector.
-  \item \code{cte_f}: normalizing constant \eqn{c_f} of \eqn{f}, a scalar.
+  \item \code{con_f}: normalizing constant \eqn{c_f} of \eqn{f}, a scalar.
   \item \code{d_locdev}: density function evaluated at \code{x}, a vector.
   \item \code{r_locdev}: a matrix of size \code{c(n, p)} containing a random
   sample from the density \eqn{f_{\kappa, \boldsymbol{\mu}}}{
@@ -154,7 +154,7 @@ loc_alt_diagnostic  <- function(p, type, thre = 1e-3, K_max = 1e3) {
   plot(z, f_proj(z), type = "l", xlab = expression(z),
        ylab = expression(omega[p - 1] * f(z) * (1 - z^2)^{(p - 3) / 2}),
        main = paste0("Projected density, ", type, ", p = ", p), log = "y",
-       sub = paste("Integral:", round(cte_f(f = f, p = p), 4)))
+       sub = paste("Integral:", round(con_f(f = f, p = p), 4)))
 
   # Quantile function for projected density
   mu <- c(rep(0, p - 1), 1)

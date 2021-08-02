@@ -76,8 +76,8 @@ nu <- 0.5
 rho <- ((2 * kappa + 1) - sqrt(4 * kappa + 1)) / (2 * kappa)
 F_inv_SC_2 <- F_inv_from_f(f = function(z) exp(-kappa * (z - nu)^2), p = 2)
 F_inv_W_2 <- F_inv_from_f(f = function(z) exp(kappa * z^2), p = 2)
-F_inv_C_2 <- F_inv_from_f(f = function(z) (1 + rho^2 - 2 * rho * z)^(-p / 2),
-                          p = 2)
+F_inv_C_2 <- F_inv_from_f(f = function(z) (1 - rho^2) / 
+                            (1 + rho^2 - 2 * rho * z)^(p / 2), p = 2)
 x1 <- r_alt(n = n, p = p, scenario = "vMF", kappa = kappa)[, , 1]
 x2 <- r_alt(n = n, p = p, scenario = "MvMF", kappa = kappa)[, , 1]
 x3 <- r_alt(n = n, p = p, scenario = "ACG", kappa = kappa)[, , 1]
@@ -101,8 +101,8 @@ nu <- 0.5
 rho <- ((2 * kappa + 1) - sqrt(4 * kappa + 1)) / (2 * kappa)
 F_inv_SC_3 <- F_inv_from_f(f = function(z) exp(-kappa * (z - nu)^2), p = 3)
 F_inv_W_3 <- F_inv_from_f(f = function(z) exp(kappa * z^2), p = 3)
-F_inv_C_3 <- F_inv_from_f(f = function(z) (1 + rho^2 - 2 * rho * z)^(-p / 2),
-                          p = 3)
+F_inv_C_3 <- F_inv_from_f(f = function(z) (1 - rho^2) / 
+                            (1 + rho^2 - 2 * rho * z)^(p / 2), p = 3)
 x1 <- r_alt(n = n, p = p, scenario = "vMF", kappa = kappa)[, , 1]
 x2 <- r_alt(n = n, p = p, scenario = "MvMF", kappa = kappa)[, , 1]
 x3 <- r_alt(n = n, p = p, scenario = "ACG", kappa = kappa)[, , 1]

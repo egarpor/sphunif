@@ -258,6 +258,15 @@ d_wschisq <- function(x, weights, dfs, method = c("I", "SW", "HBE")[1],
                       grad_method = "simple", grad_method.args =
                         list(eps = 1e-7)) {
 
+  # Remove zero weights
+  zero_weights <- weights == 0
+  if (any(zero_weights)) {
+
+    weights <- weights[!zero_weights]
+    dfs <- dfs[!zero_weights]
+
+  }
+
   # Is it a sum or not?
   l_weights <- length(weights)
   if (exact_chisq & l_weights == 1) {
@@ -329,6 +338,15 @@ p_wschisq <- function(x, weights, dfs, method = c("I", "SW", "HBE", "MC")[1],
                       exact_chisq = TRUE, imhof_epsabs = 1e-6,
                       imhof_epsrel = 1e-6, imhof_limit = 1e4,
                       M = 1e4, MC_sample = NULL) {
+
+  # Remove zero weights
+  zero_weights <- weights == 0
+  if (any(zero_weights)) {
+
+    weights <- weights[!zero_weights]
+    dfs <- dfs[!zero_weights]
+
+  }
 
   # Is it a sum or not?
   l_weights <- length(weights)
@@ -426,6 +444,15 @@ q_wschisq <- function(u, weights, dfs, method = c("I", "SW", "HBE", "MC")[1],
                       nlm_gradtol = 1e-6, nlm_iterlim = 1e3,
                       M = 1e4, MC_sample = NULL) {
 
+  # Remove zero weights
+  zero_weights <- weights == 0
+  if (any(zero_weights)) {
+
+    weights <- weights[!zero_weights]
+    dfs <- dfs[!zero_weights]
+
+  }
+
   # Is it a sum or not?
   l_weights <- length(weights)
   if (exact_chisq & l_weights == 1) {
@@ -521,6 +548,14 @@ q_wschisq <- function(u, weights, dfs, method = c("I", "SW", "HBE", "MC")[1],
 #' @export
 r_wschisq <- function(n, weights, dfs) {
 
+  # Remove zero weights
+  zero_weights <- weights == 0
+  if (any(zero_weights)) {
+
+    weights <- weights[!zero_weights]
+    dfs <- dfs[!zero_weights]
+
+  }
   drop(r_wschisq_Cpp(n = n, weights = weights, dfs = dfs))
 
 }

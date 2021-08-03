@@ -19,7 +19,7 @@ contains \eqn{S^{p-1}}.}
 \code{"ACG"}, \code{"SC"}, \code{"W"}, or \code{"C"}. See details below.}
 
 \item{kappa}{non-negative parameter measuring the strength of the deviation
-with respect to uniformity.}
+with respect to uniformity (obtained with \eqn{\kappa = 0}).}
 
 \item{nu}{projection along \eqn{{\bf e}_p}{e_p} controlling the modal
 strip of the small circle distribution. Must be in (-1, 1). Defaults to

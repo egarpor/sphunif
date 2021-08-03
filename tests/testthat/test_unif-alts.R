@@ -162,6 +162,9 @@ test_that("r_alt rotationally symmetric", {
     samp_g <- r_alt(n = 100, p = p, M = 1, kappa = 2, scenario = "C")[, p, 1]
     expect_gt(ks.test(x = F_from_f(f = f4, p = p, kappa = 2, q = p - 1)(samp_g),
                       y = "punif")$p.value, 0.01)
+    samp_1 <- r_alt(n = 1e3, p = p, M = 1, kappa = 0, scenario = "MvMF")[, p, 1]
+    samp_2 <- r_unif_sph(n = 1e3, p = p, M = 1)[, p, 1]
+    expect_gt(ks.test(x = samp_1, y = samp_2)$p.value, 0.01)
   }
 
 })
@@ -183,6 +186,7 @@ test_that("r_alt non-rotationally symmetric", {
     expect_gt(ks.test(x = samp_1, y = samp_2)$p.value, 0.01)
   }
   expect_error(r_alt(n = 100, p = p, M = 1, kappa = 1, scenario = "WC"))
+  expect_error(r_alt(n = 100, p = p, M = 1, kappa = -1, scenario = "C"))
 
 })
 

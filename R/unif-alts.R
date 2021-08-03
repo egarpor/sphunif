@@ -700,7 +700,7 @@ uk_to_bk <- function(uk, p) {
 #' @param scenario simulation scenario, must be \code{"vMF"}, \code{"MvMF"},
 #' \code{"ACG"}, \code{"SC"}, \code{"W"}, or \code{"C"}. See details below.
 #' @param kappa non-negative parameter measuring the strength of the deviation
-#' with respect to uniformity.
+#' with respect to uniformity (obtained with \eqn{\kappa = 0}).
 #' @param nu projection along \eqn{{\bf e}_p}{e_p} controlling the modal
 #' strip of the small circle distribution. Must be in (-1, 1). Defaults to
 #' \code{0.5}.
@@ -795,6 +795,16 @@ r_alt <- function(n, p, M = 1, scenario = "vMF", kappa = 1, nu = 0.5,
   # Common mean (North pole)
   mu <- c(rep(0, p - 1), 1)
 
+  # Check concentration parameter
+  stopifnot(kappa >= 0)
+
+  # Sampling from uniform 
+  if (kappa == 0) {
+
+    return(r_unif_sph(n = n, p = p, M = M))
+
+  }
+
   # Choose scenario
   if (scenario == "vMF") {
 
@@ -866,7 +876,8 @@ r_alt <- function(n, p, M = 1, scenario = "vMF", kappa = 1, nu = 0.5,
     # Compute the inverse of the distribution function F?
     if (is.null(F_inv)) {
 
-      rho <- ((2 * kappa + 1) - sqrt(4 * kappa + 1)) / (2 * kappa)
+      rho <- ifelse(kappa == 0, 0, 
+                    ((2 * kappa + 1) - sqrt(4 * kappa + 1)) / (2 * kappa))
       f <- function(z) (1 - rho^2) / (1 + rho^2 - 2 * rho * z)^(p / 2)
       F_inv <- F_inv_from_f(f = f, p = p, K = K)
 

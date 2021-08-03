@@ -520,7 +520,7 @@ F_inv_from_f <- function(f, p, Gauss = TRUE, N = 320, K = 1e3, tol = 1e-6,
 #' @param signs signs of the coefficients \eqn{u_{k, p}}, a vector of the
 #' same size as \code{vk2} or \code{bk}, or a scalar. Defaults to \code{1}.
 #' @return
-#' The corresponding vectors of coefficients \code{vk2}, \code{bk} or \code{uk},
+#' The corresponding vectors of coefficients \code{vk2}, \code{bk}, or \code{uk},
 #' depending on the call.
 #' @details
 #' See more details in Prentice (1978) and García-Portugués et al. (2020). The

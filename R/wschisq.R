@@ -312,7 +312,7 @@ d_wschisq <- function(x, weights, dfs, method = c("I", "SW", "HBE")[1],
 
     } else {
 
-      stop("method must be \"I\", \"SW\" or \"HBE\".")
+      stop("method must be \"I\", \"SW\", or \"HBE\".")
 
     }
 
@@ -353,7 +353,11 @@ p_wschisq <- function(x, weights, dfs, method = c("I", "SW", "HBE", "MC")[1],
                                             epsabs = imhof_epsabs,
                                             epsrel = imhof_epsrel,
                                             limit = imhof_limit)[1, ])
+
       }
+
+      # Avoid numerical problems
+      prob <- pmin(pmax(prob, 0), 1)
 
     } else if (method == "SW") {
 
@@ -403,7 +407,7 @@ p_wschisq <- function(x, weights, dfs, method = c("I", "SW", "HBE", "MC")[1],
 
     } else {
 
-      stop("method must be \"I\", \"SW\", \"HBE\" or \"MC\".")
+      stop("method must be \"I\", \"SW\", \"HBE\", or \"MC\".")
 
     }
 
@@ -466,7 +470,7 @@ q_wschisq <- function(u, weights, dfs, method = c("I", "SW", "HBE", "MC")[1],
       if (is.null(MC_sample)) {
 
         # For Imhof, do a less demanding and deterministic Monte Carlo to
-        # get good staring values for inverting the approximated cdf
+        # get good starting values for inverting the approximated cdf
         if (method == "I") {
 
           M <- 1e3
@@ -502,7 +506,7 @@ q_wschisq <- function(u, weights, dfs, method = c("I", "SW", "HBE", "MC")[1],
 
     } else {
 
-      stop("method must be \"I\", \"SW\", \"HBE\" or \"MC\".")
+      stop("method must be \"I\", \"SW\", \"HBE\", or \"MC\".")
 
     }
 

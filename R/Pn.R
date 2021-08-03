@@ -106,7 +106,7 @@
 #' }
 #' par(old_par)
 #'
-#' # Analytical coefficients vs numerical integration
+#' # Analytical coefficients vs. numerical integration
 #' test_coef <- function(type, p, k = 0:20) {
 #'
 #'   plot(k, log1p(abs(Gegen_coefs_Pn(k = k, p = p, type = type))),
@@ -516,7 +516,7 @@ psi_Pn <- function(theta, q, type, Rothman_t = 1 / 3, tilde = FALSE,
 
   } else {
 
-    stop("type must be either \"PCvM\", \"PAD\" or \"PRt\".")
+    stop("type must be either \"PCvM\", \"PAD\", or \"PRt\".")
 
   }
 
@@ -712,7 +712,7 @@ Gegen_coefs_Pn <- function(k, p, type, Rothman_t = 1 / 3, Gauss = TRUE,
 
   } else {
 
-    stop("type must be either \"PCvM\", \"PAD\" or \"PRt\".")
+    stop("type must be either \"PCvM\", \"PAD\", or \"PRt\".")
 
   }
 

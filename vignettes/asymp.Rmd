@@ -115,7 +115,7 @@ check_asymp_distr <- function(samp, stat, ...) {
   # Two plots
   par(mfrow = c(1, 2), mar = c(4, 4, 2, 1) + 0.1)
 
-  # Histogram vs density plot
+  # Histogram vs. density plot
   breaks <- switch((stat %in% c("Hodges_Ajne", "Num_uncover")) + 1,
                    ceiling(sqrt(M)), x_eval - 0.5)
   hist(stats, freq = FALSE, breaks = breaks,

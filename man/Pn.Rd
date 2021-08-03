@@ -157,7 +157,7 @@ for (type in c("PCvM", "PAD", "PRt")) {
 }
 par(old_par)
 
-# Analytical coefficients vs numerical integration
+# Analytical coefficients vs. numerical integration
 test_coef <- function(type, p, k = 0:20) {
 
   plot(k, log1p(abs(Gegen_coefs_Pn(k = k, p = p, type = type))),

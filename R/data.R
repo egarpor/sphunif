@@ -155,9 +155,9 @@
 #'   \item{ID}{database ID.}
 #'   \item{name}{name of the crater.}
 #'   \item{target}{name of the celestial body. A factor with 43 levels,
-#'   such as \code{"Moon"}, \code{"Venus"} or \code{"Europa"}.}
+#'   such as \code{"Moon"}, \code{"Venus"}, or \code{"Europa"}.}
 #'   \item{target_type}{type of celestial body. A factor with 3 levels:
-#'   \code{"Planet"}, \code{"Moon"}, \code{"Dwarf planet"} or
+#'   \code{"Planet"}, \code{"Moon"}, \code{"Dwarf planet"}, or
 #'   \code{"Asteroid"}.}
 #'   \item{diameter}{diameter of the crater (in km).}
 #'   \item{theta}{longitude angle \eqn{\theta \in [0, 2\pi)} of the

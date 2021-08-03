@@ -3,7 +3,9 @@ n <- 10
 set.seed(123456789)
 Theta_1 <- r_unif_cir(n = n, M = 1)
 Theta_2 <- r_unif_cir(n = n, M = 2)
+Psi_1 <- Psi_mat(Theta_to_X(Theta_1))
 Psi_2 <- Psi_mat(Theta_to_X(Theta_2))
+h <- function(th) 0.5 * (th^2 / (4 * pi^2) - th / (2 * pi) + 1 / 6)
 
 test_that("Kolmogorov-Smirnov", {
 
@@ -69,6 +71,13 @@ test_that("PCvM vs. Watson", {
   expect_equal(cir_stat_PCvM(Theta_2), 2 * cir_stat_Watson(Theta_2))
   expect_equal(sph_stat_PCvM(Theta_to_X(Theta_1)), 2 * cir_stat_Watson(Theta_1))
 
+})
+
+
+test_that("Watson form in MJ (2000, page 111)", {
+  
+  expect_equal(drop(cir_stat_Watson(Theta_1)), 2 * sum(h(Psi_1)) / n + 1 / 12)
+  
 })
 
 test_that("Hodges_Ajne use_Cressie and asymp_std", {

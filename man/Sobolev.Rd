@@ -44,10 +44,11 @@ asymptotic p-value of a Sobolev test. Defaults to \code{1e3}.}
 the first terms of the truncated series of a Sobolev test. Defaults to
 \code{1e-3}.}
 
-\item{type}{Sobolev statistic. For \eqn{p = 2}, either \code{"Rothman"},
-\code{"Pycke_q"}, or \code{"Hermans_Rasson"}. For \eqn{p \ge 2},
-\code{"Ajne"}, \code{"Gine_Gn"}, \code{"Gine_Fn"}, \code{"Bakshaev"},
-\code{"PCvM"}, \code{"PAD"} or \code{"PRt"}.}
+\item{type}{Sobolev statistic. For \eqn{p = 2}, either \code{"Watson"},
+\code{"Rothman"}, \code{"Pycke_q"}, or \code{"Hermans_Rasson"}.
+For \eqn{p \ge 2}, \code{"Ajne"}, \code{"Gine_Gn"}, \code{"Gine_Fn"},
+\code{"Bakshaev"}, \code{"Riesz"}, \code{"PCvM"}, \code{"PAD"}, or
+\code{"PRt"}.}
 
 \item{Rothman_t}{\eqn{t} parameter for the Rothman test, a real in
 \eqn{(0, 1)}. Defaults to \code{1 / 3}.}
@@ -129,6 +130,8 @@ in the first truncation.
 }
 \examples{
 # Circular-specific statistics
+curve(p_Sobolev(x = x, p = 2, type = "Watson"),
+      n = 2e2, ylab = "Distribution", main = "Watson")
 curve(p_Sobolev(x = x, p = 2, type = "Rothman"),
       n = 2e2, ylab = "Distribution", main = "Rothman")
 curve(p_Sobolev(x = x, p = 2, type = "Pycke_q"), to = 10,
@@ -163,6 +166,9 @@ test_statistic(type = "Gine_Fn", to = 2)
 
 # Bakshaev
 test_statistic(type = "Bakshaev", to = 3)
+
+# Riesz
+test_statistic(type = "Riesz", Riesz_s = 0.5, to = 3)
 
 # PCvM
 test_statistic(type = "PCvM", to = 0.6)

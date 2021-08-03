@@ -21,10 +21,11 @@
 #' @param thre error threshold for the tail probability given by the
 #' the first terms of the truncated series of a Sobolev test. Defaults to
 #' \code{1e-3}.
-#' @param type Sobolev statistic. For \eqn{p = 2}, either \code{"Rothman"},
-#' \code{"Pycke_q"}, or \code{"Hermans_Rasson"}. For \eqn{p \ge 2},
-#' \code{"Ajne"}, \code{"Gine_Gn"}, \code{"Gine_Fn"}, \code{"Bakshaev"},
-#' \code{"PCvM"}, \code{"PAD"} or \code{"PRt"}.
+#' @param type Sobolev statistic. For \eqn{p = 2}, either \code{"Watson"},
+#' \code{"Rothman"}, \code{"Pycke_q"}, or \code{"Hermans_Rasson"}.
+#' For \eqn{p \ge 2}, \code{"Ajne"}, \code{"Gine_Gn"}, \code{"Gine_Fn"},
+#' \code{"Bakshaev"}, \code{"Riesz"}, \code{"PCvM"}, \code{"PAD"}, or
+#' \code{"PRt"}.
 #' @param log compute the logarithm of \eqn{d_{p,k}}? Defaults to
 #' \code{FALSE}.
 #' @param verbose output information about the truncation? Defaults to
@@ -60,6 +61,8 @@
 #' in the first truncation.
 #' @examples
 #' # Circular-specific statistics
+#' curve(p_Sobolev(x = x, p = 2, type = "Watson"),
+#'       n = 2e2, ylab = "Distribution", main = "Watson")
 #' curve(p_Sobolev(x = x, p = 2, type = "Rothman"),
 #'       n = 2e2, ylab = "Distribution", main = "Rothman")
 #' curve(p_Sobolev(x = x, p = 2, type = "Pycke_q"), to = 10,
@@ -94,6 +97,9 @@
 #'
 #' # Bakshaev
 #' test_statistic(type = "Bakshaev", to = 3)
+#'
+#' # Riesz
+#' test_statistic(type = "Riesz", Riesz_s = 0.5, to = 3)
 #'
 #' # PCvM
 #' test_statistic(type = "PCvM", to = 0.6)
@@ -152,9 +158,24 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
   alpha <- 0.5 * p - 1
 
   # Sobolev weights and dfs
-  if (p == 2 & type %in% c("Rothman", "Hermans_Rasson", "Pycke_q")) {
+  if (p == 2 & type %in% c("Watson", "Rothman", "Hermans_Rasson", "Pycke_q")) {
 
-    if (type == "Rothman") {
+    if (type == "Watson") {
+
+      # Sequence of indexes
+      k <- 1:K_max
+
+      # log(v_k^2)
+      log_vk2 <- -2 * log(k * pi)
+
+      # log(d_{2, k})
+      log_dk <- d_p_k(p = 2, k = k, log = TRUE)
+
+      # Log weights and dfs
+      log_weights <- log_vk2
+      log_dfs <- log_dk
+
+    } else if (type == "Rothman") {
 
       # Sequence of indexes
       k <- 1:K_max
@@ -178,7 +199,8 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
       log_v2km12 <- log(2 / pi) - log((2 * k - 1)^2)
 
       # log(v_{2 * k}^2)
-      log_v2k2 <- log(5.79 / pi) - log((2 * k)^2 - 1)
+      beta2 <- (pi^2 / 36) / (0.5 - 4 / pi^2)
+      log_v2k2 <- log(2 * beta2 / pi) - log((2 * k)^2 - 1)
 
       # log(d_{p, 2 * k - 1})
       log_d2km1 <- d_p_k(p = 2, k = 2 * k - 1, log = TRUE)
@@ -312,21 +334,54 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
       # Sequence of indexes
       k <- 1:K_max
 
-      # tau_{s, k, p}
-      if (p == 2) {
+      if (Riesz_s == 0) {
 
-        tau <- 2^(Riesz_s + 1) / (1 + (k == 0))
+        if (p == 2) {
+
+          log_vk2 <- -log(k)
+
+        } else if (p == 3) {
+
+          log_vk2 <- log(1 + 2 * k) - log(2 * k) - log(k + 1)
+
+        } else {
+
+          log_vk2 <- log(2 * k + p - 2) + lgamma(k) + lgamma(p - 2) -
+            log(2) - lgamma(k + p - 1)
+
+        }
+
+      } else if (Riesz_s == 2) {
+
+        if (p == 2) {
+
+          log_vk2 <- ifelse(k == 1, log(2), -Inf)
+
+        } else {
+
+          log_vk2 <- ifelse(k == 1, log(2) - log(p - 2), -Inf)
+
+        }
 
       } else {
 
-        tau <- 2^(p + Riesz_s - 3) * (p + 2 * k - 2) * gamma((p - 2) / 2)
+        # tau_{s, k, p}
+        if (p == 2) {
+
+          tau <- 2^(Riesz_s + 1) / (1 + (k == 0))
+
+        } else {
+
+          tau <- 2^(p + Riesz_s - 3) * (p + 2 * k - 2) * gamma((p - 2) / 2)
+
+        }
+
+        # log(v_k^2) = log(b_{s, k, p})
+        log_vk2 <- log(tau / sqrt(pi)) + lgamma((p - 1 + Riesz_s) / 2) +
+          lgamma(-Riesz_s / 2 + k) - lgamma(p - 1 + Riesz_s / 2 + k) -
+          lgamma(-Riesz_s / 2)
 
       }
-
-      # log(v_k^2) = log(b_{s, k, p})
-      log_vk2 <- log(tau / sqrt(pi)) + lgamma((p - 1 + Riesz_s) / 2) +
-        lgamma(-Riesz_s / 2 + k) - lgamma(p - 1 + Riesz_s / 2 + k) -
-        lgamma(-Riesz_s / 2)
 
       # Divide by 2 if p = 2 and (1 + k / alpha) if p > 2
       if (p == 2) {

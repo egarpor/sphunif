@@ -190,6 +190,14 @@ test_that("r_alt non-rotationally symmetric", {
 
 })
 
+test_that("r_alt for MvMF with low-sample size and high dimension", {
+
+  expect_length(r_alt(n = 5, p = 2, M = 1, scenario = "MvMF", kappa = 1), 10)
+  expect_length(r_alt(n = 5, p = 10, M = 1, scenario = "MvMF", kappa = 1), 50)
+  expect_length(r_alt(n = 5, p = 100, M = 1, scenario = "MvMF", kappa = 1), 500)
+
+})
+
 set.seed(12311)
 n <- 20
 X_2 <- r_unif_sph(n = n, p = 2, M = 1)

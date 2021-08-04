@@ -814,12 +814,12 @@ r_alt <- function(n, p, M = 1, scenario = "vMF", kappa = 1, nu = 0.5,
 
     # Mixture components
     j <- sample(x = 1:p, size = n * M, replace = TRUE)
-    nM_j <- table(j)
+    nM_j <- tabulate(bin = j, nbins = p)
     mu_j <- diag(1, nrow = p, ncol = p)
 
     # Sample components
     long_samp <- matrix(nrow = n * M, ncol = p)
-    for (k in 1:p) {
+    for (k in which(nM_j > 0)) {
 
       long_samp[j == k, ] <- rotasym::r_vMF(n = nM_j[k], mu = mu_j[k, ],
                                             kappa = kappa)

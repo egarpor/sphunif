@@ -185,16 +185,32 @@ test_that("r_alt non-rotationally symmetric", {
     samp_2 <- samp_2[, p]
     expect_gt(ks.test(x = samp_1, y = samp_2)$p.value, 0.01)
   }
-  expect_error(r_alt(n = 100, p = p, M = 1, kappa = 1, scenario = "WC"))
-  expect_error(r_alt(n = 100, p = p, M = 1, kappa = -1, scenario = "C"))
 
 })
 
-test_that("r_alt for MvMF with low-sample size and high dimension", {
+test_that("Edge cases in r_alt", {
 
-  expect_length(r_alt(n = 5, p = 2, M = 1, scenario = "MvMF", kappa = 1), 10)
-  expect_length(r_alt(n = 5, p = 10, M = 1, scenario = "MvMF", kappa = 1), 50)
-  expect_length(r_alt(n = 5, p = 100, M = 1, scenario = "MvMF", kappa = 1), 500)
+  for (p in c(2:4, 11)) {
+
+    expect_length(r_alt(n = 5, p = p, M = 1, scenario = "MvMF", kappa = 1),
+                  5 * p)
+    expect_equal(dim(r_alt(n = 1, p = p, M = 1, scenario = "vMF", kappa = 1)), 
+                 c(1, p, 1))
+    expect_equal(dim(r_alt(n = 1, p = p, M = 1, scenario = "MvMF", kappa = 1)), 
+                 c(1, p, 1))
+    expect_equal(dim(r_alt(n = 1, p = p, M = 1, scenario = "SC", kappa = 1)), 
+                 c(1, p, 1))
+    expect_equal(dim(r_alt(n = 1, p = p, M = 1, scenario = "C", kappa = 1)), 
+                 c(1, p, 1))
+    expect_equal(dim(r_alt(n = 1, p = p, M = 1, scenario = "W", kappa = 1)), 
+                 c(1, p, 1))
+    expect_equal(dim(r_alt(n = 1, p = p, M = 1, scenario = "ACG", kappa = 1)), 
+                 c(1, p, 1))
+    expect_error(r_alt(n = 100, p = p, M = 1, kappa = 1, scenario = "WC"))
+    expect_error(r_alt(n = 100, p = p, M = 1, kappa = -1, scenario = "C"))
+    expect_error(r_alt(n = 0, p = p, M = 1, kappa = 1, scenario = "C"))
+
+  }
 
 })
 

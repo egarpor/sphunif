@@ -795,8 +795,9 @@ r_alt <- function(n, p, M = 1, scenario = "vMF", kappa = 1, nu = 0.5,
   # Common mean (North pole)
   mu <- c(rep(0, p - 1), 1)
 
-  # Check concentration parameter
+  # Check concentration parameter and sample size
   stopifnot(kappa >= 0)
+  stopifnot(n >= 1)
 
   # Sampling from uniform 
   if (kappa == 0) {
@@ -830,7 +831,7 @@ r_alt <- function(n, p, M = 1, scenario = "vMF", kappa = 1, nu = 0.5,
     long_samp <- sample(x = c(-1, 1), size = n * M, replace = TRUE) * long_samp
 
     # Shuffle data
-    long_samp <- long_samp[sample(x = n * M), ]
+    long_samp <- long_samp[sample(x = n * M), , drop = FALSE]
 
   } else if (scenario == "ACG") {
 

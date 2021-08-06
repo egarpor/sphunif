@@ -149,20 +149,20 @@ test_that("F_inv_from_f for vMF", {
 test_that("r_alt rotationally symmetric", {
 
   for (p in 2:4) {
-    samp_g <- r_alt(n = 100, p = p, M = 1, kappa = 2, scenario = "vMF")[, p, 1]
+    samp_g <- r_alt(n = 100, p = p, M = 1, kappa = 2, alt = "vMF")[, p, 1]
     expect_gt(ks.test(x = F_from_f(f = f1, p = p, kappa = 2)(samp_g),
                       y = "punif")$p.value, 0.01)
-    samp_g <- r_alt(n = 100, p = p, M = 1, kappa = 2, scenario = "W")[, p, 1]
+    samp_g <- r_alt(n = 100, p = p, M = 1, kappa = 2, alt = "W")[, p, 1]
     expect_gt(ks.test(x = F_from_f(f = f2, p = p, kappa = 2)(samp_g),
                       y = "punif")$p.value, 0.01)
     samp_g <- r_alt(n = 100, p = p, M = 1, kappa = 2, nu = 0.5,
-                    scenario = "SC")[, p, 1]
+                    alt = "SC")[, p, 1]
     expect_gt(ks.test(x = F_from_f(f = f3, p = p, kappa = 2, nu = 0.5)(samp_g),
                       y = "punif")$p.value, 0.01)
-    samp_g <- r_alt(n = 100, p = p, M = 1, kappa = 2, scenario = "C")[, p, 1]
+    samp_g <- r_alt(n = 100, p = p, M = 1, kappa = 2, alt = "C")[, p, 1]
     expect_gt(ks.test(x = F_from_f(f = f4, p = p, kappa = 2, q = p - 1)(samp_g),
                       y = "punif")$p.value, 0.01)
-    samp_1 <- r_alt(n = 1e3, p = p, M = 1, kappa = 0, scenario = "MvMF")[, p, 1]
+    samp_1 <- r_alt(n = 1e3, p = p, M = 1, kappa = 0, alt = "MvMF")[, p, 1]
     samp_2 <- r_unif_sph(n = 1e3, p = p, M = 1)[, p, 1]
     expect_gt(ks.test(x = samp_1, y = samp_2)$p.value, 0.01)
   }
@@ -172,13 +172,17 @@ test_that("r_alt rotationally symmetric", {
 test_that("r_alt non-rotationally symmetric", {
 
   for (p in c(2:4, 11)) {
-    samp_1 <- r_alt(n = 1e3, p = p, M = 1, kappa = 2, scenario = "MvMF")[, p, 1]
-    samp_2 <- c(apply(diag(rep(1, p)), 1, function(mu)
+    samp_1a <- r_alt(n = 1e3, p = p, M = 1, kappa = 2, alt = "MvMF",
+                     axial_MvMF = TRUE)[, p, 1]
+    samp_1b <- r_alt(n = 1e3, p = p, M = 1, kappa = 2, alt = "MvMF",
+                     axial_MvMF = FALSE)[, p, 1]
+    samp_2b <- c(apply(diag(rep(1, p)), 1, function(mu)
       t(rotasym::r_vMF(n = round(1e3 / p), mu = mu, kappa = 2))))
-    samp_2 <- matrix(samp_2, ncol = p, byrow = TRUE)[, p]
-    samp_2 <- samp_2 * sample(c(-1, 1), size = length(samp_2), replace = TRUE)
-    expect_gt(ks.test(x = samp_1, y = samp_2)$p.value, 0.01)
-    samp_1 <- r_alt(n = 1e3, p = p, M = 1, kappa = 1, scenario = "ACG")[, p, 1]
+    samp_2b <- matrix(samp_2b, ncol = p, byrow = TRUE)[, p]
+    samp_2a <- samp_2b * sample(c(-1, 1), size = length(samp_2b), replace = TRUE)
+    expect_gt(ks.test(x = samp_1a, y = samp_2a)$p.value, 0.01)
+    expect_gt(ks.test(x = samp_1b, y = samp_2b)$p.value, 0.01)
+    samp_1 <- r_alt(n = 1e3, p = p, M = 1, kappa = 1, alt = "ACG")[, p, 1]
     samp_2 <- mvtnorm::rmvnorm(n = 1e3, mean = rep(0, p),
                                sigma = diag(c(rep(1, p - 1), 1 + 1)))
     samp_2 <- samp_2 / sqrt(rowSums(samp_2^2))
@@ -192,23 +196,23 @@ test_that("Edge cases in r_alt", {
 
   for (p in c(2:4, 11)) {
 
-    expect_length(r_alt(n = 5, p = p, M = 1, scenario = "MvMF", kappa = 1),
+    expect_length(r_alt(n = 5, p = p, M = 1, alt = "MvMF", kappa = 1),
                   5 * p)
-    expect_equal(dim(r_alt(n = 1, p = p, M = 1, scenario = "vMF", kappa = 1)), 
+    expect_equal(dim(r_alt(n = 1, p = p, M = 1, alt = "vMF", kappa = 1)), 
                  c(1, p, 1))
-    expect_equal(dim(r_alt(n = 1, p = p, M = 1, scenario = "MvMF", kappa = 1)), 
+    expect_equal(dim(r_alt(n = 1, p = p, M = 1, alt = "MvMF", kappa = 1)), 
                  c(1, p, 1))
-    expect_equal(dim(r_alt(n = 1, p = p, M = 1, scenario = "SC", kappa = 1)), 
+    expect_equal(dim(r_alt(n = 1, p = p, M = 1, alt = "SC", kappa = 1)), 
                  c(1, p, 1))
-    expect_equal(dim(r_alt(n = 1, p = p, M = 1, scenario = "C", kappa = 1)), 
+    expect_equal(dim(r_alt(n = 1, p = p, M = 1, alt = "C", kappa = 1)), 
                  c(1, p, 1))
-    expect_equal(dim(r_alt(n = 1, p = p, M = 1, scenario = "W", kappa = 1)), 
+    expect_equal(dim(r_alt(n = 1, p = p, M = 1, alt = "W", kappa = 1)), 
                  c(1, p, 1))
-    expect_equal(dim(r_alt(n = 1, p = p, M = 1, scenario = "ACG", kappa = 1)), 
+    expect_equal(dim(r_alt(n = 1, p = p, M = 1, alt = "ACG", kappa = 1)), 
                  c(1, p, 1))
-    expect_error(r_alt(n = 100, p = p, M = 1, kappa = 1, scenario = "WC"))
-    expect_error(r_alt(n = 100, p = p, M = 1, kappa = -1, scenario = "C"))
-    expect_error(r_alt(n = 0, p = p, M = 1, kappa = 1, scenario = "C"))
+    expect_error(r_alt(n = 100, p = p, M = 1, kappa = 1, alt = "WC"))
+    expect_error(r_alt(n = 100, p = p, M = 1, kappa = -1, alt = "C"))
+    expect_error(r_alt(n = 0, p = p, M = 1, kappa = 1, alt = "C"))
 
   }
 

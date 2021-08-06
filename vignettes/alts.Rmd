@@ -78,7 +78,7 @@ set.seed(seed)
 par(mfrow = c(1, 2))
 for (k in kappas) {
 
-  plot_cir(r_alt(n = n, p = 2, scenario = "vMF", kappa = k)[, , 1], kappa = k)
+  plot_cir(r_alt(n = n, p = 2, alt = "vMF", kappa = k)[, , 1], kappa = k)
 
 }
 ```
@@ -90,7 +90,7 @@ set.seed(seed)
 par(mfrow = c(1, 2))
 for (k in kappas) {
 
-  plot_sph(r_alt(n = n, p = 3, scenario = "vMF", kappa = k)[, , 1], kappa = k)
+  plot_sph(r_alt(n = n, p = 3, alt = "vMF", kappa = k)[, , 1], kappa = k)
 
 }
 ```
@@ -104,7 +104,7 @@ set.seed(seed)
 par(mfrow = c(1, 2))
 for (k in (16 * kappas)) {
 
-  plot_cir(r_alt(n = n, p = 2, scenario = "MvMF", kappa = k)[, , 1], kappa = k)
+  plot_cir(r_alt(n = n, p = 2, alt = "MvMF", kappa = k)[, , 1], kappa = k)
 
 }
 ```
@@ -116,7 +116,7 @@ set.seed(seed)
 par(mfrow = c(1, 2))
 for (k in (16 * kappas)) {
 
-  plot_sph(r_alt(n = n, p = 3, scenario = "MvMF", kappa = k)[, , 1], kappa = k)
+  plot_sph(r_alt(n = n, p = 3, alt = "MvMF", kappa = k)[, , 1], kappa = k)
 
 }
 ```
@@ -130,7 +130,7 @@ set.seed(seed)
 par(mfrow = c(1, 2))
 for (k in (1.5 * kappas)) {
 
-  plot_cir(r_alt(n = n, p = 2, scenario = "ACG", kappa = k)[, , 1], kappa = k)
+  plot_cir(r_alt(n = n, p = 2, alt = "ACG", kappa = k)[, , 1], kappa = k)
 
 }
 ```
@@ -142,7 +142,7 @@ set.seed(seed)
 par(mfrow = c(1, 2))
 for (k in (1.5 * kappas)) {
 
-  plot_sph(r_alt(n = n, p = 3, scenario = "ACG", kappa = k)[, , 1], kappa = k)
+  plot_sph(r_alt(n = n, p = 3, alt = "ACG", kappa = k)[, , 1], kappa = k)
 
 }
 ```
@@ -156,7 +156,7 @@ set.seed(seed)
 par(mfrow = c(1, 2))
 for (k in kappas) {
 
-  plot_cir(r_alt(n = n, p = 2, scenario = "W", kappa = k)[, , 1], kappa = k)
+  plot_cir(r_alt(n = n, p = 2, alt = "W", kappa = k)[, , 1], kappa = k)
 
 }
 ```
@@ -168,7 +168,7 @@ set.seed(seed)
 par(mfrow = c(1, 2))
 for (k in kappas) {
 
-  plot_sph(r_alt(n = n, p = 3, scenario = "W", kappa = k)[, , 1], kappa = k)
+  plot_sph(r_alt(n = n, p = 3, alt = "W", kappa = k)[, , 1], kappa = k)
 
 }
 ```
@@ -182,7 +182,7 @@ set.seed(seed)
 par(mfrow = c(1, 2))
 for (k in kappas) {
 
-  plot_cir(r_alt(n = n, p = 2, scenario = "SC", kappa = k)[, , 1], kappa = k)
+  plot_cir(r_alt(n = n, p = 2, alt = "SC", kappa = k)[, , 1], kappa = k)
 
 }
 ```
@@ -194,7 +194,7 @@ set.seed(seed)
 par(mfrow = c(1, 2))
 for (k in kappas) {
 
-  plot_sph(r_alt(n = n, p = 3, scenario = "SC", kappa = k)[, , 1], kappa = k)
+  plot_sph(r_alt(n = n, p = 3, alt = "SC", kappa = k)[, , 1], kappa = k)
 
 }
 ```

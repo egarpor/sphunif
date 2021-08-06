@@ -154,7 +154,7 @@
 #' # Circular
 #' rand_dirs <- r_unif_sph(n = 5, p = 2, M = 1)[, , 1]
 #' cir_pow <- unif_stat_MC(n = 50, M = 1e2, p = 2, r_H1 = r_alt,
-#'                         scenario = "vMF", kappa = 1,
+#'                         alt = "vMF", kappa = 1,
 #'                         crit_val = cir$crit_val_MC,
 #'                         Cuesta_Albertos_rand_dirs = rand_dirs)
 #' cir_pow$power_MC
@@ -162,7 +162,7 @@
 #' # Spherical
 #' rand_dirs <- r_unif_sph(n = 5, p = 3, M = 1)[, , 1]
 #' sph_pow <- unif_stat_MC(n = 50, M = 1e2, p = 3, r_H1 = r_alt,
-#'                         scenario = "vMF", kappa = 1,
+#'                         alt = "vMF", kappa = 1,
 #'                         crit_val = sph$crit_val_MC,
 #'                         Cuesta_Albertos_rand_dirs = rand_dirs)
 #' sph_pow$power_MC

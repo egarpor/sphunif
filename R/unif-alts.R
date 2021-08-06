@@ -446,6 +446,7 @@ F_from_f <- function(f, p, Gauss = TRUE, N = 320, K = 1e3, tol = 1e-6, ...) {
   }
 
   # Use method = "hyman" for monotone interpolations if possible
+  if (anyNA(y)) stop("Numerical error in F_inv_grid")
   F_appf <- switch(is.unsorted(y) + 1,
                    splinefun(x = z, y = y, method = "hyman"),
                    approxfun(x = z, y = y, method = "linear", rule = 2))
@@ -471,6 +472,7 @@ F_inv_from_f <- function(f, p, Gauss = TRUE, N = 320, K = 1e3, tol = 1e-6,
   F_inv_grid <- c(-1, F_inv_grid, 1)
 
   # Use method = "hyman" for monotone interpolations if possible
+  if (anyNA(F_inv_grid)) stop("Numerical error in F_inv_grid")
   F_inv <- switch(is.unsorted(F_inv_grid) + 1,
                   splinefun(x = u, y = F_inv_grid, method = "hyman"),
                   approxfun(x = u, y = F_inv_grid, method = "linear",
@@ -697,7 +699,7 @@ uk_to_bk <- function(uk, p) {
 #' Angular Central Gaussian (ACG), Small Circle (SC) or Watson (W).
 #'
 #' @inheritParams r_unif
-#' @param scenario simulation scenario, must be \code{"vMF"}, \code{"MvMF"},
+#' @param alt alternative, must be \code{"vMF"}, \code{"MvMF"},
 #' \code{"ACG"}, \code{"SC"}, \code{"W"}, or \code{"C"}. See details below.
 #' @param kappa non-negative parameter measuring the strength of the deviation
 #' with respect to uniformity (obtained with \eqn{\kappa = 0}).
@@ -708,6 +710,8 @@ uk_to_bk <- function(uk, p) {
 #' for \code{"SC"}, \code{"W"}, and \code{"C"}. Computed by internally if
 #' \code{NULL} (default).
 #' @inheritParams F_inv_from_f
+#' @param axial_MvMF use a mixture of vMF that is axial (i.e., symmetrically
+#' distributed about the origin)? Defaults to \code{TRUE}.
 #' @details
 #' The parameter \code{kappa} is used as \eqn{\kappa} in the following
 #' distributions:
@@ -717,7 +721,9 @@ uk_to_bk <- function(uk, p) {
 #'   e_p = (0, 0, \ldots, 1)}.
 #'   \item \code{"MvMF"}: equally-weighted mixture of \eqn{p} von Mises--Fisher
 #'   distributions with common concentration \eqn{\kappa} and directional means
-#'   \eqn{\pm{\bf e}_1, \ldots, \pm{\bf e}_p}{±e_1, \ldots, ±e_p}.
+#'   \eqn{\pm{\bf e}_1, \ldots, \pm{\bf e}_p}{±e_1, \ldots, ±e_p} if 
+#'   \code{axial_MvMF = TRUE}. If \code{axial_MvMF = FALSE}, then only means
+#'   with positive signs are considered.
 #'   \item \code{"ACG"}: Angular Central Gaussian distribution with diagonal
 #'   shape matrix with diagonal given by
 #'   \deqn{(1, \ldots, 1, 1 + \kappa) / (p + \kappa).}
@@ -748,12 +754,12 @@ uk_to_bk <- function(uk, p) {
 #' F_inv_W_2 <- F_inv_from_f(f = function(z) exp(kappa * z^2), p = 2)
 #' F_inv_C_2 <- F_inv_from_f(f = function(z) (1 - rho^2) / 
 #'                             (1 + rho^2 - 2 * rho * z)^(p / 2), p = 2)
-#' x1 <- r_alt(n = n, p = p, scenario = "vMF", kappa = kappa)[, , 1]
-#' x2 <- r_alt(n = n, p = p, scenario = "MvMF", kappa = kappa)[, , 1]
-#' x3 <- r_alt(n = n, p = p, scenario = "ACG", kappa = kappa)[, , 1]
-#' x4 <- r_alt(n = n, p = p, scenario = "SC", F_inv = F_inv_SC_2)[, , 1]
-#' x5 <- r_alt(n = n, p = p, scenario = "W", F_inv = F_inv_W_2)[, , 1]
-#' x6 <- r_alt(n = n, p = p, scenario = "C", F_inv = F_inv_C_2)[, , 1]
+#' x1 <- r_alt(n = n, p = p, alt = "vMF", kappa = kappa)[, , 1]
+#' x2 <- r_alt(n = n, p = p, alt = "MvMF", kappa = kappa)[, , 1]
+#' x3 <- r_alt(n = n, p = p, alt = "ACG", kappa = kappa)[, , 1]
+#' x4 <- r_alt(n = n, p = p, alt = "SC", F_inv = F_inv_SC_2)[, , 1]
+#' x5 <- r_alt(n = n, p = p, alt = "W", F_inv = F_inv_W_2)[, , 1]
+#' x6 <- r_alt(n = n, p = p, alt = "C", F_inv = F_inv_C_2)[, , 1]
 #' r <- runif(n, 0.95, 1.05) # Radius perturbation to improve visualization
 #' plot(r * x1, pch = 16, xlim = c(-1.1, 1.1), ylim = c(-1.1, 1.1), col = 1)
 #' points(r * x2, pch = 16, col = 2)
@@ -773,12 +779,12 @@ uk_to_bk <- function(uk, p) {
 #' F_inv_W_3 <- F_inv_from_f(f = function(z) exp(kappa * z^2), p = 3)
 #' F_inv_C_3 <- F_inv_from_f(f = function(z) (1 - rho^2) / 
 #'                             (1 + rho^2 - 2 * rho * z)^(p / 2), p = 3)
-#' x1 <- r_alt(n = n, p = p, scenario = "vMF", kappa = kappa)[, , 1]
-#' x2 <- r_alt(n = n, p = p, scenario = "MvMF", kappa = kappa)[, , 1]
-#' x3 <- r_alt(n = n, p = p, scenario = "ACG", kappa = kappa)[, , 1]
-#' x4 <- r_alt(n = n, p = p, scenario = "SC", F_inv = F_inv_SC_3)[, , 1]
-#' x5 <- r_alt(n = n, p = p, scenario = "W", F_inv = F_inv_W_3)[, , 1]
-#' x6 <- r_alt(n = n, p = p, scenario = "C", F_inv = F_inv_C_3)[, , 1]
+#' x1 <- r_alt(n = n, p = p, alt = "vMF", kappa = kappa)[, , 1]
+#' x2 <- r_alt(n = n, p = p, alt = "MvMF", kappa = kappa)[, , 1]
+#' x3 <- r_alt(n = n, p = p, alt = "ACG", kappa = kappa)[, , 1]
+#' x4 <- r_alt(n = n, p = p, alt = "SC", F_inv = F_inv_SC_3)[, , 1]
+#' x5 <- r_alt(n = n, p = p, alt = "W", F_inv = F_inv_W_3)[, , 1]
+#' x6 <- r_alt(n = n, p = p, alt = "C", F_inv = F_inv_C_3)[, , 1]
 #' if (requireNamespace("rgl")) {
 #'   rgl::plot3d(x1, size = 5, xlim = c(-1.1, 1.1), ylim = c(-1.1, 1.1),
 #'               zlim = c(-1.1, 1.1), col = 1)
@@ -789,8 +795,8 @@ uk_to_bk <- function(uk, p) {
 #'   rgl::points3d(x6, size = 5, col = 6)
 #' }
 #' @export
-r_alt <- function(n, p, M = 1, scenario = "vMF", kappa = 1, nu = 0.5,
-                  F_inv = NULL, K = 1e3) {
+r_alt <- function(n, p, M = 1, alt = "vMF", kappa = 1, nu = 0.5, F_inv = NULL,
+                  K = 1e3, axial_MvMF = TRUE) {
 
   # Common mean (North pole)
   mu <- c(rep(0, p - 1), 1)
@@ -806,12 +812,12 @@ r_alt <- function(n, p, M = 1, scenario = "vMF", kappa = 1, nu = 0.5,
 
   }
 
-  # Choose scenario
-  if (scenario == "vMF") {
+  # Choose alternative
+  if (alt == "vMF") {
 
     long_samp <- rotasym::r_vMF(n = n * M, mu = mu, kappa = kappa)
 
-  } else if (scenario == "MvMF") {
+  } else if (alt == "MvMF") {
 
     # Mixture components
     j <- sample(x = 1:p, size = n * M, replace = TRUE)
@@ -828,18 +834,23 @@ r_alt <- function(n, p, M = 1, scenario = "vMF", kappa = 1, nu = 0.5,
     }
 
     # Add plus and minus means
-    long_samp <- sample(x = c(-1, 1), size = n * M, replace = TRUE) * long_samp
+    if (axial_MvMF) { 
+
+      long_samp <- sample(x = c(-1, 1), size = n * M, replace = TRUE) *
+        long_samp
+
+    }
 
     # Shuffle data
     long_samp <- long_samp[sample(x = n * M), , drop = FALSE]
 
-  } else if (scenario == "ACG") {
+  } else if (alt == "ACG") {
 
     Lambda <- diag(c(rep(1 / (p + kappa), p - 1),
                      (1 + kappa) / (p + kappa)), nrow = p, ncol = p)
     long_samp <- rotasym::r_ACG(n = n * M, Lambda = Lambda)
 
-  } else if (scenario == "SC") {
+  } else if (alt == "SC") {
 
     # Compute the inverse of the distribution function F?
     if (is.null(F_inv)) {
@@ -856,7 +867,7 @@ r_alt <- function(n, p, M = 1, scenario = "vMF", kappa = 1, nu = 0.5,
     long_samp <- rotasym::r_tang_norm(n = n * M, theta = mu,
                                       r_U = r_U, r_V = r_V)
 
-  } else if (scenario == "W") {
+  } else if (alt == "W") {
 
     # Compute the inverse of the distribution function F?
     if (is.null(F_inv)) {
@@ -872,7 +883,7 @@ r_alt <- function(n, p, M = 1, scenario = "vMF", kappa = 1, nu = 0.5,
     long_samp <- rotasym::r_tang_norm(n = n * M, theta = mu,
                                       r_U = r_U, r_V = r_V)
 
-  } else if (scenario == "C") {
+  } else if (alt == "C") {
 
     # Compute the inverse of the distribution function F?
     if (is.null(F_inv)) {
@@ -892,7 +903,7 @@ r_alt <- function(n, p, M = 1, scenario = "vMF", kappa = 1, nu = 0.5,
 
   } else {
 
-    stop(paste("Wrong scenario; must be \"vMF\", \"MvMF\", \"Bing\"",
+    stop(paste("Wrong alt; must be \"vMF\", \"MvMF\", \"Bing\"",
                "\"ACG\", \"SC\", \"W\", or \"C\"."))
 
   }

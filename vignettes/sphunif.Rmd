@@ -124,7 +124,7 @@ head(sim$stats_MC)
 # Power computation using a pre-built sampler for the anternative
 pow <- unif_stat_MC(n = 30, type = "all", p = 3, M = 1e2, cores = 2,
                     chunks = 5, r_H1 = r_alt, crit_val = sim$crit_val_MC,
-                    scenario = "vMF", kappa = 1, verbose = FALSE)
+                    alt = "vMF", kappa = 1, verbose = FALSE)
 pow$power_MC
 
 # Using a custom sampler

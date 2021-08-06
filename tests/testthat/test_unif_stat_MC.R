@@ -11,7 +11,7 @@ colnames(crit_val_bad) <- paste0(colnames(crit_val_bad), "_bad")
 # Circular
 rand_dirs_2 <- r_unif_sph(n = 20, p = 2, M = 1)[, , 1]
 cir_pow <- unif_stat_MC(n = n, M = 5e2, p = 2, r_H1 = r_alt,
-                        scenario = "MvMF", kappa = 0.5,
+                        alt = "MvMF", kappa = 0.5,
                         crit_val = cir_0$crit_val_MC,
                         Cuesta_Albertos_rand_dirs = rand_dirs_2,
                         verbose = FALSE)
@@ -19,7 +19,7 @@ cir_pow <- unif_stat_MC(n = n, M = 5e2, p = 2, r_H1 = r_alt,
 # Spherical
 rand_dirs_3 <- r_unif_sph(n = 20, p = 3, M = 1)[, , 1]
 sph_pow <- unif_stat_MC(n = n, M = 5e2, p = 3, r_H1 = r_alt,
-                        scenario = "MvMF", kappa = 0.5,
+                        alt = "MvMF", kappa = 0.5,
                         crit_val = sph_0$crit_val_MC,
                         Cuesta_Albertos_rand_dirs = rand_dirs_3,
                         verbose = FALSE)

@@ -293,3 +293,30 @@
 #' unif_test(data = rhea$X[rhea$diam > 15 & rhea$diam < 20, ],
 #'           type = c("PCvM", "PAD", "PRt"), p_value = "asymp")
 "rhea"
+
+
+#' @title TODO
+#'
+#' @description TODO.
+#'
+#' @docType data
+#' @format TODO
+#' \describe{
+#'   TODO
+#' }
+#' @details
+#' TODO
+#' @source TODO
+#' @references
+#' TODO
+#' @examples
+#' # TODO
+"ambrosia"
+
+
+#' @rdname ambrosia
+"angustifolia"
+
+
+#' @rdname ambrosia
+"chenopodium"

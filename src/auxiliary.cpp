@@ -22,6 +22,7 @@ using namespace Rcpp;
 const double inv_two_M_PI = 0.5 / M_PI;
 const double two_M_PI = 2.0 * M_PI;
 
+
 //' @title Transforming between polar and Cartesian coordinates
 //'
 //' @description Transformation between a matrix \code{Theta} containing

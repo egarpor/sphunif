@@ -100,6 +100,7 @@ test_that("F_from_f for vMF", {
                                    K = 1e2, kappa = 3)(samp_g),
                       y = "punif")$p.value, 0.01)
   }
+  expect_error(F_from_f(f = f1, p = 2, kappa = 1e5))
 
 })
 
@@ -143,6 +144,7 @@ test_that("F_inv_from_f for vMF", {
                                      K = 1e2, kappa = 20)(v),
                     y = rotasym::r_g_vMF(n = 100, p = 11,
                                          kappa = 20))$p.value, 0.01)
+  expect_error(F_inv_from_f(f = f1, p = 2, kappa = 1e5))
 
 })
 

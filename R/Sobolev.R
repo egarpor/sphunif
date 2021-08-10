@@ -134,11 +134,12 @@ d_p_k <- function(p, k, log = FALSE) {
   # log(nu_{p, k})
   p <- p - 2
   log_dfs <- lchoose(n = p + k - 1, k = p) + log(2 + p / k)
+  log_dfs[k == 0] <- 0
 
   # nu_{p, k}
   if (!log) {
 
-    log_dfs <- exp(log_dfs)
+    log_dfs <- round(exp(log_dfs))
 
   }
   return(log_dfs)

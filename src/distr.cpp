@@ -19,6 +19,7 @@ const double log_two = std::log(2.0);
 const double two_M_PI = 2.0 * M_PI;
 const double inv_M_PI = 1.0 / M_PI;
 
+
 //' @title Density, distribution, and quantile functions of the projection of
 //' the spherical uniform distribution
 //'

@@ -14,6 +14,7 @@ arma::vec t_inv_sqrt_one(arma::vec t);
 const double inv_M_PI = 1.0 / M_PI;
 const double inv_two_M_PI = 0.5 / M_PI;
 
+
 //' @title Surface area of the intersection of two hyperspherical caps
 //'
 //' @description Computation of

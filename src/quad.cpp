@@ -4,6 +4,7 @@
 #include <RcppArmadillo.h>
 using namespace Rcpp;
 
+
 //' @title Gauss--Legendre quadrature
 //'
 //' @description Convenience for computing the nodes \eqn{x_k} and weights

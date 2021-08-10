@@ -45,6 +45,7 @@ const double log_two = std::log(2.0);
 const double inv_four_M_PI = 0.25 / M_PI;
 const double const_Pycke = (1.0 - std::log(4.0)) * inv_four_M_PI;
 
+
 /*
  * Sobolev tests
  */

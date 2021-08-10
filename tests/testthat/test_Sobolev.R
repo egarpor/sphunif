@@ -39,9 +39,9 @@ x_eps2 <- x - eps
 
 test_that("d_p_k", {
 
-  expect_equal(d_p_k(p = 2, k = 1:3), rep(2, 3))
-  expect_equal(d_p_k(p = 2, k = 1:3, log = TRUE), rep(log(2), 3))
-  expect_equal(d_p_k(p = 30, k = 1), 30)
+  expect_equal(d_p_k(p = 2, k = 0:3), c(1, rep(2, 3)))
+  expect_equal(d_p_k(p = 2, k = 0:3, log = TRUE), c(0, rep(log(2), 3)))
+  expect_equal(d_p_k(p = 30, k = 0:1), c(1, 30))
 
 })
 

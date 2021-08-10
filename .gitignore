@@ -15,3 +15,5 @@ man/.DS_Store
 simulations/res
 TODO.md
 tests/testthat/Rplots.pdf
+*.gcno
+*.gcda

@@ -342,10 +342,9 @@ cutoff_locdev <- function(p, K_max = 1e4, thre = 1e-3, type, Rothman_t = 1 / 3,
                          k = c(0, seq_along(uk)), p = p)
       G2 <- Gegen_series(theta = th, coefs = c(1, uk_cutoff),
                          k = c(0, seq_along(uk_cutoff)), p = p)
+      e <- expression(f(z) == 1 + sum(u[k] * C[k]^(p / 2 - 1) * (z), k == 1, K))
       plot(z, G1, ylim = c(1e-3, max(c(G1, G2))), xlab = expression(z),
-           ylab = expression(f(z) == 1 +
-                               sum(u[k] * C[k]^{(p / 2 - 1)} * (z), k == 1, K)),
-           type = "l", log = "y")
+           ylab = e, type = "l", log = "y")
       lines(z, G2, col = 2)
       legend("top", legend = paste("K =", c(K_max_new, cutoff)),
              col = 1:2, lwd = 2)
@@ -417,39 +416,39 @@ F_from_f <- function(f, p, Gauss = TRUE, N = 320, K = 1e3, tol = 1e-6, ...) {
   if (Gauss) {
 
     # Using Gauss--Legendre quadrature but ensuring monotonicity?
-    y <- rotasym::w_p(p = p - 1) * sapply(z, function(t) {
+    F_grid <- rotasym::w_p(p = p - 1) * sapply(z, function(t) {
       z_k <- drop(Gauss_Legen_nodes(a = -1, b = t, N = N))
       w_k <- drop(Gauss_Legen_weights(a = -1, b = t, N = N))
       sum(w_k * pmax(f(z_k, ...), 0) * (1 - z_k^2)^((p - 3) / 2), na.rm = TRUE)
     })
 
     # Normalize f (the normalizing constant may not be included in f)
-    c_f <- y[length(y)]
-    y <- y / c_f
+    c_f <- F_grid[length(F_grid)]
+    F_grid <- F_grid / c_f
 
   } else {
 
     # Using integrate
     g <- function(t) pmax(f(t, ...), 0) * (1 - t^2)^((p - 3) / 2)
-    y <- sapply(z[-1], function(u) rotasym::w_p(p = p - 1) *
-                  integrate(f = g, lower = -1, upper = u, subdivisions = 1e3,
-                            rel.tol = tol, abs.tol = tol,
-                            stop.on.error = FALSE)$value)
+    F_grid <- sapply(z[-1], function(u) rotasym::w_p(p = p - 1) *
+                       integrate(f = g, lower = -1, upper = u,
+                                 subdivisions = 1e3, rel.tol = tol,
+                                 abs.tol = tol, stop.on.error = FALSE)$value)
 
     # Normalize f (the normalizing constant may not be included in f)
-    c_f <- y[length(y)]
-    y <- y / c_f
+    c_f <- F_grid[length(F_grid)]
+    F_grid <- F_grid / c_f
 
     # Add 0
-    y <- c(0, y)
+    F_grid <- c(0, F_grid)
 
   }
 
   # Use method = "hyman" for monotone interpolations if possible
-  if (anyNA(y)) stop("Numerical error in F_inv_grid")
-  F_appf <- switch(is.unsorted(y) + 1,
-                   splinefun(x = z, y = y, method = "hyman"),
-                   approxfun(x = z, y = y, method = "linear", rule = 2))
+  if (anyNA(F_grid)) stop("Numerical error in F_grid")
+  F_appf <- switch(is.unsorted(F_grid) + 1,
+                   splinefun(x = z, y = F_grid, method = "hyman"),
+                   approxfun(x = z, y = F_grid, method = "linear", rule = 2))
   return(F_appf)
 
 }
@@ -472,8 +471,8 @@ F_inv_from_f <- function(f, p, Gauss = TRUE, N = 320, K = 1e3, tol = 1e-6,
   F_inv_grid <- c(-1, F_inv_grid, 1)
 
   # Use method = "hyman" for monotone interpolations if possible
-  if (anyNA(F_inv_grid)) stop("Numerical error in F_inv_grid")
-  F_inv <- switch(is.unsorted(F_inv_grid) + 1,
+  stopifnot(!anyNA(F_inv_grid))
+  F_inv <- switch(is.unsorted(is.unsorted) + 1,
                   splinefun(x = u, y = F_inv_grid, method = "hyman"),
                   approxfun(x = u, y = F_inv_grid, method = "linear",
                             rule = 2))

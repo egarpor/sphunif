@@ -472,7 +472,7 @@ F_inv_from_f <- function(f, p, Gauss = TRUE, N = 320, K = 1e3, tol = 1e-6,
 
   # Use method = "hyman" for monotone interpolations if possible
   stopifnot(!anyNA(F_inv_grid))
-  F_inv <- switch(is.unsorted(is.unsorted) + 1,
+  F_inv <- switch(is.unsorted(F_inv_grid) + 1,
                   splinefun(x = u, y = F_inv_grid, method = "hyman"),
                   approxfun(x = u, y = F_inv_grid, method = "linear",
                             rule = 2))

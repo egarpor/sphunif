@@ -1,13 +1,13 @@
 
 
-#' @title Weighted sums of chi squared random variables
+#' @title Weighted sums of non-central chi squared random variables
 #'
-#' @description Approximated density, distribution, quantile functions, and
-#' random generation for weighted sums of (central) chi squared random
-#' variables:
-#' \deqn{Q_K = \sum_{i = 1}^K w_i \chi^2_{d_i},}
-#' where \eqn{w_1, \ldots, w_n} are positive weights and \eqn{d_1, \ldots, d_n}
-#' are the positive degrees of freedom.
+#' @description Approximated density, distribution, and quantile functions for
+#' weighted sums of non-central chi squared random variables:
+#' \deqn{Q_K = \sum_{i = 1}^K w_i \chi^2_{d_i}(\lambda_i),}
+#' where \eqn{w_1, \ldots, w_n} are positive weights, \eqn{d_1, \ldots, d_n}
+#' are positive degrees of freedom, and \eqn{\lambda_1, \ldots, \lambda_n}
+#' are non-negative non-centrality parameters. Also, simulation of \eqn{Q_K}.
 #'
 #' @inheritParams r_unif
 #' @param x vector of quantiles.
@@ -16,9 +16,11 @@
 #' same length as \code{dfs}.
 #' @param dfs vector with the positive degrees of freedom of the chi squared
 #' random variables. Must have the same length as \code{weights}.
-#' @param method method for approximating the density, distribution or
+#' @param ncps non-centrality parameters. Either \code{0} (default) or a
+#' vector with the same length as \code{weights}.
+#' @param method method for approximating the density, distribution, or
 #' quantile function. Must be \code{"I"} (Imhof), \code{"SW"}
-#' (Satterthwaite--Welch), \code{"HBE"} (Hall--Buckley--Eagleson) or
+#' (Satterthwaite--Welch), \code{"HBE"} (Hall--Buckley--Eagleson), or
 #' \code{"MC"} (Monte Carlo; only for distribution or quantile functions).
 #' Defaults to \code{"I"}.
 #' @param exact_chisq if \code{weights} and \code{dfs} have length one, shall
@@ -136,42 +138,44 @@
 #' 29(3/4):350--362. \doi{10.2307/2332010}
 #' @examples
 #' # Plotting functions for the examples
-#' add_approx_dens <- function(x, dfs, weights) {
+#' add_approx_dens <- function(x, dfs, weights, ncps) {
 #'
-#'   lines(x, d_wschisq(x, weights = weights, dfs = dfs, method = "SW",
-#'                      exact_chisq = FALSE), col = 3)
-#'   lines(x, d_wschisq(x, weights = weights, dfs = dfs, method = "HBE",
-#'                      exact_chisq = FALSE), col = 4)
-#'   lines(x, d_wschisq(x, weights = weights, dfs = dfs, method = "I",
-#'                      exact_chisq = TRUE), col = 2)
+#'   lines(x, d_wschisq(x, weights = weights, dfs = dfs, ncps = ncps,
+#'                      method = "SW", exact_chisq = FALSE), col = 3)
+#'   lines(x, d_wschisq(x, weights = weights, dfs = dfs, ncps = ncps,
+#'                      method = "HBE", exact_chisq = FALSE), col = 4)
+#'   lines(x, d_wschisq(x, weights = weights, dfs = dfs, ncps = ncps,
+#'                      method = "I", exact_chisq = TRUE), col = 2)
 #'   legend("topright", legend = c("True", "SW", "HBE", "I"), lwd = 2,
 #'          col = c(1, 3:4, 2))
 #'
 #' }
-#' add_approx_distr <- function(x, dfs, weights, ...) {
+#' add_approx_distr <- function(x, dfs, weights, ncps, ...) {
 #'
-#'   lines(x, p_wschisq(x, weights = weights, dfs = dfs, method = "SW",
-#'                      exact_chisq = FALSE), col = 3)
-#'   lines(x, p_wschisq(x, weights = weights, dfs = dfs, method = "HBE",
-#'                      exact_chisq = FALSE), col = 4)
-#'   lines(x, p_wschisq(x, weights = weights, dfs = dfs, method = "MC",
-#'                      exact_chisq = FALSE), col = 5, type = "s")
-#'   lines(x, p_wschisq(x, weights = weights, dfs = dfs, method = "I",
-#'                      exact_chisq = TRUE), col = 2)
+#'   lines(x, p_wschisq(x, weights = weights, dfs = dfs, ncps = ncps,
+#'                      method = "SW", exact_chisq = FALSE), col = 3)
+#'   lines(x, p_wschisq(x, weights = weights, dfs = dfs, ncps = ncps,
+#'                      method = "HBE", exact_chisq = FALSE), col = 4)
+#'   lines(x, p_wschisq(x, weights = weights, dfs = dfs, ncps = ncps,
+#'                      method = "MC", exact_chisq = FALSE), col = 5,
+#'                      type = "s")
+#'   lines(x, p_wschisq(x, weights = weights, dfs = dfs, ncps = ncps,
+#'                      method = "I", exact_chisq = TRUE), col = 2)
 #'   legend("bottomright", legend = c("True", "SW", "HBE", "MC", "I"), lwd = 2,
 #'          col = c(1, 3:5, 2))
 #'
 #' }
-#' add_approx_quant <- function(u, dfs, weights, ...) {
+#' add_approx_quant <- function(u, dfs, weights, ncps, ...) {
 #'
-#'   lines(u, q_wschisq(u, weights = weights, dfs = dfs, method = "SW",
-#'                      exact_chisq = FALSE), col = 3)
-#'   lines(u, q_wschisq(u, weights = weights, dfs = dfs, method = "HBE",
-#'                      exact_chisq = FALSE), col = 4)
-#'   lines(u, q_wschisq(u, weights = weights, dfs = dfs, method = "MC",
-#'                      exact_chisq = FALSE), col = 5, type = "s")
-#'   lines(u, q_wschisq(u, weights = weights, dfs = dfs, method = "I",
-#'                      exact_chisq = TRUE), col = 2)
+#'   lines(u, q_wschisq(u, weights = weights, dfs = dfs, ncps = ncps,
+#'                      method = "SW", exact_chisq = FALSE), col = 3)
+#'   lines(u, q_wschisq(u, weights = weights, dfs = dfs, ncps = ncps,
+#'                      method = "HBE", exact_chisq = FALSE), col = 4)
+#'   lines(u, q_wschisq(u, weights = weights, dfs = dfs, ncps = ncps,
+#'                      method = "MC", exact_chisq = FALSE), col = 5,
+#'                      type = "s")
+#'   lines(u, q_wschisq(u, weights = weights, dfs = dfs, ncps = ncps,
+#'                      method = "I", exact_chisq = TRUE), col = 2)
 #'   legend("topleft", legend = c("True", "SW", "HBE", "MC", "I"), lwd = 2,
 #'          col = c(1, 3:5, 2))
 #'
@@ -179,50 +183,55 @@
 #'
 #' # Validation plots for density, distribution, and quantile functions
 #' u <- seq(0.01, 0.99, l = 100)
-#' old_par <- par(mfrow = c(3, 3))
+#' old_par <- par(mfrow = c(1, 3))
 #'
-#' # Case 1: 1 * ChiSq_3 + 1 * ChiSq_3 = ChiSq_6
+#' # Case 1: 1 * ChiSq_3(0) + 1 * ChiSq_3(0) = ChiSq_6(0)
 #' weights <- c(1, 1)
 #' dfs <- c(3, 3)
+#' ncps <- 0
 #' x <- seq(-1, 30, l = 100)
-#' main <- expression(1 * chi[3]^2 + 1 * chi[3]^2)
+#' main <- expression(1 * chi[3]^2 * (0) + 1 * chi[3]^2 * (0))
 #' plot(x, dchisq(x, df = 6), type = "l", main = main, ylab = "Density")
-#' add_approx_dens(x = x, weights = weights, dfs = dfs)
+#' add_approx_dens(x = x, weights = weights, dfs = dfs, ncps = ncps)
 #' plot(x, pchisq(x, df = 6), type = "l", main = main, ylab = "Distribution")
-#' add_approx_distr(x = x, weights = weights, dfs = dfs)
+#' add_approx_distr(x = x, weights = weights, dfs = dfs, ncps = ncps)
 #' plot(u, qchisq(u, df = 6), type = "l", main = main, ylab = "Quantile")
-#' add_approx_quant(u = u, weights = weights, dfs = dfs)
+#' add_approx_quant(u = u, weights = weights, dfs = dfs, ncps = ncps)
 #' \donttest{
-#' # Case 2: 2 * ChiSq_3 + 1 * ChiSq_6 + 0.5 * ChiSq_12
+#' # Case 2: 2 * ChiSq_3(1) + 1 * ChiSq_6(0.5) + 0.5 * ChiSq_12(0.25)
 #' weights <- c(2, 1, 0.5)
 #' dfs <- c(3, 6, 12)
-#' x <- seq(-0.5, 50, l = 100)
-#' main <- expression(2 * chi[3]^2 + 1 * chi[6]^2 + 0.5 * chi[12]^2)
-#' samp <- r_wschisq(n = 1e4, dfs = c(3, 6, 12), weights = c(2, 1, 0.5))
-#' hist(samp, breaks = 100, freq = FALSE, main = main, ylab = "Density",
+#' ncps <- c(1, 0.5, 0.25)
+#' x <- seq(0, 70, l = 100)
+#' main <- expression(2 * chi[3]^2 * (1)+ 1 * chi[6]^2 * (0.5) +
+#'                    0.5 * chi[12]^2 * (0.25))
+#' samp <- r_wschisq(n = 1e4, weights = weights, dfs = dfs, ncps = ncps)
+#' hist(samp, breaks = 50, freq = FALSE, main = main, ylab = "Density",
 #'      xlim = range(x), xlab = "x"); box()
-#' add_approx_dens(x = x, weights = weights, dfs = dfs)
+#' add_approx_dens(x = x, weights = weights, dfs = dfs, ncps = ncps)
 #' plot(x, ecdf(samp)(x), main = main, ylab = "Distribution", type = "s")
-#' add_approx_distr(x = x, weights = weights, dfs = dfs)
+#' add_approx_distr(x = x, weights = weights, dfs = dfs, ncps = ncps)
 #' plot(u, quantile(samp, probs = u), type = "s", main = main,
 #'      ylab = "Quantile")
-#' add_approx_quant(u = u, weights = weights, dfs = dfs)
+#' add_approx_quant(u = u, weights = weights, dfs = dfs, ncps = ncps)
 #'
-#' # Case 3: \sum_{k = 1}^K k^(-3) * ChiSq_{5k}
+#' # Case 3: \sum_{k = 1}^K k^(-3) * ChiSq_{5k}(1 / k^2)
 #' K <- 1e2
 #' weights<- 1 / (1:K)^3
 #' dfs <- 5 * 1:K
+#' ncps <- 1 / (1:K)^2
 #' x <- seq(0, 25, l = 100)
-#' main <- substitute(sum(k^(-3) * chi[5 * k]^2, k == 1, K), list(K = K))
-#' samp <- r_wschisq(n = 1e4, weights = weights, dfs = dfs)
-#' hist(samp, breaks = 100, freq = FALSE, main = main, ylab = "Density",
+#' main <- substitute(sum(k^(-3) * chi[5 * k]^2 * (1 / k^2), k == 1, K),
+#'                    list(K = K))
+#' samp <- r_wschisq(n = 1e4, weights = weights, dfs = dfs, ncps = ncps)
+#' hist(samp, breaks = 50, freq = FALSE, main = main, ylab = "Density",
 #'      xlim = range(x), xlab = "x"); box()
-#' add_approx_dens(x = x, weights = weights, dfs = dfs)
+#' add_approx_dens(x = x, weights = weights, dfs = dfs, ncps = ncps)
 #' plot(x, ecdf(samp)(x), main = main, ylab = "Distribution", type = "s")
-#' add_approx_distr(x = x, weights = weights, dfs = dfs)
+#' add_approx_distr(x = x, weights = weights, dfs = dfs, ncps = ncps)
 #' plot(u, quantile(samp, probs = u), type = "s", main = main,
 #'      ylab = "Quantile")
-#' add_approx_quant(u = u, weights = weights, dfs = dfs)
+#' add_approx_quant(u = u, weights = weights, dfs = dfs, ncps = ncps)
 #' par(old_par)
 #'
 #' # Cutoffs for infinite series of the last example
@@ -252,11 +261,23 @@
 
 #' @rdname wschisq
 #' @export
-d_wschisq <- function(x, weights, dfs, method = c("I", "SW", "HBE")[1],
-                      exact_chisq = TRUE, imhof_epsabs = 1e-6,
-                      imhof_epsrel = 1e-6, imhof_limit = 1e4,
-                      grad_method = "simple", grad_method.args =
-                        list(eps = 1e-7)) {
+d_wschisq <- function(x, weights, dfs, ncps = 0,
+                      method = c("I", "SW", "HBE")[1], exact_chisq = TRUE,
+                      imhof_epsabs = 1e-6, imhof_epsrel = 1e-6,
+                      imhof_limit = 1e4, grad_method = "simple",
+                      grad_method.args = list(eps = 1e-7)) {
+
+  # Check lengths and ncps
+  stopifnot(length(weights) == length(dfs), length(ncps) %in% c(1, length(dfs)))
+  stopifnot(all(ncps >= 0))
+
+  # Vector of ncps
+  l_weights <- length(weights)
+  if (length(ncps) == 1) {
+
+    ncps <- rep(ncps, l_weights)
+
+  }
 
   # Remove zero weights
   zero_weights <- weights == 0
@@ -264,14 +285,14 @@ d_wschisq <- function(x, weights, dfs, method = c("I", "SW", "HBE")[1],
 
     weights <- weights[!zero_weights]
     dfs <- dfs[!zero_weights]
+    ncps <- ncps[!zero_weights]
 
   }
 
   # Is it a sum or not?
-  l_weights <- length(weights)
   if (exact_chisq & l_weights == 1) {
 
-    dens <- dchisq(x = x / weights[1], df = dfs[1], ncp = 0) / weights[1]
+    dens <- dchisq(x = x / weights[1], df = dfs[1], ncp = ncps[1]) / weights[1]
 
   } else {
 
@@ -281,9 +302,10 @@ d_wschisq <- function(x, weights, dfs, method = c("I", "SW", "HBE")[1],
       # Numerical derivative of the Imhof's cdf approximation
       p <- function(x) {
 
-        p_wschisq(x = x, weights = weights, dfs = dfs, method = "I",
-                  exact_chisq = exact_chisq, imhof_epsabs = imhof_epsabs,
-                  imhof_epsrel = imhof_epsrel, imhof_limit = imhof_limit)
+        p_wschisq(x = x, weights = weights, dfs = dfs, ncps = ncps,
+                  method = "I", exact_chisq = exact_chisq,
+                  imhof_epsabs = imhof_epsabs, imhof_epsrel = imhof_epsrel,
+                  imhof_limit = imhof_limit)
 
       }
       dens <- numDeriv::grad(func = p, x = x, method = grad_method,
@@ -293,8 +315,8 @@ d_wschisq <- function(x, weights, dfs, method = c("I", "SW", "HBE")[1],
     } else if (method == "SW") {
 
       # Cumulants
-      kappa1 <- sum(weights * dfs)
-      kappa2 <- 2 * sum(weights^2 * dfs)
+      kappa1 <- sum(weights * (dfs + ncps))
+      kappa2 <- 2 * sum(weights^2 * (dfs + 2 * ncps))
 
       # Gamma moment matching
       k <- kappa1^2 / kappa2
@@ -306,9 +328,9 @@ d_wschisq <- function(x, weights, dfs, method = c("I", "SW", "HBE")[1],
     } else if (method == "HBE") {
 
       # Cumulants
-      kappa1 <- sum(weights * dfs)
-      kappa2 <- 2 * sum(weights^2 * dfs)
-      kappa3 <- 8 * sum(weights^3 * dfs)
+      kappa1 <- sum(weights * (dfs + ncps))
+      kappa2 <- 2 * sum(weights^2 * (dfs + 2 * ncps))
+      kappa3 <- 8 * sum(weights^3 * (dfs + 3 * ncps))
 
       # Gamma moment matching
       nu <- 8 * kappa2^3 / kappa3^2
@@ -334,10 +356,22 @@ d_wschisq <- function(x, weights, dfs, method = c("I", "SW", "HBE")[1],
 
 #' @rdname wschisq
 #' @export
-p_wschisq <- function(x, weights, dfs, method = c("I", "SW", "HBE", "MC")[1],
-                      exact_chisq = TRUE, imhof_epsabs = 1e-6,
-                      imhof_epsrel = 1e-6, imhof_limit = 1e4,
-                      M = 1e4, MC_sample = NULL) {
+p_wschisq <- function(x, weights, dfs, ncps = 0,
+                      method = c("I", "SW", "HBE", "MC")[1], exact_chisq = TRUE,
+                      imhof_epsabs = 1e-6, imhof_epsrel = 1e-6,
+                      imhof_limit = 1e4, M = 1e4, MC_sample = NULL) {
+
+  # Check lengths and ncps
+  stopifnot(length(weights) == length(dfs), length(ncps) %in% c(1, length(dfs)))
+  stopifnot(all(ncps >= 0))
+
+  # Vector of ncps
+  l_weights <- length(weights)
+  if (length(ncps) == 1) {
+
+    ncps <- rep(ncps, l_weights)
+
+  }
 
   # Remove zero weights
   zero_weights <- weights == 0
@@ -345,14 +379,14 @@ p_wschisq <- function(x, weights, dfs, method = c("I", "SW", "HBE", "MC")[1],
 
     weights <- weights[!zero_weights]
     dfs <- dfs[!zero_weights]
+    ncps <- ncps[!zero_weights]
 
   }
 
   # Is it a sum or not?
-  l_weights <- length(weights)
   if (exact_chisq & l_weights == 1) {
 
-    prob <- pchisq(q = x / weights[1], df = dfs[1], ncp = 0)
+    prob <- pchisq(q = x / weights[1], df = dfs[1], ncp = ncps[1])
 
   } else {
 
@@ -367,8 +401,7 @@ p_wschisq <- function(x, weights, dfs, method = c("I", "SW", "HBE", "MC")[1],
 
         prob[ind_safe] <- 1 - unlist(sapply(x[ind_safe], CompQuadForm::imhof,
                                             lambda = weights, h = dfs,
-                                            delta = rep(0, l_weights),
-                                            epsabs = imhof_epsabs,
+                                            delta = ncps, epsabs = imhof_epsabs,
                                             epsrel = imhof_epsrel,
                                             limit = imhof_limit)[1, ])
 
@@ -380,8 +413,8 @@ p_wschisq <- function(x, weights, dfs, method = c("I", "SW", "HBE", "MC")[1],
     } else if (method == "SW") {
 
       # Cumulants
-      kappa1 <- sum(weights * dfs)
-      kappa2 <- 2 * sum(weights^2 * dfs)
+      kappa1 <- sum(weights * (dfs + ncps))
+      kappa2 <- 2 * sum(weights^2 * (dfs + 2 * ncps))
 
       # Gamma moment matching
       k <- kappa1^2 / kappa2
@@ -393,9 +426,9 @@ p_wschisq <- function(x, weights, dfs, method = c("I", "SW", "HBE", "MC")[1],
     } else if (method == "HBE") {
 
       # Cumulants
-      kappa1 <- sum(weights * dfs)
-      kappa2 <- 2 * sum(weights^2 * dfs)
-      kappa3 <- 8 * sum(weights^3 * dfs)
+      kappa1 <- sum(weights * (dfs + ncps))
+      kappa2 <- 2 * sum(weights^2 * (dfs + 2 * ncps))
+      kappa3 <- 8 * sum(weights^3 * (dfs + 3 * ncps))
 
       # Gamma moment matching
       nu <- 8 * kappa2^3 / kappa3^2
@@ -411,14 +444,14 @@ p_wschisq <- function(x, weights, dfs, method = c("I", "SW", "HBE", "MC")[1],
       # Monte Carlo approximation with efficient ecdf evaluation
       if (!is.null(MC_sample)) {
 
-        prob <- p_wschisq_MC(x = x, dfs = 0, weights = 0, M = M,
+        prob <- p_wschisq_MC(x = x, dfs = 0, weights = 0, ncps = 0, M = M,
                              sample = MC_sample, use_sample = TRUE,
                              x_sorted = !is.unsorted(x))
 
       } else {
 
-        prob <- p_wschisq_MC(x = x, weights = weights, dfs = dfs, M = M,
-                             sample = 0, use_sample = FALSE,
+        prob <- p_wschisq_MC(x = x, weights = weights, dfs = dfs, ncps = ncps,
+                             M = M, sample = 0, use_sample = FALSE,
                              x_sorted = !is.unsorted(x))
 
       }
@@ -438,26 +471,38 @@ p_wschisq <- function(x, weights, dfs, method = c("I", "SW", "HBE", "MC")[1],
 
 #' @rdname wschisq
 #' @export
-q_wschisq <- function(u, weights, dfs, method = c("I", "SW", "HBE", "MC")[1],
-                      exact_chisq = TRUE, imhof_epsabs = 1e-6,
-                      imhof_epsrel = 1e-6, imhof_limit = 1e4,
-                      nlm_gradtol = 1e-6, nlm_iterlim = 1e3,
+q_wschisq <- function(u, weights, dfs, ncps = 0,
+                      method = c("I", "SW", "HBE", "MC")[1], exact_chisq = TRUE,
+                      imhof_epsabs = 1e-6, imhof_epsrel = 1e-6,
+                      imhof_limit = 1e4, nlm_gradtol = 1e-6, nlm_iterlim = 1e3,
                       M = 1e4, MC_sample = NULL) {
 
+  # Check lengths and ncps
+  stopifnot(length(weights) == length(dfs), length(ncps) %in% c(1, length(dfs)))
+  stopifnot(all(ncps >= 0))
+
+  # Vector of ncps
+  l_weights <- length(weights)
+  if (length(ncps) == 1) {
+
+    ncps <- rep(ncps, l_weights)
+
+  }
   # Remove zero weights
   zero_weights <- weights == 0
   if (any(zero_weights)) {
 
     weights <- weights[!zero_weights]
     dfs <- dfs[!zero_weights]
+    ncps <- ncps[!zero_weights]
 
   }
 
+
   # Is it a sum or not?
-  l_weights <- length(weights)
   if (exact_chisq & l_weights == 1) {
 
-    q <- weights[1] * qchisq(p = u, df = dfs[1], ncp = 0)
+    q <- weights[1] * qchisq(p = u, df = dfs[1], ncp = ncps[1])
 
   } else {
 
@@ -465,8 +510,8 @@ q_wschisq <- function(u, weights, dfs, method = c("I", "SW", "HBE", "MC")[1],
     if (method == "SW") {
 
       # Cumulants
-      kappa1 <- sum(weights * dfs)
-      kappa2 <- 2 * sum(weights^2 * dfs)
+      kappa1 <- sum(weights * (dfs + ncps))
+      kappa2 <- 2 * sum(weights^2 * (dfs + 2 * ncps))
 
       # Gamma moment matching
       k <- kappa1^2 / kappa2
@@ -478,9 +523,9 @@ q_wschisq <- function(u, weights, dfs, method = c("I", "SW", "HBE", "MC")[1],
     } else if (method == "HBE") {
 
       # Cumulants
-      kappa1 <- sum(weights * dfs)
-      kappa2 <- 2 * sum(weights^2 * dfs)
-      kappa3 <- 8 * sum(weights^3 * dfs)
+      kappa1 <- sum(weights * (dfs + ncps))
+      kappa2 <- 2 * sum(weights^2 * (dfs + 2 * ncps))
+      kappa3 <- 8 * sum(weights^3 * (dfs + 3 * ncps))
 
       # Gamma moment matching
       nu <- 8 * kappa2^3 / kappa3^2
@@ -506,7 +551,7 @@ q_wschisq <- function(u, weights, dfs, method = c("I", "SW", "HBE", "MC")[1],
           set.seed(123456789, kind = "Mersenne-Twister")
 
         }
-        MC_sample <- r_wschisq(n = M, weights = weights, dfs = dfs)
+        MC_sample <- r_wschisq(n = M, weights = weights, dfs = dfs, ncps = ncps)
 
       }
       q <- drop(quantile(MC_sample, probs = u))
@@ -519,7 +564,7 @@ q_wschisq <- function(u, weights, dfs, method = c("I", "SW", "HBE", "MC")[1],
         # Numerical inversion of the Imhof's cdf approximation
         F_v <- function(x, v) {
 
-          (p_wschisq(x = exp(x), weights = weights, dfs = dfs,
+          (p_wschisq(x = exp(x), weights = weights, dfs = dfs, ncps = ncps,
                      imhof_epsabs = imhof_epsabs, imhof_epsrel = imhof_epsrel,
                      imhof_limit = imhof_limit) - v)^2
 
@@ -546,7 +591,19 @@ q_wschisq <- function(u, weights, dfs, method = c("I", "SW", "HBE", "MC")[1],
 
 #' @rdname wschisq
 #' @export
-r_wschisq <- function(n, weights, dfs) {
+r_wschisq <- function(n, weights, dfs, ncps = 0) {
+
+  # Check lengths and ncps
+  stopifnot(length(weights) == length(dfs), length(ncps) %in% c(1, length(dfs)))
+  stopifnot(all(ncps >= 0))
+
+  # Vector of ncps
+  l_weights <- length(weights)
+  if (length(ncps) == 1) {
+
+    ncps <- rep(ncps, l_weights)
+
+  }
 
   # Remove zero weights
   zero_weights <- weights == 0
@@ -554,32 +611,53 @@ r_wschisq <- function(n, weights, dfs) {
 
     weights <- weights[!zero_weights]
     dfs <- dfs[!zero_weights]
+    ncps <- ncps[!zero_weights]
 
   }
-  drop(r_wschisq_Cpp(n = n, weights = weights, dfs = dfs))
+
+  # Sample
+  samp <- numeric(n)
+  for (i in seq_along(weights)) {
+
+    samp <- samp + weights[i] * rchisq(n = n, df = dfs[i], ncp = ncps[i])
+
+  }
+  return(samp)
 
 }
 
 
 #' @rdname wschisq
 #' @export
-cutoff_wschisq <- function(thre = 1e-4, weights, dfs, log = FALSE,
+cutoff_wschisq <- function(thre = 1e-4, weights, dfs, ncps = 0, log = FALSE,
                            x_tail = NULL) {
 
   # thre must be in [0, 1]
   stopifnot(all(0 <= thre & thre <= 1))
 
-  # Remove NAs and display message
+  # Check lengths and ncps
   l_weights <- length(weights)
-  stopifnot(l_weights == length(dfs))
-  if (anyNA(weights) || anyNA(dfs)) {
+  stopifnot(l_weights == length(dfs), length(ncps) %in% c(1, length(dfs)))
+  stopifnot(all(ncps >= 0))
 
-    trunc <- which(is.na(weights) | is.na(dfs))[1]
+  # Vector of ncps
+  l_weights <- length(weights)
+  if (length(ncps) == 1) {
+
+    ncps <- rep(ncps, l_weights)
+
+  }
+
+  # Remove NAs and display message
+  if (anyNA(weights) || anyNA(dfs) || anyNA(ncps)) {
+
+    trunc <- which(is.na(weights) | is.na(dfs) | is.na(ncps))[1]
     if (trunc > 1) {
 
       weights <- weights[1:(trunc - 1)]
       dfs <- dfs[1:(trunc - 1)]
-      message("NAs present in weights or dfs. ",
+      ncps <- ncps[1:(trunc - 1)]
+      message("NAs present in weights, dfs, or ncps. ",
               "Truncated from ", l_weights,
               " elements to the last common non-NA entry (",
               trunc - 1, ").")
@@ -587,7 +665,7 @@ cutoff_wschisq <- function(thre = 1e-4, weights, dfs, log = FALSE,
 
     } else {
 
-      stop("No weights or dfs without NAs.")
+      stop("No weights, dfs, or ncps without NAs.")
 
     }
 
@@ -616,14 +694,22 @@ cutoff_wschisq <- function(thre = 1e-4, weights, dfs, log = FALSE,
 
     # Quantile
     x_tail <- q_wschisq(u = 0.90, weights = w[1:fin], dfs = d[1:fin],
-                        method = "HBE")
+                        ncps = ncps[1:fin], method = "HBE")
 
   }
-
+  
+  # Cumulants
+  kappa1 <- sum(weights * (dfs + ncps))
+  kappa2 <- 2 * sum(weights^2 * (dfs + 2 * ncps))
+  kappa3 <- 8 * sum(weights^3 * (dfs + 3 * ncps))
+  
   # Gamma moment matching
-  kappa1 <- cumsum(switch(log + 1, weights * dfs, exp(weights + dfs)))
-  kappa2 <- 2 * cumsum(switch(log + 1, weights^2 * dfs, exp(2 * weights + dfs)))
-  kappa3 <- 8 * cumsum(switch(log + 1, weights^3 * dfs, exp(3 * weights + dfs)))
+  kappa1 <- cumsum(switch(log + 1, weights * (dfs + ncps),
+                          exp(weights + log(exp(dfs) + exp(ncps)))))
+  kappa2 <- 2 * cumsum(switch(log + 1, weights^2 * (dfs + 2 * ncps),
+                              exp(2 * weights + log(exp(dfs) + 2 * exp(ncps)))))
+  kappa3 <- 8 * cumsum(switch(log + 1, weights^3 * (dfs + 3 * ncps),
+                              exp(3 * weights + log(exp(dfs) + 3 * exp(ncps)))))
   nu <- 8 * kappa2^3 / kappa3^2
   k <- nu / 2
   theta <- 2
@@ -634,11 +720,13 @@ cutoff_wschisq <- function(thre = 1e-4, weights, dfs, log = FALSE,
   dist_prob <- abs(prob_HBE - prob_HBE[l_weights])
 
   # Proportion of cumulated mean
-  means <- switch(log + 1, weights * dfs, exp(weights + dfs))
+  means <- switch(log + 1, weights * (dfs + ncps),
+                  exp(weights + log(exp(dfs) + exp(ncps))))
   prop_mean <- cumsum(means) / sum(means, na.rm = TRUE)
 
   # Proportion of cumulated variance
-  vars <- switch(log + 1, weights^2 * 2 * dfs, exp(2 * weights + log(2) + dfs))
+  vars <- switch(log + 1, weights^2 * 2 * (dfs + 2 * ncps),
+                 exp(2 * weights + log(2) + log(exp(dfs) + 2 * exp(ncps))))
   prop_var <- cumsum(vars) / sum(vars, na.rm = TRUE)
 
   # Cutoffs

@@ -533,8 +533,8 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
 #' @export
 d_Sobolev <- function(x, p, type, method = c("I", "SW", "HBE")[1], K_max = 1e3,
                       thre = 1e-3, Rothman_t = 1 / 3, Pycke_q = 0.5,
-                      Riesz_s = 1, verbose = TRUE, N = 320, x_tail = NULL,
-                      ...) {
+                      Riesz_s = 1, ncps = 0, verbose = TRUE, N = 320,
+                      x_tail = NULL, ...) {
 
   weights_dfs <- weights_dfs_Sobolev(p = p, K_max = K_max, thre = thre,
                                      type = type, Rothman_t = Rothman_t,
@@ -542,7 +542,7 @@ d_Sobolev <- function(x, p, type, method = c("I", "SW", "HBE")[1], K_max = 1e3,
                                      verbose = verbose, Gauss = TRUE, N = N,
                                      x_tail = x_tail)
   d_wschisq(x = x, weights = weights_dfs$weights, dfs = weights_dfs$dfs,
-            method = method, ...)
+            ncps = ncps, method = method, ...)
 
 }
 
@@ -551,7 +551,7 @@ d_Sobolev <- function(x, p, type, method = c("I", "SW", "HBE")[1], K_max = 1e3,
 #' @export
 p_Sobolev <- function(x, p, type, method = c("I", "SW", "HBE", "MC")[1],
                       K_max = 1e3, thre = 1e-3, Rothman_t = 1 / 3,
-                      Pycke_q = 0.5, Riesz_s = 1, verbose = TRUE,
+                      Pycke_q = 0.5, Riesz_s = 1, ncps = 0, verbose = TRUE,
                       N = 320, x_tail = NULL, ...) {
 
   weights_dfs <- weights_dfs_Sobolev(p = p, K_max = K_max, thre = thre,
@@ -560,7 +560,7 @@ p_Sobolev <- function(x, p, type, method = c("I", "SW", "HBE", "MC")[1],
                                      verbose = verbose, Gauss = TRUE,
                                      N = N, x_tail = x_tail)
   p_wschisq(x = x, weights = weights_dfs$weights, dfs = weights_dfs$dfs,
-            method = method, ...)
+            ncps = ncps, method = method, ...)
 
 }
 
@@ -569,8 +569,8 @@ p_Sobolev <- function(x, p, type, method = c("I", "SW", "HBE", "MC")[1],
 #' @export
 q_Sobolev <- function(u, p, type, method = c("I", "SW", "HBE", "MC")[1],
                       K_max = 1e3, thre = 1e-3, Rothman_t = 1 / 3,
-                      Pycke_q = 0.5, Riesz_s = 1, verbose = TRUE, N = 320,
-                      x_tail = NULL, ...) {
+                      Pycke_q = 0.5, Riesz_s = 1, ncps = 0, verbose = TRUE,
+                      N = 320, x_tail = NULL, ...) {
 
   weights_dfs <- weights_dfs_Sobolev(p = p, K_max = K_max, thre = thre,
                                      type = type, Rothman_t = Rothman_t,
@@ -578,7 +578,7 @@ q_Sobolev <- function(u, p, type, method = c("I", "SW", "HBE", "MC")[1],
                                      verbose = verbose, Gauss = TRUE, N = N,
                                      x_tail = x_tail)
   q_wschisq(u = u, weights = weights_dfs$weights, dfs = weights_dfs$dfs,
-            method = method, ...)
+            ncps = ncps, method = method, ...)
 
 }
 

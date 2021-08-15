@@ -28,7 +28,7 @@
 #' @inheritParams Gegenbauer
 #' @param q integer giving the dimension of the sphere \eqn{S^q}.
 #' @param type type of projected-ecdf test statistic. Must be either
-#' \code{"PCvM"} (Cramér--von Mises), \code{"PAD"} (Anderson--Darling) or
+#' \code{"PCvM"} (Cramér--von Mises), \code{"PAD"} (Anderson--Darling), or
 #' \code{"PRt"} (Rothman).
 #' @inheritParams unif_stat
 #' @param tilde include the constant and bias term? Defaults to \code{FALSE}.

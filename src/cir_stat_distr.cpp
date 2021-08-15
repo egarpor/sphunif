@@ -11,8 +11,8 @@ arma::vec p_Kolmogorov(arma::vec, arma::uword K_Kolmogorov, bool alternating);
 arma::vec d_Kolmogorov(arma::vec, arma::uword K_Kolmogorov, bool alternating);
 arma::vec Gauss_Legen_nodes(double a, double b, arma::uword N);
 arma::vec Gauss_Legen_weights(double a, double b, arma::uword N);
-arma::vec d_chisq(arma::vec, arma::uword df);
-arma::vec p_chisq(arma::vec, arma::uword df);
+arma::vec d_chisq(arma::vec, arma::uword df, arma::uword ncp);
+arma::vec p_chisq(arma::vec, arma::uword df, arma::uword ncp);
 
 // Constants
 const double half_M_PI = 0.5 * M_PI;
@@ -227,7 +227,7 @@ arma::vec d_cir_stat_Ajne(arma::vec x, arma::uword K_Ajne = 15) {
 // [[Rcpp::export]]
 arma::vec p_cir_stat_Bingham(arma::vec x) {
   
-  return p_chisq(x, 2);
+  return p_chisq(x, 2, 0);
   
 }
 
@@ -237,7 +237,7 @@ arma::vec p_cir_stat_Bingham(arma::vec x) {
 // [[Rcpp::export]]
 arma::vec d_cir_stat_Bingham(arma::vec x) {
   
-  return d_chisq(x, 2);
+  return d_chisq(x, 2, 0);
   
 }
 
@@ -1089,7 +1089,7 @@ arma::vec d_cir_stat_Rao(arma::vec x) {
 // [[Rcpp::export]]
 arma::vec p_cir_stat_Rayleigh(arma::vec x) {
 
-  return p_chisq(x, 2);
+  return p_chisq(x, 2, 0);
 
 }
 
@@ -1099,7 +1099,7 @@ arma::vec p_cir_stat_Rayleigh(arma::vec x) {
 // [[Rcpp::export]]
 arma::vec d_cir_stat_Rayleigh(arma::vec x) {
 
-  return d_chisq(x, 2);
+  return d_chisq(x, 2, 0);
 
 }
 

@@ -18,15 +18,15 @@ weights_dfs_Sobolev(p, K_max = 1000, thre = 0.001, type, Rothman_t = 1/3,
 
 d_Sobolev(x, p, type, method = c("I", "SW", "HBE")[1], K_max = 1000,
   thre = 0.001, Rothman_t = 1/3, Pycke_q = 0.5, Riesz_s = 1,
-  verbose = TRUE, N = 320, x_tail = NULL, ...)
+  ncps = 0, verbose = TRUE, N = 320, x_tail = NULL, ...)
 
 p_Sobolev(x, p, type, method = c("I", "SW", "HBE", "MC")[1], K_max = 1000,
   thre = 0.001, Rothman_t = 1/3, Pycke_q = 0.5, Riesz_s = 1,
-  verbose = TRUE, N = 320, x_tail = NULL, ...)
+  ncps = 0, verbose = TRUE, N = 320, x_tail = NULL, ...)
 
 q_Sobolev(u, p, type, method = c("I", "SW", "HBE", "MC")[1], K_max = 1000,
   thre = 0.001, Rothman_t = 1/3, Pycke_q = 0.5, Riesz_s = 1,
-  verbose = TRUE, N = 320, x_tail = NULL, ...)
+  ncps = 0, verbose = TRUE, N = 320, x_tail = NULL, ...)
 }
 \arguments{
 \item{p}{integer giving the dimension of the ambient space \eqn{R^p} that
@@ -81,11 +81,14 @@ series, computed by the \code{"HBE"} approximation.}
 
 \item{x}{vector of quantiles.}
 
-\item{method}{method for approximating the density, distribution or
+\item{method}{method for approximating the density, distribution, or
 quantile function. Must be \code{"I"} (Imhof), \code{"SW"}
-(Satterthwaite--Welch), \code{"HBE"} (Hall--Buckley--Eagleson) or
+(Satterthwaite--Welch), \code{"HBE"} (Hall--Buckley--Eagleson), or
 \code{"MC"} (Monte Carlo; only for distribution or quantile functions).
 Defaults to \code{"I"}.}
+
+\item{ncps}{non-centrality parameters. Either \code{0} (default) or a
+vector with the same length as \code{weights}.}
 
 \item{...}{further parameters passed to \code{*_\link{wschisq}}.}
 

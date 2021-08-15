@@ -20,26 +20,27 @@ const double two_M_PI = 2.0 * M_PI;
 const double inv_M_PI = 1.0 / M_PI;
 
 
-//' @title Density, distribution, and quantile functions of the projection of
-//' the spherical uniform distribution
+//' @title Projection of the spherical uniform distribution
 //'
-//' @description Computation of the density, distribution, and quantile
-//' functions of the projection of the spherical uniform random variable
-//' on an arbitrary direction, that is, the random variable
+//' @description Density, distribution, and quantile functions of the
+//' projection of the spherical uniform random variable on an arbitrary
+//' direction, that is, the random variable
 //' \eqn{\boldsymbol{\gamma}'{\bf X}}{\gamma'X}, where \eqn{{\bf X}}{X}
 //' is uniformly distributed on the (hyper)sphere
 //' \eqn{S^{p-1}:=\{{\bf x}\in R^p:||{\bf x}||=1\}}{S^{p-1}:=
 //' \{x\in R^p:||x||=1\}}, \eqn{p\ge 2}, and
 //' \eqn{\boldsymbol{\gamma}\in S^{p-1}}{\gamma\in S^{p-1}} is an
 //' \emph{arbitrary} projection direction. Note that the distribution is
-//' invariant to the choice of \eqn{\boldsymbol{\gamma}}{\gamma}.
+//' invariant to the choice of \eqn{\boldsymbol{\gamma}}{\gamma}. Also,
+//' efficient simulation of \eqn{\boldsymbol{\gamma}'{\bf X}}{\gamma'X}.
 //'
 //' @inheritParams cir_stat_distr
 //' @inheritParams r_unif
 //' @param u vector of probabilities.
 //' @param log compute the logarithm of the density or distribution?
 //' @return A matrix of size \code{c(nx, 1)} with the evaluation of the
-//' density, distribution or quantile function at \code{x} or \code{u}.
+//' density, distribution, or quantile function at \code{x} or \code{u}.
+//' For \code{r_proj_unif}, a random vector of size \code{n}.
 //' @author Eduardo García-Portugués and Paula Navarro-Esteban.
 //' @examples
 //' # Density function
@@ -62,6 +63,10 @@ const double inv_M_PI = 1.0 / M_PI;
 //' curve(q_proj_unif(u = x, p = 4), n = 2e2, col = 3, add = TRUE)
 //' curve(q_proj_unif(u = x, p = 5), n = 2e2, col = 4, add = TRUE)
 //' curve(q_proj_unif(u = x, p = 6), n = 2e2, col = 5, add = TRUE)
+//'
+//' # Sampling
+//' hist(r_proj_unif(n = 1e4, p = 4), freq = FALSE, breaks = 50)
+//' curve(d_proj_unif(x, p = 4), n = 2e2, col = 3, add = TRUE)
 //' @name proj_unif
 
 
@@ -280,13 +285,16 @@ arma::cube r_unif_sph(arma::uword n, arma::uword p, arma::uword M = 1) {
 }
 
 
-//' @title Utilities for weighted sums of chi squared random variables
+//' @title Utilities for weighted sums of non-central chi squared random
+//' variables
 //'
-//' @description Simulation from a weighted sum of (central) chi squared random
-//' variables and Monte Carlo approximation of its distribution function.
+//' @description Simulation from a weighted sum of non-central chi squared
+//' random variables and Monte Carlo approximation of its distribution function.
 //'
 //' @inheritParams r_unif
 //' @inheritParams wschisq
+//' @param ncps non-negative non-centrality parameters. A vector with the same
+//' length as \code{weights}.
 //' @param M number of Monte Carlo samples for approximating the distribution.
 //' Defaults to \code{1e4}.
 //' @param sample if \code{use_sample = TRUE}, the Monte Carlo sample to
@@ -305,9 +313,12 @@ arma::cube r_unif_sph(arma::uword n, arma::uword p, arma::uword M = 1) {
 //' x <- seq(0, 50, l = 1e3)
 //' weights <- c(2, 1, 0.5)
 //' dfs <- c(3, 6, 12)
-//' samp <- sphunif:::r_wschisq_Cpp(n = 5e2, dfs = dfs, weights = weights)
+//' ncps <- c(0, 0, 1)
+//' samp <- sphunif:::r_wschisq_Cpp(n = 5e2, weights = weights, dfs = dfs,
+//'                                 ncps = ncps)
 //' plot(ecdf(samp), main = "")
-//' lines(x, sphunif:::p_wschisq_MC(x, dfs = dfs, weights = weights),
+//' lines(x, sphunif:::p_wschisq_MC(x, weights = weights, dfs = dfs,
+//'                                 ncps = ncps),
 //'       type = "s", col = 2)
 //' @name wschisq_utils
 
@@ -315,14 +326,30 @@ arma::cube r_unif_sph(arma::uword n, arma::uword p, arma::uword M = 1) {
 //' @rdname wschisq_utils
 //' @keywords internal
 // [[Rcpp::export]]
-arma::vec r_wschisq_Cpp(arma::uword n, arma::vec weights, arma::vec dfs) {
+arma::vec r_wschisq_Cpp(arma::uword n, arma::vec weights, arma::vec dfs,
+                        arma::vec ncps) {
 
-  // Sample chi2's (needs C++11)
-  arma::mat samp = arma::chi2rnd(arma::repmat(dfs.t(), n, 1));
+  // Sample and number of elements in the sum
+  arma::vec samp = arma::zeros(n);
+  arma::uword p = weights.n_elem;
 
-  // Multiply and sum by columns
-  samp.each_row() %= weights.t();
-  return sum(samp, 1);
+  // Loop on the sum
+  for (arma::uword k = 0; k < p; k++) {
+
+    // Loop on sample elements
+    arma::vec samp_k = arma::zeros(n);
+    for (arma::uword i = 0; i < n; i++) {
+
+      samp_k(i) = R::rnchisq(dfs(k), ncps(k));
+
+    }
+
+    // Weighted sum
+    samp += weights(k) * samp_k;
+
+  }
+
+  return(samp);
 
 }
 
@@ -330,15 +357,16 @@ arma::vec r_wschisq_Cpp(arma::uword n, arma::vec weights, arma::vec dfs) {
 //' @rdname wschisq_utils
 //' @keywords internal
 // [[Rcpp::export]]
-arma::vec p_wschisq_MC(arma::vec x, arma::vec dfs = 0, arma::vec weights = 0,
-                       arma::uword M = 1e4, arma::vec sample = 0,
-                       bool use_sample = false, bool x_sorted = false) {
+arma::vec p_wschisq_MC(arma::vec x, arma::vec weights = 0, arma::vec dfs = 0,
+                       arma::vec ncps = 0, arma::uword M = 1e4,
+                       arma::vec sample = 0, bool use_sample = false,
+                       bool x_sorted = false) {
 
   // Sample
   if (!use_sample) {
 
     sample.set_size(M);
-    sample = r_wschisq_Cpp(M, weights, dfs);
+    sample = r_wschisq_Cpp(M, weights, dfs, ncps);
 
   }
 
@@ -369,6 +397,7 @@ arma::vec p_wschisq_MC(arma::vec x, arma::vec dfs = 0, arma::vec weights = 0,
 //'
 //' @inheritParams cir_stat_distr
 //' @param df degrees of freedom.
+//' @param ncp non-centrality parameter.
 //' @return A matrix of size \code{c(nx, 1)} with the evaluation of the
 //' density or distribution function at \code{x}.
 //' @examples
@@ -380,11 +409,11 @@ arma::vec p_wschisq_MC(arma::vec x, arma::vec dfs = 0, arma::vec weights = 0,
 //' @rdname chisq
 //' @keywords internal
 // [[Rcpp::export]]
-arma::vec d_chisq(arma::vec x, arma::uword df) {
+arma::vec d_chisq(arma::vec x, arma::uword df, arma::uword ncp = 0) {
 
   // Vectorize by a lambda function -- requires C++ 11
-  x.transform([df](double y) {
-    return R::dchisq(y, df, false);
+  x.transform([df, ncp](double y) {
+    return R::dnchisq(y, df, ncp, false);
   });
   return x;
 
@@ -394,11 +423,11 @@ arma::vec d_chisq(arma::vec x, arma::uword df) {
 //' @rdname chisq
 //' @keywords internal
 // [[Rcpp::export]]
-arma::vec p_chisq(arma::vec x, arma::uword df) {
+arma::vec p_chisq(arma::vec x, arma::uword df, arma::uword ncp = 0) {
 
   // Vectorize by a lambda function -- requires C++ 11
-  x.transform([df](double y) {
-    return R::pchisq(y, df, true, false);
+  x.transform([df, ncp](double y) {
+    return R::pnchisq(y, df, ncp, true, false);
   });
   return x;
 

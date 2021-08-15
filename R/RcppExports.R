@@ -840,26 +840,27 @@ d_cir_stat_Rayleigh <- function(x) {
     .Call('_sphunif_d_cir_stat_Rayleigh', PACKAGE = 'sphunif', x)
 }
 
-#' @title Density, distribution, and quantile functions of the projection of
-#' the spherical uniform distribution
+#' @title Projection of the spherical uniform distribution
 #'
-#' @description Computation of the density, distribution, and quantile
-#' functions of the projection of the spherical uniform random variable
-#' on an arbitrary direction, that is, the random variable
+#' @description Density, distribution, and quantile functions of the
+#' projection of the spherical uniform random variable on an arbitrary
+#' direction, that is, the random variable
 #' \eqn{\boldsymbol{\gamma}'{\bf X}}{\gamma'X}, where \eqn{{\bf X}}{X}
 #' is uniformly distributed on the (hyper)sphere
 #' \eqn{S^{p-1}:=\{{\bf x}\in R^p:||{\bf x}||=1\}}{S^{p-1}:=
 #' \{x\in R^p:||x||=1\}}, \eqn{p\ge 2}, and
 #' \eqn{\boldsymbol{\gamma}\in S^{p-1}}{\gamma\in S^{p-1}} is an
 #' \emph{arbitrary} projection direction. Note that the distribution is
-#' invariant to the choice of \eqn{\boldsymbol{\gamma}}{\gamma}.
+#' invariant to the choice of \eqn{\boldsymbol{\gamma}}{\gamma}. Also,
+#' efficient simulation of \eqn{\boldsymbol{\gamma}'{\bf X}}{\gamma'X}.
 #'
 #' @inheritParams cir_stat_distr
 #' @inheritParams r_unif
 #' @param u vector of probabilities.
 #' @param log compute the logarithm of the density or distribution?
 #' @return A matrix of size \code{c(nx, 1)} with the evaluation of the
-#' density, distribution or quantile function at \code{x} or \code{u}.
+#' density, distribution, or quantile function at \code{x} or \code{u}.
+#' For \code{r_proj_unif}, a random vector of size \code{n}.
 #' @author Eduardo García-Portugués and Paula Navarro-Esteban.
 #' @examples
 #' # Density function
@@ -882,6 +883,10 @@ d_cir_stat_Rayleigh <- function(x) {
 #' curve(q_proj_unif(u = x, p = 4), n = 2e2, col = 3, add = TRUE)
 #' curve(q_proj_unif(u = x, p = 5), n = 2e2, col = 4, add = TRUE)
 #' curve(q_proj_unif(u = x, p = 6), n = 2e2, col = 5, add = TRUE)
+#'
+#' # Sampling
+#' hist(r_proj_unif(n = 1e4, p = 4), freq = FALSE, breaks = 50)
+#' curve(d_proj_unif(x, p = 4), n = 2e2, col = 3, add = TRUE)
 #' @name proj_unif
 NULL
 
@@ -924,13 +929,16 @@ NULL
 #' @name r_unif
 NULL
 
-#' @title Utilities for weighted sums of chi squared random variables
+#' @title Utilities for weighted sums of non-central chi squared random
+#' variables
 #'
-#' @description Simulation from a weighted sum of (central) chi squared random
-#' variables and Monte Carlo approximation of its distribution function.
+#' @description Simulation from a weighted sum of non-central chi squared
+#' random variables and Monte Carlo approximation of its distribution function.
 #'
 #' @inheritParams r_unif
 #' @inheritParams wschisq
+#' @param ncps non-negative non-centrality parameters. A vector with the same
+#' length as \code{weights}.
 #' @param M number of Monte Carlo samples for approximating the distribution.
 #' Defaults to \code{1e4}.
 #' @param sample if \code{use_sample = TRUE}, the Monte Carlo sample to
@@ -949,9 +957,12 @@ NULL
 #' x <- seq(0, 50, l = 1e3)
 #' weights <- c(2, 1, 0.5)
 #' dfs <- c(3, 6, 12)
-#' samp <- sphunif:::r_wschisq_Cpp(n = 5e2, dfs = dfs, weights = weights)
+#' ncps <- c(0, 0, 1)
+#' samp <- sphunif:::r_wschisq_Cpp(n = 5e2, weights = weights, dfs = dfs,
+#'                                 ncps = ncps)
 #' plot(ecdf(samp), main = "")
-#' lines(x, sphunif:::p_wschisq_MC(x, dfs = dfs, weights = weights),
+#' lines(x, sphunif:::p_wschisq_MC(x, weights = weights, dfs = dfs,
+#'                                 ncps = ncps),
 #'       type = "s", col = 2)
 #' @name wschisq_utils
 NULL
@@ -963,6 +974,7 @@ NULL
 #'
 #' @inheritParams cir_stat_distr
 #' @param df degrees of freedom.
+#' @param ncp non-centrality parameter.
 #' @return A matrix of size \code{c(nx, 1)} with the evaluation of the
 #' density or distribution function at \code{x}.
 #' @examples
@@ -1003,26 +1015,26 @@ r_unif_sph <- function(n, p, M = 1L) {
 
 #' @rdname wschisq_utils
 #' @keywords internal
-r_wschisq_Cpp <- function(n, weights, dfs) {
-    .Call('_sphunif_r_wschisq_Cpp', PACKAGE = 'sphunif', n, weights, dfs)
+r_wschisq_Cpp <- function(n, weights, dfs, ncps) {
+    .Call('_sphunif_r_wschisq_Cpp', PACKAGE = 'sphunif', n, weights, dfs, ncps)
 }
 
 #' @rdname wschisq_utils
 #' @keywords internal
-p_wschisq_MC <- function(x, dfs = 0L, weights = 0L, M = 1e4L, sample = 0L, use_sample = FALSE, x_sorted = FALSE) {
-    .Call('_sphunif_p_wschisq_MC', PACKAGE = 'sphunif', x, dfs, weights, M, sample, use_sample, x_sorted)
+p_wschisq_MC <- function(x, weights = 0L, dfs = 0L, ncps = 0L, M = 1e4L, sample = 0L, use_sample = FALSE, x_sorted = FALSE) {
+    .Call('_sphunif_p_wschisq_MC', PACKAGE = 'sphunif', x, weights, dfs, ncps, M, sample, use_sample, x_sorted)
 }
 
 #' @rdname chisq
 #' @keywords internal
-d_chisq <- function(x, df) {
-    .Call('_sphunif_d_chisq', PACKAGE = 'sphunif', x, df)
+d_chisq <- function(x, df, ncp = 0L) {
+    .Call('_sphunif_d_chisq', PACKAGE = 'sphunif', x, df, ncp)
 }
 
 #' @rdname chisq
 #' @keywords internal
-p_chisq <- function(x, df) {
-    .Call('_sphunif_p_chisq', PACKAGE = 'sphunif', x, df)
+p_chisq <- function(x, df, ncp = 0L) {
+    .Call('_sphunif_p_chisq', PACKAGE = 'sphunif', x, df, ncp)
 }
 
 #' @title Gauss--Legendre quadrature

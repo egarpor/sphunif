@@ -695,7 +695,8 @@ uk_to_bk <- function(uk, p) {
 #'
 #' @description Simple simulation of prespecified non-uniform spherical
 #' distributions: von Mises--Fisher (vMF), Mixture of vMF (MvMF),
-#' Angular Central Gaussian (ACG), Small Circle (SC) or Watson (W).
+#' Angular Central Gaussian (ACG), Small Circle (SC), Watson (W), or
+#' Cauchy-like (C).
 #'
 #' @inheritParams r_unif
 #' @param alt alternative, must be \code{"vMF"}, \code{"MvMF"},

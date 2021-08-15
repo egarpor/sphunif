@@ -1137,56 +1137,60 @@ BEGIN_RCPP
 END_RCPP
 }
 // r_wschisq_Cpp
-arma::vec r_wschisq_Cpp(arma::uword n, arma::vec weights, arma::vec dfs);
-RcppExport SEXP _sphunif_r_wschisq_Cpp(SEXP nSEXP, SEXP weightsSEXP, SEXP dfsSEXP) {
+arma::vec r_wschisq_Cpp(arma::uword n, arma::vec weights, arma::vec dfs, arma::vec ncps);
+RcppExport SEXP _sphunif_r_wschisq_Cpp(SEXP nSEXP, SEXP weightsSEXP, SEXP dfsSEXP, SEXP ncpsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::uword >::type n(nSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type weights(weightsSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type dfs(dfsSEXP);
-    rcpp_result_gen = Rcpp::wrap(r_wschisq_Cpp(n, weights, dfs));
+    Rcpp::traits::input_parameter< arma::vec >::type ncps(ncpsSEXP);
+    rcpp_result_gen = Rcpp::wrap(r_wschisq_Cpp(n, weights, dfs, ncps));
     return rcpp_result_gen;
 END_RCPP
 }
 // p_wschisq_MC
-arma::vec p_wschisq_MC(arma::vec x, arma::vec dfs, arma::vec weights, arma::uword M, arma::vec sample, bool use_sample, bool x_sorted);
-RcppExport SEXP _sphunif_p_wschisq_MC(SEXP xSEXP, SEXP dfsSEXP, SEXP weightsSEXP, SEXP MSEXP, SEXP sampleSEXP, SEXP use_sampleSEXP, SEXP x_sortedSEXP) {
+arma::vec p_wschisq_MC(arma::vec x, arma::vec weights, arma::vec dfs, arma::vec ncps, arma::uword M, arma::vec sample, bool use_sample, bool x_sorted);
+RcppExport SEXP _sphunif_p_wschisq_MC(SEXP xSEXP, SEXP weightsSEXP, SEXP dfsSEXP, SEXP ncpsSEXP, SEXP MSEXP, SEXP sampleSEXP, SEXP use_sampleSEXP, SEXP x_sortedSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type dfs(dfsSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type weights(weightsSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type dfs(dfsSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type ncps(ncpsSEXP);
     Rcpp::traits::input_parameter< arma::uword >::type M(MSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type sample(sampleSEXP);
     Rcpp::traits::input_parameter< bool >::type use_sample(use_sampleSEXP);
     Rcpp::traits::input_parameter< bool >::type x_sorted(x_sortedSEXP);
-    rcpp_result_gen = Rcpp::wrap(p_wschisq_MC(x, dfs, weights, M, sample, use_sample, x_sorted));
+    rcpp_result_gen = Rcpp::wrap(p_wschisq_MC(x, weights, dfs, ncps, M, sample, use_sample, x_sorted));
     return rcpp_result_gen;
 END_RCPP
 }
 // d_chisq
-arma::vec d_chisq(arma::vec x, arma::uword df);
-RcppExport SEXP _sphunif_d_chisq(SEXP xSEXP, SEXP dfSEXP) {
+arma::vec d_chisq(arma::vec x, arma::uword df, arma::uword ncp);
+RcppExport SEXP _sphunif_d_chisq(SEXP xSEXP, SEXP dfSEXP, SEXP ncpSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
     Rcpp::traits::input_parameter< arma::uword >::type df(dfSEXP);
-    rcpp_result_gen = Rcpp::wrap(d_chisq(x, df));
+    Rcpp::traits::input_parameter< arma::uword >::type ncp(ncpSEXP);
+    rcpp_result_gen = Rcpp::wrap(d_chisq(x, df, ncp));
     return rcpp_result_gen;
 END_RCPP
 }
 // p_chisq
-arma::vec p_chisq(arma::vec x, arma::uword df);
-RcppExport SEXP _sphunif_p_chisq(SEXP xSEXP, SEXP dfSEXP) {
+arma::vec p_chisq(arma::vec x, arma::uword df, arma::uword ncp);
+RcppExport SEXP _sphunif_p_chisq(SEXP xSEXP, SEXP dfSEXP, SEXP ncpSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
     Rcpp::traits::input_parameter< arma::uword >::type df(dfSEXP);
-    rcpp_result_gen = Rcpp::wrap(p_chisq(x, df));
+    Rcpp::traits::input_parameter< arma::uword >::type ncp(ncpSEXP);
+    rcpp_result_gen = Rcpp::wrap(p_chisq(x, df, ncp));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1703,10 +1707,10 @@ static const R_CallMethodDef CallEntries[] = {
     {"_sphunif_q_proj_unif", (DL_FUNC) &_sphunif_q_proj_unif, 2},
     {"_sphunif_r_unif_cir", (DL_FUNC) &_sphunif_r_unif_cir, 3},
     {"_sphunif_r_unif_sph", (DL_FUNC) &_sphunif_r_unif_sph, 3},
-    {"_sphunif_r_wschisq_Cpp", (DL_FUNC) &_sphunif_r_wschisq_Cpp, 3},
-    {"_sphunif_p_wschisq_MC", (DL_FUNC) &_sphunif_p_wschisq_MC, 7},
-    {"_sphunif_d_chisq", (DL_FUNC) &_sphunif_d_chisq, 2},
-    {"_sphunif_p_chisq", (DL_FUNC) &_sphunif_p_chisq, 2},
+    {"_sphunif_r_wschisq_Cpp", (DL_FUNC) &_sphunif_r_wschisq_Cpp, 4},
+    {"_sphunif_p_wschisq_MC", (DL_FUNC) &_sphunif_p_wschisq_MC, 8},
+    {"_sphunif_d_chisq", (DL_FUNC) &_sphunif_d_chisq, 3},
+    {"_sphunif_p_chisq", (DL_FUNC) &_sphunif_p_chisq, 3},
     {"_sphunif_Gauss_Legen_nodes", (DL_FUNC) &_sphunif_Gauss_Legen_nodes, 3},
     {"_sphunif_Gauss_Legen_weights", (DL_FUNC) &_sphunif_Gauss_Legen_weights, 3},
     {"_sphunif_p_sph_stat_Bingham", (DL_FUNC) &_sphunif_p_sph_stat_Bingham, 2},

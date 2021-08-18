@@ -1,8 +1,8 @@
 Package: sphunif
 Type: Package
 Title: Uniformity Tests on the Circle, Sphere, and Hypersphere
-Version: 0.1.0.90021
-Date: 2021-08-15
+Version: 0.1.0.90022
+Date: 2021-08-16
 Authors@R: c(
      person(given = "Eduardo", family = "García-Portugués",
             role = c("aut", "cre"), email = "edgarcia@est-econ.uc3m.es",
@@ -39,7 +39,6 @@ Suggests:
     dgof,
     goftest,
     knitr,
-    MASS,
     mvtnorm,
     numDeriv,
     rgl,

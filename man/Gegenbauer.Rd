@@ -113,7 +113,7 @@ The Gegenbauer polynomials are somehow simpler to evaluate for
 \eqn{x = \cos(\theta)}, with \eqn{\theta \in [0, \pi]}. This simplifies
 also the connection with the Chebyshev polynomials
 \eqn{\{T_k(x)\}_{k = 0}^\infty}{{T_k(x)}_{k = 0}^\infty}, which admit
-the \href{http://dlmf.nist.gov/18.5.E1}{explicit expression}
+the \href{https://dlmf.nist.gov/18.5.E1}{explicit expression}
 \eqn{T_k(\cos(\theta)) = \cos(k\theta)}. The Chebyshev polynomials
 appear as the limit of the Gegenbauer polynomials
 (divided by \eqn{\lambda}) when \eqn{\lambda} goes to \eqn{0}, so they
@@ -121,7 +121,7 @@ can be regarded as the extension by continuity of
 \eqn{\{C_k^{(p/2 - 1)}(x)\}_{k = 0}^\infty}{
 {C_k^(p/2 - 1)(x)}_{k = 0}^\infty} to the case \eqn{p = 2}.
 
-For a \href{http://dlmf.nist.gov/18.18.i}{reasonably smooth} function
+For a \href{https://dlmf.nist.gov/18.18.i}{reasonably smooth} function
 \eqn{\psi} defined on \eqn{[0, \pi]},
 \deqn{\psi(\theta) = \sum_{k = 0}^\infty b_{k, p}
 C_k^{(p/2 - 1)}(\cos(\theta)),}{\psi(\theta) = \sum_{k = 0}^\infty b_{k, p}
@@ -292,5 +292,5 @@ Manual}. Network Theory Ltd. \url{http://www.gnu.org/software/gsl/}
 \emph{NIST Digital Library of Mathematical Functions}. Release
 1.0.20 of 2018-09-15. F. W. J. Olver, A. B. Olde Daalhuis, D. W. Lozier,
 B. I. Schneider, R. F. Boisvert, C. W. Clark, B. R. Miller,
-and B. V. Saunders, eds. \url{http://dlmf.nist.gov/}
+and B. V. Saunders, eds. \url{https://dlmf.nist.gov/}
 }

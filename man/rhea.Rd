@@ -23,7 +23,7 @@ rhea
 }
 \description{
 Craters on Rhea from
-\href{https://dx.doi.org/10.1002/2015JE004940}{Hirata (2016)}.
+\href{\doi{10.1002/2015JE004940}}{Hirata (2016)}.
 }
 \details{
 The \eqn{(\theta, \phi)} angles are such their associated planetocentric

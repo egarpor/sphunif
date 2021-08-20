@@ -27,6 +27,14 @@ Cuesta-Albertos (2020) <arXiv:2008.09897>.
 García-Portugués, E. and Verdebout, T. (2018) An overview of uniformity
 tests on the hypersphere. \emph{arXiv:1804.00286}.
 \url{https://arxiv.org/abs/1804.00286}.
+
+García-Portugués, E., Navarro-Esteban, P., Cuesta-Albertos, J. A. (2020)
+On a projection-based class of uniformity tests on the hypersphere.
+\emph{arXiv:2008.09897}. \url{https://arxiv.org/abs/2008.09897}
+
+García-Portugués, E., Paindaveine, D., and Verdebout, T. (2021). On the
+power of Sobolev tests for isotropy under local rotationally symmetric
+alternatives. \emph{Submitted}
 }
 \author{
 Eduardo García-Portugués and Thomas Verdebout.

@@ -253,7 +253,7 @@
 #' @title Rhea craters from Hirata (2016)
 #'
 #' @description Craters on Rhea from
-#' \href{https://dx.doi.org/10.1002/2015JE004940}{Hirata (2016)}.
+#' \href{\doi{10.1002/2015JE004940}}{Hirata (2016)}.
 #'
 #' @docType data
 #' @format A data frame with 3596 rows and 4 variables:

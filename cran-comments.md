@@ -1,9 +1,18 @@
 ## Test environments
 
-* local R installation, R 3.6.3
-* ubuntu 16.04 (on travis-ci), R 3.6.3
-* win-builder (devel, release)
+* local R installation, R 4.1.0
+* ubuntu 16.04 (on travis-ci), R 3.5.0
+* win-builder (release, devel)
 * Windows Server 2008 R2 SP1, R-devel, 32/64 bit (on R-hub)
+* Windows Server 2008 R2 SP1, R-release, 32/64 bit (on R-hub)
+* Windows Server 2008 R2 SP1, R-oldrel, 32/64 bit (on R-hub)
+* Ubuntu Linux 16.04 LTS, R-release, GCC (on R-hub)
+* Fedora Linux, R-devel, clang, gfortran (on R-hub)
+* Debian Linux, R-devel, GCC ASAN/UBSAN (on R-hub)
+* macOS 10.13.6 High Sierra, R-release, brew (on R-hub)
+* macOS 10.13.6 High Sierra, R-release, CRAN's setup (on R-hub)
+* Oracle Solaris 10, x86, 32 bit, R-release (on R-hub)
+* Oracle Solaris 10, x86, 32 bit, R-release, Oracle Developer Studio 12.6 (on R-hub)
 
 ## R CMD check results
 
@@ -11,3 +20,4 @@
 
 * This is a new release.
 * "Uses the superseded package: 'doSNOW'". Use of the 'doSNOW' package as opposed to the 'doParallel' package is required due to the support of the printed txtProgressBar in the 'doSNOW' package.
+* "Found the following (possibly) invalid URLs". Double-checked, they are correctly spelled.

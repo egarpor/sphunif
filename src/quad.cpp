@@ -35,7 +35,7 @@ using namespace Rcpp;
 //' \emph{NIST Digital Library of Mathematical Functions}. Release
 //' 1.0.20 of 2018-09-15. F. W. J. Olver, A. B. Olde Daalhuis, D. W. Lozier,
 //' B. I. Schneider, R. F. Boisvert, C. W. Clark, B. R. Miller,
-//' and B. V. Saunders, eds. \url{http://dlmf.nist.gov/}
+//' and B. V. Saunders, eds. \url{https://dlmf.nist.gov/}
 //'
 //' Smyth, G. K. (1998). Numerical integration. In: \emph{Encyclopedia of
 //' Biostatistics}, P. Armitage and T. Colton (eds.), Wiley, London,

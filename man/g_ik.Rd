@@ -35,7 +35,7 @@ the function \eqn{g_\alpha} of the latter theorem.
 }
 \examples{
 n <- 1e4
-par(mfrow = c(2, 3))
+old_par <- par(mfrow = c(2, 3))
 k <- 2
 for (i in 1:d_p_k(p = 3, k = k)) {
   X <- r_unif_sph(n = n, p = 3, M = 1)[, , 1]
@@ -43,13 +43,13 @@ for (i in 1:d_p_k(p = 3, k = k)) {
   scatterplot3d::scatterplot3d(X[, 1], X[, 2], X[, 3], color = col,
                                axis = FALSE)
 }
-par(mfrow = c(2, 3))
 for (k in 0:5) {
   X <- r_unif_sph(n = n, p = 3, M = 1)[, , 1]
   col <- rainbow(n)[rank(g_ik(x = X, k = k, i = 1, show_m = TRUE))]
   scatterplot3d::scatterplot3d(X[, 1], X[, 2], X[, 3], color = col,
                                axis = FALSE)
 }
+par(old_par)
 }
 \references{
 Dai, F. and Xu, Y. (2013). \emph{Approximation Theory and Harmonic Analysis

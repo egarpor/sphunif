@@ -169,7 +169,7 @@
 #' "Craters" are understood in the Gazetteer of Planetary Nomenclature as
 #' roughly circular depressions resulting from impact or volcanic activity
 #' (the geological origin is
-#' \href{unspecified}{https://planetarynames.wr.usgs.gov/DescriptorTerms}).
+#' \href{https://planetarynames.wr.usgs.gov/DescriptorTerms}{unspecified}).
 #'
 #' Be aware that the dataset only contains \emph{named} craters by the IUA.
 #' Therefore, there is likely a \bold{high uniform bias} on the distribution
@@ -253,7 +253,7 @@
 #' @title Rhea craters from Hirata (2016)
 #'
 #' @description Craters on Rhea from
-#' \href{\doi{10.1002/2015JE004940}}{Hirata (2016)}.
+#' \href{https://dx.doi.org/10.1002/2015JE004940}{Hirata (2016)}.
 #'
 #' @docType data
 #' @format A data frame with 3596 rows and 4 variables:

@@ -121,7 +121,7 @@ sphere_to_angles <- function(x) {
 #' alternatives. \emph{Submitted}
 #' @examples
 #' n <- 1e4
-#' par(mfrow = c(2, 3))
+#' old_par <- par(mfrow = c(2, 3))
 #' k <- 2
 #' for (i in 1:d_p_k(p = 3, k = k)) {
 #'   X <- r_unif_sph(n = n, p = 3, M = 1)[, , 1]
@@ -129,13 +129,13 @@ sphere_to_angles <- function(x) {
 #'   scatterplot3d::scatterplot3d(X[, 1], X[, 2], X[, 3], color = col,
 #'                                axis = FALSE)
 #' }
-#' par(mfrow = c(2, 3))
 #' for (k in 0:5) {
 #'   X <- r_unif_sph(n = n, p = 3, M = 1)[, , 1]
 #'   col <- rainbow(n)[rank(g_ik(x = X, k = k, i = 1, show_m = TRUE))]
 #'   scatterplot3d::scatterplot3d(X[, 1], X[, 2], X[, 3], color = col,
 #'                                axis = FALSE)
 #' }
+#' par(old_par)
 #' @export
 g_ik <- function(x, i = 1, k = 1, m = NULL, show_m = FALSE) {
 

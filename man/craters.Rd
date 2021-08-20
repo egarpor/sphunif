@@ -36,7 +36,7 @@ Nomenclature} of the International Astronomical Union (IUA).
 "Craters" are understood in the Gazetteer of Planetary Nomenclature as
 roughly circular depressions resulting from impact or volcanic activity
 (the geological origin is
-\href{unspecified}{https://planetarynames.wr.usgs.gov/DescriptorTerms}).
+\href{https://planetarynames.wr.usgs.gov/DescriptorTerms}{unspecified}).
 
 Be aware that the dataset only contains \emph{named} craters by the IUA.
 Therefore, there is likely a \bold{high uniform bias} on the distribution

@@ -88,7 +88,7 @@
 #'   uk <- cutoff_locdev(K_max = K_max, p = p, type = type, thre = thre,
 #'                       N = 640)
 #'
-#'   par_old <- par(mfrow = c(2, 2))
+#'   old_par <- par(mfrow = c(2, 2))
 #'
 #'   # Construction of f
 #'   z <- seq(-1, 1, l = 1e3)
@@ -118,7 +118,7 @@
 #'        ylim = c(0, 1.75))
 #'   hist(samp %*% mu, freq = FALSE, breaks = seq(-1, 1, l = 50), add = TRUE)
 #'
-#'   par(par_old)
+#'   par(old_par)
 #'
 #' }
 #' \donttest{
@@ -323,7 +323,7 @@ cutoff_locdev <- function(p, K_max = 1e4, thre = 1e-3, type, Rothman_t = 1 / 3,
     # Diagnostic plots
     if (verbose > 1) {
 
-      par_old <- par(mfrow = c(1, 2), mar = c(5, 5.5, 4, 2) + 0.1)
+      old_par <- par(mfrow = c(1, 2), mar = c(5, 5.5, 4, 2) + 0.1)
 
       # Cumulated norm
       plot(seq_len(K_max), 100 * c(cum_norm, rep(1, K_max - K_max_new)),
@@ -348,7 +348,7 @@ cutoff_locdev <- function(p, K_max = 1e4, thre = 1e-3, type, Rothman_t = 1 / 3,
       lines(z, G2, col = 2)
       legend("top", legend = paste("K =", c(K_max_new, cutoff)),
              col = 1:2, lwd = 2)
-      par(par_old)
+      par(old_par)
 
     }
 

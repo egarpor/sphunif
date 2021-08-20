@@ -61,13 +61,13 @@
 #' in the first truncation.
 #' @examples
 #' # Circular-specific statistics
-#' curve(p_Sobolev(x = x, p = 2, type = "Watson"),
+#' curve(p_Sobolev(x = x, p = 2, type = "Watson", method = "HBE"),
 #'       n = 2e2, ylab = "Distribution", main = "Watson")
-#' curve(p_Sobolev(x = x, p = 2, type = "Rothman"),
+#' curve(p_Sobolev(x = x, p = 2, type = "Rothman", method = "HBE"),
 #'       n = 2e2, ylab = "Distribution", main = "Rothman")
-#' curve(p_Sobolev(x = x, p = 2, type = "Pycke_q"), to = 10,
+#' curve(p_Sobolev(x = x, p = 2, type = "Pycke_q", method = "HBE"), to = 10,
 #'       n = 2e2, ylab = "Distribution", main = "Pycke_q")
-#' curve(p_Sobolev(x = x, p = 2, type = "Hermans_Rasson"),
+#' curve(p_Sobolev(x = x, p = 2, type = "Hermans_Rasson", method = "HBE"),
 #'       to = 10, n = 2e2, ylab = "Distribution", main = "Hermans_Rasson")
 #'
 #' # Statistics for arbitrary dimensions

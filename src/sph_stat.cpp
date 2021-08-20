@@ -1130,7 +1130,7 @@ arma::vec sph_stat_Cai(arma::cube X, arma::uword regime = 3,
   }
 
   // Sub-exponential regime
-  if (regime == 1 | regime == 2) {
+  if (regime == 1 || regime == 2) {
 
     Cn = p * Cn + 4 * std::log(n) - std::log(std::log(n));
 

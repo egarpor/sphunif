@@ -129,8 +129,8 @@
 #' in the \link[gsl]{gsl-package}, which they interface the functions
 #' defined in the header file \code{gsl_sf_gegenbauer.h} (documented
 #' \href{https://www.gnu.org/software/gsl/doc/html/specfunc.html#gegenbauer-functions}{
-#' here}) of the \href{GNU Scientific Library}{
-#' https://www.gnu.org/software/gsl/}.
+#' here}) of the \href{https://www.gnu.org/software/gsl/}{
+#' GNU Scientific Library}.
 #'
 #' Note that the function \code{Gegen_polyn} computes the regular
 #' \emph{unnormalized} Gegenbauer polynomials.

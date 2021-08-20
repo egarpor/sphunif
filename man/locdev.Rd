@@ -141,7 +141,7 @@ loc_alt_diagnostic  <- function(p, type, thre = 1e-3, K_max = 1e3) {
   uk <- cutoff_locdev(K_max = K_max, p = p, type = type, thre = thre,
                       N = 640)
 
-  par_old <- par(mfrow = c(2, 2))
+  old_par <- par(mfrow = c(2, 2))
 
   # Construction of f
   z <- seq(-1, 1, l = 1e3)
@@ -171,7 +171,7 @@ loc_alt_diagnostic  <- function(p, type, thre = 1e-3, K_max = 1e3) {
        ylim = c(0, 1.75))
   hist(samp \%*\% mu, freq = FALSE, breaks = seq(-1, 1, l = 50), add = TRUE)
 
-  par(par_old)
+  par(old_par)
 
 }
 \donttest{

@@ -34,7 +34,7 @@ typos in the normalizing constant \eqn{h_\alpha} and in the definition of
 the function \eqn{g_\alpha} of the latter theorem.
 }
 \examples{
-n <- 1e4
+n <- 5e3
 old_par <- par(mfrow = c(2, 3))
 k <- 2
 for (i in 1:d_p_k(p = 3, k = k)) {

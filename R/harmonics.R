@@ -120,7 +120,7 @@ sphere_to_angles <- function(x) {
 #' power of Sobolev tests for isotropy under local rotationally symmetric
 #' alternatives. \emph{Submitted}
 #' @examples
-#' n <- 1e4
+#' n <- 5e3
 #' old_par <- par(mfrow = c(2, 3))
 #' k <- 2
 #' for (i in 1:d_p_k(p = 3, k = k)) {

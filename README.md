@@ -2,7 +2,7 @@
 
 [![License:
 GPLv3](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![](https://travis-ci.com/egarpor/sphunif.svg?branch=master)](https://travis-ci.com/egarpor/sphunif)
+[![](https://app.travis-ci.com/egarpor/sphunif.svg?branch=master)](https://app.travis-ci.com/egarpor/sphunif)
 [![](https://codecov.io/gh/egarpor/sphunif/branch/master/graph/badge.svg)](https://codecov.io/gh/egarpor/sphunif)
 [![](https://www.r-pkg.org/badges/version/sphunif?color=green)](https://cran.r-project.org/package=sphunif)
 [![](http://cranlogs.r-pkg.org/badges/grand-total/sphunif?color=green)](https://cran.r-project.org/package=sphunif)
@@ -70,7 +70,7 @@ unif_test(data = cir_data, type = "Kuiper", p_value = "MC",
 #>  Kuiper test of circular uniformity
 #> 
 #> data:  cir_data
-#> statistic = 0.89659, p-value = 0.8469
+#> statistic = 0.89659, p-value = 0.8415
 #> alternative hypothesis: any alternative to circular uniformity
 unif_test(data = cir_data, type = "Kuiper", p_value = "asymp") # Asymp. distr.
 #> 
@@ -161,7 +161,7 @@ unif_test(data = sph_data, type = "all", p_value = "MC", verbose = FALSE)
 #>  Ajne test of spherical uniformity
 #> 
 #> data:  sph_data
-#> statistic = 0.079876, p-value = 0.9576
+#> statistic = 0.079876, p-value = 0.9534
 #> alternative hypothesis: any non-axial alternative to spherical uniformity
 #> 
 #> 
@@ -170,7 +170,7 @@ unif_test(data = sph_data, type = "all", p_value = "MC", verbose = FALSE)
 #>  Bakshaev test of spherical uniformity
 #> 
 #> data:  sph_data
-#> statistic = 1.2727, p-value = 0.4388
+#> statistic = 1.2727, p-value = 0.4366
 #> alternative hypothesis: any alternative to spherical uniformity
 #> 
 #> 
@@ -179,7 +179,7 @@ unif_test(data = sph_data, type = "all", p_value = "MC", verbose = FALSE)
 #>  Bingham test of spherical uniformity
 #> 
 #> data:  sph_data
-#> statistic = 22.455, p-value = 3e-04
+#> statistic = 22.455, p-value = 4e-04
 #> alternative hypothesis: scatter matrix different from constant
 #> 
 #> 
@@ -188,7 +188,7 @@ unif_test(data = sph_data, type = "all", p_value = "MC", verbose = FALSE)
 #>  Cai test of spherical uniformity
 #> 
 #> data:  sph_data
-#> statistic = 27.401, p-value = 0.2655
+#> statistic = 27.401, p-value = 0.2641
 #> alternative hypothesis: unclear consistency
 #> 
 #> 
@@ -197,7 +197,7 @@ unif_test(data = sph_data, type = "all", p_value = "MC", verbose = FALSE)
 #>  Cuesta-Albertos et al. (2009) test of spherical uniformity with k = 50
 #> 
 #> data:  sph_data
-#> statistic = 1.4619, p-value = 0.2688
+#> statistic = 1.4619, p-value = 0.2728
 #> alternative hypothesis: any alternative to spherical uniformity
 #> 
 #> 
@@ -206,7 +206,7 @@ unif_test(data = sph_data, type = "all", p_value = "MC", verbose = FALSE)
 #>  Gine's Fn test of spherical uniformity
 #> 
 #> data:  sph_data
-#> statistic = 1.8889, p-value = 0.2229
+#> statistic = 1.8889, p-value = 0.2188
 #> alternative hypothesis: any alternative to spherical uniformity
 #> 
 #> 
@@ -215,7 +215,7 @@ unif_test(data = sph_data, type = "all", p_value = "MC", verbose = FALSE)
 #>  Gine's Gn test of spherical uniformity
 #> 
 #> data:  sph_data
-#> statistic = 1.5694, p-value = 4e-04
+#> statistic = 1.5694, p-value = 5e-04
 #> alternative hypothesis: any axial alternative to spherical uniformity
 #> 
 #> 
@@ -224,7 +224,7 @@ unif_test(data = sph_data, type = "all", p_value = "MC", verbose = FALSE)
 #>  Projected Anderson-Darling test of spherical uniformity
 #> 
 #> data:  sph_data
-#> statistic = 1.1068, p-value = 0.3196
+#> statistic = 1.1068, p-value = 0.3178
 #> alternative hypothesis: any alternative to spherical uniformity
 #> 
 #> 
@@ -233,7 +233,7 @@ unif_test(data = sph_data, type = "all", p_value = "MC", verbose = FALSE)
 #>  Projected Cramer-von Mises test of spherical uniformity
 #> 
 #> data:  sph_data
-#> statistic = 0.15909, p-value = 0.4388
+#> statistic = 0.15909, p-value = 0.4366
 #> alternative hypothesis: any alternative to spherical uniformity
 #> 
 #> 
@@ -242,7 +242,7 @@ unif_test(data = sph_data, type = "all", p_value = "MC", verbose = FALSE)
 #>  Projected Rothman test of spherical uniformity with t = 0.333
 #> 
 #> data:  sph_data
-#> statistic = 0.19003, p-value = 0.5131
+#> statistic = 0.19003, p-value = 0.5098
 #> alternative hypothesis: any alternative to spherical uniformity if t is irrational
 #> 
 #> 
@@ -251,7 +251,7 @@ unif_test(data = sph_data, type = "all", p_value = "MC", verbose = FALSE)
 #>  Pycke test of spherical uniformity
 #> 
 #> data:  sph_data
-#> statistic = 0.091169, p-value = 0.1853
+#> statistic = 0.091169, p-value = 0.1825
 #> alternative hypothesis: any alternative to spherical uniformity
 #> 
 #> 
@@ -260,7 +260,7 @@ unif_test(data = sph_data, type = "all", p_value = "MC", verbose = FALSE)
 #>  Rayleigh test of spherical uniformity
 #> 
 #> data:  sph_data
-#> statistic = 0.52692, p-value = 0.9184
+#> statistic = 0.52692, p-value = 0.9151
 #> alternative hypothesis: mean direction different from zero
 #> 
 #> 
@@ -269,7 +269,7 @@ unif_test(data = sph_data, type = "all", p_value = "MC", verbose = FALSE)
 #>  HD-standardized Rayleigh test of spherical uniformity
 #> 
 #> data:  sph_data
-#> statistic = -1.0096, p-value = 0.9184
+#> statistic = -1.0096, p-value = 0.9151
 #> alternative hypothesis: mean direction different from zero
 #> 
 #> 
@@ -278,7 +278,7 @@ unif_test(data = sph_data, type = "all", p_value = "MC", verbose = FALSE)
 #>  Riesz test of spherical uniformity
 #> 
 #> data:  sph_data
-#> statistic = 1.2727, p-value = 0.4388
+#> statistic = 1.2727, p-value = 0.4366
 #> alternative hypothesis: any alternative to spherical uniformity
 unif_test(data = sph_data, type = "Rayleigh", p_value = "asymp")
 #> 

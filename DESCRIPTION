@@ -1,7 +1,7 @@
 Package: sphunif
 Type: Package
 Title: Uniformity Tests on the Circle, Sphere, and Hypersphere
-Version: 0.1.0.90023
+Version: 0.1.0.90024
 Date: 2021-08-21
 Authors@R: c(
      person(given = "Eduardo", family = "García-Portugués",
@@ -41,7 +41,6 @@ Suggests:
     knitr,
     mvtnorm,
     numDeriv,
-    rgl,
     rmarkdown,
     scatterplot3d,
     testthat,

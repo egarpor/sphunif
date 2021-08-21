@@ -18,7 +18,7 @@ sphunif
 cat(
   badger::badge_license(license = "GPLv3", color = "blue",
                         url = "https://www.gnu.org/licenses/gpl-3.0"),
-  badger::badge_travis(ref = NULL, is_commercial = TRUE),
+  "[![](https://app.travis-ci.com/egarpor/sphunif.svg?branch=master)](https://app.travis-ci.com/egarpor/sphunif)",
   badger::badge_codecov(ref = NULL),
 	badger::badge_cran_release(color = "green"),
 	badger::badge_cran_download(pkg = NULL, type = "grand-total"),

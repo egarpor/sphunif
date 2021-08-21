@@ -1,5 +1,5 @@
 
-set.seed(121231)
+set.seed(123456)
 x <- cbind(seq(-1, 1, l = 20))
 u <- cbind(seq(0, 1, l = 20))
 K <- rpois(n = 1, lambda = 9) + 1
@@ -10,7 +10,8 @@ ncps <- runif(n = K, min = 0, max = 2)^2
 test_that("r_proj_unif vs. p_proj_unif", {
 
   for (p in c(2:4, 11)) {
-    expect_gt(ks.test(r_proj_unif(n = 1e3, p = p), "p_proj_unif", p = p)$p.value, 0.10)
+    expect_gt(ks.test(r_proj_unif(n = 1e3, p = p),
+                      "p_proj_unif", p = p)$p.value, 0.05)
   }
 
 })
@@ -19,7 +20,7 @@ test_that("r_proj_unif vs. r_unif_sph", {
 
   for (p in c(2:4, 11)) {
     expect_gt(ks.test(r_proj_unif(n = 1e3, p = p),
-                      r_unif_sph(n = 1e3, p = p)[, 1, 1])$p.value, 0.10)
+                      r_unif_sph(n = 1e3, p = p)[, 1, 1])$p.value, 0.05)
   }
 
 })
@@ -68,3 +69,4 @@ test_that("r_wschisq_Cpp vs. p_wschisq_MC", {
                     use_sample = TRUE, x_sorted = TRUE)$p.value, 0.10)
 
 })
+

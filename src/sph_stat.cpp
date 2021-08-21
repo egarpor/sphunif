@@ -201,7 +201,7 @@ arma::vec sph_stat_Gine_Gn_Psi(arma::mat Psi, arma::uword n, arma::uword p) {
 
   // Factors statistic
   Gn *= -(p - 1.0) / (2.0 * n) *
-    std::pow(R::gammafn(0.5 * (p - 1)) / R::gammafn(0.5 * p), 2);
+    std::exp(2.0 * (R::lgammafn(0.5 * (p - 1)) - R::lgammafn(0.5 * p)));
   Gn += 0.5 * n;
   return Gn;
 
@@ -270,8 +270,8 @@ arma::vec sph_stat_Gine_Fn_Psi(arma::mat Psi, arma::uword n, arma::uword p) {
   An += 0.25 * n;
 
   // Factors Gn
-  Gn *= -(p - 1.0) * pow(R::gammafn(0.5 * (p - 1)), 2) /
-    (2 * n * std::pow(R::gammafn(0.5 * p), 2));
+  Gn *= -(p - 1.0) / (2 * n) * std::exp(2.0 * (R::lgammafn(0.5 * (p - 1)) -
+    R::lgammafn(0.5 * p))),
   Gn += 0.5 * n;
 
   // Fn
@@ -433,9 +433,9 @@ arma::vec sph_stat_Riesz(arma::cube X, bool Psi_in_X = false,
   }
 
   // Compute bias integral
-  double tau = 0;
   if (s == 0) {
 
+    double tau = 0;
     if (p == 2) {
 
       tau = 0;
@@ -460,18 +460,20 @@ arma::vec sph_stat_Riesz(arma::cube X, bool Psi_in_X = false,
     Rn += n * tau;
 
   } else {
-
+    
+    double log_tau = 0;
     if (p == 2) {
 
-      tau = std::pow(2, s);
+      log_tau = s * log_two;
 
     } else {
 
-      tau = std::pow(2, p + s - 3) * (p - 2) * R::gammafn(0.5 * p - 1);
+      log_tau = std::log(std::pow(2, p + s - 3) * (p - 2)) +
+        R::lgammafn(0.5 * p - 1);
 
     }
-    Rn += n * tau * R::gammafn(0.5 * (p - 1 + s)) /
-      (sqrt_M_PI * R::gammafn(p - 1 + 0.5 * s));
+    Rn += n / sqrt_M_PI * std::exp(log_tau +
+      R::lgammafn(0.5 * (p - 1 + s)) - R::lgammafn(p - 1 + 0.5 * s));
 
   }
   return Rn;

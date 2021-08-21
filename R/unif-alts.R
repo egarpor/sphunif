@@ -785,15 +785,13 @@ uk_to_bk <- function(uk, p) {
 #' x4 <- r_alt(n = n, p = p, alt = "SC", F_inv = F_inv_SC_3)[, , 1]
 #' x5 <- r_alt(n = n, p = p, alt = "W", F_inv = F_inv_W_3)[, , 1]
 #' x6 <- r_alt(n = n, p = p, alt = "C", F_inv = F_inv_C_3)[, , 1]
-#' if (requireNamespace("rgl")) {
-#'   rgl::plot3d(x1, size = 5, xlim = c(-1.1, 1.1), ylim = c(-1.1, 1.1),
-#'               zlim = c(-1.1, 1.1), col = 1)
-#'   rgl::points3d(x2, size = 5, col = 2)
-#'   rgl::points3d(x3, size = 5, col = 3)
-#'   rgl::points3d(x4, size = 5, col = 4)
-#'   rgl::points3d(x5, size = 5, col = 5)
-#'   rgl::points3d(x6, size = 5, col = 6)
-#' }
+#' s3d <- scatterplot3d::scatterplot3d(x1, pch = 16, xlim = c(-1.1, 1.1),
+#'                                     ylim = c(-1.1, 1.1), zlim = c(-1.1, 1.1))
+#' s3d$points3d(x2, pch = 16, col = 2)
+#' s3d$points3d(x3, pch = 16, col = 3)
+#' s3d$points3d(x4, pch = 16, col = 4)
+#' s3d$points3d(x5, pch = 16, col = 5)
+#' s3d$points3d(x6, pch = 16, col = 6)
 #' @export
 r_alt <- function(n, p, M = 1, alt = "vMF", kappa = 1, nu = 0.5, F_inv = NULL,
                   K = 1e3, axial_MvMF = TRUE) {

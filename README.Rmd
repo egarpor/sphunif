@@ -19,6 +19,7 @@ cat(
   badger::badge_license(license = "GPLv3", color = "blue",
                         url = "https://www.gnu.org/licenses/gpl-3.0"),
   badger::badge_travis(ref = NULL),
+  badger::badge_codecov(ref = NULL),
 	badger::badge_cran_release(color = "green"),
 	badger::badge_cran_download(pkg = NULL, type = "grand-total"),
 	badger::badge_cran_download(pkg = NULL, type = "last-month")
@@ -30,7 +31,7 @@ cat(
 
 ## Overview
 
-Implementation of circa 30 tests of uniformity on the circle, sphere, and hypersphere. Software companion for the (evolving) review "*An overview of uniformity tests on the hypersphere*" (García-Portugués and Verdebout, 2018) and the paper "*On a projection-based class of uniformity tests on the hypersphere*" (García-Portugués, Navarro-Esteban and Cuesta-Albertos, 2020).
+Implementation of circa 40 tests of uniformity on the circle, sphere, and hypersphere. Software companion for the (evolving) review "*An overview of uniformity tests on the hypersphere*" (García-Portugués and Verdebout, 2018) and the paper "*On a projection-based class of uniformity tests on the hypersphere*" (García-Portugués, Navarro-Esteban and Cuesta-Albertos, 2020).
 
 ## Installation
 

@@ -186,22 +186,18 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
   }
 
   # Parallel backend
-  cl <- parallel::makeCluster(cores)
-  doSNOW::registerDoSNOW(cl = cl)
-  `%op%` <- foreach::`%dopar%`
-
-  # Show progress?
   if (verbose) {
 
-    pb <- utils::txtProgressBar(max = chunks, style = 3)
-    progress <- function(n) utils::setTxtProgressBar(pb = pb, value = n)
-    opts <- list(progress = progress)
+    cl <- parallel::makePSOCKcluster(cores, outfile = "")
+    pb <- utils::txtProgressBar(min = 0, max = chunks, style = 3)
 
   } else {
 
-    opts <- list()
+    cl <- parallel::makePSOCKcluster(cores)
 
   }
+  doParallel::registerDoParallel(cl = cl)
+  `%op%` <- foreach::`%dopar%`
 
   # Chunk large n * M to avoid memory issues
   small_M <- M %/% chunks
@@ -254,8 +250,9 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
   k <- 0
   stats <- do.call(what = foreach::foreach,
                    args = c(list(k = 1:chunks, .combine = rbind,
-                                 .multicombine = TRUE, .options.snow = opts,
-                                 .packages = "sphunif"),
+                                 .inorder = TRUE, .multicombine = TRUE,
+                                 .maxcombine = 100,
+                                 .packages = c("Rcpp", "sphunif")),
                             foreach_args)) %op% {
 
     # Samples
@@ -280,6 +277,13 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
     rm(X)
     gc()
 
+    # Show progress?
+    if (verbose) {
+
+      utils::setTxtProgressBar(pb = pb, value = k)
+
+    }
+
     # Return stats
     stats
 
@@ -287,11 +291,6 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
 
   # Close loop
   parallel::stopCluster(cl)
-  if (verbose) {
-
-    close(pb)
-
-  }
 
   # Sort statistics
   if (stats_sorted & return_stats) {

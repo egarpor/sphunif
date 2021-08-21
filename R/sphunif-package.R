@@ -34,7 +34,7 @@
 #' alternatives. \emph{Submitted}
 #' @docType package
 #' @name sphunif-package
-#' @import graphics stats foreach parallel doSNOW Rcpp
+#' @import graphics stats foreach parallel doParallel Rcpp
 #' @useDynLib sphunif
 #' @aliases sphunif sphunif-package
 NULL

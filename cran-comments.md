@@ -20,6 +20,4 @@
 
 * This is a new release.
 * "Possibly mis-spelled words in DESCRIPTION" ->  Double-checked, they are correctly spelled.
-* "Uses the superseded package: 'doSNOW'" -> Use of the 'doSNOW' package as opposed to the 'doParallel' package is required due to the support of the printed txtProgressBar in the 'doSNOW' package.
 * "Found the following (possibly) invalid URLs" -> Double-checked, they are correctly spelled.
-* "Found the following URLs which should use \doi (with the DOI name only): File 'rhea.Rd': https://dx.doi.org/10.1002/2015JE004940" -> But the URL can not be casted as \doi{10.1002/2015JE004940} since it is used inside an \href{}{} and an "! Undefined control sequence" will appear if doing so.

@@ -8,10 +8,9 @@ statistics}
 unif_stat_MC(n, type = "all", p, M = 10000, r_H1 = NULL,
   crit_val = NULL, alpha = c(0.1, 0.05, 0.01), return_stats = TRUE,
   stats_sorted = FALSE, chunks = ceiling((n * M)/1e+07), cores = 1,
-  verbose = TRUE, seeds = NULL, Rayleigh_m = 1, coverage_a = 2 * pi,
+  verbose = TRUE, seeds = NULL, Rayleigh_m = 1, cov_a = 2 * pi,
   Rothman_t = 1/3, Cressie_t = 1/3, Pycke_q = 0.5, Riesz_s = 1,
-  Cuesta_Albertos_rand_dirs = NULL, K_Cuesta_Albertos = 25,
-  Cai_regime = 3, ...)
+  CCF09_dirs = NULL, K_CCF09 = 25, CJ12_reg = 3, ...)
 }
 \arguments{
 \item{n}{sample size.}
@@ -76,7 +75,7 @@ Defaults to \code{NULL} (no seed setting is done).}
 \item{Rayleigh_m}{integer \eqn{m} for the \eqn{m}-modal Rayleigh test.
 Defaults to \code{m = 1} (the standard Rayleigh test).}
 
-\item{coverage_a}{\eqn{a_n = a / n} parameter used in the length of the arcs
+\item{cov_a}{\eqn{a_n = a / n} parameter used in the length of the arcs
 of the coverage-based tests. Must be positive. Defaults to \code{2 * pi}.}
 
 \item{Rothman_t}{\eqn{t} parameter for the Rothman test, a real in
@@ -91,16 +90,16 @@ of the coverage-based tests. Must be positive. Defaults to \code{2 * pi}.}
 \item{Riesz_s}{\eqn{s} parameter for the \eqn{s}-Riesz test, a real in
 \eqn{(0, 2)}. Defaults to \code{1}.}
 
-\item{Cuesta_Albertos_rand_dirs}{a matrix of size \code{c(n_proj, p)}
-containing \code{n_proj} random directions (in Cartesian coordinates) on
-\eqn{S^{p-1}} to perform the Cuesta-Albertos test. If \code{NULL} (default),
-a sample of size \code{n_proj = 50} directions is computed internally.}
+\item{CCF09_dirs}{a matrix of size \code{c(n_proj, p)} containing
+\code{n_proj} random directions (in Cartesian coordinates) on \eqn{S^{p-1}}
+to perform the CCF09 test. If \code{NULL} (default), a sample of size
+\code{n_proj = 50} directions is computed internally.}
 
-\item{K_Cuesta_Albertos}{integer giving the truncation of the series
-present in the asymptotic distribution of the Kolmogorov-Smirnov statistic.
-Defaults to \code{5e2}.}
+\item{K_CCF09}{integer giving the truncation of the series present in the
+asymptotic distribution of the Kolmogorov-Smirnov statistic. Defaults to
+\code{5e2}.}
 
-\item{Cai_regime}{type of asymptotic regime for Cai test, either \code{1}
+\item{CJ12_reg}{type of asymptotic regime for CJ12 test, either \code{1}
 (sub-exponential regime), \code{2} (exponential), or \code{3}
 (super-exponential; default).}
 
@@ -142,8 +141,8 @@ All the tests reject for large values of the test statistic
 values for the significance levels \code{alpha} correspond to the
 \code{alpha}-upper quantiles of the null distribution of the test statistic.
 
-The Monte Carlo simulation for Cuesta-Albertos test is made conditionally
-on the choice of \code{Cuesta_Albertos_rand_dirs}. That is, all the Monte
+The Monte Carlo simulation for the CCF09 test is made conditionally
+on the choice of \code{CCF09_dirs}. That is, all the Monte
 Carlo statistics share the same random directions.
 }
 \examples{
@@ -191,12 +190,10 @@ r_H1 <- function(n, p, M, l = 0.05) {
   Theta_to_X(matrix(runif(n * M, 0, (2 - l) * pi), n, M))
 
 }
-rand_dirs <- r_unif_sph(n = 5, p = 2, M = 1)[, , 1]
-cir <- unif_stat_MC(n = 50, M = 1e2, p = 2,
-                    Cuesta_Albertos_rand_dirs = rand_dirs)
+dirs <- r_unif_sph(n = 5, p = 2, M = 1)[, , 1]
+cir <- unif_stat_MC(n = 50, M = 1e2, p = 2, CCF09_dirs = dirs)
 cir_pow <- unif_stat_MC(n = 50, M = 1e2, p = 2, r_H1 = r_H1, l = 0.10,
-                        crit_val = cir$crit_val_MC,
-                        Cuesta_Albertos_rand_dirs = rand_dirs)
+                        crit_val = cir$crit_val_MC, CCF09_dirs = dirs)
 cir_pow$crit_val_MC
 cir_pow$power_MC
 
@@ -214,30 +211,26 @@ r_H1 <- function(n, p, M, l = 0.5) {
   return(samp)
 
 }
-rand_dirs <- r_unif_sph(n = 5, p = 3, M = 1)[, , 1]
-sph <- unif_stat_MC(n = 50, M = 1e2, p = 3,
-                    Cuesta_Albertos_rand_dirs = rand_dirs)
+dirs <- r_unif_sph(n = 5, p = 3, M = 1)[, , 1]
+sph <- unif_stat_MC(n = 50, M = 1e2, p = 3, CCF09_dirs = dirs)
 sph_pow <- unif_stat_MC(n = 50, M = 1e2, p = 3, r_H1 = r_H1, l = 0.5,
-                       crit_val = sph$crit_val_MC,
-                       Cuesta_Albertos_rand_dirs = rand_dirs)
+                       crit_val = sph$crit_val_MC, CCF09_dirs = dirs)
 sph_pow$power_MC
 
 ## Pre-built r_H1
 
 # Circular
-rand_dirs <- r_unif_sph(n = 5, p = 2, M = 1)[, , 1]
-cir_pow <- unif_stat_MC(n = 50, M = 1e2, p = 2, r_H1 = r_alt,
-                        alt = "vMF", kappa = 1,
-                        crit_val = cir$crit_val_MC,
-                        Cuesta_Albertos_rand_dirs = rand_dirs)
+dirs <- r_unif_sph(n = 5, p = 2, M = 1)[, , 1]
+cir_pow <- unif_stat_MC(n = 50, M = 1e2, p = 2, r_H1 = r_alt, alt = "vMF",
+                        kappa = 1, crit_val = cir$crit_val_MC,
+                        CCF09_dirs = dirs)
 cir_pow$power_MC
 
 # Spherical
-rand_dirs <- r_unif_sph(n = 5, p = 3, M = 1)[, , 1]
-sph_pow <- unif_stat_MC(n = 50, M = 1e2, p = 3, r_H1 = r_alt,
-                        alt = "vMF", kappa = 1,
-                        crit_val = sph$crit_val_MC,
-                        Cuesta_Albertos_rand_dirs = rand_dirs)
+dirs <- r_unif_sph(n = 5, p = 3, M = 1)[, , 1]
+sph_pow <- unif_stat_MC(n = 50, M = 1e2, p = 3, r_H1 = r_alt, alt = "vMF",
+                        kappa = 1, crit_val = sph$crit_val_MC,
+                        CCF09_dirs = dirs)
 sph_pow$power_MC
 }
 }

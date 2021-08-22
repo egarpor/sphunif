@@ -521,8 +521,8 @@ cir_stat_Cressie <- function(Theta, t = 1.0 / 3.0, sorted = FALSE) {
 
 #' @rdname cir_stat
 #' @export
-cir_stat_Feltz_Goldin <- function(Theta, sorted = FALSE) {
-    .Call('_sphunif_cir_stat_Feltz_Goldin', PACKAGE = 'sphunif', Theta, sorted)
+cir_stat_FG01 <- function(Theta, sorted = FALSE) {
+    .Call('_sphunif_cir_stat_FG01', PACKAGE = 'sphunif', Theta, sorted)
 }
 
 #' @rdname cir_stat
@@ -614,8 +614,8 @@ cir_stat_PAD <- function(Theta, Psi_in_Theta = FALSE, AD = FALSE, sorted = FALSE
 
 #' @rdname cir_stat
 #' @export
-cir_stat_Cuesta_Albertos <- function(Theta, rand_dirs, K_Cuesta_Albertos = 25L, original = FALSE) {
-    .Call('_sphunif_cir_stat_Cuesta_Albertos', PACKAGE = 'sphunif', Theta, rand_dirs, K_Cuesta_Albertos, original)
+cir_stat_CCF09 <- function(Theta, dirs, K_CCF09 = 25L, original = FALSE) {
+    .Call('_sphunif_cir_stat_CCF09', PACKAGE = 'sphunif', Theta, dirs, K_CCF09, original)
 }
 
 #' @rdname cir_stat_distr
@@ -1141,14 +1141,14 @@ d_sph_stat_Bingham <- function(x, p) {
 
 #' @rdname sph_stat_distr
 #' @export
-p_sph_stat_Cai <- function(x, regime = 1L, beta = 0) {
-    .Call('_sphunif_p_sph_stat_Cai', PACKAGE = 'sphunif', x, regime, beta)
+p_sph_stat_CJ12 <- function(x, regime = 1L, beta = 0) {
+    .Call('_sphunif_p_sph_stat_CJ12', PACKAGE = 'sphunif', x, regime, beta)
 }
 
 #' @rdname sph_stat_distr
 #' @export
-d_sph_stat_Cai <- function(x, regime = 3L, beta = 0) {
-    .Call('_sphunif_d_sph_stat_Cai', PACKAGE = 'sphunif', x, regime, beta)
+d_sph_stat_CJ12 <- function(x, regime = 3L, beta = 0) {
+    .Call('_sphunif_d_sph_stat_CJ12', PACKAGE = 'sphunif', x, regime, beta)
 }
 
 #' @rdname sph_stat_distr
@@ -1278,8 +1278,8 @@ sph_stat_PAD_Psi <- function(Psi, n, p, th_grid, int_grid) {
 
 #' @rdname sph_stat
 #' @export
-sph_stat_Cuesta_Albertos <- function(X, rand_dirs, K_Cuesta_Albertos = 25L, original = FALSE) {
-    .Call('_sphunif_sph_stat_Cuesta_Albertos', PACKAGE = 'sphunif', X, rand_dirs, K_Cuesta_Albertos, original)
+sph_stat_CCF09 <- function(X, dirs, K_CCF09 = 25L, original = FALSE) {
+    .Call('_sphunif_sph_stat_CCF09', PACKAGE = 'sphunif', X, dirs, K_CCF09, original)
 }
 
 #' @rdname sph_stat
@@ -1290,12 +1290,12 @@ sph_stat_Rayleigh_HD <- function(X) {
 
 #' @rdname sph_stat
 #' @export
-sph_stat_Cai <- function(X, regime = 3L, Psi_in_X = FALSE, p = 0L) {
-    .Call('_sphunif_sph_stat_Cai', PACKAGE = 'sphunif', X, regime, Psi_in_X, p)
+sph_stat_CJ12 <- function(X, regime = 3L, Psi_in_X = FALSE, p = 0L) {
+    .Call('_sphunif_sph_stat_CJ12', PACKAGE = 'sphunif', X, regime, Psi_in_X, p)
 }
 
 #' @keywords internal
-sph_stat_Cai_Psi <- function(Psi, n, p) {
-    .Call('_sphunif_sph_stat_Cai_Psi', PACKAGE = 'sphunif', Psi, n, p)
+sph_stat_CJ12_Psi <- function(Psi, n, p) {
+    .Call('_sphunif_sph_stat_CJ12_Psi', PACKAGE = 'sphunif', Psi, n, p)
 }
 

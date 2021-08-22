@@ -13,43 +13,43 @@ r_d_9 <- r_unif_sph(n = 5, p = 9, M = 1)[, , 1]
 avail_cir_tests_s1 <- c("Gine_Fn", "Pycke", "Watson", "PCvM", "Cressie")
 avail_cir_tests_s2 <- c("Gine_Gn", "Rothman", "Watson_1976", "PRt")
 avail_sph_tests_s1 <- c("Gine_Fn", "Pycke", "PAD", "PCvM", "Cai")
-avail_sph_tests_s2 <- c("Gine_Gn", "Cuesta_Albertos", "Ajne", "PRt")
+avail_sph_tests_s2 <- c("Gine_Gn", "CCF09", "Ajne", "PRt")
 
 test_that("unif_stat doing all or separate statistics", {
 
   expect_equal(as.numeric(unif_stat(data = Theta_1, type = "all",
-                                    Cuesta_Albertos_rand_dirs = r_d_2)),
+                                    CCF09_dirs = r_d_2)),
                as.numeric(sapply(avail_cir_tests, function(test)
                  unif_stat(data = Theta_1, type = test,
-                           Cuesta_Albertos_rand_dirs = r_d_2))))
+                           CCF09_dirs = r_d_2))))
   expect_equal(as.matrix(unif_stat(data = Theta_2, type = "all",
-                                   Cuesta_Albertos_rand_dirs = r_d_2)),
+                                   CCF09_dirs = r_d_2)),
                sapply(avail_cir_tests, function(test)
                  as.matrix(unif_stat(data = Theta_2, type = test,
-                                     Cuesta_Albertos_rand_dirs = r_d_2))))
+                                     CCF09_dirs = r_d_2))))
   expect_equal(as.numeric(unif_stat(data = X_2, type = "all",
-                                   Cuesta_Albertos_rand_dirs = r_d_2)),
+                                   CCF09_dirs = r_d_2)),
                as.numeric(sapply(avail_cir_tests, function(test)
                  unif_stat(data = X_2, type = test,
-                           Cuesta_Albertos_rand_dirs = r_d_2))))
+                           CCF09_dirs = r_d_2))))
   expect_equal(as.matrix(unif_stat(data = X_3, type = "all",
-                                   Cuesta_Albertos_rand_dirs = r_d_3)),
+                                   CCF09_dirs = r_d_3)),
                sapply(avail_sph_tests, function(test)
                  as.matrix(unif_stat(data = X_3, type = test,
-                                     Cuesta_Albertos_rand_dirs = r_d_3))))
+                                     CCF09_dirs = r_d_3))))
   suppressWarnings(expect_warning(
     expect_equal(as.matrix(unif_stat(data = X_4, type = "all",
-                                     Cuesta_Albertos_rand_dirs = r_d_4)),
+                                     CCF09_dirs = r_d_4)),
                  sapply(avail_sph_tests, function(test)
                    as.matrix(unif_stat(data = X_4, type = test,
-                                       Cuesta_Albertos_rand_dirs = r_d_4))))
+                                       CCF09_dirs = r_d_4))))
   ))
   suppressWarnings(expect_warning(
     expect_equal(as.matrix(unif_stat(data = X_9, type = "all",
-                                     Cuesta_Albertos_rand_dirs = r_d_9)),
+                                     CCF09_dirs = r_d_9)),
                  sapply(avail_sph_tests, function(test)
                    as.matrix(unif_stat(data = X_9, type = test,
-                                       Cuesta_Albertos_rand_dirs = r_d_9))))
+                                       CCF09_dirs = r_d_9))))
   ))
 
 })
@@ -57,64 +57,64 @@ test_that("unif_stat doing all or separate statistics", {
 test_that("unif_stat with randomly-chosen and separate statistics", {
 
   expect_equal(as.numeric(unif_stat(data = Theta_1, type = avail_cir_tests_s1,
-                                    Cuesta_Albertos_rand_dirs = r_d_2)),
+                                    CCF09_dirs = r_d_2)),
                as.numeric(sapply(avail_cir_tests_s1, function(test)
                  unif_stat(data = Theta_1, type = test,
-                           Cuesta_Albertos_rand_dirs = r_d_2))))
+                           CCF09_dirs = r_d_2))))
   expect_equal(as.numeric(unif_stat(data = Theta_1, type = avail_cir_tests_s2,
-                                    Cuesta_Albertos_rand_dirs = r_d_2)),
+                                    CCF09_dirs = r_d_2)),
                as.numeric(sapply(avail_cir_tests_s2, function(test)
                  unif_stat(data = Theta_1, type = test,
-                           Cuesta_Albertos_rand_dirs = r_d_2))))
+                           CCF09_dirs = r_d_2))))
   expect_equal(as.numeric(unif_stat(data = X_2, type = avail_sph_tests_s2,
-                                   Cuesta_Albertos_rand_dirs = r_d_2)),
+                                   CCF09_dirs = r_d_2)),
                as.numeric(sapply(avail_sph_tests_s2, function(test)
                  unif_stat(data = X_2, type = test,
-                           Cuesta_Albertos_rand_dirs = r_d_2))))
+                           CCF09_dirs = r_d_2))))
   expect_equal(as.matrix(unif_stat(data = X_3, type = avail_sph_tests_s2,
-                                   Cuesta_Albertos_rand_dirs = r_d_3)),
+                                   CCF09_dirs = r_d_3)),
                sapply(avail_sph_tests_s2, function(test)
                  as.matrix(unif_stat(data = X_3, type = test,
-                                     Cuesta_Albertos_rand_dirs = r_d_3))))
+                                     CCF09_dirs = r_d_3))))
   expect_equal(as.matrix(unif_stat(data = X_4, type = avail_sph_tests_s2,
-                                   Cuesta_Albertos_rand_dirs = r_d_4)),
+                                   CCF09_dirs = r_d_4)),
                sapply(avail_sph_tests_s2, function(test)
                  as.matrix(unif_stat(data = X_4, type = test,
-                                     Cuesta_Albertos_rand_dirs = r_d_4))))
+                                     CCF09_dirs = r_d_4))))
 
 })
 
-test_that("unif_stat with data_sorted = TRUE and Cuesta_Albertos = NULL", {
+test_that("unif_stat with data_sorted = TRUE and CCF09 = NULL", {
 
   expect_equal(as.numeric(unif_stat(data = sort_each_col(Theta_1),
                                     type = avail_cir_tests_s1,
-                                    Cuesta_Albertos_rand_dirs = r_d_2,
+                                    CCF09_dirs = r_d_2,
                                     data_sorted = TRUE)),
                as.numeric(sapply(avail_cir_tests_s1, function(test)
                  unif_stat(data = sort_each_col(Theta_1), type = test,
-                           Cuesta_Albertos_rand_dirs = r_d_2,
+                           CCF09_dirs = r_d_2,
                            data_sorted = TRUE))))
   expect_equal({
     set.seed(131312)
-    rd <-  Cuesta_Albertos_rand_dirs <- r_unif_sph(n = 50, p = 2, M = 1)[, , 1]
+    rd <-  CCF09_dirs <- r_unif_sph(n = 50, p = 2, M = 1)[, , 1]
     as.matrix(unif_stat(data = Theta_2, type = c("Range", "Rao",
-                                                 "Cuesta_Albertos"),
-                         Cuesta_Albertos_rand_dirs = rd))
+                                                 "CCF09"),
+                         CCF09_dirs = rd))
     }, {
     set.seed(131312)
     as.matrix(unif_stat(data = Theta_2, type = c("Range", "Rao",
-                                                 "Cuesta_Albertos")))
+                                                 "CCF09")))
     })
   expect_equal({
     set.seed(131312)
-    r_d <-  Cuesta_Albertos_rand_dirs <- r_unif_sph(n = 50, p = 3, M = 1)[, , 1]
+    r_d <-  CCF09_dirs <- r_unif_sph(n = 50, p = 3, M = 1)[, , 1]
     as.matrix(unif_stat(data = X_3, type = c("PCvM", "Bakshaev",
-                                             "Cuesta_Albertos"),
-                        Cuesta_Albertos_rand_dirs = r_d))
+                                             "CCF09"),
+                        CCF09_dirs = r_d))
     }, {
     set.seed(131312)
     as.matrix(unif_stat(data = X_3, type = c("PCvM", "Bakshaev",
-                                             "Cuesta_Albertos")))
+                                             "CCF09")))
     })
 
 })
@@ -122,13 +122,13 @@ test_that("unif_stat with data_sorted = TRUE and Cuesta_Albertos = NULL", {
 test_that("unif_stat equality for data = Theta and data = Theta_to_X(Theta)", {
 
   expect_equal(unif_stat(data = Theta_1, type = avail_cir_tests,
-                         Cuesta_Albertos_rand_dirs = r_d_2),
+                         CCF09_dirs = r_d_2),
                unif_stat(data = Theta_to_X(Theta_1), type = avail_cir_tests,
-                         Cuesta_Albertos_rand_dirs = r_d_2))
+                         CCF09_dirs = r_d_2))
   expect_equal(unif_stat(data = X_2, type = avail_sph_tests,
-                         Cuesta_Albertos_rand_dirs = r_d_2),
+                         CCF09_dirs = r_d_2),
                unif_stat(data = X_to_Theta(X_2), type = avail_sph_tests,
-                         Cuesta_Albertos_rand_dirs = r_d_2))
+                         CCF09_dirs = r_d_2))
 
 })
 
@@ -151,15 +151,15 @@ test_that("Passing edge cases", {
                unif_stat(data = A, type = c("Ajne", "Cressie"))})
   expect_equal(c(as.matrix(unif_stat(data = Theta_2,
                                      type = avail_cir_tests[2:5],
-                                     Cuesta_Albertos_rand_dirs = r_d_2))),
+                                     CCF09_dirs = r_d_2))),
                c(sapply(2:5, function(test)
                  as.matrix(unif_stat(data = Theta_2, type = test,
-                                     Cuesta_Albertos_rand_dirs = r_d_2)))))
+                                     CCF09_dirs = r_d_2)))))
   expect_equal(c(as.matrix(unif_stat(data = X_3, type = avail_sph_tests[2:5],
-                                     Cuesta_Albertos_rand_dirs = r_d_3))),
+                                     CCF09_dirs = r_d_3))),
                c(sapply(2:5, function(test)
                  as.matrix(unif_stat(data = X_3, type = test,
-                                     Cuesta_Albertos_rand_dirs = r_d_3)))))
+                                     CCF09_dirs = r_d_3)))))
   expect_equal(unif_stat(data = 1:6, type = c("Ajne", "Ajne", "Watson")),
                unif_stat(data = 1:6, type = c("Ajne", "Watson")))
 

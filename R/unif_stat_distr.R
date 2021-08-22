@@ -34,7 +34,7 @@
 #' @inheritParams cir_stat
 #' @inheritParams cir_stat_distr
 #' @inheritParams sph_stat_distr
-#' @param Cai_beta \eqn{\beta} parameter in the exponential regime of Cai test,
+#' @param CJ12_beta \eqn{\beta} parameter in the exponential regime of CJ12 test,
 #' a positive real.
 #' @param K_Kuiper,K_Watson,K_Watson_1976,K_Ajne integer giving the truncation
 #' of the series present in the null asymptotic distributions. For the
@@ -59,7 +59,7 @@
 #' accuracy deteriorates when \eqn{p} increases, e.g., a digit accuracy is lost
 #' when \eqn{p = 51}.
 #'
-#' Detailed descriptions and references on the asymptotic distributions
+#' Descriptions and references on most of the asymptotic distributions
 #' are available in García-Portugués and Verdebout (2018).
 #' @references
 #' García-Portugués, E. and Verdebout, T. (2018) An overview of uniformity
@@ -109,29 +109,26 @@
 #' unif_stat_distr(x = x, type = "Rothman", p = 2, n = 10, Rothman_t = 0.5,
 #'                 approx = "MC")
 #'
-#' # Cuesta-Albertos
-#' rand_dirs <- r_unif_sph(n = 5, p = 3, M = 1)[, , 1]
+#' # CCF09
+#' dirs <- r_unif_sph(n = 5, p = 3, M = 1)[, , 1]
 #' x <- seq(0, 1, l = 10)
-#' unif_stat_distr(x = x, type = "Cuesta_Albertos", p = 3, n = 10,
-#'                 approx = "MC", Cuesta_Albertos_rand_dirs = rand_dirs)
-#' unif_stat_distr(x = x, type = "Cuesta_Albertos", p = 3, n = 10,
-#'                 approx = "MC")
+#' unif_stat_distr(x = x, type = "CCF09", p = 3, n = 10, approx = "MC",
+#'                 CCF09_dirs = dirs)
+#' unif_stat_distr(x = x, type = "CCF09", p = 3, n = 10, approx = "MC")
 #'
-#' # Cai
-#' unif_stat_distr(x = x, type = "Cai", p = 3, n = 100, Cai_regime = 3)
-#' unif_stat_distr(x = x, type = "Cai", p = 3, n = 100, Cai_regime = 2,
-#'                Cai_beta = 0.01)
-#' unif_stat_distr(x = x, type = "Cai", p = 3, n = 100, Cai_regime = 1)
+#' # CJ12
+#' unif_stat_distr(x = x, type = "CJ12", p = 3, n = 100, CJ12_reg = 3)
+#' unif_stat_distr(x = x, type = "CJ12", p = 3, n = 100, CJ12_reg = 2,
+#'                CJ12_beta = 0.01)
+#' unif_stat_distr(x = x, type = "CJ12", p = 3, n = 100, CJ12_reg = 1)
 #' }
 #' @export
-unif_stat_distr <- function(x, type, p, n, approx = "asymp",
-                            M = 1e4, stats_MC = NULL, Rothman_t = 1 / 3,
-                            Pycke_q = 0.5, Riesz_s = 1, 
-                            Cuesta_Albertos_rand_dirs = NULL, 
-                            Cai_regime = 3, Cai_beta = 0,
-                            Stephens = FALSE, K_Kuiper = 25, K_Watson = 25,
-                            K_Watson_1976 = 5, K_Ajne = 5e2,
-                            K_Cuesta_Albertos = 25, K_max = 1e4, ...) {
+unif_stat_distr <- function(x, type, p, n, approx = "asymp", M = 1e4,
+                            stats_MC = NULL, Rothman_t = 1 / 3, Pycke_q = 0.5,
+                            Riesz_s = 1, CCF09_dirs = NULL, CJ12_reg = 3,
+                            CJ12_beta = 0, Stephens = FALSE, K_Kuiper = 25,
+                            K_Watson = 25, K_Watson_1976 = 5, K_Ajne = 5e2,
+                            K_CCF09 = 25, K_max = 1e4, ...) {
 
   # Stop if NA's
   if (anyNA(x)) {
@@ -231,12 +228,11 @@ unif_stat_distr <- function(x, type, p, n, approx = "asymp",
 
     # Optional arguments
     args <- list("t" = Rothman_t, "q" = Pycke_q, "s" = Riesz_s,
-                 "rand_dirs" = Cuesta_Albertos_rand_dirs,
-                 "regime" = Cai_regime, "beta" = Cai_beta,
+                 "dirs" = CCF09_dirs, "regime" = CJ12_reg, "beta" = CJ12_beta,
                  "Stephens" = Stephens, "K_Kuiper" = K_Kuiper,
                  "K_Watson" = K_Watson, "K_Watson_1976" = K_Watson_1976,
-                 "K_Ajne" = K_Ajne, "K_Cuesta_Albertos" = K_Cuesta_Albertos,
-                 "K_max" = K_max, "thre" = 0, "n" = n, "p" = p)
+                 "K_Ajne" = K_Ajne, "K_CCF09" = K_CCF09, "K_max" = K_max,
+                 "thre" = 0, "n" = n, "p" = p)
     names_args <- names(args)
 
     # Evaluate distributions
@@ -261,11 +257,8 @@ unif_stat_distr <- function(x, type, p, n, approx = "asymp",
                                alpha = c(0.10, 0.05, 0.01),
                                return_stats = TRUE, stats_sorted = TRUE,
                                Rothman_t = Rothman_t, Pycke_q = Pycke_q,
-                               Cuesta_Albertos_rand_dirs =
-                                 Cuesta_Albertos_rand_dirs,
-                               Cai_regime = Cai_regime,
-                               K_Cuesta_Albertos = K_Cuesta_Albertos,
-                               ...)$stats_MC
+                               CCF09_dirs = CCF09_dirs, CJ12_reg = CJ12_reg,
+                               K_CCF09 = K_CCF09, ...)$stats_MC
 
     } else {
 

@@ -15,14 +15,15 @@ Description: Implementation of uniformity tests on the circle and
     (hyper)sphere. The main function of the package is unif_test(), which
     conveniently collects more than 30 tests for assessing uniformity on
     S^{p-1}={x in R^p : ||x||=1}, p >= 2. The test statistics are implemented
-    in the unif_stat function, which allows to compute several statistics to
-    several samples within a single call, facilitating thus Monte Carlo
-    experiments. Furthermore, the unif_stat_MC() function allows to
-    parallelize them in a simple way. The asymptotic null distributions of
+    in the unif_stat function, which allows computing several statistics to
+    several samples within a single call, thus facilitating Monte Carlo
+    experiments. Furthermore, the unif_stat_MC() function allows
+    parallelizing them in a simple way. The asymptotic null distributions of
     the statistics are available through the function unif_stat_distr(). The
     core of the sphunif is coded in C++ by relying on the 'Rcpp' package.
-    The package allows the replication of the data application in
-    García-Portugués, Navarro-Esteban and Cuesta-Albertos (2020) <arXiv:2008.09897>.
+    The package also provides several novel datasets and gives the
+    reproducibility for the data application in García-Portugués,
+    Navarro-Esteban and Cuesta-Albertos (2020) <arXiv:2008.09897>.
 License: GPL-3
 LazyData: true
 Depends:

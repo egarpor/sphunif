@@ -70,8 +70,8 @@
 #' values for the significance levels \code{alpha} correspond to the
 #' \code{alpha}-upper quantiles of the null distribution of the test statistic.
 #'
-#' The Monte Carlo simulation for Cuesta-Albertos test is made conditionally
-#' on the choice of \code{Cuesta_Albertos_rand_dirs}. That is, all the Monte
+#' The Monte Carlo simulation for the CCF09 test is made conditionally
+#' on the choice of \code{CCF09_dirs}. That is, all the Monte
 #' Carlo statistics share the same random directions.
 #' @examples
 #' ## Critical values
@@ -118,12 +118,10 @@
 #'   Theta_to_X(matrix(runif(n * M, 0, (2 - l) * pi), n, M))
 #'
 #' }
-#' rand_dirs <- r_unif_sph(n = 5, p = 2, M = 1)[, , 1]
-#' cir <- unif_stat_MC(n = 50, M = 1e2, p = 2,
-#'                     Cuesta_Albertos_rand_dirs = rand_dirs)
+#' dirs <- r_unif_sph(n = 5, p = 2, M = 1)[, , 1]
+#' cir <- unif_stat_MC(n = 50, M = 1e2, p = 2, CCF09_dirs = dirs)
 #' cir_pow <- unif_stat_MC(n = 50, M = 1e2, p = 2, r_H1 = r_H1, l = 0.10,
-#'                         crit_val = cir$crit_val_MC,
-#'                         Cuesta_Albertos_rand_dirs = rand_dirs)
+#'                         crit_val = cir$crit_val_MC, CCF09_dirs = dirs)
 #' cir_pow$crit_val_MC
 #' cir_pow$power_MC
 #'
@@ -141,30 +139,26 @@
 #'   return(samp)
 #'
 #' }
-#' rand_dirs <- r_unif_sph(n = 5, p = 3, M = 1)[, , 1]
-#' sph <- unif_stat_MC(n = 50, M = 1e2, p = 3,
-#'                     Cuesta_Albertos_rand_dirs = rand_dirs)
+#' dirs <- r_unif_sph(n = 5, p = 3, M = 1)[, , 1]
+#' sph <- unif_stat_MC(n = 50, M = 1e2, p = 3, CCF09_dirs = dirs)
 #' sph_pow <- unif_stat_MC(n = 50, M = 1e2, p = 3, r_H1 = r_H1, l = 0.5,
-#'                        crit_val = sph$crit_val_MC,
-#'                        Cuesta_Albertos_rand_dirs = rand_dirs)
+#'                        crit_val = sph$crit_val_MC, CCF09_dirs = dirs)
 #' sph_pow$power_MC
 #'
 #' ## Pre-built r_H1
 #'
 #' # Circular
-#' rand_dirs <- r_unif_sph(n = 5, p = 2, M = 1)[, , 1]
-#' cir_pow <- unif_stat_MC(n = 50, M = 1e2, p = 2, r_H1 = r_alt,
-#'                         alt = "vMF", kappa = 1,
-#'                         crit_val = cir$crit_val_MC,
-#'                         Cuesta_Albertos_rand_dirs = rand_dirs)
+#' dirs <- r_unif_sph(n = 5, p = 2, M = 1)[, , 1]
+#' cir_pow <- unif_stat_MC(n = 50, M = 1e2, p = 2, r_H1 = r_alt, alt = "vMF",
+#'                         kappa = 1, crit_val = cir$crit_val_MC,
+#'                         CCF09_dirs = dirs)
 #' cir_pow$power_MC
 #'
 #' # Spherical
-#' rand_dirs <- r_unif_sph(n = 5, p = 3, M = 1)[, , 1]
-#' sph_pow <- unif_stat_MC(n = 50, M = 1e2, p = 3, r_H1 = r_alt,
-#'                         alt = "vMF", kappa = 1,
-#'                         crit_val = sph$crit_val_MC,
-#'                         Cuesta_Albertos_rand_dirs = rand_dirs)
+#' dirs <- r_unif_sph(n = 5, p = 3, M = 1)[, , 1]
+#' sph_pow <- unif_stat_MC(n = 50, M = 1e2, p = 3, r_H1 = r_alt, alt = "vMF",
+#'                         kappa = 1, crit_val = sph$crit_val_MC,
+#'                         CCF09_dirs = dirs)
 #' sph_pow$power_MC
 #' }
 #' @export
@@ -173,10 +167,9 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
                          return_stats = TRUE, stats_sorted = FALSE,
                          chunks = ceiling((n * M) / 1e7), cores = 1,
                          verbose = TRUE, seeds = NULL, Rayleigh_m = 1, 
-                         coverage_a = 2 * pi, Rothman_t = 1 / 3,
+                         cov_a = 2 * pi, Rothman_t = 1 / 3,
                          Cressie_t = 1 / 3, Pycke_q = 0.5, Riesz_s = 1, 
-                         Cuesta_Albertos_rand_dirs = NULL, 
-                         K_Cuesta_Albertos = 25, Cai_regime = 3, ...) {
+                         CCF09_dirs = NULL, K_CCF09 = 25, CJ12_reg = 3, ...) {
 
   # Check dimension
   if (p < 2) {
@@ -202,10 +195,10 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
   # Chunk large n * M to avoid memory issues
   small_M <- M %/% chunks
 
-  # Fix projections for Cuesta-Albertos test
-  if ("Cuesta_Albertos" %in% type & is.null(Cuesta_Albertos_rand_dirs)) {
+  # Fix projections for the CCF09 test
+  if ("CCF09" %in% type & is.null(CCF09_dirs)) {
 
-    Cuesta_Albertos_rand_dirs <- r_unif_sph(n = 50, p = p, M = 1)[, , 1]
+    CCF09_dirs <- r_unif_sph(n = 50, p = p, M = 1)[, , 1]
 
   }
 
@@ -266,12 +259,10 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
 
     # Statistics
     stats <- unif_stat(data = X, type = type, Rayleigh_m = Rayleigh_m, 
-                       coverage_a = coverage_a, Rothman_t = Rothman_t,
-                       Cressie_t = Cressie_t, Pycke_q = Pycke_q, 
-                       Riesz_s = Riesz_s, Cuesta_Albertos_rand_dirs = 
-                         Cuesta_Albertos_rand_dirs, 
-                       K_Cuesta_Albertos = K_Cuesta_Albertos,
-                       Cai_regime = Cai_regime)
+                       cov_a = cov_a, Rothman_t = Rothman_t,
+                       Cressie_t = Cressie_t, Pycke_q = Pycke_q,
+                       Riesz_s = Riesz_s, CCF09_dirs = CCF09_dirs,
+                       K_CCF09 = K_CCF09, CJ12_reg = CJ12_reg)
 
     # Remove X and clean memory
     rm(X)

@@ -28,7 +28,7 @@
 #' statistics are faster to compute. Defaults to \code{FALSE}.
 #' @param Rayleigh_m integer \eqn{m} for the \eqn{m}-modal Rayleigh test.
 #' Defaults to \code{m = 1} (the standard Rayleigh test).
-#' @param coverage_a \eqn{a_n = a / n} parameter used in the length of the arcs
+#' @param cov_a \eqn{a_n = a / n} parameter used in the length of the arcs
 #' of the coverage-based tests. Must be positive. Defaults to \code{2 * pi}.
 #' @param Rothman_t \eqn{t} parameter for the Rothman test, a real in
 #' \eqn{(0, 1)}. Defaults to \code{1 / 3}.
@@ -38,20 +38,20 @@
 #' \eqn{(0, 1)}. Defaults to \code{1 / 2}.
 #' @param Riesz_s \eqn{s} parameter for the \eqn{s}-Riesz test, a real in
 #' \eqn{(0, 2)}. Defaults to \code{1}.
-#' @param Cuesta_Albertos_rand_dirs a matrix of size \code{c(n_proj, p)}
-#' containing \code{n_proj} random directions (in Cartesian coordinates) on
-#' \eqn{S^{p-1}} to perform the Cuesta-Albertos test. If \code{NULL} (default),
-#' a sample of size \code{n_proj = 50} directions is computed internally.
-#' @param K_Cuesta_Albertos integer giving the truncation of the series
-#' present in the asymptotic distribution of the Kolmogorov-Smirnov statistic.
-#' Defaults to \code{5e2}.
-#' @param Cai_regime type of asymptotic regime for Cai test, either \code{1}
+#' @param CCF09_dirs a matrix of size \code{c(n_proj, p)} containing
+#' \code{n_proj} random directions (in Cartesian coordinates) on \eqn{S^{p-1}}
+#' to perform the CCF09 test. If \code{NULL} (default), a sample of size
+#' \code{n_proj = 50} directions is computed internally.
+#' @param K_CCF09 integer giving the truncation of the series present in the
+#' asymptotic distribution of the Kolmogorov-Smirnov statistic. Defaults to
+#' \code{5e2}.
+#' @param CJ12_reg type of asymptotic regime for CJ12 test, either \code{1}
 #' (sub-exponential regime), \code{2} (exponential), or \code{3}
 #' (super-exponential; default).
 #' @return A data frame of size \code{c(M, length(type))}, with column names
 #' given by \code{type}, that contains the values of the test statistics.
 #' @details
-#' Detailed descriptions and references of the statistics are available
+#' Descriptions and references for most of the statistics are available
 #' in García-Portugués and Verdebout (2018).
 #' @references
 #' García-Portugués, E. and Verdebout, T. (2018) An overview of uniformity
@@ -94,21 +94,18 @@
 #' # Rothman
 #' unif_stat(data = Theta, type = "Rothman", Rothman_t = 0.5)
 #'
-#' # Cuesta-Albertos
-#' unif_stat(data = X, type = "Cuesta_Albertos",
-#'           Cuesta_Albertos_rand_dirs = X[, , 1])
-#' unif_stat(data = X, type = "Cuesta_Albertos",
-#'           Cuesta_Albertos_rand_dirs = X[, , 1], K_Cuesta_Albertos = 1)
+#' # CCF09
+#' unif_stat(data = X, type = "CCF09", CCF09_dirs = X[, , 1])
+#' unif_stat(data = X, type = "CCF09", CCF09_dirs = X[, , 1], K_CCF09 = 1)
 #'
-#' # Cai
-#' unif_stat(data = X, type = "Cai", Cai_regime = 3)
-#' unif_stat(data = X, type = "Cai", Cai_regime = 1)
+#' # CJ12
+#' unif_stat(data = X, type = "CJ12", CJ12_reg = 3)
+#' unif_stat(data = X, type = "CJ12", CJ12_reg = 1)
 #' @export
 unif_stat <- function(data, type = "all", data_sorted = FALSE,
-                      Rayleigh_m = 1, coverage_a = 2 * pi, Rothman_t = 1 / 3,
+                      Rayleigh_m = 1, cov_a = 2 * pi, Rothman_t = 1 / 3,
                       Cressie_t = 1 / 3, Pycke_q = 0.5, Riesz_s = 1, 
-                      Cuesta_Albertos_rand_dirs = NULL, K_Cuesta_Albertos = 25,
-                      Cai_regime = 3) {
+                      CCF09_dirs = NULL, K_CCF09 = 25, CJ12_reg = 3) {
 
   # Stop if NA's
   if (anyNA(data)) {
@@ -219,9 +216,9 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
     stats_using_gaps <- c("Gini", "Gini_squared", "Greenwood", "Log_gaps",
                           "Max_uncover", "Num_uncover", "Range", "Rao",
                           "Vacancy")
-    stats_using_sorted_data <- c("Cressie", "Feltz_Goldin", "Hodges_Ajne",
-                                 "Kuiper", "Watson", "Watson_1976",
-                                 "KS", "CvM", "AD", stats_using_gaps)
+    stats_using_sorted_data <- c("Cressie", "FG01", "Hodges_Ajne", "Kuiper",
+                                 "Watson", "Watson_1976", "KS", "CvM", "AD",
+                                 stats_using_gaps)
 
     # Statistics using the shortest angles matrix Psi
     stats_using_Psi <- c("Ajne", "Bakshaev", "Gine_Fn", "Gine_Gn",
@@ -250,9 +247,9 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
                                         sorted = data_sorted)
 
     }
-    if (run_test$Feltz_Goldin) {
+    if (run_test$FG01) {
 
-      stats$Feltz_Goldin <- cir_stat_Feltz_Goldin(Theta = data,
+      stats$FG01 <- cir_stat_FG01(Theta = data,
                                                   sorted = data_sorted)
 
     }
@@ -358,21 +355,21 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
     }
     if (run_test$Max_uncover) {
 
-      stats$Max_uncover <- cir_stat_Max_uncover(Theta = gaps, a = coverage_a,
+      stats$Max_uncover <- cir_stat_Max_uncover(Theta = gaps, a = cov_a,
                                                 gaps_in_Theta = gaps_in_Theta,
                                                 sorted = data_sorted)
 
     }
     if (run_test$Num_uncover) {
 
-      stats$Num_uncover <- cir_stat_Num_uncover(Theta = gaps, a = coverage_a,
+      stats$Num_uncover <- cir_stat_Num_uncover(Theta = gaps, a = cov_a,
                                                 gaps_in_Theta = gaps_in_Theta,
                                                 sorted = data_sorted)
 
     }
     if (run_test$Vacancy) {
 
-      stats$Vacancy <- cir_stat_Vacancy(Theta = gaps, a = coverage_a,
+      stats$Vacancy <- cir_stat_Vacancy(Theta = gaps, a = cov_a,
                                         gaps_in_Theta = gaps_in_Theta,
                                         sorted = data_sorted)
 
@@ -390,19 +387,16 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
       stats$Bingham <- cir_stat_Bingham(Theta = data)
 
     }
-    if (run_test$Cuesta_Albertos) {
+    if (run_test$CCF09) {
 
       # Sample random directions
-      if (is.null(Cuesta_Albertos_rand_dirs)) {
+      if (is.null(CCF09_dirs)) {
 
-        Cuesta_Albertos_rand_dirs <- r_unif_sph(n = 50, p = 2, M = 1)[, , 1]
+        CCF09_dirs <- r_unif_sph(n = 50, p = 2, M = 1)[, , 1]
 
       }
-      stats$Cuesta_Albertos <-
-        cir_stat_Cuesta_Albertos(Theta = data,
-                                 rand_dirs = Cuesta_Albertos_rand_dirs,
-                                 K_Cuesta_Albertos = K_Cuesta_Albertos,
-                                 original = FALSE)
+      stats$CCF09 <- cir_stat_CCF09(Theta = data, dirs = CCF09_dirs,
+                                    K_CCF09 = K_CCF09, original = FALSE)
 
     }
 
@@ -555,7 +549,7 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
   } else {
 
     # Statistics using the shortest angles matrix Psi
-    stats_using_Psi <- c("Ajne", "Bakshaev", "Cai", "Gine_Fn", "Gine_Gn",
+    stats_using_Psi <- c("Ajne", "Bakshaev", "CJ12", "Gine_Fn", "Gine_Gn",
                          "PAD", "PCvM", "PRt", "Pycke", "Riesz")
 
     # Evaluate which statistics to apply
@@ -569,19 +563,16 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
       stats$Bingham <- sph_stat_Bingham(X = data)
 
     }
-    if (run_test$Cuesta_Albertos) {
+    if (run_test$CCF09) {
 
       # Sample random directions
-      if (is.null(Cuesta_Albertos_rand_dirs)) {
+      if (is.null(CCF09_dirs)) {
 
-        Cuesta_Albertos_rand_dirs <- r_unif_sph(n = 50, p = p, M = 1)[, , 1]
+        CCF09_dirs <- r_unif_sph(n = 50, p = p, M = 1)[, , 1]
 
       }
-      stats$Cuesta_Albertos <-
-        sph_stat_Cuesta_Albertos(X = data,
-                                 rand_dirs = Cuesta_Albertos_rand_dirs,
-                                 K_Cuesta_Albertos = K_Cuesta_Albertos,
-                                 original = FALSE)
+      stats$CCF09 <- sph_stat_CCF09(X = data, dirs = CCF09_dirs,
+                                    K_CCF09 = K_CCF09, original = FALSE)
 
     }
     if (run_test$Rayleigh) {
@@ -663,17 +654,17 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
       }
 
     }
-    if (run_test$Cai) {
+    if (run_test$CJ12) {
 
       if (Psi_in_X) {
 
-        stats$Cai <- sph_stat_Cai(X = cos(data), Psi_in_X = TRUE, p = p,
-                                  regime = Cai_regime)
+        stats$CJ12 <- sph_stat_CJ12(X = cos(data), Psi_in_X = TRUE, p = p,
+                                  regime = CJ12_reg)
 
       } else {
 
-        stats$Cai <- sph_stat_Cai(X = data, Psi_in_X = FALSE, p = p,
-                                  regime = Cai_regime)
+        stats$CJ12 <- sph_stat_CJ12(X = data, Psi_in_X = FALSE, p = p,
+                                  regime = CJ12_reg)
 
       }
 

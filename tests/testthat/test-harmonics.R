@@ -1,7 +1,7 @@
 
 set.seed(12314)
 int_prod <- function(x, i1, i2, k1, k2) {
-  g_ik(x = x, k = k1, i = i1) * g_ik(x = x, k = k2, i = i2)
+  g_i_k(x = x, k = k1, i = i1) * g_i_k(x = x, k = k2, i = i2)
 }
 
 test_that("angles_to_sphere vs. sphere_to_angles", {
@@ -35,7 +35,7 @@ test_that("Harmonics with (i,k) vs. m", {
     i <- which(apply(ms, 1, function(x) all(x == m)))
     X <- r_unif_sph(n = 1, p = p, M = 1)[, , 1]
     expect_message(expect_equal(
-      g_ik(x = X, i = i, k = k, show_m = TRUE), g_ik(x = X, m = m)))
+      g_i_k(x = X, i = i, k = k, show_m = TRUE), g_i_k(x = X, m = m)))
   }
 
 })

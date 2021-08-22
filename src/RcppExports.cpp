@@ -417,15 +417,15 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// cir_stat_Feltz_Goldin
-arma::vec cir_stat_Feltz_Goldin(arma::mat Theta, bool sorted);
-RcppExport SEXP _sphunif_cir_stat_Feltz_Goldin(SEXP ThetaSEXP, SEXP sortedSEXP) {
+// cir_stat_FG01
+arma::vec cir_stat_FG01(arma::mat Theta, bool sorted);
+RcppExport SEXP _sphunif_cir_stat_FG01(SEXP ThetaSEXP, SEXP sortedSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
     Rcpp::traits::input_parameter< bool >::type sorted(sortedSEXP);
-    rcpp_result_gen = Rcpp::wrap(cir_stat_Feltz_Goldin(Theta, sorted));
+    rcpp_result_gen = Rcpp::wrap(cir_stat_FG01(Theta, sorted));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -614,17 +614,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// cir_stat_Cuesta_Albertos
-arma::vec cir_stat_Cuesta_Albertos(arma::mat Theta, arma::mat rand_dirs, arma::uword K_Cuesta_Albertos, bool original);
-RcppExport SEXP _sphunif_cir_stat_Cuesta_Albertos(SEXP ThetaSEXP, SEXP rand_dirsSEXP, SEXP K_Cuesta_AlbertosSEXP, SEXP originalSEXP) {
+// cir_stat_CCF09
+arma::vec cir_stat_CCF09(arma::mat Theta, arma::mat dirs, arma::uword K_CCF09, bool original);
+RcppExport SEXP _sphunif_cir_stat_CCF09(SEXP ThetaSEXP, SEXP dirsSEXP, SEXP K_CCF09SEXP, SEXP originalSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
-    Rcpp::traits::input_parameter< arma::mat >::type rand_dirs(rand_dirsSEXP);
-    Rcpp::traits::input_parameter< arma::uword >::type K_Cuesta_Albertos(K_Cuesta_AlbertosSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type dirs(dirsSEXP);
+    Rcpp::traits::input_parameter< arma::uword >::type K_CCF09(K_CCF09SEXP);
     Rcpp::traits::input_parameter< bool >::type original(originalSEXP);
-    rcpp_result_gen = Rcpp::wrap(cir_stat_Cuesta_Albertos(Theta, rand_dirs, K_Cuesta_Albertos, original));
+    rcpp_result_gen = Rcpp::wrap(cir_stat_CCF09(Theta, dirs, K_CCF09, original));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1244,29 +1244,29 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// p_sph_stat_Cai
-arma::vec p_sph_stat_Cai(arma::vec x, arma::uword regime, double beta);
-RcppExport SEXP _sphunif_p_sph_stat_Cai(SEXP xSEXP, SEXP regimeSEXP, SEXP betaSEXP) {
+// p_sph_stat_CJ12
+arma::vec p_sph_stat_CJ12(arma::vec x, arma::uword regime, double beta);
+RcppExport SEXP _sphunif_p_sph_stat_CJ12(SEXP xSEXP, SEXP regimeSEXP, SEXP betaSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
     Rcpp::traits::input_parameter< arma::uword >::type regime(regimeSEXP);
     Rcpp::traits::input_parameter< double >::type beta(betaSEXP);
-    rcpp_result_gen = Rcpp::wrap(p_sph_stat_Cai(x, regime, beta));
+    rcpp_result_gen = Rcpp::wrap(p_sph_stat_CJ12(x, regime, beta));
     return rcpp_result_gen;
 END_RCPP
 }
-// d_sph_stat_Cai
-arma::vec d_sph_stat_Cai(arma::vec x, arma::uword regime, double beta);
-RcppExport SEXP _sphunif_d_sph_stat_Cai(SEXP xSEXP, SEXP regimeSEXP, SEXP betaSEXP) {
+// d_sph_stat_CJ12
+arma::vec d_sph_stat_CJ12(arma::vec x, arma::uword regime, double beta);
+RcppExport SEXP _sphunif_d_sph_stat_CJ12(SEXP xSEXP, SEXP regimeSEXP, SEXP betaSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
     Rcpp::traits::input_parameter< arma::uword >::type regime(regimeSEXP);
     Rcpp::traits::input_parameter< double >::type beta(betaSEXP);
-    rcpp_result_gen = Rcpp::wrap(d_sph_stat_Cai(x, regime, beta));
+    rcpp_result_gen = Rcpp::wrap(d_sph_stat_CJ12(x, regime, beta));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1563,17 +1563,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// sph_stat_Cuesta_Albertos
-arma::vec sph_stat_Cuesta_Albertos(arma::cube X, arma::mat rand_dirs, arma::uword K_Cuesta_Albertos, bool original);
-RcppExport SEXP _sphunif_sph_stat_Cuesta_Albertos(SEXP XSEXP, SEXP rand_dirsSEXP, SEXP K_Cuesta_AlbertosSEXP, SEXP originalSEXP) {
+// sph_stat_CCF09
+arma::vec sph_stat_CCF09(arma::cube X, arma::mat dirs, arma::uword K_CCF09, bool original);
+RcppExport SEXP _sphunif_sph_stat_CCF09(SEXP XSEXP, SEXP dirsSEXP, SEXP K_CCF09SEXP, SEXP originalSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::cube >::type X(XSEXP);
-    Rcpp::traits::input_parameter< arma::mat >::type rand_dirs(rand_dirsSEXP);
-    Rcpp::traits::input_parameter< arma::uword >::type K_Cuesta_Albertos(K_Cuesta_AlbertosSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type dirs(dirsSEXP);
+    Rcpp::traits::input_parameter< arma::uword >::type K_CCF09(K_CCF09SEXP);
     Rcpp::traits::input_parameter< bool >::type original(originalSEXP);
-    rcpp_result_gen = Rcpp::wrap(sph_stat_Cuesta_Albertos(X, rand_dirs, K_Cuesta_Albertos, original));
+    rcpp_result_gen = Rcpp::wrap(sph_stat_CCF09(X, dirs, K_CCF09, original));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1588,9 +1588,9 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// sph_stat_Cai
-arma::vec sph_stat_Cai(arma::cube X, arma::uword regime, bool Psi_in_X, arma::uword p);
-RcppExport SEXP _sphunif_sph_stat_Cai(SEXP XSEXP, SEXP regimeSEXP, SEXP Psi_in_XSEXP, SEXP pSEXP) {
+// sph_stat_CJ12
+arma::vec sph_stat_CJ12(arma::cube X, arma::uword regime, bool Psi_in_X, arma::uword p);
+RcppExport SEXP _sphunif_sph_stat_CJ12(SEXP XSEXP, SEXP regimeSEXP, SEXP Psi_in_XSEXP, SEXP pSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1598,20 +1598,20 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< arma::uword >::type regime(regimeSEXP);
     Rcpp::traits::input_parameter< bool >::type Psi_in_X(Psi_in_XSEXP);
     Rcpp::traits::input_parameter< arma::uword >::type p(pSEXP);
-    rcpp_result_gen = Rcpp::wrap(sph_stat_Cai(X, regime, Psi_in_X, p));
+    rcpp_result_gen = Rcpp::wrap(sph_stat_CJ12(X, regime, Psi_in_X, p));
     return rcpp_result_gen;
 END_RCPP
 }
-// sph_stat_Cai_Psi
-arma::vec sph_stat_Cai_Psi(arma::mat Psi, arma::uword n, arma::uword p);
-RcppExport SEXP _sphunif_sph_stat_Cai_Psi(SEXP PsiSEXP, SEXP nSEXP, SEXP pSEXP) {
+// sph_stat_CJ12_Psi
+arma::vec sph_stat_CJ12_Psi(arma::mat Psi, arma::uword n, arma::uword p);
+RcppExport SEXP _sphunif_sph_stat_CJ12_Psi(SEXP PsiSEXP, SEXP nSEXP, SEXP pSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::mat >::type Psi(PsiSEXP);
     Rcpp::traits::input_parameter< arma::uword >::type n(nSEXP);
     Rcpp::traits::input_parameter< arma::uword >::type p(pSEXP);
-    rcpp_result_gen = Rcpp::wrap(sph_stat_Cai_Psi(Psi, n, p));
+    rcpp_result_gen = Rcpp::wrap(sph_stat_CJ12_Psi(Psi, n, p));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1648,7 +1648,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_sphunif_cir_stat_Rothman_Psi", (DL_FUNC) &_sphunif_cir_stat_Rothman_Psi, 4},
     {"_sphunif_cir_stat_Hodges_Ajne", (DL_FUNC) &_sphunif_cir_stat_Hodges_Ajne, 4},
     {"_sphunif_cir_stat_Cressie", (DL_FUNC) &_sphunif_cir_stat_Cressie, 3},
-    {"_sphunif_cir_stat_Feltz_Goldin", (DL_FUNC) &_sphunif_cir_stat_Feltz_Goldin, 2},
+    {"_sphunif_cir_stat_FG01", (DL_FUNC) &_sphunif_cir_stat_FG01, 2},
     {"_sphunif_cir_stat_Rayleigh", (DL_FUNC) &_sphunif_cir_stat_Rayleigh, 2},
     {"_sphunif_cir_stat_Bingham", (DL_FUNC) &_sphunif_cir_stat_Bingham, 1},
     {"_sphunif_cir_stat_Hermans_Rasson", (DL_FUNC) &_sphunif_cir_stat_Hermans_Rasson, 2},
@@ -1664,7 +1664,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_sphunif_cir_stat_PCvM", (DL_FUNC) &_sphunif_cir_stat_PCvM, 2},
     {"_sphunif_cir_stat_PRt", (DL_FUNC) &_sphunif_cir_stat_PRt, 3},
     {"_sphunif_cir_stat_PAD", (DL_FUNC) &_sphunif_cir_stat_PAD, 4},
-    {"_sphunif_cir_stat_Cuesta_Albertos", (DL_FUNC) &_sphunif_cir_stat_Cuesta_Albertos, 4},
+    {"_sphunif_cir_stat_CCF09", (DL_FUNC) &_sphunif_cir_stat_CCF09, 4},
     {"_sphunif_p_Kolmogorov", (DL_FUNC) &_sphunif_p_Kolmogorov, 3},
     {"_sphunif_d_Kolmogorov", (DL_FUNC) &_sphunif_d_Kolmogorov, 3},
     {"_sphunif_p_cir_stat_Ajne", (DL_FUNC) &_sphunif_p_cir_stat_Ajne, 2},
@@ -1715,8 +1715,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_sphunif_Gauss_Legen_weights", (DL_FUNC) &_sphunif_Gauss_Legen_weights, 3},
     {"_sphunif_p_sph_stat_Bingham", (DL_FUNC) &_sphunif_p_sph_stat_Bingham, 2},
     {"_sphunif_d_sph_stat_Bingham", (DL_FUNC) &_sphunif_d_sph_stat_Bingham, 2},
-    {"_sphunif_p_sph_stat_Cai", (DL_FUNC) &_sphunif_p_sph_stat_Cai, 3},
-    {"_sphunif_d_sph_stat_Cai", (DL_FUNC) &_sphunif_d_sph_stat_Cai, 3},
+    {"_sphunif_p_sph_stat_CJ12", (DL_FUNC) &_sphunif_p_sph_stat_CJ12, 3},
+    {"_sphunif_d_sph_stat_CJ12", (DL_FUNC) &_sphunif_d_sph_stat_CJ12, 3},
     {"_sphunif_p_sph_stat_Rayleigh", (DL_FUNC) &_sphunif_p_sph_stat_Rayleigh, 2},
     {"_sphunif_d_sph_stat_Rayleigh", (DL_FUNC) &_sphunif_d_sph_stat_Rayleigh, 2},
     {"_sphunif_p_sph_stat_Rayleigh_HD", (DL_FUNC) &_sphunif_p_sph_stat_Rayleigh_HD, 2},
@@ -1739,10 +1739,10 @@ static const R_CallMethodDef CallEntries[] = {
     {"_sphunif_sph_stat_PRt_Psi", (DL_FUNC) &_sphunif_sph_stat_PRt_Psi, 7},
     {"_sphunif_sph_stat_PAD", (DL_FUNC) &_sphunif_sph_stat_PAD, 5},
     {"_sphunif_sph_stat_PAD_Psi", (DL_FUNC) &_sphunif_sph_stat_PAD_Psi, 5},
-    {"_sphunif_sph_stat_Cuesta_Albertos", (DL_FUNC) &_sphunif_sph_stat_Cuesta_Albertos, 4},
+    {"_sphunif_sph_stat_CCF09", (DL_FUNC) &_sphunif_sph_stat_CCF09, 4},
     {"_sphunif_sph_stat_Rayleigh_HD", (DL_FUNC) &_sphunif_sph_stat_Rayleigh_HD, 1},
-    {"_sphunif_sph_stat_Cai", (DL_FUNC) &_sphunif_sph_stat_Cai, 4},
-    {"_sphunif_sph_stat_Cai_Psi", (DL_FUNC) &_sphunif_sph_stat_Cai_Psi, 3},
+    {"_sphunif_sph_stat_CJ12", (DL_FUNC) &_sphunif_sph_stat_CJ12, 4},
+    {"_sphunif_sph_stat_CJ12_Psi", (DL_FUNC) &_sphunif_sph_stat_CJ12_Psi, 3},
     {NULL, NULL, 0}
 };
 

@@ -56,13 +56,13 @@
 #' uncovered spacings? If \code{TRUE} (default), rejection happens for
 #' \emph{large} values of the statistic, which is consistent with the rest of
 #' tests. Otherwise, rejection happens for \emph{low} values.
-#' @param rand_dirs a matrix of size \code{c(n_proj, 2)} containing
-#' \code{n_proj} random directions (in Cartesian coordinates) on \eqn{S^1} to
-#' perform the Cuesta-Albertos test.
-#' @param K_Cuesta_Albertos integer giving the truncation of the series present
-#' in the asymptotic distribution of the Kolmogorov-Smirnov statistic. Defaults
-#' to \code{25}.
-#' @param original return the Cuesta-Albertos statistic as originally defined?
+#' @param dirs a matrix of size \code{c(n_proj, 2)} containing \code{n_proj}
+#' random directions (in Cartesian coordinates) on \eqn{S^1} to perform the
+#' CCF09 test.
+#' @param K_CCF09 integer giving the truncation of the series present in the
+#' asymptotic distribution of the Kolmogorov-Smirnov statistic. Defaults to
+#' \code{25}.
+#' @param original return the CCF09 statistic as originally defined?
 #' If \code{FALSE} (default), a faster and equivalent statistic is computed,
 #' and rejection happens for \emph{large} values of the statistic, which is
 #' consistent with the rest of tests. Otherwise, rejection happens for
@@ -84,10 +84,10 @@
 #'   \item \code{Theta} does \emph{not} contain
 #'   \code{\link{Psi_mat}(array(Theta, dim = c(n, 1, M)))} when
 #'   \cr\code{Psi_in_Theta = TRUE}.
-#'   \item The directions in \code{rand_dirs} do \emph{not} have unit norm.
+#'   \item The directions in \code{dirs} do \emph{not} have unit norm.
 #' }
 #' @details
-#' Detailed descriptions and references of the statistics are available
+#' Descriptions and references for most of the statistics are available
 #' in García-Portugués and Verdebout (2018).
 #'
 #' The statistics \code{cir_stat_PCvM} and \code{cir_stat_PRt} are provided
@@ -141,8 +141,8 @@
 #' cir_stat_Cressie(Theta, t = 0.5)
 #' cir_stat_Cressie(Theta)
 #'
-#' # Feltz-Goldin
-#' cir_stat_Feltz_Goldin(Theta)
+#' # FG01
+#' cir_stat_FG01(Theta)
 #'
 #' ## Spacings-based tests
 #'
@@ -225,9 +225,9 @@
 #'
 #' ## Other tests
 #'
-#' # Cuesta-Albertos
-#' rand_dirs <- r_unif_sph(n = 3, p = 2, M = 1)[, , 1]
-#' cir_stat_Cuesta_Albertos(Theta, rand_dirs = rand_dirs)
+#' # CCF09
+#' dirs <- r_unif_sph(n = 3, p = 2, M = 1)[, , 1]
+#' cir_stat_CCF09(Theta, dirs = dirs)
 #'
 #' ## Connection of Kuiper and Watson statistics with KS and CvM, respectively
 #'

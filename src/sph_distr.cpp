@@ -40,7 +40,7 @@ arma::vec d_sph_stat_Bingham(arma::vec x, arma::uword p) {
 //' @rdname sph_stat_distr
 //' @export
 // [[Rcpp::export]]
-arma::vec p_sph_stat_Cai(arma::vec x, arma::uword regime = 1, double beta = 0) {
+arma::vec p_sph_stat_CJ12(arma::vec x, arma::uword regime = 1, double beta = 0) {
   
   // Avoid degeneracy
   if (beta == 0 && regime == 2) {
@@ -76,7 +76,7 @@ arma::vec p_sph_stat_Cai(arma::vec x, arma::uword regime = 1, double beta = 0) {
 //' @rdname sph_stat_distr
 //' @export
 // [[Rcpp::export]]
-arma::vec d_sph_stat_Cai(arma::vec x, arma::uword regime = 3, double beta = 0) {
+arma::vec d_sph_stat_CJ12(arma::vec x, arma::uword regime = 3, double beta = 0) {
   
   // Avoid degeneracy
   if (beta == 0 && regime == 2) {

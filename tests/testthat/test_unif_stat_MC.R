@@ -9,20 +9,16 @@ crit_val_bad <- sph_0$crit_val_MC
 colnames(crit_val_bad) <- paste0(colnames(crit_val_bad), "_bad")
 
 # Circular
-rand_dirs_2 <- r_unif_sph(n = 20, p = 2, M = 1)[, , 1]
-cir_pow <- unif_stat_MC(n = n, M = 5e2, p = 2, r_H1 = r_alt,
-                        alt = "MvMF", kappa = 0.5,
-                        crit_val = cir_0$crit_val_MC,
-                        Cuesta_Albertos_rand_dirs = rand_dirs_2,
-                        verbose = FALSE)
+dirs_2 <- r_unif_sph(n = 20, p = 2, M = 1)[, , 1]
+cir_pow <- unif_stat_MC(n = n, M = 5e2, p = 2, r_H1 = r_alt, alt = "MvMF",
+                        kappa = 0.5, crit_val = cir_0$crit_val_MC,
+                        CCF09_dirs = dirs_2, verbose = FALSE)
 
 # Spherical
-rand_dirs_3 <- r_unif_sph(n = 20, p = 3, M = 1)[, , 1]
-sph_pow <- unif_stat_MC(n = n, M = 5e2, p = 3, r_H1 = r_alt,
-                        alt = "MvMF", kappa = 0.5,
-                        crit_val = sph_0$crit_val_MC,
-                        Cuesta_Albertos_rand_dirs = rand_dirs_3,
-                        verbose = FALSE)
+dirs_3 <- r_unif_sph(n = 20, p = 3, M = 1)[, , 1]
+sph_pow <- unif_stat_MC(n = n, M = 5e2, p = 3, r_H1 = r_alt, alt = "MvMF",
+                        kappa = 0.5, crit_val = sph_0$crit_val_MC,
+                        CCF09_dirs = dirs_3, verbose = FALSE)
 
 test_that("Rejections for MvMF", {
 
@@ -64,14 +60,13 @@ test_that("Several options", {
                                                     p = 5, verbose = FALSE,
                                                     seeds = 1)$stats)))
   set.seed(1)
-  Cuesta_Albertos_rand_dirs <- r_unif_sph(n = 50, p = 3, M = 1)[, , 1]
-  expect_equal(unif_stat_MC(n = n, M = 5, type = "Cuesta_Albertos", p = 3,
+  CCF09_dirs <- r_unif_sph(n = 50, p = 3, M = 1)[, , 1]
+  expect_equal(unif_stat_MC(n = n, M = 5, type = "CCF09", p = 3,
                             verbose = FALSE, stats_sorted = TRUE, seeds = 1,
-                            chunks = 1)$Cuesta_Albertos,
-               unif_stat_MC(n = n, M = 5, type = "Cuesta_Albertos", p = 3,
+                            chunks = 1)$CCF09,
+               unif_stat_MC(n = n, M = 5, type = "CCF09", p = 3,
                             verbose = FALSE, stats_sorted = TRUE, seeds = 1,
-                            chunks = 1, Cuesta_Albertos_rand_dirs =
-                              Cuesta_Albertos_rand_dirs)$Cuesta_Albertos)
+                            chunks = 1, CCF09_dirs = CCF09_dirs)$CCF09)
   expect_true(!is.null(capture.output(
     a <- unif_stat_MC(n = n, M = 10, type = "all", p = 2, verbose = TRUE)
   )))

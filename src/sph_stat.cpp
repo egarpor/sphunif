@@ -32,7 +32,7 @@ arma::vec sph_stat_PRt_Psi(arma::mat Psi, double t_m, double theta_t_m,
                            arma::vec int_grid);
 arma::vec sph_stat_PAD_Psi(arma::mat Psi, arma::uword n, arma::uword p,
                            arma::vec th_grid, arma::vec int_grid);
-arma::vec sph_stat_Cai_Psi(arma::mat Psi, arma::uword n, arma::uword p);
+arma::vec sph_stat_CJ12_Psi(arma::mat Psi, arma::uword n, arma::uword p);
 
 // Constants
 const double inv_M_PI = 1.0 / M_PI;
@@ -992,9 +992,8 @@ arma::vec sph_stat_PAD_Psi(arma::mat Psi, arma::uword n, arma::uword p,
 //' @rdname sph_stat
 //' @export
 // [[Rcpp::export]]
-arma::vec sph_stat_Cuesta_Albertos(arma::cube X, arma::mat rand_dirs,
-                                   arma::uword K_Cuesta_Albertos = 25,
-                                   bool original = false) {
+arma::vec sph_stat_CCF09(arma::cube X, arma::mat dirs, arma::uword K_CCF09 = 25,
+                         bool original = false) {
 
   // Sample size
   arma::uword n = X.n_rows;
@@ -1004,21 +1003,21 @@ arma::vec sph_stat_Cuesta_Albertos(arma::cube X, arma::mat rand_dirs,
 
   // Check dimension
   arma::uword p = X.n_cols;
-  if (p != rand_dirs.n_cols) {
+  if (p != dirs.n_cols) {
 
-    stop("The dimension of the directions of X and rand_dirs are incompatible.");
+    stop("The dimension of the directions of X and dirs are incompatible.");
 
   }
 
   // Number of projections
-  arma::uword n_proj = rand_dirs.n_rows;
+  arma::uword n_proj = dirs.n_rows;
 
   // Project data
   arma::cube X_proj = arma::zeros(n, n_proj, M);
-  arma::mat rand_dirs_t = rand_dirs.t();
+  arma::mat dirs_t = dirs.t();
   for (arma::uword k = 0; k < M; k++) {
 
-    X_proj.slice(k) = sort_each_col(X.slice(k) * rand_dirs_t);
+    X_proj.slice(k) = sort_each_col(X.slice(k) * dirs_t);
 
   }
 
@@ -1055,7 +1054,7 @@ arma::vec sph_stat_Cuesta_Albertos(arma::cube X, arma::mat rand_dirs,
   // Original definition of the statistic or just the maximum of statistics?
   if (original) {
 
-    CAn = 1.0 - p_Kolmogorov(CAn, K_Cuesta_Albertos, true);
+    CAn = 1.0 - p_Kolmogorov(CAn, K_CCF09, true);
 
   }
   return CAn;
@@ -1090,7 +1089,7 @@ arma::vec sph_stat_Rayleigh_HD(arma::cube X) {
 //' @rdname sph_stat
 //' @export
 // [[Rcpp::export]]
-arma::vec sph_stat_Cai(arma::cube X, arma::uword regime = 3,
+arma::vec sph_stat_CJ12(arma::cube X, arma::uword regime = 3,
                        bool Psi_in_X = false, arma::uword p = 0) {
 
   // Sample size
@@ -1112,7 +1111,7 @@ arma::vec sph_stat_Cai(arma::cube X, arma::uword regime = 3,
   if (Psi_in_X) {
 
     // Compute statistic
-    Cn = sph_stat_Cai_Psi(X.slice(0), n, p);
+    Cn = sph_stat_CJ12_Psi(X.slice(0), n, p);
 
   } else {
 
@@ -1125,7 +1124,7 @@ arma::vec sph_stat_Cai(arma::cube X, arma::uword regime = 3,
                                 arma::span(k)), ind_tri, true, true, false);
 
       // Compute statistic
-      Cn(k) = arma::as_scalar(sph_stat_Cai_Psi(Psi, n, p));
+      Cn(k) = arma::as_scalar(sph_stat_CJ12_Psi(Psi, n, p));
 
     }
 
@@ -1150,7 +1149,7 @@ arma::vec sph_stat_Cai(arma::cube X, arma::uword regime = 3,
 
 //' @keywords internal
 // [[Rcpp::export]]
-arma::vec sph_stat_Cai_Psi(arma::mat Psi, arma::uword n, arma::uword p) {
+arma::vec sph_stat_CJ12_Psi(arma::mat Psi, arma::uword n, arma::uword p) {
 
   // Statistic
   arma::vec Cn = arma::max(arma::abs(Psi), 0).t();

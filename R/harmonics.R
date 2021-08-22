@@ -103,10 +103,10 @@ sphere_to_angles <- function(x) {
 #' @param x locations in \eqn{S^{p-1}} to evaluate \eqn{g_{i,k}}. Either a
 #' matrix of size \code{c(nx, p)} or a vector of length \code{p}. Normalized
 #' internally if required (with a \code{warning} message).
-#' @param i,k alternative indexing, where \code{k} is a non-negative integer
-#' that denotes the order of the (hyper)spherical harmonic and \code{i} is
-#' a positive integer smaller than \link[=Sobolev]{\eqn{d_{p,k}}}.
-#' of the 
+#' @param i,k alternative indexing to refer to the \code{i}-th (hyper)spherical
+#' harmonic of order \code{k}. \code{i} is a positive integer smaller than
+#' \code{\link[=Sobolev]{d_p_k}} and \code{k} is a non-negative integer.
+#'
 #' @param m (hyper)spherical harmonic index, as used in Proposition 2.1. The
 #' index is computed internally from \code{i} and \code{k}. Defaults to
 #' \code{NULL}.
@@ -124,26 +124,30 @@ sphere_to_angles <- function(x) {
 #' 
 #' García-Portugués, E., Paindaveine, D., and Verdebout, T. (2021). On the
 #' power of Sobolev tests for isotropy under local rotationally symmetric
-#' alternatives. \emph{Submitted}
+#' alternatives. \emph{arXiv:2108.XXXXX}. \url{https://arxiv.org/abs/2108.XXXXX}
 #' @examples
 #' n <- 5e3
 #' old_par <- par(mfrow = c(2, 3))
 #' k <- 2
 #' for (i in 1:d_p_k(p = 3, k = k)) {
 #'   X <- r_unif_sph(n = n, p = 3, M = 1)[, , 1]
-#'   col <- rainbow(n)[rank(g_ik(x = X, k = k, i = i, show_m = TRUE))]
+#'   col <- rainbow(n)[rank(g_i_k(x = X, k = k, i = i, show_m = TRUE))]
 #'   scatterplot3d::scatterplot3d(X[, 1], X[, 2], X[, 3], color = col,
 #'                                axis = FALSE)
 #' }
 #' for (k in 0:5) {
 #'   X <- r_unif_sph(n = n, p = 3, M = 1)[, , 1]
-#'   col <- rainbow(n)[rank(g_ik(x = X, k = k, i = 1, show_m = TRUE))]
+#'   col <- rainbow(n)[rank(g_i_k(x = X, k = k, i = 1, show_m = TRUE))]
 #'   scatterplot3d::scatterplot3d(X[, 1], X[, 2], X[, 3], color = col,
 #'                                axis = FALSE)
 #' }
 #' par(old_par)
 #' @export
-g_ik <- function(x, i = 1, k = 1, m = NULL, show_m = FALSE) {
+#' @name harmonics
+
+
+#' @rdname harmonics
+g_i_k <- function(x, i = 1, k = 1, m = NULL, show_m = FALSE) {
 
   # Set x as a matrix
   if (!is.matrix(x)) {

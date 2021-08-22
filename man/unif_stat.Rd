@@ -5,9 +5,8 @@
 \title{Circular and (hyper)spherical uniformity statistics}
 \usage{
 unif_stat(data, type = "all", data_sorted = FALSE, Rayleigh_m = 1,
-  coverage_a = 2 * pi, Rothman_t = 1/3, Cressie_t = 1/3, Pycke_q = 0.5,
-  Riesz_s = 1, Cuesta_Albertos_rand_dirs = NULL, K_Cuesta_Albertos = 25,
-  Cai_regime = 3)
+  cov_a = 2 * pi, Rothman_t = 1/3, Cressie_t = 1/3, Pycke_q = 0.5,
+  Riesz_s = 1, CCF09_dirs = NULL, K_CCF09 = 25, CJ12_reg = 3)
 }
 \arguments{
 \item{data}{sample to compute the test statistic. An \bold{array} of size
@@ -36,7 +35,7 @@ statistics are faster to compute. Defaults to \code{FALSE}.}
 \item{Rayleigh_m}{integer \eqn{m} for the \eqn{m}-modal Rayleigh test.
 Defaults to \code{m = 1} (the standard Rayleigh test).}
 
-\item{coverage_a}{\eqn{a_n = a / n} parameter used in the length of the arcs
+\item{cov_a}{\eqn{a_n = a / n} parameter used in the length of the arcs
 of the coverage-based tests. Must be positive. Defaults to \code{2 * pi}.}
 
 \item{Rothman_t}{\eqn{t} parameter for the Rothman test, a real in
@@ -51,16 +50,16 @@ of the coverage-based tests. Must be positive. Defaults to \code{2 * pi}.}
 \item{Riesz_s}{\eqn{s} parameter for the \eqn{s}-Riesz test, a real in
 \eqn{(0, 2)}. Defaults to \code{1}.}
 
-\item{Cuesta_Albertos_rand_dirs}{a matrix of size \code{c(n_proj, p)}
-containing \code{n_proj} random directions (in Cartesian coordinates) on
-\eqn{S^{p-1}} to perform the Cuesta-Albertos test. If \code{NULL} (default),
-a sample of size \code{n_proj = 50} directions is computed internally.}
+\item{CCF09_dirs}{a matrix of size \code{c(n_proj, p)} containing
+\code{n_proj} random directions (in Cartesian coordinates) on \eqn{S^{p-1}}
+to perform the CCF09 test. If \code{NULL} (default), a sample of size
+\code{n_proj = 50} directions is computed internally.}
 
-\item{K_Cuesta_Albertos}{integer giving the truncation of the series
-present in the asymptotic distribution of the Kolmogorov-Smirnov statistic.
-Defaults to \code{5e2}.}
+\item{K_CCF09}{integer giving the truncation of the series present in the
+asymptotic distribution of the Kolmogorov-Smirnov statistic. Defaults to
+\code{5e2}.}
 
-\item{Cai_regime}{type of asymptotic regime for Cai test, either \code{1}
+\item{CJ12_reg}{type of asymptotic regime for CJ12 test, either \code{1}
 (sub-exponential regime), \code{2} (exponential), or \code{3}
 (super-exponential; default).}
 }
@@ -84,7 +83,7 @@ which the sample(s) can be \emph{angles}
 within a single call, facilitating thus Monte Carlo experiments.
 }
 \details{
-Detailed descriptions and references of the statistics are available
+Descriptions and references for most of the statistics are available
 in García-Portugués and Verdebout (2018).
 }
 \examples{
@@ -124,15 +123,13 @@ unif_stat(data = X, type = "all")
 # Rothman
 unif_stat(data = Theta, type = "Rothman", Rothman_t = 0.5)
 
-# Cuesta-Albertos
-unif_stat(data = X, type = "Cuesta_Albertos",
-          Cuesta_Albertos_rand_dirs = X[, , 1])
-unif_stat(data = X, type = "Cuesta_Albertos",
-          Cuesta_Albertos_rand_dirs = X[, , 1], K_Cuesta_Albertos = 1)
+# CCF09
+unif_stat(data = X, type = "CCF09", CCF09_dirs = X[, , 1])
+unif_stat(data = X, type = "CCF09", CCF09_dirs = X[, , 1], K_CCF09 = 1)
 
-# Cai
-unif_stat(data = X, type = "Cai", Cai_regime = 3)
-unif_stat(data = X, type = "Cai", Cai_regime = 1)
+# CJ12
+unif_stat(data = X, type = "CJ12", CJ12_reg = 3)
+unif_stat(data = X, type = "CJ12", CJ12_reg = 1)
 }
 \references{
 García-Portugués, E. and Verdebout, T. (2018) An overview of uniformity

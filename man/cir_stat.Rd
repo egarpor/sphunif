@@ -17,7 +17,7 @@
 \alias{cir_stat_Rothman}
 \alias{cir_stat_Hodges_Ajne}
 \alias{cir_stat_Cressie}
-\alias{cir_stat_Feltz_Goldin}
+\alias{cir_stat_FG01}
 \alias{cir_stat_Rayleigh}
 \alias{cir_stat_Bingham}
 \alias{cir_stat_Hermans_Rasson}
@@ -30,7 +30,7 @@
 \alias{cir_stat_PCvM}
 \alias{cir_stat_PRt}
 \alias{cir_stat_PAD}
-\alias{cir_stat_Cuesta_Albertos}
+\alias{cir_stat_CCF09}
 \alias{cir_stat}
 \title{Statistics for testing circular uniformity}
 \usage{
@@ -68,7 +68,7 @@ cir_stat_Hodges_Ajne(Theta, asymp_std = FALSE, sorted = FALSE,
 
 cir_stat_Cressie(Theta, t = 1/3, sorted = FALSE)
 
-cir_stat_Feltz_Goldin(Theta, sorted = FALSE)
+cir_stat_FG01(Theta, sorted = FALSE)
 
 cir_stat_Rayleigh(Theta, m = 1L)
 
@@ -94,8 +94,7 @@ cir_stat_PRt(Theta, t = 1/3, Psi_in_Theta = FALSE)
 
 cir_stat_PAD(Theta, Psi_in_Theta = FALSE, AD = FALSE, sorted = FALSE)
 
-cir_stat_Cuesta_Albertos(Theta, rand_dirs, K_Cuesta_Albertos = 25L,
-  original = FALSE)
+cir_stat_CCF09(Theta, dirs, K_CCF09 = 25L, original = FALSE)
 }
 \arguments{
 \item{Theta}{a \bold{matrix} of size \code{c(n, M)} with \code{M} samples
@@ -172,15 +171,15 @@ If \code{FALSE}, the geometric construction in Ajne (1968) is employed.}
 invariant under origin shifts) instead of the Projected Anderson-Darling
 statistic? Defaults to \code{FALSE}.}
 
-\item{rand_dirs}{a matrix of size \code{c(n_proj, 2)} containing
-\code{n_proj} random directions (in Cartesian coordinates) on \eqn{S^1} to
-perform the Cuesta-Albertos test.}
+\item{dirs}{a matrix of size \code{c(n_proj, 2)} containing \code{n_proj}
+random directions (in Cartesian coordinates) on \eqn{S^1} to perform the
+CCF09 test.}
 
-\item{K_Cuesta_Albertos}{integer giving the truncation of the series present
-in the asymptotic distribution of the Kolmogorov-Smirnov statistic. Defaults
-to \code{25}.}
+\item{K_CCF09}{integer giving the truncation of the series present in the
+asymptotic distribution of the Kolmogorov-Smirnov statistic. Defaults to
+\code{25}.}
 
-\item{original}{return the Cuesta-Albertos statistic as originally defined?
+\item{original}{return the CCF09 statistic as originally defined?
 If \code{FALSE} (default), a faster and equivalent statistic is computed,
 and rejection happens for \emph{large} values of the statistic, which is
 consistent with the rest of tests. Otherwise, rejection happens for
@@ -196,7 +195,7 @@ circular uniformity on \eqn{[0, 2\pi)} or, equivalently,
 \eqn{S^1:=\{{\bf x}\in R^2:||{\bf x}||=1\}}{S^1:=\{x\in R^2:||x||=1\}}.
 }
 \details{
-Detailed descriptions and references of the statistics are available
+Descriptions and references for most of the statistics are available
 in García-Portugués and Verdebout (2018).
 
 The statistics \code{cir_stat_PCvM} and \code{cir_stat_PRt} are provided
@@ -217,7 +216,7 @@ produce spurious results:
   \item \code{Theta} does \emph{not} contain
   \code{\link{Psi_mat}(array(Theta, dim = c(n, 1, M)))} when
   \cr\code{Psi_in_Theta = TRUE}.
-  \item The directions in \code{rand_dirs} do \emph{not} have unit norm.
+  \item The directions in \code{dirs} do \emph{not} have unit norm.
 }
 }
 
@@ -264,8 +263,8 @@ cir_stat_Hodges_Ajne(Theta, use_Cressie = FALSE)
 cir_stat_Cressie(Theta, t = 0.5)
 cir_stat_Cressie(Theta)
 
-# Feltz-Goldin
-cir_stat_Feltz_Goldin(Theta)
+# FG01
+cir_stat_FG01(Theta)
 
 ## Spacings-based tests
 
@@ -347,9 +346,9 @@ cir_stat_PAD(Psi, Psi_in_Theta = TRUE)
 
 ## Other tests
 
-# Cuesta-Albertos
-rand_dirs <- r_unif_sph(n = 3, p = 2, M = 1)[, , 1]
-cir_stat_Cuesta_Albertos(Theta, rand_dirs = rand_dirs)
+# CCF09
+dirs <- r_unif_sph(n = 3, p = 2, M = 1)[, , 1]
+cir_stat_CCF09(Theta, dirs = dirs)
 
 ## Connection of Kuiper and Watson statistics with KS and CvM, respectively
 

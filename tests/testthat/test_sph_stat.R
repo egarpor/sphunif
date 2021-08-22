@@ -179,22 +179,22 @@ test_that("sph_stat with psi_in_X = TRUE", {
 
 })
 
-test_that("Cai", {
+test_that("CJ12", {
 
-  expect_equal(sph_stat_Cai(X3, regime = 1), sph_stat_Cai(X3, regime = 2))
+  expect_equal(sph_stat_CJ12(X3, regime = 1), sph_stat_CJ12(X3, regime = 2))
   pn <- 3
-  expect_equal(drop(sph_stat_Cai(X3, regime = 1) -
-                      sph_stat_Cai(X3, regime = 3)),
+  expect_equal(drop(sph_stat_CJ12(X3, regime = 1) -
+                      sph_stat_CJ12(X3, regime = 3)),
                4 * log(n) - log(log(n)) - 
                  (4 * pn * (pn - 2) * log(n) - log(pn)))
 
 })
 
-test_that("Cuesta_Albertos", {
+test_that("CCF09", {
 
-  expect_equal(1 - p_Kolmogorov(sph_stat_Cuesta_Albertos(X3, rand_dirs = rd3)),
-               sph_stat_Cuesta_Albertos(X3, rand_dirs = rd3, original = TRUE))
-  expect_error(sph_stat_Cuesta_Albertos(X4, rand_dirs = rd3))
+  expect_equal(1 - p_Kolmogorov(sph_stat_CCF09(X3, dirs = rd3)),
+               sph_stat_CCF09(X3, dirs = rd3, original = TRUE))
+  expect_error(sph_stat_CCF09(X4, dirs = rd3))
 
 })
 
@@ -207,7 +207,7 @@ test_that("Edge cases", {
   expect_error(sph_stat_PCvM(Psi2, Psi_in_X = TRUE))
   expect_error(sph_stat_PAD(Psi2, Psi_in_X = TRUE))
   expect_error(sph_stat_PRt(Psi2, Psi_in_X = TRUE))
-  expect_error(sph_stat_Cai(Psi2, Psi_in_X = TRUE))
+  expect_error(sph_stat_CJ12(Psi2, Psi_in_X = TRUE))
 
 })
 

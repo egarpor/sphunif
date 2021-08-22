@@ -31,7 +31,7 @@ cat(
 
 ## Overview
 
-Implementation of circa 40 tests of uniformity on the circle, sphere, and hypersphere. Software companion for the (evolving) review "*An overview of uniformity tests on the hypersphere*" (García-Portugués and Verdebout, 2018) and the paper "*On a projection-based class of uniformity tests on the hypersphere*" (García-Portugués, Navarro-Esteban and Cuesta-Albertos, 2020).
+Implementation of more than 30 tests of uniformity on the circle, sphere, and hypersphere. Software companion for the (evolving) review "*An overview of uniformity tests on the hypersphere*" (García-Portugués and Verdebout, 2018) and the paper "*On a projection-based class of uniformity tests on the hypersphere*" (García-Portugués, Navarro-Esteban and Cuesta-Albertos, 2020).
 
 ## Installation
 
@@ -62,19 +62,19 @@ set.seed(987202226)
 cir_data <- runif(n = 10, min = 0, max = 2 * pi)
 ```
 
-Call the main function in the `sphunif` package, `unif_test`, specifying the `type` of test to be performed. For example, the `"Kuiper"` test:
+Call the main function in the `sphunif` package, `unif_test`, specifying the `type` of test to be performed. For example, the `"Watson"` test:
 
 ```{r, unif_test_cir}
 library(sphunif)
-unif_test(data = cir_data, type = "Kuiper", verbose = FALSE) # An htest object
+unif_test(data = cir_data, type = "Watson", verbose = FALSE) # An htest object
 ```
 
 By default, the calibration of the test statistic is done by Monte Carlo. This can be changed with `p_value = "asymp"` to employ asymptotic distributions (faster, but not available for all tests):
 
 ```{r, asymp}
-unif_test(data = cir_data, type = "Kuiper", p_value = "MC",
+unif_test(data = cir_data, type = "Watson", p_value = "MC",
           verbose = FALSE) # Monte Carlo
-unif_test(data = cir_data, type = "Kuiper", p_value = "asymp") # Asymp. distr.
+unif_test(data = cir_data, type = "Watson", p_value = "asymp") # Asymp. distr.
 ```
 
 You can perform *several* tests with a *single* call to `unif_test`. Choose the available circular uniformity tests from
@@ -86,7 +86,7 @@ avail_cir_tests
 For example:
 
 ```{r, unif_test_avail_cir}
-unif_test(data = cir_data, type = c("Kuiper", "Watson", "Ajne"),
+unif_test(data = cir_data, type = c("Watson", "PAD", "Ajne"),
           verbose = FALSE) # A *list* of htest objects
 ```
 
@@ -130,8 +130,7 @@ unif_test(data = hyp_data, type = "Rayleigh", p_value = "asymp")
 
 ## Data application in astronomy
 
-The data application in García-Portugués, Navarro-Esteban and Cuesta-Albertos (2020) can
-be reproduced through the script [data-application-ecdf.R](https://github.com/egarpor/sphunif/blob/master/application/data-application-ecdf.R). The code snippet below illustrates the testing of the uniformity of craters in Rhea.
+The data application in García-Portugués, Navarro-Esteban and Cuesta-Albertos (2020) can be reproduced through the script [data-application-ecdf.R](https://github.com/egarpor/sphunif/blob/master/application/data-application-ecdf.R). The code snippet below illustrates the testing of the uniformity of craters in Rhea.
 
 ```{r, rhea}
 # Load data
@@ -148,13 +147,11 @@ quantile(rhea$diameter)
 # Subsets of craters, according to diameter
 ind_15_20 <- rhea$diameter > 15 & rhea$diameter < 20
 ind_20 <- rhea$diameter > 20
-ind_15 <- rhea$diameter > 15
 
 # Sample sizes
 nrow(rhea)
 sum(ind_15_20)
 sum(ind_20)
-sum(ind_15)
 
 # Tests to be performed
 type_tests <- c("PCvM", "PAD", "PRt")
@@ -164,11 +161,8 @@ tests_rhea_15_20 <- unif_test(data = rhea$X[ind_15_20, ], type = type_tests,
                               p_value = "asymp", K_max = 5e4)
 tests_rhea_20 <- unif_test(data = rhea$X[ind_20, ], type = type_tests,
                            p_value = "asymp", K_max = 5e4)
-tests_rhea_15 <- unif_test(data = rhea$X[ind_15, ], type = type_tests,
-                           p_value = "asymp", K_max = 5e4)
 tests_rhea_15_20
 tests_rhea_20
-tests_rhea_15
 ```
 
 ## References

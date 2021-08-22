@@ -6,14 +6,16 @@
 \alias{p_chisq}
 \title{Density and distribution of a chi squared}
 \usage{
-d_chisq(x, df)
+d_chisq(x, df, ncp = 0L)
 
-p_chisq(x, df)
+p_chisq(x, df, ncp = 0L)
 }
 \arguments{
 \item{x}{a vector of size \code{nx} or a matrix of size \code{c(nx, 1)}.}
 
 \item{df}{degrees of freedom.}
+
+\item{ncp}{non-centrality parameter.}
 }
 \value{
 A matrix of size \code{c(nx, 1)} with the evaluation of the

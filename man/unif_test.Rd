@@ -6,10 +6,9 @@
 \usage{
 unif_test(data, type = "all", p_value = "asymp", alpha = c(0.1, 0.05,
   0.01), M = 10000, stats_MC = NULL, crit_val = NULL,
-  data_sorted = FALSE, Rayleigh_m = 1, coverage_a = 2 * pi,
-  Rothman_t = 1/3, Cressie_t = 1/3, Pycke_q = 0.5, Riesz_s = 1,
-  Cuesta_Albertos_rand_dirs = NULL, K_Cuesta_Albertos = 25,
-  Cai_regime = 3, Cai_beta = 0, K_max = 10000, ...)
+  data_sorted = FALSE, Rayleigh_m = 1, cov_a = 2 * pi, Rothman_t = 1/3,
+  Cressie_t = 1/3, Pycke_q = 0.5, Riesz_s = 1, CCF09_dirs = NULL,
+  K_CCF09 = 25, CJ12_reg = 3, CJ12_beta = 0, K_max = 10000, ...)
 }
 \arguments{
 \item{data}{sample to perform the test. A matrix of size \code{c(n, p)}
@@ -67,7 +66,7 @@ statistics are faster to compute. Defaults to \code{FALSE}.}
 \item{Rayleigh_m}{integer \eqn{m} for the \eqn{m}-modal Rayleigh test.
 Defaults to \code{m = 1} (the standard Rayleigh test).}
 
-\item{coverage_a}{\eqn{a_n = a / n} parameter used in the length of the arcs
+\item{cov_a}{\eqn{a_n = a / n} parameter used in the length of the arcs
 of the coverage-based tests. Must be positive. Defaults to \code{2 * pi}.}
 
 \item{Rothman_t}{\eqn{t} parameter for the Rothman test, a real in
@@ -82,20 +81,20 @@ of the coverage-based tests. Must be positive. Defaults to \code{2 * pi}.}
 \item{Riesz_s}{\eqn{s} parameter for the \eqn{s}-Riesz test, a real in
 \eqn{(0, 2)}. Defaults to \code{1}.}
 
-\item{Cuesta_Albertos_rand_dirs}{a matrix of size \code{c(n_proj, p)}
-containing \code{n_proj} random directions (in Cartesian coordinates) on
-\eqn{S^{p-1}} to perform the Cuesta-Albertos test. If \code{NULL} (default),
-a sample of size \code{n_proj = 50} directions is computed internally.}
+\item{CCF09_dirs}{a matrix of size \code{c(n_proj, p)} containing
+\code{n_proj} random directions (in Cartesian coordinates) on \eqn{S^{p-1}}
+to perform the CCF09 test. If \code{NULL} (default), a sample of size
+\code{n_proj = 50} directions is computed internally.}
 
-\item{K_Cuesta_Albertos}{integer giving the truncation of the series
-present in the asymptotic distribution of the Kolmogorov-Smirnov statistic.
-Defaults to \code{5e2}.}
+\item{K_CCF09}{integer giving the truncation of the series present in the
+asymptotic distribution of the Kolmogorov-Smirnov statistic. Defaults to
+\code{5e2}.}
 
-\item{Cai_regime}{type of asymptotic regime for Cai test, either \code{1}
+\item{CJ12_reg}{type of asymptotic regime for CJ12 test, either \code{1}
 (sub-exponential regime), \code{2} (exponential), or \code{3}
 (super-exponential; default).}
 
-\item{Cai_beta}{\eqn{\beta} parameter in the exponential regime of Cai test,
+\item{CJ12_beta}{\eqn{\beta} parameter in the exponential regime of CJ12 test,
 a positive real.}
 
 \item{K_max}{integer giving the truncation of the series that compute the
@@ -154,11 +153,11 @@ Hodges--Ajne statistic (\code{"Hodges_Ajne"}), the Cressie statistic
 (\code{"Cressie"}), and the number of (different) uncovered spacings
 (\code{"Num_uncover"}). These three statistics are discrete random variables.
 
-The Monte Carlo calibration for Cuesta-Albertos test is made conditionally
-on the choice of \cr\code{Cuesta_Albertos_rand_dirs}. That is, all the Monte
+The Monte Carlo calibration for the CCF09 test is made conditionally
+on the choice of \cr\code{CCF09_dirs}. That is, all the Monte
 Carlo statistics share the same random directions.
 
-Detailed descriptions and references of the tests are available
+Descriptions and references for most of the tests are available
 in García-Portugués and Verdebout (2018).
 }
 \examples{
@@ -233,16 +232,16 @@ unif_test(data = samp_sph, type = avail_sph_tests, p_value = "crit_val",
 # Rothman
 unif_test(data = samp_cir, type = "Rothman", Rothman_t = 0.5)
 
-# Cuesta-Albertos
-unif_test(data = samp_sph, type = "Cuesta_Albertos", p_value = "MC",
-          Cuesta_Albertos_rand_dirs = samp_sph[1:2, , 1])
-unif_test(data = samp_sph, type = "Cuesta_Albertos", p_value = "MC",
-          Cuesta_Albertos_rand_dirs = samp_sph[3:4, , 1])
+# CCF09
+unif_test(data = samp_sph, type = "CCF09", p_value = "MC",
+          CCF09_dirs = samp_sph[1:2, , 1])
+unif_test(data = samp_sph, type = "CCF09", p_value = "MC",
+          CCF09_dirs = samp_sph[3:4, , 1])
 
-# Cai
-unif_test(data = samp_sph, type = "Cai", Cai_regime = 3, p_value = "asymp")
-unif_test(data = samp_sph, type = "Cai", Cai_regime = 1, p_value = "asymp")
-unif_test(data = samp_sph, type = "Cai", Cai_regime = 2, Cai_beta = 0.01,
+# CJ12
+unif_test(data = samp_sph, type = "CJ12", CJ12_reg = 3, p_value = "asymp")
+unif_test(data = samp_sph, type = "CJ12", CJ12_reg = 1, p_value = "asymp")
+unif_test(data = samp_sph, type = "CJ12", CJ12_reg = 2, CJ12_beta = 0.01,
           p_value = "asymp")
 }
 }

@@ -39,8 +39,8 @@
 #' uniformity tests on the hypersphere. \emph{arXiv:1804.00286}.
 #' \url{https://arxiv.org/abs/1804.00286}.
 #' @details
-#' Detailed descriptions and references on the asymptotic distributions
-#' are available in García-Portugués and Verdebout (2018).
+#' Descriptions and references for most of the tests are available
+#' in García-Portugués and Verdebout (2018).
 #' @examples
 #' # Ajne
 #' curve(d_cir_stat_Ajne(x), to = 1.5, n = 2e2, ylim = c(0, 4))

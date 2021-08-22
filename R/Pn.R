@@ -28,7 +28,7 @@
 #' @inheritParams Gegenbauer
 #' @param q integer giving the dimension of the sphere \eqn{S^q}.
 #' @param type type of projected-ecdf test statistic. Must be either
-#' \code{"PCvM"} (Cramér--von Mises), \code{"PAD"} (Anderson--Darling) or
+#' \code{"PCvM"} (Cramér--von Mises), \code{"PAD"} (Anderson--Darling), or
 #' \code{"PRt"} (Rothman).
 #' @inheritParams unif_stat
 #' @param tilde include the constant and bias term? Defaults to \code{FALSE}.
@@ -106,7 +106,7 @@
 #' }
 #' par(old_par)
 #'
-#' # Analytical coefficients vs numerical integration
+#' # Analytical coefficients vs. numerical integration
 #' test_coef <- function(type, p, k = 0:20) {
 #'
 #'   plot(k, log1p(abs(Gegen_coefs_Pn(k = k, p = p, type = type))),
@@ -516,7 +516,7 @@ psi_Pn <- function(theta, q, type, Rothman_t = 1 / 3, tilde = FALSE,
 
   } else {
 
-    stop("type must be either \"PCvM\", \"PAD\" or \"PRt\"")
+    stop("type must be either \"PCvM\", \"PAD\", or \"PRt\".")
 
   }
 
@@ -597,7 +597,7 @@ Gegen_coefs_Pn <- function(k, p, type, Rothman_t = 1 / 3, Gauss = TRUE,
 
           message("Gegenbauer coefficients of the ", type,
                   " statistic with p = ", p, " unknown in analytical form, ",
-                  "using numerical integration of akx")
+                  "using numerical integration of akx.")
 
         }
 
@@ -686,7 +686,7 @@ Gegen_coefs_Pn <- function(k, p, type, Rothman_t = 1 / 3, Gauss = TRUE,
 
           message("Gegenbauer coefficients of the ", type,
                   " statistic with p = ", p, " unknown in analytical form, ",
-                  "using numerical integration of akx")
+                  "using numerical integration of akx.")
 
         }
 
@@ -712,7 +712,7 @@ Gegen_coefs_Pn <- function(k, p, type, Rothman_t = 1 / 3, Gauss = TRUE,
 
   } else {
 
-    stop("type must be either \"PCvM\", \"PAD\" or \"PRt\"")
+    stop("type must be either \"PCvM\", \"PAD\", or \"PRt\".")
 
   }
 

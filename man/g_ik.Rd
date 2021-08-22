@@ -30,7 +30,7 @@ A vector of size \code{nrow(x)}.
 Computation of a certain explicit representation of
 (hyper)spherical harmonics on
 \eqn{S^{p-1}:=\{{\bf x}\in R^p:||{\bf x}||=1\}}{
-S^{p-1}:=\{x\in R^p:||x||=1\}}, \eqn{p\ge 2}. See details in
+S^{p-1}:=\{x\in R^p:||x||=1\}}, \eqn{p\ge 2}. Details are available in
 García-Portugués et al. (2021).
 }
 \details{

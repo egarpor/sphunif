@@ -155,9 +155,9 @@
 #'   \item{ID}{database ID.}
 #'   \item{name}{name of the crater.}
 #'   \item{target}{name of the celestial body. A factor with 43 levels,
-#'   such as \code{"Moon"}, \code{"Venus"} or \code{"Europa"}.}
+#'   such as \code{"Moon"}, \code{"Venus"}, or \code{"Europa"}.}
 #'   \item{target_type}{type of celestial body. A factor with 3 levels:
-#'   \code{"Planet"}, \code{"Moon"}, \code{"Dwarf planet"} or
+#'   \code{"Planet"}, \code{"Moon"}, \code{"Dwarf planet"}, or
 #'   \code{"Asteroid"}.}
 #'   \item{diameter}{diameter of the crater (in km).}
 #'   \item{theta}{longitude angle \eqn{\theta \in [0, 2\pi)} of the
@@ -169,7 +169,7 @@
 #' "Craters" are understood in the Gazetteer of Planetary Nomenclature as
 #' roughly circular depressions resulting from impact or volcanic activity
 #' (the geological origin is
-#' \href{unspecified}{https://planetarynames.wr.usgs.gov/DescriptorTerms}).
+#' \href{https://planetarynames.wr.usgs.gov/DescriptorTerms}{unspecified}).
 #'
 #' Be aware that the dataset only contains \emph{named} craters by the IUA.
 #' Therefore, there is likely a \bold{high uniform bias} on the distribution
@@ -253,7 +253,8 @@
 #' @title Rhea craters from Hirata (2016)
 #'
 #' @description Craters on Rhea from
-#' \href{https://dx.doi.org/10.1002/2015JE004940}{Hirata (2016)}.
+#' \href{https://agupubs.onlinelibrary.wiley.com/doi/full/10.1002/2015JE004940}{
+#' Hirata (2016)}.
 #'
 #' @docType data
 #' @format A data frame with 3596 rows and 4 variables:
@@ -293,3 +294,30 @@
 #' unif_test(data = rhea$X[rhea$diam > 15 & rhea$diam < 20, ],
 #'           type = c("PCvM", "PAD", "PRt"), p_value = "asymp")
 "rhea"
+
+
+#' #' @title TODO
+#' #'
+#' #' @description TODO.
+#' #'
+#' #' @docType data
+#' #' @format TODO
+#' #' \describe{
+#' #'   TODO
+#' #' }
+#' #' @details
+#' #' TODO
+#' #' @source TODO
+#' #' @references
+#' #' TODO
+#' #' @examples
+#' #' # TODO
+#' "ambrosia"
+#' 
+#' 
+#' #' @rdname ambrosia
+#' "angustifolia"
+#' 
+#' 
+#' #' @rdname ambrosia
+#' "chenopodium"

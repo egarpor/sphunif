@@ -238,8 +238,8 @@ Computation of the asymptotic null distributions of circular
 uniformity statistics.
 }
 \details{
-Detailed descriptions and references on the asymptotic distributions
-are available in García-Portugués and Verdebout (2018).
+Descriptions and references for most of the tests are available
+in García-Portugués and Verdebout (2018).
 }
 \examples{
 # Ajne

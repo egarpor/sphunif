@@ -51,7 +51,7 @@
 #' @return
 #' \itemize{
 #'   \item \code{f_locdev}: angular function evaluated at \code{x}, a vector.
-#'   \item \code{cte_f}: normalizing constant \eqn{c_f} of \eqn{f}, a scalar.
+#'   \item \code{con_f}: normalizing constant \eqn{c_f} of \eqn{f}, a scalar.
 #'   \item \code{d_locdev}: density function evaluated at \code{x}, a vector.
 #'   \item \code{r_locdev}: a matrix of size \code{c(n, p)} containing a random
 #'   sample from the density \eqn{f_{\kappa, \boldsymbol{\mu}}}{
@@ -88,7 +88,7 @@
 #'   uk <- cutoff_locdev(K_max = K_max, p = p, type = type, thre = thre,
 #'                       N = 640)
 #'
-#'   par_old <- par(mfrow = c(2, 2))
+#'   old_par <- par(mfrow = c(2, 2))
 #'
 #'   # Construction of f
 #'   z <- seq(-1, 1, l = 1e3)
@@ -102,7 +102,7 @@
 #'   plot(z, f_proj(z), type = "l", xlab = expression(z),
 #'        ylab = expression(omega[p - 1] * f(z) * (1 - z^2)^{(p - 3) / 2}),
 #'        main = paste0("Projected density, ", type, ", p = ", p), log = "y",
-#'        sub = paste("Integral:", round(cte_f(f = f, p = p), 4)))
+#'        sub = paste("Integral:", round(con_f(f = f, p = p), 4)))
 #'
 #'   # Quantile function for projected density
 #'   mu <- c(rep(0, p - 1), 1)
@@ -118,7 +118,7 @@
 #'        ylim = c(0, 1.75))
 #'   hist(samp %*% mu, freq = FALSE, breaks = seq(-1, 1, l = 50), add = TRUE)
 #'
-#'   par(par_old)
+#'   par(old_par)
 #'
 #' }
 #' \donttest{
@@ -169,7 +169,7 @@ f_locdev <- function(z, p, uk) {
 
 #' @rdname locdev
 #' @export
-cte_f <- function(f, p, N = 320) {
+con_f <- function(f, p, N = 320) {
 
   # Gauss--Legendre nodes and weights
   th_k <- drop(Gauss_Legen_nodes(a = 0, b = pi, N = N))
@@ -294,7 +294,7 @@ cutoff_locdev <- function(p, K_max = 1e4, thre = 1e-3, type, Rothman_t = 1 / 3,
 
     if (verbose > 1) {
 
-      message("signs unknown for the ", type,
+      message("Signs unknown for the ", type,
               " statistic, using positive signs experimentally.")
 
     }
@@ -318,12 +318,12 @@ cutoff_locdev <- function(p, K_max = 1e4, thre = 1e-3, type, Rothman_t = 1 / 3,
     message("Series truncated from ", K_max_new, " to ", cutoff,
             " terms (", 100 * (1 - thre),
             "% of cumulated norm; last coefficient = ",
-            sprintf("%.3e", uk_cutoff[cutoff]), ")")
+            sprintf("%.3e", uk_cutoff[cutoff]), ").")
 
     # Diagnostic plots
     if (verbose > 1) {
 
-      par_old <- par(mfrow = c(1, 2), mar = c(5, 5.5, 4, 2) + 0.1)
+      old_par <- par(mfrow = c(1, 2), mar = c(5, 5.5, 4, 2) + 0.1)
 
       # Cumulated norm
       plot(seq_len(K_max), 100 * c(cum_norm, rep(1, K_max - K_max_new)),
@@ -342,13 +342,13 @@ cutoff_locdev <- function(p, K_max = 1e4, thre = 1e-3, type, Rothman_t = 1 / 3,
                          k = c(0, seq_along(uk)), p = p)
       G2 <- Gegen_series(theta = th, coefs = c(1, uk_cutoff),
                          k = c(0, seq_along(uk_cutoff)), p = p)
+      e <- expression(f(z) == 1 + sum(u[k] * C[k]^(p / 2 - 1) * (z), k == 1, K))
       plot(z, G1, ylim = c(1e-3, max(c(G1, G2))), xlab = expression(z),
-           ylab = expression(f(z) == 1 + sum(u[k] * C[k]^{(p / 2 - 1)} * (z),
-                                             k == 1, K)), type = "l", log = "y")
+           ylab = e, type = "l", log = "y")
       lines(z, G2, col = 2)
       legend("top", legend = paste("K =", c(K_max_new, cutoff)),
              col = 1:2, lwd = 2)
-      par(par_old)
+      par(old_par)
 
     }
 
@@ -358,12 +358,12 @@ cutoff_locdev <- function(p, K_max = 1e4, thre = 1e-3, type, Rothman_t = 1 / 3,
 }
 
 
-#' @title Quantile function from angular function
+#' @title Distribution and quantile functions from angular function
 #'
-#' @description Numerical computation of the quantile function \eqn{F^{-1}}
-#' for an \link[=locdev]{angular function} \eqn{f} in a
-#' \link[=tang-norm-decomp]{tangent-normal decomposition}. \eqn{F^{-1}(x)}
-#' results from the inversion of
+#' @description Numerical computation of the distribution function \eqn{F} and
+#' the quantile function \eqn{F^{-1}} for an \link[=locdev]{angular function}
+#' \eqn{f} in a \link[=tang-norm-decomp]{tangent-normal decomposition}.
+#' \eqn{F^{-1}(x)} results from the inversion of
 #' \deqn{F(x) = \int_{-1}^x \omega_{p - 1}c_f f(z) (1 - z^2)^{(p - 3) / 2}
 #' \,\mathrm{d}z}{F(x) = \int_{-1}^x \omega_{p - 1}c_f f(z)
 #' (1 - z^2)^{(p - 3) / 2} dz}
@@ -391,15 +391,23 @@ cutoff_locdev <- function(p, K_max = 1e4, thre = 1e-3, type, Rothman_t = 1 / 3,
 #' yields more accurate results, at expenses of a heavier computation.
 #'
 #' If \code{f} yields negative values, these are silently truncated to zero.
-#' @return A \code{\link{splinefun}} object ready to evaluate \eqn{F^{-1}}.
+#' @return A \code{\link{splinefun}} object ready to evaluate \eqn{F} or
+#' \eqn{F^{-1}}, as specified.
 #' @examples
 #' f <- function(x) rep(1, length(x))
+#' plot(F_from_f(f = f, p = 4, Gauss = TRUE), ylab = "F(x)", xlim = c(-1, 1))
+#' plot(F_from_f(f = f, p = 4, Gauss = FALSE), col = 2, add = TRUE,
+#'      xlim = c(-1, 1))
+#' curve(p_proj_unif(x = x, p = 4), col = 3, add = TRUE, n = 300)
 #' plot(F_inv_from_f(f = f, p = 4, Gauss = TRUE), ylab = "F^{-1}(x)")
 #' plot(F_inv_from_f(f = f, p = 4, Gauss = FALSE), col = 2, add = TRUE)
 #' curve(q_proj_unif(u = x, p = 4), col = 3, add = TRUE, n = 300)
+#' @name F_from_f
+
+
+#' @rdname F_from_f
 #' @export
-F_inv_from_f <- function(f, p, Gauss = TRUE, N = 320, K = 1e3, tol = 1e-6,
-                         ...) {
+F_from_f <- function(f, p, Gauss = TRUE, N = 320, K = 1e3, tol = 1e-6, ...) {
 
   # Integration grid
   z <- seq(-1, 1, length.out = K)
@@ -407,39 +415,52 @@ F_inv_from_f <- function(f, p, Gauss = TRUE, N = 320, K = 1e3, tol = 1e-6,
   # Integrated \omega_{p - 1} * f(z) * (1 - z^2)^{(p - 3) / 2}
   if (Gauss) {
 
-    # Using Gauss--Legendre quadrature but ensuring monotnonicity?
-    y <- rotasym::w_p(p = p - 1) * sapply(z, function(t) {
+    # Using Gauss--Legendre quadrature but ensuring monotonicity?
+    F_grid <- rotasym::w_p(p = p - 1) * sapply(z, function(t) {
       z_k <- drop(Gauss_Legen_nodes(a = -1, b = t, N = N))
       w_k <- drop(Gauss_Legen_weights(a = -1, b = t, N = N))
       sum(w_k * pmax(f(z_k, ...), 0) * (1 - z_k^2)^((p - 3) / 2), na.rm = TRUE)
     })
 
     # Normalize f (the normalizing constant may not be included in f)
-    c_f <- y[length(y)]
-    y <- y / c_f
+    c_f <- F_grid[length(F_grid)]
+    F_grid <- F_grid / c_f
 
   } else {
 
     # Using integrate
     g <- function(t) pmax(f(t, ...), 0) * (1 - t^2)^((p - 3) / 2)
-    y <- sapply(z[-1], function(u) rotasym::w_p(p = p - 1) *
-                  integrate(f = g, lower = -1, upper = u, subdivisions = 1e3,
-                            rel.tol = tol, abs.tol = tol,
-                            stop.on.error = FALSE)$value)
+    F_grid <- sapply(z[-1], function(u) rotasym::w_p(p = p - 1) *
+                       integrate(f = g, lower = -1, upper = u,
+                                 subdivisions = 1e3, rel.tol = tol,
+                                 abs.tol = tol, stop.on.error = FALSE)$value)
 
     # Normalize f (the normalizing constant may not be included in f)
-    c_f <- y[length(y)]
-    y <- y / c_f
+    c_f <- F_grid[length(F_grid)]
+    F_grid <- F_grid / c_f
 
     # Add 0
-    y <- c(0, y)
+    F_grid <- c(0, F_grid)
 
   }
 
   # Use method = "hyman" for monotone interpolations if possible
-  F_appf <- switch(is.unsorted(y) + 1,
-                   splinefun(x = z, y = y, method = "hyman"),
-                   approxfun(x = z, y = y, method = "linear", rule = 2))
+  if (anyNA(F_grid)) stop("Numerical error (NAs) in F_grid")
+  F_appf <- switch(is.unsorted(F_grid) + 1,
+                   splinefun(x = z, y = F_grid, method = "hyman"),
+                   approxfun(x = z, y = F_grid, method = "linear", rule = 2))
+  return(F_appf)
+
+}
+
+
+#' @rdname F_from_f
+#' @export
+F_inv_from_f <- function(f, p, Gauss = TRUE, N = 320, K = 1e3, tol = 1e-6,
+                         ...) {
+
+  # Approximate F
+  F_appf <- F_from_f(f = f, p = p, Gauss = Gauss, N = N, K = K, tol = tol, ...)
 
   # Inversion of F
   u <- seq(0, 1, length.out = K)
@@ -450,6 +471,7 @@ F_inv_from_f <- function(f, p, Gauss = TRUE, N = 320, K = 1e3, tol = 1e-6,
   F_inv_grid <- c(-1, F_inv_grid, 1)
 
   # Use method = "hyman" for monotone interpolations if possible
+  stopifnot(!anyNA(F_inv_grid))
   F_inv <- switch(is.unsorted(F_inv_grid) + 1,
                   splinefun(x = u, y = F_inv_grid, method = "hyman"),
                   approxfun(x = u, y = F_inv_grid, method = "linear",
@@ -499,7 +521,7 @@ F_inv_from_f <- function(f, p, Gauss = TRUE, N = 320, K = 1e3, tol = 1e-6,
 #' @param signs signs of the coefficients \eqn{u_{k, p}}, a vector of the
 #' same size as \code{vk2} or \code{bk}, or a scalar. Defaults to \code{1}.
 #' @return
-#' The corresponding vectors of coefficients \code{vk2}, \code{bk} or \code{uk},
+#' The corresponding vectors of coefficients \code{vk2}, \code{bk}, or \code{uk},
 #' depending on the call.
 #' @details
 #' See more details in Prentice (1978) and García-Portugués et al. (2020). The
@@ -673,20 +695,23 @@ uk_to_bk <- function(uk, p) {
 #'
 #' @description Simple simulation of prespecified non-uniform spherical
 #' distributions: von Mises--Fisher (vMF), Mixture of vMF (MvMF),
-#' Angular Central Gaussian (ACG), Small Circle (SC) or Watson (W).
+#' Angular Central Gaussian (ACG), Small Circle (SC), Watson (W), or
+#' Cauchy-like (C).
 #'
 #' @inheritParams r_unif
-#' @param scenario simulation scenario, must be \code{"vMF"}, \code{"MvMF"},
-#' \code{"ACG"}, \code{"SC"} or \code{"W"}. See details below.
+#' @param alt alternative, must be \code{"vMF"}, \code{"MvMF"},
+#' \code{"ACG"}, \code{"SC"}, \code{"W"}, or \code{"C"}. See details below.
 #' @param kappa non-negative parameter measuring the strength of the deviation
-#' with respect to uniformity.
+#' with respect to uniformity (obtained with \eqn{\kappa = 0}).
 #' @param nu projection along \eqn{{\bf e}_p}{e_p} controlling the modal
 #' strip of the small circle distribution. Must be in (-1, 1). Defaults to
 #' \code{0.5}.
 #' @param F_inv quantile function returned by \code{\link{F_inv_from_f}}. Used
-#' for \code{"SC"} and \code{"W"}. Computed by internally if \code{NULL}
-#' (default).
+#' for \code{"SC"}, \code{"W"}, and \code{"C"}. Computed by internally if
+#' \code{NULL} (default).
 #' @inheritParams F_inv_from_f
+#' @param axial_MvMF use a mixture of vMF that is axial (i.e., symmetrically
+#' distributed about the origin)? Defaults to \code{TRUE}.
 #' @details
 #' The parameter \code{kappa} is used as \eqn{\kappa} in the following
 #' distributions:
@@ -696,7 +721,9 @@ uk_to_bk <- function(uk, p) {
 #'   e_p = (0, 0, \ldots, 1)}.
 #'   \item \code{"MvMF"}: equally-weighted mixture of \eqn{p} von Mises--Fisher
 #'   distributions with common concentration \eqn{\kappa} and directional means
-#'   \eqn{{\bf e}_1, \ldots, {\bf e}_p}{e_1, \ldots, e_p}.
+#'   \eqn{\pm{\bf e}_1, \ldots, \pm{\bf e}_p}{±e_1, \ldots, ±e_p} if 
+#'   \code{axial_MvMF = TRUE}. If \code{axial_MvMF = FALSE}, then only means
+#'   with positive signs are considered.
 #'   \item \code{"ACG"}: Angular Central Gaussian distribution with diagonal
 #'   shape matrix with diagonal given by
 #'   \deqn{(1, \ldots, 1, 1 + \kappa) / (p + \kappa).}
@@ -707,10 +734,14 @@ uk_to_bk <- function(uk, p) {
 #'   \eqn{{\bf e}_p = (0, 0, \ldots, 1)}{e_p = (0, 0, \ldots, 1)} and
 #'   concentration \eqn{\kappa}. The Watson distribution is a particular case
 #'   of the Bingham distribution.
+#'   \item \code{"C"}: Cauchy-like distribution with directional mode
+#'   \eqn{{\bf e}_p = (0, 0, \ldots, 1)}{e_p = (0, 0, \ldots, 1)} and
+#'   concentration \eqn{\kappa = \rho / (1 - \rho^2)}. The circular Wrapped
+#'   Cauchy distribution is a particular case of this Cauchy-like distribution.
 #' }
 #' @details
-#' Much faster sampling for \code{"SC"} and \code{"W"} is achieved providing
-#' \code{F_inv}, see examples.
+#' Much faster sampling for \code{"SC"}, \code{"W"}, and \code{"C"} is achieved
+#' providing \code{F_inv}, see examples.
 #' @examples
 #' ## Simulation with p = 2
 #'
@@ -718,19 +749,24 @@ uk_to_bk <- function(uk, p) {
 #' n <- 200
 #' kappa <- 20
 #' nu <- 0.5
+#' rho <- ((2 * kappa + 1) - sqrt(4 * kappa + 1)) / (2 * kappa)
 #' F_inv_SC_2 <- F_inv_from_f(f = function(z) exp(-kappa * (z - nu)^2), p = 2)
 #' F_inv_W_2 <- F_inv_from_f(f = function(z) exp(kappa * z^2), p = 2)
-#' x1 <- r_alt(n = n, p = p, scenario = "vMF", kappa = kappa)[, , 1]
-#' x2 <- r_alt(n = n, p = p, scenario = "MvMF", kappa = kappa)[, , 1]
-#' x3 <- r_alt(n = n, p = p, scenario = "ACG", kappa = kappa)[, , 1]
-#' x4 <- r_alt(n = n, p = p, scenario = "SC", F_inv = F_inv_SC_2)[, , 1]
-#' x5 <- r_alt(n = n, p = p, scenario = "W", F_inv = F_inv_W_2)[, , 1]
+#' F_inv_C_2 <- F_inv_from_f(f = function(z) (1 - rho^2) / 
+#'                             (1 + rho^2 - 2 * rho * z)^(p / 2), p = 2)
+#' x1 <- r_alt(n = n, p = p, alt = "vMF", kappa = kappa)[, , 1]
+#' x2 <- r_alt(n = n, p = p, alt = "MvMF", kappa = kappa)[, , 1]
+#' x3 <- r_alt(n = n, p = p, alt = "ACG", kappa = kappa)[, , 1]
+#' x4 <- r_alt(n = n, p = p, alt = "SC", F_inv = F_inv_SC_2)[, , 1]
+#' x5 <- r_alt(n = n, p = p, alt = "W", F_inv = F_inv_W_2)[, , 1]
+#' x6 <- r_alt(n = n, p = p, alt = "C", F_inv = F_inv_C_2)[, , 1]
 #' r <- runif(n, 0.95, 1.05) # Radius perturbation to improve visualization
 #' plot(r * x1, pch = 16, xlim = c(-1.1, 1.1), ylim = c(-1.1, 1.1), col = 1)
 #' points(r * x2, pch = 16, col = 2)
 #' points(r * x3, pch = 16, col = 3)
 #' points(r * x4, pch = 16, col = 4)
 #' points(r * x5, pch = 16, col = 5)
+#' points(r * x6, pch = 16, col = 6)
 #'
 #' ## Simulation with p = 3
 #'
@@ -738,43 +774,57 @@ uk_to_bk <- function(uk, p) {
 #' p <- 3
 #' kappa <- 20
 #' nu <- 0.5
+#' rho <- ((2 * kappa + 1) - sqrt(4 * kappa + 1)) / (2 * kappa)
 #' F_inv_SC_3 <- F_inv_from_f(f = function(z) exp(-kappa * (z - nu)^2), p = 3)
 #' F_inv_W_3 <- F_inv_from_f(f = function(z) exp(kappa * z^2), p = 3)
-#' x1 <- r_alt(n = n, p = p, scenario = "vMF", kappa = kappa)[, , 1]
-#' x2 <- r_alt(n = n, p = p, scenario = "MvMF", kappa = kappa)[, , 1]
-#' x3 <- r_alt(n = n, p = p, scenario = "ACG", kappa = kappa)[, , 1]
-#' x4 <- r_alt(n = n, p = p, scenario = "SC", F_inv = F_inv_SC_3)[, , 1]
-#' x5 <- r_alt(n = n, p = p, scenario = "W", F_inv = F_inv_W_3)[, , 1]
-#' if (requireNamespace("rgl")) {
-#'   rgl::plot3d(x1, size = 5, xlim = c(-1.1, 1.1), ylim = c(-1.1, 1.1),
-#'               zlim = c(-1.1, 1.1), col = 1)
-#'   rgl::points3d(x2, size = 5, col = 2)
-#'   rgl::points3d(x3, size = 5, col = 3)
-#'   rgl::points3d(x4, size = 5, col = 4)
-#'   rgl::points3d(x5, size = 5, col = 5)
-#' }
+#' F_inv_C_3 <- F_inv_from_f(f = function(z) (1 - rho^2) / 
+#'                             (1 + rho^2 - 2 * rho * z)^(p / 2), p = 3)
+#' x1 <- r_alt(n = n, p = p, alt = "vMF", kappa = kappa)[, , 1]
+#' x2 <- r_alt(n = n, p = p, alt = "MvMF", kappa = kappa)[, , 1]
+#' x3 <- r_alt(n = n, p = p, alt = "ACG", kappa = kappa)[, , 1]
+#' x4 <- r_alt(n = n, p = p, alt = "SC", F_inv = F_inv_SC_3)[, , 1]
+#' x5 <- r_alt(n = n, p = p, alt = "W", F_inv = F_inv_W_3)[, , 1]
+#' x6 <- r_alt(n = n, p = p, alt = "C", F_inv = F_inv_C_3)[, , 1]
+#' s3d <- scatterplot3d::scatterplot3d(x1, pch = 16, xlim = c(-1.1, 1.1),
+#'                                     ylim = c(-1.1, 1.1), zlim = c(-1.1, 1.1))
+#' s3d$points3d(x2, pch = 16, col = 2)
+#' s3d$points3d(x3, pch = 16, col = 3)
+#' s3d$points3d(x4, pch = 16, col = 4)
+#' s3d$points3d(x5, pch = 16, col = 5)
+#' s3d$points3d(x6, pch = 16, col = 6)
 #' @export
-r_alt <- function(n, p, M = 1, scenario = "vMF", kappa = 1, nu = 0.5,
-                  F_inv = NULL, K = 1e3) {
+r_alt <- function(n, p, M = 1, alt = "vMF", kappa = 1, nu = 0.5, F_inv = NULL,
+                  K = 1e3, axial_MvMF = TRUE) {
 
   # Common mean (North pole)
   mu <- c(rep(0, p - 1), 1)
 
-  # Choose scenario
-  if (scenario == "vMF") {
+  # Check concentration parameter and sample size
+  stopifnot(kappa >= 0)
+  stopifnot(n >= 1)
+
+  # Sampling from uniform 
+  if (kappa == 0) {
+
+    return(r_unif_sph(n = n, p = p, M = M))
+
+  }
+
+  # Choose alternative
+  if (alt == "vMF") {
 
     long_samp <- rotasym::r_vMF(n = n * M, mu = mu, kappa = kappa)
 
-  } else if (scenario == "MvMF") {
+  } else if (alt == "MvMF") {
 
     # Mixture components
     j <- sample(x = 1:p, size = n * M, replace = TRUE)
-    nM_j <- table(j)
+    nM_j <- tabulate(bin = j, nbins = p)
     mu_j <- diag(1, nrow = p, ncol = p)
 
     # Sample components
     long_samp <- matrix(nrow = n * M, ncol = p)
-    for (k in 1:p) {
+    for (k in which(nM_j > 0)) {
 
       long_samp[j == k, ] <- rotasym::r_vMF(n = nM_j[k], mu = mu_j[k, ],
                                             kappa = kappa)
@@ -782,18 +832,23 @@ r_alt <- function(n, p, M = 1, scenario = "vMF", kappa = 1, nu = 0.5,
     }
 
     # Add plus and minus means
-    long_samp <- sample(x = c(-1, 1), size = n * M, replace = TRUE) * long_samp
+    if (axial_MvMF) { 
+
+      long_samp <- sample(x = c(-1, 1), size = n * M, replace = TRUE) *
+        long_samp
+
+    }
 
     # Shuffle data
-    long_samp <- long_samp[sample(x = n * M), ]
+    long_samp <- long_samp[sample(x = n * M), , drop = FALSE]
 
-  } else if (scenario == "ACG") {
+  } else if (alt == "ACG") {
 
     Lambda <- diag(c(rep(1 / (p + kappa), p - 1),
                      (1 + kappa) / (p + kappa)), nrow = p, ncol = p)
     long_samp <- rotasym::r_ACG(n = n * M, Lambda = Lambda)
 
-  } else if (scenario == "SC") {
+  } else if (alt == "SC") {
 
     # Compute the inverse of the distribution function F?
     if (is.null(F_inv)) {
@@ -810,7 +865,7 @@ r_alt <- function(n, p, M = 1, scenario = "vMF", kappa = 1, nu = 0.5,
     long_samp <- rotasym::r_tang_norm(n = n * M, theta = mu,
                                       r_U = r_U, r_V = r_V)
 
-  } else if (scenario == "W") {
+  } else if (alt == "W") {
 
     # Compute the inverse of the distribution function F?
     if (is.null(F_inv)) {
@@ -826,10 +881,28 @@ r_alt <- function(n, p, M = 1, scenario = "vMF", kappa = 1, nu = 0.5,
     long_samp <- rotasym::r_tang_norm(n = n * M, theta = mu,
                                       r_U = r_U, r_V = r_V)
 
+  } else if (alt == "C") {
+
+    # Compute the inverse of the distribution function F?
+    if (is.null(F_inv)) {
+
+      rho <- ifelse(kappa == 0, 0, 
+                    ((2 * kappa + 1) - sqrt(4 * kappa + 1)) / (2 * kappa))
+      f <- function(z) (1 - rho^2) / (1 + rho^2 - 2 * rho * z)^(p / 2)
+      F_inv <- F_inv_from_f(f = f, p = p, K = K)
+
+    }
+
+    # Sample the small circle distribution
+    r_U <- function(n) r_unif_sph(n = n, p = p - 1, M = 1)[, , 1]
+    r_V <- function(n) F_inv(runif(n = n))
+    long_samp <- rotasym::r_tang_norm(n = n * M, theta = mu,
+                                      r_U = r_U, r_V = r_V)
+
   } else {
 
-    stop(paste("Wrong scenario; must be \"vMF\", \"MvMF\", \"Bing\"",
-               "\"ACG\", \"SC\" or \"W\"."))
+    stop(paste("Wrong alt; must be \"vMF\", \"MvMF\", \"Bing\"",
+               "\"ACG\", \"SC\", \"W\", or \"C\"."))
 
   }
 

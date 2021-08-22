@@ -18,9 +18,9 @@
 #' @inheritParams unif_stat
 #' @inheritParams sph_stat_distr
 #' @inheritParams cir_stat
-#' @param rand_dirs a matrix of size \code{c(n_proj, p)} containing
-#' \code{n_proj} random directions (in Cartesian coordinates) on
-#' \eqn{S^{p-1}} to perform the Cuesta-Albertos test.
+#' @param dirs a matrix of size \code{c(n_proj, p)} containing \code{n_proj}
+#' random directions (in Cartesian coordinates) on \eqn{S^{p-1}} to perform
+#' the CCF09 test.
 #' @param N number of points used in the
 #' \link[=Gauss_Legen_nodes]{Gauss-Legendre quadrature}. Defaults to
 #' \code{160}.
@@ -37,15 +37,15 @@
 #'   \code{X_in_Theta = TRUE}.
 #'   \item The parameter \code{p} does \emph{not} match with the dimension of
 #'   \eqn{R^p}.
-#'   \item \emph{Not} passing the scalar products matrix to \code{sph_stat_Cai}
+#'   \item \emph{Not} passing the scalar products matrix to \code{sph_stat_CJ12}
 #'   when \code{Psi_in_X = TRUE}.
-#'   \item The directions in \code{rand_dirs} do \emph{not} have unit norm.
+#'   \item The directions in \code{dirs} do \emph{not} have unit norm.
 #' }
 #' @details
 #' Detailed descriptions and references of the statistics are available
 #' in García-Portugués and Verdebout (2018).
 #'
-#' The Pycke and Cai statistics employ the \emph{scalar products} matrix,
+#' The Pycke and CJ12 statistics employ the \emph{scalar products} matrix,
 #' rather than the shortest angles matrix, when \code{Psi_in_X = TRUE}. This
 #' matrix is obtained by setting \code{scalar_prod = TRUE} in
 #' \code{\link{Psi_mat}}.
@@ -110,21 +110,21 @@
 #'
 #' ## Other tests
 #'
-#' # Cuesta-Albertos
-#' rand_dirs <- r_unif_sph(n = 3, p = p, M = 1)[, , 1]
-#' sph_stat_Cuesta_Albertos(X, rand_dirs = rand_dirs)
+#' # CCF09
+#' dirs <- r_unif_sph(n = 3, p = p, M = 1)[, , 1]
+#' sph_stat_CCF09(X, dirs = dirs)
 #'
 #' ## High-dimensional tests
 #'
 #' # Rayleigh HD-Standardized
 #' sph_stat_Rayleigh_HD(X)
 #'
-#' # Cai
-#' sph_stat_Cai(X, regime = 1)
-#' sph_stat_Cai(Psi, regime = 1, Psi_in_X = TRUE, p = p)
-#' sph_stat_Cai(X, regime = 2)
-#' sph_stat_Cai(Psi, regime = 2, Psi_in_X = TRUE, p = p)
-#' sph_stat_Cai(X, regime = 3)
-#' sph_stat_Cai(Psi, regime = 3, Psi_in_X = TRUE, p = p)
+#' # CJ12
+#' sph_stat_CJ12(X, regime = 1)
+#' sph_stat_CJ12(Psi, regime = 1, Psi_in_X = TRUE, p = p)
+#' sph_stat_CJ12(X, regime = 2)
+#' sph_stat_CJ12(Psi, regime = 2, Psi_in_X = TRUE, p = p)
+#' sph_stat_CJ12(X, regime = 3)
+#' sph_stat_CJ12(Psi, regime = 3, Psi_in_X = TRUE, p = p)
 #' @name sph_stat
 NULL

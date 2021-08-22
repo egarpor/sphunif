@@ -32,7 +32,7 @@ arma::vec sph_stat_PRt_Psi(arma::mat Psi, double t_m, double theta_t_m,
                            arma::vec int_grid);
 arma::vec sph_stat_PAD_Psi(arma::mat Psi, arma::uword n, arma::uword p,
                            arma::vec th_grid, arma::vec int_grid);
-arma::vec sph_stat_Cai_Psi(arma::mat Psi, arma::uword n, arma::uword p);
+arma::vec sph_stat_CJ12_Psi(arma::mat Psi, arma::uword n, arma::uword p);
 
 // Constants
 const double inv_M_PI = 1.0 / M_PI;
@@ -44,6 +44,7 @@ const double log_two_M_PI = std::log(2 * M_PI);
 const double log_two = std::log(2.0);
 const double inv_four_M_PI = 0.25 / M_PI;
 const double const_Pycke = (1.0 - std::log(4.0)) * inv_four_M_PI;
+
 
 /*
  * Sobolev tests
@@ -155,7 +156,7 @@ arma::vec sph_stat_Gine_Gn(arma::cube X, bool Psi_in_X = false,
   p = Psi_in_X ? p : X.n_cols;
   if (Psi_in_X && (p == 0)) {
 
-    stop("p must be specified if Psi_in_X = TRUE");
+    stop("p >= 2 must be specified if Psi_in_X = TRUE.");
 
   }
 
@@ -200,7 +201,7 @@ arma::vec sph_stat_Gine_Gn_Psi(arma::mat Psi, arma::uword n, arma::uword p) {
 
   // Factors statistic
   Gn *= -(p - 1.0) / (2.0 * n) *
-    std::pow(R::gammafn(0.5 * (p - 1)) / R::gammafn(0.5 * p), 2);
+    std::exp(2.0 * (R::lgammafn(0.5 * (p - 1)) - R::lgammafn(0.5 * p)));
   Gn += 0.5 * n;
   return Gn;
 
@@ -220,7 +221,7 @@ arma::vec sph_stat_Gine_Fn(arma::cube X, bool Psi_in_X = false,
   p = Psi_in_X ? p : X.n_cols;
   if (Psi_in_X && (p == 0)) {
 
-    stop("p must be specified if Psi_in_X = TRUE");
+    stop("p >= 2 must be specified if Psi_in_X = TRUE.");
 
   }
 
@@ -269,8 +270,8 @@ arma::vec sph_stat_Gine_Fn_Psi(arma::mat Psi, arma::uword n, arma::uword p) {
   An += 0.25 * n;
 
   // Factors Gn
-  Gn *= -(p - 1.0) * pow(R::gammafn(0.5 * (p - 1)), 2) /
-    (2 * n * std::pow(R::gammafn(0.5 * p), 2));
+  Gn *= -(p - 1.0) / (2 * n) * std::exp(2.0 * (R::lgammafn(0.5 * (p - 1)) -
+    R::lgammafn(0.5 * p))),
   Gn += 0.5 * n;
 
   // Fn
@@ -292,7 +293,24 @@ arma::vec sph_stat_Pycke(arma::cube X, bool Psi_in_X = false,
   p = Psi_in_X ? p : X.n_cols;
   if (Psi_in_X && (p == 0)) {
 
-    stop("p must be specified if Psi_in_X = TRUE");
+    stop("p >= 2 must be specified if Psi_in_X = TRUE.");
+
+  }
+
+  // Compute Riesz statistic?
+  if (p > 3) {
+
+    // Undo the cosine of shortest angles if Psi is given
+    if (Psi_in_X) {
+
+      X = arma::acos(X);
+
+    }
+
+    // Compute Riesz statistic
+    Rcpp::warning("Pycke statistic is only defined for p = 2,3. Using Riesz statistic with s = 0 instead, which behaves consistently across dimensions.");
+    arma::vec Gamman = sph_stat_Riesz(X, Psi_in_X, p, 0);
+    return Gamman;
 
   }
 
@@ -343,11 +361,15 @@ arma::vec sph_stat_Pycke_Psi(arma::mat Psi, arma::uword n, arma::uword p) {
     Gamman += -log_two * n; // -n * log(2) / 2 * 2 where the
     // last 2 is because of factor 2 of log(Gamman^2)
 
-  } else {
+  } else if (p == 3) {
 
     Gamman *= -inv_two_M_PI / (n - 1.0); // Included factor 2 of log(Gamman^2)
     // and 1 / (4 * pi)
     Gamman += -(log_two * inv_four_M_PI + const_Pycke) * n;
+
+  } else {
+
+    stop("Pycke statistic is only defined for p = 2,3.");
 
   }
   return Gamman;
@@ -379,7 +401,7 @@ arma::vec sph_stat_Riesz(arma::cube X, bool Psi_in_X = false,
   p = Psi_in_X ? p : X.n_cols;
   if (Psi_in_X && (p == 0)) {
 
-    stop("p must be specified if Psi_in_X = TRUE");
+    stop("p >= 2 must be specified if Psi_in_X = TRUE.");
 
   }
 
@@ -411,9 +433,9 @@ arma::vec sph_stat_Riesz(arma::cube X, bool Psi_in_X = false,
   }
 
   // Compute bias integral
-  double tau = 0;
   if (s == 0) {
 
+    double tau = 0;
     if (p == 2) {
 
       tau = 0;
@@ -438,18 +460,20 @@ arma::vec sph_stat_Riesz(arma::cube X, bool Psi_in_X = false,
     Rn += n * tau;
 
   } else {
-
+    
+    double log_tau = 0;
     if (p == 2) {
 
-      tau = std::pow(2, s);
+      log_tau = s * log_two;
 
     } else {
 
-      tau = std::pow(2, p + s - 3) * (p - 2) * R::gammafn(0.5 * p - 1);
+      log_tau = std::log(std::pow(2, p + s - 3) * (p - 2)) +
+        R::lgammafn(0.5 * p - 1);
 
     }
-    Rn += n * tau * R::gammafn(0.5 * (p - 1 + s)) /
-      (sqrt_M_PI * R::gammafn(p - 1 + 0.5 * s));
+    Rn += n / sqrt_M_PI * std::exp(log_tau +
+      R::lgammafn(0.5 * (p - 1 + s)) - R::lgammafn(p - 1 + 0.5 * s));
 
   }
   return Rn;
@@ -496,7 +520,7 @@ arma::vec sph_stat_PCvM(arma::cube X, bool Psi_in_X = false, arma::uword p = 0,
   p = Psi_in_X ? p : X.n_cols;
   if (Psi_in_X && (p == 0)) {
 
-    stop("p must be specified if Psi_in_X = TRUE");
+    stop("p >= 2 must be specified if Psi_in_X = TRUE.");
 
   }
 
@@ -616,7 +640,7 @@ arma::vec sph_stat_PCvM_Psi(arma::mat Psi, arma::uword n, arma::uword p,
 
   } else {
 
-    stop("p must be >= 2");
+    stop("p must be >= 2.");
 
   }
 
@@ -642,7 +666,7 @@ arma::vec sph_stat_PRt(arma::cube X, double t = 1.0 / 3.0,
   p = Psi_in_X ? p : X.n_cols;
   if (Psi_in_X && (p == 0)) {
 
-    stop("p must be specified if Psi_in_X = TRUE");
+    stop("p >= 2 must be specified if Psi_in_X = TRUE.");
 
   }
 
@@ -772,7 +796,7 @@ arma::vec sph_stat_PRt_Psi(arma::mat Psi, double t_m, double theta_t_m,
 
     } else {
 
-      stop("p must be >= 2");
+      stop("p must be >= 2.");
 
     }
 
@@ -803,7 +827,7 @@ arma::vec sph_stat_PAD(arma::cube X, bool Psi_in_X = false, arma::uword p = 0,
   p = Psi_in_X ? p : X.n_cols;
   if (Psi_in_X && (p == 0)) {
 
-    stop("p must be specified if Psi_in_X = TRUE");
+    stop("p >= 2 must be specified if Psi_in_X = TRUE.");
 
   }
 
@@ -846,10 +870,6 @@ arma::vec sph_stat_PAD(arma::cube X, bool Psi_in_X = false, arma::uword p = 0,
         int_grid(k) = arma::accu(w_k % d_proj_unif(t_k, p, false) % logs %
           p_proj_unif(-std::tan(0.5 * theta) * t_inv_sqrt_one(t_k),
                       p - 1, false));
-
-      } else {
-
-        stop("p must be >= 2");
 
       }
 
@@ -950,7 +970,7 @@ arma::vec sph_stat_PAD_Psi(arma::mat Psi, arma::uword n, arma::uword p,
 
     } else {
 
-      stop("p must be >= 2");
+      stop("p must be >= 2.");
 
     }
 
@@ -972,9 +992,8 @@ arma::vec sph_stat_PAD_Psi(arma::mat Psi, arma::uword n, arma::uword p,
 //' @rdname sph_stat
 //' @export
 // [[Rcpp::export]]
-arma::vec sph_stat_Cuesta_Albertos(arma::cube X, arma::mat rand_dirs,
-                                   arma::uword K_Cuesta_Albertos = 25,
-                                   bool original = false) {
+arma::vec sph_stat_CCF09(arma::cube X, arma::mat dirs, arma::uword K_CCF09 = 25,
+                         bool original = false) {
 
   // Sample size
   arma::uword n = X.n_rows;
@@ -984,21 +1003,21 @@ arma::vec sph_stat_Cuesta_Albertos(arma::cube X, arma::mat rand_dirs,
 
   // Check dimension
   arma::uword p = X.n_cols;
-  if (p != rand_dirs.n_cols) {
+  if (p != dirs.n_cols) {
 
-    stop("The dimension of the directions of X and rand_dirs are incompatible");
+    stop("The dimension of the directions of X and dirs are incompatible.");
 
   }
 
   // Number of projections
-  arma::uword n_proj = rand_dirs.n_rows;
+  arma::uword n_proj = dirs.n_rows;
 
   // Project data
   arma::cube X_proj = arma::zeros(n, n_proj, M);
-  arma::mat rand_dirs_t = rand_dirs.t();
+  arma::mat dirs_t = dirs.t();
   for (arma::uword k = 0; k < M; k++) {
 
-    X_proj.slice(k) = sort_each_col(X.slice(k) * rand_dirs_t);
+    X_proj.slice(k) = sort_each_col(X.slice(k) * dirs_t);
 
   }
 
@@ -1035,7 +1054,7 @@ arma::vec sph_stat_Cuesta_Albertos(arma::cube X, arma::mat rand_dirs,
   // Original definition of the statistic or just the maximum of statistics?
   if (original) {
 
-    CAn = 1.0 - p_Kolmogorov(CAn, K_Cuesta_Albertos, true);
+    CAn = 1.0 - p_Kolmogorov(CAn, K_CCF09, true);
 
   }
   return CAn;
@@ -1070,7 +1089,7 @@ arma::vec sph_stat_Rayleigh_HD(arma::cube X) {
 //' @rdname sph_stat
 //' @export
 // [[Rcpp::export]]
-arma::vec sph_stat_Cai(arma::cube X, arma::uword regime = 3,
+arma::vec sph_stat_CJ12(arma::cube X, arma::uword regime = 3,
                        bool Psi_in_X = false, arma::uword p = 0) {
 
   // Sample size
@@ -1080,7 +1099,7 @@ arma::vec sph_stat_Cai(arma::cube X, arma::uword regime = 3,
   p = Psi_in_X ? p : X.n_cols;
   if (Psi_in_X && (p == 0)) {
 
-    stop("p must be specified if Psi_in_X = TRUE");
+    stop("p >= 2 must be specified if Psi_in_X = TRUE.");
 
   }
 
@@ -1092,7 +1111,7 @@ arma::vec sph_stat_Cai(arma::cube X, arma::uword regime = 3,
   if (Psi_in_X) {
 
     // Compute statistic
-    Cn = sph_stat_Cai_Psi(X.slice(0), n, p);
+    Cn = sph_stat_CJ12_Psi(X.slice(0), n, p);
 
   } else {
 
@@ -1105,14 +1124,14 @@ arma::vec sph_stat_Cai(arma::cube X, arma::uword regime = 3,
                                 arma::span(k)), ind_tri, true, true, false);
 
       // Compute statistic
-      Cn(k) = arma::as_scalar(sph_stat_Cai_Psi(Psi, n, p));
+      Cn(k) = arma::as_scalar(sph_stat_CJ12_Psi(Psi, n, p));
 
     }
 
   }
 
   // Sub-exponential regime
-  if (regime == 1) {
+  if (regime == 1 || regime == 2) {
 
     Cn = p * Cn + 4 * std::log(n) - std::log(std::log(n));
 
@@ -1130,7 +1149,7 @@ arma::vec sph_stat_Cai(arma::cube X, arma::uword regime = 3,
 
 //' @keywords internal
 // [[Rcpp::export]]
-arma::vec sph_stat_Cai_Psi(arma::mat Psi, arma::uword n, arma::uword p) {
+arma::vec sph_stat_CJ12_Psi(arma::mat Psi, arma::uword n, arma::uword p) {
 
   // Statistic
   arma::vec Cn = arma::max(arma::abs(Psi), 0).t();

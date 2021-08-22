@@ -11,8 +11,10 @@ b <- acos(c(B1[upper.tri(B1)], B2[upper.tri(B2)]))
 
 test_that("upper_tri_ind", {
 
-  expect_equal(drop(upper_tri_ind(5)) + 1, {I <- matrix(1:5^2, 5, 5); I[upper.tri(I)]})
-  expect_equal(drop(upper_tri_ind(7)) + 1, {I <- matrix(1:7^2, 7, 7); I[upper.tri(I)]})
+  expect_equal(drop(upper_tri_ind(5)) + 1,
+               {I <- matrix(1:5^2, 5, 5); I[upper.tri(I)]})
+  expect_equal(drop(upper_tri_ind(7)) + 1,
+               {I <- matrix(1:7^2, 7, 7); I[upper.tri(I)]})
 
 })
 

@@ -4,8 +4,8 @@
 \alias{r_alt}
 \title{Sample non-uniformly distributed spherical data}
 \usage{
-r_alt(n, p, M = 1, scenario = "vMF", kappa = 1, nu = 0.5,
-  F_inv = NULL, K = 1000)
+r_alt(n, p, M = 1, alt = "vMF", kappa = 1, nu = 0.5, F_inv = NULL,
+  K = 1000, axial_MvMF = TRUE)
 }
 \arguments{
 \item{n}{sample size.}
@@ -15,27 +15,31 @@ contains \eqn{S^{p-1}}.}
 
 \item{M}{number of samples of size \code{n}. Defaults to \code{1}.}
 
-\item{scenario}{simulation scenario, must be \code{"vMF"}, \code{"MvMF"},
-\code{"ACG"}, \code{"SC"} or \code{"W"}. See details below.}
+\item{alt}{alternative, must be \code{"vMF"}, \code{"MvMF"},
+\code{"ACG"}, \code{"SC"}, \code{"W"}, or \code{"C"}. See details below.}
 
 \item{kappa}{non-negative parameter measuring the strength of the deviation
-with respect to uniformity.}
+with respect to uniformity (obtained with \eqn{\kappa = 0}).}
 
 \item{nu}{projection along \eqn{{\bf e}_p}{e_p} controlling the modal
 strip of the small circle distribution. Must be in (-1, 1). Defaults to
 \code{0.5}.}
 
 \item{F_inv}{quantile function returned by \code{\link{F_inv_from_f}}. Used
-for \code{"SC"} and \code{"W"}. Computed by internally if \code{NULL}
-(default).}
+for \code{"SC"}, \code{"W"}, and \code{"C"}. Computed by internally if
+\code{NULL} (default).}
 
 \item{K}{number of equispaced points on \eqn{[-1, 1]} used for evaluating
 \eqn{F^{-1}} and then interpolating. Defaults to \code{1e3}.}
+
+\item{axial_MvMF}{use a mixture of vMF that is axial (i.e., symmetrically
+distributed about the origin)? Defaults to \code{TRUE}.}
 }
 \description{
 Simple simulation of prespecified non-uniform spherical
 distributions: von Mises--Fisher (vMF), Mixture of vMF (MvMF),
-Angular Central Gaussian (ACG), Small Circle (SC) or Watson (W).
+Angular Central Gaussian (ACG), Small Circle (SC), Watson (W), or
+Cauchy-like (C).
 }
 \details{
 The parameter \code{kappa} is used as \eqn{\kappa} in the following
@@ -46,7 +50,9 @@ distributions:
   e_p = (0, 0, \ldots, 1)}.
   \item \code{"MvMF"}: equally-weighted mixture of \eqn{p} von Mises--Fisher
   distributions with common concentration \eqn{\kappa} and directional means
-  \eqn{{\bf e}_1, \ldots, {\bf e}_p}{e_1, \ldots, e_p}.
+  \eqn{\pm{\bf e}_1, \ldots, \pm{\bf e}_p}{±e_1, \ldots, ±e_p} if 
+  \code{axial_MvMF = TRUE}. If \code{axial_MvMF = FALSE}, then only means
+  with positive signs are considered.
   \item \code{"ACG"}: Angular Central Gaussian distribution with diagonal
   shape matrix with diagonal given by
   \deqn{(1, \ldots, 1, 1 + \kappa) / (p + \kappa).}
@@ -57,10 +63,14 @@ distributions:
   \eqn{{\bf e}_p = (0, 0, \ldots, 1)}{e_p = (0, 0, \ldots, 1)} and
   concentration \eqn{\kappa}. The Watson distribution is a particular case
   of the Bingham distribution.
+  \item \code{"C"}: Cauchy-like distribution with directional mode
+  \eqn{{\bf e}_p = (0, 0, \ldots, 1)}{e_p = (0, 0, \ldots, 1)} and
+  concentration \eqn{\kappa = \rho / (1 - \rho^2)}. The circular Wrapped
+  Cauchy distribution is a particular case of this Cauchy-like distribution.
 }
 
-Much faster sampling for \code{"SC"} and \code{"W"} is achieved providing
-\code{F_inv}, see examples.
+Much faster sampling for \code{"SC"}, \code{"W"}, and \code{"C"} is achieved
+providing \code{F_inv}, see examples.
 }
 \examples{
 ## Simulation with p = 2
@@ -69,19 +79,24 @@ p <- 2
 n <- 200
 kappa <- 20
 nu <- 0.5
+rho <- ((2 * kappa + 1) - sqrt(4 * kappa + 1)) / (2 * kappa)
 F_inv_SC_2 <- F_inv_from_f(f = function(z) exp(-kappa * (z - nu)^2), p = 2)
 F_inv_W_2 <- F_inv_from_f(f = function(z) exp(kappa * z^2), p = 2)
-x1 <- r_alt(n = n, p = p, scenario = "vMF", kappa = kappa)[, , 1]
-x2 <- r_alt(n = n, p = p, scenario = "MvMF", kappa = kappa)[, , 1]
-x3 <- r_alt(n = n, p = p, scenario = "ACG", kappa = kappa)[, , 1]
-x4 <- r_alt(n = n, p = p, scenario = "SC", F_inv = F_inv_SC_2)[, , 1]
-x5 <- r_alt(n = n, p = p, scenario = "W", F_inv = F_inv_W_2)[, , 1]
+F_inv_C_2 <- F_inv_from_f(f = function(z) (1 - rho^2) / 
+                            (1 + rho^2 - 2 * rho * z)^(p / 2), p = 2)
+x1 <- r_alt(n = n, p = p, alt = "vMF", kappa = kappa)[, , 1]
+x2 <- r_alt(n = n, p = p, alt = "MvMF", kappa = kappa)[, , 1]
+x3 <- r_alt(n = n, p = p, alt = "ACG", kappa = kappa)[, , 1]
+x4 <- r_alt(n = n, p = p, alt = "SC", F_inv = F_inv_SC_2)[, , 1]
+x5 <- r_alt(n = n, p = p, alt = "W", F_inv = F_inv_W_2)[, , 1]
+x6 <- r_alt(n = n, p = p, alt = "C", F_inv = F_inv_C_2)[, , 1]
 r <- runif(n, 0.95, 1.05) # Radius perturbation to improve visualization
 plot(r * x1, pch = 16, xlim = c(-1.1, 1.1), ylim = c(-1.1, 1.1), col = 1)
 points(r * x2, pch = 16, col = 2)
 points(r * x3, pch = 16, col = 3)
 points(r * x4, pch = 16, col = 4)
 points(r * x5, pch = 16, col = 5)
+points(r * x6, pch = 16, col = 6)
 
 ## Simulation with p = 3
 
@@ -89,19 +104,22 @@ n <- 200
 p <- 3
 kappa <- 20
 nu <- 0.5
+rho <- ((2 * kappa + 1) - sqrt(4 * kappa + 1)) / (2 * kappa)
 F_inv_SC_3 <- F_inv_from_f(f = function(z) exp(-kappa * (z - nu)^2), p = 3)
 F_inv_W_3 <- F_inv_from_f(f = function(z) exp(kappa * z^2), p = 3)
-x1 <- r_alt(n = n, p = p, scenario = "vMF", kappa = kappa)[, , 1]
-x2 <- r_alt(n = n, p = p, scenario = "MvMF", kappa = kappa)[, , 1]
-x3 <- r_alt(n = n, p = p, scenario = "ACG", kappa = kappa)[, , 1]
-x4 <- r_alt(n = n, p = p, scenario = "SC", F_inv = F_inv_SC_3)[, , 1]
-x5 <- r_alt(n = n, p = p, scenario = "W", F_inv = F_inv_W_3)[, , 1]
-if (requireNamespace("rgl")) {
-  rgl::plot3d(x1, size = 5, xlim = c(-1.1, 1.1), ylim = c(-1.1, 1.1),
-              zlim = c(-1.1, 1.1), col = 1)
-  rgl::points3d(x2, size = 5, col = 2)
-  rgl::points3d(x3, size = 5, col = 3)
-  rgl::points3d(x4, size = 5, col = 4)
-  rgl::points3d(x5, size = 5, col = 5)
-}
+F_inv_C_3 <- F_inv_from_f(f = function(z) (1 - rho^2) / 
+                            (1 + rho^2 - 2 * rho * z)^(p / 2), p = 3)
+x1 <- r_alt(n = n, p = p, alt = "vMF", kappa = kappa)[, , 1]
+x2 <- r_alt(n = n, p = p, alt = "MvMF", kappa = kappa)[, , 1]
+x3 <- r_alt(n = n, p = p, alt = "ACG", kappa = kappa)[, , 1]
+x4 <- r_alt(n = n, p = p, alt = "SC", F_inv = F_inv_SC_3)[, , 1]
+x5 <- r_alt(n = n, p = p, alt = "W", F_inv = F_inv_W_3)[, , 1]
+x6 <- r_alt(n = n, p = p, alt = "C", F_inv = F_inv_C_3)[, , 1]
+s3d <- scatterplot3d::scatterplot3d(x1, pch = 16, xlim = c(-1.1, 1.1),
+                                    ylim = c(-1.1, 1.1), zlim = c(-1.1, 1.1))
+s3d$points3d(x2, pch = 16, col = 2)
+s3d$points3d(x3, pch = 16, col = 3)
+s3d$points3d(x4, pch = 16, col = 4)
+s3d$points3d(x5, pch = 16, col = 5)
+s3d$points3d(x6, pch = 16, col = 6)
 }

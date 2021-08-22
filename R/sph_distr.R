@@ -10,10 +10,10 @@
 #' @inheritParams r_unif
 #' @inheritParams wschisq
 #' @inheritParams unif_stat_distr
-#' @param regime type of asymptotic regime for the Cai test, either \code{1}
+#' @param regime type of asymptotic regime for the CJ12 test, either \code{1}
 #' (sub-exponential regime), \code{2} (exponential), or \code{3}
 #' (super-exponential; default).
-#' @param beta \eqn{\beta} parameter in the exponential regime of the Cai
+#' @param beta \eqn{\beta} parameter in the exponential regime of the CJ12
 #' test, a nonnegative real. Defaults to \code{0}.
 #' @inheritParams cir_stat
 #' @param ... further parameters passed to \code{\link{p_Sobolev}} or
@@ -27,7 +27,7 @@
 #'   functions at \code{x}.
 #' }
 #' @details
-#' Detailed descriptions and references on the asymptotic distributions
+#' Descriptions and references on most of the asymptotic distributions
 #' are available in García-Portugués and Verdebout (2018).
 #' @examples
 #' # Ajne
@@ -45,16 +45,16 @@
 #' curve(d_sph_stat_Bingham(x, p = 3), to = 20, n = 2e2, ylim = c(0, 1))
 #' curve(p_sph_stat_Bingham(x, p = 3), n = 2e2, col = 2, add = TRUE)
 #'
-#' # Cai
-#' curve(d_sph_stat_Cai(x, regime = 1), from = -10, to = 10, n = 2e2,
+#' # CJ12
+#' curve(d_sph_stat_CJ12(x, regime = 1), from = -10, to = 10, n = 2e2,
 #'       ylim = c(0, 1))
-#' curve(d_sph_stat_Cai(x, regime = 2, beta = 0.1), n = 2e2, col = 2,
+#' curve(d_sph_stat_CJ12(x, regime = 2, beta = 0.1), n = 2e2, col = 2,
 #'       add = TRUE)
-#' curve(d_sph_stat_Cai(x, regime = 3), n = 2e2, col = 3, add = TRUE)
-#' curve(p_sph_stat_Cai(x, regime = 1), n = 2e2, col = 1, add = TRUE)
-#' curve(p_sph_stat_Cai(x, regime = 2, beta = 0.1), n = 2e2, col = 2,
+#' curve(d_sph_stat_CJ12(x, regime = 3), n = 2e2, col = 3, add = TRUE)
+#' curve(p_sph_stat_CJ12(x, regime = 1), n = 2e2, col = 1, add = TRUE)
+#' curve(p_sph_stat_CJ12(x, regime = 2, beta = 0.1), n = 2e2, col = 2,
 #'       add = TRUE)
-#' curve(p_sph_stat_Cai(x, regime = 3), col = 3, add = TRUE)
+#' curve(p_sph_stat_CJ12(x, regime = 3), col = 3, add = TRUE)
 #'
 #' # Gine Fn
 #' curve(d_sph_stat_Gine_Fn(x, p = 3, method = "HBE"), to = 2, n = 2e2,

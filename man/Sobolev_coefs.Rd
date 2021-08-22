@@ -39,7 +39,7 @@ indexes \code{1:length(vk2)}, a vector.}
 \code{1:length(uk)}, a vector.}
 }
 \value{
-The corresponding vectors of coefficients \code{vk2}, \code{bk} or \code{uk},
+The corresponding vectors of coefficients \code{vk2}, \code{bk}, or \code{uk},
 depending on the call.
 }
 \description{

@@ -246,7 +246,7 @@ for (i in seq_along(coefs)) {
                          p = p), col = col[i])
 }
 lines(th, psi(th), lwd = 2)
-
+\donttest{
 ## Surface representation
 
 # Surface in [0, pi]^2 to be projected in Gegenbauer polynomials
@@ -284,6 +284,7 @@ for(K in c(5, 10, 20)) {
   box()
 }
 par(old_par)
+}
 }
 \references{
 Galassi, M., Davies, J., Theiler, J., Gough, B., Jungman, G., Alken, P.,

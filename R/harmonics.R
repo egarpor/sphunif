@@ -126,20 +126,20 @@ sphere_to_angles <- function(x) {
 #' power of Sobolev tests for isotropy under local rotationally symmetric
 #' alternatives. \emph{Submitted}
 #' @examples
-#' n <- 5e3
+#' n <- 3e3
 #' old_par <- par(mfrow = c(2, 3))
 #' k <- 2
 #' for (i in 1:d_p_k(p = 3, k = k)) {
 #'   X <- r_unif_sph(n = n, p = 3, M = 1)[, , 1]
 #'   col <- rainbow(n)[rank(g_i_k(x = X, k = k, i = i, show_m = TRUE))]
 #'   scatterplot3d::scatterplot3d(X[, 1], X[, 2], X[, 3], color = col,
-#'                                axis = FALSE)
+#'                                axis = FALSE, pch = 19)
 #' }
 #' for (k in 0:5) {
 #'   X <- r_unif_sph(n = n, p = 3, M = 1)[, , 1]
 #'   col <- rainbow(n)[rank(g_i_k(x = X, k = k, i = 1, show_m = TRUE))]
 #'   scatterplot3d::scatterplot3d(X[, 1], X[, 2], X[, 3], color = col,
-#'                                axis = FALSE)
+#'                                axis = FALSE, pch = 19)
 #' }
 #' par(old_par)
 #' @export

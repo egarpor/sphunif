@@ -3,11 +3,11 @@
 #' @title Conversion between angular and Cartesian coordinates of the
 #' (hyper)sphere
 #'
-#' @description Transforms the angles \eqn{(\theta_1,\ldots,\theta_{p-1})} in
+#' @description Transforms the angles \eqn{(\theta_1,\ldots,\theta_{p-1})'} in
 #' \eqn{[0,\pi)^{p-2}\times[-\pi,\pi)} into the Cartesian coordinates
-#' \deqn{(\cos(x_1),\sin(x_1)\cos(x_2),\sin(x_1)\sin(x_2)\cos(x_3),\ldots,
+#' \deqn{(\cos(x_1),\sin(x_1)\cos(x_2),\ldots,
 #' \sin(x_1)\cdots\sin(x_{p-2})\cos(x_{p-1}),
-#' \sin(x_1)\cdots\sin(x_{p-2})\sin(x_{p-1}))}
+#' \sin(x_1)\cdots\sin(x_{p-2})\sin(x_{p-1}))'}
 #' of \eqn{S^{p-1}}, and viceversa.
 #'
 #' @param theta matrix of size \code{c(n, p - 1)} with the angles.
@@ -124,7 +124,7 @@ sphere_to_angles <- function(x) {
 #' 
 #' García-Portugués, E., Paindaveine, D., and Verdebout, T. (2021). On the
 #' power of Sobolev tests for isotropy under local rotationally symmetric
-#' alternatives. \emph{arXiv:2108.XXXXX}. \url{https://arxiv.org/abs/2108.XXXXX}
+#' alternatives. \emph{Submitted}
 #' @examples
 #' n <- 5e3
 #' old_par <- par(mfrow = c(2, 3))

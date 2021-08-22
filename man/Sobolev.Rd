@@ -18,15 +18,15 @@ weights_dfs_Sobolev(p, K_max = 1000, thre = 0.001, type, Rothman_t = 1/3,
 
 d_Sobolev(x, p, type, method = c("I", "SW", "HBE")[1], K_max = 1000,
   thre = 0.001, Rothman_t = 1/3, Pycke_q = 0.5, Riesz_s = 1,
-  verbose = TRUE, N = 320, x_tail = NULL, ...)
+  ncps = 0, verbose = TRUE, N = 320, x_tail = NULL, ...)
 
 p_Sobolev(x, p, type, method = c("I", "SW", "HBE", "MC")[1], K_max = 1000,
   thre = 0.001, Rothman_t = 1/3, Pycke_q = 0.5, Riesz_s = 1,
-  verbose = TRUE, N = 320, x_tail = NULL, ...)
+  ncps = 0, verbose = TRUE, N = 320, x_tail = NULL, ...)
 
 q_Sobolev(u, p, type, method = c("I", "SW", "HBE", "MC")[1], K_max = 1000,
   thre = 0.001, Rothman_t = 1/3, Pycke_q = 0.5, Riesz_s = 1,
-  verbose = TRUE, N = 320, x_tail = NULL, ...)
+  ncps = 0, verbose = TRUE, N = 320, x_tail = NULL, ...)
 }
 \arguments{
 \item{p}{integer giving the dimension of the ambient space \eqn{R^p} that
@@ -44,10 +44,11 @@ asymptotic p-value of a Sobolev test. Defaults to \code{1e3}.}
 the first terms of the truncated series of a Sobolev test. Defaults to
 \code{1e-3}.}
 
-\item{type}{Sobolev statistic. For \eqn{p = 2}, either \code{"Rothman"},
-\code{"Pycke_q"}, or \code{"Hermans_Rasson"}. For \eqn{p \ge 2},
-\code{"Ajne"}, \code{"Gine_Gn"}, \code{"Gine_Fn"}, \code{"Bakshaev"},
-\code{"PCvM"}, \code{"PAD"} or \code{"PRt"}.}
+\item{type}{Sobolev statistic. For \eqn{p = 2}, either \code{"Watson"},
+\code{"Rothman"}, \code{"Pycke_q"}, or \code{"Hermans_Rasson"}.
+For \eqn{p \ge 2}, \code{"Ajne"}, \code{"Gine_Gn"}, \code{"Gine_Fn"},
+\code{"Bakshaev"}, \code{"Riesz"}, \code{"PCvM"}, \code{"PAD"}, or
+\code{"PRt"}.}
 
 \item{Rothman_t}{\eqn{t} parameter for the Rothman test, a real in
 \eqn{(0, 1)}. Defaults to \code{1 / 3}.}
@@ -80,11 +81,14 @@ series, computed by the \code{"HBE"} approximation.}
 
 \item{x}{vector of quantiles.}
 
-\item{method}{method for approximating the density, distribution or
+\item{method}{method for approximating the density, distribution, or
 quantile function. Must be \code{"I"} (Imhof), \code{"SW"}
-(Satterthwaite--Welch), \code{"HBE"} (Hall--Buckley--Eagleson) or
+(Satterthwaite--Welch), \code{"HBE"} (Hall--Buckley--Eagleson), or
 \code{"MC"} (Monte Carlo; only for distribution or quantile functions).
 Defaults to \code{"I"}.}
+
+\item{ncps}{non-centrality parameters. Either \code{0} (default) or a
+vector with the same length as \code{weights}.}
 
 \item{...}{further parameters passed to \code{*_\link{wschisq}}.}
 
@@ -129,11 +133,13 @@ in the first truncation.
 }
 \examples{
 # Circular-specific statistics
-curve(p_Sobolev(x = x, p = 2, type = "Rothman"),
+curve(p_Sobolev(x = x, p = 2, type = "Watson", method = "HBE"),
+      n = 2e2, ylab = "Distribution", main = "Watson")
+curve(p_Sobolev(x = x, p = 2, type = "Rothman", method = "HBE"),
       n = 2e2, ylab = "Distribution", main = "Rothman")
-curve(p_Sobolev(x = x, p = 2, type = "Pycke_q"), to = 10,
+curve(p_Sobolev(x = x, p = 2, type = "Pycke_q", method = "HBE"), to = 10,
       n = 2e2, ylab = "Distribution", main = "Pycke_q")
-curve(p_Sobolev(x = x, p = 2, type = "Hermans_Rasson"),
+curve(p_Sobolev(x = x, p = 2, type = "Hermans_Rasson", method = "HBE"),
       to = 10, n = 2e2, ylab = "Distribution", main = "Hermans_Rasson")
 
 # Statistics for arbitrary dimensions
@@ -163,6 +169,9 @@ test_statistic(type = "Gine_Fn", to = 2)
 
 # Bakshaev
 test_statistic(type = "Bakshaev", to = 3)
+
+# Riesz
+test_statistic(type = "Riesz", Riesz_s = 0.5, to = 3)
 
 # PCvM
 test_statistic(type = "PCvM", to = 0.6)

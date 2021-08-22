@@ -12,9 +12,9 @@
 \alias{sph_stat_PCvM}
 \alias{sph_stat_PRt}
 \alias{sph_stat_PAD}
-\alias{sph_stat_Cuesta_Albertos}
+\alias{sph_stat_CCF09}
 \alias{sph_stat_Rayleigh_HD}
-\alias{sph_stat_Cai}
+\alias{sph_stat_CJ12}
 \alias{sph_stat}
 \title{Statistics for testing (hyper)spherical uniformity}
 \usage{
@@ -40,12 +40,11 @@ sph_stat_PRt(X, t = 1/3, Psi_in_X = FALSE, p = 0L, N = 160L, L = 1000L)
 
 sph_stat_PAD(X, Psi_in_X = FALSE, p = 0L, N = 160L, L = 1000L)
 
-sph_stat_Cuesta_Albertos(X, rand_dirs, K_Cuesta_Albertos = 25L,
-  original = FALSE)
+sph_stat_CCF09(X, dirs, K_CCF09 = 25L, original = FALSE)
 
 sph_stat_Rayleigh_HD(X)
 
-sph_stat_Cai(X, regime = 3L, Psi_in_X = FALSE, p = 0L)
+sph_stat_CJ12(X, regime = 3L, Psi_in_X = FALSE, p = 0L)
 }
 \arguments{
 \item{X}{an \bold{array} of size \code{c(n, p, M)} containing the Cartesian
@@ -73,21 +72,21 @@ that require evaluating an integral. Defaults to \code{1e3}.}
 \item{t}{\eqn{t} parameter for the Rothman and Cressie tests, a real in
 \eqn{(0, 1)}. Defaults to \code{1 / 3}.}
 
-\item{rand_dirs}{a matrix of size \code{c(n_proj, p)} containing
-\code{n_proj} random directions (in Cartesian coordinates) on
-\eqn{S^{p-1}} to perform the Cuesta-Albertos test.}
+\item{dirs}{a matrix of size \code{c(n_proj, p)} containing \code{n_proj}
+random directions (in Cartesian coordinates) on \eqn{S^{p-1}} to perform
+the CCF09 test.}
 
-\item{K_Cuesta_Albertos}{integer giving the truncation of the series
-present in the asymptotic distribution of the Kolmogorov-Smirnov statistic.
-Defaults to \code{5e2}.}
+\item{K_CCF09}{integer giving the truncation of the series present in the
+asymptotic distribution of the Kolmogorov-Smirnov statistic. Defaults to
+\code{5e2}.}
 
-\item{original}{return the Cuesta-Albertos statistic as originally defined?
+\item{original}{return the CCF09 statistic as originally defined?
 If \code{FALSE} (default), a faster and equivalent statistic is computed,
 and rejection happens for \emph{large} values of the statistic, which is
 consistent with the rest of tests. Otherwise, rejection happens for
 \emph{low} values.}
 
-\item{regime}{type of asymptotic regime for the Cai test, either \code{1}
+\item{regime}{type of asymptotic regime for the CJ12 test, either \code{1}
 (sub-exponential regime), \code{2} (exponential), or \code{3}
 (super-exponential; default).}
 }
@@ -105,7 +104,7 @@ uniformity on the (hyper)sphere
 Detailed descriptions and references of the statistics are available
 in García-Portugués and Verdebout (2018).
 
-The Pycke and Cai statistics employ the \emph{scalar products} matrix,
+The Pycke and CJ12 statistics employ the \emph{scalar products} matrix,
 rather than the shortest angles matrix, when \code{Psi_in_X = TRUE}. This
 matrix is obtained by setting \code{scalar_prod = TRUE} in
 \code{\link{Psi_mat}}.
@@ -120,9 +119,9 @@ produce spurious results:
   \code{X_in_Theta = TRUE}.
   \item The parameter \code{p} does \emph{not} match with the dimension of
   \eqn{R^p}.
-  \item \emph{Not} passing the scalar products matrix to \code{sph_stat_Cai}
+  \item \emph{Not} passing the scalar products matrix to \code{sph_stat_CJ12}
   when \code{Psi_in_X = TRUE}.
-  \item The directions in \code{rand_dirs} do \emph{not} have unit norm.
+  \item The directions in \code{dirs} do \emph{not} have unit norm.
 }
 }
 
@@ -183,22 +182,22 @@ sph_stat_PAD(Psi, Psi_in_X = TRUE, p = p)
 
 ## Other tests
 
-# Cuesta-Albertos
-rand_dirs <- r_unif_sph(n = 3, p = p, M = 1)[, , 1]
-sph_stat_Cuesta_Albertos(X, rand_dirs = rand_dirs)
+# CCF09
+dirs <- r_unif_sph(n = 3, p = p, M = 1)[, , 1]
+sph_stat_CCF09(X, dirs = dirs)
 
 ## High-dimensional tests
 
 # Rayleigh HD-Standardized
 sph_stat_Rayleigh_HD(X)
 
-# Cai
-sph_stat_Cai(X, regime = 1)
-sph_stat_Cai(Psi, regime = 1, Psi_in_X = TRUE, p = p)
-sph_stat_Cai(X, regime = 2)
-sph_stat_Cai(Psi, regime = 2, Psi_in_X = TRUE, p = p)
-sph_stat_Cai(X, regime = 3)
-sph_stat_Cai(Psi, regime = 3, Psi_in_X = TRUE, p = p)
+# CJ12
+sph_stat_CJ12(X, regime = 1)
+sph_stat_CJ12(Psi, regime = 1, Psi_in_X = TRUE, p = p)
+sph_stat_CJ12(X, regime = 2)
+sph_stat_CJ12(Psi, regime = 2, Psi_in_X = TRUE, p = p)
+sph_stat_CJ12(X, regime = 3)
+sph_stat_CJ12(Psi, regime = 3, Psi_in_X = TRUE, p = p)
 }
 \references{
 García-Portugués, E. and Verdebout, T. (2018) An overview of uniformity

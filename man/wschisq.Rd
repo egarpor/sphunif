@@ -7,25 +7,26 @@
 \alias{q_wschisq}
 \alias{r_wschisq}
 \alias{cutoff_wschisq}
-\title{Weighted sums of chi squared random variables}
+\title{Weighted sums of non-central chi squared random variables}
 \usage{
-d_wschisq(x, weights, dfs, method = c("I", "SW", "HBE")[1],
+d_wschisq(x, weights, dfs, ncps = 0, method = c("I", "SW", "HBE")[1],
   exact_chisq = TRUE, imhof_epsabs = 1e-06, imhof_epsrel = 1e-06,
   imhof_limit = 10000, grad_method = "simple",
   grad_method.args = list(eps = 1e-07))
 
-p_wschisq(x, weights, dfs, method = c("I", "SW", "HBE", "MC")[1],
+p_wschisq(x, weights, dfs, ncps = 0, method = c("I", "SW", "HBE", "MC")[1],
   exact_chisq = TRUE, imhof_epsabs = 1e-06, imhof_epsrel = 1e-06,
   imhof_limit = 10000, M = 10000, MC_sample = NULL)
 
-q_wschisq(u, weights, dfs, method = c("I", "SW", "HBE", "MC")[1],
+q_wschisq(u, weights, dfs, ncps = 0, method = c("I", "SW", "HBE", "MC")[1],
   exact_chisq = TRUE, imhof_epsabs = 1e-06, imhof_epsrel = 1e-06,
   imhof_limit = 10000, nlm_gradtol = 1e-06, nlm_iterlim = 1000,
   M = 10000, MC_sample = NULL)
 
-r_wschisq(n, weights, dfs)
+r_wschisq(n, weights, dfs, ncps = 0)
 
-cutoff_wschisq(thre = 1e-04, weights, dfs, log = FALSE, x_tail = NULL)
+cutoff_wschisq(thre = 1e-04, weights, dfs, ncps = 0, log = FALSE,
+  x_tail = NULL)
 }
 \arguments{
 \item{x}{vector of quantiles.}
@@ -36,9 +37,12 @@ same length as \code{dfs}.}
 \item{dfs}{vector with the positive degrees of freedom of the chi squared
 random variables. Must have the same length as \code{weights}.}
 
-\item{method}{method for approximating the density, distribution or
+\item{ncps}{non-centrality parameters. Either \code{0} (default) or a
+vector with the same length as \code{weights}.}
+
+\item{method}{method for approximating the density, distribution, or
 quantile function. Must be \code{"I"} (Imhof), \code{"SW"}
-(Satterthwaite--Welch), \code{"HBE"} (Hall--Buckley--Eagleson) or
+(Satterthwaite--Welch), \code{"HBE"} (Hall--Buckley--Eagleson), or
 \code{"MC"} (Monte Carlo; only for distribution or quantile functions).
 Defaults to \code{"I"}.}
 
@@ -97,12 +101,12 @@ series, computed by the \code{"HBE"} approximation.}
 }
 }
 \description{
-Approximated density, distribution, quantile functions, and
-random generation for weighted sums of (central) chi squared random
-variables:
-\deqn{Q_K = \sum_{i = 1}^K w_i \chi^2_{d_i},}
-where \eqn{w_1, \ldots, w_n} are positive weights and \eqn{d_1, \ldots, d_n}
-are the positive degrees of freedom.
+Approximated density, distribution, and quantile functions for
+weighted sums of non-central chi squared random variables:
+\deqn{Q_K = \sum_{i = 1}^K w_i \chi^2_{d_i}(\lambda_i),}
+where \eqn{w_1, \ldots, w_n} are positive weights, \eqn{d_1, \ldots, d_n}
+are positive degrees of freedom, and \eqn{\lambda_1, \ldots, \lambda_n}
+are non-negative non-centrality parameters. Also, simulation of \eqn{Q_K}.
 }
 \details{
 Four methods are implemented for approximating the distribution of a
@@ -148,42 +152,44 @@ Hall--Buckley--Eagleson approximation at \code{x_tail}.
 }
 \examples{
 # Plotting functions for the examples
-add_approx_dens <- function(x, dfs, weights) {
+add_approx_dens <- function(x, dfs, weights, ncps) {
 
-  lines(x, d_wschisq(x, weights = weights, dfs = dfs, method = "SW",
-                     exact_chisq = FALSE), col = 3)
-  lines(x, d_wschisq(x, weights = weights, dfs = dfs, method = "HBE",
-                     exact_chisq = FALSE), col = 4)
-  lines(x, d_wschisq(x, weights = weights, dfs = dfs, method = "I",
-                     exact_chisq = TRUE), col = 2)
+  lines(x, d_wschisq(x, weights = weights, dfs = dfs, ncps = ncps,
+                     method = "SW", exact_chisq = FALSE), col = 3)
+  lines(x, d_wschisq(x, weights = weights, dfs = dfs, ncps = ncps,
+                     method = "HBE", exact_chisq = FALSE), col = 4)
+  lines(x, d_wschisq(x, weights = weights, dfs = dfs, ncps = ncps,
+                     method = "I", exact_chisq = TRUE), col = 2)
   legend("topright", legend = c("True", "SW", "HBE", "I"), lwd = 2,
          col = c(1, 3:4, 2))
 
 }
-add_approx_distr <- function(x, dfs, weights, ...) {
+add_approx_distr <- function(x, dfs, weights, ncps, ...) {
 
-  lines(x, p_wschisq(x, weights = weights, dfs = dfs, method = "SW",
-                     exact_chisq = FALSE), col = 3)
-  lines(x, p_wschisq(x, weights = weights, dfs = dfs, method = "HBE",
-                     exact_chisq = FALSE), col = 4)
-  lines(x, p_wschisq(x, weights = weights, dfs = dfs, method = "MC",
-                     exact_chisq = FALSE), col = 5, type = "s")
-  lines(x, p_wschisq(x, weights = weights, dfs = dfs, method = "I",
-                     exact_chisq = TRUE), col = 2)
+  lines(x, p_wschisq(x, weights = weights, dfs = dfs, ncps = ncps,
+                     method = "SW", exact_chisq = FALSE), col = 3)
+  lines(x, p_wschisq(x, weights = weights, dfs = dfs, ncps = ncps,
+                     method = "HBE", exact_chisq = FALSE), col = 4)
+  lines(x, p_wschisq(x, weights = weights, dfs = dfs, ncps = ncps,
+                     method = "MC", exact_chisq = FALSE), col = 5,
+                     type = "s")
+  lines(x, p_wschisq(x, weights = weights, dfs = dfs, ncps = ncps,
+                     method = "I", exact_chisq = TRUE), col = 2)
   legend("bottomright", legend = c("True", "SW", "HBE", "MC", "I"), lwd = 2,
          col = c(1, 3:5, 2))
 
 }
-add_approx_quant <- function(u, dfs, weights, ...) {
+add_approx_quant <- function(u, dfs, weights, ncps, ...) {
 
-  lines(u, q_wschisq(u, weights = weights, dfs = dfs, method = "SW",
-                     exact_chisq = FALSE), col = 3)
-  lines(u, q_wschisq(u, weights = weights, dfs = dfs, method = "HBE",
-                     exact_chisq = FALSE), col = 4)
-  lines(u, q_wschisq(u, weights = weights, dfs = dfs, method = "MC",
-                     exact_chisq = FALSE), col = 5, type = "s")
-  lines(u, q_wschisq(u, weights = weights, dfs = dfs, method = "I",
-                     exact_chisq = TRUE), col = 2)
+  lines(u, q_wschisq(u, weights = weights, dfs = dfs, ncps = ncps,
+                     method = "SW", exact_chisq = FALSE), col = 3)
+  lines(u, q_wschisq(u, weights = weights, dfs = dfs, ncps = ncps,
+                     method = "HBE", exact_chisq = FALSE), col = 4)
+  lines(u, q_wschisq(u, weights = weights, dfs = dfs, ncps = ncps,
+                     method = "MC", exact_chisq = FALSE), col = 5,
+                     type = "s")
+  lines(u, q_wschisq(u, weights = weights, dfs = dfs, ncps = ncps,
+                     method = "I", exact_chisq = TRUE), col = 2)
   legend("topleft", legend = c("True", "SW", "HBE", "MC", "I"), lwd = 2,
          col = c(1, 3:5, 2))
 
@@ -191,50 +197,55 @@ add_approx_quant <- function(u, dfs, weights, ...) {
 
 # Validation plots for density, distribution, and quantile functions
 u <- seq(0.01, 0.99, l = 100)
-old_par <- par(mfrow = c(3, 3))
+old_par <- par(mfrow = c(1, 3))
 
-# Case 1: 1 * ChiSq_3 + 1 * ChiSq_3 = ChiSq_6
+# Case 1: 1 * ChiSq_3(0) + 1 * ChiSq_3(0) = ChiSq_6(0)
 weights <- c(1, 1)
 dfs <- c(3, 3)
+ncps <- 0
 x <- seq(-1, 30, l = 100)
-main <- expression(1 * chi[3]^2 + 1 * chi[3]^2)
+main <- expression(1 * chi[3]^2 * (0) + 1 * chi[3]^2 * (0))
 plot(x, dchisq(x, df = 6), type = "l", main = main, ylab = "Density")
-add_approx_dens(x = x, weights = weights, dfs = dfs)
+add_approx_dens(x = x, weights = weights, dfs = dfs, ncps = ncps)
 plot(x, pchisq(x, df = 6), type = "l", main = main, ylab = "Distribution")
-add_approx_distr(x = x, weights = weights, dfs = dfs)
+add_approx_distr(x = x, weights = weights, dfs = dfs, ncps = ncps)
 plot(u, qchisq(u, df = 6), type = "l", main = main, ylab = "Quantile")
-add_approx_quant(u = u, weights = weights, dfs = dfs)
+add_approx_quant(u = u, weights = weights, dfs = dfs, ncps = ncps)
 \donttest{
-# Case 2: 2 * ChiSq_3 + 1 * ChiSq_6 + 0.5 * ChiSq_12
+# Case 2: 2 * ChiSq_3(1) + 1 * ChiSq_6(0.5) + 0.5 * ChiSq_12(0.25)
 weights <- c(2, 1, 0.5)
 dfs <- c(3, 6, 12)
-x <- seq(-0.5, 50, l = 100)
-main <- expression(2 * chi[3]^2 + 1 * chi[6]^2 + 0.5 * chi[12]^2)
-samp <- r_wschisq(n = 1e4, dfs = c(3, 6, 12), weights = c(2, 1, 0.5))
-hist(samp, breaks = 100, freq = FALSE, main = main, ylab = "Density",
+ncps <- c(1, 0.5, 0.25)
+x <- seq(0, 70, l = 100)
+main <- expression(2 * chi[3]^2 * (1)+ 1 * chi[6]^2 * (0.5) +
+                   0.5 * chi[12]^2 * (0.25))
+samp <- r_wschisq(n = 1e4, weights = weights, dfs = dfs, ncps = ncps)
+hist(samp, breaks = 50, freq = FALSE, main = main, ylab = "Density",
      xlim = range(x), xlab = "x"); box()
-add_approx_dens(x = x, weights = weights, dfs = dfs)
+add_approx_dens(x = x, weights = weights, dfs = dfs, ncps = ncps)
 plot(x, ecdf(samp)(x), main = main, ylab = "Distribution", type = "s")
-add_approx_distr(x = x, weights = weights, dfs = dfs)
+add_approx_distr(x = x, weights = weights, dfs = dfs, ncps = ncps)
 plot(u, quantile(samp, probs = u), type = "s", main = main,
      ylab = "Quantile")
-add_approx_quant(u = u, weights = weights, dfs = dfs)
+add_approx_quant(u = u, weights = weights, dfs = dfs, ncps = ncps)
 
-# Case 3: \sum_{k = 1}^K k^(-3) * ChiSq_{5k}
+# Case 3: \sum_{k = 1}^K k^(-3) * ChiSq_{5k}(1 / k^2)
 K <- 1e2
 weights<- 1 / (1:K)^3
 dfs <- 5 * 1:K
+ncps <- 1 / (1:K)^2
 x <- seq(0, 25, l = 100)
-main <- substitute(sum(k^(-3) * chi[5 * k]^2, k == 1, K), list(K = K))
-samp <- r_wschisq(n = 1e4, weights = weights, dfs = dfs)
-hist(samp, breaks = 100, freq = FALSE, main = main, ylab = "Density",
+main <- substitute(sum(k^(-3) * chi[5 * k]^2 * (1 / k^2), k == 1, K),
+                   list(K = K))
+samp <- r_wschisq(n = 1e4, weights = weights, dfs = dfs, ncps = ncps)
+hist(samp, breaks = 50, freq = FALSE, main = main, ylab = "Density",
      xlim = range(x), xlab = "x"); box()
-add_approx_dens(x = x, weights = weights, dfs = dfs)
+add_approx_dens(x = x, weights = weights, dfs = dfs, ncps = ncps)
 plot(x, ecdf(samp)(x), main = main, ylab = "Distribution", type = "s")
-add_approx_distr(x = x, weights = weights, dfs = dfs)
+add_approx_distr(x = x, weights = weights, dfs = dfs, ncps = ncps)
 plot(u, quantile(samp, probs = u), type = "s", main = main,
      ylab = "Quantile")
-add_approx_quant(u = u, weights = weights, dfs = dfs)
+add_approx_quant(u = u, weights = weights, dfs = dfs, ncps = ncps)
 par(old_par)
 
 # Cutoffs for infinite series of the last example

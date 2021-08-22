@@ -14,6 +14,7 @@ arma::vec t_inv_sqrt_one(arma::vec t);
 const double inv_M_PI = 1.0 / M_PI;
 const double inv_two_M_PI = 0.5 / M_PI;
 
+
 //' @title Surface area of the intersection of two hyperspherical caps
 //'
 //' @description Computation of
@@ -113,7 +114,7 @@ arma::mat A_theta_x(arma::vec theta, arma::vec x, arma::uword p,
   // Check if compatible lengths
   if (!as_matrix && (theta.n_elem != x.n_elem)) {
 
-    stop("Incompatible lenghts of theta and x, consider as_matrix = TRUE");
+    stop("Incompatible lenghts of theta and x, consider as_matrix = TRUE.");
 
   }
 

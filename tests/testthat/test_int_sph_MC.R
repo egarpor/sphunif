@@ -9,62 +9,40 @@ seeds <- 1:5
 
 test_that("Integration of one", {
 
-  expect_equal(int_sph_MC(f = one, p = 2, M = 10, verbose = FALSE),
-               rotasym::w_p(p = 2))
-  expect_equal(int_sph_MC(f = one, p = 3, M = 10, verbose = FALSE),
-               rotasym::w_p(p = 3))
-  expect_equal(int_sph_MC(f = one, p = 4, M = 10, verbose = FALSE),
-               rotasym::w_p(p = 4))
-  expect_equal(int_sph_MC(f = one, p = 11, M = 10, verbose = FALSE),
-               rotasym::w_p(p = 11))
+  for (p in c(2, 3, 4, 11)) {
+    expect_equal(int_sph_MC(f = one, p = p, M = 10, verbose = FALSE),
+                 rotasym::w_p(p = p))
+  }
 
 })
 
 test_that("Integration of id", {
 
-  expect_equal(int_sph_MC(f = id, p = 2, M = 1e3, verbose = FALSE,
-                          seeds = 1:5, chunks = 5), 0,
-               tolerance = 3e-1)
-  expect_equal(int_sph_MC(f = id, p = 3, M = 1e3, verbose = FALSE,
-                          seeds = 1:5, chunks = 5), 0,
-               tolerance = 3e-1)
-  expect_equal(int_sph_MC(f = id, p = 4, M = 1e3, verbose = FALSE,
-                          seeds = 1:5, chunks = 5), 0,
-               tolerance = 3e-1)
-  expect_equal(int_sph_MC(f = id, p = 11, M = 1e3, verbose = FALSE,
-                          seeds = 1:5, chunks = 5), 0,
-               tolerance = 3e-1)
+  for (p in c(2, 3, 4, 11)) {
+    expect_equal(int_sph_MC(f = id, p = p, M = 1e3, verbose = FALSE,
+                            seeds = 1:5, chunks = 5), 0,
+                 tolerance = 3e-1)
+  }
 
 })
 
 test_that("Integration of quad", {
 
-  expect_equal(int_sph_MC(f = quad, p = 2, M = 10, verbose = FALSE,
-                          seeds = 1:5, chunks = 5),
-               rotasym::w_p(p = 2))
-  expect_equal(int_sph_MC(f = quad, p = 3, M = 10, verbose = FALSE,
-                          seeds = 1:5, chunks = 5),
-               rotasym::w_p(p = 3))
-  expect_equal(int_sph_MC(f = quad, p = 4, M = 10, verbose = FALSE,
-                          seeds = 1:5, chunks = 5),
-               rotasym::w_p(p = 4))
-  expect_equal(int_sph_MC(f = quad, p = 11, M = 10, verbose = FALSE,
-                          seeds = 1:5, chunks = 5),
-               rotasym::w_p(p = 11))
+  for (p in c(2, 3, 4, 11)) {
+    expect_equal(int_sph_MC(f = quad, p = p, M = 10, verbose = FALSE,
+                            seeds = 1:5, chunks = 5),
+                 rotasym::w_p(p = p))
+  }
 
 })
 
 test_that("Integration of cubic", {
 
-  expect_equal(int_sph_MC(f = cubic, p = 3, M = 1e3, verbose = FALSE,
-                          seeds = 1:5, chunks = 5), 0,
-               tolerance = 1e-1)
-  expect_equal(int_sph_MC(f = cubic, p = 4, M = 1e3, verbose = FALSE,
-                          seeds = 1:5, chunks = 5), 0,
-               tolerance = 1e-1)
-  expect_equal(int_sph_MC(f = cubic, p = 11, M = 1e3, verbose = FALSE,
-                          seeds = 1:5, chunks = 5), 0,
-               tolerance = 1e-1)
+  for (p in c(3, 4, 11)) {
+    expect_equal(int_sph_MC(f = cubic, p = p, M = 1e3, verbose = FALSE,
+                            seeds = 1:5, chunks = 5), 0,
+                 tolerance = 1e-1)
+  }
 
 })
 
@@ -74,9 +52,9 @@ test_that("cores = 1 vs. cores = 2", {
                           chunks = 5, verbose = FALSE),
                int_sph_MC(f = cubic, p = 3, M = 10, cores = 2, seeds = seeds,
                           chunks = 5, verbose = FALSE))
-  expect_equal(int_sph_MC(f = id, p = 3, M = 10, cores = 1, seeds = seeds,
+  expect_equal(int_sph_MC(f = id, p = 4, M = 10, cores = 1, seeds = seeds,
                           chunks = 5, verbose = FALSE),
-               int_sph_MC(f = id, p = 3, M = 10, cores = 2, seeds = seeds,
+               int_sph_MC(f = id, p = 4, M = 10, cores = 2, seeds = seeds,
                           chunks = 5, verbose = FALSE))
 
 })

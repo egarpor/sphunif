@@ -10,9 +10,9 @@ A data frame with 5235 rows and 7 variables:
   \item{ID}{database ID.}
   \item{name}{name of the crater.}
   \item{target}{name of the celestial body. A factor with 43 levels,
-  such as \code{"Moon"}, \code{"Venus"} or \code{"Europa"}.}
+  such as \code{"Moon"}, \code{"Venus"}, or \code{"Europa"}.}
   \item{target_type}{type of celestial body. A factor with 3 levels:
-  \code{"Planet"}, \code{"Moon"}, \code{"Dwarf planet"} or
+  \code{"Planet"}, \code{"Moon"}, \code{"Dwarf planet"}, or
   \code{"Asteroid"}.}
   \item{diameter}{diameter of the crater (in km).}
   \item{theta}{longitude angle \eqn{\theta \in [0, 2\pi)} of the
@@ -36,7 +36,7 @@ Nomenclature} of the International Astronomical Union (IUA).
 "Craters" are understood in the Gazetteer of Planetary Nomenclature as
 roughly circular depressions resulting from impact or volcanic activity
 (the geological origin is
-\href{unspecified}{https://planetarynames.wr.usgs.gov/DescriptorTerms}).
+\href{https://planetarynames.wr.usgs.gov/DescriptorTerms}{unspecified}).
 
 Be aware that the dataset only contains \emph{named} craters by the IUA.
 Therefore, there is likely a \bold{high uniform bias} on the distribution

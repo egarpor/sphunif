@@ -25,7 +25,7 @@ f_locdev_Pn(p, type, K = 1000, N = 320, K_max = 10000, thre = 0.001,
 \item{q}{integer giving the dimension of the sphere \eqn{S^q}.}
 
 \item{type}{type of projected-ecdf test statistic. Must be either
-\code{"PCvM"} (Cramér--von Mises), \code{"PAD"} (Anderson--Darling) or
+\code{"PCvM"} (Cramér--von Mises), \code{"PAD"} (Anderson--Darling), or
 \code{"PRt"} (Rothman).}
 
 \item{Rothman_t}{\eqn{t} parameter for the Rothman test, a real in
@@ -157,7 +157,7 @@ for (type in c("PCvM", "PAD", "PRt")) {
 }
 par(old_par)
 
-# Analytical coefficients vs numerical integration
+# Analytical coefficients vs. numerical integration
 test_coef <- function(type, p, k = 0:20) {
 
   plot(k, log1p(abs(Gegen_coefs_Pn(k = k, p = p, type = type))),

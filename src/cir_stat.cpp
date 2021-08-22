@@ -29,9 +29,8 @@ arma::vec sph_stat_PRt(arma::cube X, double t,  bool Psi_in_X, arma::uword p,
                        arma::uword N, arma::uword L);
 arma::vec sph_stat_PAD(arma::cube X, bool Psi_in_X, arma::uword p,
                        arma::uword N, arma::uword L);
-arma::vec sph_stat_Cuesta_Albertos(arma::cube X, arma::mat rand_dirs,
-                                   arma::uword K_Cuesta_Albertos,
-                                   bool original = false);
+arma::vec sph_stat_CCF09(arma::cube X, arma::mat dirs, arma::uword K_CCF09,
+                         bool original = false);
 
 // Constants
 const double pi = M_PI;
@@ -745,7 +744,7 @@ arma::vec cir_stat_Cressie(arma::mat Theta, double t = 1.0 / 3.0,
 //' @rdname cir_stat
 //' @export
 // [[Rcpp::export]]
-arma::vec cir_stat_Feltz_Goldin(arma::mat Theta, bool sorted = false) {
+arma::vec cir_stat_FG01(arma::mat Theta, bool sorted = false) {
 
   // Sample size
   arma::uword n = Theta.n_rows;
@@ -1181,12 +1180,10 @@ arma::vec cir_stat_PAD(arma::mat Theta, bool Psi_in_Theta = false,
 //' @rdname cir_stat
 //' @export
 // [[Rcpp::export]]
-arma::vec cir_stat_Cuesta_Albertos(arma::mat Theta, arma::mat rand_dirs,
-                                   arma::uword K_Cuesta_Albertos = 25,
-                                   bool original = false) {
+arma::vec cir_stat_CCF09(arma::mat Theta, arma::mat dirs,
+                         arma::uword K_CCF09 = 25, bool original = false) {
 
-  return sph_stat_Cuesta_Albertos(Theta_to_X(Theta), rand_dirs,
-                                  K_Cuesta_Albertos, original);
+  return sph_stat_CCF09(Theta_to_X(Theta), dirs, K_CCF09, original);
 
 }
 

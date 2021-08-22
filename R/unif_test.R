@@ -86,11 +86,11 @@
 #' (\code{"Cressie"}), and the number of (different) uncovered spacings
 #' (\code{"Num_uncover"}). These three statistics are discrete random variables.
 #'
-#' The Monte Carlo calibration for Cuesta-Albertos test is made conditionally
-#' on the choice of \cr\code{Cuesta_Albertos_rand_dirs}. That is, all the Monte
+#' The Monte Carlo calibration for the CCF09 test is made conditionally
+#' on the choice of \cr\code{CCF09_dirs}. That is, all the Monte
 #' Carlo statistics share the same random directions.
 #'
-#' Detailed descriptions and references of the tests are available
+#' Descriptions and references for most of the tests are available
 #' in García-Portugués and Verdebout (2018).
 #' @references
 #' García-Portugués, E. and Verdebout, T. (2018) An overview of uniformity
@@ -168,26 +168,26 @@
 #' # Rothman
 #' unif_test(data = samp_cir, type = "Rothman", Rothman_t = 0.5)
 #'
-#' # Cuesta-Albertos
-#' unif_test(data = samp_sph, type = "Cuesta_Albertos", p_value = "MC",
-#'           Cuesta_Albertos_rand_dirs = samp_sph[1:2, , 1])
-#' unif_test(data = samp_sph, type = "Cuesta_Albertos", p_value = "MC",
-#'           Cuesta_Albertos_rand_dirs = samp_sph[3:4, , 1])
+#' # CCF09
+#' unif_test(data = samp_sph, type = "CCF09", p_value = "MC",
+#'           CCF09_dirs = samp_sph[1:2, , 1])
+#' unif_test(data = samp_sph, type = "CCF09", p_value = "MC",
+#'           CCF09_dirs = samp_sph[3:4, , 1])
 #'
-#' # Cai
-#' unif_test(data = samp_sph, type = "Cai", Cai_regime = 3, p_value = "asymp")
-#' unif_test(data = samp_sph, type = "Cai", Cai_regime = 1, p_value = "asymp")
-#' unif_test(data = samp_sph, type = "Cai", Cai_regime = 2, Cai_beta = 0.01,
+#' # CJ12
+#' unif_test(data = samp_sph, type = "CJ12", CJ12_reg = 3, p_value = "asymp")
+#' unif_test(data = samp_sph, type = "CJ12", CJ12_reg = 1, p_value = "asymp")
+#' unif_test(data = samp_sph, type = "CJ12", CJ12_reg = 2, CJ12_beta = 0.01,
 #'           p_value = "asymp")
 #' }
 #' @export
 unif_test <- function(data, type = "all", p_value = "asymp",
                       alpha = c(0.10, 0.05, 0.01), M = 1e4, stats_MC = NULL,
                       crit_val = NULL, data_sorted = FALSE, Rayleigh_m = 1,
-                      coverage_a = 2 * pi, Rothman_t = 1 / 3, Cressie_t = 1 / 3,
-                      Pycke_q = 0.5, Riesz_s = 1,
-                      Cuesta_Albertos_rand_dirs = NULL, K_Cuesta_Albertos = 25,
-                      Cai_regime = 3, Cai_beta = 0, K_max = 1e4, ...) {
+                      cov_a = 2 * pi, Rothman_t = 1 / 3, Cressie_t = 1 / 3,
+                      Pycke_q = 0.5, Riesz_s = 1, CCF09_dirs = NULL,
+                      K_CCF09 = 25, CJ12_reg = 3, CJ12_beta = 0, K_max = 1e4,
+                      ...) {
 
   # Read data's name
   data_name <- deparse(substitute(data))
@@ -195,7 +195,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
   # Stop if NA's
   if (anyNA(data)) {
 
-    stop("NAs present in data, please remove them")
+    stop("NAs present in data, please remove them.")
 
   }
 
@@ -218,13 +218,13 @@ unif_test <- function(data, type = "all", p_value = "asymp",
     if (d[3] != 1) {
 
       message(paste("data is an array with more than one slice,",
-                    "only the first one is employed"))
+                    "only the first one is employed."))
 
     }
 
   } else if (l > 3) {
 
-    stop("data must be a vector, matrix, or a 3-dimensional array")
+    stop("data must be a vector, matrix, or a 3-dimensional array.")
 
   }
 
@@ -279,7 +279,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
 
   } else {
 
-    stop("type must be a character or a numeric vector")
+    stop("type must be a character or a numeric vector.")
 
   }
 
@@ -296,7 +296,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
       stats_type <- stats_type[ind_asymp]
       if (length(stats_type) == 0) {
 
-        stop("No remaining statistics to use")
+        stop("No remaining statistics to use.")
 
       }
 
@@ -309,21 +309,20 @@ unif_test <- function(data, type = "all", p_value = "asymp",
 
   ## Statistics
 
-  # Sample random directions for the Cuesta_Albertos test
-  if ("Cuesta_Albertos" %in% stats_type & is.null(Cuesta_Albertos_rand_dirs)) {
+  # Sample random directions for the CCF09 test
+  if ("CCF09" %in% stats_type & is.null(CCF09_dirs)) {
 
-    Cuesta_Albertos_rand_dirs <- r_unif_sph(n = 50, p = p, M = 1)[, , 1]
+    CCF09_dirs <- r_unif_sph(n = 50, p = p, M = 1)[, , 1]
 
   }
 
   # Compute statistics
-  stat <- unif_stat(data = data, type = stats_type,
-                    data_sorted = data_sorted, Rayleigh_m = Rayleigh_m,
-                    coverage_a = coverage_a, Rothman_t = Rothman_t,
-                    Cressie_t = Cressie_t, Pycke_q = Pycke_q, Riesz_s = Riesz_s,
-                    Cuesta_Albertos_rand_dirs = Cuesta_Albertos_rand_dirs,
-                    K_Cuesta_Albertos = K_Cuesta_Albertos,
-                    Cai_regime = Cai_regime)
+  stat <- unif_stat(data = data, type = stats_type, data_sorted = data_sorted,
+                    Rayleigh_m = Rayleigh_m, cov_a = cov_a,
+                    Rothman_t = Rothman_t, Cressie_t = Cressie_t,
+                    Pycke_q = Pycke_q, Riesz_s = Riesz_s,
+                    CCF09_dirs = CCF09_dirs, K_CCF09 = K_CCF09,
+                    CJ12_reg = CJ12_reg)
 
   ## Calibration
 
@@ -335,13 +334,11 @@ unif_test <- function(data, type = "all", p_value = "asymp",
       crit_val <- unif_stat_MC(n = n, type = stats_type, p = p, M = M,
                                r_H1 = NULL, crit_val = NULL, alpha = alpha,
                                return_stats = FALSE, stats_sorted = FALSE,
-                               Rayleigh_m = Rayleigh_m, coverage_a = coverage_a,
+                               Rayleigh_m = Rayleigh_m, cov_a = cov_a,
                                Rothman_t = Rothman_t, Cressie_t = Cressie_t,
                                Pycke_q = Pycke_q, Riesz_s = Riesz_s, 
-                               Cuesta_Albertos_rand_dirs =
-                                 Cuesta_Albertos_rand_dirs,
-                               K_Cuesta_Albertos = K_Cuesta_Albertos,
-                               Cai_regime = Cai_regime, ...)$crit_val_MC
+                               CCF09_dirs = CCF09_dirs, K_CCF09 = K_CCF09,
+                               CJ12_reg = CJ12_reg, ...)$crit_val_MC
 
     } else {
 
@@ -377,10 +374,9 @@ unif_test <- function(data, type = "all", p_value = "asymp",
                                r_H1 = NULL, crit_val = NULL, alpha = alpha,
                                return_stats = TRUE, stats_sorted = TRUE,
                                Rothman_t = Rothman_t, Pycke_q = Pycke_q,
-                               Riesz_s = Riesz_s, Cuesta_Albertos_rand_dirs =
-                                 Cuesta_Albertos_rand_dirs,
-                               Cai_regime = Cai_regime, K_Cuesta_Albertos =
-                                 K_Cuesta_Albertos, ...)$stats_MC
+                               Riesz_s = Riesz_s, CCF09_dirs = CCF09_dirs,
+                               CJ12_reg = CJ12_reg, K_CCF09 = K_CCF09,
+                               ...)$stats_MC
 
     }
 
@@ -402,13 +398,12 @@ unif_test <- function(data, type = "all", p_value = "asymp",
     # p-values
     p_val <- 1 - unif_stat_distr(x = stat, type = stats_type, p = p, n = n,
                                  approx = "asymp", stats_MC = NULL, M = M,
-                                 coverage_a = coverage_a, Rothman_t = Rothman_t,
+                                 cov_a = cov_a, Rothman_t = Rothman_t,
                                  Cressie_t = Cressie_t, Pycke_q = Pycke_q,
-                                 Riesz_s = Riesz_s, Cuesta_Albertos_rand_dirs =
-                                   Cuesta_Albertos_rand_dirs,
-                                 K_Cuesta_Albertos = K_Cuesta_Albertos,
-                                 Cai_regime = Cai_regime, Cai_beta = Cai_beta,
-                                 K_max = K_max, thre = 0, ...)
+                                 Riesz_s = Riesz_s, CCF09_dirs = CCF09_dirs,
+                                 K_CCF09 = K_CCF09, CJ12_reg = CJ12_reg,
+                                 CJ12_beta = CJ12_beta, K_max = K_max,
+                                 thre = 0, ...)
 
     # Critical values
     crit_val <- as.data.frame(matrix(NA, nrow = length(alpha), ncol = n_stats))
@@ -421,7 +416,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
   } else {
 
     stop(paste("Wrong choice for calibration, must be \"MC\", \"asymp\",",
-               "or \"crit_val\""))
+               "or \"crit_val\"."))
 
   }
 
@@ -437,15 +432,14 @@ unif_test <- function(data, type = "all", p_value = "asymp",
 
       method <- switch(stats_type[i],
          "Ajne" = "Ajne test of circular uniformity",
-         "Bakshaev" = "Bakshaev test of circular uniformity",
+         "Bakshaev" = "Bakshaev (2010) test of circular uniformity",
          "Bingham" = "Bingham test of circular uniformity",
-         "Cuesta_Albertos" = paste("Cuesta-Albertos et al. (2009) test of",
-                                   "circular uniformity with k =",
-                                   nrow(Cuesta_Albertos_rand_dirs)),
+         "CCF09" = paste("Cuesta-Albertos et al. (2009) test of circular",
+                         "uniformity with k =", nrow(CCF09_dirs)),
          "Cressie" = paste("Cressie test of circular uniformity with t =",
                            round(Cressie_t, 3)),
-         "Feltz_Goldin" = paste("Cramer-von Mises 4-point test of Feltz and",
-                                "Goldin (2001)"),
+         "FG01" = paste("Cramer-von Mises 4-point test of Feltz and",
+                        "Goldin (2001)"),
          "Gine_Fn" = "Gine's Fn test of circular uniformity",
          "Gine_Gn" = "Gine's Gn test of circular uniformity",
          "Gini" = "Gini mean difference test of circular uniformity",
@@ -459,10 +453,10 @@ unif_test <- function(data, type = "all", p_value = "asymp",
                             "circular uniformity"),
          "Max_uncover" = paste("Maximum uncovered spacing test of",
                                "circular uniformity with a =",
-                               round(coverage_a, 3)),
+                               round(cov_a, 3)),
          "Num_uncover" = paste("Number of uncovered spacings test of",
                                "circular uniformity with a =",
-                               round(coverage_a, 3)),
+                               round(cov_a, 3)),
          "PAD" = paste("Projected Anderson-Darling test of",
                        "circular uniformity"),
          "PCvM" = paste("Projected Cramer-von Mises test of",
@@ -477,11 +471,11 @@ unif_test <- function(data, type = "all", p_value = "asymp",
          "Rayleigh" = paste0("Rayleigh test of circular uniformity",
                              ifelse(Rayleigh_m > 1, paste0(" with m = ",
                                                            Rayleigh_m), "")),
-         "Riesz" = "Riesz test of circular uniformity",
+         "Riesz" = "Warning! This is an experimental test not meant to be used",
          "Rothman" = paste("Rothman test of circular uniformity with t =",
                            round(Rothman_t, 3)),
          "Vacancy" = paste("Vacancy test of circular uniformity with a =",
-                           round(coverage_a, 3)),
+                           round(cov_a, 3)),
          "Watson" = "Watson test of circular uniformity",
          "Watson_1976" = "Watson (1976) test of circular uniformity"
       )
@@ -492,8 +486,8 @@ unif_test <- function(data, type = "all", p_value = "asymp",
          "Bingham" = "scatter matrix different from constant",
          "Cressie" = paste("any alternative to circular uniformity",
                            "if t is irrational (conjectured)"),
-         "Cuesta_Albertos" = "any alternative to circular uniformity",
-         "Feltz_Goldin" = "any alternative to circular uniformity",
+         "CCF09" = "any alternative to circular uniformity",
+         "FG01" = "any alternative to circular uniformity",
          "Gine_Fn" = "any alternative to circular uniformity",
          "Gine_Gn" = "any axial alternative to circular uniformity",
          "Gini" = "any alternative to circular uniformity",
@@ -517,7 +511,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
          "Rayleigh" = "mean direction different from zero",
          "Rothman" = paste("any alternative to circular uniformity",
                            "if t is irrational"),
-         "Riesz" = "any alternative to circular uniformity",
+         "Riesz" = "unclear, experimental test",
          "Vacancy" = "any alternative to circular uniformity",
          "Watson" = "any alternative to circular uniformity",
          "Watson_1976" = "unclear consistency"
@@ -527,12 +521,11 @@ unif_test <- function(data, type = "all", p_value = "asymp",
 
       method <- switch(stats_type[i],
          "Ajne" = "Ajne test of spherical uniformity",
-         "Bakshaev" = "Bakshaev test of spherical uniformity",
+         "Bakshaev" = "Bakshaev (2010) test of spherical uniformity",
          "Bingham" = "Bingham test of spherical uniformity",
-         "Cai" = "Cai test of spherical uniformity",
-         "Cuesta_Albertos" = paste("Cuesta-Albertos et al. (2009) test of",
-                                   "spherical uniformity with k =",
-                                   nrow(Cuesta_Albertos_rand_dirs)),
+         "CJ12" = "Cai and Jiang (2012) test of spherical uniformity",
+         "CCF09" = paste("Cuesta-Albertos et al. (2009) test of spherical",
+                         "uniformity with k =", nrow(CCF09_dirs)),
          "Gine_Fn" = "Gine's Fn test of spherical uniformity",
          "Gine_Gn" = "Gine's Gn test of spherical uniformity",
          "PAD" = paste("Projected Anderson-Darling test of",
@@ -545,15 +538,15 @@ unif_test <- function(data, type = "all", p_value = "asymp",
          "Rayleigh" = "Rayleigh test of spherical uniformity",
          "Rayleigh_HD" = paste("HD-standardized Rayleigh test of",
                                "spherical uniformity"),
-         "Riesz" = "Riesz test of spherical uniformity"
+         "Riesz" = "Warning! This is an experimental test not meant to be used"
       )
 
       alternative <- switch(stats_type[i],
          "Ajne" = "any non-axial alternative to spherical uniformity",
          "Bakshaev" = "any alternative to spherical uniformity",
          "Bingham" = "scatter matrix different from constant",
-         "Cai" = "unclear consistency",
-         "Cuesta_Albertos" = "any alternative to spherical uniformity",
+         "CJ12" = "unclear consistency",
+         "CCF09" = "any alternative to spherical uniformity",
          "Gine_Fn" = "any alternative to spherical uniformity",
          "Gine_Gn" = "any axial alternative to spherical uniformity",
          "PCvM" = "any alternative to spherical uniformity",
@@ -563,7 +556,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
          "Pycke" = "any alternative to spherical uniformity",
          "Rayleigh" = "mean direction different from zero",
          "Rayleigh_HD" = "mean direction different from zero",
-         "Riesz" = "any alternative to spherical uniformity"
+         "Riesz" = "unclear, experimental test"
       )
 
     }
@@ -613,8 +606,8 @@ avail_cir_tests <- c("Ajne",
                      "Bakshaev",
                      "Bingham",
                      "Cressie",
-                     "Cuesta_Albertos",
-                     "Feltz_Goldin",
+                     "CCF09",
+                     "FG01",
                      "Gine_Fn",
                      "Gine_Gn",
                      "Gini",
@@ -646,8 +639,8 @@ avail_cir_tests <- c("Ajne",
 avail_sph_tests <- c("Ajne",
                      "Bakshaev",
                      "Bingham",
-                     "Cai",
-                     "Cuesta_Albertos",
+                     "CJ12",
+                     "CCF09",
                      "Gine_Fn",
                      "Gine_Gn",
                      "PAD",

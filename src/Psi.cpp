@@ -7,6 +7,7 @@ using namespace Rcpp;
 // Declaration for functions
 arma::uvec upper_tri_ind(arma::uword n);
 
+
 //' @title Shortest angles matrix
 //'
 //' @description Efficient computation of the shortest angles matrix

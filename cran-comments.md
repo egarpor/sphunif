@@ -21,4 +21,4 @@
 * This is a new release.
 * "Possibly mis-spelled words in DESCRIPTION" -> Double-checked, they are correctly spelled.
 * "Found the following (possibly) invalid URLs" -> Double-checked, they are correctly spelled.
-* Observe that the use of `set.seed` in `unif_stat_MC` and `int_sph_MC` serves the purpose of reproducibility and debugging when running simulations in parallel. Since the default is *not* to set any seeds (`seeds = NULL`), unless the user explicitly demands otherwise, the package is compliant with the policy "Packages should not modify the global environment (user’s workspace)."
+* Please observe that the use of `set.seed` in `unif_stat_MC` and `int_sph_MC` serves the very important purpose of ensuring full reproducibility and facilitating debugging when running simulations in parallel. Since the default is **not** to set any seeds (`seeds = NULL`), unless the user explicitly demands otherwise by overriding `seeds`, I believe the package is compliant with CRAN's policy.

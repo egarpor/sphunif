@@ -97,13 +97,19 @@ sphere_to_angles <- function(x) {
 #' @description Computation of a certain explicit representation of
 #' (hyper)spherical harmonics on
 #' \eqn{S^{p-1}:=\{{\bf x}\in R^p:||{\bf x}||=1\}}{
-#' S^{p-1}:=\{x\in R^p:||x||=1\}}, \eqn{p\ge 2}. TODO
+#' S^{p-1}:=\{x\in R^p:||x||=1\}}, \eqn{p\ge 2}. Details are available in
+#' García-Portugués et al. (2021).
 #'
 #' @param x locations in \eqn{S^{p-1}} to evaluate \eqn{g_{i,k}}. Either a
 #' matrix of size \code{c(nx, p)} or a vector of length \code{p}. Normalized
 #' internally if required (with a \code{warning} message).
-#' @param i,k TODO.
-#' @param m TODO. Defaults to \code{NULL}.
+#' @param i,k alternative indexing, where \code{k} is a non-negative integer
+#' that denotes the order of the (hyper)spherical harmonic and \code{i} is
+#' a positive integer smaller than \link[=d_p_k]{\eqn{d_{p,k}}}.
+#' of the 
+#' @param m (hyper)spherical harmonic index, as used in Proposition 2.1. The
+#' index is computed internally from \code{i} and \code{k}. Defaults to
+#' \code{NULL}.
 #' @param show_m flag to print \code{m} if computed internally when
 #' \code{m = NULL}.
 #' @return A vector of size \code{nrow(x)}.

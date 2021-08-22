@@ -11,9 +11,14 @@ g_ik(x, i = 1, k = 1, m = NULL, show_m = FALSE)
 matrix of size \code{c(nx, p)} or a vector of length \code{p}. Normalized
 internally if required (with a \code{warning} message).}
 
-\item{i, k}{TODO.}
+\item{i, k}{alternative indexing, where \code{k} is a non-negative integer
+that denotes the order of the (hyper)spherical harmonic and \code{i} is
+a positive integer smaller than \link[=d_p_k]{\eqn{d_{p,k}}}.
+of the}
 
-\item{m}{TODO. Defaults to \code{NULL}.}
+\item{m}{(hyper)spherical harmonic index, as used in Proposition 2.1. The
+index is computed internally from \code{i} and \code{k}. Defaults to
+\code{NULL}.}
 
 \item{show_m}{flag to print \code{m} if computed internally when
 \code{m = NULL}.}
@@ -25,7 +30,8 @@ A vector of size \code{nrow(x)}.
 Computation of a certain explicit representation of
 (hyper)spherical harmonics on
 \eqn{S^{p-1}:=\{{\bf x}\in R^p:||{\bf x}||=1\}}{
-S^{p-1}:=\{x\in R^p:||x||=1\}}, \eqn{p\ge 2}. TODO
+S^{p-1}:=\{x\in R^p:||x||=1\}}, \eqn{p\ge 2}. See details in
+García-Portugués et al. (2021).
 }
 \details{
 The implementation uses Proposition 2.1 in García-Portugués et al. (2021),

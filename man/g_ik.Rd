@@ -13,7 +13,7 @@ internally if required (with a \code{warning} message).}
 
 \item{i, k}{alternative indexing, where \code{k} is a non-negative integer
 that denotes the order of the (hyper)spherical harmonic and \code{i} is
-a positive integer smaller than \link[=d_p_k]{\eqn{d_{p,k}}}.
+a positive integer smaller than \link[=Sobolev]{\eqn{d_{p,k}}}.
 of the}
 
 \item{m}{(hyper)spherical harmonic index, as used in Proposition 2.1. The

@@ -445,8 +445,8 @@ F_from_f <- function(f, p, Gauss = TRUE, N = 320, K = 1e3, tol = 1e-6, ...) {
   }
 
   # Use method = "hyman" for monotone interpolations if possible
-  if (anyNA(F_grid)) warning("NAs in F_grid")
-  F_appf <- switch(is.unsorted(na.omit(F_grid)) + 1,
+  if (anyNA(F_grid)) stop("Numerical error (NAs) in F_grid")
+  F_appf <- switch(is.unsorted(F_grid) + 1,
                    splinefun(x = z, y = F_grid, method = "hyman"),
                    approxfun(x = z, y = F_grid, method = "linear", rule = 2))
   return(F_appf)

@@ -541,14 +541,11 @@ q_wschisq <- function(u, weights, dfs, ncps = 0,
       # Monte Carlo approximation
       if (is.null(MC_sample)) {
 
-        # For Imhof, do a less demanding and deterministic Monte Carlo to
-        # get good starting values for inverting the approximated cdf
+        # For Imhof, do a less demanding Monte Carlo to get good starting
+        # values for inverting the approximated cdf
         if (method == "I") {
 
           M <- 1e3
-          old <- .Random.seed
-          on.exit({.Random.seed <<- old})
-          set.seed(123456789, kind = "Mersenne-Twister")
 
         }
         MC_sample <- r_wschisq(n = M, weights = weights, dfs = dfs, ncps = ncps)

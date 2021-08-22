@@ -210,9 +210,9 @@
 #'                          p = p), col = col[i])
 #' }
 #' lines(th, psi(th), lwd = 2)
-#'
+#' \donttest{
 #' ## Surface representation
-#'
+#' 
 #' # Surface in [0, pi]^2 to be projected in Gegenbauer polynomials
 #' p <- 3
 #' psi <- function(th_1, th_2) A_theta_x(theta = th_1, x = cos(th_2),
@@ -248,6 +248,7 @@
 #'   box()
 #' }
 #' par(old_par)
+#' }
 #' @name Gegenbauer
 
 

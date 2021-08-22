@@ -56,7 +56,7 @@ quad <- function(x, a = 0) a + rowSums(x^4)
 
 # Approximate \int_{S^{p-1}} x_1 dx = 0
 int_sph_MC(f = x1, p = 3, cores = 1, M = 1e4, chunks = 2)
-int_sph_MC(f = x1, p = 3, cores = 2, M = 1e5, chunks = 2)
+int_sph_MC(f = x1, p = 3, cores = 2, M = 1e4, chunks = 2)
 
 # Approximate \int_{S^{p-1}} (a + \sum_i x_i^4) dx
 int_sph_MC(f = quad, p = 2, cores = 1, M = 1e4, a = 0, chunks = 2)

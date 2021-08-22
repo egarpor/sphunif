@@ -4,12 +4,13 @@
 \alias{wschisq_utils}
 \alias{r_wschisq_Cpp}
 \alias{p_wschisq_MC}
-\title{Utilities for weighted sums of chi squared random variables}
+\title{Utilities for weighted sums of non-central chi squared random
+variables}
 \usage{
-r_wschisq_Cpp(n, weights, dfs)
+r_wschisq_Cpp(n, weights, dfs, ncps)
 
-p_wschisq_MC(x, dfs = 0L, weights = 0L, M = 10000L, sample = 0L,
-  use_sample = FALSE, x_sorted = FALSE)
+p_wschisq_MC(x, weights = 0L, dfs = 0L, ncps = 0L, M = 10000L,
+  sample = 0L, use_sample = FALSE, x_sorted = FALSE)
 }
 \arguments{
 \item{n}{sample size.}
@@ -19,6 +20,9 @@ same length as \code{dfs}.}
 
 \item{dfs}{vector with the positive degrees of freedom of the chi squared
 random variables. Must have the same length as \code{weights}.}
+
+\item{ncps}{non-negative non-centrality parameters. A vector with the same
+length as \code{weights}.}
 
 \item{x}{vector of quantiles.}
 
@@ -41,16 +45,19 @@ to \code{1e4}.}
 }
 }
 \description{
-Simulation from a weighted sum of (central) chi squared random
-variables and Monte Carlo approximation of its distribution function.
+Simulation from a weighted sum of non-central chi squared
+random variables and Monte Carlo approximation of its distribution function.
 }
 \examples{
 x <- seq(0, 50, l = 1e3)
 weights <- c(2, 1, 0.5)
 dfs <- c(3, 6, 12)
-samp <- sphunif:::r_wschisq_Cpp(n = 5e2, dfs = dfs, weights = weights)
+ncps <- c(0, 0, 1)
+samp <- sphunif:::r_wschisq_Cpp(n = 5e2, weights = weights, dfs = dfs,
+                                ncps = ncps)
 plot(ecdf(samp), main = "")
-lines(x, sphunif:::p_wschisq_MC(x, dfs = dfs, weights = weights),
+lines(x, sphunif:::p_wschisq_MC(x, weights = weights, dfs = dfs,
+                                ncps = ncps),
       type = "s", col = 2)
 }
 \keyword{internal}

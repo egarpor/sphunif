@@ -7,9 +7,9 @@ statistics}
 \usage{
 unif_stat_distr(x, type, p, n, approx = "asymp", M = 10000,
   stats_MC = NULL, Rothman_t = 1/3, Pycke_q = 0.5, Riesz_s = 1,
-  Cuesta_Albertos_rand_dirs = NULL, Cai_regime = 3, Cai_beta = 0,
-  Stephens = FALSE, K_Kuiper = 25, K_Watson = 25, K_Watson_1976 = 5,
-  K_Ajne = 500, K_Cuesta_Albertos = 25, K_max = 10000, ...)
+  CCF09_dirs = NULL, CJ12_reg = 3, CJ12_beta = 0, Stephens = FALSE,
+  K_Kuiper = 25, K_Watson = 25, K_Watson_1976 = 5, K_Ajne = 500,
+  K_CCF09 = 25, K_max = 10000, ...)
 }
 \arguments{
 \item{x}{evaluation points for the null distribution(s). Either a vector of
@@ -60,16 +60,16 @@ Internally computed if \code{NULL} (default).}
 \item{Riesz_s}{\eqn{s} parameter for the \eqn{s}-Riesz test, a real in
 \eqn{(0, 2)}. Defaults to \code{1}.}
 
-\item{Cuesta_Albertos_rand_dirs}{a matrix of size \code{c(n_proj, p)}
-containing \code{n_proj} random directions (in Cartesian coordinates) on
-\eqn{S^{p-1}} to perform the Cuesta-Albertos test. If \code{NULL} (default),
-a sample of size \code{n_proj = 50} directions is computed internally.}
+\item{CCF09_dirs}{a matrix of size \code{c(n_proj, p)} containing
+\code{n_proj} random directions (in Cartesian coordinates) on \eqn{S^{p-1}}
+to perform the CCF09 test. If \code{NULL} (default), a sample of size
+\code{n_proj = 50} directions is computed internally.}
 
-\item{Cai_regime}{type of asymptotic regime for Cai test, either \code{1}
+\item{CJ12_reg}{type of asymptotic regime for CJ12 test, either \code{1}
 (sub-exponential regime), \code{2} (exponential), or \code{3}
 (super-exponential; default).}
 
-\item{Cai_beta}{\eqn{\beta} parameter in the exponential regime of Cai test,
+\item{CJ12_beta}{\eqn{\beta} parameter in the exponential regime of CJ12 test,
 a positive real.}
 
 \item{Stephens}{compute Stephens (1970) modification so that the null
@@ -80,9 +80,9 @@ does not alter the test decision.}
 of the series present in the null asymptotic distributions. For the
 Kolmogorov-Smirnov-related series defaults to \code{25}.}
 
-\item{K_Cuesta_Albertos}{integer giving the truncation of the series
-present in the asymptotic distribution of the Kolmogorov-Smirnov statistic.
-Defaults to \code{5e2}.}
+\item{K_CCF09}{integer giving the truncation of the series present in the
+asymptotic distribution of the Kolmogorov-Smirnov statistic. Defaults to
+\code{5e2}.}
 
 \item{K_max}{integer giving the truncation of the series that compute the
 asymptotic p-value of a Sobolev test. Defaults to \code{1e4}.}
@@ -115,7 +115,7 @@ these probabilities are uniformly accurate in the fourth digit. With
 accuracy deteriorates when \eqn{p} increases, e.g., a digit accuracy is lost
 when \eqn{p = 51}.
 
-Detailed descriptions and references on the asymptotic distributions
+Descriptions and references on most of the asymptotic distributions
 are available in García-Portugués and Verdebout (2018).
 }
 \examples{
@@ -162,19 +162,18 @@ unif_stat_distr(x = cbind(x, x + 1), type = c("Rayleigh", "Bingham"),
 unif_stat_distr(x = x, type = "Rothman", p = 2, n = 10, Rothman_t = 0.5,
                 approx = "MC")
 
-# Cuesta-Albertos
-rand_dirs <- r_unif_sph(n = 5, p = 3, M = 1)[, , 1]
+# CCF09
+dirs <- r_unif_sph(n = 5, p = 3, M = 1)[, , 1]
 x <- seq(0, 1, l = 10)
-unif_stat_distr(x = x, type = "Cuesta_Albertos", p = 3, n = 10,
-                approx = "MC", Cuesta_Albertos_rand_dirs = rand_dirs)
-unif_stat_distr(x = x, type = "Cuesta_Albertos", p = 3, n = 10,
-                approx = "MC")
+unif_stat_distr(x = x, type = "CCF09", p = 3, n = 10, approx = "MC",
+                CCF09_dirs = dirs)
+unif_stat_distr(x = x, type = "CCF09", p = 3, n = 10, approx = "MC")
 
-# Cai
-unif_stat_distr(x = x, type = "Cai", p = 3, n = 100, Cai_regime = 3)
-unif_stat_distr(x = x, type = "Cai", p = 3, n = 100, Cai_regime = 2,
-               Cai_beta = 0.01)
-unif_stat_distr(x = x, type = "Cai", p = 3, n = 100, Cai_regime = 1)
+# CJ12
+unif_stat_distr(x = x, type = "CJ12", p = 3, n = 100, CJ12_reg = 3)
+unif_stat_distr(x = x, type = "CJ12", p = 3, n = 100, CJ12_reg = 2,
+               CJ12_beta = 0.01)
+unif_stat_distr(x = x, type = "CJ12", p = 3, n = 100, CJ12_reg = 1)
 }
 }
 \references{

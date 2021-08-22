@@ -1,8 +1,8 @@
 Package: sphunif
 Type: Package
 Title: Uniformity Tests on the Circle, Sphere, and Hypersphere
-Version: 0.1.0.90009
-Date: 2021-07-04
+Version: 0.1.0.90027
+Date: 2021-08-22
 Authors@R: c(
      person(given = "Eduardo", family = "García-Portugués",
             role = c("aut", "cre"), email = "edgarcia@est-econ.uc3m.es",
@@ -15,34 +15,32 @@ Description: Implementation of uniformity tests on the circle and
     (hyper)sphere. The main function of the package is unif_test(), which
     conveniently collects more than 30 tests for assessing uniformity on
     S^{p-1}={x in R^p : ||x||=1}, p >= 2. The test statistics are implemented
-    in the unif_stat function, which allows to compute several statistics to
-    several samples within a single call, facilitating thus Monte Carlo
-    experiments. Furthermore, the unif_stat_MC() function allows to
-    parallelize them in a simple way. The asymptotic null distributions of
+    in the unif_stat function, which allows computing several statistics to
+    several samples within a single call, thus facilitating Monte Carlo
+    experiments. Furthermore, the unif_stat_MC() function allows
+    parallelizing them in a simple way. The asymptotic null distributions of
     the statistics are available through the function unif_stat_distr(). The
     core of the sphunif is coded in C++ by relying on the 'Rcpp' package.
-    The package allows the replication of the data application in
-    García-Portugués, Navarro-Esteban and Cuesta-Albertos (2020) <arXiv:2008.09897>.
+    The package also provides several novel datasets and gives the
+    reproducibility for the data application in García-Portugués,
+    Navarro-Esteban and Cuesta-Albertos (2020) <arXiv:2008.09897>.
 License: GPL-3
 LazyData: true
 Depends:
     R (>= 3.5.0),
     Rcpp
 Imports:
-    doSNOW,
+    doParallel,
     foreach,
     gsl,
-    parallel,
     rotasym
 Suggests:
     CompQuadForm,
     dgof,
     goftest,
     knitr,
-    MASS,
     mvtnorm,
     numDeriv,
-    rgl,
     rmarkdown,
     scatterplot3d,
     testthat,
@@ -54,3 +52,4 @@ Encoding: UTF-8
 RoxygenNote: 7.1.1
 Roxygen: list(old_usage = TRUE)
 VignetteBuilder: knitr
+Config/testthat/edition: 3

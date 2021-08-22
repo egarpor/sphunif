@@ -18,16 +18,16 @@ test_that("Gegen_coefs (Gauss = TRUE) vs. *_Pn (Gauss = FALSE) for PCvM", {
 
   expect_equal(Gegen_coefs(psi = psi_PCvM_2, k = k, p = 2, Gauss = TRUE),
                Gegen_coefs_Pn(k = k, p = 2, type = "PCvM", Gauss = FALSE),
-               tolerance = 1e-7)
+               tolerance = 1e-6)
   expect_equal(Gegen_coefs(psi = psi_PCvM_3, k = k, p = 3, Gauss = TRUE),
                Gegen_coefs_Pn(k = k, p = 3, type = "PCvM", Gauss = FALSE),
-               tolerance = 1e-7)
+               tolerance = 1e-6)
   expect_equal(Gegen_coefs(psi = psi_PCvM_4, k = k, p = 4, Gauss = TRUE),
                Gegen_coefs_Pn(k = k, p = 4, type = "PCvM", Gauss = FALSE),
-               tolerance = 1e-7)
+               tolerance = 1e-6)
   expect_equal(Gegen_coefs(psi = psi_PCvM_11, k = k, p = 11, Gauss = TRUE),
                Gegen_coefs_Pn(k = k, p = 11, type = "PCvM", Gauss = FALSE),
-               tolerance = 1e-7)
+               tolerance = 1e-6)
 
 })
 
@@ -35,16 +35,16 @@ test_that("Gegen_coefs (Gauss = FALSE) vs. *_Pn (Gauss = TRUE) for PCvM", {
 
   expect_equal(Gegen_coefs(psi = psi_PCvM_2, k = k, p = 2, Gauss = FALSE),
                Gegen_coefs_Pn(k = k, p = 2, type = "PCvM", Gauss = TRUE),
-               tolerance = 1e-7)
+               tolerance = 1e-6)
   expect_equal(Gegen_coefs(psi = psi_PCvM_3, k = k, p = 3, Gauss = FALSE),
                Gegen_coefs_Pn(k = k, p = 3, type = "PCvM", Gauss = TRUE),
-               tolerance = 1e-7)
+               tolerance = 1e-6)
   expect_equal(Gegen_coefs(psi = psi_PCvM_4, k = k, p = 4, Gauss = FALSE),
                Gegen_coefs_Pn(k = k, p = 4, type = "PCvM", Gauss = TRUE),
-               tolerance = 1e-7)
+               tolerance = 1e-6)
   expect_equal(Gegen_coefs(psi = psi_PCvM_11, k = k, p = 11, Gauss = FALSE),
                Gegen_coefs_Pn(k = k, p = 11, type = "PCvM", Gauss = TRUE),
-               tolerance = 1e-7)
+               tolerance = 1e-6)
 
 })
 
@@ -52,16 +52,16 @@ test_that("Gegen_coefs (Gauss = TRUE) vs. *_Pn (Gauss = FALSE) for PAD", {
 
   expect_equal(Gegen_coefs(psi = psi_PAD_2, k = k, p = 2, Gauss = TRUE),
                Gegen_coefs_Pn(k = k, p = 2, type = "PAD", Gauss = FALSE),
-               tolerance = 1e-7)
+               tolerance = 1e-6)
   expect_equal(Gegen_coefs(psi = psi_PAD_3, k = k, p = 3, Gauss = TRUE),
                Gegen_coefs_Pn(k = k, p = 3, type = "PAD", Gauss = FALSE),
-               tolerance = 1e-7)
+               tolerance = 1e-6)
   expect_equal(Gegen_coefs(psi = psi_PAD_4, k = k, p = 4, Gauss = TRUE),
                Gegen_coefs_Pn(k = k, p = 4, type = "PAD", Gauss = FALSE),
-               tolerance = 1e-7)
+               tolerance = 1e-6)
   expect_equal(Gegen_coefs(psi = psi_PAD_11, k = k, p = 11, Gauss = TRUE),
                Gegen_coefs_Pn(k = k, p = 11, type = "PAD", Gauss = FALSE),
-               tolerance = 1e-7)
+               tolerance = 1e-6)
 
 })
 
@@ -69,16 +69,16 @@ test_that("Gegen_coefs (Gauss = FALSE) vs. *_Pn (Gauss = TRUE) for PAD", {
 
   expect_equal(Gegen_coefs(psi = psi_PAD_2, k = k, p = 2, Gauss = FALSE),
                Gegen_coefs_Pn(k = k, p = 2, type = "PAD", Gauss = TRUE),
-               tolerance = 1e-7)
+               tolerance = 1e-6)
   expect_equal(Gegen_coefs(psi = psi_PAD_3, k = k, p = 3, Gauss = FALSE),
                Gegen_coefs_Pn(k = k, p = 3, type = "PAD", Gauss = TRUE),
-               tolerance = 1e-7)
+               tolerance = 1e-6)
   expect_equal(Gegen_coefs(psi = psi_PAD_4, k = k, p = 4, Gauss = FALSE),
                Gegen_coefs_Pn(k = k, p = 4, type = "PAD", Gauss = TRUE),
-               tolerance = 1e-7)
+               tolerance = 1e-6)
   expect_equal(Gegen_coefs(psi = psi_PAD_11, k = k, p = 11, Gauss = FALSE),
                Gegen_coefs_Pn(k = k, p = 11, type = "PAD", Gauss = TRUE),
-               tolerance = 1e-7)
+               tolerance = 1e-6)
 
 })
 
@@ -86,7 +86,7 @@ test_that("Gegen_coefs (Gauss = TRUE) vs. *_Pn (Gauss = FALSE) for PRt", {
 
   expect_equal(Gegen_coefs(psi = psi_PRt_2, k = k, p = 2, Gauss = TRUE),
                Gegen_coefs_Pn(k = k, p = 2, type = "PRt", Gauss = FALSE),
-               tolerance = 1e-6)
+               tolerance = 1e-5)
   expect_equal(Gegen_coefs(psi = psi_PRt_3, k = k, p = 3, Gauss = TRUE),
                Gegen_coefs_Pn(k = k, p = 3, type = "PRt", Gauss = FALSE),
                tolerance = 1e-6)
@@ -162,9 +162,11 @@ dim(Psi5) <- c(dim(Psi5), 1)
 dim(Psi11) <- c(dim(Psi11), 1)
 Th2 <- X_to_Theta(X2)
 Psi_to_mat <- function(Psi) {
+
   Psi_mat <- matrix(0, nrow = n, ncol = n)
   Psi_mat[upper.tri(Psi_mat)] <- Psi
   return(Psi_mat + t(Psi_mat))
+
 }
 
 test_that("PCvM vs. psi_Pn", {
@@ -188,7 +190,7 @@ test_that("PCvM vs. psi_Pn", {
   expect_equal(2 / n * sum(psi_Pn(theta = Psi11, q = 10, type = "PCvM")) +
                  (3 - 2 * n) / 6,
                drop(sph_stat_PCvM(Psi11, Psi_in_X = TRUE, p = 11)),
-               tolerance = 1e-5)
+               tolerance = 5e-5)
 
 })
 
@@ -203,7 +205,7 @@ test_that("PCvM vs. psi_Pn (psi_Gauss = FALSE)", {
                                   psi_Gauss = FALSE)) +
                  (3 - 2 * n) / 6,
                drop(sph_stat_PCvM(Psi11, Psi_in_X = TRUE, p = 11)),
-               tolerance = 1e-5)
+               tolerance = 5e-5)
 
 })
 
@@ -318,7 +320,7 @@ test_that("PCvM vs. psi_Pn tilde", {
   expect_equal(sum(psi_Pn(theta = c(Psi_to_mat(Psi11)), q = 10, type = "PCvM",
                           tilde = TRUE)) / n,
                drop(sph_stat_PCvM(Psi11, Psi_in_X = TRUE, p = 11)),
-               tolerance = 1e-5)
+               tolerance = 5e-5)
 
 })
 
@@ -331,7 +333,7 @@ test_that("PAD vs. psi_Pn tilde", {
   expect_equal(sum(psi_Pn(theta = c(Psi_to_mat(Psi3)), q = 2, type = "PAD",
                           tilde = TRUE)) / n,
                drop(sph_stat_PAD(Psi3, Psi_in_X = TRUE, p = 3)),
-               tolerance = 1e-5)
+               tolerance = 5e-5)
   expect_equal(sum(psi_Pn(theta = c(Psi_to_mat(Psi4)), q = 3, type = "PAD",
                           tilde = TRUE)) / n,
                drop(sph_stat_PAD(Psi4, Psi_in_X = TRUE, p = 4)),
@@ -453,38 +455,50 @@ f_PAD_11 <- f_locdev_Pn(p = 11, type = "PAD")
 test_that("Integral one for f_locdev_Pn with PRt", {
 
   expect_equal(int_sph_MC(f = function(x) f_PRt_2(x[, 1]), p = 2, M = 1e3,
-                          chunks = 1, seeds = 1), 1, tolerance = 3e-2)
+                          chunks = 1, seeds = 1, verbose = FALSE), 1,
+               tolerance = 3e-2)
   expect_equal(int_sph_MC(f = function(x) f_PRt_3(x[, 1]), p = 3, M = 1e3,
-                          chunks = 1, seeds = 1), 1, tolerance = 3e-2)
+                          chunks = 1, seeds = 1, verbose = FALSE), 1,
+               tolerance = 3e-2)
   expect_equal(int_sph_MC(f = function(x) f_PRt_4(x[, 1]), p = 4, M = 1e3,
-                          chunks = 1, seeds = 1), 1, tolerance = 3e-2)
+                          chunks = 1, seeds = 1, verbose = FALSE), 1,
+               tolerance = 3e-2)
   expect_equal(int_sph_MC(f = function(x) f_PRt_11(x[, 1]), p = 11, M = 1e3,
-                          chunks = 1, seeds = 1), 1, tolerance = 3e-2)
+                          chunks = 1, seeds = 1, verbose = FALSE), 1,
+               tolerance = 3e-2)
 
 })
 
 test_that("Integral one for f_locdev_Pn with PCvM", {
 
   expect_equal(int_sph_MC(f = function(x) f_PCvM_2(x[, 1]), p = 2, M = 1e3,
-                          chunks = 1, seeds = 1), 1, tolerance = 3e-2)
+                          chunks = 1, seeds = 1, verbose = FALSE), 1,
+               tolerance = 3e-2)
   expect_equal(int_sph_MC(f = function(x) f_PCvM_3(x[, 1]), p = 3, M = 1e3,
-                          chunks = 1, seeds = 1), 1, tolerance = 3e-2)
+                          chunks = 1, seeds = 1, verbose = FALSE), 1,
+               tolerance = 3e-2)
   expect_equal(int_sph_MC(f = function(x) f_PCvM_4(x[, 1]), p = 4, M = 1e3,
-                          chunks = 1, seeds = 1), 1, tolerance = 3e-2)
+                          chunks = 1, seeds = 1, verbose = FALSE), 1,
+               tolerance = 3e-2)
   expect_equal(int_sph_MC(f = function(x) f_PCvM_11(x[, 1]), p = 11, M = 1e3,
-                          chunks = 1, seeds = 1), 1, tolerance = 3e-2)
+                          chunks = 1, seeds = 1, verbose = FALSE), 1,
+               tolerance = 3e-2)
 
 })
 
 test_that("Integral one for f_locdev_Pn with PAD", {
 
   expect_equal(int_sph_MC(f = function(x) f_PAD_2(x[, 1]), p = 2, M = 1e3,
-                          chunks = 1, seeds = 1), 1, tolerance = 7e-2)
+                          chunks = 1, seeds = 1, verbose = FALSE), 1,
+               tolerance = 7e-2)
   expect_equal(int_sph_MC(f = function(x) f_PAD_3(x[, 1]), p = 3, M = 1e3,
-                          chunks = 1, seeds = 1), 1, tolerance = 7e-2)
+                          chunks = 1, seeds = 1, verbose = FALSE), 1,
+               tolerance = 7e-2)
   expect_equal(int_sph_MC(f = function(x) f_PAD_4(x[, 1]), p = 4, M = 1e3,
-                          chunks = 1, seeds = 1), 1, tolerance = 7e-2)
+                          chunks = 1, seeds = 1, verbose = FALSE), 1,
+               tolerance = 7e-2)
   expect_equal(int_sph_MC(f = function(x) f_PAD_11(x[, 1]), p = 11, M = 1e3,
-                          chunks = 1, seeds = 1), 1, tolerance = 7e-2)
+                          chunks = 1, seeds = 1, verbose = FALSE), 1,
+               tolerance = 7e-2)
 
 })

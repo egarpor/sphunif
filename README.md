@@ -2,7 +2,8 @@
 
 [![License:
 GPLv3](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![](https://travis-ci.org/egarpor/sphunif.svg?branch=master)](https://travis-ci.org/egarpor/sphunif)
+[![](https://app.travis-ci.com/egarpor/sphunif.svg?branch=master)](https://app.travis-ci.com/egarpor/sphunif)
+[![](https://codecov.io/gh/egarpor/sphunif/branch/master/graph/badge.svg)](https://codecov.io/gh/egarpor/sphunif)
 [![](https://www.r-pkg.org/badges/version/sphunif?color=green)](https://cran.r-project.org/package=sphunif)
 [![](http://cranlogs.r-pkg.org/badges/grand-total/sphunif?color=green)](https://cran.r-project.org/package=sphunif)
 [![](http://cranlogs.r-pkg.org/badges/last-month/sphunif?color=green)](https://cran.r-project.org/package=sphunif)
@@ -11,10 +12,10 @@ GPLv3](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://www.gnu.org
 
 ## Overview
 
-Implementation of circa 30 tests of uniformity on the circle, sphere,
-and hypersphere. Software companion for the (evolving) review “*An
-overview of uniformity tests on the hypersphere*” (García-Portugués and
-Verdebout, 2018) and the paper “*On a projection-based class of
+Implementation of more than 30 tests of uniformity on the circle,
+sphere, and hypersphere. Software companion for the (evolving) review
+“*An overview of uniformity tests on the hypersphere*” (García-Portugués
+and Verdebout, 2018) and the paper “*On a projection-based class of
 uniformity tests on the hypersphere*” (García-Portugués, Navarro-Esteban
 and Cuesta-Albertos, 2020).
 
@@ -45,16 +46,16 @@ cir_data <- runif(n = 10, min = 0, max = 2 * pi)
 ```
 
 Call the main function in the `sphunif` package, `unif_test`, specifying
-the `type` of test to be performed. For example, the `"Kuiper"` test:
+the `type` of test to be performed. For example, the `"Watson"` test:
 
 ``` r
 library(sphunif)
-unif_test(data = cir_data, type = "Kuiper", verbose = FALSE) # An htest object
+unif_test(data = cir_data, type = "Watson", verbose = FALSE) # An htest object
 #> 
-#>  Kuiper test of circular uniformity
+#>  Watson test of circular uniformity
 #> 
 #> data:  cir_data
-#> statistic = 0.89659, p-value = 0.8452
+#> statistic = 0.036003, p-value = 0.8694
 #> alternative hypothesis: any alternative to circular uniformity
 ```
 
@@ -63,20 +64,20 @@ Carlo. This can be changed with `p_value = "asymp"` to employ asymptotic
 distributions (faster, but not available for all tests):
 
 ``` r
-unif_test(data = cir_data, type = "Kuiper", p_value = "MC",
+unif_test(data = cir_data, type = "Watson", p_value = "MC",
           verbose = FALSE) # Monte Carlo
 #> 
-#>  Kuiper test of circular uniformity
+#>  Watson test of circular uniformity
 #> 
 #> data:  cir_data
-#> statistic = 0.89659, p-value = 0.847
+#> statistic = 0.036003, p-value = 0.8887
 #> alternative hypothesis: any alternative to circular uniformity
-unif_test(data = cir_data, type = "Kuiper", p_value = "asymp") # Asymp. distr.
+unif_test(data = cir_data, type = "Watson", p_value = "asymp") # Asymp. distr.
 #> 
-#>  Kuiper test of circular uniformity
+#>  Watson test of circular uniformity
 #> 
 #> data:  cir_data
-#> statistic = 0.89659, p-value = 0.8452
+#> statistic = 0.036003, p-value = 0.8694
 #> alternative hypothesis: any alternative to circular uniformity
 ```
 
@@ -85,36 +86,36 @@ Choose the available circular uniformity tests from
 
 ``` r
 avail_cir_tests
-#>  [1] "Ajne"            "Bakshaev"        "Bingham"         "Cressie"        
-#>  [5] "Cuesta_Albertos" "Feltz_Goldin"    "Gine_Fn"         "Gine_Gn"        
-#>  [9] "Gini"            "Gini_squared"    "Greenwood"       "Hermans_Rasson" 
-#> [13] "Hodges_Ajne"     "Kuiper"          "Log_gaps"        "Max_uncover"    
-#> [17] "Num_uncover"     "PAD"             "PCvM"            "PRt"            
-#> [21] "Pycke"           "Pycke_q"         "Range"           "Rao"            
-#> [25] "Rayleigh"        "Rothman"         "Vacancy"         "Watson"         
-#> [29] "Watson_1976"
+#>  [1] "Ajne"           "Bakshaev"       "Bingham"        "Cressie"       
+#>  [5] "CCF09"          "FG01"           "Gine_Fn"        "Gine_Gn"       
+#>  [9] "Gini"           "Gini_squared"   "Greenwood"      "Hermans_Rasson"
+#> [13] "Hodges_Ajne"    "Kuiper"         "Log_gaps"       "Max_uncover"   
+#> [17] "Num_uncover"    "PAD"            "PCvM"           "PRt"           
+#> [21] "Pycke"          "Pycke_q"        "Range"          "Rao"           
+#> [25] "Rayleigh"       "Riesz"          "Rothman"        "Vacancy"       
+#> [29] "Watson"         "Watson_1976"
 ```
 
 For example:
 
 ``` r
-unif_test(data = cir_data, type = c("Kuiper", "Watson", "Ajne"),
+unif_test(data = cir_data, type = c("Watson", "PAD", "Ajne"),
           verbose = FALSE) # A *list* of htest objects
-#> $Kuiper
-#> 
-#>  Kuiper test of circular uniformity
-#> 
-#> data:  cir_data
-#> statistic = 0.89659, p-value = 0.8452
-#> alternative hypothesis: any alternative to circular uniformity
-#> 
-#> 
 #> $Watson
 #> 
 #>  Watson test of circular uniformity
 #> 
 #> data:  cir_data
 #> statistic = 0.036003, p-value = 0.8694
+#> alternative hypothesis: any alternative to circular uniformity
+#> 
+#> 
+#> $PAD
+#> 
+#>  Projected Anderson-Darling test of circular uniformity
+#> 
+#> data:  cir_data
+#> statistic = 0.47247, p-value = 0.9051
 #> alternative hypothesis: any alternative to circular uniformity
 #> 
 #> 
@@ -145,31 +146,30 @@ The available spherical uniformity tests:
 
 ``` r
 avail_sph_tests
-#>  [1] "Ajne"            "Bakshaev"        "Bingham"         "Cai"            
-#>  [5] "Cuesta_Albertos" "Gine_Fn"         "Gine_Gn"         "PAD"            
-#>  [9] "PCvM"            "PRt"             "Pycke"           "Rayleigh"       
-#> [13] "Rayleigh_HD"
+#>  [1] "Ajne"        "Bakshaev"    "Bingham"     "CJ12"        "CCF09"      
+#>  [6] "Gine_Fn"     "Gine_Gn"     "PAD"         "PCvM"        "PRt"        
+#> [11] "Pycke"       "Rayleigh"    "Rayleigh_HD" "Riesz"
 ```
 
 The default `type = "all"` equals `type = avail_sph_tests`:
 
 ``` r
-unif_test(data = sph_data, type = "all", p_value = "MC", verbose = FALSE)
+head(unif_test(data = sph_data, type = "all", p_value = "MC", verbose = FALSE))
 #> $Ajne
 #> 
 #>  Ajne test of spherical uniformity
 #> 
 #> data:  sph_data
-#> statistic = 0.079876, p-value = 0.9561
+#> statistic = 0.079876, p-value = 0.9559
 #> alternative hypothesis: any non-axial alternative to spherical uniformity
 #> 
 #> 
 #> $Bakshaev
 #> 
-#>  Bakshaev test of spherical uniformity
+#>  Bakshaev (2010) test of spherical uniformity
 #> 
 #> data:  sph_data
-#> statistic = 1.2727, p-value = 0.4331
+#> statistic = 1.2727, p-value = 0.4416
 #> alternative hypothesis: any alternative to spherical uniformity
 #> 
 #> 
@@ -178,25 +178,25 @@ unif_test(data = sph_data, type = "all", p_value = "MC", verbose = FALSE)
 #>  Bingham test of spherical uniformity
 #> 
 #> data:  sph_data
-#> statistic = 22.455, p-value = 5e-04
+#> statistic = 22.455, p-value = 2e-04
 #> alternative hypothesis: scatter matrix different from constant
 #> 
 #> 
-#> $Cai
+#> $CJ12
 #> 
-#>  Cai test of spherical uniformity
+#>  Cai and Jiang (2012) test of spherical uniformity
 #> 
 #> data:  sph_data
-#> statistic = 27.401, p-value = 0.2645
+#> statistic = 27.401, p-value = 0.2605
 #> alternative hypothesis: unclear consistency
 #> 
 #> 
-#> $Cuesta_Albertos
+#> $CCF09
 #> 
 #>  Cuesta-Albertos et al. (2009) test of spherical uniformity with k = 50
 #> 
 #> data:  sph_data
-#> statistic = 1.4619, p-value = 0.2696
+#> statistic = 1.4619, p-value = 0.2742
 #> alternative hypothesis: any alternative to spherical uniformity
 #> 
 #> 
@@ -205,71 +205,8 @@ unif_test(data = sph_data, type = "all", p_value = "MC", verbose = FALSE)
 #>  Gine's Fn test of spherical uniformity
 #> 
 #> data:  sph_data
-#> statistic = 1.8889, p-value = 0.2114
+#> statistic = 1.8889, p-value = 0.226
 #> alternative hypothesis: any alternative to spherical uniformity
-#> 
-#> 
-#> $Gine_Gn
-#> 
-#>  Gine's Gn test of spherical uniformity
-#> 
-#> data:  sph_data
-#> statistic = 1.5694, p-value = 6e-04
-#> alternative hypothesis: any axial alternative to spherical uniformity
-#> 
-#> 
-#> $PAD
-#> 
-#>  Projected Anderson-Darling test of spherical uniformity
-#> 
-#> data:  sph_data
-#> statistic = 1.1068, p-value = 0.3104
-#> alternative hypothesis: any alternative to spherical uniformity
-#> 
-#> 
-#> $PCvM
-#> 
-#>  Projected Cramer-von Mises test of spherical uniformity
-#> 
-#> data:  sph_data
-#> statistic = 0.15909, p-value = 0.4331
-#> alternative hypothesis: any alternative to spherical uniformity
-#> 
-#> 
-#> $PRt
-#> 
-#>  Projected Rothman test of spherical uniformity with t = 0.333
-#> 
-#> data:  sph_data
-#> statistic = 0.19003, p-value = 0.5048
-#> alternative hypothesis: any alternative to spherical uniformity if t is irrational
-#> 
-#> 
-#> $Pycke
-#> 
-#>  Pycke test of spherical uniformity
-#> 
-#> data:  sph_data
-#> statistic = 0.091169, p-value = 0.1746
-#> alternative hypothesis: any alternative to spherical uniformity
-#> 
-#> 
-#> $Rayleigh
-#> 
-#>  Rayleigh test of spherical uniformity
-#> 
-#> data:  sph_data
-#> statistic = 0.52692, p-value = 0.9155
-#> alternative hypothesis: mean direction different from zero
-#> 
-#> 
-#> $Rayleigh_HD
-#> 
-#>  HD-standardized Rayleigh test of spherical uniformity
-#> 
-#> data:  sph_data
-#> statistic = -1.0096, p-value = 0.9155
-#> alternative hypothesis: mean direction different from zero
 unif_test(data = sph_data, type = "Rayleigh", p_value = "asymp")
 #> 
 #>  Rayleigh test of spherical uniformity
@@ -301,79 +238,55 @@ unif_test(data = hyp_data, type = "Rayleigh", p_value = "asymp")
 #> alternative hypothesis: mean direction different from zero
 ```
 
-## Data applications in astronomy
+## Data application in astronomy
 
-The data applications in García-Portugués, Navarro-Esteban and
+The data application in García-Portugués, Navarro-Esteban and
 Cuesta-Albertos (2020) can be reproduced through the script
 [data-application-ecdf.R](https://github.com/egarpor/sphunif/blob/master/application/data-application-ecdf.R).
 The code snippet below illustrates the testing of the uniformity of
-orbits of planets and long-period comets.
+craters in Rhea.
 
 ``` r
-## Planets
-
 # Load data
-data("planets")
+data(rhea)
 
-# Add normal vectors
-planets$normal <- cbind(sin(planets$i) * sin(planets$om),
-                       -sin(planets$i) * cos(planets$om),
-                       cos(planets$i))
+# Add Cartesian coordinates
+rhea$X <- cbind(cos(rhea$theta) * cos(rhea$phi),
+                sin(rhea$theta) * cos(rhea$phi),
+                sin(rhea$phi))
 
-# Tests without Pluto
-unif_test(data = planets$normal[-9, ], type = c("PCvM", "PAD", "PRt"),
-          p_value = "MC")
-#>   |                                                                              |                                                                      |   0%  |                                                                              |======================================================================| 100%
-#> $PCvM
-#> 
-#>  Projected Cramer-von Mises test of spherical uniformity
-#> 
-#> data:  planets$normal[-9, ]
-#> statistic = 1.2894, p-value < 2.2e-16
-#> alternative hypothesis: any alternative to spherical uniformity
-#> 
-#> 
-#> $PAD
-#> 
-#>  Projected Anderson-Darling test of spherical uniformity
-#> 
-#> data:  planets$normal[-9, ]
-#> statistic = 7.6553, p-value < 2.2e-16
-#> alternative hypothesis: any alternative to spherical uniformity
-#> 
-#> 
-#> $PRt
-#> 
-#>  Projected Rothman test of spherical uniformity with t = 0.333
-#> 
-#> data:  planets$normal[-9, ]
-#> statistic = 1.7251, p-value < 2.2e-16
-#> alternative hypothesis: any alternative to spherical uniformity if t is irrational
+# Distribution of diameter
+quantile(rhea$diameter)
+#>       0%      25%      50%      75%     100% 
+#>  10.0000  13.2475  17.0500  24.5600 449.8200
 
-## Comets
+# Subsets of craters, according to diameter
+ind_15_20 <- rhea$diameter > 15 & rhea$diameter < 20
+ind_20 <- rhea$diameter > 20
 
-# Load data
-data("comets")
+# Sample sizes
+nrow(rhea)
+#> [1] 3596
+sum(ind_15_20)
+#> [1] 867
+sum(ind_20)
+#> [1] 1373
 
-# Add normal vectors
-comets$normal <- cbind(sin(comets$i) * sin(comets$om),
-                       -sin(comets$i) * cos(comets$om),
-                       cos(comets$i))
+# Tests to be performed
+type_tests <- c("PCvM", "PAD", "PRt")
 
-# Exclude the C/1882 R1-X (Great September comet) records with X = B, C, D
-comets_ccf2009 <- comets[comets$ccf2009, ][-c(13:15), ]
-
-# Tests for the data in Cuesta-Albertos et al. (2009)
-tests_ccf2009 <- unif_test(data = comets_ccf2009$normal,
-                           type = c("PCvM", "PAD", "PRt"),
+# Tests
+tests_rhea_15_20 <- unif_test(data = rhea$X[ind_15_20, ], type = type_tests,
+                              p_value = "asymp", K_max = 5e4)
+tests_rhea_20 <- unif_test(data = rhea$X[ind_20, ], type = type_tests,
                            p_value = "asymp", K_max = 5e4)
-tests_ccf2009
+tests_rhea_15_20
 #> $PCvM
 #> 
 #>  Projected Cramer-von Mises test of spherical uniformity
 #> 
-#> data:  comets_ccf2009$normal
-#> statistic = 0.27607, p-value = 0.1011
+#> data:  rhea$X[ind_15_20, ]
+#> statistic = 0.26452, p-value = 0.1176
 #> alternative hypothesis: any alternative to spherical uniformity
 #> 
 #> 
@@ -381,8 +294,8 @@ tests_ccf2009
 #> 
 #>  Projected Anderson-Darling test of spherical uniformity
 #> 
-#> data:  comets_ccf2009$normal
-#> statistic = 1.6733, p-value = 0.07445
+#> data:  rhea$X[ind_15_20, ]
+#> statistic = 1.6854, p-value = 0.07209
 #> alternative hypothesis: any alternative to spherical uniformity
 #> 
 #> 
@@ -390,17 +303,55 @@ tests_ccf2009
 #> 
 #>  Projected Rothman test of spherical uniformity with t = 0.333
 #> 
-#> data:  comets_ccf2009$normal
-#> statistic = 0.36307, p-value = 0.1207
+#> data:  rhea$X[ind_15_20, ]
+#> statistic = 0.31352, p-value = 0.1856
+#> alternative hypothesis: any alternative to spherical uniformity if t is irrational
+tests_rhea_20
+#> $PCvM
+#> 
+#>  Projected Cramer-von Mises test of spherical uniformity
+#> 
+#> data:  rhea$X[ind_20, ]
+#> statistic = 3.6494, p-value = 2.202e-09
+#> alternative hypothesis: any alternative to spherical uniformity
+#> 
+#> 
+#> $PAD
+#> 
+#>  Projected Anderson-Darling test of spherical uniformity
+#> 
+#> data:  rhea$X[ind_20, ]
+#> statistic = 18.482, p-value < 2.2e-16
+#> alternative hypothesis: any alternative to spherical uniformity
+#> 
+#> 
+#> $PRt
+#> 
+#>  Projected Rothman test of spherical uniformity with t = 0.333
+#> 
+#> data:  rhea$X[ind_20, ]
+#> statistic = 5.3485, p-value = 3.481e-09
 #> alternative hypothesis: any alternative to spherical uniformity if t is irrational
 ```
 
 ## References
 
 García-Portugués, E., Navarro-Esteban, P., and Cuesta-Albertos, J. A.
+(2021). A Cramér–von Mises test of uniformity on the hypersphere. In
+Balzano, S., Porzio, G. C., Salvatore, R., Vistocco, D., and Vichi, M.
+(Eds.), *Statistical Learning and Modeling in Data Analysis*, Studies in
+Classification, Data Analysis and Knowledge Organization, pp. 107–-116.
+Springer, Cham.
+[doi:10.1007/978-3-030-69944-4_12](https://doi.org/10.1007/978-3-030-69944-4_12).
+
+García-Portugués, E., Navarro-Esteban, P., and Cuesta-Albertos, J. A.
 (2020). On a projection-based class of uniformity tests on the
-hypersphere. *arXiv:2008.09897*. <https://arxiv.org/abs/2008.09897>
+hypersphere. *arXiv:2008.09897*. <https://arxiv.org/abs/2008.09897>.
 
 García-Portugués, E. and Verdebout, T. (2018). An overview of uniformity
 tests on the hypersphere. *arXiv:1804.00286*.
-<https://arxiv.org/abs/1804.00286>
+<https://arxiv.org/abs/1804.00286>.
+
+García-Portugués, E., Paindaveine, D., and Verdebout, T. (2021). On the
+power of Sobolev tests for isotropy under local rotationally symmetric
+alternatives. *arXiv:2108.XXXXX*. .

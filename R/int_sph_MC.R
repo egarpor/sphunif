@@ -47,22 +47,18 @@ int_sph_MC <- function(f, p, M = 1e4, cores = 1, chunks = ceiling(M / 1e3),
                        verbose = TRUE, seeds = NULL, ...) {
 
   # Parallel backend
-  cl <- parallel::makeCluster(cores)
-  doSNOW::registerDoSNOW(cl = cl)
-  `%op%` <- foreach::`%dopar%`
-
-  # Show progress?
   if (verbose) {
 
-    pb <- utils::txtProgressBar(max = chunks, style = 3)
-    progress <- function(n) utils::setTxtProgressBar(pb = pb, value = n)
-    opts <- list(progress = progress)
+    cl <- parallel::makePSOCKcluster(cores, outfile = "")
+    pb <- utils::txtProgressBar(min = 0, max = chunks, style = 3)
 
   } else {
 
-    opts <- list()
+    cl <- parallel::makePSOCKcluster(cores)
 
   }
+  doParallel::registerDoParallel(cl = cl)
+  `%op%` <- foreach::`%dopar%`
 
   # Extra arguments for foreach::foreach and f
   dots <- list(...)
@@ -75,7 +71,7 @@ int_sph_MC <- function(f, p, M = 1e4, cores = 1, chunks = ceiling(M / 1e3),
   if (!is.null(seeds) & length(seeds) != chunks) {
 
     warning(paste("seeds and chunks do not have the same length,",
-                  "seeds are ignored"))
+                  "seeds are ignored."))
     seeds <- NULL
 
   }
@@ -85,8 +81,8 @@ int_sph_MC <- function(f, p, M = 1e4, cores = 1, chunks = ceiling(M / 1e3),
   small_M <- M / chunks
   int <- do.call(what = foreach::foreach,
                  args = c(list(k = 1:chunks, .combine = "+",
-                               .options.snow = opts, .inorder	= FALSE,
-                               .packages = "sphunif"),
+                               .inorder = FALSE, .multicombine = FALSE,
+                               .packages = c("Rcpp", "sphunif")),
                           foreach_args)) %op% {
 
     # Sample uniform data
@@ -100,17 +96,22 @@ int_sph_MC <- function(f, p, M = 1e4, cores = 1, chunks = ceiling(M / 1e3),
     # Evaluate f
     args <- c(list(X), f_args)
     names(args) <- c(name_arg1_f, names_args_f)
-    sum(do.call(what = f, args = args))
+    sf <- sum(do.call(what = f, args = args))
+
+    # Show progress?
+    if (verbose) {
+
+      utils::setTxtProgressBar(pb = pb, value = k)
+
+    }
+
+    # Return sum
+    sf
 
   }
 
   # Close loop
   parallel::stopCluster(cl)
-  if (verbose) {
-
-    close(pb)
-
-  }
 
   # Return integral approximation
   int <- rotasym::w_p(p = p) * int / M

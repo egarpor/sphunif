@@ -263,6 +263,7 @@ w_k_minus <- function(x, k = 1) pmax(-w_k(x, k = k), 0)
 
 test_that("cir_stat_Pn equals PCvM", {
 
+  skip_on_cran()
   expect_equal(cir_stat_Pn(samp, w = w_PCvM), drop(sph_stat_PCvM(samp)),
                tolerance = 1e-4)
 
@@ -270,6 +271,7 @@ test_that("cir_stat_Pn equals PCvM", {
 
 test_that("cir_stat_Pn equals Rayleigh", {
 
+  skip_on_cran()
   expect_equal(cir_stat_Pn(samp, w = w_k, k = 1),
                drop(sph_stat_Rayleigh(samp) / 2),
                tolerance  = 1e-4)
@@ -282,6 +284,7 @@ test_that("cir_stat_Pn equals Rayleigh", {
 
 test_that("cir_stat_Pn equals Bingham", {
 
+  skip_on_cran()
   expect_equal(cir_stat_Pn(samp, w = w_k, k = 2),
                drop(sph_stat_Bingham(samp) / 2),
                tolerance  = 1e-4)

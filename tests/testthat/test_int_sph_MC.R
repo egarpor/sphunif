@@ -9,6 +9,7 @@ seeds <- 1:5
 
 test_that("Integration of one", {
 
+  skip_on_cran()
   for (p in c(2, 3, 4, 11)) {
     expect_equal(int_sph_MC(f = one, p = p, M = 10, verbose = FALSE),
                  rotasym::w_p(p = p))
@@ -18,6 +19,7 @@ test_that("Integration of one", {
 
 test_that("Integration of id", {
 
+  skip_on_cran()
   for (p in c(2, 3, 4, 11)) {
     expect_equal(int_sph_MC(f = id, p = p, M = 1e3, verbose = FALSE,
                             seeds = 1:5, chunks = 5), 0,
@@ -28,6 +30,7 @@ test_that("Integration of id", {
 
 test_that("Integration of quad", {
 
+  skip_on_cran()
   for (p in c(2, 3, 4, 11)) {
     expect_equal(int_sph_MC(f = quad, p = p, M = 10, verbose = FALSE,
                             seeds = 1:5, chunks = 5),
@@ -38,6 +41,7 @@ test_that("Integration of quad", {
 
 test_that("Integration of cubic", {
 
+  skip_on_cran()
   for (p in c(3, 4, 11)) {
     expect_equal(int_sph_MC(f = cubic, p = p, M = 1e3, verbose = FALSE,
                             seeds = 1:5, chunks = 5), 0,
@@ -48,6 +52,7 @@ test_that("Integration of cubic", {
 
 test_that("cores = 1 vs. cores = 2", {
 
+  skip_on_cran()
   expect_equal(int_sph_MC(f = cubic, p = 3, M = 10, cores = 1, seeds = seeds,
                           chunks = 5, verbose = FALSE),
                int_sph_MC(f = cubic, p = 3, M = 10, cores = 2, seeds = seeds,
@@ -61,6 +66,7 @@ test_that("cores = 1 vs. cores = 2", {
 
 test_that("Optional argument to f", {
 
+  skip_on_cran()
   expect_equal(int_sph_MC(f = cubic, p = 5, M = 10, cores = 1,
                           seeds = seeds, chunks = 5, verbose = FALSE),
                int_sph_MC(f = cubic, p = 5, M = 10, cores = 1, a = 0,
@@ -75,6 +81,7 @@ test_that("Optional argument to f", {
 
 test_that("int_sph_MC edge cases", {
 
+  skip_on_cran()
   expect_warning(capture.output(int_sph_MC(f = cubic, p = 3, M = 10, cores = 1,
                                            seeds = seeds[1:2], chunks = 5,
                                            verbose = TRUE)))

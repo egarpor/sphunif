@@ -6,7 +6,7 @@ int_prod <- function(x, i1, i2, k1, k2) {
 
 test_that("angles_to_sphere vs. sphere_to_angles", {
 
-  n <- 25
+  n <- 10
   for (p in c(2:4, 11)) {
     X <- r_unif_sph(n = n, p = p, M = 1)[, , 1]
     th <- t(matrix(runif(n * (p - 1)), nrow = p - 1, ncol = n) *
@@ -24,6 +24,7 @@ test_that("angles_to_sphere vs. sphere_to_angles", {
 
 test_that("Harmonics with (i,k) vs. m", {
 
+  skip_on_cran()
   for (p in 2:5) {
     repeat {
       m <- c(rpois(n = p - 1, lambda = 2), sample(c(0, 1), size = 1))
@@ -42,7 +43,8 @@ test_that("Harmonics with (i,k) vs. m", {
 
 test_that("Orthonormality of harmonics among i's with common k", {
 
-  M <- 1e4
+  skip_on_cran()
+  M <- 5e3
   for (p in 2:5) {
     for (k in 1:2) {
 
@@ -66,7 +68,8 @@ test_that("Orthonormality of harmonics among i's with common k", {
 
 test_that("Orthonormality of harmonics among i's with different k's = 1,2", {
 
-  M <- 1e4
+  skip_on_cran()
+  M <- 5e3
   for (p in 2:5) {
 
     dpk1 <- d_p_k(p = p, k = 1)
@@ -89,7 +92,8 @@ test_that("Orthonormality of harmonics among i's with different k's = 1,2", {
 
 test_that("Orthonormality of harmonics among i's with different k's = 0,1", {
 
-  M <- 1e4
+  skip_on_cran()
+  M <- 5e3
   for (p in 2:5) {
 
     dpk0 <- d_p_k(p = p, k = 0)

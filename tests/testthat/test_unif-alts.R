@@ -17,6 +17,7 @@ f4 <- function(x, kappa, q) {
 
 test_that("Correct integration of con_f", {
 
+  skip_on_cran()
   for (p in c(2:4, 11)) {
     expect_equal(con_f(f = function(x)
       rotasym::g_vMF(t = x, p = p, kappa = 3, scaled = TRUE),
@@ -29,6 +30,7 @@ test_that("Correct integration of con_f", {
 
 test_that("d_locdev", {
 
+  skip_on_cran()
   for (p in 2:4) {
     xp <- r_unif_sph(n = 5, p = p)[, , 1]
     mu <- c(rep(0, p - 1), 1)
@@ -51,6 +53,7 @@ test_that("d_locdev", {
 
 test_that("r_locdev coherence with d_locdev", {
 
+  skip_on_cran()
   for (p in 2:4) {
     mu <- c(rep(0, p - 1), 1)
     samp_1 <- r_locdev(n = 1e3, mu = mu, kappa = 0.25, 
@@ -68,6 +71,7 @@ test_that("r_locdev coherence with d_locdev", {
 
 test_that("Edge cases d_locdev and r_locdev", {
 
+  skip_on_cran()
   expect_error(d_locdev(x = 1, mu = 1, kappa = -1, f = NULL))
   expect_error(d_locdev(x = 1:2, mu = 1:3, kappa = -1, f = NULL))
   expect_error(r_locdev(n = 1, mu = 1, kappa = -1))
@@ -76,6 +80,7 @@ test_that("Edge cases d_locdev and r_locdev", {
 
 test_that("F_from_f via Gauss--Legendre", {
 
+  skip_on_cran()
   for (p in c(2:4, 11)) {
     expect_equal(F_from_f(f = f0, p = p, Gauss = TRUE, K = 1e2)(x),
                  drop(p_proj_unif(x = x, p = p)), tolerance = 1e-3)
@@ -85,6 +90,7 @@ test_that("F_from_f via Gauss--Legendre", {
 
 test_that("F_from_f via integrate()", {
 
+  skip_on_cran()
   for (p in c(2:4, 11)) {
     expect_equal(F_from_f(f = f0, p = p, Gauss = FALSE, K = 1e2)(x),
                  drop(p_proj_unif(x = x, p = p)), tolerance = 1e-3)
@@ -94,6 +100,7 @@ test_that("F_from_f via integrate()", {
 
 test_that("F_from_f for vMF", {
 
+  skip_on_cran()
   for (p in c(2:4, 11)) {
     samp_g <- drop(rotasym::r_g_vMF(n = 100, p = p, kappa = 3))
     expect_gt(ks.test(x = F_from_f(f = f1, p = p, Gauss = TRUE,
@@ -106,6 +113,7 @@ test_that("F_from_f for vMF", {
 
 test_that("F_inv_from_f via Gauss--Legendre", {
 
+  skip_on_cran()
   for (p in c(2:4, 11)) {
     expect_equal(F_inv_from_f(f = f0, p = p, Gauss = TRUE, K = 1e2)(u),
                  drop(q_proj_unif(u = u, p = p)), tolerance = 5e-3)
@@ -115,6 +123,7 @@ test_that("F_inv_from_f via Gauss--Legendre", {
 
 test_that("F_inv_from_f via integrate()", {
 
+  skip_on_cran()
   for (p in c(2:4, 11)) {
     expect_equal(F_inv_from_f(f = f0, p = p, Gauss = FALSE, K = 1e2)(u),
                  drop(q_proj_unif(u = u, p = p)), tolerance = 5e-3)
@@ -124,6 +133,7 @@ test_that("F_inv_from_f via integrate()", {
 
 test_that("F_inv_from_f for vMF", {
 
+  skip_on_cran()
   expect_gt(ks.test(x = F_inv_from_f(f = f1, p = 2, Gauss = TRUE,
                                      K = 1e2, kappa = 3)(v),
                     y = rotasym::r_g_vMF(n = 100, p = 2,
@@ -150,6 +160,7 @@ test_that("F_inv_from_f for vMF", {
 
 test_that("r_alt rotationally symmetric", {
 
+  skip_on_cran()
   for (p in 2:4) {
     samp_g <- r_alt(n = 100, p = p, M = 1, kappa = 2, alt = "vMF")[, p, 1]
     expect_gt(ks.test(x = F_from_f(f = f1, p = p, kappa = 2)(samp_g),
@@ -173,6 +184,7 @@ test_that("r_alt rotationally symmetric", {
 
 test_that("r_alt non-rotationally symmetric", {
 
+  skip_on_cran()
   for (p in c(2:4, 11)) {
     samp_1a <- r_alt(n = 1e3, p = p, M = 1, kappa = 2, alt = "MvMF",
                      axial_MvMF = TRUE)[, p, 1]
@@ -196,6 +208,7 @@ test_that("r_alt non-rotationally symmetric", {
 
 test_that("Edge cases in r_alt", {
 
+  skip_on_cran()
   for (p in c(2:4, 11)) {
 
     expect_length(r_alt(n = 5, p = p, M = 1, alt = "MvMF", kappa = 1),
@@ -443,6 +456,7 @@ integrand_vec_f_Ajne_11 <- function(x) {
 
 test_that("PCvM as the integral of its local alternative", {
 
+  skip_on_cran()
   expect_equal(drop(sph_stat_PCvM(X = X_2)),
                sum(w_k * integrand_vec_PCvM_2(cbind(cos(th_k), sin(th_k)))),
                tolerance = 5e-2)
@@ -469,6 +483,7 @@ test_that("PCvM as the integral of its local alternative", {
 
 test_that("PAD as the integral of its local alternative", {
 
+  skip_on_cran()
   expect_equal(drop(sph_stat_PAD(X = X_2)),
                sum(w_k * integrand_vec_PAD_2(cbind(cos(th_k), sin(th_k)))),
                tolerance = 1e-1)
@@ -489,6 +504,7 @@ test_that("PAD as the integral of its local alternative", {
 
 test_that("PRt t = 1 / 3 as the integral of its local alternative", {
 
+  skip_on_cran()
   expect_equal(drop(sph_stat_PRt(X = X_2, t = 1 / 3)),
                sum(w_k * integrand_vec_PRt_2(cbind(cos(th_k), sin(th_k)))),
                tolerance = 5e-2)
@@ -547,6 +563,7 @@ test_that("Ajne as the integral of its local alternative (series expansion)", {
 
 test_that("Ajne as the integral of its local alternative (analytical)", {
 
+  skip_on_cran()
   expect_equal(drop(sph_stat_Ajne(X = X_2)),
                sum(w_k * integrand_vec_f_Ajne_2(cbind(cos(th_k), sin(th_k)))),
                tolerance = 5e-2)
@@ -567,6 +584,7 @@ test_that("Ajne as the integral of its local alternative (analytical)", {
 
 test_that("Check positivity of f_PCvM and f_PAD", {
 
+  skip_on_cran()
   expect_true(all(f_locdev_PCvM_2(z = z) > 0))
   expect_true(all(f_locdev_PCvM_3(z = z) > 0))
   expect_true(all(f_locdev_PCvM_4(z = z) > 0))
@@ -584,6 +602,7 @@ uk <- seq(-1, 1, l = 5)
 
 test_that("Conversion between coefficients", {
 
+  skip_on_cran()
   expect_equal(bk_to_vk2(vk2_to_bk(vk2, p = 2), p = 2), vk2)
   expect_equal(bk_to_vk2(vk2_to_bk(vk2, p = 3), p = 3), vk2)
   expect_equal(bk_to_uk(uk_to_bk(uk, p = 2), p = 2, signs = sign(uk)), uk)
@@ -601,6 +620,7 @@ test_that("Conversion between coefficients", {
 
 test_that("Conversion of bk to vk2 in projected-ecdf statistics", {
 
+  skip_on_cran()
   for (type in c("PCvM", "PAD", "PRt")) {
     for (p in c(2, 3, 4, 9)) {
       expect_equal(bk_to_vk2(Gegen_coefs_Pn(k = 1:9, p = p, type = type),
@@ -614,6 +634,7 @@ test_that("Conversion of bk to vk2 in projected-ecdf statistics", {
 
 test_that("Conversion of bk to uk in projected-ecdf statistics", {
 
+  skip_on_cran()
   for (type in c("PCvM", "PAD", "PRt")) {
     for (p in c(2, 3, 4, 9)) {
       expect_equal(bk_to_uk(Gegen_coefs_Pn(k = 1:9, p = p, type = type, 
@@ -627,6 +648,7 @@ test_that("Conversion of bk to uk in projected-ecdf statistics", {
 
 test_that("cutoff_locdev verbose", {
 
+  skip_on_cran()
   expect_message(cutoff_locdev(K_max = 9, thre = 0, p = 9, type = "PAD",
                                verbose = 1))
   suppressMessages(
@@ -692,6 +714,7 @@ test_that("Watson vs. Sobolev statistic using f^PCvM", {
 
 test_that("Watson vs. Sobolev statistic using f in MJ (2000) page 114", {
 
+  skip_on_cran()
   expect_false(isTRUE(all.equal(wat, int1_orig, tolerance = 1e-3)))
   expect_false(isTRUE(all.equal(diff(wat / int1_orig), rep(0, M - 1),
                                 tolerance = 1e-3)))

@@ -24,12 +24,15 @@ and Cuesta-Albertos, 2020).
 Get the latest version from GitHub:
 
 ``` r
-# Install the package
+# Install the package and the vignettes
 library(devtools)
-install_github("egarpor/sphunif")
+install_github("egarpor/sphunif", build_vignettes = TRUE)
 
 # Load package
 library(sphunif)
+
+# See main vignette
+vignette("sphunif")
 ```
 
 ## Usage
@@ -70,7 +73,7 @@ unif_test(data = cir_data, type = "Watson", p_value = "MC",
 #>  Watson test of circular uniformity
 #> 
 #> data:  cir_data
-#> statistic = 0.036003, p-value = 0.8843
+#> statistic = 0.036003, p-value = 0.888
 #> alternative hypothesis: any alternative to circular uniformity
 unif_test(data = cir_data, type = "Watson", p_value = "asymp") # Asymp. distr.
 #> 
@@ -160,7 +163,7 @@ head(unif_test(data = sph_data, type = "all", p_value = "MC", verbose = FALSE))
 #>  Ajne test of spherical uniformity
 #> 
 #> data:  sph_data
-#> statistic = 0.079876, p-value = 0.9537
+#> statistic = 0.079876, p-value = 0.9568
 #> alternative hypothesis: any non-axial alternative to spherical uniformity
 #> 
 #> 
@@ -169,7 +172,7 @@ head(unif_test(data = sph_data, type = "all", p_value = "MC", verbose = FALSE))
 #>  Bakshaev (2010) test of spherical uniformity
 #> 
 #> data:  sph_data
-#> statistic = 1.2727, p-value = 0.4202
+#> statistic = 1.2727, p-value = 0.4367
 #> alternative hypothesis: any alternative to spherical uniformity
 #> 
 #> 
@@ -187,7 +190,7 @@ head(unif_test(data = sph_data, type = "all", p_value = "MC", verbose = FALSE))
 #>  Cai and Jiang (2012) test of spherical uniformity
 #> 
 #> data:  sph_data
-#> statistic = 27.401, p-value = 0.2652
+#> statistic = 27.401, p-value = 0.2637
 #> alternative hypothesis: unclear consistency
 #> 
 #> 
@@ -196,7 +199,7 @@ head(unif_test(data = sph_data, type = "all", p_value = "MC", verbose = FALSE))
 #>  Cuesta-Albertos et al. (2009) test of spherical uniformity with k = 50
 #> 
 #> data:  sph_data
-#> statistic = 1.4619, p-value = 0.2611
+#> statistic = 1.4619, p-value = 0.2729
 #> alternative hypothesis: any alternative to spherical uniformity
 #> 
 #> 
@@ -205,7 +208,7 @@ head(unif_test(data = sph_data, type = "all", p_value = "MC", verbose = FALSE))
 #>  Gine's Fn test of spherical uniformity
 #> 
 #> data:  sph_data
-#> statistic = 1.8889, p-value = 0.2109
+#> statistic = 1.8889, p-value = 0.2231
 #> alternative hypothesis: any alternative to spherical uniformity
 unif_test(data = sph_data, type = "Rayleigh", p_value = "asymp")
 #> 

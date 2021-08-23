@@ -20,5 +20,5 @@
 
 * This is a new release.
 * "Possibly mis-spelled words in DESCRIPTION" -> Double-checked, they are correctly spelled.
-* "Found the following (possibly) invalid URLs" -> Double-checked, they are correctly spelled.
+* "Found the following (possibly) invalid URLs" -> Double-checked, they are correct. They come from the usage of \doi{} with correct doi's. The redirections might be causing timeouts.
 * Please observe that the use of `set.seed` in `unif_stat_MC` and `int_sph_MC` serves the very important purpose of ensuring full reproducibility and facilitating debugging when running simulations in parallel. Since the default is **not** to set any seeds (`seeds = NULL`), unless the user explicitly demands otherwise by overriding `seeds`, I believe the package is compliant with CRAN's policy.

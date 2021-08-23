@@ -42,7 +42,7 @@ Springer, Cham. \doi{10.1007/978-3-030-69944-4_12}.
 
 García-Portugués, E., Paindaveine, D., and Verdebout, T. (2021). On the
 power of Sobolev tests for isotropy under local rotationally symmetric
-alternatives. \emph{Submitted}
+alternatives. \emph{arXiv:2108.XXXXX}
 }
 \author{
 Eduardo García-Portugués and Thomas Verdebout.

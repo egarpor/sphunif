@@ -39,7 +39,7 @@
 #'
 #' García-Portugués, E., Paindaveine, D., and Verdebout, T. (2021). On the
 #' power of Sobolev tests for isotropy under local rotationally symmetric
-#' alternatives. \emph{Submitted}
+#' alternatives. \emph{arXiv:2108.XXXXX}
 #' @docType package
 #' @name sphunif-package
 #' @import graphics stats foreach parallel doParallel Rcpp

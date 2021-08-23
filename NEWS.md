@@ -1,3 +1,3 @@
-# sphunif 0.1.0
+# sphunif 1.0.0
 
 * Initial release.

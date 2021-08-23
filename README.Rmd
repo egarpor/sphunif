@@ -173,4 +173,4 @@ García-Portugués, E., Navarro-Esteban, P., and Cuesta-Albertos, J. A. (2020). 
 
 García-Portugués, E. and Verdebout, T. (2018). An overview of uniformity tests on the hypersphere. *arXiv:1804.00286*. <https://arxiv.org/abs/1804.00286>.
 
-García-Portugués, E., Paindaveine, D., and Verdebout, T. (2021). On the power of Sobolev tests for isotropy under local rotationally symmetric alternatives. *Submitted*.
+García-Portugués, E., Paindaveine, D., and Verdebout, T. (2021). On the power of Sobolev tests for isotropy under local rotationally symmetric alternatives. *arXiv:2108.XXXXX*.

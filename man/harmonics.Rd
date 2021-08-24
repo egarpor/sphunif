@@ -63,5 +63,5 @@ on Spheres and Balls}. Springer, New York. \doi{10.1007/978-1-4614-6660-4}
 
 García-Portugués, E., Paindaveine, D., and Verdebout, T. (2021). On the
 power of Sobolev tests for isotropy under local rotationally symmetric
-alternatives. \emph{arXiv:2108.XXXXX}
+alternatives. \emph{arXiv:2108.09874}. \url{https://arxiv.org/abs/2108.09874}
 }

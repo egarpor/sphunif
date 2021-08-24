@@ -73,7 +73,7 @@ unif_test(data = cir_data, type = "Watson", p_value = "MC",
 #>  Watson test of circular uniformity
 #> 
 #> data:  cir_data
-#> statistic = 0.036003, p-value = 0.888
+#> statistic = 0.036003, p-value = 0.8858
 #> alternative hypothesis: any alternative to circular uniformity
 unif_test(data = cir_data, type = "Watson", p_value = "asymp") # Asymp. distr.
 #> 
@@ -163,7 +163,7 @@ head(unif_test(data = sph_data, type = "all", p_value = "MC", verbose = FALSE))
 #>  Ajne test of spherical uniformity
 #> 
 #> data:  sph_data
-#> statistic = 0.079876, p-value = 0.9568
+#> statistic = 0.079876, p-value = 0.953
 #> alternative hypothesis: any non-axial alternative to spherical uniformity
 #> 
 #> 
@@ -172,7 +172,7 @@ head(unif_test(data = sph_data, type = "all", p_value = "MC", verbose = FALSE))
 #>  Bakshaev (2010) test of spherical uniformity
 #> 
 #> data:  sph_data
-#> statistic = 1.2727, p-value = 0.4367
+#> statistic = 1.2727, p-value = 0.4351
 #> alternative hypothesis: any alternative to spherical uniformity
 #> 
 #> 
@@ -181,7 +181,7 @@ head(unif_test(data = sph_data, type = "all", p_value = "MC", verbose = FALSE))
 #>  Bingham test of spherical uniformity
 #> 
 #> data:  sph_data
-#> statistic = 22.455, p-value = 5e-04
+#> statistic = 22.455, p-value = 3e-04
 #> alternative hypothesis: scatter matrix different from constant
 #> 
 #> 
@@ -190,7 +190,7 @@ head(unif_test(data = sph_data, type = "all", p_value = "MC", verbose = FALSE))
 #>  Cai and Jiang (2012) test of spherical uniformity
 #> 
 #> data:  sph_data
-#> statistic = 27.401, p-value = 0.2637
+#> statistic = 27.401, p-value = 0.2803
 #> alternative hypothesis: unclear consistency
 #> 
 #> 
@@ -199,7 +199,7 @@ head(unif_test(data = sph_data, type = "all", p_value = "MC", verbose = FALSE))
 #>  Cuesta-Albertos et al. (2009) test of spherical uniformity with k = 50
 #> 
 #> data:  sph_data
-#> statistic = 1.4619, p-value = 0.2729
+#> statistic = 1.4619, p-value = 0.2685
 #> alternative hypothesis: any alternative to spherical uniformity
 #> 
 #> 
@@ -208,7 +208,7 @@ head(unif_test(data = sph_data, type = "all", p_value = "MC", verbose = FALSE))
 #>  Gine's Fn test of spherical uniformity
 #> 
 #> data:  sph_data
-#> statistic = 1.8889, p-value = 0.2231
+#> statistic = 1.8889, p-value = 0.2148
 #> alternative hypothesis: any alternative to spherical uniformity
 unif_test(data = sph_data, type = "Rayleigh", p_value = "asymp")
 #> 
@@ -357,4 +357,4 @@ tests on the hypersphere. *arXiv:1804.00286*.
 
 García-Portugués, E., Paindaveine, D., and Verdebout, T. (2021). On the
 power of Sobolev tests for isotropy under local rotationally symmetric
-alternatives. *arXiv:2108.XXXXX*.
+alternatives. *arXiv:2108.09874*. <https://arxiv.org/abs/2108.09874>.

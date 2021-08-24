@@ -124,7 +124,7 @@ sphere_to_angles <- function(x) {
 #' 
 #' García-Portugués, E., Paindaveine, D., and Verdebout, T. (2021). On the
 #' power of Sobolev tests for isotropy under local rotationally symmetric
-#' alternatives. \emph{arXiv:2108.XXXXX}
+#' alternatives. \emph{arXiv:2108.09874}. \url{https://arxiv.org/abs/2108.09874}
 #' @examples
 #' n <- 3e3
 #' old_par <- par(mfrow = c(2, 3))

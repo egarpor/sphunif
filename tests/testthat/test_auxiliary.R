@@ -48,19 +48,15 @@ test_that("ecdf_bin", {
 
 test_that("beta_inc and beta_inc_inv", {
 
-  expect_equal(y,
-               drop(sphunif:::beta_inc_inv(sphunif:::beta_inc(y, a = 1, b = 2),
-                                           a = 1, b = 2)))
-  expect_equal(pmax(x, 0),
-               drop(sphunif:::beta_inc_inv(sphunif:::beta_inc(x, a = 1, b = 2),
-                                           a = 1, b = 2)))
-  expect_equal(y,
-               drop(sphunif:::beta_inc(sphunif:::beta_inc_inv(y, a = 1, b = 2),
-                                       a = 1, b = 2)))
-  expect_equal(y,
-               drop(sphunif:::beta_inc(sphunif:::beta_inc_inv(y, a = 1, b = 2,
-                                                              lower_tail = TRUE),
-                                       a = 1, b = 2, lower_tail = TRUE)))
+  expect_equal(y, drop(sphunif:::beta_inc_inv(
+    sphunif:::beta_inc(y, a = 1, b = 2), a = 1, b = 2)))
+  expect_equal(pmax(x, 0), drop(sphunif:::beta_inc_inv(
+    sphunif:::beta_inc(x, a = 1, b = 2), a = 1, b = 2)))
+  expect_equal(y, drop(sphunif:::beta_inc(
+    sphunif:::beta_inc_inv(y, a = 1, b = 2), a = 1, b = 2)))
+  expect_equal(y, drop(sphunif:::beta_inc(
+    sphunif:::beta_inc_inv(y, a = 1, b = 2, lower_tail = TRUE),
+    a = 1, b = 2, lower_tail = TRUE)))
   expect_equal(exp(sphunif:::beta_inc(y, a = 1, b = 2, log = TRUE)),
                sphunif:::beta_inc(y, a = 1, b = 2))
   expect_equal(sphunif:::beta_inc_inv(log(y), a = 1, b = 2, log = TRUE),

@@ -69,4 +69,3 @@ test_that("r_wschisq_Cpp vs. p_wschisq_MC", {
                     use_sample = TRUE, x_sorted = TRUE)$p.value, 0.10)
 
 })
-

@@ -47,7 +47,7 @@
 #' @inheritParams locdev
 #' @return
 #' \itemize{
-#'   \item \code{psi_Pn}: a vector of length \code{length(theta)} with the
+#'   \item \code{psi_Pn}: a vector of size \code{length(theta)} with the
 #'   evaluation of \eqn{\psi}.
 #'   \item \code{Gegen_coefs_Pn}: a vector of size \code{length(k)} containing
 #'   the coefficients \eqn{b_{k, p}^W}.
@@ -188,7 +188,7 @@ psi_Pn <- function(theta, q, type, Rothman_t = 1 / 3, tilde = FALSE,
              { # psi_q, q >= 4
 
                # Explicit part
-               psi_q <- -3/4 + theta / (2 * pi) +
+               psi_q <- -3 / 4 + theta / (2 * pi) +
                  2 * drop(p_proj_unif(x = cos(theta / 2), p = q + 1))^2
 
                # Integral
@@ -448,7 +448,8 @@ psi_Pn <- function(theta, q, type, Rothman_t = 1 / 3, tilde = FALSE,
              "3" = { # psi_3
 
                # Longer part
-               psi_q[!ind] <- 1/2 + t_m - (theta[!ind] + theta_t_m) / (2 * pi) +
+               psi_q[!ind] <- 1 / 2 + t_m -
+                 (theta[!ind] + theta_t_m) / (2 * pi) +
                  (sin(theta_t_m) / 2 + tan(theta[!ind] / 2) *
                     cos(theta_t_m / 2)^2) / pi
                psi_q
@@ -559,7 +560,7 @@ Gegen_coefs_Pn <- function(k, p, type, Rothman_t = 1 / 3, Gauss = TRUE,
 
       } else if (p == 3) {
 
-        coefs[ind1] <- 1 / (8 * (k1 + 3/2) * (k1 - 1/2))
+        coefs[ind1] <- 1 / (8 * (k1 + 3 / 2) * (k1 - 1 / 2))
 
       } else if (p == 4) {
 
@@ -577,7 +578,8 @@ Gegen_coefs_Pn <- function(k, p, type, Rothman_t = 1 / 3, Gauss = TRUE,
           x_k <- drop(Gauss_Legen_nodes(a = -1, b = 1, N = N))
 
           # k > 0
-          coefs[ind1] <- colSums(w_k * akx(x = x_k, p = p, k = k1, sqr = FALSE) *
+          coefs[ind1] <- colSums(w_k * akx(x = x_k, p = p, k = k1,
+                                           sqr = FALSE) *
                                    drop(d_proj_unif(x = x_k, p = p)),
                                  na.rm = TRUE)
 
@@ -804,4 +806,3 @@ f_locdev_Pn <- function(p, type, K = 1e3, N = 320, K_max = 1e4, thre = 1e-3,
   return(f)
 
 }
-

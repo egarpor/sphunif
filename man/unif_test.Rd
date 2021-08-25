@@ -17,7 +17,7 @@ coordinates) on \eqn{S^{p-1}}. Alternatively if \code{p = 2}, a matrix of
 size \code{c(n, 1)} containing the \code{n} angles on \eqn{[0, 2\pi)} of the
 circular sample on \eqn{S^{1}}. Other objects accepted are an array of size
 \code{c(n, p, 1)} with directions (in Cartesian coordinates), or a vector of
-length \code{n} or an array of size \code{c(n, 1, 1)} with angular data.
+size \code{n} or an array of size \code{c(n, 1, 1)} with angular data.
 Must not contain \code{NA}'s.}
 
 \item{type}{type of test to be applied. A character vector containing any of

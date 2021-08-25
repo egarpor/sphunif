@@ -87,4 +87,3 @@ test_that("int_sph_MC edge cases", {
                                            verbose = TRUE)))
 
 })
-

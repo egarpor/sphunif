@@ -75,7 +75,7 @@ test_that("p_wschisq methods", {
   expect_lt(max(abs(p_wschisq(x = x, weights = weights, dfs = dfs,
                               ncps = ncps, method = "MC") -
                       p_wschisq(x = x, weights = weights, dfs = dfs,
-                                ncps = ncps, method = "MC", MC_sample = 
+                                ncps = ncps, method = "MC", MC_sample =
                                   r_wschisq(n = 1e4, weights = weights,
                                             dfs = dfs, ncps = ncps))
   )), 1e-5)

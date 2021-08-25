@@ -313,11 +313,11 @@
 #' #' @examples
 #' #' # TODO
 #' "ambrosia"
-#' 
-#' 
+#'
+#'
 #' #' @rdname ambrosia
 #' "angustifolia"
-#' 
-#' 
+#'
+#'
 #' #' @rdname ambrosia
 #' "chenopodium"

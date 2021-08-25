@@ -243,10 +243,10 @@ d_sph_stat_PRt <- function(x, p, t = 1 / 3, K_max = 1e3, thre = 0, ...) {
 #' @rdname sph_stat_distr
 #' @export
 p_sph_stat_Riesz <- function(x, p, s = 1, K_max = 1e3, thre = 0, ...) {
-  
+
   cbind(p_Sobolev(x = x, p = p, type = "Riesz", Riesz_s = s, K_max = K_max,
                   thre = thre, ...))
-  
+
 }
 
 
@@ -258,4 +258,3 @@ d_sph_stat_Riesz <- function(x, p, s = 1, K_max = 1e3, thre = 0, ...) {
                   thre = thre, ...))
 
 }
-

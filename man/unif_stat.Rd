@@ -14,7 +14,7 @@ unif_stat(data, type = "all", data_sorted = FALSE, Rayleigh_m = 1,
 (in Cartesian coordinates) on \eqn{S^{p-1}}. Alternatively, a
 \bold{matrix} of size \code{c(n, M)} with the angles on \eqn{[0, 2\pi)} of
 the \code{M} circular samples of size \code{n} on \eqn{S^{1}}. Other objects
-accepted are an array of size \code{c(n, 1, M)} or a vector of length
+accepted are an array of size \code{c(n, 1, M)} or a vector of size
 \code{n} with angular data. Must not contain \code{NA}'s.}
 
 \item{type}{type of test to be applied. A character vector containing any of

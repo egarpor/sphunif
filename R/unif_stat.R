@@ -21,7 +21,7 @@
 #' (in Cartesian coordinates) on \eqn{S^{p-1}}. Alternatively, a
 #' \bold{matrix} of size \code{c(n, M)} with the angles on \eqn{[0, 2\pi)} of
 #' the \code{M} circular samples of size \code{n} on \eqn{S^{1}}. Other objects
-#' accepted are an array of size \code{c(n, 1, M)} or a vector of length
+#' accepted are an array of size \code{c(n, 1, M)} or a vector of size
 #' \code{n} with angular data. Must not contain \code{NA}'s.
 #' @inheritParams unif_test
 #' @param data_sorted is the circular data sorted? If \code{TRUE}, certain
@@ -104,7 +104,7 @@
 #' @export
 unif_stat <- function(data, type = "all", data_sorted = FALSE,
                       Rayleigh_m = 1, cov_a = 2 * pi, Rothman_t = 1 / 3,
-                      Cressie_t = 1 / 3, Pycke_q = 0.5, Riesz_s = 1, 
+                      Cressie_t = 1 / 3, Pycke_q = 0.5, Riesz_s = 1,
                       CCF09_dirs = NULL, K_CCF09 = 25, CJ12_reg = 3) {
 
   # Stop if NA's
@@ -409,7 +409,7 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
     n_stats_type_Psi <- sum(stats_type %in% stats_using_Psi)
     n_stats_type_Psi <- n_stats_type_Psi - ((run_test$Watson && run_test$PCvM) +
          (run_test$Rothman && run_test$PRt) + (Riesz_s == 2) +
-         (Riesz_s == 0 && run_test$Pycke && run_test$Riesz) + 
+         (Riesz_s == 0 && run_test$Pycke && run_test$Riesz) +
          (Riesz_s == 1 && run_test$Bakshaev && run_test$Riesz) +
          (run_test$Gine_Fn && run_test$Gine_Gn && run_test$Ajne))
     if (n_stats_type_Psi > 1 & 0.5 * n * (n - 1) * M <= 1e8) {
@@ -642,7 +642,7 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
 
         } else {
 
-          stats$Riesz <- (2 / p) * sph_stat_Rayleigh(X = data) 
+          stats$Riesz <- (2 / p) * sph_stat_Rayleigh(X = data)
 
         }
 
@@ -717,12 +717,14 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
 
         if (p == 3) {
 
-          stats$Pycke <- n / (2 * pi * (n - 1)) * 
+          stats$Pycke <- n / (2 * pi * (n - 1)) *
             (stats$Riesz - (log(4) - 1) / 2)
 
         } else {
 
-          warning("Pycke statistic is only defined for p = 2,3. Using Riesz statistic with s = 0 instead, which behaves consistently across dimensions.")
+          warning(paste("Pycke statistic is only defined for p = 2,3.",
+                        "Using Riesz statistic with s = 0 instead,",
+                        "which behaves consistently across dimensions."))
           stats$Pycke <- stats$Riesz
 
         }

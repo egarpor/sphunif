@@ -18,15 +18,15 @@ sphunif
 cat(
   badger::badge_license(license = "GPLv3", color = "blue",
                         url = "https://www.gnu.org/licenses/gpl-3.0"),
-  "[![](https://app.travis-ci.com/egarpor/sphunif.svg?branch=master)](https://app.travis-ci.com/egarpor/sphunif)",
-  badger::badge_codecov(ref = NULL),
+  "[![R-CMD-check](https://github.com/egarpor/sphunif/actions/workflows/check-release.yaml/badge.svg)](https://github.com/egarpor/sphunif/actions/workflows/check-release.yaml)",
+  "[![test-coverage](https://github.com/egarpor/sphunif/actions/workflows/test-coverage.yaml/badge.svg)](https://github.com/egarpor/sphunif/actions/workflows/test-coverage.yaml)",
 	badger::badge_cran_release(color = "green"),
 	badger::badge_cran_download(pkg = NULL, type = "grand-total"),
 	badger::badge_cran_download(pkg = NULL, type = "last-month")
 )
 ```
 
-<!-- <img src="" alt="sphunif  hexlogo" align="right" width="200" style="padding: 0 15px; float: right;"/> -->
+<!-- <img src="" alt="sphunif hexlogo" align="right" width="200" style="padding: 0 15px; float: right;"/> -->
 
 ## Overview
 

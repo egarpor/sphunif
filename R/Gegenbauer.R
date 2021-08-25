@@ -125,7 +125,7 @@
 #' }
 #' @details
 #' The \code{Gegen_polyn} function is a wrapper to the functions
-#' \code{\link[gsl:Gegenbauer]{gegenpoly_n}} and 
+#' \code{\link[gsl:Gegenbauer]{gegenpoly_n}} and
 #' \code{\link[gsl:Gegenbauer]{gegenpoly_array}} in the
 #' \code{\link[gsl]{gsl-package}}, which they interface the functions
 #' defined in the header file \code{gsl_sf_gegenbauer.h} (documented
@@ -212,7 +212,7 @@
 #' lines(th, psi(th), lwd = 2)
 #' \donttest{
 #' ## Surface representation
-#' 
+#'
 #' # Surface in [0, pi]^2 to be projected in Gegenbauer polynomials
 #' p <- 3
 #' psi <- function(th_1, th_2) A_theta_x(theta = th_1, x = cos(th_2),

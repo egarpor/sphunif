@@ -92,7 +92,7 @@ series, computed by the \code{"HBE"} approximation.}
   \item \code{p_wschisq}: distribution function evaluated at \code{x},
   a vector.
   \item \code{q_wschisq}: quantile function evaluated at \code{u}, a vector.
-  \item \code{r_wschisq}: a vector of length \code{n} containing a random
+  \item \code{r_wschisq}: a vector of size \code{n} containing a random
   sample.
   \item \code{cutoff_wschisq}: a data frame with the indexes up to which the
   truncated series explains the tail probability with absolute error

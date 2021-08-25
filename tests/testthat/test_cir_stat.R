@@ -50,7 +50,7 @@ test_that("Anderson-Darling", {
 })
 
 test_that("Stephens modifications", {
-  
+
   expect_equal(drop(cir_stat_Kuiper(Theta_1, KS = TRUE, Stephens = TRUE)),
                drop(cir_stat_Kuiper(Theta_1, KS = TRUE, Stephens = FALSE)) *
                  (1 + 0.12 / sqrt(n) + 0.21 / n))
@@ -63,7 +63,7 @@ test_that("Stephens modifications", {
   expect_equal(drop(cir_stat_Watson(Theta_1, Stephens = TRUE)),
                (drop(cir_stat_Watson(Theta_1, Stephens = FALSE)) -
                   0.1 / n + 0.1 / n^2) * (1 + 0.8 / n))
-  
+
 })
 
 test_that("PCvM vs. Watson", {
@@ -75,9 +75,9 @@ test_that("PCvM vs. Watson", {
 
 
 test_that("Watson form in MJ (2000, page 111)", {
-  
+
   expect_equal(drop(cir_stat_Watson(Theta_1)), 2 * sum(h(Psi_1)) / n + 1 / 12)
-  
+
 })
 
 test_that("Hodges_Ajne use_Cressie and asymp_std", {
@@ -134,4 +134,3 @@ test_that("Bakshaev is a particular case of Riesz", {
                cir_stat_Bakshaev(Psi_2, Psi_in_Theta = TRUE))
 
 })
-

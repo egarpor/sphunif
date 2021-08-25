@@ -521,8 +521,8 @@ F_inv_from_f <- function(f, p, Gauss = TRUE, N = 320, K = 1e3, tol = 1e-6,
 #' @param signs signs of the coefficients \eqn{u_{k, p}}, a vector of the
 #' same size as \code{vk2} or \code{bk}, or a scalar. Defaults to \code{1}.
 #' @return
-#' The corresponding vectors of coefficients \code{vk2}, \code{bk}, or \code{uk},
-#' depending on the call.
+#' The corresponding vectors of coefficients \code{vk2}, \code{bk}, or
+#' \code{uk}, depending on the call.
 #' @details
 #' See more details in Prentice (1978) and García-Portugués et al. (2020). The
 #' adequate signs of \code{uk} for the \code{"PRt"} \link[=Pn]{Rothman test}
@@ -721,7 +721,7 @@ uk_to_bk <- function(uk, p) {
 #'   e_p = (0, 0, \ldots, 1)}.
 #'   \item \code{"MvMF"}: equally-weighted mixture of \eqn{p} von Mises--Fisher
 #'   distributions with common concentration \eqn{\kappa} and directional means
-#'   \eqn{\pm{\bf e}_1, \ldots, \pm{\bf e}_p}{±e_1, \ldots, ±e_p} if 
+#'   \eqn{\pm{\bf e}_1, \ldots, \pm{\bf e}_p}{±e_1, \ldots, ±e_p} if
 #'   \code{axial_MvMF = TRUE}. If \code{axial_MvMF = FALSE}, then only means
 #'   with positive signs are considered.
 #'   \item \code{"ACG"}: Angular Central Gaussian distribution with diagonal
@@ -752,7 +752,7 @@ uk_to_bk <- function(uk, p) {
 #' rho <- ((2 * kappa + 1) - sqrt(4 * kappa + 1)) / (2 * kappa)
 #' F_inv_SC_2 <- F_inv_from_f(f = function(z) exp(-kappa * (z - nu)^2), p = 2)
 #' F_inv_W_2 <- F_inv_from_f(f = function(z) exp(kappa * z^2), p = 2)
-#' F_inv_C_2 <- F_inv_from_f(f = function(z) (1 - rho^2) / 
+#' F_inv_C_2 <- F_inv_from_f(f = function(z) (1 - rho^2) /
 #'                             (1 + rho^2 - 2 * rho * z)^(p / 2), p = 2)
 #' x1 <- r_alt(n = n, p = p, alt = "vMF", kappa = kappa)[, , 1]
 #' x2 <- r_alt(n = n, p = p, alt = "MvMF", kappa = kappa)[, , 1]
@@ -777,7 +777,7 @@ uk_to_bk <- function(uk, p) {
 #' rho <- ((2 * kappa + 1) - sqrt(4 * kappa + 1)) / (2 * kappa)
 #' F_inv_SC_3 <- F_inv_from_f(f = function(z) exp(-kappa * (z - nu)^2), p = 3)
 #' F_inv_W_3 <- F_inv_from_f(f = function(z) exp(kappa * z^2), p = 3)
-#' F_inv_C_3 <- F_inv_from_f(f = function(z) (1 - rho^2) / 
+#' F_inv_C_3 <- F_inv_from_f(f = function(z) (1 - rho^2) /
 #'                             (1 + rho^2 - 2 * rho * z)^(p / 2), p = 3)
 #' x1 <- r_alt(n = n, p = p, alt = "vMF", kappa = kappa)[, , 1]
 #' x2 <- r_alt(n = n, p = p, alt = "MvMF", kappa = kappa)[, , 1]
@@ -803,7 +803,7 @@ r_alt <- function(n, p, M = 1, alt = "vMF", kappa = 1, nu = 0.5, F_inv = NULL,
   stopifnot(kappa >= 0)
   stopifnot(n >= 1)
 
-  # Sampling from uniform 
+  # Sampling from uniform
   if (kappa == 0) {
 
     return(r_unif_sph(n = n, p = p, M = M))
@@ -832,7 +832,7 @@ r_alt <- function(n, p, M = 1, alt = "vMF", kappa = 1, nu = 0.5, F_inv = NULL,
     }
 
     # Add plus and minus means
-    if (axial_MvMF) { 
+    if (axial_MvMF) {
 
       long_samp <- sample(x = c(-1, 1), size = n * M, replace = TRUE) *
         long_samp
@@ -886,7 +886,7 @@ r_alt <- function(n, p, M = 1, alt = "vMF", kappa = 1, nu = 0.5, F_inv = NULL,
     # Compute the inverse of the distribution function F?
     if (is.null(F_inv)) {
 
-      rho <- ifelse(kappa == 0, 0, 
+      rho <- ifelse(kappa == 0, 0,
                     ((2 * kappa + 1) - sqrt(4 * kappa + 1)) / (2 * kappa))
       f <- function(z) (1 - rho^2) / (1 + rho^2 - 2 * rho * z)^(p / 2)
       F_inv <- F_inv_from_f(f = f, p = p, K = K)

@@ -76,7 +76,7 @@ truncated series. Defaults to \code{1e-3}.}
 }
 \value{
 \itemize{
-  \item \code{psi_Pn}: a vector of length \code{length(theta)} with the
+  \item \code{psi_Pn}: a vector of size \code{length(theta)} with the
   evaluation of \eqn{\psi}.
   \item \code{Gegen_coefs_Pn}: a vector of size \code{length(k)} containing
   the coefficients \eqn{b_{k, p}^W}.

@@ -56,7 +56,7 @@
 #'   \item \code{p_wschisq}: distribution function evaluated at \code{x},
 #'   a vector.
 #'   \item \code{q_wschisq}: quantile function evaluated at \code{u}, a vector.
-#'   \item \code{r_wschisq}: a vector of length \code{n} containing a random
+#'   \item \code{r_wschisq}: a vector of size \code{n} containing a random
 #'   sample.
 #'   \item \code{cutoff_wschisq}: a data frame with the indexes up to which the
 #'   truncated series explains the tail probability with absolute error
@@ -694,12 +694,12 @@ cutoff_wschisq <- function(thre = 1e-4, weights, dfs, ncps = 0, log = FALSE,
                         ncps = ncps[1:fin], method = "HBE")
 
   }
-  
+
   # Cumulants
   kappa1 <- sum(weights * (dfs + ncps))
   kappa2 <- 2 * sum(weights^2 * (dfs + 2 * ncps))
   kappa3 <- 8 * sum(weights^3 * (dfs + 3 * ncps))
-  
+
   # Gamma moment matching
   kappa1 <- cumsum(switch(log + 1, weights * (dfs + ncps),
                           exp(weights + log(exp(dfs) + exp(ncps)))))
@@ -736,4 +736,3 @@ cutoff_wschisq <- function(thre = 1e-4, weights, dfs, ncps = 0, log = FALSE,
   return(as.data.frame(cutoffs))
 
 }
-

@@ -185,7 +185,7 @@ test_that("CJ12", {
   pn <- 3
   expect_equal(drop(sph_stat_CJ12(X3, regime = 1) -
                       sph_stat_CJ12(X3, regime = 3)),
-               4 * log(n) - log(log(n)) - 
+               4 * log(n) - log(log(n)) -
                  (4 * pn * (pn - 2) * log(n) - log(pn)))
 
 })

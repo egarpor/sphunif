@@ -212,7 +212,7 @@ test_that(paste("Gegen_coefs vs. weights_dfs_Sobolev for Watson, Rothman,",
 })
 
 test_that("weights_dfs_Sobolev for Watson vs. PCvM with p = 2", {
-  
+
   expect_equal(0.5 * weights_dfs_Sobolev(p = 2, K_max = K, thre = 0,
                                          type = "Watson",
                                          verbose = FALSE)$weights,
@@ -309,7 +309,7 @@ test_that("p_Sobolev vs. q_Sobolev", {
     expect_message(
       expect_equal(q_Sobolev(u = p_Sobolev(x = x, p = p, type = "PRt",
                                            thre = 0, method = "HBE"),
-                             p = p, type = "PRt", verbose = FALSE, 
+                             p = p, type = "PRt", verbose = FALSE,
                              thre = 0, method = "HBE"),
                    x, tolerance = 1e-6)
     )
@@ -329,14 +329,14 @@ test_that("p_Sobolev vs. d_Sobolev", {
                              verbose = FALSE, thre = 0, method = "I"),
                    tolerance = 1e-4)
     expect_equal((p_Sobolev(x = x_eps1, p = p, type = "PCvM", verbose = FALSE,
-                            thre = 0, method = "SW") - 
+                            thre = 0, method = "SW") -
                     p_Sobolev(x = x_eps2, p = p, type = "PCvM", verbose = FALSE,
                               thre = 0, method = "SW")) / (2 * eps),
                  d_Sobolev(x = x, p = p, type = "PCvM", verbose = FALSE,
                            thre = 0, method = "SW"),
                  tolerance = 1e-4)
     expect_equal((p_Sobolev(x = x_eps1, p = p, type = "PRt", verbose = FALSE,
-                            thre = 0, method = "HBE") - 
+                            thre = 0, method = "HBE") -
                     p_Sobolev(x = x_eps2, p = p, type = "PRt", verbose = FALSE,
                               thre = 0, method = "HBE")) / (2 * eps),
                  d_Sobolev(x = x, p = p, type = "PRt", verbose = FALSE,

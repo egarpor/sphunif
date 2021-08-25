@@ -38,7 +38,7 @@
 #' @param ... further parameters passed to \code{*_\link{wschisq}}.
 #' @return
 #' \itemize{
-#'   \item \code{d_p_k}: a vector of length \code{length(k)} with the
+#'   \item \code{d_p_k}: a vector of size \code{length(k)} with the
 #'   evaluation of \eqn{d_{p,k}}.
 #'   \item \code{weights_dfs_Sobolev}: a list with entries \code{weights} and
 #'   \code{dfs}, automatically truncated according to \code{K_max} and

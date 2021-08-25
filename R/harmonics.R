@@ -55,7 +55,7 @@ angles_to_sphere <- function(theta) {
 
     prod_sin_theta <- t(apply(sin_theta, 1, cumprod))
     x <- cbind(cos_theta[, 1, drop = FALSE],
-               prod_sin_theta[, -q, drop = FALSE] * 
+               prod_sin_theta[, -q, drop = FALSE] *
                  cos_theta[, -1, drop = FALSE],
                prod_sin_theta[, q, drop = FALSE])
 
@@ -101,7 +101,7 @@ sphere_to_angles <- function(x) {
 #' García-Portugués et al. (2021).
 #'
 #' @param x locations in \eqn{S^{p-1}} to evaluate \eqn{g_{i,k}}. Either a
-#' matrix of size \code{c(nx, p)} or a vector of length \code{p}. Normalized
+#' matrix of size \code{c(nx, p)} or a vector of size \code{p}. Normalized
 #' internally if required (with a \code{warning} message).
 #' @param i,k alternative indexing to refer to the \code{i}-th (hyper)spherical
 #' harmonic of order \code{k}. \code{i} is a positive integer smaller than
@@ -118,10 +118,10 @@ sphere_to_angles <- function(x) {
 #' which adapts Theorem 1.5.1 in Dai and Xu (2013) with the correction of
 #' typos in the normalizing constant \eqn{h_\alpha} and in the definition of
 #' the function \eqn{g_\alpha} of the latter theorem.
-#' @references 
+#' @references
 #' Dai, F. and Xu, Y. (2013). \emph{Approximation Theory and Harmonic Analysis
 #' on Spheres and Balls}. Springer, New York. \doi{10.1007/978-1-4614-6660-4}
-#' 
+#'
 #' García-Portugués, E., Paindaveine, D., and Verdebout, T. (2021). On the
 #' power of Sobolev tests for isotropy under local rotationally symmetric
 #' alternatives. \emph{arXiv:2108.09874}. \url{https://arxiv.org/abs/2108.09874}

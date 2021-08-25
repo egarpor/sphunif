@@ -46,8 +46,8 @@ test_that("Gegen_coefs normalizing constants", {
   for (p in c(2, 3, 4, 11)) {
     expect_equal(Gegen_coefs(k = k, p = p, only_const = TRUE),
                  sapply(k, function(m) {
-                   f <- function(th) 
-                     drop(Gegen_polyn(theta = th, k = m, p = p))^2 * 
+                   f <- function(th)
+                     drop(Gegen_polyn(theta = th, k = m, p = p))^2 *
                      sin(th)^(p - 2)
                    integrate(f = f, lower = 0, upper = pi)$value
                  }))
@@ -253,4 +253,3 @@ test_that("Gegen_norm_2d with unnormalized coefficients", {
                              k = k, m = m, p = 11, normalize = FALSE)^2,
                sum(w_k * f_2_11(th_k, th_k)^2 * sin_k^9))
 })
-

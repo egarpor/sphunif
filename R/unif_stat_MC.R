@@ -40,7 +40,7 @@
 #' @param cores number of cores to perform the simulation. Defaults to \code{1}.
 #' @param verbose show a progress bar? The progress bar is updated with the
 #' number of chunks finished. Defaults to \code{FALSE}.
-#' @param seeds if provided, a vector of length \code{chunks} for fixing the
+#' @param seeds if provided, a vector of size \code{chunks} for fixing the
 #' seeds on each of the simulation chunks (useful for reproducing parallel
 #' simulations). Specifically, for \code{k in 1:chunks}, seeds are
 #' set as \code{set.seed(seeds[k], kind = "Mersenne-Twister")} in each chunk.
@@ -166,9 +166,9 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
                          crit_val = NULL, alpha = c(0.10, 0.05, 0.01),
                          return_stats = TRUE, stats_sorted = FALSE,
                          chunks = ceiling((n * M) / 1e7), cores = 1,
-                         verbose = TRUE, seeds = NULL, Rayleigh_m = 1, 
+                         verbose = TRUE, seeds = NULL, Rayleigh_m = 1,
                          cov_a = 2 * pi, Rothman_t = 1 / 3,
-                         Cressie_t = 1 / 3, Pycke_q = 0.5, Riesz_s = 1, 
+                         Cressie_t = 1 / 3, Pycke_q = 0.5, Riesz_s = 1,
                          CCF09_dirs = NULL, K_CCF09 = 25, CJ12_reg = 3, ...) {
 
   # Check dimension
@@ -258,7 +258,7 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
                                             r_H1_args))
 
     # Statistics
-    stats <- unif_stat(data = X, type = type, Rayleigh_m = Rayleigh_m, 
+    stats <- unif_stat(data = X, type = type, Rayleigh_m = Rayleigh_m,
                        cov_a = cov_a, Rothman_t = Rothman_t,
                        Cressie_t = Cressie_t, Pycke_q = Pycke_q,
                        Riesz_s = Riesz_s, CCF09_dirs = CCF09_dirs,

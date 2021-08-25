@@ -179,7 +179,7 @@ test_that("KS, CvM, and AD", {
   expect_equal(unif_stat(data = Theta_2, type = "CvM")$CvM,
                cir_stat_Watson(Theta = Theta_2, CvM = TRUE))
   expect_equal(as.numeric(unif_stat(data = Theta_2, type = "AD")$AD),
-               apply(Theta_2, 2, function(x) 
+               apply(Theta_2, 2, function(x)
                  as.numeric(goftest::ad.test(x, null = "punif", min = 0,
                                              max = 2 * pi)$statistic)))
 

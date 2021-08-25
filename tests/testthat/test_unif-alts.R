@@ -11,7 +11,7 @@ f2 <- function(x, kappa) exp(kappa * x^2)
 f3 <- function(x, kappa, nu) exp(-kappa * (x - nu)^2)
 f4 <- function(x, kappa, q) {
   rho <- ((2 * kappa + 1) - sqrt(4 * kappa + 1)) / (2 * kappa)
-  (1 - rho^2) / (1 + rho^2 - 2 * rho * x)^((q + 1) / 2) / 
+  (1 - rho^2) / (1 + rho^2 - 2 * rho * x)^((q + 1) / 2) /
     rotasym::w_p(p = q + 1)
 }
 
@@ -38,7 +38,7 @@ test_that("d_locdev", {
                           f = function(z)
                             rotasym::g_vMF(t = z, kappa = 3, p = p)),
                  unname(d_locdev(x = xp[1, ], mu = mu, kappa = 0.25,
-                                 f = function(z) 
+                                 f = function(z)
                                    rotasym::g_vMF(t = z, kappa = 3, p = p))))
     expect_equal(d_locdev(x = xp, mu = mu, kappa = 0, f = NULL),
                  rep(1 / rotasym::w_p(p = p), nrow(xp)))
@@ -56,7 +56,7 @@ test_that("r_locdev coherence with d_locdev", {
   skip_on_cran()
   for (p in 2:4) {
     mu <- c(rep(0, p - 1), 1)
-    samp_1 <- r_locdev(n = 1e3, mu = mu, kappa = 0.25, 
+    samp_1 <- r_locdev(n = 1e3, mu = mu, kappa = 0.25,
                        f = function(z) f4(x = z, kappa = 3, q = p - 1))[, p]
     samp_2 <- F_inv_from_f(f = function(z)
       0.25 * f4(x = z, kappa = 3, q = p - 1) + 0.75 / rotasym::w_p(p = p),
@@ -193,7 +193,8 @@ test_that("r_alt non-rotationally symmetric", {
     samp_2b <- c(apply(diag(rep(1, p)), 1, function(mu)
       t(rotasym::r_vMF(n = round(1e3 / p), mu = mu, kappa = 2))))
     samp_2b <- matrix(samp_2b, ncol = p, byrow = TRUE)[, p]
-    samp_2a <- samp_2b * sample(c(-1, 1), size = length(samp_2b), replace = TRUE)
+    samp_2a <- samp_2b * sample(c(-1, 1), size = length(samp_2b),
+                                replace = TRUE)
     expect_gt(ks.test(x = samp_1a, y = samp_2a)$p.value, 0.01)
     expect_gt(ks.test(x = samp_1b, y = samp_2b)$p.value, 0.01)
     samp_1 <- r_alt(n = 1e3, p = p, M = 1, kappa = 1, alt = "ACG")[, p, 1]
@@ -213,17 +214,17 @@ test_that("Edge cases in r_alt", {
 
     expect_length(r_alt(n = 5, p = p, M = 1, alt = "MvMF", kappa = 1),
                   5 * p)
-    expect_equal(dim(r_alt(n = 1, p = p, M = 1, alt = "vMF", kappa = 1)), 
+    expect_equal(dim(r_alt(n = 1, p = p, M = 1, alt = "vMF", kappa = 1)),
                  c(1, p, 1))
-    expect_equal(dim(r_alt(n = 1, p = p, M = 1, alt = "MvMF", kappa = 1)), 
+    expect_equal(dim(r_alt(n = 1, p = p, M = 1, alt = "MvMF", kappa = 1)),
                  c(1, p, 1))
-    expect_equal(dim(r_alt(n = 1, p = p, M = 1, alt = "SC", kappa = 1)), 
+    expect_equal(dim(r_alt(n = 1, p = p, M = 1, alt = "SC", kappa = 1)),
                  c(1, p, 1))
-    expect_equal(dim(r_alt(n = 1, p = p, M = 1, alt = "C", kappa = 1)), 
+    expect_equal(dim(r_alt(n = 1, p = p, M = 1, alt = "C", kappa = 1)),
                  c(1, p, 1))
-    expect_equal(dim(r_alt(n = 1, p = p, M = 1, alt = "W", kappa = 1)), 
+    expect_equal(dim(r_alt(n = 1, p = p, M = 1, alt = "W", kappa = 1)),
                  c(1, p, 1))
-    expect_equal(dim(r_alt(n = 1, p = p, M = 1, alt = "ACG", kappa = 1)), 
+    expect_equal(dim(r_alt(n = 1, p = p, M = 1, alt = "ACG", kappa = 1)),
                  c(1, p, 1))
     expect_error(r_alt(n = 100, p = p, M = 1, kappa = 1, alt = "WC"))
     expect_error(r_alt(n = 100, p = p, M = 1, kappa = -1, alt = "C"))
@@ -399,7 +400,7 @@ integrand_vec_Ajne_2 <- function(x) {
 vk2_Ajne_3 <- weights_dfs_Sobolev(p = 3, K_max = max(k_Ajne),
                                   type = "Ajne", thre = 0,
                                   verbose = FALSE)$weights
-uk_Ajne_3 <- vk2_to_uk(vk2 = vk2_Ajne_3 , p = 3)
+uk_Ajne_3 <- vk2_to_uk(vk2 = vk2_Ajne_3, p = 3)
 f_locdev_Ajne_3 <- function(z) f_locdev(z = z, p = 3, uk = uk_Ajne_3)
 integrand_vec_Ajne_3 <- function(x) {
   f_gamma <- matrix(f_locdev_Ajne_3(c(X_3[, , 1] %*% t(x))),
@@ -409,7 +410,7 @@ integrand_vec_Ajne_3 <- function(x) {
 vk2_Ajne_4 <- weights_dfs_Sobolev(p = 4, K_max = max(k_Ajne),
                                   type = "Ajne", thre = 0,
                                   verbose = FALSE)$weights
-uk_Ajne_4 <- vk2_to_uk(vk2 = vk2_Ajne_4 , p = 4)
+uk_Ajne_4 <- vk2_to_uk(vk2 = vk2_Ajne_4, p = 4)
 f_locdev_Ajne_4 <- function(z) f_locdev(z = z, p = 4, uk = uk_Ajne_4)
 integrand_vec_Ajne_4 <- function(x) {
   f_gamma <- matrix(f_locdev_Ajne_4(c(X_4[, , 1] %*% t(x))),
@@ -419,7 +420,7 @@ integrand_vec_Ajne_4 <- function(x) {
 vk2_Ajne_11 <- weights_dfs_Sobolev(p = 11, K_max = max(k_Ajne),
                                    type = "Ajne", thre = 0,
                                    verbose = FALSE)$weights
-uk_Ajne_11 <- vk2_to_uk(vk2 = vk2_Ajne_11 , p = 11)
+uk_Ajne_11 <- vk2_to_uk(vk2 = vk2_Ajne_11, p = 11)
 f_locdev_Ajne_11 <- function(z) f_locdev(z = z, p = 11, uk = uk_Ajne_11)
 integrand_vec_Ajne_11 <- function(x) {
   f_gamma <- matrix(f_locdev_Ajne_11(c(X_11[, , 1] %*% t(x))),
@@ -637,7 +638,7 @@ test_that("Conversion of bk to uk in projected-ecdf statistics", {
   skip_on_cran()
   for (type in c("PCvM", "PAD", "PRt")) {
     for (p in c(2, 3, 4, 9)) {
-      expect_equal(bk_to_uk(Gegen_coefs_Pn(k = 1:9, p = p, type = type, 
+      expect_equal(bk_to_uk(Gegen_coefs_Pn(k = 1:9, p = p, type = type,
                                            Rothman_t = 0.1), p = p),
                    abs(cutoff_locdev(K_max = 9, thre = 0, p = p, type = type,
                                      Rothman_t = 0.1)))
@@ -728,6 +729,7 @@ test_that("Watson vs. Sobolev statistic using f in MJ (2000) page 114", {
 # plot(wat, int1_orig, main = "MJ (2000) page 114 + (6.3.70) + (6.3.60)")
 # plot(wat, int1_mod, main = "With modulus")
 # plot(wat, int2, main = "f^CvM local alternative")
-# curve(f1_orig, from = 0, to = 2 * pi, n = 1e4, ylim = c(0, 1), main = "f functions")
+# curve(f1_orig, from = 0, to = 2 * pi, n = 1e4, ylim = c(0, 1),
+#        main = "f functions")
 # curve(f1_mod, add = TRUE, col = 2, n = 1e4)
 # curve(f2, add = TRUE, col = 3, n = 1e4)

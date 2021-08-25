@@ -252,7 +252,7 @@
 #' plot(alpha, CvM_alpha, type = "l")
 #' abline(h = cir_stat_Watson(Theta[, 2, drop = FALSE]), col = 2)
 #' points(alpha[which.min(CvM_alpha)], min(CvM_alpha), col = 2, pch = 16)
-#' 
+#'
 #' # Anderson-Darling is the average rotated AD?
 #' plot(alpha, AD_alpha, type = "l")
 #' abline(h = cir_stat_PAD(Theta[, 2, drop = FALSE]), col = 2)

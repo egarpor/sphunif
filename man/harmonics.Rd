@@ -9,7 +9,7 @@ g_i_k(x, i = 1, k = 1, m = NULL, show_m = FALSE)
 }
 \arguments{
 \item{x}{locations in \eqn{S^{p-1}} to evaluate \eqn{g_{i,k}}. Either a
-matrix of size \code{c(nx, p)} or a vector of length \code{p}. Normalized
+matrix of size \code{c(nx, p)} or a vector of size \code{p}. Normalized
 internally if required (with a \code{warning} message).}
 
 \item{i, k}{alternative indexing to refer to the \code{i}-th (hyper)spherical

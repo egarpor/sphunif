@@ -29,7 +29,7 @@ avoiding memory bottlenecks when \code{M} is large. Defaults to
 \item{verbose}{show a progress bar? The progress bar is updated with the
 number of chunks finished. Defaults to \code{FALSE}.}
 
-\item{seeds}{if provided, a vector of length \code{chunks} for fixing the
+\item{seeds}{if provided, a vector of size \code{chunks} for fixing the
 seeds on each of the simulation chunks (useful for reproducing parallel
 simulations). Specifically, for \code{k in 1:chunks}, seeds are
 set as \code{set.seed(seeds[k], kind = "Mersenne-Twister")} in each chunk.

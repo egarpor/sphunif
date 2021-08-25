@@ -22,7 +22,7 @@
 #' size \code{c(n, 1)} containing the \code{n} angles on \eqn{[0, 2\pi)} of the
 #' circular sample on \eqn{S^{1}}. Other objects accepted are an array of size
 #' \code{c(n, p, 1)} with directions (in Cartesian coordinates), or a vector of
-#' length \code{n} or an array of size \code{c(n, 1, 1)} with angular data.
+#' size \code{n} or an array of size \code{c(n, 1, 1)} with angular data.
 #' Must not contain \code{NA}'s.
 #' @param type type of test to be applied. A character vector containing any of
 #' the following types of tests, depending on the dimension \eqn{p}:
@@ -336,7 +336,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
                                return_stats = FALSE, stats_sorted = FALSE,
                                Rayleigh_m = Rayleigh_m, cov_a = cov_a,
                                Rothman_t = Rothman_t, Cressie_t = Cressie_t,
-                               Pycke_q = Pycke_q, Riesz_s = Riesz_s, 
+                               Pycke_q = Pycke_q, Riesz_s = Riesz_s,
                                CCF09_dirs = CCF09_dirs, K_CCF09 = K_CCF09,
                                CJ12_reg = CJ12_reg, ...)$crit_val_MC
 

@@ -72,7 +72,7 @@ produce spurious results:
   Cartesian coordinates are employed.
   \item The entries of \code{data} are \emph{not} in \eqn{[0, 2\pi)} when
   polar coordinates are employed.
-  \item \code{ind_tri} is a vector of length \code{n * (n - 1) / 2} that
+  \item \code{ind_tri} is a vector of size \code{n * (n - 1) / 2} that
   does \emph{not} contain the indexes produced by \code{upper_tri_ind(n)}.
 }
 }

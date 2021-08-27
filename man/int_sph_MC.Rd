@@ -72,7 +72,7 @@ w_k <- Gauss_Legen_weights(a = 0, b = 2 * pi, N = 40)
 sum(w_k * quad(cbind(cos(th_k), sin(th_k)), a = 1))
 
 ## Parallel simulation with a progress bar
-
+\donttest{
 # Define a progress bar
 require(progress)
 require(progressr)
@@ -86,4 +86,5 @@ with_progress(int_sph_MC(f = x1, p = 3, cores = 2, M = 1e5, chunks = 100))
 # Instead of using with_progress() each time, it is more practical to run
 # handlers(global = TRUE)
 # once to activate progress bars in your R session
+}
 }

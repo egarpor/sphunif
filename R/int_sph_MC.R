@@ -50,7 +50,7 @@
 #' sum(w_k * quad(cbind(cos(th_k), sin(th_k)), a = 1))
 #'
 #' ## Parallel simulation with a progress bar
-#'
+#' \donttest{
 #' # Define a progress bar
 #' require(progress)
 #' require(progressr)
@@ -64,6 +64,7 @@
 #' # Instead of using with_progress() each time, it is more practical to run
 #' # handlers(global = TRUE)
 #' # once to activate progress bars in your R session
+#' }
 #' @export
 int_sph_MC <- function(f, p, M = 1e4, cores = 1, chunks = ceiling(M / 1e3),
                        seeds = NULL, ...) {

@@ -54,7 +54,7 @@ test_that("Orthonormality of harmonics among i's with common k", {
         for (i2 in i1:dpk) {
           intprods[i1, i2] <- int_sph_MC(f = int_prod, i1 = i1, i2 = i2,
                                          k1 = k, k2 = k, p = p, M = M,
-                                        cores = 1, verbose = FALSE) /
+                                        cores = 1) /
             rotasym::w_p(p = p)
           image(intprods)
           expect_lt(max(abs(intprods - diag(rep(1, dpk)))), 0.1)
@@ -79,7 +79,7 @@ test_that("Orthonormality of harmonics among i's with different k's = 1,2", {
       for (i2 in 1:dpk2) {
         intprods[i1, i2] <- int_sph_MC(f = int_prod, i1 = i1, i2 = i2,
                                        k1 = 1, k2 = 2, p = p, M = M,
-                                       cores = 1, verbose = FALSE) /
+                                       cores = 1) /
           rotasym::w_p(p = p)
         image(intprods)
         expect_lt(max(abs(intprods)), 0.1)
@@ -103,7 +103,7 @@ test_that("Orthonormality of harmonics among i's with different k's = 0,1", {
       for (i1 in 1:dpk1) {
         intprods[i0, i1] <- int_sph_MC(f = int_prod, i1 = i0, i2 = i1,
                                        k1 = 0, k2 = 1, p = p, M = M,
-                                       cores = 1, verbose = FALSE) /
+                                       cores = 1) /
           rotasym::w_p(p = p)
         image(intprods)
         expect_lt(max(abs(intprods)), 0.1)

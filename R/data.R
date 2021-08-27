@@ -91,7 +91,7 @@
 #'
 #' # Tests for the data in Cuesta-Albertos et al. (2009)
 #' tests_ccf2009 <- unif_test(data = comets_ccf2009$normal, type = type_tests,
-#'                            p_value = "asymp", verbose = FALSE)
+#'                            p_value = "asymp")
 #' tests_ccf2009
 "comets"
 

@@ -5,7 +5,7 @@
 \title{Monte Carlo integration of functions on the (hyper)sphere}
 \usage{
 int_sph_MC(f, p, M = 10000, cores = 1, chunks = ceiling(M/1000),
-  verbose = TRUE, seeds = NULL, ...)
+  seeds = NULL, ...)
 }
 \arguments{
 \item{f}{function to be integrated. Its first argument must be the
@@ -25,9 +25,6 @@ samples. Useful for parallelizing the integration in \code{chunks}
 tasks containing \code{ceiling(M / chunks)} replications. Useful also for
 avoiding memory bottlenecks when \code{M} is large. Defaults to
 \cr\code{ceiling(M / 1e3)}.}
-
-\item{verbose}{show a progress bar? The progress bar is updated with the
-number of chunks finished. Defaults to \code{FALSE}.}
 
 \item{seeds}{if provided, a vector of size \code{chunks} for fixing the
 seeds on each of the simulation chunks (useful for reproducing parallel
@@ -49,21 +46,44 @@ of a function \eqn{f:S^{p-1} \rightarrow R} defined on the (hyper)sphere
 \eqn{S^{p-1}:=\{{\bf x}\in R^p:||{\bf x}||=1\}}{
 S^{p-1}:=\{x\in R^p:||x||=1\}}, \eqn{p\ge 2}.
 }
+\details{
+It is possible to have a progress bar if \code{int_sph_MC} is wrapped with
+\code{\link[progressr:with_progress]{progressr::with_progress}} or if
+\code{progressr::handlers(global = TRUE)} is invoked (once) by the user.
+See the examples below. The progress bar is updated with the number of
+finished chunks.
+}
 \examples{
+## Sequential simulation
+
 # Vectorized functions to be integrated
 x1 <- function(x) x[, 1]
 quad <- function(x, a = 0) a + rowSums(x^4)
 
 # Approximate \int_{S^{p-1}} x_1 dx = 0
-int_sph_MC(f = x1, p = 3, cores = 1, M = 1e4, chunks = 2)
-int_sph_MC(f = x1, p = 3, cores = 2, M = 1e4, chunks = 2)
+int_sph_MC(f = x1, p = 3, M = 1e4, chunks = 2)
 
 # Approximate \int_{S^{p-1}} (a + \sum_i x_i^4) dx
-int_sph_MC(f = quad, p = 2, cores = 1, M = 1e4, a = 0, chunks = 2)
-int_sph_MC(f = quad, p = 2, cores = 1, M = 1e4, a = 1, chunks = 2)
+int_sph_MC(f = quad, p = 2, M = 1e4, a = 0, chunks = 2)
 
 # Compare with Gauss--Legendre integration on S^2
 th_k <- Gauss_Legen_nodes(a = 0, b = 2 * pi, N = 40)
 w_k <- Gauss_Legen_weights(a = 0, b = 2 * pi, N = 40)
 sum(w_k * quad(cbind(cos(th_k), sin(th_k)), a = 1))
+
+## Parallel simulation with a progress bar
+
+# Define a progress bar
+require(progress)
+require(progressr)
+handlers(handler_progress(
+  format = ":spin [:bar] :percent Total: :elapsedfull End \u2248 :eta",
+  clear = FALSE))
+
+# Call int_sph_MC() within with_progress()
+with_progress(int_sph_MC(f = x1, p = 3, cores = 2, M = 1e5, chunks = 100))
+
+# Instead of using with_progress() each time, it is more practical to run
+# handlers(global = TRUE)
+# once to activate progress bars in your R session
 }

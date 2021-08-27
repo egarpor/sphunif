@@ -469,15 +469,15 @@ test_that("PCvM as the integral of its local alternative", {
                tolerance = 5e-2)
   expect_equal(drop(sph_stat_PCvM(X = X_3)), {
     int_sph_MC(f = integrand_vec_PCvM_3, p = 3, cores = 2, chunks = 16,
-               .export = ls(), seeds = 1:16, M = 1e4, verbose = FALSE)
+               .export = ls(), seeds = 1:16, M = 1e4)
   }, tolerance = 5e-2)
   expect_equal(drop(sph_stat_PCvM(X = X_4)), {
     int_sph_MC(f = integrand_vec_PCvM_4, p = 4, cores = 2, chunks = 16,
-               .export = ls(), seeds = 1:16, M = 1e4, verbose = FALSE)
+               .export = ls(), seeds = 1:16, M = 1e4)
   }, tolerance = 5e-2)
   expect_equal(drop(sph_stat_PCvM(X = X_11)), {
     int_sph_MC(f = integrand_vec_PCvM_11, p = 11, cores = 2, chunks = 16,
-               .export = ls(), seeds = 1:16 + 10, M = 1e4, verbose = FALSE)
+               .export = ls(), seeds = 1:16 + 10, M = 1e4)
   }, tolerance = 1e-1)
 
 })
@@ -490,15 +490,15 @@ test_that("PAD as the integral of its local alternative", {
                tolerance = 1e-1)
   expect_equal(drop(sph_stat_PAD(X = X_3)), {
     int_sph_MC(f = integrand_vec_PAD_3, p = 3, cores = 2, chunks = 16,
-               .export = ls(), seeds = 1:16, M = 1e4, verbose = FALSE)
+               .export = ls(), seeds = 1:16, M = 1e4)
   }, tolerance = 5e-2)
   expect_equal(drop(sph_stat_PAD(X = X_4)), {
     int_sph_MC(f = integrand_vec_PAD_4, p = 4, cores = 2, chunks = 16,
-               .export = ls(), seeds = 1:16, M = 1e4, verbose = FALSE)
+               .export = ls(), seeds = 1:16, M = 1e4)
   }, tolerance = 2e-2)
   expect_equal(drop(sph_stat_PAD(X = X_11)), {
     int_sph_MC(f = integrand_vec_PAD_11, p = 11, cores = 2, chunks = 16,
-               .export = ls(), seeds = 1:16 + 20, M = 1e4, verbose = FALSE)
+               .export = ls(), seeds = 1:16 + 20, M = 1e4)
   }, tolerance = 3e-2)
 
 })
@@ -517,27 +517,27 @@ test_that("PRt t = 1 / 3 as the integral of its local alternative", {
                tolerance = 1e-4)
   expect_equal(drop(sph_stat_PRt(X = X_3, t = 1 / 3)), {
     int_sph_MC(f = integrand_vec_PRt_3, p = 3, cores = 2, chunks = 16,
-               .export = ls(), seeds = 1:16, M = 1e4, verbose = FALSE)
+               .export = ls(), seeds = 1:16, M = 1e4)
   }, tolerance = 5e-2)
   expect_equal(drop(sph_stat_PRt(X = X_3, t = 1 / 3)), {
     int_sph_MC(f = integrand_vec_PRt_3_anal, p = 3, cores = 2, chunks = 16,
-               .export = ls(), seeds = 1:16, M = 1e4, verbose = FALSE)
+               .export = ls(), seeds = 1:16, M = 1e4)
   }, tolerance = 3e-2)
   expect_equal(drop(sph_stat_PRt(X = X_4, t = 1 / 3)), {
     int_sph_MC(f = integrand_vec_PRt_4, p = 4, cores = 2, chunks = 16,
-               .export = ls(), seeds = 1:16, M = 1e4, verbose = FALSE)
+               .export = ls(), seeds = 1:16, M = 1e4)
   }, tolerance = 5e-2)
   expect_equal(drop(sph_stat_PRt(X = X_4, t = 1 / 3)), {
     int_sph_MC(f = integrand_vec_PRt_4_anal, p = 4, cores = 2, chunks = 16,
-               .export = ls(), seeds = 1:16, M = 1e4, verbose = FALSE)
+               .export = ls(), seeds = 1:16, M = 1e4)
   }, tolerance = 3e-2)
   expect_equal(drop(sph_stat_PRt(X = X_11, t = 1 / 3)), {
     int_sph_MC(f = integrand_vec_PRt_11, p = 11, cores = 2, chunks = 16,
-               .export = ls(), seeds = 1:16 + 10, M = 1e4, verbose = FALSE)
+               .export = ls(), seeds = 1:16 + 10, M = 1e4)
   }, tolerance = 5e-2)
   expect_equal(drop(sph_stat_PRt(X = X_11, t = 1 / 3)), {
     int_sph_MC(f = integrand_vec_PRt_11_anal, p = 11, cores = 2, chunks = 16,
-               .export = ls(), seeds = 1:16, M = 1e4, verbose = FALSE)
+               .export = ls(), seeds = 1:16, M = 1e4)
   }, tolerance = 3e-2)
 
 })
@@ -549,15 +549,15 @@ test_that("Ajne as the integral of its local alternative (series expansion)", {
                tolerance = 5e-2)
   expect_equal(drop(sph_stat_Ajne(X = X_3)), {
     int_sph_MC(f = integrand_vec_Ajne_3, p = 3, cores = 2, chunks = 16,
-               .export = ls(), seeds = 1:16, M = 1e4, verbose = FALSE)
+               .export = ls(), seeds = 1:16, M = 1e4)
   }, tolerance = 5e-2)
   expect_equal(drop(sph_stat_Ajne(X = X_4)), {
     int_sph_MC(f = integrand_vec_Ajne_4, p = 4, cores = 2, chunks = 16,
-               .export = ls(), seeds = 1:16, M = 1e4, verbose = FALSE)
+               .export = ls(), seeds = 1:16, M = 1e4)
   }, tolerance = 5e-2)
   expect_equal(drop(sph_stat_Ajne(X = X_11)), {
     int_sph_MC(f = integrand_vec_Ajne_11, p = 11, cores = 2, chunks = 16,
-               .export = ls(), seeds = 1:16 + 10, M = 1e4, verbose = FALSE)
+               .export = ls(), seeds = 1:16 + 10, M = 1e4)
   }, tolerance = 1e-1)
 
 })
@@ -570,15 +570,15 @@ test_that("Ajne as the integral of its local alternative (analytical)", {
                tolerance = 5e-2)
   expect_equal(drop(sph_stat_Ajne(X = X_3)), {
     int_sph_MC(f = integrand_vec_f_Ajne_3, p = 3, cores = 2, chunks = 16,
-               .export = ls(), seeds = 1:16, M = 1e4, verbose = FALSE)
+               .export = ls(), seeds = 1:16, M = 1e4)
   }, tolerance = 5e-2)
   expect_equal(drop(sph_stat_Ajne(X = X_4)), {
     int_sph_MC(f = integrand_vec_f_Ajne_4, p = 4, cores = 2, chunks = 16,
-               .export = ls(), seeds = 1:16, M = 1e4, verbose = FALSE)
+               .export = ls(), seeds = 1:16, M = 1e4)
   }, tolerance = 5e-2)
   expect_equal(drop(sph_stat_Ajne(X = X_11)), {
     int_sph_MC(f = integrand_vec_f_Ajne_11, p = 11, cores = 2, chunks = 16,
-               .export = ls(), seeds = 1:16 + 10, M = 1e4, verbose = FALSE)
+               .export = ls(), seeds = 1:16 + 10, M = 1e4)
   }, tolerance = 3e-2)
 
 })

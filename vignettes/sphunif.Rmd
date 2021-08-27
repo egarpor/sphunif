@@ -3,7 +3,7 @@ title: "`sphunif`: Uniformity Tests on the Circle, Sphere, and Hypersphere"
 author: "Eduardo García-Portugués and Thomas Verdebout"
 date: "`r Sys.Date()`, v`r packageVersion('sphunif')`"
 bibliography: sphunif.bib
-biblio-style: apalike-customa
+biblio-style: apalike-custom
 output:
   rmarkdown::html_vignette:
     fig_caption: yes

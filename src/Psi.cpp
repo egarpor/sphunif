@@ -191,22 +191,6 @@ arma::uvec upper_tri_ind(arma::uword n) {
 //' column is sorted increasingly (for \code{sort_each_col}) or contains the
 //' sorting indexes (for \code{sort_index_each_col}).
 //' \code{sort_index_each_col}.
-//' @examples
-//' # Simple example
-//' set.seed(98720222)
-//' A <- matrix(sample(20), nrow = 4, ncol = 5)
-//'
-//' # Apply sort by column
-//' sphunif:::sort_each_col(A)
-//' apply(A, 2, sort)
-//'
-//' # Apply order by column
-//' sphunif:::sort_index_each_col(A)
-//' apply(A, 2, order)
-//'
-//' # Apply ranks by column
-//' sphunif:::sort_index_each_col(sphunif:::sort_index_each_col(A))
-//' apply(A, 2, rank)
 //' @keywords internal
 // [[Rcpp::export]]
 arma::mat sort_each_col(arma::mat A) {

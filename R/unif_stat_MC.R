@@ -244,8 +244,7 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
   stats <- do.call(what = foreach::foreach,
                    args = c(list(k = 1:chunks, .combine = rbind,
                                  .inorder = TRUE, .multicombine = TRUE,
-                                 .maxcombine = 100,
-                                 .packages = c("Rcpp", "sphunif")),
+                                 .maxcombine = 100, .packages = "sphunif"),
                             foreach_args)) %op% {
 
     # Samples

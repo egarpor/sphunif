@@ -35,6 +35,11 @@ for \code{"SC"}, \code{"W"}, and \code{"C"}. Computed by internally if
 \item{axial_MvMF}{use a mixture of vMF that is axial (i.e., symmetrically
 distributed about the origin)? Defaults to \code{TRUE}.}
 }
+\value{
+An \bold{array} of size \code{c(n, p, M)} with \code{M} random
+samples of size \code{n} of non-uniformly-generated directions on
+\eqn{S^{p-1}}.
+}
 \description{
 Simple simulation of prespecified non-uniform spherical
 distributions: von Mises--Fisher (vMF), Mixture of vMF (MvMF),
@@ -50,7 +55,7 @@ distributions:
   e_p = (0, 0, \ldots, 1)}.
   \item \code{"MvMF"}: equally-weighted mixture of \eqn{p} von Mises--Fisher
   distributions with common concentration \eqn{\kappa} and directional means
-  \eqn{\pm{\bf e}_1, \ldots, \pm{\bf e}_p}{±e_1, \ldots, ±e_p} if 
+  \eqn{\pm{\bf e}_1, \ldots, \pm{\bf e}_p}{±e_1, \ldots, ±e_p} if
   \code{axial_MvMF = TRUE}. If \code{axial_MvMF = FALSE}, then only means
   with positive signs are considered.
   \item \code{"ACG"}: Angular Central Gaussian distribution with diagonal
@@ -82,7 +87,7 @@ nu <- 0.5
 rho <- ((2 * kappa + 1) - sqrt(4 * kappa + 1)) / (2 * kappa)
 F_inv_SC_2 <- F_inv_from_f(f = function(z) exp(-kappa * (z - nu)^2), p = 2)
 F_inv_W_2 <- F_inv_from_f(f = function(z) exp(kappa * z^2), p = 2)
-F_inv_C_2 <- F_inv_from_f(f = function(z) (1 - rho^2) / 
+F_inv_C_2 <- F_inv_from_f(f = function(z) (1 - rho^2) /
                             (1 + rho^2 - 2 * rho * z)^(p / 2), p = 2)
 x1 <- r_alt(n = n, p = p, alt = "vMF", kappa = kappa)[, , 1]
 x2 <- r_alt(n = n, p = p, alt = "MvMF", kappa = kappa)[, , 1]
@@ -107,7 +112,7 @@ nu <- 0.5
 rho <- ((2 * kappa + 1) - sqrt(4 * kappa + 1)) / (2 * kappa)
 F_inv_SC_3 <- F_inv_from_f(f = function(z) exp(-kappa * (z - nu)^2), p = 3)
 F_inv_W_3 <- F_inv_from_f(f = function(z) exp(kappa * z^2), p = 3)
-F_inv_C_3 <- F_inv_from_f(f = function(z) (1 - rho^2) / 
+F_inv_C_3 <- F_inv_from_f(f = function(z) (1 - rho^2) /
                             (1 + rho^2 - 2 * rho * z)^(p / 2), p = 3)
 x1 <- r_alt(n = n, p = p, alt = "vMF", kappa = kappa)[, , 1]
 x2 <- r_alt(n = n, p = p, alt = "MvMF", kappa = kappa)[, , 1]

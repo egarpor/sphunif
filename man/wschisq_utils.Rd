@@ -48,16 +48,4 @@ to \code{1e4}.}
 Simulation from a weighted sum of non-central chi squared
 random variables and Monte Carlo approximation of its distribution function.
 }
-\examples{
-x <- seq(0, 50, l = 1e3)
-weights <- c(2, 1, 0.5)
-dfs <- c(3, 6, 12)
-ncps <- c(0, 0, 1)
-samp <- sphunif:::r_wschisq_Cpp(n = 5e2, weights = weights, dfs = dfs,
-                                ncps = ncps)
-plot(ecdf(samp), main = "")
-lines(x, sphunif:::p_wschisq_MC(x, weights = weights, dfs = dfs,
-                                ncps = ncps),
-      type = "s", col = 2)
-}
 \keyword{internal}

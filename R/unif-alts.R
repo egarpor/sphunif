@@ -739,6 +739,9 @@ uk_to_bk <- function(uk, p) {
 #'   concentration \eqn{\kappa = \rho / (1 - \rho^2)}. The circular Wrapped
 #'   Cauchy distribution is a particular case of this Cauchy-like distribution.
 #' }
+#' @return An \bold{array} of size \code{c(n, p, M)} with \code{M} random
+#' samples of size \code{n} of non-uniformly-generated directions on
+#' \eqn{S^{p-1}}.
 #' @details
 #' Much faster sampling for \code{"SC"}, \code{"W"}, and \code{"C"} is achieved
 #' providing \code{F_inv}, see examples.

@@ -201,22 +201,6 @@ upper_tri_ind <- function(n) {
 #' column is sorted increasingly (for \code{sort_each_col}) or contains the
 #' sorting indexes (for \code{sort_index_each_col}).
 #' \code{sort_index_each_col}.
-#' @examples
-#' # Simple example
-#' set.seed(98720222)
-#' A <- matrix(sample(20), nrow = 4, ncol = 5)
-#'
-#' # Apply sort by column
-#' sphunif:::sort_each_col(A)
-#' apply(A, 2, sort)
-#'
-#' # Apply order by column
-#' sphunif:::sort_index_each_col(A)
-#' apply(A, 2, order)
-#'
-#' # Apply ranks by column
-#' sphunif:::sort_index_each_col(sphunif:::sort_index_each_col(A))
-#' apply(A, 2, rank)
 #' @keywords internal
 sort_each_col <- function(A) {
     .Call('_sphunif_sort_each_col', PACKAGE = 'sphunif', A)
@@ -263,10 +247,6 @@ NULL
 #' @param n_dist a positive integer \eqn{(n - 1) * n / 2} for which \eqn{n}
 #' is to be recovered.
 #' @param t a vector to evaluate \eqn{t / \sqrt{1 - t^2}}.
-#' @examples
-#' n <- 10
-#' sphunif:::n_from_dist_vector((n - 1) * n / 2)
-#' sphunif:::n_from_dist_vector((n - 1) * n / 2 + 1) # Invalid input
 #' @name utils
 NULL
 
@@ -342,13 +322,6 @@ cir_gaps <- function(Theta, sorted = FALSE) {
 #'   \item \code{data} is not sorted increasingly when
 #'   \code{data_sorted = TRUE}-
 #' }
-#' @examples
-#' set.seed(1234567)
-#' samp <- rnorm(200)
-#' x <- seq(-1, 1, l = 10)
-#' ecdf(samp)(x)
-#' sphunif:::ecdf_bin(samp, x, efic = FALSE)
-#' sphunif:::ecdf_bin(samp, x, efic = TRUE)
 #' @keywords internal
 ecdf_bin <- function(data, sorted_x, data_sorted = FALSE, efic = TRUE, divide_n = TRUE) {
     .Call('_sphunif_ecdf_bin', PACKAGE = 'sphunif', data, sorted_x, data_sorted, efic, divide_n)
@@ -381,16 +354,6 @@ ecdf_bin <- function(data, sorted_x, data_sorted = FALSE, efic = TRUE, divide_n 
 #' @details
 #' The functions are mere wrappers to R's internal \code{pbeta} and
 #' \code{qbeta} functions.
-#' @examples
-#' # Comparison with R
-#' old_par <- par(mfrow = c(1, 2))
-#' x <- seq(-1, 2, l = 1e3)
-#' plot(x, sphunif:::beta_inc(x, 0.75, 2), type = "l")
-#' lines(x, pbeta(x, 0.75, 2), col = 2)
-#' u <- seq(0, 1, l = 1e3)
-#' plot(u, sphunif:::beta_inc_inv(u, 0.75, 2), type = "l")
-#' lines(u, qbeta(u, 0.75, 2), col = 2)
-#' par(old_par)
 #' @keywords internal
 beta_inc <- function(x, a, b, lower_tail = TRUE, log = FALSE) {
     .Call('_sphunif_beta_inc', PACKAGE = 'sphunif', x, a, b, lower_tail, log)
@@ -953,17 +916,6 @@ NULL
 #'   \item \code{p_wschisq_MC}: a matrix of size \code{c(nx, 1)}
 #'   with the evaluation of the distribution function at \code{x}.
 #' }
-#' @examples
-#' x <- seq(0, 50, l = 1e3)
-#' weights <- c(2, 1, 0.5)
-#' dfs <- c(3, 6, 12)
-#' ncps <- c(0, 0, 1)
-#' samp <- sphunif:::r_wschisq_Cpp(n = 5e2, weights = weights, dfs = dfs,
-#'                                 ncps = ncps)
-#' plot(ecdf(samp), main = "")
-#' lines(x, sphunif:::p_wschisq_MC(x, weights = weights, dfs = dfs,
-#'                                 ncps = ncps),
-#'       type = "s", col = 2)
 #' @name wschisq_utils
 NULL
 
@@ -977,9 +929,6 @@ NULL
 #' @param ncp non-centrality parameter.
 #' @return A matrix of size \code{c(nx, 1)} with the evaluation of the
 #' density or distribution function at \code{x}.
-#' @examples
-#' curve(sphunif:::d_chisq(x, df = 2), from = 0, to = 5, n = 200)
-#' curve(sphunif:::p_chisq(x, df = 2), add = TRUE, col = 2)
 #' @name chisq
 NULL
 

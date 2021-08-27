@@ -244,7 +244,7 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
   stats <- do.call(what = foreach::foreach,
                    args = c(list(k = 1:chunks, .combine = rbind,
                                  .inorder = TRUE, .multicombine = TRUE,
-                                 .maxcombine = 100),
+                                 .maxcombine = 100, .packages = "sphunif"),
                             foreach_args)) %op% {
 
     # Samples
@@ -257,11 +257,11 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
                                             r_H1_args))
 
     # Statistics
-    stats <- sphunif::unif_stat(data = X, type = type, Rayleigh_m = Rayleigh_m,
-                                cov_a = cov_a, Rothman_t = Rothman_t,
-                                Cressie_t = Cressie_t, Pycke_q = Pycke_q,
-                                Riesz_s = Riesz_s, CCF09_dirs = CCF09_dirs,
-                                K_CCF09 = K_CCF09, CJ12_reg = CJ12_reg)
+    stats <- unif_stat(data = X, type = type, Rayleigh_m = Rayleigh_m,
+                       cov_a = cov_a, Rothman_t = Rothman_t,
+                       Cressie_t = Cressie_t, Pycke_q = Pycke_q,
+                       Riesz_s = Riesz_s, CCF09_dirs = CCF09_dirs,
+                       K_CCF09 = K_CCF09, CJ12_reg = CJ12_reg)
 
     # Remove X and clean memory
     rm(X)

@@ -43,15 +43,4 @@ and its inverse function.
 The functions are mere wrappers to R's internal \code{pbeta} and
 \code{qbeta} functions.
 }
-\examples{
-# Comparison with R
-old_par <- par(mfrow = c(1, 2))
-x <- seq(-1, 2, l = 1e3)
-plot(x, sphunif:::beta_inc(x, 0.75, 2), type = "l")
-lines(x, pbeta(x, 0.75, 2), col = 2)
-u <- seq(0, 1, l = 1e3)
-plot(u, sphunif:::beta_inc_inv(u, 0.75, 2), type = "l")
-lines(u, qbeta(u, 0.75, 2), col = 2)
-par(old_par)
-}
 \keyword{internal}

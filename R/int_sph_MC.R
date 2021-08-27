@@ -82,7 +82,7 @@ int_sph_MC <- function(f, p, M = 1e4, cores = 1, chunks = ceiling(M / 1e3),
   int <- do.call(what = foreach::foreach,
                  args = c(list(k = 1:chunks, .combine = "+",
                                .inorder = FALSE, .multicombine = FALSE),
-                          foreach_args)) %op% {
+                          foreach_args, .packages = "sphunif")) %op% {
 
     # Sample uniform data
     if (!is.null(seeds)) {
@@ -90,7 +90,7 @@ int_sph_MC <- function(f, p, M = 1e4, cores = 1, chunks = ceiling(M / 1e3),
       set.seed(seeds[k], kind = "Mersenne-Twister")
 
     }
-    X <- sphunif::r_unif_sph(n = small_M, p = p, M = 1)[, , 1]
+    X <- r_unif_sph(n = small_M, p = p, M = 1)[, , 1]
 
     # Evaluate f
     args <- c(list(X), f_args)

@@ -20,9 +20,4 @@ is to be recovered.}
 Internal and undocumented low-level utilities for
 \pkg{sphunif}.
 }
-\examples{
-n <- 10
-sphunif:::n_from_dist_vector((n - 1) * n / 2)
-sphunif:::n_from_dist_vector((n - 1) * n / 2 + 1) # Invalid input
-}
 \keyword{internal}

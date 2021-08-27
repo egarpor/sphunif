@@ -41,14 +41,6 @@ produce spurious results:
 }
 }
 
-\examples{
-set.seed(1234567)
-samp <- rnorm(200)
-x <- seq(-1, 1, l = 10)
-ecdf(samp)(x)
-sphunif:::ecdf_bin(samp, x, efic = FALSE)
-sphunif:::ecdf_bin(samp, x, efic = TRUE)
-}
 \author{
 Original code from Douglas Bates'
 \url{https://github.com/dmbates/ecdfExample}. Minor adaptations by Eduardo

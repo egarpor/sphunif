@@ -81,9 +81,8 @@ int_sph_MC <- function(f, p, M = 1e4, cores = 1, chunks = ceiling(M / 1e3),
   small_M <- M / chunks
   int <- do.call(what = foreach::foreach,
                  args = c(list(k = 1:chunks, .combine = "+",
-                               .inorder = FALSE, .multicombine = FALSE,
-                               .packages = c("Rcpp", "sphunif")),
-                          foreach_args)) %op% {
+                               .inorder = FALSE, .multicombine = FALSE),
+                          foreach_args, .packages = "sphunif")) %op% {
 
     # Sample uniform data
     if (!is.null(seeds)) {

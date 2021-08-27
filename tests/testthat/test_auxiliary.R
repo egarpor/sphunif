@@ -7,7 +7,6 @@ n <- 200
 samp <- rnorm(n)
 samp_s <- sort(samp)
 x <- seq(-1, 1, l = 10)
-n_dist <- n * (n - 1) / 2
 y <- seq(0, 1, l = 20)
 
 test_that("Theta_to_X and X_to_Theta", {
@@ -69,7 +68,7 @@ test_that("beta_inc and beta_inc_inv", {
 test_that("t_inv_sqrt_one and n_from_dist_vector", {
 
   expect_equal(drop(sphunif:::t_inv_sqrt_one(x)), x / sqrt(1 - x^2))
-  expect_equal(drop(sphunif:::n_from_dist_vector(n_dist)),
-               0.5 * (sqrt(8 * n_dist + 1) + 1))
+  expect_equal(drop(sphunif:::n_from_dist_vector(
+    sum(lower.tri(tcrossprod(1:n), diag = FALSE)))), n)
 
 })

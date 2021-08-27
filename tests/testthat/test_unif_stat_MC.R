@@ -1,4 +1,7 @@
 
+# To prevent hanging with parallel computations
+Sys.unsetenv("R_TESTS")
+
 n <- 50
 set.seed(1242333)
 cir_0 <- unif_stat_MC(n = n, M = 5e2, type = "all", p = 2, seeds = 5,
@@ -36,8 +39,9 @@ test_that("Edge cases", {
   expect_error(unif_stat_MC(n = n, M = 1e2, type = "all", p = 3,
                             crit_val = crit_val_bad[, 1:3],
                             verbose = FALSE))
-  expect_warning(unif_stat_MC(n = n, M = 1e2, type = "all", p = 5, seeds = 1:3,
-                              chunks = 2, verbose = FALSE))
+  suppressWarnings(expect_warning(unif_stat_MC(n = n, M = 1e2, type = "all",
+                                               p = 5, seeds = 1:3,
+                                               chunks = 2, verbose = FALSE)))
   expect_equal(unif_stat_MC(n = n, M = 1e2, type = c("PAD", "Ajne"), p = 3,
                             seeds = 5, verbose = FALSE)$stats$PAD,
                unif_stat_MC(n = n, M = 1e2, type = "PAD", p = 3,
@@ -50,15 +54,19 @@ test_that("Several options", {
 
   expect_equal(unif_stat_MC(n = n, M = 10, type = "all", p = 2,
                             return_stats = FALSE, verbose = FALSE)$stats, NA)
-  expect_equal(unif_stat_MC(n = n, M = 10, type = "all", p = 3,
-                            return_stats = FALSE, verbose = FALSE)$stats, NA)
-  expect_equal(unname(as.matrix(unif_stat_MC(n = n, M = 10, type = "all", p = 5,
-                                             verbose = FALSE,
-                                             stats_sorted = TRUE,
-                                             seeds = 1)$stats)),
-               sort_each_col(as.matrix(unif_stat_MC(n = n, M = 10, type = "all",
-                                                    p = 5, verbose = FALSE,
-                                                    seeds = 1)$stats)))
+  suppressWarnings(expect_equal(unif_stat_MC(n = n, M = 10, type = "all", p = 3,
+                                             return_stats = FALSE,
+                                             verbose = FALSE)$stats, NA))
+  suppressWarnings(
+    expect_equal(unname(as.matrix(unif_stat_MC(n = n, M = 10, type = "all",
+                                               p = 5, verbose = FALSE,
+                                               stats_sorted = TRUE,
+                                               seeds = 1)$stats)),
+                 sort_each_col(as.matrix(unif_stat_MC(n = n, M = 10,
+                                                      type = "all", p = 5,
+                                                      verbose = FALSE,
+                                                      seeds = 1)$stats)))
+  )
   set.seed(1)
   CCF09_dirs <- r_unif_sph(n = 50, p = 3, M = 1)[, , 1]
   expect_equal(unif_stat_MC(n = n, M = 5, type = "CCF09", p = 3,
@@ -67,8 +75,48 @@ test_that("Several options", {
                unif_stat_MC(n = n, M = 5, type = "CCF09", p = 3,
                             verbose = FALSE, stats_sorted = TRUE, seeds = 1,
                             chunks = 1, CCF09_dirs = CCF09_dirs)$CCF09)
-  expect_true(!is.null(capture.output(
-    a <- unif_stat_MC(n = n, M = 10, type = "all", p = 2, verbose = TRUE)
-  )))
+
+})
+
+test_that("Progress bars", {
+
+  skip_on_cran()
+  o1_verbose <- capture.output(s <- unif_stat_MC(n = n, M = 10, type = "all",
+                                                 p = 2, cores = 1,
+                                                 verbose = TRUE))
+  o1_silent <- capture.output(s <- unif_stat_MC(n = n, M = 10, type = "all",
+                                                p = 2, cores = 1,
+                                                verbose = FALSE))
+  o2_verbose <- capture.output(s <- unif_stat_MC(n = n, M = 10, type = "all",
+                                                 p = 2, cores = 2,
+                                                 verbose = TRUE))
+  o2_silent <- capture.output(s <- unif_stat_MC(n = n, M = 10, type = "all",
+                                                p = 2, cores = 2,
+                                                verbose = FALSE))
+  expect_gt(length(o1_verbose), 0)
+  expect_gt(length(o2_verbose), 0)
+  expect_equal(length(o1_silent), 0)
+  expect_equal(length(o2_silent), 0)
+
+})
+
+test_that("Same results with cores = 1 and cores = 2", {
+
+  skip_on_cran()
+  expect_equal(unif_stat_MC(n = n, M = 10, type = "all",
+                            p = 2, chunks = 10, cores = 1, seeds = 1:10),
+               unif_stat_MC(n = n, M = 10, type = "all",
+                            p = 2, chunks = 10, cores = 2, seeds = 1:10))
+
+})
+
+test_that("Parallelization is faster", {
+
+  skip_on_cran()
+  t1 <- system.time(unif_stat_MC(n = 100, M = 1e4, type = "all", p = 2,
+                                 chunks = 10, cores = 1, verbose = TRUE))[3]
+  t2 <- system.time(unif_stat_MC(n = 100, M = 1e4, type = "all", p = 2,
+                                 chunks = 10, cores = 2, verbose = TRUE))[3]
+  expect_gt(t1, t2)
 
 })

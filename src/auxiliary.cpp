@@ -172,13 +172,6 @@ arma::mat cir_gaps(arma::mat Theta, bool sorted = false) {
 //'   \item \code{data} is not sorted increasingly when
 //'   \code{data_sorted = TRUE}-
 //' }
-//' @examples
-//' set.seed(1234567)
-//' samp <- rnorm(200)
-//' x <- seq(-1, 1, l = 10)
-//' ecdf(samp)(x)
-//' sphunif:::ecdf_bin(samp, x, efic = FALSE)
-//' sphunif:::ecdf_bin(samp, x, efic = TRUE)
 //' @keywords internal
 // [[Rcpp::export]]
 arma::vec ecdf_bin(arma::vec data, arma::vec sorted_x, bool data_sorted = false,
@@ -259,16 +252,6 @@ arma::vec ecdf_bin(arma::vec data, arma::vec sorted_x, bool data_sorted = false,
 //' @details
 //' The functions are mere wrappers to R's internal \code{pbeta} and
 //' \code{qbeta} functions.
-//' @examples
-//' # Comparison with R
-//' old_par <- par(mfrow = c(1, 2))
-//' x <- seq(-1, 2, l = 1e3)
-//' plot(x, sphunif:::beta_inc(x, 0.75, 2), type = "l")
-//' lines(x, pbeta(x, 0.75, 2), col = 2)
-//' u <- seq(0, 1, l = 1e3)
-//' plot(u, sphunif:::beta_inc_inv(u, 0.75, 2), type = "l")
-//' lines(u, qbeta(u, 0.75, 2), col = 2)
-//' par(old_par)
 //' @keywords internal
 // [[Rcpp::export]]
 arma::vec beta_inc(arma::vec x, double a, double b, bool lower_tail = true,
@@ -343,10 +326,6 @@ arma::vec beta_inc_inv(arma::vec u, double a, double b, bool lower_tail = true,
 //' @param n_dist a positive integer \eqn{(n - 1) * n / 2} for which \eqn{n}
 //' is to be recovered.
 //' @param t a vector to evaluate \eqn{t / \sqrt{1 - t^2}}.
-//' @examples
-//' n <- 10
-//' sphunif:::n_from_dist_vector((n - 1) * n / 2)
-//' sphunif:::n_from_dist_vector((n - 1) * n / 2 + 1) # Invalid input
 //' @name utils
 
 

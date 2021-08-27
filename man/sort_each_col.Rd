@@ -22,21 +22,4 @@ sorting indexes (for \code{sort_index_each_col}).
 Convenience functions to sort the columns of a matrix in an
 increasing way.
 }
-\examples{
-# Simple example
-set.seed(98720222)
-A <- matrix(sample(20), nrow = 4, ncol = 5)
-
-# Apply sort by column
-sphunif:::sort_each_col(A)
-apply(A, 2, sort)
-
-# Apply order by column
-sphunif:::sort_index_each_col(A)
-apply(A, 2, order)
-
-# Apply ranks by column
-sphunif:::sort_index_each_col(sphunif:::sort_index_each_col(A))
-apply(A, 2, rank)
-}
 \keyword{internal}

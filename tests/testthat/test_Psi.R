@@ -22,6 +22,8 @@ test_that("sort_each_col and sort_index_each_col", {
 
   expect_equal(sphunif:::sort_each_col(A), apply(A, 2, sort))
   expect_equal(sphunif:::sort_index_each_col(A), apply(A, 2, order))
+  expect_equal(sphunif:::sort_index_each_col(
+    sphunif:::sort_index_each_col(A)), apply(A, 2, rank))
 
 })
 
@@ -91,4 +93,3 @@ test_that("Psi reconstruction", {
                {D <- acos(1 - as.matrix(dist(X[, , 2]))^2 / 2);
                D[upper.tri(D)]})
 })
-

@@ -309,17 +309,6 @@ arma::cube r_unif_sph(arma::uword n, arma::uword p, arma::uword M = 1) {
 //'   \item \code{p_wschisq_MC}: a matrix of size \code{c(nx, 1)}
 //'   with the evaluation of the distribution function at \code{x}.
 //' }
-//' @examples
-//' x <- seq(0, 50, l = 1e3)
-//' weights <- c(2, 1, 0.5)
-//' dfs <- c(3, 6, 12)
-//' ncps <- c(0, 0, 1)
-//' samp <- sphunif:::r_wschisq_Cpp(n = 5e2, weights = weights, dfs = dfs,
-//'                                 ncps = ncps)
-//' plot(ecdf(samp), main = "")
-//' lines(x, sphunif:::p_wschisq_MC(x, weights = weights, dfs = dfs,
-//'                                 ncps = ncps),
-//'       type = "s", col = 2)
 //' @name wschisq_utils
 
 
@@ -400,9 +389,6 @@ arma::vec p_wschisq_MC(arma::vec x, arma::vec weights = 0, arma::vec dfs = 0,
 //' @param ncp non-centrality parameter.
 //' @return A matrix of size \code{c(nx, 1)} with the evaluation of the
 //' density or distribution function at \code{x}.
-//' @examples
-//' curve(sphunif:::d_chisq(x, df = 2), from = 0, to = 5, n = 200)
-//' curve(sphunif:::p_chisq(x, df = 2), add = TRUE, col = 2)
 //' @name chisq
 
 

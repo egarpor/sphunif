@@ -169,7 +169,7 @@ C_k^(p/2 - 1)(\cos(\theta_1)) C_k^(p/2 - 1)(\cos(\theta_2))
 }
 \details{
 The \code{Gegen_polyn} function is a wrapper to the functions
-\code{\link[gsl:Gegenbauer]{gegenpoly_n}} and 
+\code{\link[gsl:Gegenbauer]{gegenpoly_n}} and
 \code{\link[gsl:Gegenbauer]{gegenpoly_array}} in the
 \code{\link[gsl]{gsl-package}}, which they interface the functions
 defined in the header file \code{gsl_sf_gegenbauer.h} (documented

@@ -25,8 +25,4 @@ density or distribution function at \code{x}.
 Computation of the density and distribution functions of a chi
 squared.
 }
-\examples{
-curve(sphunif:::d_chisq(x, df = 2), from = 0, to = 5, n = 200)
-curve(sphunif:::p_chisq(x, df = 2), add = TRUE, col = 2)
-}
 \keyword{internal}

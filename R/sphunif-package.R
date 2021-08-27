@@ -42,7 +42,7 @@
 #' alternatives. \emph{arXiv:2108.09874}. \url{https://arxiv.org/abs/2108.09874}
 #' @docType package
 #' @name sphunif-package
-#' @import graphics stats foreach parallel doParallel Rcpp
+#' @import graphics Rcpp stats
 #' @useDynLib sphunif
 #' @aliases sphunif sphunif-package
 NULL

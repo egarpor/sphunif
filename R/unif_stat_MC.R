@@ -68,7 +68,7 @@
 #' \code{progressr::handlers(global = TRUE)} is invoked (once) by the user.
 #' See the examples below. The progress bar is updated with the number of
 #' finished chunks.
-#' 
+#'
 #' All the tests reject for large values of the test statistic
 #' (\code{max_gap = TRUE} is assumed for the Range test), so the critical
 #' values for the significance levels \code{alpha} correspond to the

@@ -40,7 +40,7 @@ test_that("Edge cases", {
                                                chunks = 2)))
   expect_equal(unif_stat_MC(n = n, M = 1e2, type = c("PAD", "Ajne"), p = 3,
                             seeds = 5)$stats$PAD,
-               unif_stat_MC(n = n, M = 1e2, type = "PAD", p = 3, seeds = 5, 
+               unif_stat_MC(n = n, M = 1e2, type = "PAD", p = 3, seeds = 5,
                             crit_val = sph_0$crit_val_MC)$stats$PAD)
 
 })
@@ -93,6 +93,7 @@ test_that("Same results with cores = 1 and cores = 2", {
 
 test_that("Parallelization is faster", {
 
+  skip_on_ci()
   skip_on_cran()
   t1 <- system.time(unif_stat_MC(n = 100, M = 1e4, type = "all", p = 2,
                                  chunks = 10, cores = 1))[3]

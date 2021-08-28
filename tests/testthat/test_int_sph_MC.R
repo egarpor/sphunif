@@ -95,6 +95,7 @@ test_that("Same results with cores = 1 and cores = 2", {
 
 test_that("Parallelization is faster", {
 
+  skip_on_ci()
   skip_on_cran()
   t1 <- system.time(int_sph_MC(f = time_consuming, p = 3, M = 1e5, cores = 1,
                                chunks = 10))[3]

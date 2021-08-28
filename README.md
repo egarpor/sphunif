@@ -6,6 +6,7 @@ GPLv3](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://www.gnu.org
 status](https://github.com/egarpor/sphunif/workflows/R-CMD-check/badge.svg)](https://github.com/egarpor/sphunif/actions)
 [![R build
 status](https://github.com/egarpor/sphunif/workflows/test-coverage/badge.svg)](https://github.com/egarpor/sphunif/actions)
+[![](https://codecov.io/gh/egarpor/sphunif/branch/master/graph/badge.svg)](https://codecov.io/gh/egarpor/sphunif)
 [![](https://www.r-pkg.org/badges/version/sphunif?color=green)](https://cran.r-project.org/package=sphunif)
 [![](http://cranlogs.r-pkg.org/badges/grand-total/sphunif?color=green)](https://cran.r-project.org/package=sphunif)
 [![](http://cranlogs.r-pkg.org/badges/last-month/sphunif?color=green)](https://cran.r-project.org/package=sphunif)
@@ -55,7 +56,7 @@ the `type` of test to be performed. For example, the `"Watson"` test:
 
 ``` r
 library(sphunif)
-unif_test(data = cir_data, type = "Watson", verbose = FALSE) # An htest object
+unif_test(data = cir_data, type = "Watson") # An htest object
 #> 
 #>  Watson test of circular uniformity
 #> 
@@ -69,13 +70,12 @@ Carlo. This can be changed with `p_value = "asymp"` to employ asymptotic
 distributions (faster, but not available for all tests):
 
 ``` r
-unif_test(data = cir_data, type = "Watson", p_value = "MC",
-          verbose = FALSE) # Monte Carlo
+unif_test(data = cir_data, type = "Watson", p_value = "MC") # Monte Carlo
 #> 
 #>  Watson test of circular uniformity
 #> 
 #> data:  cir_data
-#> statistic = 0.036003, p-value = 0.8801
+#> statistic = 0.036003, p-value = 0.8844
 #> alternative hypothesis: any alternative to circular uniformity
 unif_test(data = cir_data, type = "Watson", p_value = "asymp") # Asymp. distr.
 #> 
@@ -104,8 +104,8 @@ avail_cir_tests
 For example:
 
 ``` r
-unif_test(data = cir_data, type = c("Watson", "PAD", "Ajne"),
-          verbose = FALSE) # A *list* of htest objects
+# A *list* of htest objects
+unif_test(data = cir_data, type = c("Watson", "PAD", "Ajne"))
 #> $Watson
 #> 
 #>  Watson test of circular uniformity
@@ -159,13 +159,13 @@ avail_sph_tests
 The default `type = "all"` equals `type = avail_sph_tests`:
 
 ``` r
-head(unif_test(data = sph_data, type = "all", p_value = "MC", verbose = FALSE))
+head(unif_test(data = sph_data, type = "all", p_value = "MC"))
 #> $Ajne
 #> 
 #>  Ajne test of spherical uniformity
 #> 
 #> data:  sph_data
-#> statistic = 0.079876, p-value = 0.957
+#> statistic = 0.079876, p-value = 0.9562
 #> alternative hypothesis: any non-axial alternative to spherical uniformity
 #> 
 #> 
@@ -174,7 +174,7 @@ head(unif_test(data = sph_data, type = "all", p_value = "MC", verbose = FALSE))
 #>  Bakshaev (2010) test of spherical uniformity
 #> 
 #> data:  sph_data
-#> statistic = 1.2727, p-value = 0.442
+#> statistic = 1.2727, p-value = 0.4389
 #> alternative hypothesis: any alternative to spherical uniformity
 #> 
 #> 
@@ -183,7 +183,7 @@ head(unif_test(data = sph_data, type = "all", p_value = "MC", verbose = FALSE))
 #>  Bingham test of spherical uniformity
 #> 
 #> data:  sph_data
-#> statistic = 22.455, p-value = 6e-04
+#> statistic = 22.455, p-value = 5e-04
 #> alternative hypothesis: scatter matrix different from constant
 #> 
 #> 
@@ -192,7 +192,7 @@ head(unif_test(data = sph_data, type = "all", p_value = "MC", verbose = FALSE))
 #>  Cai and Jiang (2012) test of spherical uniformity
 #> 
 #> data:  sph_data
-#> statistic = 27.401, p-value = 0.2634
+#> statistic = 27.401, p-value = 0.2691
 #> alternative hypothesis: unclear consistency
 #> 
 #> 
@@ -201,7 +201,7 @@ head(unif_test(data = sph_data, type = "all", p_value = "MC", verbose = FALSE))
 #>  Cuesta-Albertos et al. (2009) test of spherical uniformity with k = 50
 #> 
 #> data:  sph_data
-#> statistic = 1.4619, p-value = 0.2761
+#> statistic = 1.4619, p-value = 0.278
 #> alternative hypothesis: any alternative to spherical uniformity
 #> 
 #> 
@@ -210,7 +210,7 @@ head(unif_test(data = sph_data, type = "all", p_value = "MC", verbose = FALSE))
 #>  Gine's Fn test of spherical uniformity
 #> 
 #> data:  sph_data
-#> statistic = 1.8889, p-value = 0.2293
+#> statistic = 1.8889, p-value = 0.2267
 #> alternative hypothesis: any alternative to spherical uniformity
 unif_test(data = sph_data, type = "Rayleigh", p_value = "asymp")
 #> 

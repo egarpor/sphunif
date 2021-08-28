@@ -36,10 +36,8 @@
 #' replications. Useful for parallelizing the simulation study in \code{chunks}
 #' tasks containing \code{ceiling(M / chunks)} replications. Useful also for
 #' avoiding memory bottlenecks when \code{M} is large. Defaults to
-#' \cr\code{ceiling((n * M) / 1e7)}.
+#' \cr\code{ceiling((n * M) / 1e5)}.
 #' @param cores number of cores to perform the simulation. Defaults to \code{1}.
-#' @param verbose show a progress bar? The progress bar is updated with the
-#' number of chunks finished. Defaults to \code{FALSE}.
 #' @param seeds if provided, a vector of size \code{chunks} for fixing the
 #' seeds on each of the simulation chunks (useful for reproducing parallel
 #' simulations). Specifically, for \code{k in 1:chunks}, seeds are
@@ -65,6 +63,12 @@
 #'   statistics.
 #' }
 #' @details
+#' It is possible to have a progress bar if \code{unif_stat_MC} is wrapped with
+#' \code{\link[progressr:with_progress]{progressr::with_progress}} or if
+#' \code{progressr::handlers(global = TRUE)} is invoked (once) by the user.
+#' See the examples below. The progress bar is updated with the number of
+#' finished chunks.
+#'
 #' All the tests reject for large values of the test statistic
 #' (\code{max_gap = TRUE} is assumed for the Range test), so the critical
 #' values for the significance levels \code{alpha} correspond to the
@@ -90,6 +94,25 @@
 #' sph <- unif_stat_MC(n = 10, M = 1e2, p = 3)
 #' head(sph$stats_MC)
 #' sph$crit_val_MC
+#'
+#' ## Using a progress bar
+#'
+#' # Define a progress bar
+#' require(progress)
+#' require(progressr)
+#' handlers(handler_progress(
+#'   format = ":spin [:bar] :percent Total: :elapsedfull End \u2248 :eta",
+#'   clear = FALSE))
+#'
+#' # Call unif_stat_MC() within with_progress()
+#' with_progress(unif_stat_MC(n = 10, M = 1e2, p = 3, chunks = 10))
+#'
+#' # With several cores
+#' with_progress(unif_stat_MC(n = 10, M = 1e2, p = 3, chunks = 10, cores = 2))
+#'
+#' # Instead of using with_progress() each time, it is more practical to run
+#' # handlers(global = TRUE)
+#' # once to activate progress bars in your R session
 #'
 #' ## Power computation
 #'
@@ -165,11 +188,11 @@
 unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
                          crit_val = NULL, alpha = c(0.10, 0.05, 0.01),
                          return_stats = TRUE, stats_sorted = FALSE,
-                         chunks = ceiling((n * M) / 1e7), cores = 1,
-                         verbose = TRUE, seeds = NULL, Rayleigh_m = 1,
-                         cov_a = 2 * pi, Rothman_t = 1 / 3,
-                         Cressie_t = 1 / 3, Pycke_q = 0.5, Riesz_s = 1,
-                         CCF09_dirs = NULL, K_CCF09 = 25, CJ12_reg = 3, ...) {
+                         chunks = ceiling((n * M) / 1e5), cores = 1,
+                         seeds = NULL, Rayleigh_m = 1, cov_a = 2 * pi,
+                         Rothman_t = 1 / 3, Cressie_t = 1 / 3, Pycke_q = 0.5,
+                         Riesz_s = 1, CCF09_dirs = NULL, K_CCF09 = 25,
+                         CJ12_reg = 3, ...) {
 
   # Check dimension
   if (p < 2) {
@@ -177,20 +200,6 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
     stop("Dimension p must be p >= 2.")
 
   }
-
-  # Parallel backend
-  if (verbose) {
-
-    cl <- parallel::makePSOCKcluster(cores, outfile = "")
-    pb <- utils::txtProgressBar(min = 0, max = chunks, style = 3)
-
-  } else {
-
-    cl <- parallel::makePSOCKcluster(cores)
-
-  }
-  doParallel::registerDoParallel(cl = cl)
-  `%op%` <- foreach::`%dopar%`
 
   # Chunk large n * M to avoid memory issues
   small_M <- M %/% chunks
@@ -233,9 +242,29 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
   # Check seeds
   if (!is.null(seeds) & length(seeds) != chunks) {
 
-    warning(paste("seeds and chunks do not have the same length,",
+    warning(paste("seeds and chunks do not have the same length:",
                   "seeds are ignored."))
     seeds <- NULL
+
+  }
+
+  # Parallel backend
+  old_dopar <- doFuture::registerDoFuture()
+  old_plan <- future::plan(future::multisession(), workers = cores)
+  options(future.rng.onMisuse = "ignore")
+  on.exit({
+
+    with(old_dopar, foreach::setDoPar(fun = fun, data = data, info = info))
+    future::plan(old_plan)
+    options(future.rng.onMisuse = NULL)
+
+  })
+  `%op%` <- foreach::`%dopar%`
+
+  # Measure progress?
+  if (requireNamespace("progressr", quietly = TRUE)) {
+
+    prog <- progressr::progressor(along = 1:chunks)
 
   }
 
@@ -267,10 +296,10 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
     rm(X)
     gc()
 
-    # Show progress?
-    if (verbose) {
+    # Signal progress
+    if (requireNamespace("progressr", quietly = TRUE)) {
 
-      utils::setTxtProgressBar(pb = pb, value = k)
+      prog()
 
     }
 
@@ -278,9 +307,6 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
     stats
 
   }
-
-  # Close loop
-  parallel::stopCluster(cl)
 
   # Sort statistics
   if (stats_sorted & return_stats) {

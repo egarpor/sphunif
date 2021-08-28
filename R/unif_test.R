@@ -53,7 +53,7 @@
 #' @inheritParams unif_stat
 #' @param ... If \code{p_value = "MC"} or \code{p_value = "crit_val"}, optional
 #' performance parameters to be passed to \code{\link{unif_stat_MC}}:
-#' \code{chunks}, \code{cores}, \code{verbose}, and \code{seed}.
+#' \code{chunks}, \code{cores}, and \code{seed}.
 #' @return If only a \bold{single test} is performed, a list with class
 #' \code{htest} containing the following components:
 #' \itemize{
@@ -80,6 +80,13 @@
 #'
 #' When \code{p_value = "asymp"}, tests that do not have an implemented or
 #' known asymptotic are omitted, and a warning is generated.
+#'
+#' When \code{p_value = "MC"}, it is possible to have a progress bar indicating
+#' the Monte Carlo simulation progress if \code{unif_test} is wrapped with
+#' \code{\link[progressr:with_progress]{progressr::with_progress}} or if
+#' \code{progressr::handlers(global = TRUE)} is invoked (once) by the user.
+#' See the examples below. The progress bar is updated with the number of
+#' finished chunks.
 #'
 #' All the statistics are continuous random variables except the
 #' Hodges--Ajne statistic (\code{"Hodges_Ajne"}), the Cressie statistic
@@ -174,11 +181,30 @@
 #' unif_test(data = samp_sph, type = "CCF09", p_value = "MC",
 #'           CCF09_dirs = samp_sph[3:4, , 1])
 #'
-#' # CJ12
-#' unif_test(data = samp_sph, type = "CJ12", CJ12_reg = 3, p_value = "asymp")
-#' unif_test(data = samp_sph, type = "CJ12", CJ12_reg = 1, p_value = "asymp")
-#' unif_test(data = samp_sph, type = "CJ12", CJ12_reg = 2, CJ12_beta = 0.01,
-#'           p_value = "asymp")
+#' ## Using a progress bar when p_value = "MC"
+#'
+#' # Define a progress bar
+#' require(progress)
+#' require(progressr)
+#' handlers(handler_progress(
+#'   format = ":spin [:bar] :percent Total: :elapsedfull End \u2248 :eta",
+#'   clear = FALSE))
+#'
+#' # Call unif_test() within with_progress()
+#' with_progress(
+#'   unif_test(data = samp_sph, type = avail_sph_tests, p_value = "MC",
+#'             chunks = 10, M = 1e3)
+#' )
+#'
+#' # With several cores
+#' with_progress(
+#'   unif_test(data = samp_sph, type = avail_sph_tests, p_value = "MC",
+#'             cores = 2, chunks = 10, M = 1e3)
+#' )
+#'
+#' # Instead of using with_progress() each time, it is more practical to run
+#' # handlers(global = TRUE)
+#' # once to activate progress bars in your R session
 #' }
 #' @export
 unif_test <- function(data, type = "all", p_value = "asymp",

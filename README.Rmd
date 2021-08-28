@@ -68,14 +68,13 @@ Call the main function in the `sphunif` package, `unif_test`, specifying the `ty
 
 ```{r, unif_test_cir}
 library(sphunif)
-unif_test(data = cir_data, type = "Watson", verbose = FALSE) # An htest object
+unif_test(data = cir_data, type = "Watson") # An htest object
 ```
 
 By default, the calibration of the test statistic is done by Monte Carlo. This can be changed with `p_value = "asymp"` to employ asymptotic distributions (faster, but not available for all tests):
 
 ```{r, asymp}
-unif_test(data = cir_data, type = "Watson", p_value = "MC",
-          verbose = FALSE) # Monte Carlo
+unif_test(data = cir_data, type = "Watson", p_value = "MC") # Monte Carlo
 unif_test(data = cir_data, type = "Watson", p_value = "asymp") # Asymp. distr.
 ```
 
@@ -88,8 +87,8 @@ avail_cir_tests
 For example:
 
 ```{r, unif_test_avail_cir}
-unif_test(data = cir_data, type = c("Watson", "PAD", "Ajne"),
-          verbose = FALSE) # A *list* of htest objects
+# A *list* of htest objects
+unif_test(data = cir_data, type = c("Watson", "PAD", "Ajne"))
 ```
 
 ### Spherical data
@@ -113,7 +112,7 @@ avail_sph_tests
 The default `type = "all"` equals `type = avail_sph_tests`:
 
 ```{r, unif_test_avail_sph}
-head(unif_test(data = sph_data, type = "all", p_value = "MC", verbose = FALSE))
+head(unif_test(data = sph_data, type = "all", p_value = "MC"))
 unif_test(data = sph_data, type = "Rayleigh", p_value = "asymp")
 ```
 

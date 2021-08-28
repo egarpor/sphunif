@@ -2,7 +2,7 @@ Package: sphunif
 Type: Package
 Title: Uniformity Tests on the Circle, Sphere, and Hypersphere
 Version: 1.0.1
-Date: 2021-08-27
+Date: 2021-08-28
 Authors@R: c(
      person(given = "Eduardo", family = "García-Portugués",
             role = c("aut", "cre"), email = "edgarcia@est-econ.uc3m.es",
@@ -31,8 +31,9 @@ Depends:
     R (>= 3.5.0),
     Rcpp
 Imports:
-    doParallel,
+    doFuture,
     foreach,
+    future,
     gsl,
     rotasym
 Suggests:
@@ -43,6 +44,8 @@ Suggests:
     markdown,
     mvtnorm,
     numDeriv,
+    progress,
+    progressr,
     rmarkdown,
     scatterplot3d,
     testthat,

@@ -89,7 +89,7 @@ asymptotic p-value of a Sobolev test. Defaults to \code{1e4}.}
 
 \item{...}{if \code{approx = "MC"}, optional performance parameters to be
 passed to \cr\code{\link{unif_stat_MC}}: \code{chunks}, \code{cores},
-\code{verbose}, and \code{seed}.}
+and \code{seed}.}
 }
 \value{
 A data frame of size \code{c(nx, length(type))}, with column names

@@ -37,14 +37,13 @@ Then you can call the main function in the `sphunif` package, `unif_test`, speci
 
 ```{r, unif_test_cir}
 library(sphunif)
-unif_test(data = cir_data, type = "Watson", verbose = FALSE) # An htest object
+unif_test(data = cir_data, type = "Watson") # An htest object
 ```
 
 By default, the calibration of the test statistic is done by Monte Carlo. This can be changed with `p_value = "asymp"` to use the asymptotic distribution:
 
 ```{r, asymp}
-unif_test(data = cir_data, type = "Watson", p_value = "MC",
-          verbose = FALSE) # Monte Carlo
+unif_test(data = cir_data, type = "Watson", p_value = "MC") # Monte Carlo
 unif_test(data = cir_data, type = "Watson", p_value = "asymp") # Asymp. distr.
 ```
 
@@ -57,8 +56,8 @@ avail_cir_tests
 For example, you can use the Projected Anderson--Darling (@Garcia-Portugues2020b, also an omnibus test) test and the Watson test:
 
 ```{r, unif_test_avail_cir}
-unif_test(data = cir_data, type = c("PAD", "Watson"),
-          verbose = FALSE) # A *list* of htest objects
+# A *list* of htest objects
+unif_test(data = cir_data, type = c("PAD", "Watson"))
 ```
 
 @Garcia-Portugues2020a gives a review of different tests of uniformity on the circle. Section 5.1 in @Pewsey2021 also gives an overview of recent advances.
@@ -86,8 +85,7 @@ See again @Garcia-Portugues2020a for a review of tests of uniformity on the sphe
 The default `type = "all"` equals `type = avail_sph_tests`, which might be too much for standard analysis:
 
 ```{r, unif_test_avail_sph}
-unif_test(data = sph_data, type = "all", p_value = "MC", M = 1e3,
-          verbose = FALSE)
+unif_test(data = sph_data, type = "all", p_value = "MC", M = 1e3)
 unif_test(data = sph_data, type = "Rayleigh", p_value = "asymp")
 ```
 
@@ -103,10 +101,9 @@ hyp_data <- r_unif_sph(n = 30, p = 10)
 unif_test(data = hyp_data, type = "Rayleigh", p_value = "asymp")
 ```
 
-
 ## A data example: are Venusian craters uniformly distributed?
 
-The following snippet partially reproduces the data application in @Garcia-Portugues2021 on testing the uniformity of known Venusian craters:
+The following snippet partially reproduces the data application in @Garcia-Portugues2021 on testing the uniformity of known Venusian craters. Incidentally, it also illustrates how to monitor the progress of a Monte Carlo simulation when `p_value = "MC"` using [progressr](https://progressr.futureverse.org).
 
 ```{r, venus}
 # Load spherical data
@@ -122,6 +119,19 @@ venus$X <- cbind(cos(venus$theta) * cos(venus$phi),
 # Test uniformity using the Projected Cramér-von Mises and Projected
 # Anderson-Darling tests on S^2, both using asymptotic distributions
 unif_test(data = venus$X, type = c("PCvM", "PAD"), p_value = "asymp")
+
+# Define a handler for progressr
+require(progress)
+require(progressr)
+handlers(handler_progress(
+  format = ":spin [:bar] :percent Total: :elapsedfull End \u2248 :eta",
+  clear = FALSE))
+
+# Test uniformity using Monte-Carlo approximated null distributions
+with_progress(
+  unif_test(data = venus$X, type = c("PCvM", "PAD"),
+            p_value = "MC", chunks = 1e2, M = 5e2, cores = 2)
+)
 ```
 
 ## Simulation studies done simple
@@ -141,7 +151,7 @@ Additionally, `unif_stat_MC` is an utility for performing the previous simulatio
 ```{r, MC}
 # Break the simulation in 10 chunks of tasks to be divided between 2 cores
 sim <- unif_stat_MC(n = 30, type = "all", p = 3, M = 1e4, cores = 2,
-                    chunks = 10, verbose = FALSE)
+                    chunks = 10)
 
 # Critical values for test statistics
 sim$crit_val_MC
@@ -152,7 +162,7 @@ head(sim$stats_MC)
 # Power computation using a pre-built sampler for the alternative
 pow <- unif_stat_MC(n = 30, type = "all", p = 3, M = 1e4, cores = 2,
                     chunks = 10, r_H1 = r_alt, crit_val = sim$crit_val_MC,
-                    alt = "vMF", kappa = 1, verbose = FALSE)
+                    alt = "vMF", kappa = 1)
 pow$power_MC
 
 # How to use a custom sampler according to ?unif_stat_MC
@@ -170,8 +180,7 @@ r_H1 <- function(n, p, M, l = 1) {
 
 }
 pow <- unif_stat_MC(n = 30, type = "all", p = 3, M = 1e2, cores = 2,
-                    chunks = 5, r_H1 = r_H1, crit_val = sim$crit_val_MC,
-                    verbose = FALSE)
+                    chunks = 5, r_H1 = r_H1, crit_val = sim$crit_val_MC)
 pow$power_MC
 ```
 
@@ -180,20 +189,18 @@ pow$power_MC
 ```{r, crit_val}
 # Using precomputed critical values
 ht1 <- unif_test(data = samps_sph[, , 1], type = "Rayleigh",
-                 p_value = "crit_val", crit_val = sim$crit_val_MC,
-                 verbose = FALSE)
+                 p_value = "crit_val", crit_val = sim$crit_val_MC)
 ht1
 ht1$reject
 
 # Using precomputed Monte Carlo statistics
 ht2 <- unif_test(data = samps_sph[, , 1], type = "Rayleigh",
-                 p_value = "MC", stats_MC = sim$stats_MC, verbose = FALSE)
+                 p_value = "MC", stats_MC = sim$stats_MC)
 ht2
 ht2$reject
 
 # Faster than
-unif_test(data = samps_sph[, , 1], type = "Rayleigh", p_value = "MC",
-          verbose = FALSE)
+unif_test(data = samps_sph[, , 1], type = "Rayleigh", p_value = "MC")
 ```
 
 ## References

@@ -455,16 +455,16 @@ f_PAD_11 <- f_locdev_Pn(p = 11, type = "PAD")
 test_that("Integral one for f_locdev_Pn with PRt", {
 
   expect_equal(int_sph_MC(f = function(x) f_PRt_2(x[, 1]), p = 2, M = 1e3,
-                          chunks = 1, seeds = 1, verbose = FALSE), 1,
+                          chunks = 1, seeds = 1), 1,
                tolerance = 3e-2)
   expect_equal(int_sph_MC(f = function(x) f_PRt_3(x[, 1]), p = 3, M = 1e3,
-                          chunks = 1, seeds = 1, verbose = FALSE), 1,
+                          chunks = 1, seeds = 1), 1,
                tolerance = 3e-2)
   expect_equal(int_sph_MC(f = function(x) f_PRt_4(x[, 1]), p = 4, M = 1e3,
-                          chunks = 1, seeds = 1, verbose = FALSE), 1,
+                          chunks = 1, seeds = 1), 1,
                tolerance = 3e-2)
   expect_equal(int_sph_MC(f = function(x) f_PRt_11(x[, 1]), p = 11, M = 1e3,
-                          chunks = 1, seeds = 1, verbose = FALSE), 1,
+                          chunks = 1, seeds = 1), 1,
                tolerance = 3e-2)
 
 })
@@ -472,16 +472,16 @@ test_that("Integral one for f_locdev_Pn with PRt", {
 test_that("Integral one for f_locdev_Pn with PCvM", {
 
   expect_equal(int_sph_MC(f = function(x) f_PCvM_2(x[, 1]), p = 2, M = 1e3,
-                          chunks = 1, seeds = 1, verbose = FALSE), 1,
+                          chunks = 1, seeds = 1), 1,
                tolerance = 3e-2)
   expect_equal(int_sph_MC(f = function(x) f_PCvM_3(x[, 1]), p = 3, M = 1e3,
-                          chunks = 1, seeds = 1, verbose = FALSE), 1,
+                          chunks = 1, seeds = 1), 1,
                tolerance = 3e-2)
   expect_equal(int_sph_MC(f = function(x) f_PCvM_4(x[, 1]), p = 4, M = 1e3,
-                          chunks = 1, seeds = 1, verbose = FALSE), 1,
+                          chunks = 1, seeds = 1), 1,
                tolerance = 3e-2)
   expect_equal(int_sph_MC(f = function(x) f_PCvM_11(x[, 1]), p = 11, M = 1e3,
-                          chunks = 1, seeds = 1, verbose = FALSE), 1,
+                          chunks = 1, seeds = 1), 1,
                tolerance = 3e-2)
 
 })
@@ -489,16 +489,16 @@ test_that("Integral one for f_locdev_Pn with PCvM", {
 test_that("Integral one for f_locdev_Pn with PAD", {
 
   expect_equal(int_sph_MC(f = function(x) f_PAD_2(x[, 1]), p = 2, M = 1e3,
-                          chunks = 1, seeds = 1, verbose = FALSE), 1,
+                          chunks = 1, seeds = 1), 1,
                tolerance = 7e-2)
   expect_equal(int_sph_MC(f = function(x) f_PAD_3(x[, 1]), p = 3, M = 1e3,
-                          chunks = 1, seeds = 1, verbose = FALSE), 1,
+                          chunks = 1, seeds = 1), 1,
                tolerance = 7e-2)
   expect_equal(int_sph_MC(f = function(x) f_PAD_4(x[, 1]), p = 4, M = 1e3,
-                          chunks = 1, seeds = 1, verbose = FALSE), 1,
+                          chunks = 1, seeds = 1), 1,
                tolerance = 7e-2)
   expect_equal(int_sph_MC(f = function(x) f_PAD_11(x[, 1]), p = 11, M = 1e3,
-                          chunks = 1, seeds = 1, verbose = FALSE), 1,
+                          chunks = 1, seeds = 1), 1,
                tolerance = 7e-2)
 
 })

@@ -8,7 +8,7 @@
 #' \deqn{(\cos(x_1),\sin(x_1)\cos(x_2),\ldots,
 #' \sin(x_1)\cdots\sin(x_{p-2})\cos(x_{p-1}),
 #' \sin(x_1)\cdots\sin(x_{p-2})\sin(x_{p-1}))'}
-#' of \eqn{S^{p-1}}, and viceversa.
+#' of \eqn{S^{p-1}}, and vice versa.
 #'
 #' @param theta matrix of size \code{c(n, p - 1)} with the angles.
 #' @param x matrix of size \code{c(n, p)} with the Cartesian coordinates.

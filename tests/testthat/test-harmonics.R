@@ -56,7 +56,7 @@ test_that("Orthonormality of harmonics among i's with common k", {
                                          k1 = k, k2 = k, p = p, M = M,
                                         cores = 1) /
             rotasym::w_p(p = p)
-          image(intprods)
+          image(abs(intprods), zlim = c(0, 1.5))
           expect_lt(max(abs(intprods - diag(rep(1, dpk)))), 0.1)
         }
       }
@@ -81,7 +81,7 @@ test_that("Orthonormality of harmonics among i's with different k's = 1,2", {
                                        k1 = 1, k2 = 2, p = p, M = M,
                                        cores = 1) /
           rotasym::w_p(p = p)
-        image(intprods)
+        image(abs(intprods), zlim = c(0, 1.5))
         expect_lt(max(abs(intprods)), 0.1)
       }
     }
@@ -105,7 +105,7 @@ test_that("Orthonormality of harmonics among i's with different k's = 0,1", {
                                        k1 = 0, k2 = 1, p = p, M = M,
                                        cores = 1) /
           rotasym::w_p(p = p)
-        image(intprods)
+        image(abs(intprods), zlim = c(0, 1.5))
         expect_lt(max(abs(intprods)), 0.1)
       }
     }

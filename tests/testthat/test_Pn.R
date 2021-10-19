@@ -418,7 +418,15 @@ test_that("psi_Pn edge cases", {
 
 })
 
-test_that("axk edge cases", {
+test_that("akx definition for p = 2", {
+
+  expect_equal(drop(t(akx(x = x, p = 2, k = k1))),
+               drop(1 - Gegen_polyn(theta = acos(x), k = 2 * k1, p = 2)) /
+                 (pi * k1)^2, tolerance = 1e-3)
+
+})
+
+test_that("akx edge cases", {
 
   expect_equal(akx(x = x, k = k, p = 2, sqr = TRUE)^2,
                akx(x = x, k = k, p = 2, sqr = FALSE))

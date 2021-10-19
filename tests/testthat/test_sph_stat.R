@@ -274,7 +274,7 @@ test_that("cir_stat_Pn equals Rayleigh", {
   skip_on_cran()
   expect_equal(cir_stat_Pn(samp, w = w_k, k = 1),
                drop(sph_stat_Rayleigh(samp) / 2),
-               tolerance  = 1e-4)
+               tolerance = 1e-4)
   expect_equal(cir_stat_Pn(samp, w = w_k_plus, k = 1) -
                  cir_stat_Pn(samp, w = w_k_minus, k = 1),
                drop(sph_stat_Rayleigh(samp) / 2),
@@ -287,7 +287,7 @@ test_that("cir_stat_Pn equals Bingham", {
   skip_on_cran()
   expect_equal(cir_stat_Pn(samp, w = w_k, k = 2),
                drop(sph_stat_Bingham(samp) / 2),
-               tolerance  = 1e-4)
+               tolerance = 1e-4)
   expect_equal(cir_stat_Pn(samp, w = w_k_plus, k = 2) -
                  cir_stat_Pn(samp, w = w_k_minus, k = 2),
                drop(sph_stat_Bingham(samp) / 2), tolerance = 1e-4)

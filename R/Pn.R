@@ -706,9 +706,8 @@ Gegen_coefs_Pn <- function(k, p, type, Rothman_t = 1 / 3, Gauss = TRUE,
     if (dok1) {
 
       # Call akx
-      coefs[ind1] <- ifelse(p == 2, 2, 1) *
-        drop(akx(x = drop(q_proj_unif(u = t_m, p = p)), p = p, k = k1,
-                 sqr = FALSE))
+      coefs[ind1] <- drop(akx(x = drop(q_proj_unif(u = t_m, p = p)),
+                              p = p, k = k1, sqr = FALSE))
 
     }
 
@@ -749,7 +748,7 @@ akx <- function(x, p, k, sqr = FALSE) {
 
     if (p == 2) {
 
-      a[, ind1] <- t(sin(k1 %o% acos(x)) / (k1 * pi))
+      a[, ind1] <- t(sin(k1 %o% acos(x)) * (sqrt(2) / (k1 * pi)))
 
     } else {
 

@@ -129,9 +129,8 @@ int_sph_MC <- function(f, p, M = 1e4, cores = 1, chunks = ceiling(M / 1e3),
     names(args) <- c(name_arg1_f, names_args_f)
     sf <- sum(do.call(what = f, args = args))
 
-    # Remove X and clean memory
+    # Remove X
     rm(X)
-    gc()
 
     # Signal progress
     if (requireNamespace("progressr", quietly = TRUE)) {

@@ -54,7 +54,7 @@ LinkingTo: Rcpp, RcppArmadillo
 URL: https://github.com/egarpor/sphunif
 BugReports: https://github.com/egarpor/sphunif
 Encoding: UTF-8
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Roxygen: list(old_usage = TRUE)
 VignetteBuilder: knitr
 Config/testthat/edition: 3

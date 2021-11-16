@@ -54,11 +54,11 @@ stat_Pn_w <- function(samp, w, circ = TRUE, N = 5120, M = 1e4, seeds = 1:4,
 # Sobolev statistic with weights vk2
 stat_Sobolev <- function(samp, vk2) {
 
-  n <- nrow(samp) 
+  n <- nrow(samp)
   p <- ncol(samp)
   k <- seq_along(vk2)
   coefs <- switch((p == 2) + 1, (1 + (2 * k) / (p - 2)), 2) * vk2
-  stat <- 2 * sum(Gegen_series(theta = drop(Psi_mat(data = samp)), 
+  stat <- 2 * sum(Gegen_series(theta = drop(Psi_mat(data = samp)),
                                coefs = coefs, k = k, p = p)) / n
   stat <- stat +
     drop(Gegen_series(theta = 0, coefs = coefs, k = k, p = p))
@@ -352,7 +352,8 @@ test_that("stat_Pn_w equals Gine_Gn for p > 2", {
   skip_on_cran()
   expect_equal(stat_Sobolev(samp, vk2 = vk2_Gine_Gn),
                drop(sph_stat_Gine_Gn(samp)), tolerance = 1e-2)
-  expect_equal(stat_Pn_w(samp, w = function(x) w_M(x, p = p, bvk = bvk_Gine_Gn)),
+  expect_equal(stat_Pn_w(samp, w = function(x) w_M(x, p = p,
+                                                   bvk = bvk_Gine_Gn)),
                drop(sph_stat_Gine_Gn(samp)),
                tolerance = 1e-1)
 
@@ -363,7 +364,8 @@ test_that("stat_Pn_w equals Gine_Fn for p > 2", {
   skip_on_cran()
   expect_equal(stat_Sobolev(samp, vk2 = vk2_Gine_Fn),
                drop(sph_stat_Gine_Fn(samp)), tolerance = 1e-2)
-  expect_equal(stat_Pn_w(samp, w = function(x) w_M(x, p = p, bvk = bvk_Gine_Fn)),
+  expect_equal(stat_Pn_w(samp, w = function(x) w_M(x, p = p,
+                                                   bvk = bvk_Gine_Fn)),
                drop(sph_stat_Gine_Fn(samp)),
                tolerance = 1e-1)
 

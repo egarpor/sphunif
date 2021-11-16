@@ -374,7 +374,7 @@ test_that("PRt vs. psi_Pn tilde", {
 
 })
 
-x <- seq(-1, 1, l = 5)
+x <- seq(-0.9, 0.9, l = 5)
 k0 <- 0
 
 test_that("Gegen_coefs_Pn edge cases", {
@@ -423,6 +423,36 @@ test_that("akx definition for p = 2", {
   expect_equal(drop(t(akx(x = x, p = 2, k = k1))),
                drop(1 - Gegen_polyn(theta = acos(x), k = 2 * k1, p = 2)) /
                  (pi * k1)^2, tolerance = 1e-3)
+
+})
+
+test_that("akx definition for p >= 2", {
+
+  for (p in 3:5) {
+    for (i in 1:5) {
+      expect_equal(
+        drop(akx(x = x[i], p = p, k = k1)),
+        drop((1 - x[i]^2)^(p - 1) *
+               Gegen_polyn(theta = acos(x[i]), k = k1 - 1, p = p + 2)^2 *
+               1 / (1 + 2 * k1 / (p - 2)) *
+               ((p - 2) / (Gegen_coefs(k = k1, p = p, only_const = TRUE) *
+                             k1 * (k1 + p - 2)))^2)
+        )
+    }
+  }
+  skip_on_cran()
+  for (p in 3:5) {
+    for (i in 1:5) {
+      expect_equal(
+        drop(akx(x = x[i], p = p, k = k1, sqr = TRUE)) /
+          sqrt(1 + 2 * k1 / (p - 2)),
+        drop(2^(p - 2) * gamma(p / 2)^2 / pi *
+               factorial(k1 - 1) / gamma(k1 + p - 1) *
+               (1 - x[i]^2)^((p - 1) / 2) *
+               Gegen_polyn(theta = acos(x[i]), k = k1 - 1, p = p + 2))
+      )
+    }
+  }
 
 })
 

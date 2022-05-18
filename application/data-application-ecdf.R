@@ -3,7 +3,6 @@
 rm(list = ls())
 
 # Load packages
-library(rotasym)
 library(sphunif)
 
 ## Craters named by the IUA

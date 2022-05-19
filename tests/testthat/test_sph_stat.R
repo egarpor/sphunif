@@ -7,18 +7,36 @@ X4 <- r_unif_sph(n = n, p = 4)
 X5 <- r_unif_sph(n = n, p = 5)
 X9 <- r_unif_sph(n = n, p = 9)
 X200 <- r_unif_sph(n = n, p = 200)
+X2_rep <- array(rep(X2, each = 2), dim = c(2 * n, 2, 1))
+X3_rep <- array(rep(X3, each = 2), dim = c(2 * n, 3, 1))
+X4_rep <- array(rep(X4, each = 2), dim = c(2 * n, 4, 1))
+X5_rep <- array(rep(X5, each = 2), dim = c(2 * n, 5, 1))
+X9_rep <- array(rep(X9, each = 2), dim = c(2 * n, 9, 1))
+X200_rep <- array(rep(X200, each = 2), dim = c(2 * n, 200, 1))
 Psi2 <- Psi_mat(X2)
 Psi3 <- Psi_mat(X3)
 Psi4 <- Psi_mat(X4)
 Psi5 <- Psi_mat(X5)
 Psi9 <- Psi_mat(X9)
 Psi200 <- Psi_mat(X200)
+Psi2_rep <- Psi_mat(X2_rep)
+Psi3_rep <- Psi_mat(X3_rep)
+Psi4_rep <- Psi_mat(X4_rep)
+Psi5_rep <- Psi_mat(X5_rep)
+Psi9_rep <- Psi_mat(X9_rep)
+Psi200_rep <- Psi_mat(X200_rep)
 dim(Psi2) <- c(dim(Psi2), 1)
 dim(Psi3) <- c(dim(Psi3), 1)
 dim(Psi4) <- c(dim(Psi4), 1)
 dim(Psi5) <- c(dim(Psi5), 1)
 dim(Psi9) <- c(dim(Psi9), 1)
 dim(Psi200) <- c(dim(Psi200), 1)
+dim(Psi2_rep) <- c(dim(Psi2_rep), 1)
+dim(Psi3_rep) <- c(dim(Psi3_rep), 1)
+dim(Psi4_rep) <- c(dim(Psi4_rep), 1)
+dim(Psi5_rep) <- c(dim(Psi5_rep), 1)
+dim(Psi9_rep) <- c(dim(Psi9_rep), 1)
+dim(Psi200_rep) <- c(dim(Psi200_rep), 1)
 Th2 <- X_to_Theta(X2)
 rd3 <- X3[1:5, , 1]
 
@@ -159,6 +177,27 @@ test_that("Riesz vs. Pycke", {
   expect_warning(sph_stat_Pycke(X200))
 
 })
+
+test_that("Pycke with data repetitions is computable", {
+
+  expect_warning(expect_true(is.finite(sph_stat_Pycke(X2_rep))))
+  expect_warning(expect_true(is.finite(sph_stat_Pycke(X3_rep))))
+
+})
+
+test_that("Riesz with data repetitions is computable", {
+
+  for (s in c(-0.5, 0)) {
+    expect_warning(expect_true(is.finite(sph_stat_Riesz(X2_rep, s = s))))
+    expect_warning(expect_true(is.finite(sph_stat_Riesz(X3_rep, s = s))))
+    expect_warning(expect_true(is.finite(sph_stat_Riesz(X4_rep, s = s))))
+    expect_warning(expect_true(is.finite(sph_stat_Riesz(X5_rep, s = s))))
+    expect_warning(expect_true(is.finite(sph_stat_Riesz(X9_rep, s = s))))
+    expect_warning(expect_true(is.finite(sph_stat_Riesz(X200_rep, s = s))))
+  }
+
+})
+
 
 test_that("sph_stat with psi_in_X = TRUE", {
 

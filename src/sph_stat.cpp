@@ -350,9 +350,21 @@ arma::vec sph_stat_Pycke(arma::cube X, bool Psi_in_X = false,
 // [[Rcpp::export]]
 arma::vec sph_stat_Pycke_Psi(arma::mat Psi, arma::uword n, arma::uword p) {
 
+  // Addends
+  Psi = arma::log1p(-Psi);
+
+  // Replace NaNs (created by theta = 0) with 0
+  if (Psi.has_nan() | Psi.has_inf()) {
+
+    Psi.replace(arma::datum::nan, 0);
+    Psi.replace(-arma::datum::inf, 0);
+    Rcpp::warning("NaNs in Pycke statistic's sum ignored: p-value computation may be misleading. Remove repeated data?");
+
+  }
+
   // log(Gamman) without n-constants: 2 \sum_{i < j} \log(sqrt(1 - \Psi_{ij}))
   // Psi contains scalar products!
-  arma::vec Gamman = arma::sum(arma::log1p(-Psi), 0).t();
+  arma::vec Gamman = arma::sum(Psi, 0).t();
 
   // Factors statistic
   if (p == 2) {
@@ -489,8 +501,19 @@ arma::vec sph_stat_Riesz_Psi(arma::mat Psi, arma::uword n, double s) {
   arma::vec Rn = arma::zeros(Psi.n_cols);
   if (s == 0) {
 
+    // Addends
+    Psi = arma::log1p(-arma::cos(Psi));
+
+    // Replace Infs (created by theta = 0) with 0
+    if (Psi.has_inf()) {
+
+      Psi.replace(-arma::datum::inf, 0);
+      Rcpp::warning("Infs in Riesz statistic's sum ignored: p-value computation may be misleading. Remove repeated data?");
+      
+    }
+
     // log(Gamman) without n-constants: 2 \sum_{i < j} \log(sqrt(1 - \Psi_{ij}))
-    Rn = arma::sum(arma::log1p(-arma::cos(Psi)), 0).t();
+    Rn = arma::sum(Psi, 0).t();
 
     // Divide by n and add log(sqrt(2))
     Rn *= -1.0 / n;
@@ -498,8 +521,19 @@ arma::vec sph_stat_Riesz_Psi(arma::mat Psi, arma::uword n, double s) {
 
   } else {
 
-    Rn = -std::pow(2, s + 1) *
-      arma::sum(arma::pow(arma::sin(0.5 * Psi), s), 0).t() / n;
+    // Addends
+    Psi = arma::pow(arma::sin(0.5 * Psi), s);
+
+    // Replace Infs (created by theta = 0) with 0
+    if (Psi.has_inf()) {
+
+      Psi.replace(arma::datum::inf, 0);
+      Rcpp::warning("Infs in Riesz statistic's sum ignored: p-value computation may be misleading. Remove repeated data?");
+      
+    }
+
+    // Statistic
+    Rn = -std::pow(2, s + 1) * arma::sum(Psi, 0).t() / n;
 
   }
   return Rn;
@@ -925,7 +959,12 @@ arma::vec sph_stat_PAD_Psi(arma::mat Psi, arma::uword n, arma::uword p,
     Psi = Psi % arma::log(Psi) + (two_M_PI - Psi) % arma::log(two_M_PI - Psi);
 
     // Replace NaNs (created by theta = 0) with 0
-    Psi.replace(arma::datum::nan, 0);
+    if (Psi.has_nan()) {
+
+      Psi.replace(arma::datum::nan, 0);
+      Rcpp::warning("NaNs in PAD statistic's sum ignored: p-value computation may be misleading. Remove repeated data?");
+
+    }
 
     // Sum
     PADn = -log_two_M_PI * n * (n - 1) + arma::sum(Psi, 0).t() * inv_M_PI;

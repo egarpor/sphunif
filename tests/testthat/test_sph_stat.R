@@ -259,8 +259,10 @@ test_that("Edge cases psi", {
   expect_error(sphunif:::sph_stat_PRt_Psi(cbind(drop(Psi2)), n = n, p = 1,
                                           t_m = 0.5, theta_t_m = 1,
                                           th_grid = 1:10, int_grid = 1:10))
-  expect_error(sphunif:::sph_stat_Pycke_Psi(cbind(drop(Psi2)), n = n, p = 1))
-  expect_error(sphunif:::sph_stat_Pycke_Psi(cbind(drop(Psi2)), n = n, p = 5))
+  expect_error(expect_warning(
+  sphunif:::sph_stat_Pycke_Psi(cbind(drop(Psi2)), n = n, p = 1)))
+  expect_error(expect_warning(
+    sphunif:::sph_stat_Pycke_Psi(cbind(drop(Psi2)), n = n, p = 5)))
 
 })
 

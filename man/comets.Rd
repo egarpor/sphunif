@@ -5,33 +5,46 @@
 \alias{comets}
 \title{Comet orbits}
 \format{
-A data frame with 3633 rows and 8 variables:
+A data frame with 3798 rows and 13 variables:
 \describe{
   \item{id}{database ID.}
+  \item{spkid}{object primary SPK-ID.}
   \item{full_name}{full name/designation following the
   \href{https://www.iau.org/public/themes/naming/#comets}{
   IUA naming convention}.}
-  \item{i}{inclination; the orbit angle with respect to the ecliptic plane,
-  in radians in \eqn{[0, \pi]}.}
-  \item{om}{longitude of the ascending node; the angle between the normal
-  vector of the orbit and the normal vector of the ecliptic plane, in
-  radians in \eqn{[0, 2\pi)}.}
+  \item{pdes}{object primary designation.}
+  \item{frag}{flag indicating if the record is a comet fragment.}
+  \item{diameter}{diameter from equivalent sphere (in km).}
+  \item{i}{inclination; the orbit's plane angle with respect to the
+  ecliptic plane, in radians in \eqn{[0, \pi]}.}
+  \item{om}{longitude of the ascending node; the counterclockwise angle from
+  the vector pointing to the First Point of Aries and that pointing to
+  the ascending node (the intersection between orbit and ecliptic plane), in
+  radians in \eqn{[0, 2\pi)}. (Both vectors are heliocentric and within
+  the ecliptic plane.)}
   \item{per_y}{sidereal orbital period (in years).}
   \item{class}{orbit classification. A factor with levels given below.}
-  \item{diameter}{diameter from equivalent sphere (in km).}
-  \item{ccf2009}{flag indicating if the comet was considered in the data
+  \item{e}{eccentricity of the orbit.}
+  \item{a}{semi-major axis of the orbit (in AU).}
+  \item{w}{argument of perihelion; the (shortest) angle between the vector
+  pointing to the the ascending node and that pointing to the perihelion
+  (nearest orbit point to the Sun), in radians in \eqn{[0, \pi]}. (Both
+  vectors are heliocentric and within the orbit's plane.)}
+  \item{first_obs, last_obs}{\code{\link[=Dates]{Date}} of the first and
+  last recorded observations used in the orbit fit.}
+  \item{ccf09}{flag indicating if the comet was considered in the data
   application in Cuesta-Albertos et al. (2009); see details below.}
 }
 }
 \source{
-\url{https://ssd.jpl.nasa.gov/sbdb_query.cgi}
+\url{https://ssd.jpl.nasa.gov/tools/sbdb_query.html}
 }
 \usage{
 comets
 }
 \description{
 Comet orbits data from the
-\href{https://ssd.jpl.nasa.gov/sbdb_query.cgi}{
+\href{https://ssd.jpl.nasa.gov/tools/sbdb_query.html}{
 JPL Small-Body Database Search Engine}. The normal vector of a comet orbit
 represents is a vector on \eqn{S^2}.
 }
@@ -61,18 +74,21 @@ A prograde comet has positive \eqn{\cos(i)}{cos(i)}, negative
 Hyperbolic and parabolic comets are not periodic; only elliptical comets
 are periodic.
 
-The \code{ccf2009} variable gives the observations considered in
+The \code{ccf09} variable gives the observations considered in
 Cuesta-Albertos et al. (2009) after fetching in the database in 2007-12-14
-for the comets such that
-\code{!(class \%in\% c("HYP", "PAR")) & per_y >= 200 & !numbered}. A
-periodic comet is \code{numbered} by the IUA only after its second
-perihelion passage, and then its \code{id} starts with \code{c}. Due to the
-dynamic nature of the data, more comets were added to the database since
-2007 and also some observations were updated.
+for the comets such that \code{!(class \%in\% c("HYP", "PAR")) & per_y >= 200}.
+Due to the dynamic nature of the data, more comets were added to the
+database since 2007 and also some past records were updated.
 
 The script performing the data preprocessing is available at
 \href{https://github.com/egarpor/sphunif/blob/master/data-raw/comets.R}{
-\code{comets.R}}. The data was retrieved on 2020-05-07.
+\code{comets.R}}. The data was retrieved on 2022-05-28. A previous version
+of this dataset based on the old NASA's JPL Database (accessed on
+2020-05-07) is available at
+\href{https://github.com/egarpor/sphunif/blob/master/data-raw/comets-old.rda}{
+\code{comets-old.rda}} and was obtained with
+\href{https://github.com/egarpor/sphunif/blob/master/data-raw/comets-old.R}{
+\code{comets-old.R}}.
 }
 \examples{
 # Load data
@@ -83,22 +99,19 @@ comets$normal <- cbind(sin(comets$i) * sin(comets$om),
                        -sin(comets$i) * cos(comets$om),
                        cos(comets$i))
 
-# Add numbered information
-comets$numbered <- substr(comets$id, 1, 1) == "c"
-
 # Tests to be performed
 type_tests <- c("PCvM", "PAD", "PRt")
 
 # Excluding the C/1882 R1-X (Great September comet) records with X = B, C, D
-comets_ccf2009 <- comets[comets$ccf2009, ][-c(13:15), ]
+comets_ccf09 <- comets[comets$ccf09, ][-c(13:15), ]
 
 # Sample size
-nrow(comets_ccf2009)
+nrow(comets_ccf09)
 
 # Tests for the data in Cuesta-Albertos et al. (2009)
-tests_ccf2009 <- unif_test(data = comets_ccf2009$normal, type = type_tests,
-                           p_value = "asymp")
-tests_ccf2009
+tests_ccf09 <- unif_test(data = comets_ccf09$normal, type = type_tests,
+                         p_value = "asymp")
+tests_ccf09
 }
 \references{
 Cuesta-Albertos, J. A., Cuevas, A., Fraiman, R. (2009) On projection-based

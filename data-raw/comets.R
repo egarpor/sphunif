@@ -1,4 +1,5 @@
 
+# Load required package
 library(rjson)
 
 ## Retrieve data from https://ssd.jpl.nasa.gov/tools/sbdb_query.html

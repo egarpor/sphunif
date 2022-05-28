@@ -472,7 +472,7 @@ arma::vec sph_stat_Riesz(arma::cube X, bool Psi_in_X = false,
     Rn += n * tau;
 
   } else {
-    
+
     double log_tau = 0;
     if (p == 2) {
 
@@ -509,7 +509,7 @@ arma::vec sph_stat_Riesz_Psi(arma::mat Psi, arma::uword n, double s) {
 
       Psi.replace(-arma::datum::inf, 0);
       Rcpp::warning("Infs in Riesz statistic's sum ignored: p-value computation may be misleading. Remove repeated data?");
-      
+
     }
 
     // log(Gamman) without n-constants: 2 \sum_{i < j} \log(sqrt(1 - \Psi_{ij}))
@@ -522,18 +522,22 @@ arma::vec sph_stat_Riesz_Psi(arma::mat Psi, arma::uword n, double s) {
   } else {
 
     // Addends
-    Psi = arma::pow(arma::sin(0.5 * Psi), s);
+    // Psi = arma::pow(arma::sin(0.5 * Psi), s);
+    // More stable implementation?
+    Psi = arma::exp((0.5 * s) * arma::log1p(-arma::cos(Psi)));
 
     // Replace Infs (created by theta = 0) with 0
     if (Psi.has_inf()) {
 
       Psi.replace(arma::datum::inf, 0);
       Rcpp::warning("Infs in Riesz statistic's sum ignored: p-value computation may be misleading. Remove repeated data?");
-      
+
     }
 
     // Statistic
-    Rn = -std::pow(2, s + 1) * arma::sum(Psi, 0).t() / n;
+    // Rn = -std::pow(2, s + 1) * arma::sum(Psi, 0).t() / n;
+    // More stable implementation?
+    Rn = -std::pow(2, 0.5 * s + 1) * arma::sum(Psi, 0).t() / n;
 
   }
   return Rn;

@@ -30,7 +30,7 @@
 #'   \item{e}{eccentricity of the orbit.}
 #'   \item{a}{semi-major axis of the orbit (in AU).}
 #'   \item{w}{argument of perihelion; the (shortest) angle between the vector
-#'   pointing to the the ascending node and that pointing to the perihelion
+#'   pointing to the ascending node and that pointing to the perihelion
 #'   (nearest orbit point to the Sun), in radians in \eqn{[0, \pi]}. (Both
 #'   vectors are heliocentric and within the orbit's plane.)}
 #'   \item{first_obs, last_obs}{\code{\link[=Dates]{Date}} of the first and

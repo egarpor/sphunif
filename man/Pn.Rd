@@ -122,7 +122,7 @@ numerical integration required for \eqn{\psi_p^W} with \eqn{p \ge 3} and
 \item PRt: closed-form expressions for \eqn{\psi_p^W} and \eqn{b_{k, p}^W}
 for any \eqn{p \ge 2}.
 }
-See García-Portugués et al. (2020) for more details.
+See García-Portugués et al. (2023) for more details.
 }
 \examples{
 # Kernels in the projected-ecdf test statistics
@@ -200,9 +200,9 @@ for (k in 2:length(p)) {
 legend("topleft", legend = paste("p =", p), col = col, lwd = 2)
 }
 \references{
-García-Portugués, E., Navarro-Esteban, P., Cuesta-Albertos, J. A. (2020)
+García-Portugués, E., Navarro-Esteban, P., Cuesta-Albertos, J. A. (2023)
 On a projection-based class of uniformity tests on the hypersphere.
-\emph{arXiv:2008.09897}. \url{https://arxiv.org/abs/2008.09897}
+\emph{Bernoulli}, 29(1):181--204. \doi{10.3150/21-BEJ1454}.
 }
 \author{
 Eduardo García-Portugués and Paula Navarro-Esteban.

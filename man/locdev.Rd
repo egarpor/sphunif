@@ -122,7 +122,7 @@ explained.
 }
 \details{
 See the definitions of local alternatives in Prentice (1978) and in
-García-Portugués et al. (2020).
+García-Portugués et al. (2023).
 
 The truncation of \eqn{\sum_{k = 1}^\infty u_{k, p} C_k^{p / 2 - 1}(z)}{
 \sum_{k = 1}^\infty u_{k, p} C_k^(p / 2 - 1)(z)} is done to the first
@@ -201,9 +201,9 @@ loc_alt_diagnostic(p = 11, type = "PRt")
 }
 }
 \references{
-García-Portugués, E., Navarro-Esteban, P., Cuesta-Albertos, J. A. (2020)
+García-Portugués, E., Navarro-Esteban, P., Cuesta-Albertos, J. A. (2023)
 On a projection-based class of uniformity tests on the hypersphere.
-\emph{arXiv:2008.09897}. \url{https://arxiv.org/abs/2008.09897}
+\emph{Bernoulli}, 29(1):181--204. \doi{10.3150/21-BEJ1454}.
 
 Prentice, M. J. (1978). On invariant tests of uniformity for directions and
 orientations. \emph{The Annals of Statistics}, 6(1):169--176.

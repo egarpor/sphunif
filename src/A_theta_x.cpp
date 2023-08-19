@@ -46,12 +46,12 @@ const double inv_two_M_PI = 0.5 / M_PI;
 //' a vector of size \code{c(length(theta)} if \code{theta} and \code{x} equal
 //' in size.
 //' @details
-//' See García-Portugués et al. (2020) for more details about the
+//' See García-Portugués et al. (2023) for more details about the
 //' \eqn{A_x(\theta)} function.
 //' @references
-//' García-Portugués, E., Navarro-Esteban, P., Cuesta-Albertos, J. A. (2020)
+//' García-Portugués, E., Navarro-Esteban, P., Cuesta-Albertos, J. A. (2023)
 //' On a projection-based class of uniformity tests on the hypersphere.
-//' \emph{arXiv:2008.09897}. \url{https://arxiv.org/abs/2008.09897}
+//' \emph{Bernoulli}, 29(1):181--204. \doi{10.3150/21-BEJ1454}.
 //' @examples
 //' # Plot A_x(theta) for several dimensions and x's
 //' A_lines <- function(x, th = seq(0, pi, l = 200)) {

@@ -17,6 +17,8 @@
 
 ## Comments
 
-Possibly misspelled words in DESCRIPTION:
-  replicability (26:5)
-  This has been double checked. 'replicability' is a word in common use in science.
+* Possibly misspelled words in DESCRIPTION:
+    replicability (26:5)
+    **This has been double-checked. 'replicability' is a word in common use in science.**
+* Found the following (possibly) invalid URLs:
+    **All the URLs have been double-checked. They work fine.**

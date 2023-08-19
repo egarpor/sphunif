@@ -18,14 +18,14 @@ A data frame with 9 rows and 3 variables:
 }
 }
 \source{
-Table 2b in \url{https://ssd.jpl.nasa.gov/txt/aprx_pos_planets.pdf}
+Table 2a in \url{https://ssd.jpl.nasa.gov/planets/approx_pos.html}
 }
 \usage{
 planets
 }
 \description{
 Planet orbits data from the
-\href{https://ssd.jpl.nasa.gov/?planet_pos}{
+\href{https://ssd.jpl.nasa.gov/planets/approx_pos.html}{
 JPL Keplerian Elements for Approximate Positions of the Major Planets}.
 The normal vector of a planet orbit represents is a vector on \eqn{S^2}.
 }

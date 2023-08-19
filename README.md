@@ -8,8 +8,8 @@ status](https://github.com/egarpor/sphunif/workflows/R-CMD-check/badge.svg)](htt
 status](https://github.com/egarpor/sphunif/workflows/test-coverage/badge.svg)](https://github.com/egarpor/sphunif/actions)
 [![](https://codecov.io/gh/egarpor/sphunif/branch/master/graph/badge.svg)](https://codecov.io/gh/egarpor/sphunif)
 [![](https://www.r-pkg.org/badges/version/sphunif?color=green)](https://cran.r-project.org/package=sphunif)
-[![](http://cranlogs.r-pkg.org/badges/grand-total/sphunif?color=green)](https://cran.r-project.org/package=sphunif)
-[![](http://cranlogs.r-pkg.org/badges/last-month/sphunif?color=green)](https://cran.r-project.org/package=sphunif)
+[![](http://cranlogs.r-pkg.org/badges/grand-total/sphunif)](https://cran.r-project.org/package=sphunif)
+[![](http://cranlogs.r-pkg.org/badges/last-month/sphunif)](https://cran.r-project.org/package=sphunif)
 
 <!-- <img src="" alt="sphunif hexlogo" align="right" width="200" style="padding: 0 15px; float: right;"/> -->
 
@@ -226,7 +226,7 @@ unif_test(data = sph_data, type = "Rayleigh", p_value = "asymp")
 The *hyperspherical* setting is treated analogously to the spherical
 setting, and the available tests are exactly the same
 (`avail_sph_tests`). An example of testing uniformity with a sample of
-size `100` on the 9-sphere:
+size `100` on the $9$-sphere:
 
 ``` r
 # Sample data on S^9
@@ -347,7 +347,7 @@ Balzano, S., Porzio, G. C., Salvatore, R., Vistocco, D., and Vichi, M.
 (Eds.), *Statistical Learning and Modeling in Data Analysis*, Studies in
 Classification, Data Analysis and Knowledge Organization, pp. 107–-116.
 Springer, Cham.
-[doi:10.1007/978-3-030-69944-4\_12](https://doi.org/10.1007/978-3-030-69944-4_12).
+[doi:10.1007/978-3-030-69944-4_12](https://doi.org/10.1007/978-3-030-69944-4_12).
 
 García-Portugués, E., Navarro-Esteban, P., and Cuesta-Albertos, J. A.
 (2020). On a projection-based class of uniformity tests on the

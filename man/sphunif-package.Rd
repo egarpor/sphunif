@@ -20,18 +20,18 @@ a simple way. The asymptotic null distributions of the statistics are
 available through the function \code{\link{unif_stat_distr}}. The core of
 \code{\link{sphunif-package}} is coded in C++ by relying on the
 \code{\link[Rcpp]{Rcpp-package}}. The package also provides several
-novel datasets and gives the reproducibility for the data application
-in García-Portugués, Navarro-Esteban and Cuesta-Albertos (2020)
-<arXiv:2008.09897>.
+novel datasets and gives the replicability for the data application
+in García-Portugués, Navarro-Esteban and Cuesta-Albertos (2023)
+<doi:10.3150/21-BEJ1454>.
 }
 \references{
 García-Portugués, E. and Verdebout, T. (2018) An overview of uniformity
 tests on the hypersphere. \emph{arXiv:1804.00286}.
 \url{https://arxiv.org/abs/1804.00286}.
 
-García-Portugués, E., Navarro-Esteban, P., Cuesta-Albertos, J. A. (2020)
+García-Portugués, E., Navarro-Esteban, P., Cuesta-Albertos, J. A. (2023)
 On a projection-based class of uniformity tests on the hypersphere.
-\emph{arXiv:2008.09897}. \url{https://arxiv.org/abs/2008.09897}
+\emph{Bernoulli}, 29(1):181--204. \doi{10.3150/21-BEJ1454}.
 
 García-Portugués, E., Navarro-Esteban, P., and Cuesta-Albertos, J. A. (2021).
 A Cramér–von Mises test of uniformity on the hypersphere. In Balzano, S.,

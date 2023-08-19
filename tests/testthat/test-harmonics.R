@@ -113,3 +113,17 @@ test_that("Orthonormality of harmonics among i's with different k's = 0,1", {
   }
 
 })
+
+test_that("Specific cases of harmonics for x = e_1", {
+
+  for (p in 2:5) {
+    for (k in 1:3) {
+      for (i in 1:d_p_k(p = p, k = k)) {
+        expect_equal(g_i_k(x = c(1, rep(0, p - 1)), i = i, k = k),
+                     (i == 1) * sqrt((gamma(k + p - 2) * (2 * k + p - 2)) /
+                                       (gamma(k + 1) * gamma(p - 1))))
+      }
+    }
+  }
+
+})

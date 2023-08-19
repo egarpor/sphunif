@@ -292,9 +292,8 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
                        Riesz_s = Riesz_s, CCF09_dirs = CCF09_dirs,
                        K_CCF09 = K_CCF09, CJ12_reg = CJ12_reg)
 
-    # Remove X and clean memory
+    # Remove X
     rm(X)
-    gc()
 
     # Signal progress
     if (requireNamespace("progressr", quietly = TRUE)) {

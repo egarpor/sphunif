@@ -20,7 +20,7 @@ f_locdev_Pn(p, type, K = 1000, N = 320, K_max = 10000, thre = 0.001,
   Rothman_t = 1/3, verbose = FALSE)
 }
 \arguments{
-\item{theta}{vectors with values in \eqn{[0, \pi]}.}
+\item{theta}{vector with values in \eqn{[0, \pi]}.}
 
 \item{q}{integer giving the dimension of the sphere \eqn{S^q}.}
 
@@ -43,8 +43,7 @@ computing the kernel function. Defaults to \code{320}.}
 \item{tol}{tolerance passed to \code{\link{integrate}}'s \code{rel.tol} and
 \code{abs.tol} if \code{Gauss = FALSE}. Defaults to \code{1e-6}.}
 
-\item{k}{vectors with the orders of the Gegenbauer polynomials. Must
-be integers larger or equal than \code{0}.}
+\item{k}{vector with the index of coefficients.}
 
 \item{p}{integer giving the dimension of the ambient space \eqn{R^p} that
 contains \eqn{S^{p-1}}.}
@@ -123,7 +122,7 @@ numerical integration required for \eqn{\psi_p^W} with \eqn{p \ge 3} and
 \item PRt: closed-form expressions for \eqn{\psi_p^W} and \eqn{b_{k, p}^W}
 for any \eqn{p \ge 2}.
 }
-See García-Portugués et al. (2020) for more details.
+See García-Portugués et al. (2023) for more details.
 }
 \examples{
 # Kernels in the projected-ecdf test statistics
@@ -201,9 +200,9 @@ for (k in 2:length(p)) {
 legend("topleft", legend = paste("p =", p), col = col, lwd = 2)
 }
 \references{
-García-Portugués, E., Navarro-Esteban, P., Cuesta-Albertos, J. A. (2020)
+García-Portugués, E., Navarro-Esteban, P., Cuesta-Albertos, J. A. (2023)
 On a projection-based class of uniformity tests on the hypersphere.
-\emph{arXiv:2008.09897}. \url{https://arxiv.org/abs/2008.09897}
+\emph{Bernoulli}, 29(1):181--204. \doi{10.3150/21-BEJ1454}.
 }
 \author{
 Eduardo García-Portugués and Paula Navarro-Esteban.

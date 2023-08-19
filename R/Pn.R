@@ -25,7 +25,8 @@
 #' b_{k, p}^W = \int_{-1}^1 a_{k, p}^x dW(F_p(x))}
 #' for a certain function \eqn{x\rightarrow a_{k, p}^x}. They serve to define
 #' \link[=locdev]{projected alternatives to uniformity}.
-#' @inheritParams Gegenbauer
+#' @param theta vector with values in \eqn{[0, \pi]}.
+#' @param k vector with the index of coefficients.
 #' @param q integer giving the dimension of the sphere \eqn{S^q}.
 #' @param type type of projected-ecdf test statistic. Must be either
 #' \code{"PCvM"} (Cramér--von Mises), \code{"PAD"} (Anderson--Darling), or

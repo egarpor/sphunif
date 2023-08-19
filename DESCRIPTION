@@ -2,7 +2,7 @@ Package: sphunif
 Type: Package
 Title: Uniformity Tests on the Circle, Sphere, and Hypersphere
 Version: 1.0.2
-Date: 2021-11-16
+Date: 2023-08-19
 Authors@R: c(
      person(given = "Eduardo", family = "García-Portugués",
             role = c("aut", "cre"), email = "edgarcia@est-econ.uc3m.es",
@@ -23,8 +23,8 @@ Description: Implementation of uniformity tests on the circle and
     the statistics are available through the function unif_stat_distr(). The
     core of 'sphunif' is coded in C++ by relying on the 'Rcpp' package.
     The package also provides several novel datasets and gives the
-    reproducibility for the data application in García-Portugués,
-    Navarro-Esteban and Cuesta-Albertos (2020) <arXiv:2008.09897>.
+    replicability for the data application in García-Portugués,
+    Navarro-Esteban and Cuesta-Albertos (2023) <arXiv:2008.09897>.
 License: GPL-3
 LazyData: true
 Depends:
@@ -54,7 +54,7 @@ LinkingTo: Rcpp, RcppArmadillo
 URL: https://github.com/egarpor/sphunif
 BugReports: https://github.com/egarpor/sphunif
 Encoding: UTF-8
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.3
 Roxygen: list(old_usage = TRUE)
 VignetteBuilder: knitr
 Config/testthat/edition: 3

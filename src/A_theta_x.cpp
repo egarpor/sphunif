@@ -31,7 +31,7 @@ const double inv_two_M_PI = 0.5 / M_PI;
 //' centered at \eqn{{\bf X}_i}{X_i} and \eqn{{\bf X}_j}{X_j} and with
 //' common solid angle \eqn{\pi - \cos^{-1}(x)}.
 //'
-//' @inheritParams Gegenbauer
+//' @param theta vector with values in \eqn{[0, \pi]}.
 //' @param x vector with values in \eqn{[-1, 1]}.
 //' @inheritParams r_unif
 //' @param N number of points used in the

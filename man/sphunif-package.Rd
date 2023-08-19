@@ -20,7 +20,7 @@ a simple way. The asymptotic null distributions of the statistics are
 available through the function \code{\link{unif_stat_distr}}. The core of
 \code{\link{sphunif-package}} is coded in C++ by relying on the
 \code{\link[Rcpp]{Rcpp-package}}. The package also provides several
-novel datasets and gives the reproducibility for the data application
+novel datasets and gives the replicability for the data application
 in García-Portugués, Navarro-Esteban and Cuesta-Albertos (2020)
 <arXiv:2008.09897>.
 }

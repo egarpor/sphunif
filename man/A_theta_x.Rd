@@ -7,7 +7,7 @@
 A_theta_x(theta, x, p, N = 160L, as_matrix = TRUE)
 }
 \arguments{
-\item{theta}{vectors with values in \eqn{[0, \pi]}.}
+\item{theta}{vector with values in \eqn{[0, \pi]}.}
 
 \item{x}{vector with values in \eqn{[-1, 1]}.}
 

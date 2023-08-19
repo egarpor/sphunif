@@ -112,7 +112,7 @@
 #' @title Planet orbits
 #'
 #' @description Planet orbits data from the
-#' \href{https://ssd.jpl.nasa.gov/?planet_pos}{
+#' \href{https://ssd.jpl.nasa.gov/planets/approx_pos.html}{
 #' JPL Keplerian Elements for Approximate Positions of the Major Planets}.
 #' The normal vector of a planet orbit represents is a vector on \eqn{S^2}.
 #'
@@ -137,7 +137,7 @@
 #' The script performing the data preprocessing is available at
 #' \href{https://github.com/egarpor/sphunif/blob/master/data-raw/planets.R}{
 #' \code{planets.R}}. The data was retrieved on 2020-05-16.
-#' @source Table 2b in \url{https://ssd.jpl.nasa.gov/txt/aprx_pos_planets.pdf}
+#' @source Table 2a in \url{https://ssd.jpl.nasa.gov/planets/approx_pos.html}
 #' @examples
 #' # Load data
 #' data("planets")

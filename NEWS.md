@@ -11,3 +11,4 @@
 * Update references.
 * Drop C++11 requirement to adhere to new CRAN policies.
 * Drop `personList()` and `citEntry()`.
+* Fix broken URLs.

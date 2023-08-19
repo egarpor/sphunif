@@ -14,3 +14,9 @@
 ## R CMD check results
 
 0 errors | 0 warnings | 0 notes
+
+## Comments
+
+Possibly misspelled words in DESCRIPTION:
+  replicability (26:5)
+  This has been double checked. 'replicability' is a word in common use in science.

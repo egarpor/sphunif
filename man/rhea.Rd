@@ -22,9 +22,7 @@ A data frame with 3596 rows and 4 variables:
 rhea
 }
 \description{
-Craters on Rhea from
-\href{https://doi.org/10.1002/2015JE004940}{
-Hirata (2016)}.
+Craters on Rhea from Hirata (2016).
 }
 \details{
 The \eqn{(\theta, \phi)} angles are such their associated planetocentric

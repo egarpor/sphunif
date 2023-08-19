@@ -23,7 +23,7 @@ rhea
 }
 \description{
 Craters on Rhea from
-\href{https://agupubs.onlinelibrary.wiley.com/doi/full/10.1002/2015JE004940}{
+\href{https://doi.org/10.1002/2015JE004940}{
 Hirata (2016)}.
 }
 \details{

@@ -1,7 +1,7 @@
 
 ## Retrieve data from https://astrogeology.usgs.gov/search/map/Venus/venuscraters
 
-# The source is https://agupubs.onlinelibrary.wiley.com/doi/full/10.1002/2015JE004940
+# The source is https://doi.org/10.1002/2015JE004940
 
 # Download
 download.file(url = paste0("https://agupubs.onlinelibrary.wiley.com/action/",

@@ -354,7 +354,7 @@ arma::vec sph_stat_Pycke_Psi(arma::mat Psi, arma::uword n, arma::uword p) {
   Psi = arma::log1p(-Psi);
 
   // Replace NaNs (created by theta = 0) with 0
-  if (Psi.has_nan() | Psi.has_inf()) {
+  if (Psi.has_nan() || Psi.has_inf()) {
 
     Psi.replace(arma::datum::nan, 0);
     Psi.replace(-arma::datum::inf, 0);

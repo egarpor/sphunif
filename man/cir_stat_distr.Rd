@@ -91,9 +91,11 @@ p_cir_stat_Hodges_Ajne(x, n, exact = TRUE, asymp_std = FALSE)
 
 d_cir_stat_Hodges_Ajne(x, n, exact = TRUE, asymp_std = FALSE)
 
-p_cir_stat_Kuiper(x, n, K_Kuiper = 12L, second_term = TRUE, Stephens = FALSE)
+p_cir_stat_Kuiper(x, n, K_Kuiper = 12L, second_term = TRUE,
+  Stephens = FALSE)
 
-d_cir_stat_Kuiper(x, n, K_Kuiper = 12L, second_term = TRUE, Stephens = FALSE)
+d_cir_stat_Kuiper(x, n, K_Kuiper = 12L, second_term = TRUE,
+  Stephens = FALSE)
 
 p_cir_stat_Log_gaps(x, abs_val = TRUE)
 

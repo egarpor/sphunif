@@ -72,7 +72,7 @@ given by
 For \eqn{p = 2}, the factor \eqn{(1 + 2k / (p - 2))} is replaced by \eqn{2}.
 }
 \details{
-See more details in Prentice (1978) and García-Portugués et al. (2020). The
+See more details in Prentice (1978) and García-Portugués et al. (2023). The
 adequate signs of \code{uk} for the \code{"PRt"} \link[=Pn]{Rothman test}
 can be retrieved with \code{\link{akx}} and \code{sqr = TRUE}, see the
 examples.
@@ -93,9 +93,9 @@ t <- 1 / 3
 (uk <- bk_to_uk(bk = bk, p = 3, signs = ak))
 }
 \references{
-García-Portugués, E., Navarro-Esteban, P., Cuesta-Albertos, J. A. (2020)
+García-Portugués, E., Navarro-Esteban, P., Cuesta-Albertos, J. A. (2023)
 On a projection-based class of uniformity tests on the hypersphere.
-\emph{arXiv:2008.09897}. \url{https://arxiv.org/abs/2008.09897}
+\emph{Bernoulli}, 29(1):181--204. \doi{10.3150/21-BEJ1454}.
 
 Prentice, M. J. (1978). On invariant tests of uniformity for directions and
 orientations. \emph{The Annals of Statistics}, 6(1):169--176.

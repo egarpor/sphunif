@@ -5,7 +5,8 @@
 \title{Efficient evaluation of the empirical cumulative distribution
 function}
 \usage{
-ecdf_bin(data, sorted_x, data_sorted = FALSE, efic = TRUE, divide_n = TRUE)
+ecdf_bin(data, sorted_x, data_sorted = FALSE, efic = TRUE,
+  divide_n = TRUE)
 }
 \arguments{
 \item{data}{a vector or column matrix containing the sample.}

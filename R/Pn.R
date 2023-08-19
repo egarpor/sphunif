@@ -25,7 +25,8 @@
 #' b_{k, p}^W = \int_{-1}^1 a_{k, p}^x dW(F_p(x))}
 #' for a certain function \eqn{x\rightarrow a_{k, p}^x}. They serve to define
 #' \link[=locdev]{projected alternatives to uniformity}.
-#' @inheritParams Gegenbauer
+#' @param theta vector with values in \eqn{[0, \pi]}.
+#' @param k vector with the index of coefficients.
 #' @param q integer giving the dimension of the sphere \eqn{S^q}.
 #' @param type type of projected-ecdf test statistic. Must be either
 #' \code{"PCvM"} (Cramér--von Mises), \code{"PAD"} (Anderson--Darling), or
@@ -69,11 +70,11 @@
 #' \item PRt: closed-form expressions for \eqn{\psi_p^W} and \eqn{b_{k, p}^W}
 #' for any \eqn{p \ge 2}.
 #' }
-#' See García-Portugués et al. (2020) for more details.
+#' See García-Portugués et al. (2023) for more details.
 #' @references
-#' García-Portugués, E., Navarro-Esteban, P., Cuesta-Albertos, J. A. (2020)
+#' García-Portugués, E., Navarro-Esteban, P., Cuesta-Albertos, J. A. (2023)
 #' On a projection-based class of uniformity tests on the hypersphere.
-#' \emph{arXiv:2008.09897}. \url{https://arxiv.org/abs/2008.09897}
+#' \emph{Bernoulli}, 29(1):181--204. \doi{10.3150/21-BEJ1454}.
 #' @examples
 #' # Kernels in the projected-ecdf test statistics
 #' k <- 0:10
@@ -706,9 +707,8 @@ Gegen_coefs_Pn <- function(k, p, type, Rothman_t = 1 / 3, Gauss = TRUE,
     if (dok1) {
 
       # Call akx
-      coefs[ind1] <- ifelse(p == 2, 2, 1) *
-        drop(akx(x = drop(q_proj_unif(u = t_m, p = p)), p = p, k = k1,
-                 sqr = FALSE))
+      coefs[ind1] <- drop(akx(x = drop(q_proj_unif(u = t_m, p = p)),
+                              p = p, k = k1, sqr = FALSE))
 
     }
 
@@ -749,7 +749,7 @@ akx <- function(x, p, k, sqr = FALSE) {
 
     if (p == 2) {
 
-      a[, ind1] <- t(sin(k1 %o% acos(x)) / (k1 * pi))
+      a[, ind1] <- t(sin(k1 %o% acos(x)) * (sqrt(2) / (k1 * pi)))
 
     } else {
 

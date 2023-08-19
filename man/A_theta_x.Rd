@@ -7,7 +7,7 @@
 A_theta_x(theta, x, p, N = 160L, as_matrix = TRUE)
 }
 \arguments{
-\item{theta}{vectors with values in \eqn{[0, \pi]}.}
+\item{theta}{vector with values in \eqn{[0, \pi]}.}
 
 \item{x}{vector with values in \eqn{[-1, 1]}.}
 
@@ -45,7 +45,7 @@ centered at \eqn{{\bf X}_i}{X_i} and \eqn{{\bf X}_j}{X_j} and with
 common solid angle \eqn{\pi - \cos^{-1}(x)}.
 }
 \details{
-See García-Portugués et al. (2020) for more details about the
+See García-Portugués et al. (2023) for more details about the
 \eqn{A_x(\theta)} function.
 }
 \examples{
@@ -104,7 +104,7 @@ diag(A_theta_x(theta = th, x = x, p = 2))
 A_theta_x(theta = th, x = x, p = 2, as_matrix = FALSE)
 }
 \references{
-García-Portugués, E., Navarro-Esteban, P., Cuesta-Albertos, J. A. (2020)
+García-Portugués, E., Navarro-Esteban, P., Cuesta-Albertos, J. A. (2023)
 On a projection-based class of uniformity tests on the hypersphere.
-\emph{arXiv:2008.09897}. \url{https://arxiv.org/abs/2008.09897}
+\emph{Bernoulli}, 29(1):181--204. \doi{10.3150/21-BEJ1454}.
 }

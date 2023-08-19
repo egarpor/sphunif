@@ -62,7 +62,7 @@
 #' }
 #' @details
 #' See the definitions of local alternatives in Prentice (1978) and in
-#' García-Portugués et al. (2020).
+#' García-Portugués et al. (2023).
 #'
 #' The truncation of \eqn{\sum_{k = 1}^\infty u_{k, p} C_k^{p / 2 - 1}(z)}{
 #' \sum_{k = 1}^\infty u_{k, p} C_k^(p / 2 - 1)(z)} is done to the first
@@ -72,9 +72,9 @@
 #' series only contains odd or even non-zero terms, then only \code{K_max / 2}
 #' addends are \emph{effectively} taken into account in the first truncation.
 #' @references
-#' García-Portugués, E., Navarro-Esteban, P., Cuesta-Albertos, J. A. (2020)
+#' García-Portugués, E., Navarro-Esteban, P., Cuesta-Albertos, J. A. (2023)
 #' On a projection-based class of uniformity tests on the hypersphere.
-#' \emph{arXiv:2008.09897}. \url{https://arxiv.org/abs/2008.09897}
+#' \emph{Bernoulli}, 29(1):181--204. \doi{10.3150/21-BEJ1454}.
 #'
 #' Prentice, M. J. (1978). On invariant tests of uniformity for directions and
 #' orientations. \emph{The Annals of Statistics}, 6(1):169--176.
@@ -524,14 +524,14 @@ F_inv_from_f <- function(f, p, Gauss = TRUE, N = 320, K = 1e3, tol = 1e-6,
 #' The corresponding vectors of coefficients \code{vk2}, \code{bk}, or
 #' \code{uk}, depending on the call.
 #' @details
-#' See more details in Prentice (1978) and García-Portugués et al. (2020). The
+#' See more details in Prentice (1978) and García-Portugués et al. (2023). The
 #' adequate signs of \code{uk} for the \code{"PRt"} \link[=Pn]{Rothman test}
 #' can be retrieved with \code{\link{akx}} and \code{sqr = TRUE}, see the
 #' examples.
 #' @references
-#' García-Portugués, E., Navarro-Esteban, P., Cuesta-Albertos, J. A. (2020)
+#' García-Portugués, E., Navarro-Esteban, P., Cuesta-Albertos, J. A. (2023)
 #' On a projection-based class of uniformity tests on the hypersphere.
-#' \emph{arXiv:2008.09897}. \url{https://arxiv.org/abs/2008.09897}
+#' \emph{Bernoulli}, 29(1):181--204. \doi{10.3150/21-BEJ1454}.
 #'
 #' Prentice, M. J. (1978). On invariant tests of uniformity for directions and
 #' orientations. \emph{The Annals of Statistics}, 6(1):169--176.

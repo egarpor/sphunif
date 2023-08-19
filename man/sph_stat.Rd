@@ -36,7 +36,8 @@ sph_stat_Riesz(X, Psi_in_X = FALSE, p = 0L, s = 1)
 
 sph_stat_PCvM(X, Psi_in_X = FALSE, p = 0L, N = 160L, L = 1000L)
 
-sph_stat_PRt(X, t = 1/3, Psi_in_X = FALSE, p = 0L, N = 160L, L = 1000L)
+sph_stat_PRt(X, t = 1/3, Psi_in_X = FALSE, p = 0L, N = 160L,
+  L = 1000L)
 
 sph_stat_PAD(X, Psi_in_X = FALSE, p = 0L, N = 160L, L = 1000L)
 

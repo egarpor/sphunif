@@ -132,7 +132,7 @@ unif_test(data = hyp_data, type = "Rayleigh", p_value = "asymp")
 
 ## Data application in astronomy
 
-The data application in García-Portugués, Navarro-Esteban and Cuesta-Albertos (2020) can be reproduced through the script [data-application-ecdf.R](https://github.com/egarpor/sphunif/blob/master/application/data-application-ecdf.R). The code snippet below illustrates the testing of the uniformity of craters in Rhea.
+The data application in García-Portugués, Navarro-Esteban and Cuesta-Albertos (2023) can be reproduced through the script [data-application-ecdf.R](https://github.com/egarpor/sphunif/blob/master/application/data-application-ecdf.R). The code snippet below illustrates the testing of the uniformity of craters in Rhea.
 
 ```{r, rhea}
 # Load data
@@ -171,7 +171,7 @@ tests_rhea_20
 
 García-Portugués, E., Navarro-Esteban, P., and Cuesta-Albertos, J. A. (2021). A Cramér–von Mises test of uniformity on the hypersphere. In Balzano, S., Porzio, G. C., Salvatore, R., Vistocco, D., and Vichi, M. (Eds.), *Statistical Learning and Modeling in Data Analysis*, Studies in Classification, Data Analysis and Knowledge Organization, pp. 107–-116. Springer, Cham. [doi:10.1007/978-3-030-69944-4_12](https://doi.org/10.1007/978-3-030-69944-4_12).
 
-García-Portugués, E., Navarro-Esteban, P., and Cuesta-Albertos, J. A. (2020). On a projection-based class of uniformity tests on the hypersphere. *arXiv:2008.09897*. <https://arxiv.org/abs/2008.09897>.
+García-Portugués, E., Navarro-Esteban, P., and Cuesta-Albertos, J. A. (2023). On a projection-based class of uniformity tests on the hypersphere. *Bernoulli*, 29(1):181--204. [doi:10.1007/978-3-030-69944-4_12](https://doi.org/10.3150/21-BEJ1454).
 
 García-Portugués, E. and Verdebout, T. (2018). An overview of uniformity tests on the hypersphere. *arXiv:1804.00286*. <https://arxiv.org/abs/1804.00286>.
 

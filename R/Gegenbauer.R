@@ -376,7 +376,7 @@ Gegen_series <- function(theta, coefs, k, p, normalize = TRUE) {
   # Check dimension
   stopifnot(p >= 2)
 
-  # Check leength of coefficients
+  # Check length of coefficients
   stopifnot(length(coefs) == length(k))
 
   # Normalize unnormalized coefficients?

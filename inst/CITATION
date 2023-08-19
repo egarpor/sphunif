@@ -4,10 +4,11 @@ note <- paste("R package version", meta$Version)
 
 citHeader("To cite sphunif in publications use:")
 
-citEntry(entry = "Manual",
+bibentry(
+  bibtype      = "Manual",
   title        = "{sphunif}: Uniformity Tests on the Circle, Sphere, and Hypersphere",
-  author       = personList(as.person("Eduardo García-Portugués"),
-                   as.person("Thomas Verdebout")),
+  author       = c(person(given = "Eduardo", family = "García-Portugués"),
+                   person(given = "Thomas", family = "Verdebout")),
   year         = year,
   note         = note,
   url          = "https://CRAN.R-project.org/package=sphunif",
@@ -17,10 +18,11 @@ citEntry(entry = "Manual",
         paste0(note, "."), "https://CRAN.R-project.org/package=sphunif")
 )
 
-citEntry(entry = "Article",
+bibentry(
+  bibtype      = "Article",
   title        = "An overview of uniformity tests on the hypersphere",
-  author       = personList(as.person("Eduardo García-Portugués"),
-                   as.person("Thomas Verdebout")),
+  author       = c(person(given = "Eduardo", family = "García-Portugués"),
+                   person(given = "Thomas", family = "Verdebout")),
   journal      = "arXiv:1804.00286",
   year         = "2018",
   volume       = "",

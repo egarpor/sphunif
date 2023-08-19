@@ -8,22 +8,24 @@
 A data frame with 9 rows and 3 variables:
 \describe{
   \item{planet}{names of the planets and Pluto.}
-  \item{i}{inclination; the orbit angle with respect to the ecliptic plane,
-  in radians in \eqn{[0, \pi]}.}
-  \item{om}{longitude of the ascending node; the angle between the normal
-  vector of the orbit and the normal vector of the ecliptic plane, in
-  radians in \eqn{[0, 2\pi)}.}
+  \item{i}{inclination; the orbit's plane angle with respect to the
+  ecliptic plane, in radians in \eqn{[0, \pi]}.}
+  \item{om}{longitude of the ascending node; the counterclockwise angle from
+  the vector pointing to the First Point of Aries and that pointing to
+  the ascending node (the intersection between orbit and ecliptic plane), in
+  radians in \eqn{[0, 2\pi)}. (Both vectors are heliocentric and within
+  the ecliptic plane.)}
 }
 }
 \source{
-Table 2b in \url{https://ssd.jpl.nasa.gov/txt/aprx_pos_planets.pdf}
+Table 2a in \url{https://ssd.jpl.nasa.gov/planets/approx_pos.html}
 }
 \usage{
 planets
 }
 \description{
 Planet orbits data from the
-\href{https://ssd.jpl.nasa.gov/?planet_pos}{
+\href{https://ssd.jpl.nasa.gov/planets/approx_pos.html}{
 JPL Keplerian Elements for Approximate Positions of the Major Planets}.
 The normal vector of a planet orbit represents is a vector on \eqn{S^2}.
 }

@@ -40,17 +40,21 @@ cir_stat_Watson(Theta, sorted = FALSE, CvM = FALSE, Stephens = FALSE)
 
 cir_stat_Watson_1976(Theta, sorted = FALSE, minus = FALSE)
 
-cir_stat_Range(Theta, sorted = FALSE, gaps_in_Theta = FALSE, max_gap = TRUE)
+cir_stat_Range(Theta, sorted = FALSE, gaps_in_Theta = FALSE,
+  max_gap = TRUE)
 
 cir_stat_Rao(Theta, sorted = FALSE, gaps_in_Theta = FALSE)
 
 cir_stat_Greenwood(Theta, sorted = FALSE, gaps_in_Theta = FALSE)
 
-cir_stat_Log_gaps(Theta, sorted = FALSE, gaps_in_Theta = FALSE, abs_val = TRUE)
+cir_stat_Log_gaps(Theta, sorted = FALSE, gaps_in_Theta = FALSE,
+  abs_val = TRUE)
 
-cir_stat_Vacancy(Theta, a = 2 * pi, sorted = FALSE, gaps_in_Theta = FALSE)
+cir_stat_Vacancy(Theta, a = 2 * pi, sorted = FALSE,
+  gaps_in_Theta = FALSE)
 
-cir_stat_Max_uncover(Theta, a = 2 * pi, sorted = FALSE, gaps_in_Theta = FALSE)
+cir_stat_Max_uncover(Theta, a = 2 * pi, sorted = FALSE,
+  gaps_in_Theta = FALSE)
 
 cir_stat_Num_uncover(Theta, a = 2 * pi, sorted = FALSE,
   gaps_in_Theta = FALSE, minus_val = TRUE)

@@ -253,3 +253,18 @@ test_that("Gegen_norm_2d with unnormalized coefficients", {
                              k = k, m = m, p = 11, normalize = FALSE)^2,
                sum(w_k * f_2_11(th_k, th_k)^2 * sin_k^9))
 })
+
+test_that("Bounds Gegenbauer polynomials", {
+
+  x <- seq(-1, 1, l = 200)
+  for (p in c(3, 4, 5, 100)) {
+    for (k in c(1:3, 10, 50, 100)) {
+      expect_true(all(
+        abs(Gegen_polyn(theta = acos(x), k = k, p = p)) <
+          (2 * (1 - x^2)^(-(p - 2) / 4) * gamma(k + (p - 2) / 2) /
+             (gamma((p - 2) / 2) * gamma(k + 1)))
+      ))
+    }
+  }
+
+})

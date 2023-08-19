@@ -454,8 +454,9 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
 
       } else {
 
-        stats$Riesz <- cir_stat_Riesz(Theta = data, Psi_in_Theta = Psi_in_Theta,
-                                      s = Riesz_s)
+        stats$Riesz <- (1 - 2 * (Riesz_s < 0)) *
+          cir_stat_Riesz(Theta = data, Psi_in_Theta = Psi_in_Theta,
+                         s = Riesz_s)
 
       }
 
@@ -648,8 +649,8 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
 
       } else {
 
-        stats$Riesz <- sph_stat_Riesz(X = data, Psi_in_X = Psi_in_X, p = p,
-                                      s = Riesz_s)
+        stats$Riesz <- (1 - 2 * (Riesz_s < 0)) *
+          sph_stat_Riesz(X = data, Psi_in_X = Psi_in_X, p = p, s = Riesz_s)
 
       }
 

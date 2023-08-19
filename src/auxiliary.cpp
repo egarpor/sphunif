@@ -1,7 +1,6 @@
 
 // // [[Rcpp::depends(BH)]]
 // [[Rcpp::depends("RcppArmadillo")]]
-// [[Rcpp::plugins("cpp11")]]
 #include <RcppArmadillo.h>
 #include <Rmath.h>
 #include <R.h>

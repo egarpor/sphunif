@@ -64,14 +64,14 @@ asymptotic distribution of the Kolmogorov-Smirnov statistic. Defaults to
 (sub-exponential regime), \code{2} (exponential), or \code{3}
 (super-exponential; default).}
 
-\item{Stereo_a}{parameter for the Stereo test, a real in \eqn{[-1, 1]}.
-Defaults to \code{0}.}
+\item{Stereo_a}{\eqn{a} parameter for the Stereo test, a real in
+\eqn{[-1, 1]}. Defaults to \code{0}.}
 
-\item{Poisson_rho}{parameter for the Poisson test, a real in \eqn{[-1, 1]}.
-Defaults to \code{1}.}
+\item{Poisson_rho}{\eqn{\rho} parameter for the Poisson test, a real in
+\eqn{[0, 1)}. Defaults to \code{0.5}.}
 
-\item{Softmax_kappa}{parameter for the Softmax test, a non-negative real.
-Defaults to \code{0.5}.}
+\item{Softmax_kappa}{\eqn{\kappa} parameter for the Softmax test, a
+non-negative real. Defaults to \code{1}.}
 }
 \value{
 A data frame of size \code{c(M, length(type))}, with column names

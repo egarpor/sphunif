@@ -70,6 +70,12 @@
 #' @param Stephens compute Stephens (1970) modification so that the null
 #' distribution of the is less dependent on the sample size? The modification
 #' does not alter the test decision.
+#' @param rho \eqn{\rho} parameter for the Poisson test, a real in
+#' \eqn{[0, 1)}. Defaults to \code{0.5}.
+#' @param kappa \eqn{\kappa} parameter for the Softmax test, a
+#' non-negative real. Defaults to \code{1}.
+#' @param a \eqn{a} parameter for the Stereo test, a real in \eqn{[-1, 1]}.
+#' Defaults to \code{0}.
 #' @return A matrix of size \code{c(M, 1)} containing the statistics for each
 #' of the \code{M} samples.
 #' @section Warning:

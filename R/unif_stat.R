@@ -48,12 +48,12 @@
 #' @param CJ12_reg type of asymptotic regime for CJ12 test, either \code{1}
 #' (sub-exponential regime), \code{2} (exponential), or \code{3}
 #' (super-exponential; default).
-#' @param Stereo_a parameter for the Stereo test, a real in \eqn{[-1, 1]}.
-#' Defaults to \code{0}.
-#' @param Softmax_kappa parameter for the Softmax test, a non-negative real.
-#' Defaults to \code{0.5}.
-#' @param Poisson_rho parameter for the Poisson test, a real in \eqn{[-1, 1]}.
-#' Defaults to \code{1}.
+#' @param Stereo_a \eqn{a} parameter for the Stereo test, a real in
+#' \eqn{[-1, 1]}. Defaults to \code{0}.
+#' @param Softmax_kappa \eqn{\kappa} parameter for the Softmax test, a
+#' non-negative real. Defaults to \code{1}.
+#' @param Poisson_rho \eqn{\rho} parameter for the Poisson test, a real in
+#' \eqn{[0, 1)}. Defaults to \code{0.5}.
 #' @return A data frame of size \code{c(M, length(type))}, with column names
 #' given by \code{type}, that contains the values of the test statistics.
 #' @details

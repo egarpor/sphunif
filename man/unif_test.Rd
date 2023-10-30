@@ -98,14 +98,14 @@ asymptotic distribution of the Kolmogorov-Smirnov statistic. Defaults to
 \item{CJ12_beta}{\eqn{\beta} parameter in the exponential regime of CJ12 test,
 a positive real.}
 
-\item{Stereo_a}{parameter for the Stereo test, a real in \eqn{[-1, 1]}.
-Defaults to \code{0}.}
+\item{Stereo_a}{\eqn{a} parameter for the Stereo test, a real in
+\eqn{[-1, 1]}. Defaults to \code{0}.}
 
-\item{Poisson_rho}{parameter for the Poisson test, a real in \eqn{[-1, 1]}.
-Defaults to \code{1}.}
+\item{Poisson_rho}{\eqn{\rho} parameter for the Poisson test, a real in
+\eqn{[0, 1)}. Defaults to \code{0.5}.}
 
-\item{Softmax_kappa}{parameter for the Softmax test, a non-negative real.
-Defaults to \code{0.5}.}
+\item{Softmax_kappa}{\eqn{\kappa} parameter for the Softmax test, a
+non-negative real. Defaults to \code{1}.}
 
 \item{K_max}{integer giving the truncation of the series that compute the
 asymptotic p-value of a Sobolev test. Defaults to \code{1e4}.}

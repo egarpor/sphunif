@@ -33,12 +33,12 @@ arma::vec sph_stat_PRt_Psi(arma::mat Psi, double t_m, double theta_t_m,
 arma::vec sph_stat_PAD_Psi(arma::mat Psi, arma::uword n, arma::uword p,
                            arma::vec th_grid, arma::vec int_grid);
 arma::vec sph_stat_CJ12_Psi(arma::mat Psi, arma::uword n, arma::uword p);
-arma::vec sph_stat_Stereo_Psi(arma::mat Psi, arma::uword n, arma::uword p,
-                              double a);
 arma::vec sph_stat_Poisson_Psi(arma::mat Psi, arma::uword n, arma::uword p,
                                double rho);
 arma::vec sph_stat_Softmax_Psi(arma::mat Psi, arma::uword n, arma::uword p,
                                double kappa);
+arma::vec sph_stat_Stereo_Psi(arma::mat Psi, arma::uword n, arma::uword p,
+                              double a);
 
 // Constants
 const double inv_M_PI = 1.0 / M_PI;
@@ -1042,9 +1042,9 @@ arma::vec sph_stat_Poisson(arma::cube X, bool Psi_in_X = false,
     stop("p >= 2 must be specified if Psi_in_X = TRUE.");
 
   }
-  if (std::abs(rho) > 1) {
+  if (rho < 0 || rho >= 1) {
 
-    stop("rho must be in [-1, 1].");
+    stop("rho must be in [0, 1).");
 
   }
 

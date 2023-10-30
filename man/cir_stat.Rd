@@ -145,8 +145,8 @@ values of the statistic, which is consistent with the rest of tests.
 Otherwise, the signed statistic is computed and rejection happens for
 large \emph{absolute} values.}
 
-\item{a}{\eqn{a_n = a / n} parameter used in the length of the arcs
-of the coverage-based tests. Must be positive. Defaults to \code{2 * pi}.}
+\item{a}{\eqn{a} parameter for the Stereo test, a real in \eqn{[-1, 1]}.
+Defaults to \code{0}.}
 
 \item{minus_val}{return the negative value of the (standardized) number of
 uncovered spacings? If \code{TRUE} (default), rejection happens for
@@ -180,6 +180,12 @@ If \code{FALSE}, the geometric construction in Ajne (1968) is employed.}
 \item{AD}{compute the Anderson-Darling statistic (which is \emph{not}
 invariant under origin shifts) instead of the Projected Anderson-Darling
 statistic? Defaults to \code{FALSE}.}
+
+\item{rho}{\eqn{\rho} parameter for the Poisson test, a real in
+\eqn{[0, 1)}. Defaults to \code{0.5}.}
+
+\item{kappa}{\eqn{\kappa} parameter for the Softmax test, a
+non-negative real. Defaults to \code{1}.}
 
 \item{dirs}{a matrix of size \code{c(n_proj, 2)} containing \code{n_proj}
 random directions (in Cartesian coordinates) on \eqn{S^1} to perform the

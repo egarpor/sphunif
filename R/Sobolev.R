@@ -581,3 +581,76 @@ q_Sobolev <- function(u, p, type, method = c("I", "SW", "HBE", "MC")[1],
             ncps = ncps, method = method, ...)
 
 }
+
+
+#' @title TODO
+#' @inheritParams cir_stat
+#' @inheritParams sph_stat
+#' @param w weights for the (finite) Sobolev test. A non-negative vector.
+#' Defaults to \code{c(0, 0, 1)}.
+#' @param b bias for the (finite) Sobolev test. Defaults to \code{0}.
+#' @export
+sph_stat_Sobolev <- function(X, Psi_in_X = FALSE, p = 0, w = c(0, 0, 1),
+                             b = 0) {
+
+  # Compute Psi matrix with angles between pairs?
+  if (Psi_in_X) {
+
+    n <- n_from_dist_vector(nrow(X))
+    if (p == 0) {
+
+      stop("p >= 2 must be specified if Psi_in_X = TRUE.")
+
+    }
+    X <- X[, , 1, drop = FALSE]
+    dim(X) <- dim(X)[1:2]
+    M <- ncol(X)
+
+  } else {
+
+    n <- nrow(X)
+    p <- ncol(X)
+    M <- dim(X)[3]
+    X <- Psi_mat(data = X)
+
+  }
+
+  # Statistic
+  Tn <- numeric(M)
+  for (k in which(w != 0)) {
+    for (j in seq_len(M)) {
+
+      Tn[j] <- Tn[j] + w[k] * sum(Gegen_polyn(theta = X[, j], k = k, p = p))
+
+    }
+  }
+
+  # Add bias
+  Tn <- 2 * Tn / n + b
+  return(Tn)
+
+}
+
+
+#' @rdname sph_stat_Sobolev
+#' @export
+cir_stat_Sobolev <- function(Theta, Psi_in_Theta = FALSE, w = c(0, 0, 1),
+                             b = 0) {
+
+  if (Psi_in_Theta) {
+
+    if (length(dim(Theta)) < 3) {
+
+      dim(Theta) <- c(dim(Theta), 1)
+
+    }
+    return(sph_stat_Sobolev(X = Theta, Psi_in_X = TRUE, p = 2, w = w, b = b))
+
+  } else {
+
+    return(sph_stat_Sobolev(X = Theta_to_X(Theta), Psi_in_X = FALSE,
+                            w = w, b = b))
+
+  }
+
+}

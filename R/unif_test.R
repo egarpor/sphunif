@@ -214,7 +214,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
                       Pycke_q = 0.5, Riesz_s = 1, CCF09_dirs = NULL,
                       K_CCF09 = 25, CJ12_reg = 3, CJ12_beta = 0,
                       Stereo_a = 0, Poisson_rho = 0.5, Softmax_kappa = 1,
-                      K_max = 1e4, ...) {
+                      Sobolev_w = c(0, 0, 1), K_max = 1e4, ...) {
 
   # Read data's name
   data_name <- deparse(substitute(data))
@@ -359,7 +359,8 @@ unif_test <- function(data, type = "all", p_value = "asymp",
                     Pycke_q = Pycke_q, Riesz_s = Riesz_s,
                     CCF09_dirs = CCF09_dirs, K_CCF09 = K_CCF09,
                     CJ12_reg = CJ12_reg, Stereo_a = Stereo_a,
-                    Poisson_rho = Poisson_rho, Softmax_kappa = Softmax_kappa)
+                    Poisson_rho = Poisson_rho, Softmax_kappa = Softmax_kappa,
+                    Sobolev_w = Sobolev_w)
 
   ## Calibration
 
@@ -377,7 +378,8 @@ unif_test <- function(data, type = "all", p_value = "asymp",
                                CCF09_dirs = CCF09_dirs, K_CCF09 = K_CCF09,
                                CJ12_reg = CJ12_reg, Stereo_a = Stereo_a,
                                Poisson_rho = Poisson_rho,
-                               Softmax_kappa = Softmax_kappa, ...)$crit_val_MC
+                               Softmax_kappa = Softmax_kappa,
+                               Sobolev_w = Sobolev_w, ...)$crit_val_MC
 
     } else {
 
@@ -416,7 +418,8 @@ unif_test <- function(data, type = "all", p_value = "asymp",
                                Riesz_s = Riesz_s, CCF09_dirs = CCF09_dirs,
                                CJ12_reg = CJ12_reg, K_CCF09 = K_CCF09,
                                Stereo_a = Stereo_a, Poisson_rho = Poisson_rho,
-                               Softmax_kappa = Softmax_kappa, ...)$stats_MC
+                               Softmax_kappa = Softmax_kappa,
+                               Sobolev_w = Sobolev_w, ...)$stats_MC
 
     }
 
@@ -517,6 +520,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
          "Riesz" = "Warning! This is an experimental test not meant to be used",
          "Rothman" = paste("Rothman test of circular uniformity with t =",
                            round(Rothman_t, 3)),
+         "Sobolev" = "Finite Sobolev test of circular uniformity",
          "Softmax" = "Softmax test of circular uniformity",
          "Vacancy" = paste("Vacancy test of circular uniformity with a =",
                            round(cov_a, 3)),
@@ -557,6 +561,8 @@ unif_test <- function(data, type = "all", p_value = "asymp",
          "Rothman" = paste("any alternative to circular uniformity",
                            "if t is irrational"),
          "Riesz" = "unclear, experimental test",
+         "Sobolev" = paste("alternatives in the Fourier subspace",
+                           "with non-null coefficients"),
          "Softmax" = "any alternative to circular uniformity for kappa > 0",
          "Vacancy" = "any alternative to circular uniformity",
          "Watson" = "any alternative to circular uniformity",
@@ -586,6 +592,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
          "Rayleigh_HD" = paste("HD-standardized Rayleigh test of",
                                "spherical uniformity"),
          "Riesz" = "Warning! This is an experimental test not meant to be used",
+         "Sobolev" = "Finite Sobolev test of spherical uniformity",
          "Softmax" = "Softmax test of spherical uniformity",
          "Stereo" = "Stereographic projection test of spherical uniformity"
       )
@@ -607,6 +614,8 @@ unif_test <- function(data, type = "all", p_value = "asymp",
          "Rayleigh" = "mean direction different from zero",
          "Rayleigh_HD" = "mean direction different from zero",
          "Riesz" = "unclear, experimental test",
+         "Sobolev" = paste("alternatives in the spherical harmonics subspace",
+                           "with non-null coefficients"),
          "Softmax" = "any alternative to spherical uniformity for kappa > 0",
          "Stereo" = "any alternative to spherical uniformity for |a| < 1"
       )
@@ -683,7 +692,7 @@ avail_cir_tests <- c("Ajne",
                      "Rayleigh",
                      "Riesz",
                      "Rothman",
-                     # "Sobolev",
+                     "Sobolev",
                      "Softmax",
                      "Vacancy",
                      "Watson",
@@ -704,7 +713,7 @@ avail_sph_tests <- c("Ajne",
                      "Poisson",
                      "PRt",
                      "Pycke",
-                     # "Sobolev",
+                     "Sobolev",
                      "Softmax",
                      "Stereo",
                      "Rayleigh",

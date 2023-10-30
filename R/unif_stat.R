@@ -54,6 +54,8 @@
 #' non-negative real. Defaults to \code{1}.
 #' @param Poisson_rho \eqn{\rho} parameter for the Poisson test, a real in
 #' \eqn{[0, 1)}. Defaults to \code{0.5}.
+#' @param Sobolev_w weights for the (finite) Sobolev test. A non-negative
+#' vector. Defaults to \code{c(0, 0, 1)}.
 #' @return A data frame of size \code{c(M, length(type))}, with column names
 #' given by \code{type}, that contains the values of the test statistics.
 #' @details
@@ -112,7 +114,8 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
                       Rayleigh_m = 1, cov_a = 2 * pi, Rothman_t = 1 / 3,
                       Cressie_t = 1 / 3, Pycke_q = 0.5, Riesz_s = 1,
                       CCF09_dirs = NULL, K_CCF09 = 25, CJ12_reg = 3,
-                      Stereo_a = 0, Poisson_rho = 0.5, Softmax_kappa = 1) {
+                      Stereo_a = 0, Poisson_rho = 0.5, Softmax_kappa = 1,
+                      Sobolev_w = c(0, 0, 1)) {
 
   # Stop if NA's
   if (anyNA(data)) {
@@ -230,8 +233,8 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
     # Statistics using the shortest angles matrix Psi
     stats_using_Psi <- c("Ajne", "Bakshaev", "Gine_Fn", "Gine_Gn",
                          "Hermans_Rasson", "PAD", "PCvM", "Poisson", "PRt",
-                         "Pycke", "Pycke_q", "Rothman", "Riesz", "Softmax",
-                         "Stereo")
+                         "Pycke", "Pycke_q", "Rothman", "Riesz", "Sobolev",
+                         "Softmax", "Stereo")
 
     # Evaluate which statistics to apply
     run_test <- as.list(c(avail_cir_tests, "KS", "CvM", "AD") %in% stats_type)
@@ -572,13 +575,20 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
                                         kappa = Softmax_kappa)
 
     }
+    if (run_test$Sobolev) {
+
+      stats$Sobolev <- cir_stat_Sobolev(Theta = data,
+                                        Psi_in_Theta = Psi_in_Theta,
+                                        w = Sobolev_w)
+
+    }
 
   } else {
 
     # Statistics using the shortest angles matrix Psi
     stats_using_Psi <- c("Ajne", "Bakshaev", "CJ12", "Gine_Fn", "Gine_Gn",
                          "PAD", "PCvM", "PRt", "Poisson", "Pycke", "Riesz",
-                         "Softmax", "Stereo")
+                         "Sobolev", "Softmax", "Stereo")
 
     # Evaluate which statistics to apply
     run_test <- as.list(avail_sph_tests %in% stats_type)
@@ -824,6 +834,13 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
       }
 
     }
+    if (run_test$Sobolev) {
+
+      stats$Sobolev <- sph_stat_Sobolev(X = data, Psi_in_X = Psi_in_X, p = p,
+                                        w = Sobolev_w)
+
+    }
+
 
   }
 

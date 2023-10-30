@@ -45,6 +45,8 @@ test_that("d_p_k", {
 
 })
 
+## Gegen_coefs() and weights_dfs_Sobolev()
+
 test_that("Gegen_coefs vs. weights_dfs_Sobolev for Ajne", {
 
   for (p in c(2, 3, 4, 11)) {
@@ -235,6 +237,8 @@ test_that("weights_dfs_Sobolev for Ajne vs. PRt with t = 1 / 2", {
 
 })
 
+## Gegen_coefs_Pn()
+
 test_that("Gegen_coefs_Pn vs. weights_dfs_Sobolev for PCvM", {
 
   for (p in c(2, 3, 4, 11)) {
@@ -267,6 +271,8 @@ test_that("Gegen_coefs_Pn vs. weights_dfs_Sobolev for PRt", {
   }
 
 })
+
+## [pq]_Sobolev
 
 test_that("p_Sobolev vs. q_Sobolev", {
 
@@ -343,5 +349,94 @@ test_that("p_Sobolev vs. d_Sobolev", {
                            thre = 0, method = "HBE"),
                  tolerance = 1e-4)
   }
+
+})
+
+## sph_stat_Sobolev()
+
+n <- 10
+w <- runif(4)
+set.seed(46868)
+X2 <- r_unif_sph(n = n, p = 2)
+Theta2 <- X_to_Theta(X2)
+X3 <- r_unif_sph(n = n, p = 3)
+X4 <- r_unif_sph(n = n, p = 4)
+X5 <- r_unif_sph(n = n, p = 5)
+X9 <- r_unif_sph(n = n, p = 9)
+X200 <- r_unif_sph(n = n, p = 200)
+Psi2 <- Psi_mat(X2)
+Psi3 <- Psi_mat(X3)
+Psi4 <- Psi_mat(X4)
+Psi5 <- Psi_mat(X5)
+Psi9 <- Psi_mat(X9)
+Psi200 <- Psi_mat(X200)
+dim(Psi2) <- c(dim(Psi2), 1)
+dim(Psi3) <- c(dim(Psi3), 1)
+dim(Psi4) <- c(dim(Psi4), 1)
+dim(Psi5) <- c(dim(Psi5), 1)
+dim(Psi9) <- c(dim(Psi9), 1)
+dim(Psi200) <- c(dim(Psi200), 1)
+
+test_that("sph_stat_Sobolev vs. cir_stat_Sobolev", {
+
+  expect_equal(sph_stat_Sobolev(X2, w = w),
+               cir_stat_Sobolev(X_to_Theta(X2), w = w),
+               tolerance = 1e-6)
+  expect_equal(sph_stat_Sobolev(Psi2, Psi_in_X = TRUE, p = 2, w = w),
+               cir_stat_Sobolev(Psi2, Psi_in_Theta = TRUE, w = w),
+               tolerance = 1e-6)
+
+})
+
+test_that("sph_stat_Sobolev with X and Psi", {
+
+  expect_equal(sph_stat_Sobolev(Psi2, Psi_in_X = TRUE, p = 2, w = w),
+               sph_stat_Sobolev(X2, w = w), tolerance = 1e-6)
+  expect_equal(sph_stat_Sobolev(Psi3, Psi_in_X = TRUE, p = 3, w = w),
+               sph_stat_Sobolev(X3, w = w), tolerance = 1e-6)
+  expect_equal(sph_stat_Sobolev(Psi4, Psi_in_X = TRUE, p = 4, w = w),
+               sph_stat_Sobolev(X4, w = w), tolerance = 1e-6)
+  expect_equal(sph_stat_Sobolev(Psi5, Psi_in_X = TRUE, p = 5, w = w),
+               sph_stat_Sobolev(X5, w = w), tolerance = 1e-6)
+  expect_equal(sph_stat_Sobolev(Psi9, Psi_in_X = TRUE, p = 9, w = w),
+               sph_stat_Sobolev(X9, w = w), tolerance = 1e-6)
+  expect_equal(sph_stat_Sobolev(Psi200, Psi_in_X = TRUE, p = 200, w = w),
+               sph_stat_Sobolev(X200, w = w), tolerance = 1e-6)
+
+})
+
+test_that("sph_stat_Sobolev vs. Rayleigh", {
+
+  skip("TODO")
+  expect_equal(2 * sph_stat_Sobolev(X = X2, w = 1, b = 1),
+               drop(sph_stat_Rayleigh(X = X2)), tolerance = 1e-6)
+  expect_equal(3 * sph_stat_Sobolev(X = X3, w = 1, b = 1),
+               drop(sph_stat_Rayleigh(X = X3)), tolerance = 1e-6)
+  expect_equal(4 * sph_stat_Sobolev(X = X4, w = 1, b = 1),
+               drop(sph_stat_Rayleigh(X = X4)), tolerance = 1e-6)
+  expect_equal(5 * sph_stat_Sobolev(X = X5, w = 1, b = 1),
+               drop(sph_stat_Rayleigh(X = X5)), tolerance = 1e-6)
+  expect_equal(9 * sph_stat_Sobolev(X = X9, w = 1, b = 1),
+               drop(sph_stat_Rayleigh(X = X9)), tolerance = 1e-6)
+  expect_equal(200 * sph_stat_Sobolev(X = X200, w = 1, b = 1),
+               drop(sph_stat_Rayleigh(X = X200)), tolerance = 1e-6)
+
+})
+
+test_that("sph_stat_Sobolev vs. Bingham", {
+
+  skip("TODO")
+  expect_equal(sph_stat_Sobolev(X = X2, w = c(0, 1)),
+               sph_stat_Bingham(X = X2), tolerance = 1e-6)
+  expect_equal(sph_stat_Sobolev(X = X3, w = c(0, 1)),
+               sph_stat_Bingham(X = X3), tolerance = 1e-6)
+  expect_equal(sph_stat_Sobolev(X = X4, w = c(0, 1)),
+               sph_stat_Bingham(X = X4), tolerance = 1e-6)
+  expect_equal(sph_stat_Sobolev(X = X5, w = c(0, 1)),
+               sph_stat_Bingham(X = X5), tolerance = 1e-6)
+  expect_equal(sph_stat_Sobolev(X = X9, w = c(0, 1)),
+               sph_stat_Bingham(X = X9), tolerance = 1e-6)
+  expect_equal(sph_stat_Sobolev(X = X200, w = c(0, 1)),
+               sph_stat_Bingham(X = X200), tolerance = 1e-6)
 
 })

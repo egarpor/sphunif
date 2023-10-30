@@ -1166,7 +1166,7 @@ arma::vec sph_stat_Softmax(arma::cube X, bool Psi_in_X = false,
 //' @keywords internal
 // [[Rcpp::export]]
 arma::vec sph_stat_Softmax_Psi(arma::mat Psi, arma::uword n, arma::uword p,
-                              double kappa = 1) {
+                               double kappa = 1) {
 
   // Addends -- Psi contains scalar products!
   Psi = arma::exp(kappa * (Psi - 1.0));

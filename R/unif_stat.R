@@ -243,7 +243,7 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
     # using sorted Theta and if it has not already been done
     # CAUTION: replacement of data with sorted_data!
     n_stats_type_sorted <- sum(stats_type %in% stats_using_sorted_data)
-    if (!data_sorted & (n_stats_type_sorted > 1)) {
+    if (!data_sorted && (n_stats_type_sorted > 1)) {
 
       data <- sort_each_col(data)
       data_sorted <- TRUE
@@ -451,7 +451,7 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
 
         stats$Riesz <- stats$Bakshaev
 
-      } else if (Riesz_s == 2 && (run_test$Rayleigh | !Psi_in_Theta)) {
+      } else if (Riesz_s == 2 && (run_test$Rayleigh || !Psi_in_Theta)) {
 
         if (run_test$Rayleigh) {
 
@@ -480,7 +480,7 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
     }
     if (run_test$Gine_Fn) {
 
-      if (run_test$Ajne & run_test$Gine_Gn) {
+      if (run_test$Ajne && run_test$Gine_Gn) {
 
         stats$Gine_Fn <- 4 * stats$Ajne + stats$Gine_Gn
 
@@ -665,7 +665,7 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
 
         stats$Riesz <- stats$Bakshaev
 
-      } else if (Riesz_s == 2 && (run_test$Rayleigh | !Psi_in_X)) {
+      } else if (Riesz_s == 2 && (run_test$Rayleigh || !Psi_in_X)) {
 
         if (run_test$Rayleigh) {
 
@@ -707,7 +707,7 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
     }
     if (run_test$Gine_Fn) {
 
-      if (run_test$Ajne & run_test$Gine_Gn) {
+      if (run_test$Ajne && run_test$Gine_Gn) {
 
         stats$Gine_Fn <- 4 * stats$Ajne + stats$Gine_Gn
 
@@ -725,7 +725,7 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
     }
     if (run_test$PCvM) {
 
-      if (run_test$Bakshaev & p == 3) {
+      if (run_test$Bakshaev && p == 3) {
 
         stats$PCvM <- 0.125 * stats$Bakshaev
 

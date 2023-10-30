@@ -290,7 +290,7 @@ d_wschisq <- function(x, weights, dfs, ncps = 0,
   }
 
   # Is it a sum or not?
-  if (exact_chisq & l_weights == 1) {
+  if (exact_chisq && l_weights == 1) {
 
     dens <- dchisq(x = x / weights[1], df = dfs[1], ncp = ncps[1]) / weights[1]
 
@@ -384,7 +384,7 @@ p_wschisq <- function(x, weights, dfs, ncps = 0,
   }
 
   # Is it a sum or not?
-  if (exact_chisq & l_weights == 1) {
+  if (exact_chisq && l_weights == 1) {
 
     prob <- pchisq(q = x / weights[1], df = dfs[1], ncp = ncps[1])
 
@@ -500,7 +500,7 @@ q_wschisq <- function(u, weights, dfs, ncps = 0,
 
 
   # Is it a sum or not?
-  if (exact_chisq & l_weights == 1) {
+  if (exact_chisq && l_weights == 1) {
 
     q <- weights[1] * qchisq(p = u, df = dfs[1], ncp = ncps[1])
 

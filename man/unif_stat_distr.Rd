@@ -69,8 +69,8 @@ to perform the CCF09 test. If \code{NULL} (default), a sample of size
 (sub-exponential regime), \code{2} (exponential), or \code{3}
 (super-exponential; default).}
 
-\item{CJ12_beta}{\eqn{\beta} parameter in the exponential regime of CJ12 test,
-a positive real.}
+\item{CJ12_beta}{\eqn{\beta} parameter in the exponential regime of CJ12
+test, a positive real.}
 
 \item{Stephens}{compute Stephens (1970) modification so that the null
 distribution of the is less dependent on the sample size? The modification

@@ -260,7 +260,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
   d <- ncol(data)
 
   # Circular or spherical data?
-  if (d == 1 | d == 2) {
+  if (d == 1 || d == 2) {
 
     avail_stats <- avail_cir_tests
     prefix_stat <- "cir_stat_"
@@ -346,7 +346,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
   ## Statistics
 
   # Sample random directions for the CCF09 test
-  if ("CCF09" %in% stats_type & is.null(CCF09_dirs)) {
+  if ("CCF09" %in% stats_type && is.null(CCF09_dirs)) {
 
     CCF09_dirs <- r_unif_sph(n = 50, p = p, M = 1)[, , 1]
 

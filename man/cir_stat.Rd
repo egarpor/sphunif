@@ -145,8 +145,12 @@ values of the statistic, which is consistent with the rest of tests.
 Otherwise, the signed statistic is computed and rejection happens for
 large \emph{absolute} values.}
 
-\item{a}{\eqn{a} parameter for the Stereo test, a real in \eqn{[-1, 1]}.
-Defaults to \code{0}.}
+\item{a}{either: \itemize{
+\item \eqn{a_n = a / n} parameter used in the length of the arcs
+of the coverage-based tests. Must be positive. Defaults to \code{2 * pi}.
+\item \eqn{a} parameter for the Stereo test, a real in \eqn{[-1, 1]}.
+Defaults to \code{0}.
+}}
 
 \item{minus_val}{return the negative value of the (standardized) number of
 uncovered spacings? If \code{TRUE} (default), rejection happens for

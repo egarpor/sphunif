@@ -1089,8 +1089,7 @@ arma::vec sph_stat_Poisson_Psi(arma::mat Psi, arma::uword n, arma::uword p,
                                double rho = 0.5) {
 
   // Addends -- Psi contains scalar products!
-  Psi = arma::pow(1.0 - 2.0 * rho * Psi + rho * rho, -(0.5 * p - 1.0)) *
-    (1 - rho * rho);
+  Psi = arma::pow(1 - 2.0 * rho * Psi + rho * rho, -0.5 * p) * (1 - rho * rho);
 
   // Statistic
   arma::vec Tn = arma::sum(Psi, 0).t();

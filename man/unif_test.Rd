@@ -95,8 +95,8 @@ asymptotic distribution of the Kolmogorov-Smirnov statistic. Defaults to
 (sub-exponential regime), \code{2} (exponential), or \code{3}
 (super-exponential; default).}
 
-\item{CJ12_beta}{\eqn{\beta} parameter in the exponential regime of CJ12 test,
-a positive real.}
+\item{CJ12_beta}{\eqn{\beta} parameter in the exponential regime of CJ12
+test, a positive real.}
 
 \item{Stereo_a}{\eqn{a} parameter for the Stereo test, a real in
 \eqn{[-1, 1]}. Defaults to \code{0}.}

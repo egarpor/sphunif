@@ -159,7 +159,7 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
   alpha <- 0.5 * p - 1
 
   # Sobolev weights and dfs
-  if (p == 2 & type %in% c("Watson", "Rothman", "Hermans_Rasson", "Pycke_q")) {
+  if (p == 2 && type %in% c("Watson", "Rothman", "Hermans_Rasson", "Pycke_q")) {
 
     if (type == "Watson") {
 

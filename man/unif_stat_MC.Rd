@@ -10,7 +10,8 @@ unif_stat_MC(n, type = "all", p, M = 10000, r_H1 = NULL,
   stats_sorted = FALSE, chunks = ceiling((n * M)/1e+05), cores = 1,
   seeds = NULL, Rayleigh_m = 1, cov_a = 2 * pi, Rothman_t = 1/3,
   Cressie_t = 1/3, Pycke_q = 0.5, Riesz_s = 1, CCF09_dirs = NULL,
-  K_CCF09 = 25, CJ12_reg = 3, ...)
+  K_CCF09 = 25, CJ12_reg = 3, Stereo_a = 0, Poisson_rho = 0.5,
+  Softmax_kappa = 1, ...)
 }
 \arguments{
 \item{n}{sample size.}
@@ -99,6 +100,15 @@ asymptotic distribution of the Kolmogorov-Smirnov statistic. Defaults to
 \item{CJ12_reg}{type of asymptotic regime for CJ12 test, either \code{1}
 (sub-exponential regime), \code{2} (exponential), or \code{3}
 (super-exponential; default).}
+
+\item{Stereo_a}{parameter for the Stereo test, a real in \eqn{[-1, 1]}.
+Defaults to \code{0}.}
+
+\item{Poisson_rho}{parameter for the Poisson test, a real in \eqn{[-1, 1]}.
+Defaults to \code{1}.}
+
+\item{Softmax_kappa}{parameter for the Softmax test, a non-negative real.
+Defaults to \code{0.5}.}
 
 \item{...}{optional arguments to be passed to the \code{r_H1} sampler or to
 \code{\link[foreach]{foreach}} (for example, \code{.export} to export global

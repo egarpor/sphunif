@@ -33,6 +33,12 @@ arma::vec sph_stat_PRt_Psi(arma::mat Psi, double t_m, double theta_t_m,
 arma::vec sph_stat_PAD_Psi(arma::mat Psi, arma::uword n, arma::uword p,
                            arma::vec th_grid, arma::vec int_grid);
 arma::vec sph_stat_CJ12_Psi(arma::mat Psi, arma::uword n, arma::uword p);
+arma::vec sph_stat_Stereo_Psi(arma::mat Psi, arma::uword n, arma::uword p,
+                              double a);
+arma::vec sph_stat_Poisson_Psi(arma::mat Psi, arma::uword n, arma::uword p,
+                               double rho);
+arma::vec sph_stat_Softmax_Psi(arma::mat Psi, arma::uword n, arma::uword p,
+                               double kappa);
 
 // Constants
 const double inv_M_PI = 1.0 / M_PI;
@@ -300,13 +306,6 @@ arma::vec sph_stat_Pycke(arma::cube X, bool Psi_in_X = false,
   // Compute Riesz statistic?
   if (p > 3) {
 
-    // Undo the cosine of shortest angles if Psi is given
-    if (Psi_in_X) {
-
-      X = arma::acos(X);
-
-    }
-
     // Compute Riesz statistic
     Rcpp::warning("Pycke statistic is only defined for p = 2,3. Using Riesz statistic with s = 0 instead, which behaves consistently across dimensions.");
     arma::vec Gamman = sph_stat_Riesz(X, Psi_in_X, p, 0);
@@ -321,8 +320,8 @@ arma::vec sph_stat_Pycke(arma::cube X, bool Psi_in_X = false,
   arma::vec Gamman = arma::zeros(M);
   if (Psi_in_X) {
 
-    // Compute statistic
-    Gamman = sph_stat_Pycke_Psi(X.slice(0), n, p);
+    // Compute statistic with Psi containing the scalar products
+    Gamman = sph_stat_Pycke_Psi(arma::cos(X.slice(0)), n, p);
 
   } else {
 
@@ -693,8 +692,8 @@ arma::vec sph_stat_PCvM_Psi(arma::mat Psi, arma::uword n, arma::uword p,
 //' @rdname sph_stat
 //' @export
 // [[Rcpp::export]]
-arma::vec sph_stat_PRt(arma::cube X, double t = 1.0 / 3.0,
-                       bool Psi_in_X = false, arma::uword p = 0,
+arma::vec sph_stat_PRt(arma::cube X, bool Psi_in_X = false,
+                       arma::uword p = 0, double t = 1.0 / 3.0,
                        arma::uword N = 160, arma::uword L = 1e3) {
 
   // Sample size
@@ -1027,6 +1026,261 @@ arma::vec sph_stat_PAD_Psi(arma::mat Psi, arma::uword n, arma::uword p,
 }
 
 
+//' @rdname sph_stat
+//' @export
+// [[Rcpp::export]]
+arma::vec sph_stat_Poisson(arma::cube X, bool Psi_in_X = false,
+                           arma::uword p = 0, double rho = 0.5) {
+
+  // Sample size
+  arma::uword n = Psi_in_X ? n_from_dist_vector(X.n_rows) : X.n_rows;
+
+  // Dimension
+  p = Psi_in_X ? p : X.n_cols;
+  if (Psi_in_X && (p == 0)) {
+
+    stop("p >= 2 must be specified if Psi_in_X = TRUE.");
+
+  }
+  if (std::abs(rho) > 1) {
+
+    stop("rho must be in [-1, 1].");
+
+  }
+
+  // Number of samples
+  arma::uword M = Psi_in_X ? X.n_cols : X.n_slices;
+
+  // Compute statistic using precomputed Psi matrix?
+  arma::vec Tn = arma::zeros(M);
+  if (Psi_in_X) {
+
+    // Compute statistic
+    Tn = sph_stat_Poisson_Psi(X.slice(0), n, p, rho);
+
+  } else {
+
+    // Statistic for each slice
+    arma::uvec ind_tri = upper_tri_ind(n);
+    for (arma::uword k = 0; k < M; k++) {
+
+      // Compute Psi matrix
+      arma::mat Psi = Psi_mat(X(arma::span::all, arma::span::all,
+                                arma::span(k)), ind_tri, true, false, false);
+
+      // Compute statistic
+      Tn(k) = arma::as_scalar(sph_stat_Poisson_Psi(Psi, n, p, rho));
+
+    }
+
+  }
+
+  // TODO
+  // Divide by n and add bias
+  Tn *= 1.0 / n;
+  Tn += 0;
+  return Tn;
+
+}
+
+
+//' @keywords internal
+// [[Rcpp::export]]
+arma::vec sph_stat_Poisson_Psi(arma::mat Psi, arma::uword n, arma::uword p,
+                               double rho = 0.5) {
+
+  // Poisson TODO
+
+  // Addends
+  Psi = arma::tan(0.5 * Psi);
+
+  // Replace NaNs (created by theta = 0) with 0
+  if (Psi.has_nan() || Psi.has_inf()) {
+
+    Psi.replace(arma::datum::nan, 0);
+    Psi.replace(arma::datum::inf, 0);
+    Rcpp::warning("NaNs in Stereo statistic's sum ignored: p-value computation may be misleading. Remove repeated data?");
+
+  }
+
+  // Statistic
+  arma::vec Tn = arma::sum(Psi, 0).t();
+  return Tn;
+
+}
+
+
+//' @rdname sph_stat
+//' @export
+// [[Rcpp::export]]
+arma::vec sph_stat_Softmax(arma::cube X, bool Psi_in_X = false,
+                           arma::uword p = 0, double kappa = 1) {
+
+  // Sample size
+  arma::uword n = Psi_in_X ? n_from_dist_vector(X.n_rows) : X.n_rows;
+
+  // Dimension
+  p = Psi_in_X ? p : X.n_cols;
+  if (Psi_in_X && (p == 0)) {
+
+    stop("p >= 2 must be specified if Psi_in_X = TRUE.");
+
+  }
+  if (kappa < 0) {
+
+    stop("kappa must be larger or equal than zero.");
+
+  }
+
+  // Number of samples
+  arma::uword M = Psi_in_X ? X.n_cols : X.n_slices;
+
+  // Compute statistic using precomputed Psi matrix?
+  arma::vec Tn = arma::zeros(M);
+  if (Psi_in_X) {
+
+    // Compute statistic
+    Tn = sph_stat_Softmax_Psi(X.slice(0), n, p, kappa);
+
+  } else {
+
+    // Statistic for each slice
+    arma::uvec ind_tri = upper_tri_ind(n);
+    for (arma::uword k = 0; k < M; k++) {
+
+      // Compute Psi matrix
+      arma::mat Psi = Psi_mat(X(arma::span::all, arma::span::all,
+                                arma::span(k)), ind_tri, true, false, false);
+
+      // Compute statistic
+      Tn(k) = arma::as_scalar(sph_stat_Softmax_Psi(Psi, n, p, kappa));
+
+    }
+
+  }
+
+  // TODO
+  // Divide by n and add bias
+  Tn *= 1.0 / n;
+  Tn += 0;
+  return Tn;
+
+}
+
+
+//' @keywords internal
+// [[Rcpp::export]]
+arma::vec sph_stat_Softmax_Psi(arma::mat Psi, arma::uword n, arma::uword p,
+                              double kappa = 1) {
+
+  // Softmax TODO
+
+  // Addends
+  Psi = arma::tan(0.5 * Psi);
+
+  // Replace NaNs (created by theta = 0) with 0
+  if (Psi.has_nan() || Psi.has_inf()) {
+
+    Psi.replace(arma::datum::nan, 0);
+    Psi.replace(arma::datum::inf, 0);
+    Rcpp::warning("NaNs in Stereo statistic's sum ignored: p-value computation may be misleading. Remove repeated data?");
+
+  }
+
+  // Statistic
+  arma::vec Tn = arma::sum(Psi, 0).t();
+  return Tn;
+
+}
+
+
+//' @rdname sph_stat
+//' @export
+// [[Rcpp::export]]
+arma::vec sph_stat_Stereo(arma::cube X, bool Psi_in_X = false,
+                          arma::uword p = 0, double a = 0) {
+
+ // Sample size
+ arma::uword n = Psi_in_X ? n_from_dist_vector(X.n_rows) : X.n_rows;
+
+ // Dimension
+ p = Psi_in_X ? p : X.n_cols;
+ if (Psi_in_X && (p == 0)) {
+
+   stop("p >= 3 must be specified if Psi_in_X = TRUE.");
+
+ } else if (p == 1 || p == 2) {
+
+   stop("p must be >= 3.");
+
+ }
+ if (std::abs(a) > 1) {
+
+   stop("a must be in [-1, 1].");
+
+ }
+
+ // Number of samples
+ arma::uword M = Psi_in_X ? X.n_cols : X.n_slices;
+
+ // Compute statistic using precomputed Psi matrix?
+ arma::vec Tn = arma::zeros(M);
+ if (Psi_in_X) {
+
+   // Compute statistic
+   Tn = sph_stat_Stereo_Psi(X.slice(0), n, p, a);
+
+ } else {
+
+   // Statistic for each slice
+   arma::uvec ind_tri = upper_tri_ind(n);
+   for (arma::uword k = 0; k < M; k++) {
+
+     // Compute Psi matrix
+     arma::mat Psi = Psi_mat(X(arma::span::all, arma::span::all,
+                               arma::span(k)), ind_tri, true, false, false);
+
+     // Compute statistic
+     Tn(k) = arma::as_scalar(sph_stat_Stereo_Psi(Psi, n, p, a));
+
+   }
+
+ }
+
+ // Divide by n and add bias
+ Tn *= 1.0 / n;
+ Tn += (n - 1.0) * (1.0 + a) * 0.5 * std::exp(std::log(p - 2) +
+   2 * (R::lgammafn(0.5 * (p - 2)) - R::lgammafn(0.5 * (p - 1))));
+ return Tn;
+
+}
+
+
+//' @keywords internal
+// [[Rcpp::export]]
+arma::vec sph_stat_Stereo_Psi(arma::mat Psi, arma::uword n, arma::uword p,
+                              double a = 0) {
+
+  // Addends
+  Psi = arma::tan(0.5 * Psi);
+  Psi = 1.0 / Psi + a * Psi;
+
+  // Replace NaNs (created by theta = 0) with 0
+  if (Psi.has_nan() || Psi.has_inf()) {
+
+    Psi.replace(arma::datum::nan, 0);
+    Psi.replace(arma::datum::inf, 0);
+    Rcpp::warning("NaNs in Stereo statistic's sum ignored: p-value computation may be misleading. Remove repeated data?");
+
+  }
+
+ // Statistic
+ arma::vec Tn = arma::sum(Psi, 0).t();
+ return Tn;
+
+}
+
+
 /*
  * Other tests
  */
@@ -1132,8 +1386,8 @@ arma::vec sph_stat_Rayleigh_HD(arma::cube X) {
 //' @rdname sph_stat
 //' @export
 // [[Rcpp::export]]
-arma::vec sph_stat_CJ12(arma::cube X, arma::uword regime = 3,
-                       bool Psi_in_X = false, arma::uword p = 0) {
+arma::vec sph_stat_CJ12(arma::cube X, bool Psi_in_X = false, arma::uword p = 0,
+                        arma::uword regime = 3) {
 
   // Sample size
   arma::uword n = Psi_in_X ? n_from_dist_vector(X.n_rows) : X.n_rows;
@@ -1154,7 +1408,7 @@ arma::vec sph_stat_CJ12(arma::cube X, arma::uword regime = 3,
   if (Psi_in_X) {
 
     // Compute statistic
-    Cn = sph_stat_CJ12_Psi(X.slice(0), n, p);
+    Cn = sph_stat_CJ12_Psi(arma::cos(X.slice(0)), n, p);
 
   } else {
 

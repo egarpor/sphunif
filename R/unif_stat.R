@@ -48,6 +48,12 @@
 #' @param CJ12_reg type of asymptotic regime for CJ12 test, either \code{1}
 #' (sub-exponential regime), \code{2} (exponential), or \code{3}
 #' (super-exponential; default).
+#' @param Stereo_a parameter for the Stereo test, a real in \eqn{[-1, 1]}.
+#' Defaults to \code{0}.
+#' @param Softmax_kappa parameter for the Softmax test, a non-negative real.
+#' Defaults to \code{0.5}.
+#' @param Poisson_rho parameter for the Poisson test, a real in \eqn{[-1, 1]}.
+#' Defaults to \code{1}.
 #' @return A data frame of size \code{c(M, length(type))}, with column names
 #' given by \code{type}, that contains the values of the test statistics.
 #' @details
@@ -105,7 +111,8 @@
 unif_stat <- function(data, type = "all", data_sorted = FALSE,
                       Rayleigh_m = 1, cov_a = 2 * pi, Rothman_t = 1 / 3,
                       Cressie_t = 1 / 3, Pycke_q = 0.5, Riesz_s = 1,
-                      CCF09_dirs = NULL, K_CCF09 = 25, CJ12_reg = 3) {
+                      CCF09_dirs = NULL, K_CCF09 = 25, CJ12_reg = 3,
+                      Stereo_a = 0, Poisson_rho = 0.5, Softmax_kappa = 1) {
 
   # Stop if NA's
   if (anyNA(data)) {
@@ -222,8 +229,9 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
 
     # Statistics using the shortest angles matrix Psi
     stats_using_Psi <- c("Ajne", "Bakshaev", "Gine_Fn", "Gine_Gn",
-                         "Hermans_Rasson", "PAD", "PCvM", "PRt", "Pycke",
-                         "Pycke_q", "Rothman", "Riesz")
+                         "Hermans_Rasson", "PAD", "PCvM", "Poisson", "PRt",
+                         "Pycke", "Pycke_q", "Rothman", "Riesz", "Softmax",
+                         "Stereo")
 
     # Evaluate which statistics to apply
     run_test <- as.list(c(avail_cir_tests, "KS", "CvM", "AD") %in% stats_type)
@@ -249,8 +257,7 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
     }
     if (run_test$FG01) {
 
-      stats$FG01 <- cir_stat_FG01(Theta = data,
-                                                  sorted = data_sorted)
+      stats$FG01 <- cir_stat_FG01(Theta = data, sorted = data_sorted)
 
     }
     if (run_test$Hodges_Ajne) {
@@ -407,12 +414,16 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
     # present) AND if 0.5 * n * (n - 1) * M is not too large.
     # CAUTION: replacement of data with Psi!
     n_stats_type_Psi <- sum(stats_type %in% stats_using_Psi)
-    n_stats_type_Psi <- n_stats_type_Psi - ((run_test$Watson && run_test$PCvM) +
-         (run_test$Rothman && run_test$PRt) + (Riesz_s == 2) +
-         (Riesz_s == 0 && run_test$Pycke && run_test$Riesz) +
-         (Riesz_s == 1 && run_test$Bakshaev && run_test$Riesz) +
-         (run_test$Gine_Fn && run_test$Gine_Gn && run_test$Ajne))
-    if (n_stats_type_Psi > 1 & 0.5 * n * (n - 1) * M <= 1e8) {
+    n_stats_type_Psi <- n_stats_type_Psi - (
+      (run_test$Watson && run_test$PCvM) +
+      (run_test$Rothman && run_test$PRt) +
+      (Riesz_s == 2 && run_test$Riesz) +
+      (Riesz_s == 0 && run_test$Pycke && run_test$Riesz) +
+      (Riesz_s == 1 && run_test$Bakshaev && run_test$Riesz) +
+      (Poisson_rho == 0 && run_test$Poisson) +
+      (Softmax_kappa == 0 && run_test$Softmax) +
+      (run_test$Gine_Fn && run_test$Gine_Gn && run_test$Ajne))
+    if (n_stats_type_Psi > 1 && 0.5 * n * (n - 1) * M <= 1e8) {
 
       dim(data) <- c(n, 1, M)
       data <- Psi_mat(data = data)
@@ -508,8 +519,9 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
     }
     if (run_test$Rothman) {
 
-      stats$Rothman <- cir_stat_Rothman(Theta = data, t = Rothman_t,
-                                        Psi_in_Theta = Psi_in_Theta)
+      stats$Rothman <- cir_stat_Rothman(Theta = data,
+                                        Psi_in_Theta = Psi_in_Theta,
+                                        t = Rothman_t)
 
     }
     if (run_test$PRt) {
@@ -546,12 +558,27 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
                                         q = Pycke_q)
 
     }
+    if (run_test$Poisson) {
+
+      stats$Poisson <- cir_stat_Poisson(Theta = data,
+                                        Psi_in_Theta = Psi_in_Theta,
+                                        rho = Poisson_rho)
+
+    }
+    if (run_test$Softmax) {
+
+      stats$Softmax <- cir_stat_Softmax(Theta = data,
+                                        Psi_in_Theta = Psi_in_Theta,
+                                        kappa = Softmax_kappa)
+
+    }
 
   } else {
 
     # Statistics using the shortest angles matrix Psi
     stats_using_Psi <- c("Ajne", "Bakshaev", "CJ12", "Gine_Fn", "Gine_Gn",
-                         "PAD", "PCvM", "PRt", "Pycke", "Riesz")
+                         "PAD", "PCvM", "PRt", "Poisson", "Pycke", "Riesz",
+                         "Softmax", "Stereo")
 
     # Evaluate which statistics to apply
     run_test <- as.list(avail_sph_tests %in% stats_type)
@@ -602,12 +629,15 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
     # present) AND if 0.5 * n * (n - 1) * M is not too large.
     # CAUTION: replacement of data with Psi!
     n_stats_type_Psi <- sum(stats_type %in% stats_using_Psi)
-    n_stats_type_Psi <- n_stats_type_Psi - ((Riesz_s == 2) +
-         (Riesz_s == 0 && run_test$Pycke && run_test$Riesz) +
-         (Riesz_s == 1 && run_test$Bakshaev && run_test$Riesz) +
-         (run_test$PCvM && run_test$Bakshaev && p == 3) +
-         (run_test$Gine_Fn && run_test$Gine_Gn && run_test$Ajne))
-    if (n_stats_type_Psi > 1 & 0.5 * n * (n - 1) * M <= 1e8) {
+    n_stats_type_Psi <- n_stats_type_Psi - (
+      (Riesz_s == 2 && run_test$Riesz) +
+      (Riesz_s == 0 && run_test$Pycke && run_test$Riesz) +
+      (Riesz_s == 1 && run_test$Bakshaev && run_test$Riesz) +
+      (Poisson_rho == 0 && run_test$Poisson) +
+      (Softmax_kappa == 0 && run_test$Softmax) +
+      (p == 3 && run_test$PCvM && run_test$Bakshaev) +
+      (run_test$Gine_Fn && run_test$Gine_Gn && run_test$Ajne))
+    if (n_stats_type_Psi > 1 && 0.5 * n * (n - 1) * M <= 1e8) {
 
       data <- Psi_mat(data = data)
       dim(data) <- c(dim(data), 1)
@@ -659,13 +689,13 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
 
       if (Psi_in_X) {
 
-        stats$CJ12 <- sph_stat_CJ12(X = cos(data), Psi_in_X = TRUE, p = p,
-                                  regime = CJ12_reg)
+        stats$CJ12 <- sph_stat_CJ12(X = data, Psi_in_X = TRUE, p = p,
+                                    regime = CJ12_reg)
 
       } else {
 
         stats$CJ12 <- sph_stat_CJ12(X = data, Psi_in_X = FALSE, p = p,
-                                  regime = CJ12_reg)
+                                    regime = CJ12_reg)
 
       }
 
@@ -734,7 +764,7 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
 
         if (Psi_in_X) {
 
-          stats$Pycke <- sph_stat_Pycke(X = cos(data), Psi_in_X = TRUE, p = p)
+          stats$Pycke <- sph_stat_Pycke(X = data, Psi_in_X = TRUE, p = p)
 
         } else {
 
@@ -742,6 +772,55 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
 
         }
 
+      }
+
+    }
+    if (run_test$Stereo) {
+
+        stats$Stereo <- sph_stat_Stereo(X = data, Psi_in_X = Psi_in_X, p = p,
+                                        a = Stereo_a)
+
+    }
+    if (run_test$Poisson) {
+
+      if (Poisson_rho == 0) {
+
+        if (run_test$Rayleigh) {
+
+          stats$Poisson <- stats$Rayleigh
+
+        } else {
+
+          stats$Poisson <- sph_stat_Rayleigh(X = data)
+
+        }
+
+      } else {
+
+        stats$Poisson <- sph_stat_Poisson(X = data, Psi_in_X = Psi_in_X, p = p,
+                                          rho = Poisson_rho)
+
+      }
+
+    }
+    if (run_test$Softmax) {
+
+      if (Softmax_kappa == 0) {
+
+        if (run_test$Rayleigh) {
+
+          stats$Softmax <- stats$Rayleigh
+
+        } else {
+
+          stats$Softmax <- sph_stat_Rayleigh(X = data)
+
+        }
+
+      } else {
+
+        stats$Softmax <- sph_stat_Softmax(X = data, Psi_in_X = Psi_in_X, p = p,
+                                          kappa = Softmax_kappa)
       }
 
     }

@@ -40,6 +40,8 @@ dim(Psi200_rep) <- c(dim(Psi200_rep), 1)
 Th2 <- X_to_Theta(X2)
 rd3 <- X3[1:5, , 1]
 
+## Projected-ecdf tests
+
 test_that("PAD with X", {
 
   expect_equal(drop(sph_stat_PAD(X2)), 0.5752646, tolerance = 1e-6)
@@ -143,6 +145,77 @@ test_that("PRt vs. Ajne", {
 
 })
 
+# Circular projected statistic with weight w
+cir_stat_Pn <- function(samp, w, N = 2560, ...) {
+
+  # Integration nodes and weighs
+  x_k <- Gauss_Legen_nodes(a = -1, b = 1, N = N)
+  wx_k <- Gauss_Legen_weights(a = -1, b = 1, N = N)
+  s <- sort(x_k, index.return = TRUE)
+  x_k <- x_k[s$ix]
+  wx_k <- wx_k[s$ix]
+  th_k <- Gauss_Legen_nodes(a = 0, b = 2 * pi, N = N)
+  wth_k <- Gauss_Legen_weights(a = 0, b = 2 * pi, N = N)
+
+  # Integral on x
+  int <- function(gamma) {
+
+    Fn <- sphunif:::ecdf_bin(data = drop(samp[, , 1] %*% gamma), sorted_x = x_k)
+    Fp <- p_proj_unif(x = x_k, p = 2)
+    fp <- d_proj_unif(x = x_k, p = 2)
+    sum(wx_k * (Fn - Fp)^2 * w(Fp, ...) * fp)
+
+  }
+
+  # Integral on gamma
+  n * sum(wth_k * apply(Theta_to_X(th_k)[, , 1], 1, int)) / (2 * pi)
+
+}
+
+# Parameters
+n <- 50
+set.seed(1223213)
+samp <- r_unif_sph(n = n, p = 2)
+w_PCvM <- function(x) rep(1, length(x))
+w_k <- function(x, k = 1) -2 * k^2 * pi^2 * cos(2 * pi * k * x)
+w_k_plus <- function(x, k = 1) pmax(w_k(x, k = k), 0)
+w_k_minus <- function(x, k = 1) pmax(-w_k(x, k = k), 0)
+
+test_that("cir_stat_Pn equals PCvM", {
+
+  skip_on_cran()
+  expect_equal(cir_stat_Pn(samp, w = w_PCvM), drop(sph_stat_PCvM(samp)),
+               tolerance = 1e-4)
+
+})
+
+test_that("cir_stat_Pn equals Rayleigh", {
+
+  skip_on_cran()
+  expect_equal(cir_stat_Pn(samp, w = w_k, k = 1),
+               drop(sph_stat_Rayleigh(samp) / 2),
+               tolerance = 1e-4)
+  expect_equal(cir_stat_Pn(samp, w = w_k_plus, k = 1) -
+                 cir_stat_Pn(samp, w = w_k_minus, k = 1),
+               drop(sph_stat_Rayleigh(samp) / 2),
+               tolerance = 1e-4)
+
+})
+
+test_that("cir_stat_Pn equals Bingham", {
+
+  skip_on_cran()
+  expect_equal(cir_stat_Pn(samp, w = w_k, k = 2),
+               drop(sph_stat_Bingham(samp) / 2),
+               tolerance = 1e-4)
+  expect_equal(cir_stat_Pn(samp, w = w_k_plus, k = 2) -
+                 cir_stat_Pn(samp, w = w_k_minus, k = 2),
+               drop(sph_stat_Bingham(samp) / 2), tolerance = 1e-4)
+
+})
+
+## Riesz and Pycke
+
 test_that("Riesz vs. Bakshaev", {
 
   expect_equal(sph_stat_Bakshaev(X2), sph_stat_Riesz(X2, s = 1),
@@ -198,11 +271,81 @@ test_that("Riesz with data repetitions is computable", {
 
 })
 
+## Poisson
+
+test_that("Poisson vs. Rayleigh", {
+
+  skip("TODO Poisson")
+  expect_equal(sph_stat_Poisson(X2, rho = 0.01), sph_stat_Rayleigh(X2),
+               tolerance = 1e-5)
+  expect_equal(sph_stat_Poisson(X3, rho = 0.01), sph_stat_Rayleigh(X3),
+               tolerance = 1e-5)
+  expect_equal(sph_stat_Poisson(X4, rho = 0.01), sph_stat_Rayleigh(X4),
+               tolerance = 1e-5)
+  expect_equal(sph_stat_Poisson(X5, rho = 0.01), sph_stat_Rayleigh(X5),
+               tolerance = 1e-5)
+  expect_equal(sph_stat_Poisson(X9, rho = 0.01), sph_stat_Rayleigh(X9),
+               tolerance = 1e-5)
+  expect_equal(sph_stat_Poisson(X200, rho = 0.01), sph_stat_Rayleigh(X200),
+               tolerance = 1e-5)
+
+})
+test_that("Poisson edge case", {
+
+  expect_error(sph_stat_Poisson(X3, rho = 1.5))
+  expect_error(sph_stat_Poisson(X3, rho = -1.5))
+
+})
+
+## Softmax
+
+test_that("Softmax vs. Rayleigh", {
+
+  skip("TODO Softmax")
+  expect_equal(sph_stat_Softmax(X2, kappa = 0.01), sph_stat_Rayleigh(X2),
+               tolerance = 1e-5)
+  expect_equal(sph_stat_Softmax(X3, kappa = 0.01), sph_stat_Rayleigh(X3),
+               tolerance = 1e-5)
+  expect_equal(sph_stat_Softmax(X4, kappa = 0.01), sph_stat_Rayleigh(X4),
+               tolerance = 1e-5)
+  expect_equal(sph_stat_Softmax(X5, kappa = 0.01), sph_stat_Rayleigh(X5),
+               tolerance = 1e-5)
+  expect_equal(sph_stat_Softmax(X9, kappa = 0.01), sph_stat_Rayleigh(X9),
+               tolerance = 1e-5)
+  expect_equal(sph_stat_Softmax(X200, kappa = 0.01), sph_stat_Rayleigh(X200),
+               tolerance = 1e-5)
+
+})
+test_that("Softmax edge case", {
+
+  expect_error(sph_stat_Softmax(X3, kappa = -1.5))
+
+})
+
+## Stereo
+
+test_that("Stereo edge cases", {
+
+  skip("TODO Stereo")
+  expect_error(sph_stat_Stereo(X2))
+  expect_error(sph_stat_Stereo(X3, a = -1.5))
+  expect_warning(expect_true(is.finite(sph_stat_Stereo(X3_rep))))
+  expect_warning(expect_true(is.finite(sph_stat_Stereo(X4_rep))))
+
+})
+
+## Other tests
 
 test_that("sph_stat with psi_in_X = TRUE", {
 
   expect_equal(sph_stat_Ajne(Psi2, Psi_in_X = TRUE), sph_stat_Ajne(X2))
   expect_equal(sph_stat_Ajne(Psi3, Psi_in_X = TRUE), sph_stat_Ajne(X3))
+  expect_equal(sph_stat_Bakshaev(Psi2, Psi_in_X = TRUE, p = 2),
+               sph_stat_Bakshaev(X2))
+  expect_equal(sph_stat_Bakshaev(Psi3, Psi_in_X = TRUE, p = 3),
+               sph_stat_Bakshaev(X3))
+  expect_equal(sph_stat_CJ12(Psi3, Psi_in_X = TRUE, p = 3),
+               sph_stat_CJ12(X3))
   expect_equal(sph_stat_Gine_Gn(Psi2, Psi_in_X = TRUE, p = 2),
                sph_stat_Gine_Gn(X2))
   expect_equal(sph_stat_Gine_Gn(Psi3, Psi_in_X = TRUE, p = 3),
@@ -211,10 +354,36 @@ test_that("sph_stat with psi_in_X = TRUE", {
                sph_stat_Gine_Fn(X2))
   expect_equal(sph_stat_Gine_Fn(Psi3, Psi_in_X = TRUE, p = 3),
                sph_stat_Gine_Fn(X3))
-  expect_equal(sph_stat_Pycke(cos(Psi2), Psi_in_X = TRUE, p = 2),
+  expect_equal(sph_stat_PCvM(Psi2, Psi_in_X = TRUE, p = 2),
+               sph_stat_PCvM(X2))
+  expect_equal(sph_stat_PCvM(Psi3, Psi_in_X = TRUE, p = 3),
+               sph_stat_PCvM(X3))
+  expect_equal(sph_stat_PAD(Psi2, Psi_in_X = TRUE, p = 2),
+               sph_stat_PAD(X2))
+  expect_equal(sph_stat_PAD(Psi3, Psi_in_X = TRUE, p = 3),
+               sph_stat_PAD(X3))
+  expect_equal(sph_stat_PRt(Psi2, Psi_in_X = TRUE, p = 2),
+               sph_stat_PRt(X2))
+  expect_equal(sph_stat_PRt(Psi3, Psi_in_X = TRUE, p = 3),
+               sph_stat_PRt(X3))
+  expect_equal(sph_stat_Poisson(Psi2, Psi_in_X = TRUE, p = 2),
+               sph_stat_Poisson(X2))
+  expect_equal(sph_stat_Poisson(Psi3, Psi_in_X = TRUE, p = 3),
+               sph_stat_Poisson(X3))
+  expect_equal(sph_stat_Pycke(Psi2, Psi_in_X = TRUE, p = 2),
                sph_stat_Pycke(X2))
-  expect_equal(sph_stat_Pycke(cos(Psi3), Psi_in_X = TRUE, p = 3),
+  expect_equal(sph_stat_Pycke(Psi3, Psi_in_X = TRUE, p = 3),
                sph_stat_Pycke(X3))
+  expect_equal(sph_stat_Riesz(Psi2, Psi_in_X = TRUE, p = 2),
+               sph_stat_Riesz(X2))
+  expect_equal(sph_stat_Riesz(Psi3, Psi_in_X = TRUE, p = 3),
+               sph_stat_Riesz(X3))
+  expect_equal(sph_stat_Softmax(Psi2, Psi_in_X = TRUE, p = 2),
+               sph_stat_Softmax(X2))
+  expect_equal(sph_stat_Softmax(Psi3, Psi_in_X = TRUE, p = 3),
+               sph_stat_Softmax(X3))
+  expect_equal(sph_stat_Stereo(Psi3, Psi_in_X = TRUE, p = 3),
+               sph_stat_Stereo(X3))
 
 })
 
@@ -263,74 +432,5 @@ test_that("Edge cases psi", {
   sphunif:::sph_stat_Pycke_Psi(cbind(drop(Psi2)), n = n, p = 1)))
   expect_error(expect_warning(
     sphunif:::sph_stat_Pycke_Psi(cbind(drop(Psi2)), n = n, p = 5)))
-
-})
-
-# Circular projected statistic with weight w
-cir_stat_Pn <- function(samp, w, N = 2560, ...) {
-
-  # Integration nodes and weighs
-  x_k <- Gauss_Legen_nodes(a = -1, b = 1, N = N)
-  wx_k <- Gauss_Legen_weights(a = -1, b = 1, N = N)
-  s <- sort(x_k, index.return = TRUE)
-  x_k <- x_k[s$ix]
-  wx_k <- wx_k[s$ix]
-  th_k <- Gauss_Legen_nodes(a = 0, b = 2 * pi, N = N)
-  wth_k <- Gauss_Legen_weights(a = 0, b = 2 * pi, N = N)
-
-  # Integral on x
-  int <- function(gamma) {
-
-    Fn <- sphunif:::ecdf_bin(data = drop(samp[, , 1] %*% gamma), sorted_x = x_k)
-    Fp <- p_proj_unif(x = x_k, p = 2)
-    fp <- d_proj_unif(x = x_k, p = 2)
-    sum(wx_k * (Fn - Fp)^2 * w(Fp, ...) * fp)
-
-  }
-
-  # integral on gamma
-  n * sum(wth_k * apply(Theta_to_X(th_k)[, , 1], 1, int)) / (2 * pi)
-
-}
-
-# Parameters
-n <- 50
-set.seed(1223213)
-samp <- r_unif_sph(n = n, p = 2)
-w_PCvM <- function(x) rep(1, length(x))
-w_k <- function(x, k = 1) -2 * k^2 * pi^2 * cos(2 * pi * k * x)
-w_k_plus <- function(x, k = 1) pmax(w_k(x, k = k), 0)
-w_k_minus <- function(x, k = 1) pmax(-w_k(x, k = k), 0)
-
-test_that("cir_stat_Pn equals PCvM", {
-
-  skip_on_cran()
-  expect_equal(cir_stat_Pn(samp, w = w_PCvM), drop(sph_stat_PCvM(samp)),
-               tolerance = 1e-4)
-
-})
-
-test_that("cir_stat_Pn equals Rayleigh", {
-
-  skip_on_cran()
-  expect_equal(cir_stat_Pn(samp, w = w_k, k = 1),
-               drop(sph_stat_Rayleigh(samp) / 2),
-               tolerance = 1e-4)
-  expect_equal(cir_stat_Pn(samp, w = w_k_plus, k = 1) -
-                 cir_stat_Pn(samp, w = w_k_minus, k = 1),
-               drop(sph_stat_Rayleigh(samp) / 2),
-               tolerance = 1e-4)
-
-})
-
-test_that("cir_stat_Pn equals Bingham", {
-
-  skip_on_cran()
-  expect_equal(cir_stat_Pn(samp, w = w_k, k = 2),
-               drop(sph_stat_Bingham(samp) / 2),
-               tolerance = 1e-4)
-  expect_equal(cir_stat_Pn(samp, w = w_k_plus, k = 2) -
-                 cir_stat_Pn(samp, w = w_k_minus, k = 2),
-               drop(sph_stat_Bingham(samp) / 2), tolerance = 1e-4)
 
 })

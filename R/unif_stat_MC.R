@@ -192,7 +192,8 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
                          seeds = NULL, Rayleigh_m = 1, cov_a = 2 * pi,
                          Rothman_t = 1 / 3, Cressie_t = 1 / 3, Pycke_q = 0.5,
                          Riesz_s = 1, CCF09_dirs = NULL, K_CCF09 = 25,
-                         CJ12_reg = 3, ...) {
+                         CJ12_reg = 3, Stereo_a = 0, Poisson_rho = 0.5,
+                         Softmax_kappa = 1, ...) {
 
   # Check dimension
   if (p < 2) {
@@ -290,7 +291,9 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
                        cov_a = cov_a, Rothman_t = Rothman_t,
                        Cressie_t = Cressie_t, Pycke_q = Pycke_q,
                        Riesz_s = Riesz_s, CCF09_dirs = CCF09_dirs,
-                       K_CCF09 = K_CCF09, CJ12_reg = CJ12_reg)
+                       K_CCF09 = K_CCF09, CJ12_reg = CJ12_reg,
+                       Stereo_a = Stereo_a, Poisson_rho = Poisson_rho,
+                       Softmax_kappa = Softmax_kappa)
 
     # Remove X
     rm(X)

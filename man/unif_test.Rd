@@ -8,7 +8,8 @@ unif_test(data, type = "all", p_value = "asymp", alpha = c(0.1, 0.05,
   0.01), M = 10000, stats_MC = NULL, crit_val = NULL,
   data_sorted = FALSE, Rayleigh_m = 1, cov_a = 2 * pi, Rothman_t = 1/3,
   Cressie_t = 1/3, Pycke_q = 0.5, Riesz_s = 1, CCF09_dirs = NULL,
-  K_CCF09 = 25, CJ12_reg = 3, CJ12_beta = 0, K_max = 10000, ...)
+  K_CCF09 = 25, CJ12_reg = 3, CJ12_beta = 0, Stereo_a = 0,
+  Poisson_rho = 0.5, Softmax_kappa = 1, K_max = 10000, ...)
 }
 \arguments{
 \item{data}{sample to perform the test. A matrix of size \code{c(n, p)}
@@ -96,6 +97,15 @@ asymptotic distribution of the Kolmogorov-Smirnov statistic. Defaults to
 
 \item{CJ12_beta}{\eqn{\beta} parameter in the exponential regime of CJ12 test,
 a positive real.}
+
+\item{Stereo_a}{parameter for the Stereo test, a real in \eqn{[-1, 1]}.
+Defaults to \code{0}.}
+
+\item{Poisson_rho}{parameter for the Poisson test, a real in \eqn{[-1, 1]}.
+Defaults to \code{1}.}
+
+\item{Softmax_kappa}{parameter for the Softmax test, a non-negative real.
+Defaults to \code{0.5}.}
 
 \item{K_max}{integer giving the truncation of the series that compute the
 asymptotic p-value of a Sobolev test. Defaults to \code{1e4}.}

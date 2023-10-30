@@ -212,8 +212,9 @@ unif_test <- function(data, type = "all", p_value = "asymp",
                       crit_val = NULL, data_sorted = FALSE, Rayleigh_m = 1,
                       cov_a = 2 * pi, Rothman_t = 1 / 3, Cressie_t = 1 / 3,
                       Pycke_q = 0.5, Riesz_s = 1, CCF09_dirs = NULL,
-                      K_CCF09 = 25, CJ12_reg = 3, CJ12_beta = 0, K_max = 1e4,
-                      ...) {
+                      K_CCF09 = 25, CJ12_reg = 3, CJ12_beta = 0,
+                      Stereo_a = 0, Poisson_rho = 0.5, Softmax_kappa = 1,
+                      K_max = 1e4, ...) {
 
   # Read data's name
   data_name <- deparse(substitute(data))
@@ -293,8 +294,17 @@ unif_test <- function(data, type = "all", p_value = "asymp",
 
     } else {
 
-      stats_type <- match.arg(arg = type, choices = avail_stats,
-                              several.ok = TRUE)
+      stats_type <- try(match.arg(arg = type, choices = avail_stats,
+                                  several.ok = TRUE), silent = TRUE)
+      if (inherits(stats_type, "try-error")) {
+
+        stop(paste(strwrap(paste0(
+          "Test with type = \"", type, "\" is unsupported. ",
+          "Must be one of the following tests: \"",
+          paste(avail_stats, collapse = "\", \""), "\"."),
+          width = 80, indent = 0, exdent = 2), collapse = "\n"))
+
+      }
 
     }
 
@@ -348,7 +358,8 @@ unif_test <- function(data, type = "all", p_value = "asymp",
                     Rothman_t = Rothman_t, Cressie_t = Cressie_t,
                     Pycke_q = Pycke_q, Riesz_s = Riesz_s,
                     CCF09_dirs = CCF09_dirs, K_CCF09 = K_CCF09,
-                    CJ12_reg = CJ12_reg)
+                    CJ12_reg = CJ12_reg, Stereo_a = Stereo_a,
+                    Poisson_rho = Poisson_rho, Softmax_kappa = Softmax_kappa)
 
   ## Calibration
 
@@ -364,7 +375,9 @@ unif_test <- function(data, type = "all", p_value = "asymp",
                                Rothman_t = Rothman_t, Cressie_t = Cressie_t,
                                Pycke_q = Pycke_q, Riesz_s = Riesz_s,
                                CCF09_dirs = CCF09_dirs, K_CCF09 = K_CCF09,
-                               CJ12_reg = CJ12_reg, ...)$crit_val_MC
+                               CJ12_reg = CJ12_reg, Stereo_a = Stereo_a,
+                               Poisson_rho = Poisson_rho,
+                               Softmax_kappa = Softmax_kappa, ...)$crit_val_MC
 
     } else {
 
@@ -402,7 +415,8 @@ unif_test <- function(data, type = "all", p_value = "asymp",
                                Rothman_t = Rothman_t, Pycke_q = Pycke_q,
                                Riesz_s = Riesz_s, CCF09_dirs = CCF09_dirs,
                                CJ12_reg = CJ12_reg, K_CCF09 = K_CCF09,
-                               ...)$stats_MC
+                               Stereo_a = Stereo_a, Poisson_rho = Poisson_rho,
+                               Softmax_kappa = Softmax_kappa, ...)$stats_MC
 
     }
 
@@ -428,7 +442,9 @@ unif_test <- function(data, type = "all", p_value = "asymp",
                                  Cressie_t = Cressie_t, Pycke_q = Pycke_q,
                                  Riesz_s = Riesz_s, CCF09_dirs = CCF09_dirs,
                                  K_CCF09 = K_CCF09, CJ12_reg = CJ12_reg,
-                                 CJ12_beta = CJ12_beta, K_max = K_max,
+                                 CJ12_beta = CJ12_beta, Stereo_a = Stereo_a,
+                                 Poisson_rho = Poisson_rho,
+                                 Softmax_kappa = Softmax_kappa, K_max = K_max,
                                  thre = 0, ...)
 
     # Critical values
@@ -487,6 +503,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
                        "circular uniformity"),
          "PCvM" = paste("Projected Cramer-von Mises test of",
                         "circular uniformity"),
+         "Poisson" = "Poisson-kernel test of circular uniformity",
          "PRt" = paste("Projected Rothman test of circular uniformity",
                        "with t =", round(Rothman_t, 3)),
          "Pycke" = "Pycke test of circular uniformity",
@@ -500,6 +517,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
          "Riesz" = "Warning! This is an experimental test not meant to be used",
          "Rothman" = paste("Rothman test of circular uniformity with t =",
                            round(Rothman_t, 3)),
+         "Softmax" = "Softmax test of circular uniformity",
          "Vacancy" = paste("Vacancy test of circular uniformity with a =",
                            round(cov_a, 3)),
          "Watson" = "Watson test of circular uniformity",
@@ -528,6 +546,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
                                "if a <= 2 * pi"),
          "PAD" = "any alternative to circular uniformity",
          "PCvM" = "any alternative to circular uniformity",
+         "Poisson" = "any alternative to circular uniformity for rho > 0",
          "PRt" = paste("any alternative to circular uniformity",
                        "if t is irrational"),
          "Pycke" = "any alternative to circular uniformity",
@@ -538,6 +557,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
          "Rothman" = paste("any alternative to circular uniformity",
                            "if t is irrational"),
          "Riesz" = "unclear, experimental test",
+         "Softmax" = "any alternative to circular uniformity for kappa > 0",
          "Vacancy" = "any alternative to circular uniformity",
          "Watson" = "any alternative to circular uniformity",
          "Watson_1976" = "unclear consistency"
@@ -558,13 +578,16 @@ unif_test <- function(data, type = "all", p_value = "asymp",
                         "spherical uniformity"),
          "PCvM" = paste("Projected Cramer-von Mises test of",
                         "spherical uniformity"),
+         "Poisson" = "Poisson-kernel test of spherical uniformity",
          "PRt" = paste("Projected Rothman test of spherical uniformity",
                        "with t =", round(Rothman_t, 3)),
          "Pycke" = "Pycke test of spherical uniformity",
          "Rayleigh" = "Rayleigh test of spherical uniformity",
          "Rayleigh_HD" = paste("HD-standardized Rayleigh test of",
                                "spherical uniformity"),
-         "Riesz" = "Warning! This is an experimental test not meant to be used"
+         "Riesz" = "Warning! This is an experimental test not meant to be used",
+         "Softmax" = "Softmax test of spherical uniformity",
+         "Stereo" = "Stereographic projection test of spherical uniformity"
       )
 
       alternative <- switch(stats_type[i],
@@ -575,14 +598,17 @@ unif_test <- function(data, type = "all", p_value = "asymp",
          "CCF09" = "any alternative to spherical uniformity",
          "Gine_Fn" = "any alternative to spherical uniformity",
          "Gine_Gn" = "any axial alternative to spherical uniformity",
-         "PCvM" = "any alternative to spherical uniformity",
          "PAD" = "any alternative to spherical uniformity",
+         "PCvM" = "any alternative to spherical uniformity",
+         "Poisson" = "any alternative to spherical uniformity for rho > 0",
          "PRt" = paste("any alternative to spherical uniformity",
                        "if t is irrational"),
          "Pycke" = "any alternative to spherical uniformity",
          "Rayleigh" = "mean direction different from zero",
          "Rayleigh_HD" = "mean direction different from zero",
-         "Riesz" = "unclear, experimental test"
+         "Riesz" = "unclear, experimental test",
+         "Softmax" = "any alternative to spherical uniformity for kappa > 0",
+         "Stereo" = "any alternative to spherical uniformity for |a| < 1"
       )
 
     }
@@ -633,6 +659,7 @@ avail_cir_tests <- c("Ajne",
                      "Bingham",
                      "Cressie",
                      "CCF09",
+                     # "CJ12",
                      "FG01",
                      "Gine_Fn",
                      "Gine_Gn",
@@ -647,6 +674,7 @@ avail_cir_tests <- c("Ajne",
                      "Num_uncover",
                      "PAD",
                      "PCvM",
+                     "Poisson",
                      "PRt",
                      "Pycke",
                      "Pycke_q",
@@ -655,6 +683,8 @@ avail_cir_tests <- c("Ajne",
                      "Rayleigh",
                      "Riesz",
                      "Rothman",
+                     # "Sobolev",
+                     "Softmax",
                      "Vacancy",
                      "Watson",
                      "Watson_1976")
@@ -665,14 +695,18 @@ avail_cir_tests <- c("Ajne",
 avail_sph_tests <- c("Ajne",
                      "Bakshaev",
                      "Bingham",
-                     "CJ12",
                      "CCF09",
+                     "CJ12",
                      "Gine_Fn",
                      "Gine_Gn",
                      "PAD",
                      "PCvM",
+                     "Poisson",
                      "PRt",
                      "Pycke",
+                     # "Sobolev",
+                     "Softmax",
+                     "Stereo",
                      "Rayleigh",
                      "Rayleigh_HD",
                      "Riesz")

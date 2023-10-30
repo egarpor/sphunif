@@ -25,12 +25,17 @@ arma::vec cir_stat_Pycke_q_Psi(arma::mat Psi, arma::uword n, double q);
 arma::vec sph_stat_Riesz(arma::cube X, bool Psi_in_X, arma::uword p, double s);
 arma::vec sph_stat_PCvM(arma::cube X, bool Psi_in_X, arma::uword p,
                        arma::uword N, arma::uword L);
-arma::vec sph_stat_PRt(arma::cube X, double t,  bool Psi_in_X, arma::uword p,
+arma::vec sph_stat_PRt(arma::cube X, bool Psi_in_X, arma::uword p, double t,
                        arma::uword N, arma::uword L);
 arma::vec sph_stat_PAD(arma::cube X, bool Psi_in_X, arma::uword p,
                        arma::uword N, arma::uword L);
 arma::vec sph_stat_CCF09(arma::cube X, arma::mat dirs, arma::uword K_CCF09,
                          bool original = false);
+arma::vec sph_stat_Poisson(arma::cube X, bool Psi_in_X, arma::uword p,
+                           double rho);
+arma::vec sph_stat_Softmax(arma::cube X, bool Psi_in_X, arma::uword p,
+                           double kappa);
+arma::vec sph_stat_Stereo(arma::cube X, bool Psi_in_X, arma::uword p, double a);
 
 // Constants
 const double pi = M_PI;
@@ -545,8 +550,8 @@ arma::vec cir_stat_An_Psi(arma::mat Psi, arma::uword n) {
 //' @rdname cir_stat
 //' @export
 // [[Rcpp::export]]
-arma::vec cir_stat_Rothman(arma::mat Theta, double t = 1.0 / 3.0,
-                           bool Psi_in_Theta = false) {
+arma::vec cir_stat_Rothman(arma::mat Theta, bool Psi_in_Theta = false,
+                           double t = 1.0 / 3.0) {
 
   // Sample size
   arma::uword n = Psi_in_Theta ?
@@ -1061,7 +1066,7 @@ arma::vec cir_stat_Bakshaev(arma::mat Theta, bool Psi_in_Theta = false) {
 //' @rdname cir_stat
 //' @export
 // [[Rcpp::export]]
-arma::vec cir_stat_Riesz(arma::mat Theta, bool Psi_in_Theta = false, 
+arma::vec cir_stat_Riesz(arma::mat Theta, bool Psi_in_Theta = false,
                          double s = 1.0) {
 
   if (Psi_in_Theta) {
@@ -1102,18 +1107,18 @@ arma::vec cir_stat_PCvM(arma::mat Theta, bool Psi_in_Theta = false) {
 //' @rdname cir_stat
 //' @export
 // [[Rcpp::export]]
-arma::vec cir_stat_PRt(arma::mat Theta, double t = 1.0 / 3.0,
-                       bool Psi_in_Theta = false) {
+arma::vec cir_stat_PRt(arma::mat Theta, bool Psi_in_Theta = false,
+                       double t = 1.0 / 3.0) {
 
   if (Psi_in_Theta) {
 
     arma::cube Theta_cube(Theta.n_rows, Theta.n_cols, 1);
     Theta_cube.slice(0) = Theta;
-    return sph_stat_PRt(Theta_cube, t, true, 2, 0, 0);
+    return sph_stat_PRt(Theta_cube, true, 2, t, 0, 0);
 
   } else {
 
-    return sph_stat_PRt(Theta_to_X(Theta), t, Psi_in_Theta, 2, 0, 0);
+    return sph_stat_PRt(Theta_to_X(Theta), Psi_in_Theta, 2, t, 0, 0);
 
   }
 
@@ -1168,6 +1173,48 @@ arma::vec cir_stat_PAD(arma::mat Theta, bool Psi_in_Theta = false,
     }
 
   }
+
+}
+
+
+//' @rdname cir_stat
+//' @export
+// [[Rcpp::export]]
+arma::vec cir_stat_Poisson(arma::mat Theta, bool Psi_in_Theta = false,
+                           double rho = 0.5) {
+
+  if (Psi_in_Theta) {
+
+    arma::cube Theta_cube(Theta.n_rows, Theta.n_cols, 1);
+    Theta_cube.slice(0) = Theta;
+    return sph_stat_Poisson(Theta_cube, true, 2, rho);
+
+  } else {
+
+    return sph_stat_Poisson(Theta_to_X(Theta), false, 2, rho);
+
+  }
+
+}
+
+
+//' @rdname cir_stat
+//' @export
+// [[Rcpp::export]]
+arma::vec cir_stat_Softmax(arma::mat Theta, bool Psi_in_Theta = false,
+                           double kappa = 1) {
+
+ if (Psi_in_Theta) {
+
+   arma::cube Theta_cube(Theta.n_rows, Theta.n_cols, 1);
+   Theta_cube.slice(0) = Theta;
+   return sph_stat_Softmax(Theta_cube, true, 2, kappa);
+
+ } else {
+
+   return sph_stat_Softmax(Theta_to_X(Theta), false, 2, kappa);
+
+ }
 
 }
 

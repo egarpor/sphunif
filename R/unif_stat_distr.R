@@ -34,8 +34,8 @@
 #' @inheritParams cir_stat
 #' @inheritParams cir_stat_distr
 #' @inheritParams sph_stat_distr
-#' @param CJ12_beta \eqn{\beta} parameter in the exponential regime of CJ12 test,
-#' a positive real.
+#' @param CJ12_beta \eqn{\beta} parameter in the exponential regime of CJ12
+#' test, a positive real.
 #' @param K_Kuiper,K_Watson,K_Watson_1976,K_Ajne integer giving the truncation
 #' of the series present in the null asymptotic distributions. For the
 #' Kolmogorov-Smirnov-related series defaults to \code{25}.
@@ -291,8 +291,8 @@ unif_stat_distr <- function(x, type, p, n, approx = "asymp", M = 1e4,
     if (any(apply(x, 2, is.unsorted))) {
 
       # Indexes for sorting and then unsorting
-      ind_1 <- sort_index_each_col(x);
-      ind_2 <- sort_index_each_col(ind_1);
+      ind_1 <- sort_index_each_col(x)
+      ind_2 <- sort_index_each_col(ind_1)
 
       # Approximate distributions
       distrs <- sapply(stats_type, function(distr) {

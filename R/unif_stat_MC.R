@@ -206,7 +206,7 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
   small_M <- M %/% chunks
 
   # Fix projections for the CCF09 test
-  if ("CCF09" %in% type & is.null(CCF09_dirs)) {
+  if ("CCF09" %in% type && is.null(CCF09_dirs)) {
 
     CCF09_dirs <- r_unif_sph(n = 50, p = p, M = 1)[, , 1]
 
@@ -241,7 +241,7 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
   r_H1_args <- dots[names(dots) %in% names(formals(r_H1))]
 
   # Check seeds
-  if (!is.null(seeds) & length(seeds) != chunks) {
+  if (!is.null(seeds) && length(seeds) != chunks) {
 
     warning(paste("seeds and chunks do not have the same length:",
                   "seeds are ignored."))
@@ -311,7 +311,7 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
   }
 
   # Sort statistics
-  if (stats_sorted & return_stats) {
+  if (stats_sorted && return_stats) {
 
     names <- names(stats)
     stats <- as.data.frame(sort_each_col(as.matrix(stats)))

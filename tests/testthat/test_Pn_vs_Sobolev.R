@@ -33,7 +33,7 @@ stat_Pn_w <- function(samp, w, circ = TRUE, N = 5120, M = 1e4, seeds = 1:4,
   }
 
   # Integration on circle or sphere
-  if (ncol(samp) == 2 & circ) {
+  if (ncol(samp) == 2 && circ) {
 
     th_k <- Gauss_Legen_nodes(a = 0, b = 2 * pi, N = N)
     wth_k <- Gauss_Legen_weights(a = 0, b = 2 * pi, N = N)

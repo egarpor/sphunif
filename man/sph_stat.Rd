@@ -88,8 +88,12 @@ that require evaluating an integral. Defaults to \code{1e3}.}
 \item{kappa}{\eqn{\kappa} parameter for the Softmax test, a
 non-negative real. Defaults to \code{1}.}
 
-\item{a}{\eqn{a} parameter for the Stereo test, a real in \eqn{[-1, 1]}.
-Defaults to \code{0}.}
+\item{a}{either: \itemize{
+\item \eqn{a_n = a / n} parameter used in the length of the arcs
+of the coverage-based tests. Must be positive. Defaults to \code{2 * pi}.
+\item \eqn{a} parameter for the Stereo test, a real in \eqn{[-1, 1]}.
+Defaults to \code{0}.
+}}
 
 \item{dirs}{a matrix of size \code{c(n_proj, p)} containing \code{n_proj}
 random directions (in Cartesian coordinates) on \eqn{S^{p-1}} to perform

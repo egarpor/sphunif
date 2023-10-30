@@ -377,16 +377,16 @@ BEGIN_RCPP
 END_RCPP
 }
 // cir_stat_Rothman_Psi
-arma::vec cir_stat_Rothman_Psi(arma::mat Psi, double t_m2, double t_min2, arma::uword n);
-RcppExport SEXP _sphunif_cir_stat_Rothman_Psi(SEXP PsiSEXP, SEXP t_m2SEXP, SEXP t_min2SEXP, SEXP nSEXP) {
+arma::vec cir_stat_Rothman_Psi(arma::mat Psi, arma::uword n, double t_m2, double t_min2);
+RcppExport SEXP _sphunif_cir_stat_Rothman_Psi(SEXP PsiSEXP, SEXP nSEXP, SEXP t_m2SEXP, SEXP t_min2SEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::mat >::type Psi(PsiSEXP);
+    Rcpp::traits::input_parameter< arma::uword >::type n(nSEXP);
     Rcpp::traits::input_parameter< double >::type t_m2(t_m2SEXP);
     Rcpp::traits::input_parameter< double >::type t_min2(t_min2SEXP);
-    Rcpp::traits::input_parameter< arma::uword >::type n(nSEXP);
-    rcpp_result_gen = Rcpp::wrap(cir_stat_Rothman_Psi(Psi, t_m2, t_min2, n));
+    rcpp_result_gen = Rcpp::wrap(cir_stat_Rothman_Psi(Psi, n, t_m2, t_min2));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1543,19 +1543,19 @@ BEGIN_RCPP
 END_RCPP
 }
 // sph_stat_PRt_Psi
-arma::vec sph_stat_PRt_Psi(arma::mat Psi, double t_m, double theta_t_m, arma::uword n, arma::uword p, arma::vec th_grid, arma::vec int_grid);
-RcppExport SEXP _sphunif_sph_stat_PRt_Psi(SEXP PsiSEXP, SEXP t_mSEXP, SEXP theta_t_mSEXP, SEXP nSEXP, SEXP pSEXP, SEXP th_gridSEXP, SEXP int_gridSEXP) {
+arma::vec sph_stat_PRt_Psi(arma::mat Psi, arma::uword n, arma::uword p, double t_m, double theta_t_m, arma::vec th_grid, arma::vec int_grid);
+RcppExport SEXP _sphunif_sph_stat_PRt_Psi(SEXP PsiSEXP, SEXP nSEXP, SEXP pSEXP, SEXP t_mSEXP, SEXP theta_t_mSEXP, SEXP th_gridSEXP, SEXP int_gridSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::mat >::type Psi(PsiSEXP);
-    Rcpp::traits::input_parameter< double >::type t_m(t_mSEXP);
-    Rcpp::traits::input_parameter< double >::type theta_t_m(theta_t_mSEXP);
     Rcpp::traits::input_parameter< arma::uword >::type n(nSEXP);
     Rcpp::traits::input_parameter< arma::uword >::type p(pSEXP);
+    Rcpp::traits::input_parameter< double >::type t_m(t_mSEXP);
+    Rcpp::traits::input_parameter< double >::type theta_t_m(theta_t_mSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type th_grid(th_gridSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type int_grid(int_gridSEXP);
-    rcpp_result_gen = Rcpp::wrap(sph_stat_PRt_Psi(Psi, t_m, theta_t_m, n, p, th_grid, int_grid));
+    rcpp_result_gen = Rcpp::wrap(sph_stat_PRt_Psi(Psi, n, p, t_m, theta_t_m, th_grid, int_grid));
     return rcpp_result_gen;
 END_RCPP
 }

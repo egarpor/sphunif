@@ -27,8 +27,8 @@ arma::vec sph_stat_Riesz(arma::cube X, bool Psi_in_X, arma::uword p, double s);
 arma::vec sph_stat_Riesz_Psi(arma::mat Psi, arma::uword n, double s);
 arma::vec sph_stat_PCvM_Psi(arma::mat Psi, arma::uword n, arma::uword p,
                             arma::vec th_grid, arma::vec int_grid);
-arma::vec sph_stat_PRt_Psi(arma::mat Psi, double t_m, double theta_t_m,
-                           arma::uword n, arma::uword p, arma::vec th_grid,
+arma::vec sph_stat_PRt_Psi(arma::mat Psi, arma::uword n, arma::uword p,
+                           double t_m, double theta_t_m, arma::vec th_grid,
                            arma::vec int_grid);
 arma::vec sph_stat_PAD_Psi(arma::mat Psi, arma::uword n, arma::uword p,
                            arma::vec th_grid, arma::vec int_grid);
@@ -349,7 +349,7 @@ arma::vec sph_stat_Pycke(arma::cube X, bool Psi_in_X = false,
 // [[Rcpp::export]]
 arma::vec sph_stat_Pycke_Psi(arma::mat Psi, arma::uword n, arma::uword p) {
 
-  // Addends
+  // Addends -- Psi contains scalar products!
   Psi = arma::log1p(-Psi);
 
   // Replace NaNs (created by theta = 0) with 0
@@ -424,7 +424,7 @@ arma::vec sph_stat_Riesz(arma::cube X, bool Psi_in_X = false,
   if (Psi_in_X) {
 
     // Compute statistic
-    Rn = sph_stat_Riesz_Psi(X.slice(0), n, s);
+    Rn = sph_stat_Riesz_Psi(arma::cos(X.slice(0)), n, s);
 
   } else {
 
@@ -434,7 +434,7 @@ arma::vec sph_stat_Riesz(arma::cube X, bool Psi_in_X = false,
 
       // Compute Psi matrix
       arma::mat Psi = Psi_mat(X(arma::span::all, arma::span::all,
-                                arma::span(k)), ind_tri, true, false, false);
+                                arma::span(k)), ind_tri, true, true, false);
 
       // Compute statistic
       Rn(k) = arma::as_scalar(sph_stat_Riesz_Psi(Psi, n, s));
@@ -500,13 +500,13 @@ arma::vec sph_stat_Riesz_Psi(arma::mat Psi, arma::uword n, double s) {
   arma::vec Rn = arma::zeros(Psi.n_cols);
   if (s == 0) {
 
-    // Addends
-    Psi = arma::log1p(-arma::cos(Psi));
+    // Addends -- Psi contains scalar products!
+    Psi = arma::log1p(-Psi);
 
-    // Replace Infs (created by theta = 0) with 0
-    if (Psi.has_inf()) {
+    // Replace Infs/NaNs (created by theta = 0) with 0
+    if (!Psi.is_finite()) {
 
-      Psi.replace(-arma::datum::inf, 0);
+      Psi.elem(find_nonfinite(Psi)).zeros();
       Rcpp::warning("Infs in Riesz statistic's sum ignored: p-value computation may be misleading. Remove repeated data?");
 
     }
@@ -520,15 +520,15 @@ arma::vec sph_stat_Riesz_Psi(arma::mat Psi, arma::uword n, double s) {
 
   } else {
 
-    // Addends
+    // Addends -- Psi contains scalar products!
     // Psi = arma::pow(arma::sin(0.5 * Psi), s);
     // More stable implementation?
-    Psi = arma::exp((0.5 * s) * arma::log1p(-arma::cos(Psi)));
+    Psi = arma::exp((0.5 * s) * arma::log1p(-Psi));
 
-    // Replace Infs (created by theta = 0) with 0
-    if (Psi.has_inf()) {
+    // Replace Infs/NaNs (created by theta = 0) with 0
+    if (!Psi.is_finite()) {
 
-      Psi.replace(arma::datum::inf, 0);
+      Psi.elem(find_nonfinite(Psi)).zeros();
       Rcpp::warning("Infs in Riesz statistic's sum ignored: p-value computation may be misleading. Remove repeated data?");
 
     }
@@ -742,7 +742,7 @@ arma::vec sph_stat_PRt(arma::cube X, bool Psi_in_X = false,
   if (Psi_in_X) {
 
     // Compute statistic
-    return sph_stat_PRt_Psi(X.slice(0), t_m, theta_t_m, n, p, th_grid,
+    return sph_stat_PRt_Psi(X.slice(0), n, p, t_m, theta_t_m, th_grid,
                             int_grid);
 
   } else {
@@ -757,7 +757,7 @@ arma::vec sph_stat_PRt(arma::cube X, bool Psi_in_X = false,
                                 arma::span(k)), ind_tri, true, false, false);
 
       // Compute statistic
-      PRtn(k) = arma::as_scalar(sph_stat_PRt_Psi(Psi, t_m, theta_t_m, n, p,
+      PRtn(k) = arma::as_scalar(sph_stat_PRt_Psi(Psi, n, p, t_m, theta_t_m,
                                                  th_grid, int_grid));
 
     }
@@ -771,8 +771,8 @@ arma::vec sph_stat_PRt(arma::cube X, bool Psi_in_X = false,
 
 //' @keywords internal
 // [[Rcpp::export]]
-arma::vec sph_stat_PRt_Psi(arma::mat Psi, double t_m, double theta_t_m,
-                           arma::uword n, arma::uword p, arma::vec th_grid,
+arma::vec sph_stat_PRt_Psi(arma::mat Psi, arma::uword n, arma::uword p,
+                           double t_m, double theta_t_m, arma::vec th_grid,
                            arma::vec int_grid) {
 
   // Create returned statistic
@@ -1056,7 +1056,7 @@ arma::vec sph_stat_Poisson(arma::cube X, bool Psi_in_X = false,
   if (Psi_in_X) {
 
     // Compute statistic
-    Tn = sph_stat_Poisson_Psi(X.slice(0), n, p, rho);
+    Tn = sph_stat_Poisson_Psi(arma::cos(X.slice(0)), n, p, rho);
 
   } else {
 
@@ -1066,7 +1066,7 @@ arma::vec sph_stat_Poisson(arma::cube X, bool Psi_in_X = false,
 
       // Compute Psi matrix
       arma::mat Psi = Psi_mat(X(arma::span::all, arma::span::all,
-                                arma::span(k)), ind_tri, true, false, false);
+                                arma::span(k)), ind_tri, true, true, false);
 
       // Compute statistic
       Tn(k) = arma::as_scalar(sph_stat_Poisson_Psi(Psi, n, p, rho));
@@ -1075,10 +1075,9 @@ arma::vec sph_stat_Poisson(arma::cube X, bool Psi_in_X = false,
 
   }
 
-  // TODO
   // Divide by n and add bias
-  Tn *= 1.0 / n;
-  Tn += 0;
+  Tn *= 2.0 / n;
+  Tn -= (n - 1.0);
   return Tn;
 
 }
@@ -1089,19 +1088,9 @@ arma::vec sph_stat_Poisson(arma::cube X, bool Psi_in_X = false,
 arma::vec sph_stat_Poisson_Psi(arma::mat Psi, arma::uword n, arma::uword p,
                                double rho = 0.5) {
 
-  // Poisson TODO
-
-  // Addends
-  Psi = arma::tan(0.5 * Psi);
-
-  // Replace NaNs (created by theta = 0) with 0
-  if (Psi.has_nan() || Psi.has_inf()) {
-
-    Psi.replace(arma::datum::nan, 0);
-    Psi.replace(arma::datum::inf, 0);
-    Rcpp::warning("NaNs in Stereo statistic's sum ignored: p-value computation may be misleading. Remove repeated data?");
-
-  }
+  // Addends -- Psi contains scalar products!
+  Psi = arma::pow(1.0 - 2.0 * rho * Psi + rho * rho, -(0.5 * p - 1.0)) *
+    (1 - rho * rho);
 
   // Statistic
   arma::vec Tn = arma::sum(Psi, 0).t();
@@ -1140,7 +1129,7 @@ arma::vec sph_stat_Softmax(arma::cube X, bool Psi_in_X = false,
   if (Psi_in_X) {
 
     // Compute statistic
-    Tn = sph_stat_Softmax_Psi(X.slice(0), n, p, kappa);
+    Tn = sph_stat_Softmax_Psi(arma::cos(X.slice(0)), n, p, kappa);
 
   } else {
 
@@ -1150,7 +1139,7 @@ arma::vec sph_stat_Softmax(arma::cube X, bool Psi_in_X = false,
 
       // Compute Psi matrix
       arma::mat Psi = Psi_mat(X(arma::span::all, arma::span::all,
-                                arma::span(k)), ind_tri, true, false, false);
+                                arma::span(k)), ind_tri, true, true, false);
 
       // Compute statistic
       Tn(k) = arma::as_scalar(sph_stat_Softmax_Psi(Psi, n, p, kappa));
@@ -1159,10 +1148,17 @@ arma::vec sph_stat_Softmax(arma::cube X, bool Psi_in_X = false,
 
   }
 
-  // TODO
+  // Expectation
+  double b0 = R::bessel_i(kappa, 0.5 * p - 1.0, 2);
+  if (p > 2) {
+
+    b0 *= std::pow(2.0 / kappa, 0.5 * p - 1.0) * R::gammafn(0.5 * p);
+
+  }
+
   // Divide by n and add bias
-  Tn *= 1.0 / n;
-  Tn += 0;
+  Tn *= 2.0 / n;
+  Tn -= (n - 1.0) * b0;
   return Tn;
 
 }
@@ -1173,19 +1169,8 @@ arma::vec sph_stat_Softmax(arma::cube X, bool Psi_in_X = false,
 arma::vec sph_stat_Softmax_Psi(arma::mat Psi, arma::uword n, arma::uword p,
                               double kappa = 1) {
 
-  // Softmax TODO
-
-  // Addends
-  Psi = arma::tan(0.5 * Psi);
-
-  // Replace NaNs (created by theta = 0) with 0
-  if (Psi.has_nan() || Psi.has_inf()) {
-
-    Psi.replace(arma::datum::nan, 0);
-    Psi.replace(arma::datum::inf, 0);
-    Rcpp::warning("NaNs in Stereo statistic's sum ignored: p-value computation may be misleading. Remove repeated data?");
-
-  }
+  // Addends -- Psi contains scalar products!
+  Psi = arma::exp(kappa * (Psi - 1.0));
 
   // Statistic
   arma::vec Tn = arma::sum(Psi, 0).t();
@@ -1248,7 +1233,7 @@ arma::vec sph_stat_Stereo(arma::cube X, bool Psi_in_X = false,
  }
 
  // Divide by n and add bias
- Tn *= 1.0 / n;
+ Tn *= 2.0 / n;
  Tn += (n - 1.0) * (1.0 + a) * 0.5 * std::exp(std::log(p - 2) +
    2 * (R::lgammafn(0.5 * (p - 2)) - R::lgammafn(0.5 * (p - 1))));
  return Tn;
@@ -1448,7 +1433,7 @@ arma::vec sph_stat_CJ12(arma::cube X, bool Psi_in_X = false, arma::uword p = 0,
 // [[Rcpp::export]]
 arma::vec sph_stat_CJ12_Psi(arma::mat Psi, arma::uword n, arma::uword p) {
 
-  // Statistic
+  // Statistic -- Psi contains scalar products!
   arma::vec Cn = arma::max(arma::abs(Psi), 0).t();
   Cn = arma::log1p(-arma::square(Cn));
 

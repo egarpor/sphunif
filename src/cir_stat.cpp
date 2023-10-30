@@ -13,8 +13,8 @@ arma::uword n_from_dist_vector(arma::uword n_dist);
 arma::vec ecdf_bin(arma::vec data, arma::vec sorted_x, bool data_sorted,
                    bool efic, bool divide_n);
 arma::vec cir_stat_An_Psi(arma::mat Psi, arma::uword n);
-arma::vec cir_stat_Rothman_Psi(arma::mat Psi, double t_m2, double t_min2,
-                               arma::uword n);
+arma::vec cir_stat_Rothman_Psi(arma::mat Psi, arma::uword n, double t_m2,
+                               double t_min2);
 arma::vec cir_stat_Cressie(arma::mat Theta, double t, bool sorted);
 arma::vec sph_stat_Bingham(arma::cube X);
 arma::vec cir_stat_Hermans_Rasson_Psi(arma::mat Psi, arma::uword n);
@@ -569,7 +569,7 @@ arma::vec cir_stat_Rothman(arma::mat Theta, bool Psi_in_Theta = false,
   if (Psi_in_Theta) {
 
     // Compute statistic
-    return cir_stat_Rothman_Psi(Theta, t_m2, t_min2, n);
+    return cir_stat_Rothman_Psi(Theta, n, t_m2, t_min2);
 
   } else {
 
@@ -584,7 +584,7 @@ arma::vec cir_stat_Rothman(arma::mat Theta, bool Psi_in_Theta = false,
       arma::mat Psi = Psi_mat(Theta_cube, ind_tri, true, false, false);
 
       // Compute statistic
-      Ant(k) = arma::as_scalar(cir_stat_Rothman_Psi(Psi, t_m2, t_min2, n));
+      Ant(k) = arma::as_scalar(cir_stat_Rothman_Psi(Psi, n, t_m2, t_min2));
 
     }
 
@@ -597,8 +597,8 @@ arma::vec cir_stat_Rothman(arma::mat Theta, bool Psi_in_Theta = false,
 
 //' @keywords internal
 // [[Rcpp::export]]
-arma::vec cir_stat_Rothman_Psi(arma::mat Psi, double t_m2, double t_min2,
-                               arma::uword n) {
+arma::vec cir_stat_Rothman_Psi(arma::mat Psi, arma::uword n, double t_m2,
+                               double t_min2) {
 
   // Statistic
   arma::vec Ant = -arma::sum(arma::clamp(Psi * inv_two_M_PI - t_m2,

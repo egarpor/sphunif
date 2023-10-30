@@ -276,19 +276,21 @@ test_that("Riesz with data repetitions is computable", {
 
 test_that("Poisson vs. Rayleigh", {
 
-  skip("TODO Poisson")
-  expect_equal(sph_stat_Poisson(X2, rho = 0.01), sph_stat_Rayleigh(X2),
-               tolerance = 1e-5)
-  expect_equal(sph_stat_Poisson(X3, rho = 0.01), sph_stat_Rayleigh(X3),
-               tolerance = 1e-5)
-  expect_equal(sph_stat_Poisson(X4, rho = 0.01), sph_stat_Rayleigh(X4),
-               tolerance = 1e-5)
-  expect_equal(sph_stat_Poisson(X5, rho = 0.01), sph_stat_Rayleigh(X5),
-               tolerance = 1e-5)
-  expect_equal(sph_stat_Poisson(X9, rho = 0.01), sph_stat_Rayleigh(X9),
-               tolerance = 1e-5)
-  expect_equal(sph_stat_Poisson(X200, rho = 0.01), sph_stat_Rayleigh(X200),
-               tolerance = 1e-5)
+  transf_Poisson <- function(X, rho, p) {
+    (sph_stat_Poisson(X, rho = rho) - 1 + (1 - rho^2) / (1 - rho)^p) / rho
+  }
+  expect_equal(transf_Poisson(X2, rho = 1e-6, p = 2), sph_stat_Rayleigh(X2),
+               tolerance = 1e-4)
+  expect_equal(transf_Poisson(X3, rho = 1e-6, p = 3), sph_stat_Rayleigh(X3),
+               tolerance = 1e-4)
+  expect_equal(transf_Poisson(X4, rho = 1e-6, p = 4), sph_stat_Rayleigh(X4),
+               tolerance = 1e-4)
+  expect_equal(transf_Poisson(X5, rho = 1e-6, p = 5), sph_stat_Rayleigh(X5),
+               tolerance = 1e-4)
+  expect_equal(transf_Poisson(X9, rho = 1e-6, p = 9), sph_stat_Rayleigh(X9),
+               tolerance = 1e-4)
+  expect_equal(transf_Poisson(X200, rho = 1e-6, p = 200),
+               sph_stat_Rayleigh(X200), tolerance = 1e-5)
 
 })
 test_that("Poisson edge case", {
@@ -302,21 +304,22 @@ test_that("Poisson edge case", {
 
 test_that("Softmax vs. Rayleigh", {
 
-  skip("TODO Softmax")
-  expect_equal(sph_stat_Softmax(X2, kappa = 0.01), sph_stat_Rayleigh(X2),
-               tolerance = 1e-5)
-  expect_equal(sph_stat_Softmax(X3, kappa = 0.01), sph_stat_Rayleigh(X3),
-               tolerance = 1e-5)
-  expect_equal(sph_stat_Softmax(X4, kappa = 0.01), sph_stat_Rayleigh(X4),
-               tolerance = 1e-5)
-  expect_equal(sph_stat_Softmax(X5, kappa = 0.01), sph_stat_Rayleigh(X5),
-               tolerance = 1e-5)
-  expect_equal(sph_stat_Softmax(X9, kappa = 0.01), sph_stat_Rayleigh(X9),
-               tolerance = 1e-5)
-  expect_equal(sph_stat_Softmax(X200, kappa = 0.01), sph_stat_Rayleigh(X200),
-               tolerance = 1e-5)
+  transf_Softmax <- function(X, kappa, p) {
+    p * (sph_stat_Softmax(X, kappa = kappa) / kappa + 1)
+  }
+  expect_equal(transf_Softmax(X2, kappa = 1e-6, p = 2), sph_stat_Rayleigh(X2),
+               tolerance = 1e-3)
+  expect_equal(transf_Softmax(X3, kappa = 1e-6, p = 3), sph_stat_Rayleigh(X3),
+               tolerance = 1e-3)
+  expect_equal(transf_Softmax(X4, kappa = 1e-6, p = 4), sph_stat_Rayleigh(X4),
+               tolerance = 1e-3)
+  expect_equal(transf_Softmax(X5, kappa = 1e-6, p = 5), sph_stat_Rayleigh(X5),
+               tolerance = 1e-3)
+  expect_equal(transf_Softmax(X9, kappa = 1e-6, p = 9), sph_stat_Rayleigh(X9),
+               tolerance = 1e-3)
 
 })
+
 test_that("Softmax edge case", {
 
   expect_error(sph_stat_Softmax(X3, kappa = -1.5))
@@ -329,6 +332,11 @@ test_that("Stereo edge cases", {
 
   expect_error(sph_stat_Stereo(X2))
   expect_error(sph_stat_Stereo(X3, a = -1.5))
+
+})
+
+test_that("Stereo with data repetitions is computable", {
+
   expect_warning(expect_true(is.finite(sph_stat_Stereo(X3_rep))))
   expect_warning(expect_true(is.finite(sph_stat_Stereo(X4_rep))))
 

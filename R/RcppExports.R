@@ -466,8 +466,8 @@ cir_stat_Rothman <- function(Theta, Psi_in_Theta = FALSE, t = 1.0 / 3.0) {
 }
 
 #' @keywords internal
-cir_stat_Rothman_Psi <- function(Psi, t_m2, t_min2, n) {
-    .Call('_sphunif_cir_stat_Rothman_Psi', PACKAGE = 'sphunif', Psi, t_m2, t_min2, n)
+cir_stat_Rothman_Psi <- function(Psi, n, t_m2, t_min2) {
+    .Call('_sphunif_cir_stat_Rothman_Psi', PACKAGE = 'sphunif', Psi, n, t_m2, t_min2)
 }
 
 #' @rdname cir_stat
@@ -1222,8 +1222,8 @@ sph_stat_PRt <- function(X, Psi_in_X = FALSE, p = 0L, t = 1.0 / 3.0, N = 160L, L
 }
 
 #' @keywords internal
-sph_stat_PRt_Psi <- function(Psi, t_m, theta_t_m, n, p, th_grid, int_grid) {
-    .Call('_sphunif_sph_stat_PRt_Psi', PACKAGE = 'sphunif', Psi, t_m, theta_t_m, n, p, th_grid, int_grid)
+sph_stat_PRt_Psi <- function(Psi, n, p, t_m, theta_t_m, th_grid, int_grid) {
+    .Call('_sphunif_sph_stat_PRt_Psi', PACKAGE = 'sphunif', Psi, n, p, t_m, theta_t_m, th_grid, int_grid)
 }
 
 #' @rdname sph_stat

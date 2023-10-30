@@ -168,14 +168,14 @@ cir_stat_Pn <- function(samp, w, N = 2560, ...) {
   }
 
   # Integral on gamma
-  n * sum(wth_k * apply(Theta_to_X(th_k)[, , 1], 1, int)) / (2 * pi)
+  nrow(samp) * sum(wth_k * apply(Theta_to_X(th_k)[, , 1], 1, int)) / (2 * pi)
 
 }
 
 # Parameters
-n <- 50
+m <- 50
 set.seed(1223213)
-samp <- r_unif_sph(n = n, p = 2)
+samp <- r_unif_sph(n = m, p = 2)
 w_PCvM <- function(x) rep(1, length(x))
 w_k <- function(x, k = 1) -2 * k^2 * pi^2 * cos(2 * pi * k * x)
 w_k_plus <- function(x, k = 1) pmax(w_k(x, k = k), 0)
@@ -235,9 +235,10 @@ test_that("Riesz vs. Bakshaev", {
 
 test_that("Riesz vs. Pycke", {
 
-  expect_equal((n - 1) / (2 * n) * sph_stat_Pycke(X2),
+  expect_equal((nrow(X2) - 1) / (2 * nrow(X2)) * sph_stat_Pycke(X2),
                sph_stat_Riesz(X2, s = 0))
-  expect_equal((log(4) - 1) / 2 + (2 * pi * (n - 1) / n) * sph_stat_Pycke(X3),
+  expect_equal((log(4) - 1) / 2 + (2 * pi * (nrow(X3) - 1) / nrow(X3)) *
+                 sph_stat_Pycke(X3),
                sph_stat_Riesz(X3, s = 0))
   expect_warning(expect_equal(sph_stat_Pycke(X4), sph_stat_Riesz(X4, s = 0)))
   expect_warning(expect_equal(sph_stat_Pycke(X5), sph_stat_Riesz(X5, s = 0)))
@@ -292,7 +293,7 @@ test_that("Poisson vs. Rayleigh", {
 })
 test_that("Poisson edge case", {
 
-  expect_error(sph_stat_Poisson(X3, rho = 1.5))
+  expect_error(sph_stat_Poisson(X3, rho = 1))
   expect_error(sph_stat_Poisson(X3, rho = -1.5))
 
 })
@@ -326,7 +327,6 @@ test_that("Softmax edge case", {
 
 test_that("Stereo edge cases", {
 
-  skip("TODO Stereo")
   expect_error(sph_stat_Stereo(X2))
   expect_error(sph_stat_Stereo(X3, a = -1.5))
   expect_warning(expect_true(is.finite(sph_stat_Stereo(X3_rep))))

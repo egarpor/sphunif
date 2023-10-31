@@ -583,15 +583,21 @@ q_Sobolev <- function(u, p, type, method = c("I", "SW", "HBE", "MC")[1],
 }
 
 
-#' @title TODO
+#' @title Finite Sobolev statistics for testing (hyper)spherical uniformity
+#'
+#' @description Computes the finite Sobolev statistic \deqn{
+#' S_{n, p}(\{b_{k, p}\}_{k=1}^K) = \sum_{i, j = 1}^n
+#' \sum_{k = 1}^K b_{k, p}C_k^(p / 2 - 1)(\cos^{-1}({\bf X}_i'{\bf X}_j)),}
+#' for a sequence  \eqn{\{b_{k, p}\}_{k = 1}^K} of non-negative weights. For
+#' \eqn{p = 2}, the Gegenbauer polynomials are replaced by Chebyshev ones.
 #' @inheritParams cir_stat
 #' @inheritParams sph_stat
-#' @param w weights for the (finite) Sobolev test. A non-negative vector.
+#' @param bk weights for the finite Sobolev test. A non-negative vector.
 #' Defaults to \code{c(0, 0, 1)}.
-#' @param b bias for the (finite) Sobolev test. Defaults to \code{0}.
+#' @param bias bias for the finite Sobolev test. Defaults to \code{0}.
 #' @export
-sph_stat_Sobolev <- function(X, Psi_in_X = FALSE, p = 0, w = c(0, 0, 1),
-                             b = 0) {
+sph_stat_Sobolev <- function(X, Psi_in_X = FALSE, p = 0, bk = c(0, 0, 1),
+                             bias = 0) {
 
   # Compute Psi matrix with angles between pairs?
   if (Psi_in_X) {
@@ -617,16 +623,16 @@ sph_stat_Sobolev <- function(X, Psi_in_X = FALSE, p = 0, w = c(0, 0, 1),
 
   # Statistic
   Tn <- numeric(M)
-  for (k in which(w != 0)) {
+  for (k in which(bk != 0)) {
     for (j in seq_len(M)) {
 
-      Tn[j] <- Tn[j] + w[k] * sum(Gegen_polyn(theta = X[, j], k = k, p = p))
+      Tn[j] <- Tn[j] + bk[k] * sum(Gegen_polyn(theta = X[, j], k = k, p = p))
 
     }
   }
 
   # Add bias
-  Tn <- 2 * Tn / n + b
+  Tn <- 2 * Tn / n + bias
   return(Tn)
 
 }
@@ -634,8 +640,8 @@ sph_stat_Sobolev <- function(X, Psi_in_X = FALSE, p = 0, w = c(0, 0, 1),
 
 #' @rdname sph_stat_Sobolev
 #' @export
-cir_stat_Sobolev <- function(Theta, Psi_in_Theta = FALSE, w = c(0, 0, 1),
-                             b = 0) {
+cir_stat_Sobolev <- function(Theta, Psi_in_Theta = FALSE, bk = c(0, 0, 1),
+                             bias = 0) {
 
   if (Psi_in_Theta) {
 
@@ -644,12 +650,13 @@ cir_stat_Sobolev <- function(Theta, Psi_in_Theta = FALSE, w = c(0, 0, 1),
       dim(Theta) <- c(dim(Theta), 1)
 
     }
-    return(sph_stat_Sobolev(X = Theta, Psi_in_X = TRUE, p = 2, w = w, b = b))
+    return(sph_stat_Sobolev(X = Theta, Psi_in_X = TRUE, p = 2, bk = bk,
+                            bias = bias))
 
   } else {
 
     return(sph_stat_Sobolev(X = Theta_to_X(Theta), Psi_in_X = FALSE,
-                            w = w, b = b))
+                            bk = bk, bias = bias))
 
   }
 

@@ -214,7 +214,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
                       Pycke_q = 0.5, Riesz_s = 1, CCF09_dirs = NULL,
                       K_CCF09 = 25, CJ12_reg = 3, CJ12_beta = 0,
                       Stereo_a = 0, Poisson_rho = 0.5, Softmax_kappa = 1,
-                      Sobolev_w = c(0, 0, 1), K_max = 1e4, ...) {
+                      Sobolev_bk = c(0, 0, 1), K_max = 1e4, ...) {
 
   # Read data's name
   data_name <- deparse(substitute(data))
@@ -360,7 +360,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
                     CCF09_dirs = CCF09_dirs, K_CCF09 = K_CCF09,
                     CJ12_reg = CJ12_reg, Stereo_a = Stereo_a,
                     Poisson_rho = Poisson_rho, Softmax_kappa = Softmax_kappa,
-                    Sobolev_w = Sobolev_w)
+                    Sobolev_bk = Sobolev_bk)
 
   ## Calibration
 
@@ -379,7 +379,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
                                CJ12_reg = CJ12_reg, Stereo_a = Stereo_a,
                                Poisson_rho = Poisson_rho,
                                Softmax_kappa = Softmax_kappa,
-                               Sobolev_w = Sobolev_w, ...)$crit_val_MC
+                               Sobolev_bk = Sobolev_bk, ...)$crit_val_MC
 
     } else {
 
@@ -419,7 +419,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
                                CJ12_reg = CJ12_reg, K_CCF09 = K_CCF09,
                                Stereo_a = Stereo_a, Poisson_rho = Poisson_rho,
                                Softmax_kappa = Softmax_kappa,
-                               Sobolev_w = Sobolev_w, ...)$stats_MC
+                               Sobolev_bk = Sobolev_bk, ...)$stats_MC
 
     }
 
@@ -521,7 +521,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
          "Rothman" = paste("Rothman test of circular uniformity with t =",
                            round(Rothman_t, 3)),
          "Sobolev" = paste("Finite Sobolev test of circular uniformity with",
-                           "w =", capture.output(dput(Sobolev_w))),
+                           "bk =", capture.output(dput(Sobolev_bk))),
          "Softmax" = "Softmax test of circular uniformity",
          "Vacancy" = paste("Vacancy test of circular uniformity with a =",
                            round(cov_a, 3)),
@@ -594,7 +594,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
                                "spherical uniformity"),
          "Riesz" = "Warning! This is an experimental test not meant to be used",
          "Sobolev" = paste("Finite Sobolev test of spherical uniformity with",
-                           "w =", capture.output(dput(Sobolev_w))),
+                           "bk =", capture.output(dput(Sobolev_bk))),
          "Softmax" = "Softmax test of spherical uniformity",
          "Stereo" = "Stereographic projection test of spherical uniformity"
       )

@@ -43,6 +43,7 @@
 #' @docType package
 #' @name sphunif-package
 #' @import graphics Rcpp stats
+#' @importFrom utils capture.output
 #' @useDynLib sphunif
 #' @aliases sphunif sphunif-package
 NULL

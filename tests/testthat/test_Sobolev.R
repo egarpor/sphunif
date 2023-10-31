@@ -352,7 +352,7 @@ test_that("p_Sobolev vs. d_Sobolev", {
 
 })
 
-## sph_stat_Sobolev()
+## sph_stat_Sobolev() and cir_stat_Sobolev()
 
 n <- 10
 bk <- runif(4)
@@ -376,6 +376,19 @@ dim(Psi4) <- c(dim(Psi4), 1)
 dim(Psi5) <- c(dim(Psi5), 1)
 dim(Psi9) <- c(dim(Psi9), 1)
 dim(Psi200) <- c(dim(Psi200), 1)
+
+test_that("sph_stat_Sobolev for a single and several bk's", {
+
+  expect_equal(cir_stat_Sobolev(X_to_Theta(X2), bk = rbind(bk, bk - 1))[, 1],
+               drop(cir_stat_Sobolev(X_to_Theta(X2), bk = bk)))
+  expect_equal(sph_stat_Sobolev(X2, bk = rbind(bk, bk - 1))[, 1],
+               drop(sph_stat_Sobolev(X2, bk = bk)))
+  expect_equal(sph_stat_Sobolev(X3, bk = rbind(bk, bk - 1))[, 1],
+               drop(sph_stat_Sobolev(X3, bk = bk)))
+  expect_equal(sph_stat_Sobolev(X4, bk = rbind(bk, bk - 1))[, 1],
+               drop(sph_stat_Sobolev(X4, bk = bk)))
+
+})
 
 test_that("sph_stat_Sobolev vs. cir_stat_Sobolev", {
 

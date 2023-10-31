@@ -111,7 +111,7 @@ asymptotic distribution of the Kolmogorov-Smirnov statistic. Defaults to
 non-negative real. Defaults to \code{1}.}
 
 \item{Sobolev_bk}{weights for the finite Sobolev test. A non-negative
-vector. Defaults to \code{c(0, 0, 1)}.}
+vector or matrix. Defaults to \code{c(0, 0, 1)}.}
 
 \item{...}{optional arguments to be passed to the \code{r_H1} sampler or to
 \code{\link[foreach]{foreach}} (for example, \code{.export} to export global

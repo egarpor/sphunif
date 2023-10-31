@@ -109,7 +109,7 @@ test, a positive real.}
 non-negative real. Defaults to \code{1}.}
 
 \item{Sobolev_bk}{weights for the finite Sobolev test. A non-negative
-vector. Defaults to \code{c(0, 0, 1)}.}
+vector or matrix. Defaults to \code{c(0, 0, 1)}.}
 
 \item{K_max}{integer giving the truncation of the series that compute the
 asymptotic p-value of a Sobolev test. Defaults to \code{1e4}.}

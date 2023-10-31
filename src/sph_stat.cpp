@@ -1233,7 +1233,7 @@ arma::vec sph_stat_Stereo(arma::cube X, bool Psi_in_X = false,
 
  // Divide by n and add bias
  Tn *= 2.0 / n;
- Tn += (n - 1.0) * (1.0 + a) * 0.5 * std::exp(std::log(p - 2) +
+ Tn -= (n - 1.0) * (1.0 + a) * 0.5 * std::exp(std::log(p - 2) +
    2 * (R::lgammafn(0.5 * (p - 2)) - R::lgammafn(0.5 * (p - 1))));
  return Tn;
 

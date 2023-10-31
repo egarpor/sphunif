@@ -15,6 +15,24 @@ avail_cir_tests_s2 <- c("Gine_Gn", "Rothman", "Watson_1976", "PRt")
 avail_sph_tests_s1 <- c("Gine_Fn", "Pycke", "PAD", "PCvM", "Cai")
 avail_sph_tests_s2 <- c("Gine_Gn", "CCF09", "Ajne", "PRt")
 
+test_that("Statistic arguments of unif_stat are the same of unif_stat_MC", {
+
+  expect_true(all(
+    names(formals(unif_stat))[-c(1:3)] ==
+      names(formals(unif_stat_MC))[-c(1:12, length(formals(unif_stat_MC)))]
+  ))
+
+})
+
+test_that("Statistic arguments of unif_stat are contained in those of
+          unif_test", {
+
+  expect_true(all(
+    names(formals(unif_stat))[-c(1:3)] %in% names(formals(unif_test))[-c(1:8)]
+  ))
+
+})
+
 test_that("unif_stat doing all or separate statistics", {
 
   expect_equal(as.numeric(unif_stat(data = Theta_1, type = "all",

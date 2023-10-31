@@ -11,7 +11,7 @@ unif_stat_MC(n, type = "all", p, M = 10000, r_H1 = NULL,
   seeds = NULL, Rayleigh_m = 1, cov_a = 2 * pi, Rothman_t = 1/3,
   Cressie_t = 1/3, Pycke_q = 0.5, Riesz_s = 1, CCF09_dirs = NULL,
   K_CCF09 = 25, CJ12_reg = 3, Stereo_a = 0, Poisson_rho = 0.5,
-  Softmax_kappa = 1, ...)
+  Softmax_kappa = 1, Sobolev_bk = c(0, 0, 1), ...)
 }
 \arguments{
 \item{n}{sample size.}
@@ -109,6 +109,9 @@ asymptotic distribution of the Kolmogorov-Smirnov statistic. Defaults to
 
 \item{Softmax_kappa}{\eqn{\kappa} parameter for the Softmax test, a
 non-negative real. Defaults to \code{1}.}
+
+\item{Sobolev_bk}{weights for the finite Sobolev test. A non-negative
+vector. Defaults to \code{c(0, 0, 1)}.}
 
 \item{...}{optional arguments to be passed to the \code{r_H1} sampler or to
 \code{\link[foreach]{foreach}} (for example, \code{.export} to export global

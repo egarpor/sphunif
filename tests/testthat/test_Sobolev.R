@@ -405,38 +405,23 @@ test_that("sph_stat_Sobolev with X and Psi", {
 
 })
 
-test_that("sph_stat_Sobolev vs. Rayleigh", {
+test_that("sph_stat_Sobolev(bk = 1) is a linear form of Rayleigh statistic", {
 
-  skip("TODO")
-  expect_equal(2 * sph_stat_Sobolev(X = X2, w = 1, b = 1),
-               drop(sph_stat_Rayleigh(X = X2)), tolerance = 1e-6)
-  expect_equal(3 * sph_stat_Sobolev(X = X3, w = 1, b = 1),
-               drop(sph_stat_Rayleigh(X = X3)), tolerance = 1e-6)
-  expect_equal(4 * sph_stat_Sobolev(X = X4, w = 1, b = 1),
-               drop(sph_stat_Rayleigh(X = X4)), tolerance = 1e-6)
-  expect_equal(5 * sph_stat_Sobolev(X = X5, w = 1, b = 1),
-               drop(sph_stat_Rayleigh(X = X5)), tolerance = 1e-6)
-  expect_equal(9 * sph_stat_Sobolev(X = X9, w = 1, b = 1),
-               drop(sph_stat_Rayleigh(X = X9)), tolerance = 1e-6)
-  expect_equal(200 * sph_stat_Sobolev(X = X200, w = 1, b = 1),
-               drop(sph_stat_Rayleigh(X = X200)), tolerance = 1e-6)
+  for (p in 2:9) {
+    stats <- unif_stat_MC(n = 5, type = c("Rayleigh", "Sobolev"), p = p, M = 5,
+                          return_stats = TRUE, Sobolev_bk = 1)
+    expect_equal(drop(cor(stats$stats_MC$Sobolev, stats$stats_MC$Rayleigh)), 1)
+  }
 
 })
 
-test_that("sph_stat_Sobolev vs. Bingham", {
+test_that("sph_stat_Sobolev(bk = c(0, 1)) is a linear form of Bingham
+          statistic", {
 
-  skip("TODO")
-  expect_equal(sph_stat_Sobolev(X = X2, w = c(0, 1)),
-               sph_stat_Bingham(X = X2), tolerance = 1e-6)
-  expect_equal(sph_stat_Sobolev(X = X3, w = c(0, 1)),
-               sph_stat_Bingham(X = X3), tolerance = 1e-6)
-  expect_equal(sph_stat_Sobolev(X = X4, w = c(0, 1)),
-               sph_stat_Bingham(X = X4), tolerance = 1e-6)
-  expect_equal(sph_stat_Sobolev(X = X5, w = c(0, 1)),
-               sph_stat_Bingham(X = X5), tolerance = 1e-6)
-  expect_equal(sph_stat_Sobolev(X = X9, w = c(0, 1)),
-               sph_stat_Bingham(X = X9), tolerance = 1e-6)
-  expect_equal(sph_stat_Sobolev(X = X200, w = c(0, 1)),
-               sph_stat_Bingham(X = X200), tolerance = 1e-6)
+  for (p in 2:9) {
+    stats <- unif_stat_MC(n = 5, type = c("Bingham", "Sobolev"), p = p, M = 5,
+                          return_stats = TRUE, Sobolev_bk = c(0, 1))
+    expect_equal(drop(cor(stats$stats_MC$Sobolev, stats$stats_MC$Bingham)), 1)
+  }
 
 })

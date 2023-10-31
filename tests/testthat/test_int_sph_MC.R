@@ -6,7 +6,7 @@ one <- function(x) rep(1, nrow(x))
 id <- function(x) x[, 1]
 quad <- function(x) rowSums(x^2)
 cubic <- function(x, a = 0) a + x[, 1] * x[, 2] * x[, 3]
-time_consuming <- function(x) {Sys.sleep(0.5); 1}
+time_consuming <- function(x) {Sys.sleep(0.1); 1}
 seeds <- 1:5
 
 test_that("Integration of one", {
@@ -97,9 +97,9 @@ test_that("Parallelization is faster", {
 
   skip_on_ci()
   skip_on_cran()
-  t1 <- system.time(int_sph_MC(f = time_consuming, p = 3, M = 1e5, cores = 1,
+  t1 <- system.time(int_sph_MC(f = time_consuming, p = 3, M = 1e3, cores = 1,
                                chunks = 10))[3]
-  t2 <- system.time(int_sph_MC(f = time_consuming, p = 3, M = 1e5, cores = 2,
+  t2 <- system.time(int_sph_MC(f = time_consuming, p = 3, M = 1e3, cores = 2,
                                chunks = 10))[3]
   expect_gt(t1, t2)
 

@@ -355,7 +355,7 @@ test_that("p_Sobolev vs. d_Sobolev", {
 ## sph_stat_Sobolev()
 
 n <- 10
-w <- runif(4)
+bk <- runif(4)
 set.seed(46868)
 X2 <- r_unif_sph(n = n, p = 2)
 Theta2 <- X_to_Theta(X2)
@@ -379,29 +379,29 @@ dim(Psi200) <- c(dim(Psi200), 1)
 
 test_that("sph_stat_Sobolev vs. cir_stat_Sobolev", {
 
-  expect_equal(sph_stat_Sobolev(X2, w = w),
-               cir_stat_Sobolev(X_to_Theta(X2), w = w),
+  expect_equal(sph_stat_Sobolev(X2, bk = bk),
+               cir_stat_Sobolev(X_to_Theta(X2), bk = bk),
                tolerance = 1e-6)
-  expect_equal(sph_stat_Sobolev(Psi2, Psi_in_X = TRUE, p = 2, w = w),
-               cir_stat_Sobolev(Psi2, Psi_in_Theta = TRUE, w = w),
+  expect_equal(sph_stat_Sobolev(Psi2, Psi_in_X = TRUE, p = 2, bk = bk),
+               cir_stat_Sobolev(Psi2, Psi_in_Theta = TRUE, bk = bk),
                tolerance = 1e-6)
 
 })
 
 test_that("sph_stat_Sobolev with X and Psi", {
 
-  expect_equal(sph_stat_Sobolev(Psi2, Psi_in_X = TRUE, p = 2, w = w),
-               sph_stat_Sobolev(X2, w = w), tolerance = 1e-6)
-  expect_equal(sph_stat_Sobolev(Psi3, Psi_in_X = TRUE, p = 3, w = w),
-               sph_stat_Sobolev(X3, w = w), tolerance = 1e-6)
-  expect_equal(sph_stat_Sobolev(Psi4, Psi_in_X = TRUE, p = 4, w = w),
-               sph_stat_Sobolev(X4, w = w), tolerance = 1e-6)
-  expect_equal(sph_stat_Sobolev(Psi5, Psi_in_X = TRUE, p = 5, w = w),
-               sph_stat_Sobolev(X5, w = w), tolerance = 1e-6)
-  expect_equal(sph_stat_Sobolev(Psi9, Psi_in_X = TRUE, p = 9, w = w),
-               sph_stat_Sobolev(X9, w = w), tolerance = 1e-6)
-  expect_equal(sph_stat_Sobolev(Psi200, Psi_in_X = TRUE, p = 200, w = w),
-               sph_stat_Sobolev(X200, w = w), tolerance = 1e-6)
+  expect_equal(sph_stat_Sobolev(Psi2, Psi_in_X = TRUE, p = 2, bk = bk),
+               sph_stat_Sobolev(X2, bk = bk), tolerance = 1e-6)
+  expect_equal(sph_stat_Sobolev(Psi3, Psi_in_X = TRUE, p = 3, bk = bk),
+               sph_stat_Sobolev(X3, bk = bk), tolerance = 1e-6)
+  expect_equal(sph_stat_Sobolev(Psi4, Psi_in_X = TRUE, p = 4, bk = bk),
+               sph_stat_Sobolev(X4, bk = bk), tolerance = 1e-6)
+  expect_equal(sph_stat_Sobolev(Psi5, Psi_in_X = TRUE, p = 5, bk = bk),
+               sph_stat_Sobolev(X5, bk = bk), tolerance = 1e-6)
+  expect_equal(sph_stat_Sobolev(Psi9, Psi_in_X = TRUE, p = 9, bk = bk),
+               sph_stat_Sobolev(X9, bk = bk), tolerance = 1e-6)
+  expect_equal(sph_stat_Sobolev(Psi200, Psi_in_X = TRUE, p = 200, bk = bk),
+               sph_stat_Sobolev(X200, bk = bk), tolerance = 1e-6)
 
 })
 

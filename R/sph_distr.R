@@ -14,7 +14,7 @@
 #' (sub-exponential regime), \code{2} (exponential), or \code{3}
 #' (super-exponential; default).
 #' @param beta \eqn{\beta} parameter in the exponential regime of the CJ12
-#' test, a nonnegative real. Defaults to \code{0}.
+#' test, a non-negative real. Defaults to \code{0}.
 #' @inheritParams cir_stat
 #' @param ... further parameters passed to \code{\link{p_Sobolev}} or
 #' \code{\link{d_Sobolev}} (such as \code{x_tail}).

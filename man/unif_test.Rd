@@ -9,7 +9,7 @@ unif_test(data, type = "all", p_value = "asymp", alpha = c(0.1, 0.05,
   data_sorted = FALSE, Rayleigh_m = 1, cov_a = 2 * pi, Rothman_t = 1/3,
   Cressie_t = 1/3, Pycke_q = 0.5, Riesz_s = 1, CCF09_dirs = NULL,
   K_CCF09 = 25, CJ12_reg = 3, CJ12_beta = 0, Stereo_a = 0,
-  Poisson_rho = 0.5, Softmax_kappa = 1, Sobolev_w = c(0, 0, 1),
+  Poisson_rho = 0.5, Softmax_kappa = 1, Sobolev_bk = c(0, 0, 1),
   K_max = 10000, ...)
 }
 \arguments{
@@ -108,7 +108,7 @@ test, a positive real.}
 \item{Softmax_kappa}{\eqn{\kappa} parameter for the Softmax test, a
 non-negative real. Defaults to \code{1}.}
 
-\item{Sobolev_w}{weights for the (finite) Sobolev test. A non-negative
+\item{Sobolev_bk}{weights for the finite Sobolev test. A non-negative
 vector. Defaults to \code{c(0, 0, 1)}.}
 
 \item{K_max}{integer giving the truncation of the series that compute the

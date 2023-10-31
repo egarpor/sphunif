@@ -87,7 +87,7 @@ contains \eqn{S^{p-1}}.}
 (super-exponential; default).}
 
 \item{beta}{\eqn{\beta} parameter in the exponential regime of the CJ12
-test, a nonnegative real. Defaults to \code{0}.}
+test, a non-negative real. Defaults to \code{0}.}
 
 \item{K_max}{integer giving the truncation of the series that compute the
 asymptotic p-value of a Sobolev test. Defaults to \code{1e3}.}

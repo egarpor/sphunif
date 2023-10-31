@@ -3,11 +3,11 @@
 \name{sph_stat_Sobolev}
 \alias{sph_stat_Sobolev}
 \alias{cir_stat_Sobolev}
-\title{TODO}
+\title{Finite Sobolev statistics for testing (hyper)spherical uniformity}
 \usage{
-sph_stat_Sobolev(X, Psi_in_X = FALSE, p = 0, w = c(0, 0, 1), b = 0)
+sph_stat_Sobolev(X, Psi_in_X = FALSE, p = 0, bk = c(0, 0, 1), bias = 0)
 
-cir_stat_Sobolev(Theta, Psi_in_Theta = FALSE, w = c(0, 0, 1), b = 0)
+cir_stat_Sobolev(Theta, Psi_in_Theta = FALSE, bk = c(0, 0, 1), bias = 0)
 }
 \arguments{
 \item{X}{an \bold{array} of size \code{c(n, p, M)} containing the Cartesian
@@ -22,10 +22,10 @@ internally.}
 \item{p}{integer giving the dimension of the ambient space \eqn{R^p} that
 contains \eqn{S^{p-1}}.}
 
-\item{w}{weights for the (finite) Sobolev test. A non-negative vector.
+\item{bk}{weights for the finite Sobolev test. A non-negative vector.
 Defaults to \code{c(0, 0, 1)}.}
 
-\item{b}{bias for the (finite) Sobolev test. Defaults to \code{0}.}
+\item{bias}{bias for the finite Sobolev test. Defaults to \code{0}.}
 
 \item{Theta}{a \bold{matrix} of size \code{c(n, M)} with \code{M} samples
 of size \code{n} of circular data on \eqn{[0, 2\pi)}. Must not contain
@@ -37,5 +37,9 @@ of size \code{n} of circular data on \eqn{[0, 2\pi)}. Must not contain
 (default), \eqn{\boldsymbol\Psi}{\Psi} is computed internally.}
 }
 \description{
-TODO
+Computes the finite Sobolev statistic \deqn{
+S_{n, p}(\{b_{k, p}\}_{k=1}^K) = \sum_{i, j = 1}^n
+\sum_{k = 1}^K b_{k, p}C_k^(p / 2 - 1)(\cos^{-1}({\bf X}_i'{\bf X}_j)),}
+for a sequence  \eqn{\{b_{k, p}\}_{k = 1}^K} of non-negative weights. For
+\eqn{p = 2}, the Gegenbauer polynomials are replaced by Chebyshev ones.
 }

@@ -55,7 +55,7 @@
 #' @param Poisson_rho \eqn{\rho} parameter for the Poisson test, a real in
 #' \eqn{[0, 1)}. Defaults to \code{0.5}.
 #' @param Sobolev_bk weights for the finite Sobolev test. A non-negative
-#' vector. Defaults to \code{c(0, 0, 1)}.
+#' vector or matrix. Defaults to \code{c(0, 0, 1)}.
 #' @return A data frame of size \code{c(M, length(type))}, with column names
 #' given by \code{type}, that contains the values of the test statistics.
 #' @details
@@ -543,7 +543,7 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
     }
     if (run_test$Pycke) {
 
-      if (Riesz_s == 0 && run_test$Riesz) {
+      if (run_test$Riesz && Riesz_s == 0) {
 
         stats$Pycke <- (2 * n) / (n - 1) * stats$Riesz
 
@@ -754,7 +754,7 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
     }
     if (run_test$Pycke) {
 
-      if (Riesz_s == 0 && run_test$Riesz) {
+      if (run_test$Riesz && Riesz_s == 0) {
 
         if (p == 3) {
 
@@ -844,6 +844,12 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
 
   }
 
+  # Avoid returning matrices in variables if there are vectorized tests
+  if ("Sobolev" %in% type && nrow(rbind(Sobolev_bk)) > 1) {
+
+    stats <- do.call(data.frame, stats)
+
+  }
   return(stats)
 
 }

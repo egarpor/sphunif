@@ -592,12 +592,10 @@ q_Sobolev <- function(u, p, type, method = c("I", "SW", "HBE", "MC")[1],
 #' \eqn{p = 2}, the Gegenbauer polynomials are replaced by Chebyshev ones.
 #' @inheritParams cir_stat
 #' @inheritParams sph_stat
-#' @param bk weights for the finite Sobolev test. A non-negative vector.
-#' Defaults to \code{c(0, 0, 1)}.
-#' @param bias bias for the finite Sobolev test. Defaults to \code{0}.
+#' @param bk weights for the finite Sobolev test. A non-negative vector or
+#' matrix. Defaults to \code{c(0, 0, 1)}.
 #' @export
-sph_stat_Sobolev <- function(X, Psi_in_X = FALSE, p = 0, bk = c(0, 0, 1),
-                             bias = 0) {
+sph_stat_Sobolev <- function(X, Psi_in_X = FALSE, p = 0, bk = c(0, 0, 1)) {
 
   # Compute Psi matrix with angles between pairs?
   if (Psi_in_X) {
@@ -621,27 +619,31 @@ sph_stat_Sobolev <- function(X, Psi_in_X = FALSE, p = 0, bk = c(0, 0, 1),
 
   }
 
-  # Statistic
-  Tn <- numeric(M)
-  for (k in which(bk != 0)) {
+  # Statistics for k with bk != 0
+  bk <- rbind(bk)
+  nonzero_bk <- which(apply(bk != 0, 2, any))
+  Tnk <- matrix(0, nrow = M, ncol = ncol(bk))
+  for (k in nonzero_bk) {
     for (j in seq_len(M)) {
 
-      Tn[j] <- Tn[j] + bk[k] * sum(Gegen_polyn(theta = X[, j], k = k, p = p))
+      Tnk[j, k] <- sum(Gegen_polyn(theta = X[, j], k = k, p = p))
 
     }
   }
 
-  # Add bias
-  Tn <- 2 * Tn / n + bias
-  return(Tn)
+  # Construct statistic
+  Tn <- Tnk %*% t(bk)
+
+  # Multiply by 2 / n
+  Tn <- 2 * Tn / n
+  return(unname(Tn))
 
 }
 
 
 #' @rdname sph_stat_Sobolev
 #' @export
-cir_stat_Sobolev <- function(Theta, Psi_in_Theta = FALSE, bk = c(0, 0, 1),
-                             bias = 0) {
+cir_stat_Sobolev <- function(Theta, Psi_in_Theta = FALSE, bk = c(0, 0, 1)) {
 
   if (Psi_in_Theta) {
 
@@ -650,13 +652,11 @@ cir_stat_Sobolev <- function(Theta, Psi_in_Theta = FALSE, bk = c(0, 0, 1),
       dim(Theta) <- c(dim(Theta), 1)
 
     }
-    return(sph_stat_Sobolev(X = Theta, Psi_in_X = TRUE, p = 2, bk = bk,
-                            bias = bias))
+    return(sph_stat_Sobolev(X = Theta, Psi_in_X = TRUE, p = 2, bk = bk))
 
   } else {
 
-    return(sph_stat_Sobolev(X = Theta_to_X(Theta), Psi_in_X = FALSE,
-                            bk = bk, bias = bias))
+    return(sph_stat_Sobolev(X = Theta_to_X(Theta), Psi_in_X = FALSE, bk = bk))
 
   }
 

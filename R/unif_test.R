@@ -361,6 +361,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
                     CJ12_reg = CJ12_reg, Stereo_a = Stereo_a,
                     Poisson_rho = Poisson_rho, Softmax_kappa = Softmax_kappa,
                     Sobolev_bk = Sobolev_bk)
+  stat_names <- names(stat) # We can have names such Sobolev.1, Sobolev.2, etc.
 
   ## Calibration
 
@@ -385,17 +386,17 @@ unif_test <- function(data, type = "all", p_value = "asymp",
 
       # Check if there is any missing statistic in crit_val
       names_crit_val <- names(crit_val)
-      missing_crit_val <- !(stats_type %in% names_crit_val)
+      missing_crit_val <- !(stat_names %in% names_crit_val)
       if (any(missing_crit_val)) {
 
         stop(paste0("Missing statistics in crit_val: \"",
-                    paste(stats_type[missing_crit_val],
+                    paste(stat_names[missing_crit_val],
                           collapse = "\", \""), "\"."))
 
       }
 
-      # Match columns of crit_val with stats_type
-      crit_val <- crit_val[, pmatch(x = stats_type, table = names_crit_val),
+      # Match columns of crit_val with stat_names
+      crit_val <- crit_val[, pmatch(x = stat_names, table = names_crit_val),
                            drop = FALSE]
 
     }
@@ -424,7 +425,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
     }
 
     # p-values
-    p_val <- 1 - as.data.frame(sapply(stats_type, function(distr) {
+    p_val <- 1 - as.data.frame(sapply(stat_names, function(distr) {
       ecdf_bin(data = stats_MC[[distr]], sorted_x = stat[[distr]],
                data_sorted = TRUE, efic = TRUE, divide_n = TRUE)
     }, simplify = FALSE))
@@ -470,12 +471,15 @@ unif_test <- function(data, type = "all", p_value = "asymp",
   # Create list of htest objects
   test <- vector(mode = "list", length = n_stats)
   names(test) <- stats_type
-  for (i in seq_along(stats_type)) {
+  stat_names_rep <- gsub(x = stat_names, pattern = "[.][0-9]+",
+                         replacement = "")
+  Sobolev_bk <- rbind(Sobolev_bk)
+  for (i in seq_along(stat_names)) {
 
     # Type of test
     if (p == 2) {
 
-      method <- switch(stats_type[i],
+      method <- switch(stat_names_rep[i],
          "Ajne" = "Ajne test of circular uniformity",
          "Bakshaev" = "Bakshaev (2010) test of circular uniformity",
          "Bingham" = "Bingham test of circular uniformity",
@@ -521,7 +525,11 @@ unif_test <- function(data, type = "all", p_value = "asymp",
          "Rothman" = paste("Rothman test of circular uniformity with t =",
                            round(Rothman_t, 3)),
          "Sobolev" = paste("Finite Sobolev test of circular uniformity with",
-                           "bk =", capture.output(dput(Sobolev_bk))),
+                           "bk =", capture.output(dput(Sobolev_bk[
+                             ifelse(nrow(Sobolev_bk) == 1, 1, as.numeric(
+                               strsplit(stat_names[i], split = ".",
+                                        fixed = TRUE)[[1]][2])),
+                           ]))),
          "Softmax" = "Softmax test of circular uniformity",
          "Vacancy" = paste("Vacancy test of circular uniformity with a =",
                            round(cov_a, 3)),
@@ -529,7 +537,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
          "Watson_1976" = "Watson (1976) test of circular uniformity"
       )
 
-      alternative <- switch(stats_type[i],
+      alternative <- switch(stat_names_rep[i],
          "Ajne" = "any non-axial alternative to circular uniformity",
          "Bakshaev" = "any alternative to circular uniformity",
          "Bingham" = "scatter matrix different from constant",
@@ -563,7 +571,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
                            "if t is irrational"),
          "Riesz" = "unclear, experimental test",
          "Sobolev" = paste("alternatives in the Fourier subspace",
-                           "with non-null coefficients w"),
+                           "with non-null coefficients bk"),
          "Softmax" = "any alternative to circular uniformity for kappa > 0",
          "Vacancy" = "any alternative to circular uniformity",
          "Watson" = "any alternative to circular uniformity",
@@ -572,7 +580,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
 
     } else {
 
-      method <- switch(stats_type[i],
+      method <- switch(stat_names_rep[i],
          "Ajne" = "Ajne test of spherical uniformity",
          "Bakshaev" = "Bakshaev (2010) test of spherical uniformity",
          "Bingham" = "Bingham test of spherical uniformity",
@@ -594,12 +602,16 @@ unif_test <- function(data, type = "all", p_value = "asymp",
                                "spherical uniformity"),
          "Riesz" = "Warning! This is an experimental test not meant to be used",
          "Sobolev" = paste("Finite Sobolev test of spherical uniformity with",
-                           "bk =", capture.output(dput(Sobolev_bk))),
+                           "bk =", capture.output(dput(Sobolev_bk[
+                             ifelse(nrow(Sobolev_bk) == 1, 1, as.numeric(
+                               strsplit(stat_names[i], split = ".",
+                                        fixed = TRUE)[[1]][2])),
+                             ]))),
          "Softmax" = "Softmax test of spherical uniformity",
          "Stereo" = "Stereographic projection test of spherical uniformity"
       )
 
-      alternative <- switch(stats_type[i],
+      alternative <- switch(stat_names_rep[i],
          "Ajne" = "any non-axial alternative to spherical uniformity",
          "Bakshaev" = "any alternative to spherical uniformity",
          "Bingham" = "scatter matrix different from constant",
@@ -617,7 +629,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
          "Rayleigh_HD" = "mean direction different from zero",
          "Riesz" = "unclear, experimental test",
          "Sobolev" = paste("alternatives in the spherical harmonics subspace",
-                           "with non-null coefficients w"),
+                           "with non-null coefficients bk"),
          "Softmax" = "any alternative to spherical uniformity for kappa > 0",
          "Stereo" = "any alternative to spherical uniformity for |a| < 1"
       )

@@ -196,7 +196,7 @@ test_that("e_k_ell_q / e_k_k_q bounded by 1/2", {
 
 ## Circular case
 
-n <- 50
+n <- 10
 set.seed(42)
 samp <- r_unif_sph(n = n, p = 2)
 
@@ -254,7 +254,7 @@ test_that("stat_Pn_w equals v_3 = 1 statistic for p = 2", {
 
 ## Spherical case
 
-n <- 25
+n <- 10
 p <- 4
 set.seed(42)
 samp <- r_unif_sph(n = n, p = p)
@@ -279,7 +279,7 @@ vk2_PAD <- weights_dfs_Sobolev(p = p, K_max = K, type = "PAD", thre = 0,
                                N = 5120, verbose = FALSE)$weights
 bvk_PAD <- vk2_to_bvk(vk2 = vk2_PAD, p = p)
 
-test_that("vk2_to_bvk vs. bvk_to_wk vs", {
+test_that("vk2_to_bvk vs. bvk_to_wk", {
 
   skip_on_cran()
   for (i in 1:10) {

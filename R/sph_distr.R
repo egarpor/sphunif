@@ -10,7 +10,7 @@
 #' @inheritParams r_unif
 #' @inheritParams wschisq
 #' @inheritParams unif_stat_distr
-#' @param bk weights for the finite Sobolev test. A non-negative vector or
+#' @param vk2 weights for the finite Sobolev test. A non-negative vector or
 #' matrix. Defaults to \code{c(0, 0, 1)}.
 #' @param regime type of asymptotic regime for the CJ12 test, either \code{1}
 #' (sub-exponential regime), \code{2} (exponential), or \code{3}
@@ -264,20 +264,19 @@ d_sph_stat_Riesz <- function(x, p, s = 1, K_max = 1e3, thre = 0, ...) {
 
 #' @rdname sph_stat_distr
 #' @export
-p_sph_stat_Sobolev <- function(x, p, bk = c(0, 0, 1), K_max = 1e3, thre = 0,
+p_sph_stat_Sobolev <- function(x, p, vk2 = c(0, 0, 1), K_max = 1e3, thre = 0,
                                ...) {
 
   # Check if the asymptotic distribution is a single chi-squared
-  nonzero_bk <- which(bk != 0)
-  if (length(nonzero_bk) == 1) {
+  nonzero_vk2 <- which(vk2 != 0)
+  if (length(nonzero_vk2) == 1) {
 
-    vk2 <- bk_to_vk2(bk = bk, p = p)
-    vk2 <- vk2[nonzero_bk]
-    return(pchisq(q = x / vk2, df = d_p_k(p = p, k = nonzero_bk)))
+    vk2 <- vk2[nonzero_vk2]
+    return(pchisq(q = x / vk2, df = d_p_k(p = p, k = nonzero_vk2)))
 
   } else {
 
-    return(cbind(p_Sobolev(x = x, p = p, type = "Sobolev", Sobolev_bk = bk,
+    return(cbind(p_Sobolev(x = x, p = p, type = "Sobolev", Sobolev_vk2 = vk2,
                            K_max = K_max, thre = thre, ...)))
 
   }
@@ -287,20 +286,19 @@ p_sph_stat_Sobolev <- function(x, p, bk = c(0, 0, 1), K_max = 1e3, thre = 0,
 
 #' @rdname sph_stat_distr
 #' @export
-d_sph_stat_Sobolev <- function(x, p, bk = c(0, 0, 1), K_max = 1e3,
+d_sph_stat_Sobolev <- function(x, p, vk2 = c(0, 0, 1), K_max = 1e3,
                                thre = 0, ...) {
 
   # Check if the asymptotic distribution is a single chi-squared
-  nonzero_bk <- which(bk != 0)
-  if (length(nonzero_bk) == 1) {
+  nonzero_vk2 <- which(vk2 != 0)
+  if (length(nonzero_vk2) == 1) {
 
-    vk2 <- bk_to_vk2(bk = bk, p = p)
-    vk2 <- vk2[nonzero_bk]
-    return(dchisq(x = x / vk2, df = d_p_k(p = p, k = nonzero_bk)) / vk2)
+    vk2 <- vk2[nonzero_vk2]
+    return(dchisq(x = x / vk2, df = d_p_k(p = p, k = nonzero_vk2)) / vk2)
 
   } else {
 
-    return(cbind(d_Sobolev(x = x, p = p, type = "Sobolev", Sobolev_bk = bk,
+    return(cbind(d_Sobolev(x = x, p = p, type = "Sobolev", Sobolev_vk2 = vk2,
                            K_max = K_max, thre = thre, ...)))
 
   }

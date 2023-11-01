@@ -5,9 +5,9 @@
 \alias{cir_stat_Sobolev}
 \title{Finite Sobolev statistics for testing (hyper)spherical uniformity}
 \usage{
-sph_stat_Sobolev(X, Psi_in_X = FALSE, p = 0, bk = c(0, 0, 1))
+sph_stat_Sobolev(X, Psi_in_X = FALSE, p = 0, vk2 = c(0, 0, 1))
 
-cir_stat_Sobolev(Theta, Psi_in_Theta = FALSE, bk = c(0, 0, 1))
+cir_stat_Sobolev(Theta, Psi_in_Theta = FALSE, vk2 = c(0, 0, 1))
 }
 \arguments{
 \item{X}{an \bold{array} of size \code{c(n, p, M)} containing the Cartesian
@@ -22,7 +22,7 @@ internally.}
 \item{p}{integer giving the dimension of the ambient space \eqn{R^p} that
 contains \eqn{S^{p-1}}.}
 
-\item{bk}{weights for the finite Sobolev test. A non-negative vector or
+\item{vk2}{weights for the finite Sobolev test. A non-negative vector or
 matrix. Defaults to \code{c(0, 0, 1)}.}
 
 \item{Theta}{a \bold{matrix} of size \code{c(n, M)} with \code{M} samples

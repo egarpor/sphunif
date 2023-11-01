@@ -151,7 +151,7 @@ d_p_k <- function(p, k, log = FALSE) {
 #' @export
 weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
                                 Rothman_t = 1 / 3, Pycke_q = 0.5, Riesz_s = 1,
-                                Sobolev_bk = c(0, 0, 1), log = FALSE,
+                                Sobolev_vk2 = c(0, 0, 1), log = FALSE,
                                 verbose = TRUE, Gauss = TRUE, N = 320,
                                 tol = 1e-6, force_positive = TRUE,
                                 x_tail = NULL) {
@@ -622,13 +622,13 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
 #' @export
 d_Sobolev <- function(x, p, type, method = c("I", "SW", "HBE")[1], K_max = 1e3,
                       thre = 1e-3, Rothman_t = 1 / 3, Pycke_q = 0.5,
-                      Riesz_s = 1, Sobolev_bk = c(0, 0, 1), ncps = 0,
+                      Riesz_s = 1, Sobolev_vk2 = c(0, 0, 1), ncps = 0,
                       verbose = TRUE, N = 320, x_tail = NULL, ...) {
 
   weights_dfs <- weights_dfs_Sobolev(p = p, K_max = K_max, thre = thre,
                                      type = type, Rothman_t = Rothman_t,
                                      Pycke_q = Pycke_q, Riesz_s = Riesz_s,
-                                     Sobolev_bk = Sobolev_bk, verbose = verbose,
+                                     Sobolev_vk2 = Sobolev_vk2, verbose = verbose,
                                      Gauss = TRUE, N = N, x_tail = x_tail)
   d_wschisq(x = x, weights = weights_dfs$weights, dfs = weights_dfs$dfs,
             ncps = ncps, method = method, ...)
@@ -640,13 +640,13 @@ d_Sobolev <- function(x, p, type, method = c("I", "SW", "HBE")[1], K_max = 1e3,
 #' @export
 p_Sobolev <- function(x, p, type, method = c("I", "SW", "HBE", "MC")[1],
                       K_max = 1e3, thre = 1e-3, Rothman_t = 1 / 3,
-                      Pycke_q = 0.5, Riesz_s = 1, Sobolev_bk = c(0, 0, 1),
+                      Pycke_q = 0.5, Riesz_s = 1, Sobolev_vk2 = c(0, 0, 1),
                       ncps = 0, verbose = TRUE, N = 320, x_tail = NULL, ...) {
 
   weights_dfs <- weights_dfs_Sobolev(p = p, K_max = K_max, thre = thre,
                                      type = type, Rothman_t = Rothman_t,
                                      Pycke_q = Pycke_q, Riesz_s = Riesz_s,
-                                     Sobolev_bk = Sobolev_bk, verbose = verbose,
+                                     Sobolev_vk2 = Sobolev_vk2, verbose = verbose,
                                      Gauss = TRUE, N = N, x_tail = x_tail)
   p_wschisq(x = x, weights = weights_dfs$weights, dfs = weights_dfs$dfs,
             ncps = ncps, method = method, ...)
@@ -658,14 +658,15 @@ p_Sobolev <- function(x, p, type, method = c("I", "SW", "HBE", "MC")[1],
 #' @export
 q_Sobolev <- function(u, p, type, method = c("I", "SW", "HBE", "MC")[1],
                       K_max = 1e3, thre = 1e-3, Rothman_t = 1 / 3,
-                      Pycke_q = 0.5, Riesz_s = 1, Sobolev_bk = c(0, 0, 1),
+                      Pycke_q = 0.5, Riesz_s = 1, Sobolev_vk2 = c(0, 0, 1),
                       ncps = 0, verbose = TRUE, N = 320, x_tail = NULL, ...) {
 
   weights_dfs <- weights_dfs_Sobolev(p = p, K_max = K_max, thre = thre,
                                      type = type, Rothman_t = Rothman_t,
                                      Pycke_q = Pycke_q, Riesz_s = Riesz_s,
-                                     Sobolev_bk = Sobolev_bk, verbose = verbose,
-                                     Gauss = TRUE, N = N, x_tail = x_tail)
+                                     Sobolev_vk2 = Sobolev_vk2,
+                                     verbose = verbose, Gauss = TRUE, N = N,
+                                     x_tail = x_tail)
   q_wschisq(u = u, weights = weights_dfs$weights, dfs = weights_dfs$dfs,
             ncps = ncps, method = method, ...)
 
@@ -681,10 +682,10 @@ q_Sobolev <- function(u, p, type, method = c("I", "SW", "HBE", "MC")[1],
 #' \eqn{p = 2}, the Gegenbauer polynomials are replaced by Chebyshev ones.
 #' @inheritParams sph_stat
 #' @inheritParams cir_stat
-#' @param bk weights for the finite Sobolev test. A non-negative vector or
+#' @param vk2 weights for the finite Sobolev test. A non-negative vector or
 #' matrix. Defaults to \code{c(0, 0, 1)}.
 #' @export
-sph_stat_Sobolev <- function(X, Psi_in_X = FALSE, p = 0, bk = c(0, 0, 1)) {
+sph_stat_Sobolev <- function(X, Psi_in_X = FALSE, p = 0, vk2 = c(0, 0, 1)) {
 
   # Compute Psi matrix with angles between pairs?
   if (Psi_in_X) {
@@ -708,23 +709,26 @@ sph_stat_Sobolev <- function(X, Psi_in_X = FALSE, p = 0, bk = c(0, 0, 1)) {
 
   }
 
-  # Statistics for k with bk != 0
-  bk <- rbind(bk)
-  nonzero_bk <- which(apply(bk != 0, 2, any))
-  Tnk <- matrix(0, nrow = M, ncol = ncol(bk))
+  # Statistics for k with vk2 != 0
+  vk2 <- rbind(vk2)
+  nonzero_vk2 <- which(apply(vk2 != 0, 2, any))
+  Tnk <- matrix(0, nrow = M, ncol = ncol(vk2))
   for (j in seq_len(M)) {
 
-      Tnk[j, nonzero_bk] <- rowSums(Gegen_polyn(theta = X[, j],
-                                                k = nonzero_bk, p = p))
+      Tnk[j, nonzero_vk2] <- rowSums(Gegen_polyn(theta = X[, j],
+                                                 k = nonzero_vk2, p = p))
 
   }
+
+  # Get Gegenbauer coefficients
+  bk <- vk2_to_bk(vk2 = vk2, p = p)
 
   # Construct statistic, a matrix of size c(M, length(bk))
   Tn <- (2 / n)  * (Tnk %*% t(bk))
 
   # Add diagonal bias
-  bias <- drop(bk[, nonzero_bk] %*% Gegen_polyn(theta = 0, k = nonzero_bk,
-                                                p = p))
+  bias <- drop(bk[, nonzero_vk2] %*% Gegen_polyn(theta = 0, k = nonzero_vk2,
+                                                 p = p))
   Tn <- t(t(Tn) + bias)
   return(unname(Tn))
 
@@ -733,7 +737,7 @@ sph_stat_Sobolev <- function(X, Psi_in_X = FALSE, p = 0, bk = c(0, 0, 1)) {
 
 #' @rdname sph_stat_Sobolev
 #' @export
-cir_stat_Sobolev <- function(Theta, Psi_in_Theta = FALSE, bk = c(0, 0, 1)) {
+cir_stat_Sobolev <- function(Theta, Psi_in_Theta = FALSE, vk2 = c(0, 0, 1)) {
 
   if (Psi_in_Theta) {
 
@@ -742,11 +746,11 @@ cir_stat_Sobolev <- function(Theta, Psi_in_Theta = FALSE, bk = c(0, 0, 1)) {
       dim(Theta) <- c(dim(Theta), 1)
 
     }
-    return(sph_stat_Sobolev(X = Theta, Psi_in_X = TRUE, p = 2, bk = bk))
+    return(sph_stat_Sobolev(X = Theta, Psi_in_X = TRUE, p = 2, vk2 = vk2))
 
   } else {
 
-    return(sph_stat_Sobolev(X = Theta_to_X(Theta), Psi_in_X = FALSE, bk = bk))
+    return(sph_stat_Sobolev(X = Theta_to_X(Theta), Psi_in_X = FALSE, vk2 = vk2))
 
   }
 

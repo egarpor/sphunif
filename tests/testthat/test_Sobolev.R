@@ -45,7 +45,22 @@ test_that("d_p_k", {
 
 })
 
-## Gegen_coefs() and weights_dfs_Sobolev()
+## weights_dfs_Sobolev()
+
+test_that("weights_dfs_Sobolev returns the same number of coefficients", {
+
+  expect_true(all(lapply(sapply(avail_cir_tests, function(x)
+    tryCatch(as.data.frame(weights_dfs_Sobolev(p = 2, K = 4, type = x,
+                                               thre = 0, verbose = FALSE,
+                                               Sobolev_vk2 = 1:4)),
+             error = function(e) rbind(0))), nrow) %in% c(1, 4)))
+  expect_true(all(lapply(sapply(avail_sph_tests, function(x)
+    tryCatch(as.data.frame(weights_dfs_Sobolev(p = 3, K = 4, type = x,
+                                               thre = 0, verbose = FALSE,
+                                               Sobolev_vk2 = 1:4)),
+             error = function(e) rbind(0))), nrow) %in% c(1, 4)))
+
+})
 
 test_that("Gegen_coefs vs. weights_dfs_Sobolev for Ajne", {
 
@@ -200,7 +215,7 @@ test_that(paste("Gegen_coefs vs. weights_dfs_Sobolev for Watson, Rothman,",
                                        verbose = FALSE)$weights,
                tolerance = 1e-6)
   expect_equal(Gegen_coefs(psi = psi_Hermans_Rasson, k = k, p = 2),
-               2 * weights_dfs_Sobolev(p = 2, K_max = K %/% 2, thre = 0,
+               2 * weights_dfs_Sobolev(p = 2, K_max = K, thre = 0,
                                        type = "Hermans_Rasson",
                                        verbose = FALSE)$weights,
                tolerance = 1e-6)

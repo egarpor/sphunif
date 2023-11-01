@@ -5,6 +5,7 @@ X2 <- r_unif_sph(n = n, p = 2)
 X3 <- r_unif_sph(n = n, p = 3)
 X4 <- r_unif_sph(n = n, p = 4)
 X5 <- r_unif_sph(n = n, p = 5)
+Sobolev_vk2 <- diag(1, nrow = 2)
 
 test_that("All test work for p = 2 and return valid class information", {
 
@@ -61,5 +62,43 @@ test_that("All test work for p = 5 and return valid class information", {
     expect_false(is.null(test$method))
     expect_false(is.null(test$alternative))
   }
+
+})
+
+test_that("Vectorization works for Sobolev test", {
+
+    expect_no_error(test_mc <- unif_test(X2, type = "Sobolev",
+                                         p_value = "MC", M = 100,
+                                         Sobolev_vk2 = Sobolev_vk2))
+    expect_no_error(test_as <- unif_test(X2, type = "Sobolev",
+                                         p_value = "asymp",
+                                         Sobolev_vk2 = Sobolev_vk2))
+    expect_equal(test_mc$p.value, test_as$p.value, tolerance = 0.1)
+    expect_no_error(test_mc <- unif_test(X3, type = "Sobolev",
+                                         p_value = "MC", M = 100,
+                                         Sobolev_vk2 = Sobolev_vk2))
+    expect_no_error(test_as <- unif_test(X3, type = "Sobolev",
+                                         p_value = "asymp",
+                                         Sobolev_vk2 = Sobolev_vk2))
+    expect_equal(test_mc$p.value, test_as$p.value, tolerance = 0.1)
+
+})
+
+test_that("Vectorization works for Sobolev test with other tests", {
+
+  expect_no_error(test_mc <- unif_test(X2, type = c("Sobolev", "Ajne"),
+                                       p_value = "MC", M = 100,
+                                       Sobolev_vk2 = Sobolev_vk2))
+  expect_no_error(test_as <- unif_test(X2, type = c("Sobolev", "Ajne"),
+                                       p_value = "asymp",
+                                       Sobolev_vk2 = Sobolev_vk2))
+  expect_equal(test_mc$p.value, test_as$p.value, tolerance = 0.1)
+  expect_no_error(test_mc <- unif_test(X3, type = c("Sobolev", "Ajne"),
+                                       p_value = "MC", M = 100,
+                                       Sobolev_vk2 = Sobolev_vk2))
+  expect_no_error(test_as <- unif_test(X3, type = c("Sobolev", "Ajne"),
+                                       p_value = "asymp",
+                                       Sobolev_vk2 = Sobolev_vk2))
+  expect_equal(test_mc$p.value, test_as$p.value, tolerance = 0.1)
 
 })

@@ -311,7 +311,16 @@ unif_test <- function(data, type = "all", p_value = "asymp",
   } else if (is.numeric(type)) {
 
     type <- unique(type)
-    stats_type <- avail_stats[type]
+    if (type > length(avail_stats)) {
+
+      stop("type must be a numeric vector with values between 1 and ",
+           length(avail_stats), ".")
+
+    } else {
+
+      stats_type <- avail_stats[type]
+
+    }
 
   } else {
 
@@ -361,7 +370,10 @@ unif_test <- function(data, type = "all", p_value = "asymp",
                     CJ12_reg = CJ12_reg, Stereo_a = Stereo_a,
                     Poisson_rho = Poisson_rho, Softmax_kappa = Softmax_kappa,
                     Sobolev_vk2 = Sobolev_vk2)
-  stat_names <- names(stat) # We can have names such Sobolev.1, Sobolev.2, etc.
+  stats_type_vec <- names(stat) # We can have Sobolev.1, Sobolev.2, etc.
+
+  # Update the number of statistics (to count those Sobolev.1, Sobolev.2, etc.)
+  n_stats <- length(stats_type_vec)
 
   ## Calibration
 
@@ -386,17 +398,17 @@ unif_test <- function(data, type = "all", p_value = "asymp",
 
       # Check if there is any missing statistic in crit_val
       names_crit_val <- names(crit_val)
-      missing_crit_val <- !(stat_names %in% names_crit_val)
+      missing_crit_val <- !(stats_type_vec %in% names_crit_val)
       if (any(missing_crit_val)) {
 
         stop(paste0("Missing statistics in crit_val: \"",
-                    paste(stat_names[missing_crit_val],
+                    paste(stats_type_vec[missing_crit_val],
                           collapse = "\", \""), "\"."))
 
       }
 
-      # Match columns of crit_val with stat_names
-      crit_val <- crit_val[, pmatch(x = stat_names, table = names_crit_val),
+      # Match columns of crit_val with stats_type_vec
+      crit_val <- crit_val[, pmatch(x = stats_type_vec, table = names_crit_val),
                            drop = FALSE]
 
     }
@@ -425,7 +437,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
     }
 
     # p-values
-    p_val <- 1 - as.data.frame(sapply(stat_names, function(distr) {
+    p_val <- 1 - as.data.frame(sapply(stats_type_vec, function(distr) {
       ecdf_bin(data = stats_MC[[distr]], sorted_x = stat[[distr]],
                data_sorted = TRUE, efic = TRUE, divide_n = TRUE)
     }, simplify = FALSE))
@@ -448,7 +460,8 @@ unif_test <- function(data, type = "all", p_value = "asymp",
                                  K_CCF09 = K_CCF09, CJ12_reg = CJ12_reg,
                                  CJ12_beta = CJ12_beta, Stereo_a = Stereo_a,
                                  Poisson_rho = Poisson_rho,
-                                 Softmax_kappa = Softmax_kappa, K_max = K_max,
+                                 Softmax_kappa = Softmax_kappa,
+                                 Sobolev_vk2 = Sobolev_vk2, K_max = K_max,
                                  thre = 0, ...)
 
     # Critical values
@@ -470,16 +483,16 @@ unif_test <- function(data, type = "all", p_value = "asymp",
 
   # Create list of htest objects
   test <- vector(mode = "list", length = n_stats)
-  names(test) <- stat_names
-  stat_names_rep <- gsub(x = stat_names, pattern = "[.][0-9]+",
+  names(test) <- stats_type_vec
+  stats_type_rep <- gsub(x = stats_type_vec, pattern = "[.][0-9]+",
                          replacement = "")
   Sobolev_vk2 <- rbind(Sobolev_vk2)
-  for (i in seq_along(stat_names)) {
+  for (i in seq_along(stats_type_vec)) {
 
     # Type of test
     if (p == 2) {
 
-      method <- switch(stat_names_rep[i],
+      method <- switch(stats_type_rep[i],
          "Ajne" = "Ajne test of circular uniformity",
          "Bakshaev" = "Bakshaev (2010) test of circular uniformity",
          "Bingham" = "Bingham test of circular uniformity",
@@ -527,7 +540,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
          "Sobolev" = paste("Finite Sobolev test of circular uniformity with",
                            "vk2 =", capture.output(dput(Sobolev_vk2[
                              ifelse(nrow(Sobolev_vk2) == 1, 1, as.numeric(
-                               strsplit(stat_names[i], split = ".",
+                               strsplit(stats_type_vec[i], split = ".",
                                         fixed = TRUE)[[1]][2])),
                            ]))),
          "Softmax" = "Softmax test of circular uniformity",
@@ -537,7 +550,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
          "Watson_1976" = "Watson (1976) test of circular uniformity"
       )
 
-      alternative <- switch(stat_names_rep[i],
+      alternative <- switch(stats_type_rep[i],
          "Ajne" = "any non-axial alternative to circular uniformity",
          "Bakshaev" = "any alternative to circular uniformity",
          "Bingham" = "scatter matrix different from constant",
@@ -580,7 +593,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
 
     } else {
 
-      method <- switch(stat_names_rep[i],
+      method <- switch(stats_type_rep[i],
          "Ajne" = "Ajne test of spherical uniformity",
          "Bakshaev" = "Bakshaev (2010) test of spherical uniformity",
          "Bingham" = "Bingham test of spherical uniformity",
@@ -604,14 +617,14 @@ unif_test <- function(data, type = "all", p_value = "asymp",
          "Sobolev" = paste("Finite Sobolev test of spherical uniformity with",
                            "vk2 =", capture.output(dput(Sobolev_vk2[
                              ifelse(nrow(Sobolev_vk2) == 1, 1, as.numeric(
-                               strsplit(stat_names[i], split = ".",
+                               strsplit(stats_type_vec[i], split = ".",
                                         fixed = TRUE)[[1]][2])),
                              ]))),
          "Softmax" = "Softmax test of spherical uniformity",
          "Stereo" = "Stereographic projection test of spherical uniformity"
       )
 
-      alternative <- switch(stat_names_rep[i],
+      alternative <- switch(stats_type_rep[i],
          "Ajne" = "any non-axial alternative to spherical uniformity",
          "Bakshaev" = "any alternative to spherical uniformity",
          "Bingham" = "scatter matrix different from constant",

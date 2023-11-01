@@ -179,9 +179,9 @@ p_cir_stat_Riesz(x, s = 1, K_max = 1000, thre = 0, ...)
 
 d_cir_stat_Riesz(x, s = 1, K_max = 1000, thre = 0, ...)
 
-p_cir_stat_Sobolev(x, vk2 = c(0, 0, 1), K_max = 1000, thre = 0, ...)
+p_cir_stat_Sobolev(x, vk2 = c(0, 0, 1), ...)
 
-d_cir_stat_Sobolev(x, vk2 = c(0, 0, 1), K_max = 1000, thre = 0, ...)
+d_cir_stat_Sobolev(x, vk2 = c(0, 0, 1), ...)
 }
 \arguments{
 \item{x}{a vector of size \code{nx} or a matrix of size \code{c(nx, 1)}.}
@@ -387,6 +387,11 @@ curve(p_cir_stat_Watson(x), n = 2e2, col = 2, add = TRUE)
 # Watson (1976)
 curve(d_cir_stat_Watson_1976(x), to = 1.5, n = 2e2, ylim = c(0, 3))
 curve(p_cir_stat_Watson_1976(x), n = 2e2, col = 2, add = TRUE)
+
+# Sobolev
+vk2 <- c(0.5, 0)
+curve(d_cir_stat_Sobolev(x = x, vk2 = vk2), to = 3, n = 2e2, ylim = c(0, 2))
+curve(p_cir_stat_Sobolev(x = x, vk2 = vk2), n = 2e2, col = 2, add = TRUE)
 }
 \references{
 García-Portugués, E. and Verdebout, T. (2018) An overview of

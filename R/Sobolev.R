@@ -194,6 +194,9 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
 
     } else if (type == "Hermans_Rasson") {
 
+      # Halve K_max since we compute the odd/even coefficients separately
+      K_max <- K_max %/% 2
+
       # Sequence of indexes
       k <- 1:K_max
 
@@ -313,16 +316,8 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
                           lgamma(k - 1 / 2) + lgamma(p / 2 - 1) +
                           lgamma(p / 2) - log(pi) - lgamma(k + p - 1 / 2))
 
-      # Divide by 2 if p = 2 and (1 + k / alpha) if p > 2
-      if (p == 2) {
-
-        log_vk2 <- log_vk2 - log(2)
-
-      } else {
-
-        log_vk2 <- log_vk2 - log(1 + k / alpha)
-
-      }
+      # Switch from bk to vk2
+      log_vk2 <- bk_to_vk2(bk = log_vk2, p = p, log = TRUE)
 
       # log(d_{p, k})
       log_dk <- d_p_k(p = p, k = k, log = TRUE)
@@ -385,16 +380,8 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
 
       }
 
-      # Divide by 2 if p = 2 and (1 + k / alpha) if p > 2
-      if (p == 2) {
-
-        log_vk2 <- log_vk2 - log(2)
-
-      } else {
-
-        log_vk2 <- log_vk2 - log(1 + k / alpha)
-
-      }
+      # Switch from bk to vk2
+      log_vk2 <- bk_to_vk2(bk = log_vk2, p = p, log = TRUE)
 
       # log(d_{p, k})
       log_dk <- d_p_k(p = p, k = k, log = TRUE)
@@ -412,16 +399,8 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
       log_vk2 <- log(Gegen_coefs_Pn(k = k, p = p, type = "PCvM",
                                     Gauss = Gauss, N = N, tol = tol))
 
-      # Divide by 2 if p = 2 and (1 + k / alpha) if p > 2
-      if (p == 2) {
-
-        log_vk2 <- log_vk2 - log(2)
-
-      } else {
-
-        log_vk2 <- log_vk2 - log(1 + k / alpha)
-
-      }
+      # Switch from bk to vk2
+      log_vk2 <- bk_to_vk2(bk = log_vk2, p = p, log = TRUE)
 
       # log(d_{p, k})
       log_dk <- d_p_k(p = p, k = k, log = TRUE)
@@ -439,16 +418,8 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
       log_vk2 <- log(Gegen_coefs_Pn(k = k, p = p, type = "PAD",
                                     Gauss = Gauss, N = N, tol = tol))
 
-      # Divide by 2 if p = 2 and (1 + k / alpha) if p > 2
-      if (p == 2) {
-
-        log_vk2 <- log_vk2 - log(2)
-
-      } else {
-
-        log_vk2 <- log_vk2 - log(1 + k / alpha)
-
-      }
+      # Switch from bk to vk2
+      log_vk2 <- bk_to_vk2(bk = log_vk2, p = p, log = TRUE)
 
       # log(d_{p, k})
       log_dk <- d_p_k(p = p, k = k, log = TRUE)
@@ -467,16 +438,8 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
                                     Rothman_t = Rothman_t, Gauss = Gauss,
                                     N = N, tol = tol))
 
-      # Divide by 2 if p = 2 and (1 + k / alpha) if p > 2
-      if (p == 2) {
-
-        log_vk2 <- log_vk2 - log(2)
-
-      } else {
-
-        log_vk2 <- log_vk2 - log(1 + k / alpha)
-
-      }
+      # Switch from bk to vk2
+      log_vk2 <- bk_to_vk2(bk = log_vk2, p = p, log = TRUE)
 
       # log(d_{p, k})
       log_dk <- d_p_k(p = p, k = k, log = TRUE)
@@ -492,19 +455,10 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
       k <- 1:K_max
 
       # log(v_k^2)
-      log_vk2 <- log(Gegen_coefs_Pn(k = k, p = p, type = "PAD",
-                                    Gauss = Gauss, N = N, tol = tol))
+      log_vk2 <- 0
 
-      # Divide by 2 if p = 2 and (1 + k / alpha) if p > 2
-      if (p == 2) {
-
-        log_vk2 <- log_vk2 - log(2)
-
-      } else {
-
-        log_vk2 <- log_vk2 - log(1 + k / alpha)
-
-      }
+      # Switch from bk to vk2
+      log_vk2 <- bk_to_vk2(bk = log_vk2, p = p, log = TRUE)
 
       # log(d_{p, k})
       log_dk <- d_p_k(p = p, k = k, log = TRUE)
@@ -520,19 +474,10 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
       k <- 1:K_max
 
       # log(v_k^2)
-      log_vk2 <- log(Gegen_coefs_Pn(k = k, p = p, type = "PAD",
-                                    Gauss = Gauss, N = N, tol = tol))
+      log_vk2 <- 0
 
-      # Divide by 2 if p = 2 and (1 + k / alpha) if p > 2
-      if (p == 2) {
-
-        log_vk2 <- log_vk2 - log(2)
-
-      } else {
-
-        log_vk2 <- log_vk2 - log(1 + k / alpha)
-
-      }
+      # Switch from bk to vk2
+      log_vk2 <- bk_to_vk2(bk = log_vk2, p = p, log = TRUE)
 
       # log(d_{p, k})
       log_dk <- d_p_k(p = p, k = k, log = TRUE)
@@ -544,34 +489,40 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
     } else if (type == "Stereo") {
 
       stop("TODO[Stereo]")
+
+      # Halve K_max since we compute the odd/even coefficients separately
+      K_max <- K_max %/% 2
+
       # Sequence of indexes
       k <- 1:K_max
 
-      # log(v_k^2)
-      log_vk2 <- log(Gegen_coefs_Pn(k = k, p = p, type = "PAD",
-                                    Gauss = Gauss, N = N, tol = tol))
+      # log(v_{2 * k - 1}^2)
+      log_v2km12 <- (p - 2) * log(2) + lgamma(alpha + 1) + lgamma(k + alpha) +
+        lgamma(2 * k - 1) - (log(pi) + lgamma(k) + lgamma(2 * k + p - 2))
+      log_v2km12 <- 2 * log_v2km12
 
-      # Divide by 2 if p = 2 and (1 + k / alpha) if p > 2
-      if (p == 2) {
+      # log(v_{2 * k}^2)
+      log_v2k2 <- log((p - 1) * (2 * k - 1) / (8 * pi * (2 * k + p - 1))) +
+        2 * (lgamma(alpha + 0.5) + lgamma(k - 0.5) - lgamma(k + alpha + 0.5))
 
-        log_vk2 <- log_vk2 - log(2)
-
-      } else {
-
-        log_vk2 <- log_vk2 - log(1 + k / alpha)
-
-      }
+      # Switch from bk to vk2
+      log_vk2 <- bk_to_vk2(bk = log_vk2, p = p, log = TRUE)
 
       # log(d_{p, k})
-      log_dk <- d_p_k(p = p, k = k, log = TRUE)
+      log_dk <- d_p_k(p = p, k = 1:(2 * K_max), log = TRUE)
 
       # Log weights and dfs
-      log_weights <- log_vk2
+      log_weights <- c(rbind(log_v2km12, log_v2k2))
       log_dfs <- log_dk
 
     } else if (type == "Sobolev") {
 
-      stop("TODO[Sobolev]")
+      # log(d_{p, k})
+      log_dk <- d_p_k(p = p, k = seq_along(Sobolev_vk2), log = TRUE)
+
+      # Log weights and dfs
+      log_weights <- log(Sobolev_vk2)
+      log_dfs <- log_dk
 
     } else {
 

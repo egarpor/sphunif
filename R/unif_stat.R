@@ -197,15 +197,33 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
         avail_stats <- c(avail_stats, "KS", "CvM", "AD")
 
       }
-      stats_type <- match.arg(arg = type, choices = avail_stats,
-                              several.ok = TRUE)
+      stats_type <- try(match.arg(arg = type, choices = avail_stats,
+                                  several.ok = TRUE), silent = TRUE)
+      if (inherits(stats_type, "try-error")) {
+
+        stop(paste(strwrap(paste0(
+          "Statistic with type = \"", type, "\" is unsupported. ",
+          "Must be one of the following tests: \"",
+          paste(avail_stats, collapse = "\", \""), "\"."),
+          width = 80, indent = 0, exdent = 2), collapse = "\n"))
+
+      }
 
     }
 
   } else if (is.numeric(type)) {
 
     type <- unique(type)
-    stats_type <- avail_stats[type]
+    if (type > length(avail_stats)) {
+
+      stop("type must be a numeric vector with values between 1 and ",
+           length(avail_stats), ".")
+
+    } else {
+
+      stats_type <- avail_stats[type]
+
+    }
 
   } else {
 
@@ -844,7 +862,8 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
 
   }
 
-  # Avoid returning matrices in variables if there are vectorized tests
+  # Avoid returning matrices in variables if there are vectorized tests.
+  # Instead, return a data frame with Sobolev.1, Sobolev.2, etc. variables
   if ("Sobolev" %in% type && nrow(rbind(Sobolev_vk2)) > 1) {
 
     stats <- do.call(data.frame, stats)

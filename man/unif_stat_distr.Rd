@@ -197,6 +197,21 @@ unif_stat_distr(x = x, type = "CJ12", p = 3, n = 100, CJ12_reg = 3)
 unif_stat_distr(x = x, type = "CJ12", p = 3, n = 100, CJ12_reg = 2,
                CJ12_beta = 0.01)
 unif_stat_distr(x = x, type = "CJ12", p = 3, n = 100, CJ12_reg = 1)
+
+## Sobolev
+
+x <- seq(0, 1, l = 10)
+vk2 <- diag(1, nrow = 3)
+unif_stat_distr(x = x, type = "Sobolev", approx = "asymp", p = 3, n = 100,
+                Sobolev_vk2 = vk2)
+sapply(1:3, function(i)
+  unif_stat_distr(x = x, type = "Sobolev", approx = "asymp", p = 3, n = 100,
+                  Sobolev_vk2 = vk2[i, ])$Sobolev)
+sapply(1:3, function(i)
+  unif_stat_distr(x = x, type = "Sobolev", approx = "MC", p = 3, n = 100,
+                  Sobolev_vk2 = vk2[i, ], M = 1e3)$Sobolev)
+unif_stat_distr(x = x, type = "Sobolev", approx = "MC", p = 3, n = 100,
+                Sobolev_vk2 = vk2, M = 1e3)
 }
 }
 \references{

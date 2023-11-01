@@ -214,7 +214,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
                       Pycke_q = 0.5, Riesz_s = 1, CCF09_dirs = NULL,
                       K_CCF09 = 25, CJ12_reg = 3, CJ12_beta = 0,
                       Poisson_rho = 0.5, Softmax_kappa = 1, Stereo_a = 0,
-                      Sobolev_bk = c(0, 0, 1), K_max = 1e4, ...) {
+                      Sobolev_vk2 = c(0, 0, 1), K_max = 1e4, ...) {
 
   # Read data's name
   data_name <- deparse(substitute(data))
@@ -360,7 +360,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
                     CCF09_dirs = CCF09_dirs, K_CCF09 = K_CCF09,
                     CJ12_reg = CJ12_reg, Stereo_a = Stereo_a,
                     Poisson_rho = Poisson_rho, Softmax_kappa = Softmax_kappa,
-                    Sobolev_bk = Sobolev_bk)
+                    Sobolev_vk2 = Sobolev_vk2)
   stat_names <- names(stat) # We can have names such Sobolev.1, Sobolev.2, etc.
 
   ## Calibration
@@ -380,7 +380,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
                                CJ12_reg = CJ12_reg, Stereo_a = Stereo_a,
                                Poisson_rho = Poisson_rho,
                                Softmax_kappa = Softmax_kappa,
-                               Sobolev_bk = Sobolev_bk, ...)$crit_val_MC
+                               Sobolev_vk2 = Sobolev_vk2, ...)$crit_val_MC
 
     } else {
 
@@ -420,7 +420,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
                                CJ12_reg = CJ12_reg, K_CCF09 = K_CCF09,
                                Stereo_a = Stereo_a, Poisson_rho = Poisson_rho,
                                Softmax_kappa = Softmax_kappa,
-                               Sobolev_bk = Sobolev_bk, ...)$stats_MC
+                               Sobolev_vk2 = Sobolev_vk2, ...)$stats_MC
 
     }
 
@@ -473,7 +473,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
   names(test) <- stat_names
   stat_names_rep <- gsub(x = stat_names, pattern = "[.][0-9]+",
                          replacement = "")
-  Sobolev_bk <- rbind(Sobolev_bk)
+  Sobolev_vk2 <- rbind(Sobolev_vk2)
   for (i in seq_along(stat_names)) {
 
     # Type of test
@@ -525,8 +525,8 @@ unif_test <- function(data, type = "all", p_value = "asymp",
          "Rothman" = paste("Rothman test of circular uniformity with t =",
                            round(Rothman_t, 3)),
          "Sobolev" = paste("Finite Sobolev test of circular uniformity with",
-                           "bk =", capture.output(dput(Sobolev_bk[
-                             ifelse(nrow(Sobolev_bk) == 1, 1, as.numeric(
+                           "vk2 =", capture.output(dput(Sobolev_vk2[
+                             ifelse(nrow(Sobolev_vk2) == 1, 1, as.numeric(
                                strsplit(stat_names[i], split = ".",
                                         fixed = TRUE)[[1]][2])),
                            ]))),
@@ -556,7 +556,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
          "Log_gaps" = "any alternative to circular uniformity",
          "Max_uncover" = "any alternative to circular uniformity",
          "Num_uncover" = paste("any alternative to circular uniformity",
-                               "if a <= 2 * pi"),
+                               "if a \u2264 2\u03c0"),
          "PAD" = "any alternative to circular uniformity",
          "PCvM" = "any alternative to circular uniformity",
          "Poisson" = "any alternative to circular uniformity for rho > 0",
@@ -571,7 +571,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
                            "if t is irrational"),
          "Riesz" = "unclear, experimental test",
          "Sobolev" = paste("alternatives in the Fourier subspace",
-                           "with non-null coefficients bk"),
+                           "with vk2 \u2260 0"),
          "Softmax" = "any alternative to circular uniformity for kappa > 0",
          "Vacancy" = "any alternative to circular uniformity",
          "Watson" = "any alternative to circular uniformity",
@@ -602,8 +602,8 @@ unif_test <- function(data, type = "all", p_value = "asymp",
                                "spherical uniformity"),
          "Riesz" = "Warning! This is an experimental test not meant to be used",
          "Sobolev" = paste("Finite Sobolev test of spherical uniformity with",
-                           "bk =", capture.output(dput(Sobolev_bk[
-                             ifelse(nrow(Sobolev_bk) == 1, 1, as.numeric(
+                           "vk2 =", capture.output(dput(Sobolev_vk2[
+                             ifelse(nrow(Sobolev_vk2) == 1, 1, as.numeric(
                                strsplit(stat_names[i], split = ".",
                                         fixed = TRUE)[[1]][2])),
                              ]))),
@@ -629,7 +629,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
          "Rayleigh_HD" = "mean direction different from zero",
          "Riesz" = "unclear, experimental test",
          "Sobolev" = paste("alternatives in the spherical harmonics subspace",
-                           "with non-null coefficients bk"),
+                           "with vk2 \u2260 0"),
          "Softmax" = "any alternative to spherical uniformity for kappa > 0",
          "Stereo" = "any alternative to spherical uniformity for |a| < 1"
       )

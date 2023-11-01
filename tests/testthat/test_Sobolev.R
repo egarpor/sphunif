@@ -355,7 +355,7 @@ test_that("p_Sobolev vs. d_Sobolev", {
 ## sph_stat_Sobolev() and cir_stat_Sobolev()
 
 n <- 10
-bk <- runif(4)
+vk2 <- runif(4)
 set.seed(46868)
 X2 <- r_unif_sph(n = n, p = 2)
 Theta2 <- X_to_Theta(X2)
@@ -377,63 +377,63 @@ dim(Psi5) <- c(dim(Psi5), 1)
 dim(Psi9) <- c(dim(Psi9), 1)
 dim(Psi200) <- c(dim(Psi200), 1)
 
-test_that("sph_stat_Sobolev for a single and several bk's", {
+test_that("sph_stat_Sobolev for a single and several vk2's", {
 
-  expect_equal(cir_stat_Sobolev(X_to_Theta(X2), bk = rbind(bk, bk - 1))[, 1],
-               drop(cir_stat_Sobolev(X_to_Theta(X2), bk = bk)))
-  expect_equal(sph_stat_Sobolev(X2, bk = rbind(bk, bk - 1))[, 1],
-               drop(sph_stat_Sobolev(X2, bk = bk)))
-  expect_equal(sph_stat_Sobolev(X3, bk = rbind(bk, bk - 1))[, 1],
-               drop(sph_stat_Sobolev(X3, bk = bk)))
-  expect_equal(sph_stat_Sobolev(X4, bk = rbind(bk, bk - 1))[, 1],
-               drop(sph_stat_Sobolev(X4, bk = bk)))
+  expect_equal(cir_stat_Sobolev(X_to_Theta(X2), vk2 = rbind(vk2, vk2 - 1))[, 1],
+               drop(cir_stat_Sobolev(X_to_Theta(X2), vk2 = vk2)))
+  expect_equal(sph_stat_Sobolev(X2, vk2 = rbind(vk2, vk2 + 1))[, 1],
+               drop(sph_stat_Sobolev(X2, vk2 = vk2)))
+  expect_equal(sph_stat_Sobolev(X3, vk2 = rbind(vk2, vk2 + 1))[, 1],
+               drop(sph_stat_Sobolev(X3, vk2 = vk2)))
+  expect_equal(sph_stat_Sobolev(X4, vk2 = rbind(vk2, vk2 + 1))[, 1],
+               drop(sph_stat_Sobolev(X4, vk2 = vk2)))
 
 })
 
 test_that("sph_stat_Sobolev vs. cir_stat_Sobolev", {
 
-  expect_equal(sph_stat_Sobolev(X2, bk = bk),
-               cir_stat_Sobolev(X_to_Theta(X2), bk = bk),
+  expect_equal(sph_stat_Sobolev(X2, vk2 = vk2),
+               cir_stat_Sobolev(X_to_Theta(X2), vk2 = vk2),
                tolerance = 1e-6)
-  expect_equal(sph_stat_Sobolev(Psi2, Psi_in_X = TRUE, p = 2, bk = bk),
-               cir_stat_Sobolev(Psi2, Psi_in_Theta = TRUE, bk = bk),
+  expect_equal(sph_stat_Sobolev(Psi2, Psi_in_X = TRUE, p = 2, vk2 = vk2),
+               cir_stat_Sobolev(Psi2, Psi_in_Theta = TRUE, vk2 = vk2),
                tolerance = 1e-6)
 
 })
 
 test_that("sph_stat_Sobolev with X and Psi", {
 
-  expect_equal(sph_stat_Sobolev(Psi2, Psi_in_X = TRUE, p = 2, bk = bk),
-               sph_stat_Sobolev(X2, bk = bk), tolerance = 1e-6)
-  expect_equal(sph_stat_Sobolev(Psi3, Psi_in_X = TRUE, p = 3, bk = bk),
-               sph_stat_Sobolev(X3, bk = bk), tolerance = 1e-6)
-  expect_equal(sph_stat_Sobolev(Psi4, Psi_in_X = TRUE, p = 4, bk = bk),
-               sph_stat_Sobolev(X4, bk = bk), tolerance = 1e-6)
-  expect_equal(sph_stat_Sobolev(Psi5, Psi_in_X = TRUE, p = 5, bk = bk),
-               sph_stat_Sobolev(X5, bk = bk), tolerance = 1e-6)
-  expect_equal(sph_stat_Sobolev(Psi9, Psi_in_X = TRUE, p = 9, bk = bk),
-               sph_stat_Sobolev(X9, bk = bk), tolerance = 1e-6)
-  expect_equal(sph_stat_Sobolev(Psi200, Psi_in_X = TRUE, p = 200, bk = bk),
-               sph_stat_Sobolev(X200, bk = bk), tolerance = 1e-6)
+  expect_equal(sph_stat_Sobolev(Psi2, Psi_in_X = TRUE, p = 2, vk2 = vk2),
+               sph_stat_Sobolev(X2, vk2 = vk2), tolerance = 1e-6)
+  expect_equal(sph_stat_Sobolev(Psi3, Psi_in_X = TRUE, p = 3, vk2 = vk2),
+               sph_stat_Sobolev(X3, vk2 = vk2), tolerance = 1e-6)
+  expect_equal(sph_stat_Sobolev(Psi4, Psi_in_X = TRUE, p = 4, vk2 = vk2),
+               sph_stat_Sobolev(X4, vk2 = vk2), tolerance = 1e-6)
+  expect_equal(sph_stat_Sobolev(Psi5, Psi_in_X = TRUE, p = 5, vk2 = vk2),
+               sph_stat_Sobolev(X5, vk2 = vk2), tolerance = 1e-6)
+  expect_equal(sph_stat_Sobolev(Psi9, Psi_in_X = TRUE, p = 9, vk2 = vk2),
+               sph_stat_Sobolev(X9, vk2 = vk2), tolerance = 1e-6)
+  expect_equal(sph_stat_Sobolev(Psi200, Psi_in_X = TRUE, p = 200, vk2 = vk2),
+               sph_stat_Sobolev(X200, vk2 = vk2), tolerance = 1e-6)
 
 })
 
-test_that("sph_stat_Sobolev(bk = 1) is a linear form of Rayleigh statistic", {
+test_that("sph_stat_Sobolev(vk2 = 1) is a linear form of Rayleigh statistic", {
 
   for (p in 2:9) {
     stats <- unif_stat_MC(n = 5, type = c("Rayleigh", "Sobolev"), p = p, M = 5,
-                          return_stats = TRUE, Sobolev_bk = 1)
+                          return_stats = TRUE, Sobolev_vk2 = 1)
     expect_equal(drop(cor(stats$stats_MC$Sobolev, stats$stats_MC$Rayleigh)), 1)
   }
 
 })
 
-test_that("sph_stat_Sobolev(bk = c(0, 1)) is a linear form of Bingham
+test_that("sph_stat_Sobolev(vk2 = c(0, 1)) is a linear form of Bingham
           statistic", {
 
   for (p in 2:9) {
     stats <- unif_stat_MC(n = 5, type = c("Bingham", "Sobolev"), p = p, M = 5,
-                          return_stats = TRUE, Sobolev_bk = c(0, 1))
+                          return_stats = TRUE, Sobolev_vk2 = c(0, 1))
     expect_equal(drop(cor(stats$stats_MC$Sobolev, stats$stats_MC$Bingham)), 1)
   }
 

@@ -9,7 +9,7 @@ unif_test(data, type = "all", p_value = "asymp", alpha = c(0.1, 0.05,
   data_sorted = FALSE, Rayleigh_m = 1, cov_a = 2 * pi, Rothman_t = 1/3,
   Cressie_t = 1/3, Pycke_q = 0.5, Riesz_s = 1, CCF09_dirs = NULL,
   K_CCF09 = 25, CJ12_reg = 3, CJ12_beta = 0, Poisson_rho = 0.5,
-  Softmax_kappa = 1, Stereo_a = 0, Sobolev_bk = c(0, 0, 1),
+  Softmax_kappa = 1, Stereo_a = 0, Sobolev_vk2 = c(0, 0, 1),
   K_max = 10000, ...)
 }
 \arguments{
@@ -108,7 +108,7 @@ non-negative real. Defaults to \code{1}.}
 \item{Stereo_a}{\eqn{a} parameter for the Stereo test, a real in
 \eqn{[-1, 1]}. Defaults to \code{0}.}
 
-\item{Sobolev_bk}{weights for the finite Sobolev test. A non-negative
+\item{Sobolev_vk2}{weights for the finite Sobolev test. A non-negative
 vector or matrix. Defaults to \code{c(0, 0, 1)}.}
 
 \item{K_max}{integer giving the truncation of the series that compute the

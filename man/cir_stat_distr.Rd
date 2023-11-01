@@ -59,6 +59,8 @@
 \alias{d_cir_stat_Rothman}
 \alias{p_cir_stat_Riesz}
 \alias{d_cir_stat_Riesz}
+\alias{p_cir_stat_Sobolev}
+\alias{d_cir_stat_Sobolev}
 \title{Asymptotic distributions for circular uniformity statistics}
 \usage{
 p_Kolmogorov(x, K_Kolmogorov = 25L, alternating = TRUE)
@@ -176,6 +178,10 @@ d_cir_stat_Rothman(x, t = 1/3, K_max = 1000, thre = 0, ...)
 p_cir_stat_Riesz(x, s = 1, K_max = 1000, thre = 0, ...)
 
 d_cir_stat_Riesz(x, s = 1, K_max = 1000, thre = 0, ...)
+
+p_cir_stat_Sobolev(x, vk2 = c(0, 0, 1), K_max = 1000, thre = 0, ...)
+
+d_cir_stat_Sobolev(x, vk2 = c(0, 0, 1), K_max = 1000, thre = 0, ...)
 }
 \arguments{
 \item{x}{a vector of size \code{nx} or a matrix of size \code{c(nx, 1)}.}
@@ -230,6 +236,9 @@ the first terms of the truncated series of a Sobolev test. Defaults to
 
 \item{s}{\eqn{s} parameter for the \eqn{s}-Riesz test, a real in
 \eqn{(0, 2)}. Defaults to \code{1}.}
+
+\item{vk2}{weights for the finite Sobolev test. A non-negative vector or
+matrix. Defaults to \code{c(0, 0, 1)}.}
 }
 \value{
 A matrix of size \code{c(nx, 1)} with the evaluation of the

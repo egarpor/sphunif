@@ -561,6 +561,18 @@ bk_to_vk2 <- function(bk, p) {
   p <- as.integer(p)
   stopifnot(p >= 2)
 
+  # Compute k
+  if (is.matrix(bk)) {
+
+    k <- matrix(seq_len(ncol(bk)), nrow = nrow(bk), ncol = ncol(bk),
+                byrow = TRUE)
+
+  } else {
+
+    k <- seq_along(bk)
+
+  }
+
   # Add factor
   if (p == 2) {
 
@@ -568,7 +580,7 @@ bk_to_vk2 <- function(bk, p) {
 
   } else {
 
-    return(bk / (1 + 2 * seq_along(bk) / (p - 2)))
+    return(bk / (1 + 2 * k / (p - 2)))
 
   }
 
@@ -586,6 +598,18 @@ bk_to_uk <- function(bk, p, signs = 1) {
   # Check signs
   stopifnot(length(signs) %in% c(1, length(bk)))
 
+  # Compute k
+  if (is.matrix(bk)) {
+
+    k <- matrix(seq_len(ncol(bk)), nrow = nrow(bk), ncol = ncol(bk),
+                byrow = TRUE)
+
+  } else {
+
+    k <- seq_along(bk)
+
+  }
+
   # Add factor
   if (p == 2) {
 
@@ -593,7 +617,7 @@ bk_to_uk <- function(bk, p, signs = 1) {
 
   } else {
 
-    return(sign(signs) * sqrt((1 + 2 * seq_along(bk) / (p - 2)) * bk))
+    return(sign(signs) * sqrt((1 + 2 * k / (p - 2)) * bk))
 
   }
 
@@ -608,6 +632,18 @@ vk2_to_bk <- function(vk2, p) {
   p <- as.integer(p)
   stopifnot(p >= 2)
 
+  # Compute k
+  if (is.matrix(vk2)) {
+
+    k <- matrix(seq_len(ncol(vk2)), nrow = nrow(vk2), ncol = ncol(vk2),
+                byrow = TRUE)
+
+  } else {
+
+    k <- seq_along(vk2)
+
+  }
+
   # Add factor
   if (p == 2) {
 
@@ -615,7 +651,7 @@ vk2_to_bk <- function(vk2, p) {
 
   } else {
 
-    return((1 + 2 * seq_along(vk2) / (p - 2)) * vk2)
+    return((1 + 2 * k / (p - 2)) * vk2)
 
   }
 
@@ -633,6 +669,18 @@ vk2_to_uk <- function(vk2, p, signs = 1) {
   # Check signs
   stopifnot(length(signs) %in% c(1, length(vk2)))
 
+  # Compute k
+  if (is.matrix(vk2)) {
+
+    k <- matrix(seq_len(ncol(vk2)), nrow = nrow(vk2), ncol = ncol(vk2),
+                byrow = TRUE)
+
+  } else {
+
+    k <- seq_along(vk2)
+
+  }
+
   # Add factor
   if (p == 2) {
 
@@ -640,7 +688,7 @@ vk2_to_uk <- function(vk2, p, signs = 1) {
 
   } else {
 
-    return((1 + 2 * seq_along(vk2) / (p - 2)) * sign(signs) * sqrt(vk2))
+    return((1 + 2 * k / (p - 2)) * sign(signs) * sqrt(vk2))
 
   }
 
@@ -655,6 +703,18 @@ uk_to_vk2 <- function(uk, p) {
   p <- as.integer(p)
   stopifnot(p >= 2)
 
+  # Compute k
+  if (is.matrix(uk)) {
+
+    k <- matrix(seq_len(ncol(uk)), nrow = nrow(uk), ncol = ncol(uk),
+                byrow = TRUE)
+
+  } else {
+
+    k <- seq_along(uk)
+
+  }
+
   # Add factor
   if (p == 2) {
 
@@ -662,7 +722,7 @@ uk_to_vk2 <- function(uk, p) {
 
   } else {
 
-    return((uk / (1 + 2 * seq_along(uk) / (p - 2)))^2)
+    return((uk / (1 + 2 * k / (p - 2)))^2)
 
   }
 
@@ -677,6 +737,18 @@ uk_to_bk <- function(uk, p) {
   p <- as.integer(p)
   stopifnot(p >= 2)
 
+  # Compute k
+  if (is.matrix(uk)) {
+
+    k <- matrix(seq_len(ncol(uk)), nrow = nrow(uk), ncol = ncol(uk),
+                byrow = TRUE)
+
+  } else {
+
+    k <- seq_along(uk)
+
+  }
+
   # Add factor
   if (p == 2) {
 
@@ -684,7 +756,7 @@ uk_to_bk <- function(uk, p) {
 
   } else {
 
-    return(uk^2 / (1 + 2 * seq_along(uk) / (p - 2)))
+    return(uk^2 / (1 + 2 * k / (p - 2)))
 
   }
 

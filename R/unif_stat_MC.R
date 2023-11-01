@@ -193,7 +193,7 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
                          Rothman_t = 1 / 3, Cressie_t = 1 / 3, Pycke_q = 0.5,
                          Riesz_s = 1, CCF09_dirs = NULL, K_CCF09 = 25,
                          CJ12_reg = 3, Poisson_rho = 0.5, Softmax_kappa = 1,
-                         Stereo_a = 0, Sobolev_bk = c(0, 0, 1), ...) {
+                         Stereo_a = 0, Sobolev_vk2 = c(0, 0, 1), ...) {
 
   # Check dimension
   if (p < 2) {
@@ -293,7 +293,7 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
                        Riesz_s = Riesz_s, CCF09_dirs = CCF09_dirs,
                        K_CCF09 = K_CCF09, CJ12_reg = CJ12_reg,
                        Stereo_a = Stereo_a, Poisson_rho = Poisson_rho,
-                       Softmax_kappa = Softmax_kappa, Sobolev_bk = Sobolev_bk)
+                       Softmax_kappa = Softmax_kappa, Sobolev_vk2 = Sobolev_vk2)
 
     # Remove X
     rm(X)

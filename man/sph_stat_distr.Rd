@@ -78,9 +78,9 @@ p_sph_stat_Riesz(x, p, s = 1, K_max = 1000, thre = 0, ...)
 
 d_sph_stat_Riesz(x, p, s = 1, K_max = 1000, thre = 0, ...)
 
-p_sph_stat_Sobolev(x, p, bk = c(0, 0, 1), K_max = 1000, thre = 0, ...)
+p_sph_stat_Sobolev(x, p, vk2 = c(0, 0, 1), K_max = 1000, thre = 0, ...)
 
-d_sph_stat_Sobolev(x, p, bk = c(0, 0, 1), K_max = 1000, thre = 0, ...)
+d_sph_stat_Sobolev(x, p, vk2 = c(0, 0, 1), K_max = 1000, thre = 0, ...)
 }
 \arguments{
 \item{x}{a vector of size \code{nx} or a matrix of size \code{c(nx, 1)}.}
@@ -111,7 +111,7 @@ the first terms of the truncated series of a Sobolev test. Defaults to
 \item{s}{\eqn{s} parameter for the \eqn{s}-Riesz test, a real in
 \eqn{(0, 2)}. Defaults to \code{1}.}
 
-\item{bk}{weights for the finite Sobolev test. A non-negative vector or
+\item{vk2}{weights for the finite Sobolev test. A non-negative vector or
 matrix. Defaults to \code{c(0, 0, 1)}.}
 }
 \value{

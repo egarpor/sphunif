@@ -12,23 +12,23 @@
 d_p_k(p, k, log = FALSE)
 
 weights_dfs_Sobolev(p, K_max = 1000, thre = 0.001, type, Rothman_t = 1/3,
-  Pycke_q = 0.5, Riesz_s = 1, Sobolev_bk = c(0, 0, 1), log = FALSE,
+  Pycke_q = 0.5, Riesz_s = 1, Sobolev_vk2 = c(0, 0, 1), log = FALSE,
   verbose = TRUE, Gauss = TRUE, N = 320, tol = 1e-06,
   force_positive = TRUE, x_tail = NULL)
 
 d_Sobolev(x, p, type, method = c("I", "SW", "HBE")[1], K_max = 1000,
   thre = 0.001, Rothman_t = 1/3, Pycke_q = 0.5, Riesz_s = 1,
-  Sobolev_bk = c(0, 0, 1), ncps = 0, verbose = TRUE, N = 320,
+  Sobolev_vk2 = c(0, 0, 1), ncps = 0, verbose = TRUE, N = 320,
   x_tail = NULL, ...)
 
 p_Sobolev(x, p, type, method = c("I", "SW", "HBE", "MC")[1], K_max = 1000,
   thre = 0.001, Rothman_t = 1/3, Pycke_q = 0.5, Riesz_s = 1,
-  Sobolev_bk = c(0, 0, 1), ncps = 0, verbose = TRUE, N = 320,
+  Sobolev_vk2 = c(0, 0, 1), ncps = 0, verbose = TRUE, N = 320,
   x_tail = NULL, ...)
 
 q_Sobolev(u, p, type, method = c("I", "SW", "HBE", "MC")[1], K_max = 1000,
   thre = 0.001, Rothman_t = 1/3, Pycke_q = 0.5, Riesz_s = 1,
-  Sobolev_bk = c(0, 0, 1), ncps = 0, verbose = TRUE, N = 320,
+  Sobolev_vk2 = c(0, 0, 1), ncps = 0, verbose = TRUE, N = 320,
   x_tail = NULL, ...)
 }
 \arguments{
@@ -62,7 +62,7 @@ For \eqn{p \ge 2}, \code{"Ajne"}, \code{"Gine_Gn"}, \code{"Gine_Fn"},
 \item{Riesz_s}{\eqn{s} parameter for the \eqn{s}-Riesz test, a real in
 \eqn{(0, 2)}. Defaults to \code{1}.}
 
-\item{Sobolev_bk}{weights for the finite Sobolev test. A non-negative
+\item{Sobolev_vk2}{weights for the finite Sobolev test. A non-negative
 vector or matrix. Defaults to \code{c(0, 0, 1)}.}
 
 \item{verbose}{output information about the truncation? Defaults to

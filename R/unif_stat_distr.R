@@ -128,7 +128,7 @@ unif_stat_distr <- function(x, type, p, n, approx = "asymp", M = 1e4,
                             Rothman_t = 1 / 3, Cressie_t = 1 / 3, Pycke_q = 0.5,
                             Riesz_s = 1, CCF09_dirs = NULL, K_CCF09 = 25,
                             CJ12_reg = 3, Poisson_rho = 0.5, Softmax_kappa = 1,
-                            Stereo_a = 0, Sobolev_bk = c(0, 0, 1),
+                            Stereo_a = 0, Sobolev_vk2 = c(0, 0, 1),
                             CJ12_beta = 0, Stephens = FALSE, K_Kuiper = 25,
                             K_Watson = 25, K_Watson_1976 = 5, K_Ajne = 5e2,
                             K_max = 1e4, ...) {
@@ -233,7 +233,7 @@ unif_stat_distr <- function(x, type, p, n, approx = "asymp", M = 1e4,
     args <- list("t" = Rothman_t, "q" = Pycke_q, "s" = Riesz_s,
                  "dirs" = CCF09_dirs, "regime" = CJ12_reg, "beta" = CJ12_beta,
                  "rho" = Poisson_rho, "kappa" = Softmax_kappa, "a" = Stereo_a,
-                 "bk" = Sobolev_bk, "Stephens" = Stephens,
+                 "vk2" = Sobolev_vk2, "Stephens" = Stephens,
                  "K_Kuiper" = K_Kuiper, "K_Watson" = K_Watson,
                  "K_Watson_1976" = K_Watson_1976, "K_Ajne" = K_Ajne,
                  "K_CCF09" = K_CCF09, "K_max" = K_max, "thre" = 0, "n" = n,
@@ -267,7 +267,7 @@ unif_stat_distr <- function(x, type, p, n, approx = "asymp", M = 1e4,
                                CJ12_reg = CJ12_reg, Stereo_a = Stereo_a,
                                Poisson_rho = Poisson_rho,
                                Softmax_kappa = Softmax_kappa,
-                               Sobolev_bk = Sobolev_bk, ...)$stats_MC
+                               Sobolev_vk2 = Sobolev_vk2, ...)$stats_MC
 
     } else {
 

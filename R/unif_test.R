@@ -213,7 +213,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
                       cov_a = 2 * pi, Rothman_t = 1 / 3, Cressie_t = 1 / 3,
                       Pycke_q = 0.5, Riesz_s = 1, CCF09_dirs = NULL,
                       K_CCF09 = 25, CJ12_reg = 3, CJ12_beta = 0,
-                      Stereo_a = 0, Poisson_rho = 0.5, Softmax_kappa = 1,
+                      Poisson_rho = 0.5, Softmax_kappa = 1, Stereo_a = 0,
                       Sobolev_bk = c(0, 0, 1), K_max = 1e4, ...) {
 
   # Read data's name
@@ -470,7 +470,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
 
   # Create list of htest objects
   test <- vector(mode = "list", length = n_stats)
-  names(test) <- stats_type
+  names(test) <- stat_names
   stat_names_rep <- gsub(x = stat_names, pattern = "[.][0-9]+",
                          replacement = "")
   Sobolev_bk <- rbind(Sobolev_bk)

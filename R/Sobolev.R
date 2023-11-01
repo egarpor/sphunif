@@ -151,8 +151,9 @@ d_p_k <- function(p, k, log = FALSE) {
 #' @export
 weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
                                 Rothman_t = 1 / 3, Pycke_q = 0.5, Riesz_s = 1,
-                                log = FALSE, verbose = TRUE, Gauss = TRUE,
-                                N = 320, tol = 1e-6, force_positive = TRUE,
+                                Sobolev_bk = c(0, 0, 1), log = FALSE,
+                                verbose = TRUE, Gauss = TRUE, N = 320,
+                                tol = 1e-6, force_positive = TRUE,
                                 x_tail = NULL) {
 
   # alpha
@@ -484,6 +485,94 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
       log_weights <- log_vk2
       log_dfs <- log_dk
 
+    } else if (type == "Poisson") {
+
+      stop("TODO[Poisson]")
+      # Sequence of indexes
+      k <- 1:K_max
+
+      # log(v_k^2)
+      log_vk2 <- log(Gegen_coefs_Pn(k = k, p = p, type = "PAD",
+                                    Gauss = Gauss, N = N, tol = tol))
+
+      # Divide by 2 if p = 2 and (1 + k / alpha) if p > 2
+      if (p == 2) {
+
+        log_vk2 <- log_vk2 - log(2)
+
+      } else {
+
+        log_vk2 <- log_vk2 - log(1 + k / alpha)
+
+      }
+
+      # log(d_{p, k})
+      log_dk <- d_p_k(p = p, k = k, log = TRUE)
+
+      # Log weights and dfs
+      log_weights <- log_vk2
+      log_dfs <- log_dk
+
+    } else if (type == "Softmax") {
+
+      stop("TODO[Softmax]")
+      # Sequence of indexes
+      k <- 1:K_max
+
+      # log(v_k^2)
+      log_vk2 <- log(Gegen_coefs_Pn(k = k, p = p, type = "PAD",
+                                    Gauss = Gauss, N = N, tol = tol))
+
+      # Divide by 2 if p = 2 and (1 + k / alpha) if p > 2
+      if (p == 2) {
+
+        log_vk2 <- log_vk2 - log(2)
+
+      } else {
+
+        log_vk2 <- log_vk2 - log(1 + k / alpha)
+
+      }
+
+      # log(d_{p, k})
+      log_dk <- d_p_k(p = p, k = k, log = TRUE)
+
+      # Log weights and dfs
+      log_weights <- log_vk2
+      log_dfs <- log_dk
+
+    } else if (type == "Stereo") {
+
+      stop("TODO[Stereo]")
+      # Sequence of indexes
+      k <- 1:K_max
+
+      # log(v_k^2)
+      log_vk2 <- log(Gegen_coefs_Pn(k = k, p = p, type = "PAD",
+                                    Gauss = Gauss, N = N, tol = tol))
+
+      # Divide by 2 if p = 2 and (1 + k / alpha) if p > 2
+      if (p == 2) {
+
+        log_vk2 <- log_vk2 - log(2)
+
+      } else {
+
+        log_vk2 <- log_vk2 - log(1 + k / alpha)
+
+      }
+
+      # log(d_{p, k})
+      log_dk <- d_p_k(p = p, k = k, log = TRUE)
+
+      # Log weights and dfs
+      log_weights <- log_vk2
+      log_dfs <- log_dk
+
+    } else if (type == "Sobolev") {
+
+      stop("TODO[Sobolev]")
+
     } else {
 
       stop("Incompatible choice of p and type.")
@@ -533,14 +622,14 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
 #' @export
 d_Sobolev <- function(x, p, type, method = c("I", "SW", "HBE")[1], K_max = 1e3,
                       thre = 1e-3, Rothman_t = 1 / 3, Pycke_q = 0.5,
-                      Riesz_s = 1, ncps = 0, verbose = TRUE, N = 320,
-                      x_tail = NULL, ...) {
+                      Riesz_s = 1, Sobolev_bk = c(0, 0, 1), ncps = 0,
+                      verbose = TRUE, N = 320, x_tail = NULL, ...) {
 
   weights_dfs <- weights_dfs_Sobolev(p = p, K_max = K_max, thre = thre,
                                      type = type, Rothman_t = Rothman_t,
                                      Pycke_q = Pycke_q, Riesz_s = Riesz_s,
-                                     verbose = verbose, Gauss = TRUE, N = N,
-                                     x_tail = x_tail)
+                                     Sobolev_bk = Sobolev_bk, verbose = verbose,
+                                     Gauss = TRUE, N = N, x_tail = x_tail)
   d_wschisq(x = x, weights = weights_dfs$weights, dfs = weights_dfs$dfs,
             ncps = ncps, method = method, ...)
 
@@ -551,14 +640,14 @@ d_Sobolev <- function(x, p, type, method = c("I", "SW", "HBE")[1], K_max = 1e3,
 #' @export
 p_Sobolev <- function(x, p, type, method = c("I", "SW", "HBE", "MC")[1],
                       K_max = 1e3, thre = 1e-3, Rothman_t = 1 / 3,
-                      Pycke_q = 0.5, Riesz_s = 1, ncps = 0, verbose = TRUE,
-                      N = 320, x_tail = NULL, ...) {
+                      Pycke_q = 0.5, Riesz_s = 1, Sobolev_bk = c(0, 0, 1),
+                      ncps = 0, verbose = TRUE, N = 320, x_tail = NULL, ...) {
 
   weights_dfs <- weights_dfs_Sobolev(p = p, K_max = K_max, thre = thre,
                                      type = type, Rothman_t = Rothman_t,
                                      Pycke_q = Pycke_q, Riesz_s = Riesz_s,
-                                     verbose = verbose, Gauss = TRUE,
-                                     N = N, x_tail = x_tail)
+                                     Sobolev_bk = Sobolev_bk, verbose = verbose,
+                                     Gauss = TRUE, N = N, x_tail = x_tail)
   p_wschisq(x = x, weights = weights_dfs$weights, dfs = weights_dfs$dfs,
             ncps = ncps, method = method, ...)
 
@@ -569,14 +658,14 @@ p_Sobolev <- function(x, p, type, method = c("I", "SW", "HBE", "MC")[1],
 #' @export
 q_Sobolev <- function(u, p, type, method = c("I", "SW", "HBE", "MC")[1],
                       K_max = 1e3, thre = 1e-3, Rothman_t = 1 / 3,
-                      Pycke_q = 0.5, Riesz_s = 1, ncps = 0, verbose = TRUE,
-                      N = 320, x_tail = NULL, ...) {
+                      Pycke_q = 0.5, Riesz_s = 1, Sobolev_bk = c(0, 0, 1),
+                      ncps = 0, verbose = TRUE, N = 320, x_tail = NULL, ...) {
 
   weights_dfs <- weights_dfs_Sobolev(p = p, K_max = K_max, thre = thre,
                                      type = type, Rothman_t = Rothman_t,
                                      Pycke_q = Pycke_q, Riesz_s = Riesz_s,
-                                     verbose = verbose, Gauss = TRUE, N = N,
-                                     x_tail = x_tail)
+                                     Sobolev_bk = Sobolev_bk, verbose = verbose,
+                                     Gauss = TRUE, N = N, x_tail = x_tail)
   q_wschisq(u = u, weights = weights_dfs$weights, dfs = weights_dfs$dfs,
             ncps = ncps, method = method, ...)
 
@@ -590,8 +679,8 @@ q_Sobolev <- function(u, p, type, method = c("I", "SW", "HBE", "MC")[1],
 #' \sum_{k = 1}^K b_{k, p}C_k^(p / 2 - 1)(\cos^{-1}({\bf X}_i'{\bf X}_j)),}
 #' for a sequence  \eqn{\{b_{k, p}\}_{k = 1}^K} of non-negative weights. For
 #' \eqn{p = 2}, the Gegenbauer polynomials are replaced by Chebyshev ones.
-#' @inheritParams cir_stat
 #' @inheritParams sph_stat
+#' @inheritParams cir_stat
 #' @param bk weights for the finite Sobolev test. A non-negative vector or
 #' matrix. Defaults to \code{c(0, 0, 1)}.
 #' @export

@@ -37,7 +37,7 @@ const double sd_Rao = two_M_PI *
 // [[Rcpp::export]]
 arma::vec p_Kolmogorov(arma::vec x, arma::uword K_Kolmogorov = 25,
                        bool alternating = true) {
-  
+
   // For 0 <= x <= 0.16, it happens that p_Kolmogorov(x) < 1e-19
   // The alternating series is adequate for evaluating upper tail
   // probabilities, but for 0.16 < x < 0.5 it may yield artificial increments
@@ -50,48 +50,48 @@ arma::vec p_Kolmogorov(arma::vec x, arma::uword K_Kolmogorov = 25,
   // 3.6e-15 uniformly over [0, 10] discretized with step 1e-4. The
   // alternating implementation is slightly faster and precise, so it is the
   // default
-  
+
   // Zero for the unfeasible values
   arma::vec F = arma::zeros(x.n_elem);
   arma::uvec ind = arma::find(x > 0.16);
-  
+
   // Feasible values?
   if (ind.n_elem > 0) {
-    
+
     if (alternating) {
-      
+
       // Signs
       arma::rowvec m = arma::regspace(1, 1, K_Kolmogorov).t();
       arma::rowvec signs = -2 * m + 4 * arma::ceil(0.5 * m) - 1;
-      
+
       // Series
       arma::mat S = arma::exp(-2 * arma::square(x.elem(ind) * m));
       S.each_row() %= signs;
-      
+
       // Cdf F(x)
       F.elem(ind) = 1 - 2 * arma::sum(S, 1);
-      
+
     } else {
-      
+
       // (2 * m - 1)^2 * pi^2 / 8
       arma::rowvec m_odd_pi_sq_8 =
         arma::linspace(M_PI, (2 * K_Kolmogorov - 1) * M_PI, K_Kolmogorov).t();
       m_odd_pi_sq_8 = arma::square(m_odd_pi_sq_8) * 0.125;
-      
+
       // Series
       arma::vec x1 = 1 / x.elem(ind);
       arma::mat S = arma::square(x1) * m_odd_pi_sq_8;
-      
+
       // Cdf F(x)
       F.elem(ind) = sqrt_two_M_PI * arma::sum(exp(-S), 1) % x1;
-      
+
     }
-    
+
   }
-  
+
   // F(x)
   return F;
-  
+
 }
 
 
@@ -100,54 +100,54 @@ arma::vec p_Kolmogorov(arma::vec x, arma::uword K_Kolmogorov = 25,
 // [[Rcpp::export]]
 arma::vec d_Kolmogorov(arma::vec x, arma::uword K_Kolmogorov = 25,
                        bool alternating = true) {
-  
+
   // Same comment as for p_Kolmogorov holds
-  
+
   // Zero for the unfeasible values
   arma::vec f = arma::zeros(x.n_elem);
   arma::uvec ind = arma::find(x > 0.16);
-  
+
   // Feasible values?
   if (ind.n_elem > 0) {
-    
+
     if (alternating) {
-      
+
       // Signs
       arma::rowvec m = arma::regspace(1, 1, K_Kolmogorov).t();
       arma::rowvec signs = -2 * m + 4 * arma::ceil(0.5 * m) - 1;
-      
+
       // Series
       m = arma::square(m);
       arma::mat S = arma::exp(-2 * arma::square(x.elem(ind)) * m) %
         (x.elem(ind) * m);
       S.each_row() %= signs;
-      
+
       // Pdf f(x)
       f.elem(ind) = 8 * arma::sum(S, 1);
-      
+
     } else {
-      
+
       // (2 * m - 1)^2 * pi^2 / 8
       arma::rowvec m_odd_pi_sq_8 =
         arma::linspace(M_PI, (2 * K_Kolmogorov - 1) * M_PI, K_Kolmogorov).t();
       m_odd_pi_sq_8 = arma::square(m_odd_pi_sq_8) * 0.125;
-      
+
       // Series
       arma::vec x2 = arma::square(1.0 / x.elem(ind));
       arma::mat S = x2 * m_odd_pi_sq_8;
       S = arma::exp(-S) % (2 * x2 * m_odd_pi_sq_8 - 1);
       S.each_col() %= x2;
-      
+
       // Pdf f(x)
       f.elem(ind) = sqrt_two_M_PI * arma::sum(S, 1);
-      
+
     }
-    
+
   }
-  
+
   // f(x)
   return f;
-  
+
 }
 
 
@@ -155,34 +155,34 @@ arma::vec d_Kolmogorov(arma::vec x, arma::uword K_Kolmogorov = 25,
 //' @export
 // [[Rcpp::export]]
 arma::vec p_cir_stat_Ajne(arma::vec x, arma::uword K_Ajne = 15) {
-  
+
   // Zero for the unfeasible values
   arma::vec F = arma::zeros(x.n_elem);
   arma::uvec ind = arma::find(x > 0);
-  
+
   // Feasible values?
   if (ind.n_elem > 0) {
-    
+
     // Signs
     arma::rowvec m = arma::regspace(1, 1, K_Ajne).t();
     arma::rowvec signs = -2 * m + 4 * arma::ceil(0.5 * m) - 1;
-    
+
     // Series
     m = M_PI * (2 * m - 1);
     arma::mat S = arma::exp(-0.5 * x.elem(ind) * arma::square(m));
     S.each_row() %= signs / m;
-    
+
     // Cdf F(x)
     F.elem(ind) = 1 - 4 * arma::sum(S, 1);
-    
+
     // Avoid potential problematic cases
     F = arma::clamp(F, 0, 1);
-    
+
   }
-  
+
   // F(x)
   return F;
-  
+
 }
 
 
@@ -190,34 +190,34 @@ arma::vec p_cir_stat_Ajne(arma::vec x, arma::uword K_Ajne = 15) {
 //' @export
 // [[Rcpp::export]]
 arma::vec d_cir_stat_Ajne(arma::vec x, arma::uword K_Ajne = 15) {
-  
+
   // Zero for the unfeasible values
   arma::vec f = arma::zeros(x.n_elem);
   arma::uvec ind = arma::find(x > 0);
-  
+
   // Feasible values?
   if (ind.n_elem > 0) {
-    
+
     // Signs
     arma::rowvec m = arma::regspace(1, 1, K_Ajne).t();
     arma::rowvec signs = -2 * m + 4 * arma::ceil(0.5 * m) - 1;
-    
+
     // Series
     m = M_PI * (2 * m - 1);
     arma::mat S = arma::exp(-0.5 * x.elem(ind) * arma::square(m));
     S.each_row() %= signs % m;
-    
+
     // Pdf f(x)
     f.elem(ind) = 2 * arma::sum(S, 1);
-    
+
     // Avoid potential problematic cases
     f.elem(arma::find(f < 0)).zeros();
-    
+
   }
-  
+
   // f(x)
   return f;
-  
+
 }
 
 
@@ -225,9 +225,10 @@ arma::vec d_cir_stat_Ajne(arma::vec x, arma::uword K_Ajne = 15) {
 //' @export
 // [[Rcpp::export]]
 arma::vec p_cir_stat_Bingham(arma::vec x) {
-  
+
+  // TODO: Move to R
   return p_chisq(x, 2, 0);
-  
+
 }
 
 
@@ -235,9 +236,10 @@ arma::vec p_cir_stat_Bingham(arma::vec x) {
 //' @export
 // [[Rcpp::export]]
 arma::vec d_cir_stat_Bingham(arma::vec x) {
-  
+
+  // TODO: Move to R
   return d_chisq(x, 2, 0);
-  
+
 }
 
 
@@ -245,9 +247,10 @@ arma::vec d_cir_stat_Bingham(arma::vec x) {
 //' @export
 // [[Rcpp::export]]
 arma::vec p_cir_stat_Greenwood(arma::vec x) {
-  
+
+  // TODO: Move to R
   return arma::normcdf(x, 0, 2);
-  
+
 }
 
 
@@ -255,9 +258,9 @@ arma::vec p_cir_stat_Greenwood(arma::vec x) {
 //' @export
 // [[Rcpp::export]]
 arma::vec d_cir_stat_Greenwood(arma::vec x) {
-  
+
   return arma::normpdf(x, 0, 2);
-  
+
 }
 
 
@@ -265,9 +268,10 @@ arma::vec d_cir_stat_Greenwood(arma::vec x) {
 //' @export
 // [[Rcpp::export]]
 arma::vec p_cir_stat_Gini(arma::vec x) {
-  
+
+  // TODO: Move to R
   return arma::normcdf(x, 0, sqrt_inv_three);
-  
+
 }
 
 
@@ -275,9 +279,10 @@ arma::vec p_cir_stat_Gini(arma::vec x) {
 //' @export
 // [[Rcpp::export]]
 arma::vec d_cir_stat_Gini(arma::vec x) {
-  
+
+  // TODO: Move to R
   return arma::normpdf(x, 0, sqrt_inv_three);
-  
+
 }
 
 
@@ -285,9 +290,10 @@ arma::vec d_cir_stat_Gini(arma::vec x) {
 //' @export
 // [[Rcpp::export]]
 arma::vec p_cir_stat_Gini_squared(arma::vec x) {
-  
+
+  // TODO: Move to R
   return arma::normcdf(x, 0, 4);
-  
+
 }
 
 
@@ -295,9 +301,10 @@ arma::vec p_cir_stat_Gini_squared(arma::vec x) {
 //' @export
 // [[Rcpp::export]]
 arma::vec d_cir_stat_Gini_squared(arma::vec x) {
-  
+
+  // TODO: Move to R
   return arma::normpdf(x, 0, 4);
-  
+
 }
 
 
@@ -306,31 +313,31 @@ arma::vec d_cir_stat_Gini_squared(arma::vec x) {
 // [[Rcpp::export]]
 arma::vec p_cir_stat_Hodges_Ajne2(arma::vec x, arma::uword n,
                                   bool asymp_std = false) {
-  
+
   if (asymp_std) {
-    
+
     return 1 - p_Kolmogorov(half_M_PI / x);
-    
+
   } else {
-    
+
     // j's
     x += 1;
     arma::uword M = arma::max(arma::floor((n - x) / (2.0 * x - n)));
     arma::rowvec j = arma::linspace(0, M, M + 1).t();
-    
+
     // Binomial coefficients -- requires C++ 11
     arma::mat log_coef = (2.0 * x - n) * j;
     log_coef.each_col() += x;
     log_coef.transform([n](int m) {
       return R::lchoose(n, m);
     });
-    
+
     // Add factor
     log_coef.each_col() += arma::log(2.0 * x - n) - log_two * (n - 1);
     return 1 - arma::sum(arma::exp(log_coef), 1);
-    
+
   }
-  
+
 }
 
 
@@ -339,76 +346,76 @@ arma::vec p_cir_stat_Hodges_Ajne2(arma::vec x, arma::uword n,
 // [[Rcpp::export]]
 arma::vec p_cir_stat_Hodges_Ajne(arma::vec x, arma::uword n, bool exact = true,
                                  bool asymp_std = false) {
-  
+
   // TODO: way slower than p_cir_stat_Hodges_Ajne2
-  
+
   // Unstandardize evaluation points
   if (asymp_std) {
-    
+
     x = 0.5 * (std::sqrt(n) * x + n);
-    
+
   }
-  
+
   // Zero and one for the unfeasible values
   arma::vec F = arma::zeros(x.n_elem);
   arma::uvec ind = arma::find(x >= floor(0.5 * n) && x < n);
   F.elem(arma::find(x >= n)).ones();
-  
+
   // Feasible values?
   if (ind.n_elem > 0) {
-    
+
     // Exact (discrete) or asymptotic distribution?
     if (exact) {
-      
+
       // The + 1 because Ajne (1986) gives P[sup_\alpha N(\alpha) >= k], but
       // P[sup_\alpha N(\alpha) <= k] = 1 - P[sup_\alpha N(\alpha) >= k + 1]
       x.elem(ind) += 1;
-      
+
       // Determine the minimum atom necessary to compute (from k_min to n)
       arma::uvec x_floor = arma::conv_to<arma::uvec>::from(
         arma::floor(x.elem(ind)));
       arma::uword k_min = arma::min(x_floor);
       arma::uword k_max = arma::max(x_floor);
       arma::vec k = arma::regspace(k_min, 1, k_max);
-      
+
       // Largest upper limit in the sum (obtained for k_min)
       arma::uword j_max = std::floor((n - k_min) / (2.0 * k_min - n));
-      
+
       // j's in the sum
       arma::rowvec j = arma::regspace(0, 1, j_max).t();
-      
+
       // Log-binomial coefficients, a matrix of size k.n_elem x (j_max + 1)
       arma::mat log_coef = (2.0 * k - n) * j;
       log_coef.each_col() += k;
       log_coef.transform([n](int m) {
         return R::lchoose(n, m);
       });
-      
+
       // Add factor
       log_coef.each_col() += arma::log(2.0 * k - n) - log_two * (n - 1);
-      
+
       // Accumulated probability for k
       arma::vec F_k = 1 - arma::sum(arma::exp(log_coef), 1);
-      
+
       // Obtain the corresponding values of F_k for x
       x_floor -= k_min;
       F.elem(ind) = F_k.elem(x_floor);
-      
+
     } else {
-      
+
       F.elem(ind) = 1 -
         p_Kolmogorov(half_M_PI * std::sqrt(n) / (2.0 * (x.elem(ind) + 1) - n));
-      
+
     }
-    
+
     // Avoid potential problematic cases
     F = arma::clamp(F, 0, 1);
-    
+
   }
-  
+
   // F(x)
   return F;
-  
+
 }
 
 
@@ -417,45 +424,45 @@ arma::vec p_cir_stat_Hodges_Ajne(arma::vec x, arma::uword n, bool exact = true,
 // [[Rcpp::export]]
 arma::vec d_cir_stat_Hodges_Ajne(arma::vec x, arma::uword n, bool exact = true,
                                  bool asymp_std = false) {
-  
+
   // Zero for the unfeasible values
   arma::vec f = arma::zeros(x.n_elem);
   arma::uvec ind = arma::find(x >= floor(0.5 * n) && x <= n);
   f.elem(arma::find(x > n)).zeros();
-  
+
   // Feasible values?
   if (ind.n_elem > 0) {
-    
+
     if (exact) {
-      
+
       // f(x) = F(x) - F(x^-)
       arma::vec F_dif = p_cir_stat_Hodges_Ajne(
         arma::join_vert(x.elem(ind), x.elem(ind) - 1.0), n, true, asymp_std);
       f.elem(ind) = F_dif.head(ind.n_elem) - F_dif.tail(ind.n_elem);
-      
+
     } else {
-      
+
       // Standardize evaluation points
       double c = half_M_PI;
       if (!asymp_std) {
-        
+
         double inv_sqrt_n = 1.0 / std::sqrt(n);
         x.elem(ind) = (2.0 * x.elem(ind) - n) * inv_sqrt_n;
         c = M_PI * inv_sqrt_n;
-        
+
       }
-      
+
       // f(x)
       return c * d_Kolmogorov(half_M_PI / x.elem(ind)) /
         arma::square(x.elem(ind));
-      
+
     }
-    
+
   }
-  
+
   // f(x)
   return f;
-  
+
 }
 
 
@@ -571,19 +578,21 @@ arma::vec d_cir_stat_Kuiper(arma::vec x, arma::uword n,
 //' @export
 // [[Rcpp::export]]
 arma::vec p_cir_stat_Log_gaps(arma::vec x, bool abs_val = true) {
-  
+
+  // TODO: Move to R
+
   if (abs_val) {
-    
+
     arma::vec F = 2 * arma::normcdf(x, 0, sqrt_M_PI_sixth_one) - 1;
     F.elem(arma::find(x < 0)).zeros();
     return F;
-    
+
   } else {
-    
+
     return arma::normcdf(x, 0, sqrt_M_PI_sixth_one);
-    
+
   }
-  
+
 }
 
 
@@ -591,19 +600,21 @@ arma::vec p_cir_stat_Log_gaps(arma::vec x, bool abs_val = true) {
 //' @export
 // [[Rcpp::export]]
 arma::vec d_cir_stat_Log_gaps(arma::vec x, bool abs_val = true) {
-  
+
+  // TODO: Move to R
+
   if (abs_val) {
-    
+
     arma::vec f = 2 * arma::normpdf(x, 0, sqrt_M_PI_sixth_one);
     f.elem(arma::find(x < 0)).zeros();
     return f;
-    
+
   } else {
-    
+
     return arma::normpdf(x, 0, sqrt_M_PI_sixth_one);
-    
+
   }
-  
+
 }
 
 
@@ -611,9 +622,10 @@ arma::vec d_cir_stat_Log_gaps(arma::vec x, bool abs_val = true) {
 //' @export
 // [[Rcpp::export]]
 arma::vec p_cir_stat_Max_uncover(arma::vec x) {
-  
+
+  // TODO: Move to R
   return arma::exp(-arma::exp(-x));
-  
+
 }
 
 
@@ -621,9 +633,10 @@ arma::vec p_cir_stat_Max_uncover(arma::vec x) {
 //' @export
 // [[Rcpp::export]]
 arma::vec d_cir_stat_Max_uncover(arma::vec x) {
-  
+
+  // TODO: Move to R
   return arma::exp(-(x + arma::exp(-x)));
-  
+
 }
 
 
@@ -631,9 +644,10 @@ arma::vec d_cir_stat_Max_uncover(arma::vec x) {
 //' @export
 // [[Rcpp::export]]
 arma::vec p_cir_stat_Num_uncover(arma::vec x) {
-  
+
+  // TODO: Move to R
   return arma::normcdf(x, 0, 1);
-  
+
 }
 
 
@@ -641,9 +655,10 @@ arma::vec p_cir_stat_Num_uncover(arma::vec x) {
 //' @export
 // [[Rcpp::export]]
 arma::vec d_cir_stat_Num_uncover(arma::vec x) {
-  
+
+  // TODO: Move to R
   return arma::normpdf(x, 0, 1);
-  
+
 }
 
 
@@ -651,9 +666,10 @@ arma::vec d_cir_stat_Num_uncover(arma::vec x) {
 //' @export
 // [[Rcpp::export]]
 arma::vec p_cir_stat_Pycke(arma::vec x) {
-  
+
+  // TODO: Move to R
   return arma::exp(-arma::exp(-0.5 * (x + 2 * arma::datum::euler)));
-  
+
 }
 
 
@@ -661,10 +677,11 @@ arma::vec p_cir_stat_Pycke(arma::vec x) {
 //' @export
 // [[Rcpp::export]]
 arma::vec d_cir_stat_Pycke(arma::vec x) {
-  
+
+  // TODO: Move to R
   x = 0.5 * (x + 2 * arma::datum::euler);
   return 0.5 * arma::exp(-(x + arma::exp(-x)));
-  
+
 }
 
 
@@ -672,9 +689,10 @@ arma::vec d_cir_stat_Pycke(arma::vec x) {
 //' @export
 // [[Rcpp::export]]
 arma::vec p_cir_stat_Vacancy(arma::vec x) {
-  
+
+  // TODO: Move to R
   return arma::normcdf(x, 0, 1);
-  
+
 }
 
 
@@ -682,9 +700,10 @@ arma::vec p_cir_stat_Vacancy(arma::vec x) {
 //' @export
 // [[Rcpp::export]]
 arma::vec d_cir_stat_Vacancy(arma::vec x) {
-  
+
+  // TODO: Move to R
   return arma::normpdf(x, 0, 1);
-  
+
 }
 
 
@@ -1078,6 +1097,7 @@ arma::vec p_cir_stat_Rao(arma::vec x) {
 // [[Rcpp::export]]
 arma::vec d_cir_stat_Rao(arma::vec x) {
 
+  // TODO: Move to R + add Rayleigh_m parameter
   return arma::normpdf(x, 0, sd_Rao);
 
 }
@@ -1088,6 +1108,7 @@ arma::vec d_cir_stat_Rao(arma::vec x) {
 // [[Rcpp::export]]
 arma::vec p_cir_stat_Rayleigh(arma::vec x) {
 
+  // TODO: Move to R + add Rayleigh_m parameter
   return p_chisq(x, 2, 0);
 
 }
@@ -1098,6 +1119,7 @@ arma::vec p_cir_stat_Rayleigh(arma::vec x) {
 // [[Rcpp::export]]
 arma::vec d_cir_stat_Rayleigh(arma::vec x) {
 
+  // TODO: Move to R
   return d_chisq(x, 2, 0);
 
 }

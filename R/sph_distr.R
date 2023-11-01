@@ -267,8 +267,20 @@ d_sph_stat_Riesz <- function(x, p, s = 1, K_max = 1e3, thre = 0, ...) {
 p_sph_stat_Sobolev <- function(x, p, bk = c(0, 0, 1), K_max = 1e3, thre = 0,
                                ...) {
 
-  cbind(p_Sobolev(x = x, p = p, type = "Sobolev", Sobolev_bk = bk,
-                  K_max = K_max, thre = thre, ...))
+  # Check if the asymptotic distribution is a single chi-squared
+  nonzero_bk <- which(bk != 0)
+  if (length(nonzero_bk) == 1) {
+
+    vk2 <- bk_to_vk2(bk = bk, p = p)
+    vk2 <- vk2[nonzero_bk]
+    return(pchisq(q = x / vk2, df = d_p_k(p = p, k = nonzero_bk)))
+
+  } else {
+
+    return(cbind(p_Sobolev(x = x, p = p, type = "Sobolev", Sobolev_bk = bk,
+                           K_max = K_max, thre = thre, ...)))
+
+  }
 
 }
 
@@ -278,7 +290,19 @@ p_sph_stat_Sobolev <- function(x, p, bk = c(0, 0, 1), K_max = 1e3, thre = 0,
 d_sph_stat_Sobolev <- function(x, p, bk = c(0, 0, 1), K_max = 1e3,
                                thre = 0, ...) {
 
-  cbind(d_Sobolev(x = x, p = p, type = "Sobolev", Sobolev_bk = bk,
-                  K_max = K_max, thre = thre, ...))
+  # Check if the asymptotic distribution is a single chi-squared
+  nonzero_bk <- which(bk != 0)
+  if (length(nonzero_bk) == 1) {
+
+    vk2 <- bk_to_vk2(bk = bk, p = p)
+    vk2 <- vk2[nonzero_bk]
+    return(dchisq(x = x / vk2, df = d_p_k(p = p, k = nonzero_bk)) / vk2)
+
+  } else {
+
+    return(cbind(d_Sobolev(x = x, p = p, type = "Sobolev", Sobolev_bk = bk,
+                           K_max = K_max, thre = thre, ...)))
+
+  }
 
 }

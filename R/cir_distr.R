@@ -366,3 +366,21 @@ d_cir_stat_Riesz <- function(x, s = 1, K_max = 1e3, thre = 0, ...) {
   d_sph_stat_Riesz(x = x, p = 2, s = s, K_max = K_max, thre = thre, ...)
 
 }
+
+
+#' @rdname cir_stat_distr
+#' @export
+p_cir_stat_Sobolev <- function(x, bk = c(0, 0, 1), K_max = 1e3, thre = 0, ...) {
+
+  p_sph_stat_Sobolev(x = x, p = 2, bk = bk, K_max = K_max, thre = thre, ...)
+
+}
+
+
+#' @rdname cir_stat_distr
+#' @export
+d_cir_stat_Sobolev <- function(x, bk = c(0, 0, 1), K_max = 1e3, thre = 0, ...) {
+
+  d_sph_stat_Sobolev(x = x, p = 2, bk = bk, K_max = K_max, thre = thre, ...)
+
+}

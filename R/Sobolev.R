@@ -712,19 +712,20 @@ sph_stat_Sobolev <- function(X, Psi_in_X = FALSE, p = 0, bk = c(0, 0, 1)) {
   bk <- rbind(bk)
   nonzero_bk <- which(apply(bk != 0, 2, any))
   Tnk <- matrix(0, nrow = M, ncol = ncol(bk))
-  for (k in nonzero_bk) {
-    for (j in seq_len(M)) {
+  for (j in seq_len(M)) {
 
-      Tnk[j, k] <- sum(Gegen_polyn(theta = X[, j], k = k, p = p))
+      Tnk[j, nonzero_bk] <- rowSums(Gegen_polyn(theta = X[, j],
+                                                k = nonzero_bk, p = p))
 
-    }
   }
 
-  # Construct statistic
-  Tn <- Tnk %*% t(bk)
+  # Construct statistic, a matrix of size c(M, length(bk))
+  Tn <- (2 / n)  * (Tnk %*% t(bk))
 
-  # Multiply by 2 / n
-  Tn <- 2 * Tn / n
+  # Add diagonal bias
+  bias <- drop(bk[, nonzero_bk] %*% Gegen_polyn(theta = 0, k = nonzero_bk,
+                                                p = p))
+  Tn <- t(t(Tn) + bias)
   return(unname(Tn))
 
 }

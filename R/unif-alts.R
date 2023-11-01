@@ -520,8 +520,9 @@ F_inv_from_f <- function(f, p, Gauss = TRUE, N = 320, K = 1e3, tol = 1e-6,
 #' @inheritParams r_unif_sph
 #' @param signs signs of the coefficients \eqn{u_{k, p}}, a vector of the
 #' same size as \code{vk2} or \code{bk}, or a scalar. Defaults to \code{1}.
-#' @return
-#' The corresponding vectors of coefficients \code{vk2}, \code{bk}, or
+#' @param log do operations in log scale (log-in, log-out)? Defaults to
+#' \code{FALSE}.
+#' @return The corresponding vectors of coefficients \code{vk2}, \code{bk}, or
 #' \code{uk}, depending on the call.
 #' @details
 #' See more details in Prentice (1978) and García-Portugués et al. (2023). The
@@ -555,7 +556,7 @@ F_inv_from_f <- function(f, p, Gauss = TRUE, N = 320, K = 1e3, tol = 1e-6,
 
 #' @rdname Sobolev_coefs
 #' @export
-bk_to_vk2 <- function(bk, p) {
+bk_to_vk2 <- function(bk, p, log = FALSE) {
 
   # Check dimension
   p <- as.integer(p)
@@ -574,13 +575,29 @@ bk_to_vk2 <- function(bk, p) {
   }
 
   # Add factor
-  if (p == 2) {
+  if (log) {
 
-    return(bk / 2)
+    if (p == 2) {
+
+      return(bk - log(2))
+
+    } else {
+
+      return(bk - log(1 + 2 * k / (p - 2)))
+
+    }
 
   } else {
 
-    return(bk / (1 + 2 * k / (p - 2)))
+    if (p == 2) {
+
+      return(bk / 2)
+
+    } else {
+
+      return(bk / (1 + 2 * k / (p - 2)))
+
+    }
 
   }
 
@@ -626,7 +643,7 @@ bk_to_uk <- function(bk, p, signs = 1) {
 
 #' @rdname Sobolev_coefs
 #' @export
-vk2_to_bk <- function(vk2, p) {
+vk2_to_bk <- function(vk2, p, log = FALSE) {
 
   # Check dimension
   p <- as.integer(p)
@@ -645,13 +662,29 @@ vk2_to_bk <- function(vk2, p) {
   }
 
   # Add factor
-  if (p == 2) {
+  if (log) {
 
-    return(2 * vk2)
+    if (p == 2) {
+
+      return(vk2 + log(2))
+
+    } else {
+
+      return(vk2 + log(1 + 2 * k / (p - 2)))
+
+    }
 
   } else {
 
-    return((1 + 2 * k / (p - 2)) * vk2)
+    if (p == 2) {
+
+      return(2 * vk2)
+
+    } else {
+
+      return((1 + 2 * k / (p - 2)) * vk2)
+
+    }
 
   }
 

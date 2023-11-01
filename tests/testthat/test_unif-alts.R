@@ -606,10 +606,18 @@ test_that("Conversion between coefficients", {
   skip_on_cran()
   expect_equal(bk_to_vk2(vk2_to_bk(vk2, p = 2), p = 2), vk2)
   expect_equal(bk_to_vk2(vk2_to_bk(vk2, p = 3), p = 3), vk2)
+  expect_equal(bk_to_vk2(vk2_to_bk(vk2, p = 2, log = TRUE), p = 2, log = TRUE),
+               vk2)
+  expect_equal(bk_to_vk2(vk2_to_bk(vk2, p = 3, log = TRUE), p = 3, log = TRUE),
+               vk2)
   expect_equal(bk_to_uk(uk_to_bk(uk, p = 2), p = 2, signs = sign(uk)), uk)
   expect_equal(bk_to_uk(uk_to_bk(uk, p = 3), p = 3, signs = sign(uk)), uk)
   expect_equal(vk2_to_bk(bk_to_vk2(bk, p = 2), p = 2), bk)
   expect_equal(vk2_to_bk(bk_to_vk2(bk, p = 3), p = 3), bk)
+  expect_equal(vk2_to_bk(bk_to_vk2(bk, p = 2, log = TRUE), p = 2, log = TRUE),
+               bk)
+  expect_equal(vk2_to_bk(bk_to_vk2(bk, p = 3, log = TRUE), p = 3, log = TRUE),
+               bk)
   expect_equal(vk2_to_uk(uk_to_vk2(uk, p = 2), p = 2, signs = sign(uk)), uk)
   expect_equal(vk2_to_uk(uk_to_vk2(uk, p = 3), p = 3, signs = sign(uk)), uk)
   expect_equal(uk_to_vk2(vk2_to_uk(vk2, p = 2), p = 2), vk2)

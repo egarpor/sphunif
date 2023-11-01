@@ -177,6 +177,11 @@
 #' # Watson (1976)
 #' curve(d_cir_stat_Watson_1976(x), to = 1.5, n = 2e2, ylim = c(0, 3))
 #' curve(p_cir_stat_Watson_1976(x), n = 2e2, col = 2, add = TRUE)
+#'
+#' # Sobolev
+#' vk2 <- c(0.5, 0)
+#' curve(d_cir_stat_Sobolev(x = x, vk2 = vk2), to = 3, n = 2e2, ylim = c(0, 2))
+#' curve(p_cir_stat_Sobolev(x = x, vk2 = vk2), n = 2e2, col = 2, add = TRUE)
 #' @name cir_stat_distr
 NULL
 
@@ -370,19 +375,17 @@ d_cir_stat_Riesz <- function(x, s = 1, K_max = 1e3, thre = 0, ...) {
 
 #' @rdname cir_stat_distr
 #' @export
-p_cir_stat_Sobolev <- function(x, vk2 = c(0, 0, 1), K_max = 1e3, thre = 0,
-                               ...) {
+p_cir_stat_Sobolev <- function(x, vk2 = c(0, 0, 1), ...) {
 
-  p_sph_stat_Sobolev(x = x, p = 2, vk2 = vk2, K_max = K_max, thre = thre, ...)
+  p_sph_stat_Sobolev(x = x, p = 2, vk2 = vk2, ...)
 
 }
 
 
 #' @rdname cir_stat_distr
 #' @export
-d_cir_stat_Sobolev <- function(x, vk2 = c(0, 0, 1), K_max = 1e3, thre = 0,
-                               ...) {
+d_cir_stat_Sobolev <- function(x, vk2 = c(0, 0, 1), ...) {
 
-  d_sph_stat_Sobolev(x = x, p = 2, vk2 = vk2, K_max = K_max, thre = thre, ...)
+  d_sph_stat_Sobolev(x = x, p = 2, vk2 = vk2, ...)
 
 }

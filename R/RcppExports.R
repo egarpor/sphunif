@@ -376,223 +376,6 @@ t_inv_sqrt_one <- function(t) {
     .Call('_sphunif_t_inv_sqrt_one', PACKAGE = 'sphunif', t)
 }
 
-#' @rdname cir_stat
-#' @export
-cir_stat_Kuiper <- function(Theta, sorted = FALSE, KS = FALSE, Stephens = FALSE) {
-    .Call('_sphunif_cir_stat_Kuiper', PACKAGE = 'sphunif', Theta, sorted, KS, Stephens)
-}
-
-#' @rdname cir_stat
-#' @export
-cir_stat_Watson <- function(Theta, sorted = FALSE, CvM = FALSE, Stephens = FALSE) {
-    .Call('_sphunif_cir_stat_Watson', PACKAGE = 'sphunif', Theta, sorted, CvM, Stephens)
-}
-
-#' @rdname cir_stat
-#' @export
-cir_stat_Watson_1976 <- function(Theta, sorted = FALSE, minus = FALSE) {
-    .Call('_sphunif_cir_stat_Watson_1976', PACKAGE = 'sphunif', Theta, sorted, minus)
-}
-
-#' @rdname cir_stat
-#' @export
-cir_stat_Range <- function(Theta, sorted = FALSE, gaps_in_Theta = FALSE, max_gap = TRUE) {
-    .Call('_sphunif_cir_stat_Range', PACKAGE = 'sphunif', Theta, sorted, gaps_in_Theta, max_gap)
-}
-
-#' @rdname cir_stat
-#' @export
-cir_stat_Rao <- function(Theta, sorted = FALSE, gaps_in_Theta = FALSE) {
-    .Call('_sphunif_cir_stat_Rao', PACKAGE = 'sphunif', Theta, sorted, gaps_in_Theta)
-}
-
-#' @rdname cir_stat
-#' @export
-cir_stat_Greenwood <- function(Theta, sorted = FALSE, gaps_in_Theta = FALSE) {
-    .Call('_sphunif_cir_stat_Greenwood', PACKAGE = 'sphunif', Theta, sorted, gaps_in_Theta)
-}
-
-#' @rdname cir_stat
-#' @export
-cir_stat_Log_gaps <- function(Theta, sorted = FALSE, gaps_in_Theta = FALSE, abs_val = TRUE) {
-    .Call('_sphunif_cir_stat_Log_gaps', PACKAGE = 'sphunif', Theta, sorted, gaps_in_Theta, abs_val)
-}
-
-#' @rdname cir_stat
-#' @export
-cir_stat_Vacancy <- function(Theta, a = 2 * pi, sorted = FALSE, gaps_in_Theta = FALSE) {
-    .Call('_sphunif_cir_stat_Vacancy', PACKAGE = 'sphunif', Theta, a, sorted, gaps_in_Theta)
-}
-
-#' @rdname cir_stat
-#' @export
-cir_stat_Max_uncover <- function(Theta, a = 2 * pi, sorted = FALSE, gaps_in_Theta = FALSE) {
-    .Call('_sphunif_cir_stat_Max_uncover', PACKAGE = 'sphunif', Theta, a, sorted, gaps_in_Theta)
-}
-
-#' @rdname cir_stat
-#' @export
-cir_stat_Num_uncover <- function(Theta, a = 2 * pi, sorted = FALSE, gaps_in_Theta = FALSE, minus_val = TRUE) {
-    .Call('_sphunif_cir_stat_Num_uncover', PACKAGE = 'sphunif', Theta, a, sorted, gaps_in_Theta, minus_val)
-}
-
-#' @rdname cir_stat
-#' @export
-cir_stat_Gini <- function(Theta, sorted = FALSE, gaps_in_Theta = FALSE) {
-    .Call('_sphunif_cir_stat_Gini', PACKAGE = 'sphunif', Theta, sorted, gaps_in_Theta)
-}
-
-#' @rdname cir_stat
-#' @export
-cir_stat_Gini_squared <- function(Theta, sorted = FALSE, gaps_in_Theta = FALSE) {
-    .Call('_sphunif_cir_stat_Gini_squared', PACKAGE = 'sphunif', Theta, sorted, gaps_in_Theta)
-}
-
-#' @rdname cir_stat
-#' @export
-cir_stat_Ajne <- function(Theta, Psi_in_Theta = FALSE) {
-    .Call('_sphunif_cir_stat_Ajne', PACKAGE = 'sphunif', Theta, Psi_in_Theta)
-}
-
-#' @keywords internal
-cir_stat_An_Psi <- function(Psi, n) {
-    .Call('_sphunif_cir_stat_An_Psi', PACKAGE = 'sphunif', Psi, n)
-}
-
-#' @rdname cir_stat
-#' @export
-cir_stat_Rothman <- function(Theta, Psi_in_Theta = FALSE, t = 1.0 / 3.0) {
-    .Call('_sphunif_cir_stat_Rothman', PACKAGE = 'sphunif', Theta, Psi_in_Theta, t)
-}
-
-#' @keywords internal
-cir_stat_Rothman_Psi <- function(Psi, n, t_m2, t_min2) {
-    .Call('_sphunif_cir_stat_Rothman_Psi', PACKAGE = 'sphunif', Psi, n, t_m2, t_min2)
-}
-
-#' @rdname cir_stat
-#' @export
-cir_stat_Hodges_Ajne <- function(Theta, asymp_std = FALSE, sorted = FALSE, use_Cressie = TRUE) {
-    .Call('_sphunif_cir_stat_Hodges_Ajne', PACKAGE = 'sphunif', Theta, asymp_std, sorted, use_Cressie)
-}
-
-#' @rdname cir_stat
-#' @export
-cir_stat_Cressie <- function(Theta, t = 1.0 / 3.0, sorted = FALSE) {
-    .Call('_sphunif_cir_stat_Cressie', PACKAGE = 'sphunif', Theta, t, sorted)
-}
-
-#' @rdname cir_stat
-#' @export
-cir_stat_FG01 <- function(Theta, sorted = FALSE) {
-    .Call('_sphunif_cir_stat_FG01', PACKAGE = 'sphunif', Theta, sorted)
-}
-
-#' @rdname cir_stat
-#' @export
-cir_stat_Rayleigh <- function(Theta, m = 1L) {
-    .Call('_sphunif_cir_stat_Rayleigh', PACKAGE = 'sphunif', Theta, m)
-}
-
-#' @rdname cir_stat
-#' @export
-cir_stat_Bingham <- function(Theta) {
-    .Call('_sphunif_cir_stat_Bingham', PACKAGE = 'sphunif', Theta)
-}
-
-#' @rdname cir_stat
-#' @export
-cir_stat_Hermans_Rasson <- function(Theta, Psi_in_Theta = FALSE) {
-    .Call('_sphunif_cir_stat_Hermans_Rasson', PACKAGE = 'sphunif', Theta, Psi_in_Theta)
-}
-
-#' @keywords internal
-cir_stat_Hermans_Rasson_Psi <- function(Psi, n) {
-    .Call('_sphunif_cir_stat_Hermans_Rasson_Psi', PACKAGE = 'sphunif', Psi, n)
-}
-
-#' @rdname cir_stat
-#' @export
-cir_stat_Gine_Gn <- function(Theta, Psi_in_Theta = FALSE) {
-    .Call('_sphunif_cir_stat_Gine_Gn', PACKAGE = 'sphunif', Theta, Psi_in_Theta)
-}
-
-#' @rdname cir_stat
-#' @export
-cir_stat_Gine_Fn <- function(Theta, Psi_in_Theta = FALSE) {
-    .Call('_sphunif_cir_stat_Gine_Fn', PACKAGE = 'sphunif', Theta, Psi_in_Theta)
-}
-
-#' @rdname cir_stat
-#' @export
-cir_stat_Pycke <- function(Theta, Psi_in_Theta = FALSE) {
-    .Call('_sphunif_cir_stat_Pycke', PACKAGE = 'sphunif', Theta, Psi_in_Theta)
-}
-
-#' @keywords internal
-cir_stat_Pycke_Psi <- function(Psi, n) {
-    .Call('_sphunif_cir_stat_Pycke_Psi', PACKAGE = 'sphunif', Psi, n)
-}
-
-#' @rdname cir_stat
-#' @export
-cir_stat_Pycke_q <- function(Theta, Psi_in_Theta = FALSE, q = 0.5) {
-    .Call('_sphunif_cir_stat_Pycke_q', PACKAGE = 'sphunif', Theta, Psi_in_Theta, q)
-}
-
-#' @keywords internal
-cir_stat_Pycke_q_Psi <- function(Psi, n, q = 0.5) {
-    .Call('_sphunif_cir_stat_Pycke_q_Psi', PACKAGE = 'sphunif', Psi, n, q)
-}
-
-#' @rdname cir_stat
-#' @export
-cir_stat_Bakshaev <- function(Theta, Psi_in_Theta = FALSE) {
-    .Call('_sphunif_cir_stat_Bakshaev', PACKAGE = 'sphunif', Theta, Psi_in_Theta)
-}
-
-#' @rdname cir_stat
-#' @export
-cir_stat_Riesz <- function(Theta, Psi_in_Theta = FALSE, s = 1.0) {
-    .Call('_sphunif_cir_stat_Riesz', PACKAGE = 'sphunif', Theta, Psi_in_Theta, s)
-}
-
-#' @rdname cir_stat
-#' @export
-cir_stat_PCvM <- function(Theta, Psi_in_Theta = FALSE) {
-    .Call('_sphunif_cir_stat_PCvM', PACKAGE = 'sphunif', Theta, Psi_in_Theta)
-}
-
-#' @rdname cir_stat
-#' @export
-cir_stat_PRt <- function(Theta, Psi_in_Theta = FALSE, t = 1.0 / 3.0) {
-    .Call('_sphunif_cir_stat_PRt', PACKAGE = 'sphunif', Theta, Psi_in_Theta, t)
-}
-
-#' @rdname cir_stat
-#' @export
-cir_stat_PAD <- function(Theta, Psi_in_Theta = FALSE, AD = FALSE, sorted = FALSE) {
-    .Call('_sphunif_cir_stat_PAD', PACKAGE = 'sphunif', Theta, Psi_in_Theta, AD, sorted)
-}
-
-#' @rdname cir_stat
-#' @export
-cir_stat_Poisson <- function(Theta, Psi_in_Theta = FALSE, rho = 0.5) {
-    .Call('_sphunif_cir_stat_Poisson', PACKAGE = 'sphunif', Theta, Psi_in_Theta, rho)
-}
-
-#' @rdname cir_stat
-#' @export
-cir_stat_Softmax <- function(Theta, Psi_in_Theta = FALSE, kappa = 1) {
-    .Call('_sphunif_cir_stat_Softmax', PACKAGE = 'sphunif', Theta, Psi_in_Theta, kappa)
-}
-
-#' @rdname cir_stat
-#' @export
-cir_stat_CCF09 <- function(Theta, dirs, K_CCF09 = 25L, original = FALSE) {
-    .Call('_sphunif_cir_stat_CCF09', PACKAGE = 'sphunif', Theta, dirs, K_CCF09, original)
-}
-
 #' @rdname cir_stat_distr
 #' @export
 p_Kolmogorov <- function(x, K_Kolmogorov = 25L, alternating = TRUE) {
@@ -813,6 +596,223 @@ p_cir_stat_Rayleigh <- function(x) {
 #' @export
 d_cir_stat_Rayleigh <- function(x) {
     .Call('_sphunif_d_cir_stat_Rayleigh', PACKAGE = 'sphunif', x)
+}
+
+#' @rdname cir_stat
+#' @export
+cir_stat_Kuiper <- function(Theta, sorted = FALSE, KS = FALSE, Stephens = FALSE) {
+    .Call('_sphunif_cir_stat_Kuiper', PACKAGE = 'sphunif', Theta, sorted, KS, Stephens)
+}
+
+#' @rdname cir_stat
+#' @export
+cir_stat_Watson <- function(Theta, sorted = FALSE, CvM = FALSE, Stephens = FALSE) {
+    .Call('_sphunif_cir_stat_Watson', PACKAGE = 'sphunif', Theta, sorted, CvM, Stephens)
+}
+
+#' @rdname cir_stat
+#' @export
+cir_stat_Watson_1976 <- function(Theta, sorted = FALSE, minus = FALSE) {
+    .Call('_sphunif_cir_stat_Watson_1976', PACKAGE = 'sphunif', Theta, sorted, minus)
+}
+
+#' @rdname cir_stat
+#' @export
+cir_stat_Range <- function(Theta, sorted = FALSE, gaps_in_Theta = FALSE, max_gap = TRUE) {
+    .Call('_sphunif_cir_stat_Range', PACKAGE = 'sphunif', Theta, sorted, gaps_in_Theta, max_gap)
+}
+
+#' @rdname cir_stat
+#' @export
+cir_stat_Rao <- function(Theta, sorted = FALSE, gaps_in_Theta = FALSE) {
+    .Call('_sphunif_cir_stat_Rao', PACKAGE = 'sphunif', Theta, sorted, gaps_in_Theta)
+}
+
+#' @rdname cir_stat
+#' @export
+cir_stat_Greenwood <- function(Theta, sorted = FALSE, gaps_in_Theta = FALSE) {
+    .Call('_sphunif_cir_stat_Greenwood', PACKAGE = 'sphunif', Theta, sorted, gaps_in_Theta)
+}
+
+#' @rdname cir_stat
+#' @export
+cir_stat_Log_gaps <- function(Theta, sorted = FALSE, gaps_in_Theta = FALSE, abs_val = TRUE) {
+    .Call('_sphunif_cir_stat_Log_gaps', PACKAGE = 'sphunif', Theta, sorted, gaps_in_Theta, abs_val)
+}
+
+#' @rdname cir_stat
+#' @export
+cir_stat_Vacancy <- function(Theta, a = 2 * pi, sorted = FALSE, gaps_in_Theta = FALSE) {
+    .Call('_sphunif_cir_stat_Vacancy', PACKAGE = 'sphunif', Theta, a, sorted, gaps_in_Theta)
+}
+
+#' @rdname cir_stat
+#' @export
+cir_stat_Max_uncover <- function(Theta, a = 2 * pi, sorted = FALSE, gaps_in_Theta = FALSE) {
+    .Call('_sphunif_cir_stat_Max_uncover', PACKAGE = 'sphunif', Theta, a, sorted, gaps_in_Theta)
+}
+
+#' @rdname cir_stat
+#' @export
+cir_stat_Num_uncover <- function(Theta, a = 2 * pi, sorted = FALSE, gaps_in_Theta = FALSE, minus_val = TRUE) {
+    .Call('_sphunif_cir_stat_Num_uncover', PACKAGE = 'sphunif', Theta, a, sorted, gaps_in_Theta, minus_val)
+}
+
+#' @rdname cir_stat
+#' @export
+cir_stat_Gini <- function(Theta, sorted = FALSE, gaps_in_Theta = FALSE) {
+    .Call('_sphunif_cir_stat_Gini', PACKAGE = 'sphunif', Theta, sorted, gaps_in_Theta)
+}
+
+#' @rdname cir_stat
+#' @export
+cir_stat_Gini_squared <- function(Theta, sorted = FALSE, gaps_in_Theta = FALSE) {
+    .Call('_sphunif_cir_stat_Gini_squared', PACKAGE = 'sphunif', Theta, sorted, gaps_in_Theta)
+}
+
+#' @rdname cir_stat
+#' @export
+cir_stat_Ajne <- function(Theta, Psi_in_Theta = FALSE) {
+    .Call('_sphunif_cir_stat_Ajne', PACKAGE = 'sphunif', Theta, Psi_in_Theta)
+}
+
+#' @keywords internal
+cir_stat_An_Psi <- function(Psi, n) {
+    .Call('_sphunif_cir_stat_An_Psi', PACKAGE = 'sphunif', Psi, n)
+}
+
+#' @rdname cir_stat
+#' @export
+cir_stat_Rothman <- function(Theta, Psi_in_Theta = FALSE, t = 1.0 / 3.0) {
+    .Call('_sphunif_cir_stat_Rothman', PACKAGE = 'sphunif', Theta, Psi_in_Theta, t)
+}
+
+#' @keywords internal
+cir_stat_Rothman_Psi <- function(Psi, n, t_m2, t_min2) {
+    .Call('_sphunif_cir_stat_Rothman_Psi', PACKAGE = 'sphunif', Psi, n, t_m2, t_min2)
+}
+
+#' @rdname cir_stat
+#' @export
+cir_stat_Hodges_Ajne <- function(Theta, asymp_std = FALSE, sorted = FALSE, use_Cressie = TRUE) {
+    .Call('_sphunif_cir_stat_Hodges_Ajne', PACKAGE = 'sphunif', Theta, asymp_std, sorted, use_Cressie)
+}
+
+#' @rdname cir_stat
+#' @export
+cir_stat_Cressie <- function(Theta, t = 1.0 / 3.0, sorted = FALSE) {
+    .Call('_sphunif_cir_stat_Cressie', PACKAGE = 'sphunif', Theta, t, sorted)
+}
+
+#' @rdname cir_stat
+#' @export
+cir_stat_FG01 <- function(Theta, sorted = FALSE) {
+    .Call('_sphunif_cir_stat_FG01', PACKAGE = 'sphunif', Theta, sorted)
+}
+
+#' @rdname cir_stat
+#' @export
+cir_stat_Rayleigh <- function(Theta, m = 1L) {
+    .Call('_sphunif_cir_stat_Rayleigh', PACKAGE = 'sphunif', Theta, m)
+}
+
+#' @rdname cir_stat
+#' @export
+cir_stat_Bingham <- function(Theta) {
+    .Call('_sphunif_cir_stat_Bingham', PACKAGE = 'sphunif', Theta)
+}
+
+#' @rdname cir_stat
+#' @export
+cir_stat_Hermans_Rasson <- function(Theta, Psi_in_Theta = FALSE) {
+    .Call('_sphunif_cir_stat_Hermans_Rasson', PACKAGE = 'sphunif', Theta, Psi_in_Theta)
+}
+
+#' @keywords internal
+cir_stat_Hermans_Rasson_Psi <- function(Psi, n) {
+    .Call('_sphunif_cir_stat_Hermans_Rasson_Psi', PACKAGE = 'sphunif', Psi, n)
+}
+
+#' @rdname cir_stat
+#' @export
+cir_stat_Gine_Gn <- function(Theta, Psi_in_Theta = FALSE) {
+    .Call('_sphunif_cir_stat_Gine_Gn', PACKAGE = 'sphunif', Theta, Psi_in_Theta)
+}
+
+#' @rdname cir_stat
+#' @export
+cir_stat_Gine_Fn <- function(Theta, Psi_in_Theta = FALSE) {
+    .Call('_sphunif_cir_stat_Gine_Fn', PACKAGE = 'sphunif', Theta, Psi_in_Theta)
+}
+
+#' @rdname cir_stat
+#' @export
+cir_stat_Pycke <- function(Theta, Psi_in_Theta = FALSE) {
+    .Call('_sphunif_cir_stat_Pycke', PACKAGE = 'sphunif', Theta, Psi_in_Theta)
+}
+
+#' @keywords internal
+cir_stat_Pycke_Psi <- function(Psi, n) {
+    .Call('_sphunif_cir_stat_Pycke_Psi', PACKAGE = 'sphunif', Psi, n)
+}
+
+#' @rdname cir_stat
+#' @export
+cir_stat_Pycke_q <- function(Theta, Psi_in_Theta = FALSE, q = 0.5) {
+    .Call('_sphunif_cir_stat_Pycke_q', PACKAGE = 'sphunif', Theta, Psi_in_Theta, q)
+}
+
+#' @keywords internal
+cir_stat_Pycke_q_Psi <- function(Psi, n, q = 0.5) {
+    .Call('_sphunif_cir_stat_Pycke_q_Psi', PACKAGE = 'sphunif', Psi, n, q)
+}
+
+#' @rdname cir_stat
+#' @export
+cir_stat_Bakshaev <- function(Theta, Psi_in_Theta = FALSE) {
+    .Call('_sphunif_cir_stat_Bakshaev', PACKAGE = 'sphunif', Theta, Psi_in_Theta)
+}
+
+#' @rdname cir_stat
+#' @export
+cir_stat_Riesz <- function(Theta, Psi_in_Theta = FALSE, s = 1.0) {
+    .Call('_sphunif_cir_stat_Riesz', PACKAGE = 'sphunif', Theta, Psi_in_Theta, s)
+}
+
+#' @rdname cir_stat
+#' @export
+cir_stat_PCvM <- function(Theta, Psi_in_Theta = FALSE) {
+    .Call('_sphunif_cir_stat_PCvM', PACKAGE = 'sphunif', Theta, Psi_in_Theta)
+}
+
+#' @rdname cir_stat
+#' @export
+cir_stat_PRt <- function(Theta, Psi_in_Theta = FALSE, t = 1.0 / 3.0) {
+    .Call('_sphunif_cir_stat_PRt', PACKAGE = 'sphunif', Theta, Psi_in_Theta, t)
+}
+
+#' @rdname cir_stat
+#' @export
+cir_stat_PAD <- function(Theta, Psi_in_Theta = FALSE, AD = FALSE, sorted = FALSE) {
+    .Call('_sphunif_cir_stat_PAD', PACKAGE = 'sphunif', Theta, Psi_in_Theta, AD, sorted)
+}
+
+#' @rdname cir_stat
+#' @export
+cir_stat_Poisson <- function(Theta, Psi_in_Theta = FALSE, rho = 0.5) {
+    .Call('_sphunif_cir_stat_Poisson', PACKAGE = 'sphunif', Theta, Psi_in_Theta, rho)
+}
+
+#' @rdname cir_stat
+#' @export
+cir_stat_Softmax <- function(Theta, Psi_in_Theta = FALSE, kappa = 1) {
+    .Call('_sphunif_cir_stat_Softmax', PACKAGE = 'sphunif', Theta, Psi_in_Theta, kappa)
+}
+
+#' @rdname cir_stat
+#' @export
+cir_stat_CCF09 <- function(Theta, dirs, K_CCF09 = 25L, original = FALSE) {
+    .Call('_sphunif_cir_stat_CCF09', PACKAGE = 'sphunif', Theta, dirs, K_CCF09, original)
 }
 
 #' @title Projection of the spherical uniform distribution

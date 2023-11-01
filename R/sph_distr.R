@@ -10,6 +10,8 @@
 #' @inheritParams r_unif
 #' @inheritParams wschisq
 #' @inheritParams unif_stat_distr
+#' @param bk weights for the finite Sobolev test. A non-negative vector or
+#' matrix. Defaults to \code{c(0, 0, 1)}.
 #' @param regime type of asymptotic regime for the CJ12 test, either \code{1}
 #' (sub-exponential regime), \code{2} (exponential), or \code{3}
 #' (super-exponential; default).
@@ -256,5 +258,27 @@ d_sph_stat_Riesz <- function(x, p, s = 1, K_max = 1e3, thre = 0, ...) {
 
   cbind(d_Sobolev(x = x, p = p, type = "Riesz", Riesz_s = s, K_max = K_max,
                   thre = thre, ...))
+
+}
+
+
+#' @rdname sph_stat_distr
+#' @export
+p_sph_stat_Sobolev <- function(x, p, bk = c(0, 0, 1), K_max = 1e3, thre = 0,
+                               ...) {
+
+  cbind(p_Sobolev(x = x, p = p, type = "Sobolev", Sobolev_bk = bk,
+                  K_max = K_max, thre = thre, ...))
+
+}
+
+
+#' @rdname sph_stat_distr
+#' @export
+d_sph_stat_Sobolev <- function(x, p, bk = c(0, 0, 1), K_max = 1e3,
+                               thre = 0, ...) {
+
+  cbind(d_Sobolev(x = x, p = p, type = "Sobolev", Sobolev_bk = bk,
+                  K_max = K_max, thre = thre, ...))
 
 }

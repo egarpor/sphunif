@@ -192,8 +192,8 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
                          seeds = NULL, Rayleigh_m = 1, cov_a = 2 * pi,
                          Rothman_t = 1 / 3, Cressie_t = 1 / 3, Pycke_q = 0.5,
                          Riesz_s = 1, CCF09_dirs = NULL, K_CCF09 = 25,
-                         CJ12_reg = 3, Stereo_a = 0, Poisson_rho = 0.5,
-                         Softmax_kappa = 1, Sobolev_bk = c(0, 0, 1), ...) {
+                         CJ12_reg = 3, Poisson_rho = 0.5, Softmax_kappa = 1,
+                         Stereo_a = 0, Sobolev_bk = c(0, 0, 1), ...) {
 
   # Check dimension
   if (p < 2) {

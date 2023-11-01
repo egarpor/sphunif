@@ -124,11 +124,14 @@
 #' }
 #' @export
 unif_stat_distr <- function(x, type, p, n, approx = "asymp", M = 1e4,
-                            stats_MC = NULL, Rothman_t = 1 / 3, Pycke_q = 0.5,
-                            Riesz_s = 1, CCF09_dirs = NULL, CJ12_reg = 3,
+                            stats_MC = NULL, Rayleigh_m = 1, cov_a = 2 * pi,
+                            Rothman_t = 1 / 3, Cressie_t = 1 / 3, Pycke_q = 0.5,
+                            Riesz_s = 1, CCF09_dirs = NULL, K_CCF09 = 25,
+                            CJ12_reg = 3, Poisson_rho = 0.5, Softmax_kappa = 1,
+                            Stereo_a = 0, Sobolev_bk = c(0, 0, 1),
                             CJ12_beta = 0, Stephens = FALSE, K_Kuiper = 25,
                             K_Watson = 25, K_Watson_1976 = 5, K_Ajne = 5e2,
-                            K_CCF09 = 25, K_max = 1e4, ...) {
+                            K_max = 1e4, ...) {
 
   # Stop if NA's
   if (anyNA(x)) {
@@ -229,10 +232,12 @@ unif_stat_distr <- function(x, type, p, n, approx = "asymp", M = 1e4,
     # Optional arguments
     args <- list("t" = Rothman_t, "q" = Pycke_q, "s" = Riesz_s,
                  "dirs" = CCF09_dirs, "regime" = CJ12_reg, "beta" = CJ12_beta,
-                 "Stephens" = Stephens, "K_Kuiper" = K_Kuiper,
-                 "K_Watson" = K_Watson, "K_Watson_1976" = K_Watson_1976,
-                 "K_Ajne" = K_Ajne, "K_CCF09" = K_CCF09, "K_max" = K_max,
-                 "thre" = 0, "n" = n, "p" = p)
+                 "rho" = Poisson_rho, "kappa" = Softmax_kappa, "a" = Stereo_a,
+                 "bk" = Sobolev_bk, "Stephens" = Stephens,
+                 "K_Kuiper" = K_Kuiper, "K_Watson" = K_Watson,
+                 "K_Watson_1976" = K_Watson_1976, "K_Ajne" = K_Ajne,
+                 "K_CCF09" = K_CCF09, "K_max" = K_max, "thre" = 0, "n" = n,
+                 "p" = p)
     names_args <- names(args)
 
     # Evaluate distributions
@@ -254,11 +259,15 @@ unif_stat_distr <- function(x, type, p, n, approx = "asymp", M = 1e4,
 
       stats_MC <- unif_stat_MC(n = n, type = stats_type, p = p, M = M,
                                r_H1 = NULL, crit_val = NULL,
-                               alpha = c(0.10, 0.05, 0.01),
                                return_stats = TRUE, stats_sorted = TRUE,
-                               Rothman_t = Rothman_t, Pycke_q = Pycke_q,
-                               CCF09_dirs = CCF09_dirs, CJ12_reg = CJ12_reg,
-                               K_CCF09 = K_CCF09, ...)$stats_MC
+                               Rayleigh_m = Rayleigh_m, cov_a = cov_a,
+                               Rothman_t = Rothman_t, Cressie_t = Cressie_t,
+                               Pycke_q = Pycke_q, Riesz_s = Riesz_s,
+                               CCF09_dirs = CCF09_dirs, K_CCF09 = K_CCF09,
+                               CJ12_reg = CJ12_reg, Stereo_a = Stereo_a,
+                               Poisson_rho = Poisson_rho,
+                               Softmax_kappa = Softmax_kappa,
+                               Sobolev_bk = Sobolev_bk, ...)$stats_MC
 
     } else {
 

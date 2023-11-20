@@ -32,6 +32,7 @@ Depends:
     Rcpp
 Imports:
     doFuture,
+    doRNG,
     foreach,
     future,
     gsl,

@@ -2,7 +2,7 @@
 # To prevent hanging with parallel computations
 Sys.unsetenv("R_TESTS")
 
-n <- 50
+n <- 10
 set.seed(1242333)
 cir_0 <- unif_stat_MC(n = n, M = 5e2, type = "all", p = 2, seeds = 5)
 sph_0 <- unif_stat_MC(n = n, M = 5e2, type = "all", p = 3, seeds = 5)
@@ -81,13 +81,44 @@ test_that("Progress bars", {
 
 })
 
-test_that("Same results with cores = 1 and cores = 2", {
+test_that("Different results with seeds = NULL (default)", {
 
   skip_on_cran()
-  expect_equal(unif_stat_MC(n = n, M = 10, type = "all",
-                            p = 2, chunks = 10, cores = 1, seeds = 1:10),
-               unif_stat_MC(n = n, M = 10, type = "all",
-                            p = 2, chunks = 10, cores = 2, seeds = 1:10))
+  expect_false(all(unif_stat_MC(n = n, M = 10, type = "Rayleigh",
+                                p = 2, chunks = 1, cores = 1,
+                                seeds = NULL)$stats_MC$Rayleigh ==
+                     unif_stat_MC(n = n, M = 10, type = "Rayleigh",
+                                  p = 2, chunks = 1, cores = 1,
+                                  seeds = NULL)$stats_MC$Rayleigh))
+  expect_false(all(unif_stat_MC(n = n, M = 10, type = "Rayleigh",
+                                p = 2, chunks = 2, cores = 1,
+                                seeds = NULL)$stats_MC$Rayleigh ==
+                     unif_stat_MC(n = n, M = 10, type = "Rayleigh",
+                                  p = 2, chunks = 2, cores = 1,
+                                  seeds = NULL)$stats_MC$Rayleigh))
+  expect_false(all(unif_stat_MC(n = n, M = 10, type = "Rayleigh",
+                                p = 2, chunks = 1, cores = 2,
+                                seeds = NULL)$stats_MC$Rayleigh ==
+                     unif_stat_MC(n = n, M = 10, type = "Rayleigh",
+                                  p = 2, chunks = 1, cores = 2,
+                                  seeds = NULL)$stats_MC$Rayleigh))
+  expect_false(all(unif_stat_MC(n = n, M = 10, type = "Rayleigh",
+                                p = 2, chunks = 2, cores = 2,
+                                seeds = NULL)$stats_MC$Rayleigh ==
+                     unif_stat_MC(n = n, M = 10, type = "Rayleigh",
+                                  p = 2, chunks = 2, cores = 2,
+                                  seeds = NULL)$stats_MC$Rayleigh))
+
+})
+
+test_that("Same results with cores = 1 and cores = 2 and fixed seeds", {
+
+  skip_on_cran()
+  expect_true(max(abs(
+    unif_stat_MC(n = n, M = 10, type = "all", p = 2, chunks = 10,
+                 cores = 1, seeds = 1:10)$stats_MC -
+      unif_stat_MC(n = n, M = 10, type = "all", p = 2, chunks = 10,
+                   cores = 2, seeds = 1:10)$stats_MC)) < 1e-10)
 
 })
 

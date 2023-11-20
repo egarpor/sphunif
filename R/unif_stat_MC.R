@@ -252,15 +252,13 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
   # Parallel backend
   old_dopar <- doFuture::registerDoFuture()
   old_plan <- future::plan(future::multisession(), workers = cores)
-  options(future.rng.onMisuse = "ignore")
   on.exit({
 
     with(old_dopar, foreach::setDoPar(fun = fun, data = data, info = info))
     future::plan(old_plan)
-    options(future.rng.onMisuse = NULL)
 
   })
-  `%op%` <- foreach::`%dopar%`
+  `%op%` <- doRNG::`%dorng%`
 
   # Measure progress?
   if (requireNamespace("progressr", quietly = TRUE)) {

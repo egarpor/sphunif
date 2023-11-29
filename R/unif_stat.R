@@ -233,12 +233,12 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
 
   # Create a data frame for the statistics
   n_stats <- length(stats_type)
-  stats <- matrix(0, nrow = M, ncol = n_stats)
+  stats <- matrix(NA, nrow = M, ncol = n_stats)
   colnames(stats) <- stats_type
   stats <- as.data.frame(stats)
 
   # Compute efficiently several statistics
-  if (p == 2) {
+  if (p == 2) { # p == 2
 
     # Statistics using gaps and sorted data
     stats_using_gaps <- c("Gini", "Gini_squared", "Greenwood", "Log_gaps",
@@ -253,6 +253,14 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
                          "Hermans_Rasson", "PAD", "PCvM", "Poisson", "PRt",
                          "Pycke", "Pycke_q", "Rothman", "Riesz", "Sobolev",
                          "Softmax", "Stereo")
+
+    # Statistics with vectorised parameters
+    stats_vectorised <- c("Cressie", "Max_uncover", "Num_uncover", "Vacancy",
+                          "Rayleigh", "Riesz", "Rothman", "PRt", "Poisson",
+                          "Pycke_q", "Softmax", "Sobolev")
+    param_vectorised <- c("Cressie_t", rep("cov_a", 3), "Rayleigh_m", "Riesz_s",
+                          rep("Rothman_t", 2), "Poisson_rho", "Pycke_q",
+                          "Softmax_kappa", "Sobolev_vk2")
 
     # Evaluate which statistics to apply
     run_test <- as.list(c(avail_cir_tests, "KS", "CvM", "AD") %in% stats_type)
@@ -270,10 +278,18 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
       data_sorted <- TRUE
 
     }
+
+    # Statistics
     if (run_test$Cressie) {
 
-      stats$Cressie <- cir_stat_Cressie(Theta = data, t = Cressie_t,
-                                        sorted = data_sorted)
+      Cressie <- matrix(NA, nrow = M, ncol = length(Cressie_t))
+      for (i in seq_along(Cressie_t)) {
+
+        Cressie[, i] <- cir_stat_Cressie(Theta = data, t = Cressie_t[i],
+                                         sorted = data_sorted)
+
+      }
+      stats$Cressie <- Cressie
 
     }
     if (run_test$FG01) {
@@ -314,8 +330,7 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
     }
     if (run_test$AD) {
 
-      stats$AD <- cir_stat_PAD(Theta = data, sorted = data_sorted,
-                               AD = TRUE)
+      stats$AD <- cir_stat_PAD(Theta = data, sorted = data_sorted, AD = TRUE)
 
     }
     if (run_test$Watson_1976) {
@@ -383,23 +398,41 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
     }
     if (run_test$Max_uncover) {
 
-      stats$Max_uncover <- cir_stat_Max_uncover(Theta = gaps, a = cov_a,
-                                                gaps_in_Theta = gaps_in_Theta,
-                                                sorted = data_sorted)
+      Max_uncover <- matrix(NA, nrow = M, ncol = length(cov_a))
+      for (i in seq_along(cov_a)) {
+
+        Max_uncover[, i] <- cir_stat_Max_uncover(Theta = gaps, a = cov_a[i],
+                                                 gaps_in_Theta = gaps_in_Theta,
+                                                 sorted = data_sorted)
+
+      }
+      stats$Max_uncover <- Max_uncover
 
     }
     if (run_test$Num_uncover) {
 
-      stats$Num_uncover <- cir_stat_Num_uncover(Theta = gaps, a = cov_a,
-                                                gaps_in_Theta = gaps_in_Theta,
-                                                sorted = data_sorted)
+      Num_uncover <- matrix(NA, nrow = M, ncol = length(cov_a))
+      for (i in seq_along(cov_a)) {
+
+        Num_uncover[, i] <- cir_stat_Num_uncover(Theta = gaps, a = cov_a[i],
+                                                 gaps_in_Theta = gaps_in_Theta,
+                                                 sorted = data_sorted)
+
+      }
+      stats$Num_uncover <- Num_uncover
 
     }
     if (run_test$Vacancy) {
 
-      stats$Vacancy <- cir_stat_Vacancy(Theta = gaps, a = cov_a,
-                                        gaps_in_Theta = gaps_in_Theta,
-                                        sorted = data_sorted)
+      Vacancy <- matrix(NA, nrow = M, ncol = length(cov_a))
+      for (i in seq_along(cov_a)) {
+
+        Vacancy[, i] <- cir_stat_Vacancy(Theta = gaps, a = cov_a[i],
+                                         gaps_in_Theta = gaps_in_Theta,
+                                         sorted = data_sorted)
+
+      }
+      stats$Vacancy <- Vacancy
 
     }
 
@@ -407,7 +440,13 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
 
     if (run_test$Rayleigh) {
 
-      stats$Rayleigh <- cir_stat_Rayleigh(Theta = data, m = Rayleigh_m)
+      Rayleigh <- matrix(NA, nrow = M, ncol = length(Rayleigh_m))
+      for (i in seq_along(Rayleigh_m)) {
+
+        Rayleigh[, i] <- cir_stat_Rayleigh(Theta = data, m = Rayleigh_m[i])
+
+      }
+      stats$Rayleigh <- Rayleigh
 
     }
     if (run_test$Bingham) {
@@ -434,16 +473,30 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
     # using it (after discounting equivalent tests if they are simultaneously
     # present) AND if 0.5 * n * (n - 1) * M is not too large.
     # CAUTION: replacement of data with Psi!
+
+    # Number of statistics
     n_stats_type_Psi <- sum(stats_type %in% stats_using_Psi)
+
+    # Add statistics with vectorised parameters
+    n_stats_type_Psi <- n_stats_type_Psi + (
+      run_test$Riesz * (length(Riesz_s) - 1) +
+      (run_test$PRt || run_test$Rothman) * (length(Rothman_t) - 1) +
+      run_test$Poisson * (length(Poisson_rho) - 1) +
+      run_test$Softmax * (length(Softmax_kappa) - 1) +
+      run_test$Sobolev * (nrow(rbind(Sobolev_vk2)) - 1))
+
+    # Remove equivalent tests
     n_stats_type_Psi <- n_stats_type_Psi - (
       (run_test$Watson && run_test$PCvM) +
       (run_test$Rothman && run_test$PRt) +
-      (Riesz_s == 2 && run_test$Riesz) +
-      (Riesz_s == 0 && run_test$Pycke && run_test$Riesz) +
-      (Riesz_s == 1 && run_test$Bakshaev && run_test$Riesz) +
-      (Poisson_rho == 0 && run_test$Poisson) +
-      (Softmax_kappa == 0 && run_test$Softmax) +
+      (any(Riesz_s == 2) && run_test$Riesz) +
+      (any(Riesz_s == 0) && run_test$Pycke && run_test$Riesz) +
+      (any(Riesz_s == 1) && run_test$Bakshaev && run_test$Riesz) +
+      (any(Poisson_rho == 0) && run_test$Poisson) +
+      (any(Softmax_kappa == 0) && run_test$Softmax) +
       (run_test$Gine_Fn && run_test$Gine_Gn && run_test$Ajne))
+
+    # Compute Psi
     if (n_stats_type_Psi > 1 && 0.5 * n * (n - 1) * M <= 1e8) {
 
       dim(data) <- c(n, 1, M)
@@ -455,6 +508,8 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
       Psi_in_Theta <- FALSE
 
     }
+
+    # Statistics
     if (run_test$Ajne) {
 
       stats$Ajne <- cir_stat_Ajne(Theta = data, Psi_in_Theta = Psi_in_Theta)
@@ -468,29 +523,37 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
     }
     if (run_test$Riesz) {
 
-      if (Riesz_s == 1 && run_test$Bakshaev) {
+      Riesz <- matrix(NA, nrow = M, ncol = length(Riesz_s))
+      for (i in seq_along(Riesz_s)) {
 
-        stats$Riesz <- stats$Bakshaev
+        if (Riesz_s[i] == 1 && run_test$Bakshaev) {
 
-      } else if (Riesz_s == 2 && (run_test$Rayleigh || !Psi_in_Theta)) {
+          Riesz[, i] <- stats$Bakshaev
 
-        if (run_test$Rayleigh) {
+        } else if (Riesz_s[i] == 2 &&
+                   ((run_test$Rayleigh && any(Rayleigh_m == 1)) ||
+                    !Psi_in_Theta)) {
 
-          stats$Riesz <- stats$Rayleigh
+          if (run_test$Rayleigh) {
+
+            Riesz[, i] <- stats$Rayleigh[, which(Rayleigh_m == 1)]
+
+          } else {
+
+            Riesz[, i] <- cir_stat_Rayleigh(Theta = data, m = 1)
+
+          }
 
         } else {
 
-          stats$Riesz <- cir_stat_Rayleigh(Theta = data, m = 1)
+          Riesz[, i] <- (1 - 2 * (Riesz_s[i] < 0)) *
+            cir_stat_Riesz(Theta = data, Psi_in_Theta = Psi_in_Theta,
+                           s = Riesz_s[i])
 
         }
 
-      } else {
-
-        stats$Riesz <- (1 - 2 * (Riesz_s < 0)) *
-          cir_stat_Riesz(Theta = data, Psi_in_Theta = Psi_in_Theta,
-                         s = Riesz_s)
-
       }
+      stats$Riesz <- Riesz
 
     }
     if (run_test$Gine_Gn) {
@@ -540,9 +603,15 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
     }
     if (run_test$Rothman) {
 
-      stats$Rothman <- cir_stat_Rothman(Theta = data,
-                                        Psi_in_Theta = Psi_in_Theta,
-                                        t = Rothman_t)
+      Rothman <- matrix(NA, nrow = M, ncol = length(Rothman_t))
+      for (i in seq_along(Rothman_t)) {
+
+        Rothman[, i] <- cir_stat_Rothman(Theta = data,
+                                         Psi_in_Theta = Psi_in_Theta,
+                                         t = Rothman_t[i])
+
+      }
+      stats$Rothman <- Rothman
 
     }
     if (run_test$PRt) {
@@ -553,17 +622,23 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
 
       } else {
 
-        stats$PRt <- cir_stat_PRt(Theta = data, Psi_in_Theta = Psi_in_Theta,
-                                  t = Rothman_t)
+        PRt <- matrix(NA, nrow = M, ncol = length(Rothman_t))
+        for (i in seq_along(Rothman_t)) {
+
+          PRt[, i] <- cir_stat_PRt(Theta = data, Psi_in_Theta = Psi_in_Theta,
+                                   t = Rothman_t[i])
+
+        }
+        stats$PRt <- PRt
 
       }
 
     }
     if (run_test$Pycke) {
 
-      if (run_test$Riesz && Riesz_s == 0) {
+      if (run_test$Riesz && any(Riesz_s == 0)) {
 
-        stats$Pycke <- (2 * n) / (n - 1) * stats$Riesz
+        stats$Pycke <- (2 * n) / (n - 1) * stats$Riesz[, which(Riesz_s == 0)]
 
       } else {
 
@@ -574,23 +649,73 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
     }
     if (run_test$Pycke_q) {
 
-      stats$Pycke_q <- cir_stat_Pycke_q(Theta = data,
-                                        Psi_in_Theta = Psi_in_Theta,
-                                        q = Pycke_q)
+      Pycke_q_stat <- matrix(NA, nrow = M, ncol = length(Pycke_q))
+      for (i in seq_along(Pycke_q)) {
+
+        Pycke_q_stat[, i] <- cir_stat_Pycke_q(Theta = data,
+                                         Psi_in_Theta = Psi_in_Theta,
+                                         q = Pycke_q[i])
+
+      }
+      stats$Pycke_q <- Pycke_q_stat
 
     }
     if (run_test$Poisson) {
 
-      stats$Poisson <- cir_stat_Poisson(Theta = data,
-                                        Psi_in_Theta = Psi_in_Theta,
-                                        rho = Poisson_rho)
+      Poisson <- matrix(NA, nrow = M, ncol = length(Poisson_rho))
+      for (i in seq_along(Poisson_rho)) {
+
+        if (Poisson_rho[i] == 0) {
+
+          if (run_test$Rayleigh && any(Rayleigh_m == 1)) {
+
+            Poisson[, i] <- stats$Rayleigh[, which(Rayleigh_m == 1)]
+
+          } else {
+
+            Poisson[, i] <- cir_stat_Rayleigh(Theta = data, m = 1)
+
+          }
+
+        } else {
+
+          Poisson[, i] <- cir_stat_Poisson(Theta = data,
+                                           Psi_in_Theta = Psi_in_Theta,
+                                           rho = Poisson_rho[i])
+
+        }
+
+      }
+      stats$Poisson <- Poisson
 
     }
     if (run_test$Softmax) {
 
-      stats$Softmax <- cir_stat_Softmax(Theta = data,
-                                        Psi_in_Theta = Psi_in_Theta,
-                                        kappa = Softmax_kappa)
+      Softmax <- matrix(NA, nrow = M, ncol = length(Softmax_kappa))
+      for (i in seq_along(Softmax_kappa)) {
+
+        if (Softmax_kappa[i] == 0) {
+
+          if (run_test$Rayleigh && any(Rayleigh_m == 1)) {
+
+            Softmax[, i] <- stats$Rayleigh[, which(Rayleigh_m == 1)]
+
+          } else {
+
+            Softmax[, i] <- cir_stat_Rayleigh(Theta = data, m = 1)
+
+          }
+
+        } else {
+
+            Softmax[, i] <- cir_stat_Softmax(Theta = data,
+                                             Psi_in_Theta = Psi_in_Theta,
+                                             kappa = Softmax_kappa[i])
+
+        }
+
+      }
+      stats$Softmax <- Softmax
 
     }
     if (run_test$Sobolev) {
@@ -601,12 +726,18 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
 
     }
 
-  } else {
+  } else { # p >= 3
 
     # Statistics using the shortest angles matrix Psi
     stats_using_Psi <- c("Ajne", "Bakshaev", "CJ12", "Gine_Fn", "Gine_Gn",
                          "PAD", "PCvM", "PRt", "Poisson", "Pycke", "Riesz",
                          "Sobolev", "Softmax", "Stereo")
+
+    # Statistics with vectorised parameters
+    stats_vectorised <- c("Riesz", "PRt", "Poisson", "Softmax", "Stereo",
+                          "Sobolev")
+    param_vectorised <- c("Riesz_s", "Rothman_t", "Poisson_rho",
+                          "Softmax_kappa", "Stereo_a", "Sobolev_vk2")
 
     # Evaluate which statistics to apply
     run_test <- as.list(avail_sph_tests %in% stats_type)
@@ -656,15 +787,30 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
     # using it (after discounting equivalent tests if they are simultaneously
     # present) AND if 0.5 * n * (n - 1) * M is not too large.
     # CAUTION: replacement of data with Psi!
+
+    # Number of statistics
     n_stats_type_Psi <- sum(stats_type %in% stats_using_Psi)
+
+    # Add statistics with vectorised parameters
+    n_stats_type_Psi <- n_stats_type_Psi + (
+      run_test$Riesz * (length(Riesz_s) - 1) +
+      run_test$PRt * (length(Rothman_t) - 1) +
+      run_test$Poisson * (length(Poisson_rho) - 1) +
+      run_test$Softmax * (length(Softmax_kappa) - 1) +
+      run_test$Stereo * (length(Stereo_a) - 1) +
+      run_test$Sobolev * (nrow(rbind(Sobolev_vk2)) - 1))
+
+    # Remove equivalent tests
     n_stats_type_Psi <- n_stats_type_Psi - (
-      (Riesz_s == 2 && run_test$Riesz) +
-      (Riesz_s == 0 && run_test$Pycke && run_test$Riesz) +
-      (Riesz_s == 1 && run_test$Bakshaev && run_test$Riesz) +
-      (Poisson_rho == 0 && run_test$Poisson) +
-      (Softmax_kappa == 0 && run_test$Softmax) +
+      (any(Riesz_s == 2) && run_test$Riesz) +
+      (any(Riesz_s == 0) && run_test$Pycke && run_test$Riesz) +
+      (any(Riesz_s == 1) && run_test$Bakshaev && run_test$Riesz) +
+      (any(Poisson_rho == 0) && run_test$Poisson) +
+      (any(Softmax_kappa == 0) && run_test$Softmax) +
       (p == 3 && run_test$PCvM && run_test$Bakshaev) +
       (run_test$Gine_Fn && run_test$Gine_Gn && run_test$Ajne))
+
+    # Compute Psi
     if (n_stats_type_Psi > 1 && 0.5 * n * (n - 1) * M <= 1e8) {
 
       data <- Psi_mat(data = data)
@@ -676,6 +822,8 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
       Psi_in_X <- FALSE
 
     }
+
+    # Statistics
     if (run_test$Ajne) {
 
       stats$Ajne <- sph_stat_Ajne(X = data, Psi_in_X = Psi_in_X)
@@ -689,28 +837,34 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
     }
     if (run_test$Riesz) {
 
-      if (Riesz_s == 1 && run_test$Bakshaev) {
+      Riesz <- matrix(NA, nrow = M, ncol = length(Riesz_s))
+      for (i in seq_along(Riesz_s)) {
 
-        stats$Riesz <- stats$Bakshaev
+        if (Riesz_s[i] == 1 && run_test$Bakshaev) {
 
-      } else if (Riesz_s == 2 && (run_test$Rayleigh || !Psi_in_X)) {
+          Riesz[, i] <- stats$Bakshaev
 
-        if (run_test$Rayleigh) {
+        } else if (Riesz_s[i] == 2 && (run_test$Rayleigh || !Psi_in_X)) {
 
-          stats$Riesz <- (2 / p) * stats$Rayleigh
+          if (run_test$Rayleigh) {
+
+            Riesz[, i] <- (2 / p) * stats$Rayleigh
+
+          } else {
+
+            Riesz[, i] <- (2 / p) * sph_stat_Rayleigh(X = data)
+
+          }
 
         } else {
 
-          stats$Riesz <- (2 / p) * sph_stat_Rayleigh(X = data)
+          Riesz[, i] <- (1 - 2 * (Riesz_s[i] < 0)) *
+            sph_stat_Riesz(X = data, Psi_in_X = Psi_in_X, p = p, s = Riesz_s[i])
 
         }
 
-      } else {
-
-        stats$Riesz <- (1 - 2 * (Riesz_s < 0)) *
-          sph_stat_Riesz(X = data, Psi_in_X = Psi_in_X, p = p, s = Riesz_s)
-
       }
+      stats$Riesz <- Riesz
 
     }
     if (run_test$CJ12) {
@@ -766,18 +920,24 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
     }
     if (run_test$PRt) {
 
-      stats$PRt <- sph_stat_PRt(X = data, t = Rothman_t, Psi_in_X = Psi_in_X,
-                                p = p)
+      PRt <- matrix(NA, nrow = M, ncol = length(Rothman_t))
+      for (i in seq_along(Rothman_t)) {
+
+        PRt[, i] <- sph_stat_PRt(X = data, Psi_in_X = Psi_in_X, p = p,
+                                 t = Rothman_t[i])
+
+      }
+      stats$PRt <- PRt
 
     }
     if (run_test$Pycke) {
 
-      if (run_test$Riesz && Riesz_s == 0) {
+      if (run_test$Riesz && any(Riesz_s == 0)) {
 
         if (p == 3) {
 
           stats$Pycke <- n / (2 * pi * (n - 1)) *
-            (stats$Riesz - (log(4) - 1) / 2)
+            (stats$Riesz[, which(Riesz_s == 0)] - (log(4) - 1) / 2)
 
         } else {
 
@@ -805,51 +965,70 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
     }
     if (run_test$Stereo) {
 
-        stats$Stereo <- sph_stat_Stereo(X = data, Psi_in_X = Psi_in_X, p = p,
-                                        a = Stereo_a)
+      Stereo <- matrix(NA, nrow = M, ncol = length(Stereo_a))
+      for (i in seq_along(Stereo_a)) {
+
+        Stereo[, i] <- sph_stat_Stereo(X = data, Psi_in_X = Psi_in_X, p = p,
+                                       a = Stereo_a[i])
+
+      }
+      stats$Stereo <- Stereo
 
     }
     if (run_test$Poisson) {
 
-      if (Poisson_rho == 0) {
+      Poisson <- matrix(NA, nrow = M, ncol = length(Poisson_rho))
+      for (i in seq_along(Poisson_rho)) {
 
-        if (run_test$Rayleigh) {
+        if (Poisson_rho[i] == 0) {
 
-          stats$Poisson <- stats$Rayleigh
+          if (run_test$Rayleigh) {
+
+            Poisson[, i] <- stats$Rayleigh
+
+          } else {
+
+            Poisson[, i] <- sph_stat_Rayleigh(X = data)
+
+          }
 
         } else {
 
-          stats$Poisson <- sph_stat_Rayleigh(X = data)
+          Poisson[, i] <- sph_stat_Poisson(X = data, Psi_in_X = Psi_in_X, p = p,
+                                           rho = Poisson_rho[i])
 
         }
 
-      } else {
-
-        stats$Poisson <- sph_stat_Poisson(X = data, Psi_in_X = Psi_in_X, p = p,
-                                          rho = Poisson_rho)
-
       }
+      stats$Poisson <- Poisson
 
     }
     if (run_test$Softmax) {
 
-      if (Softmax_kappa == 0) {
+      Softmax <- matrix(NA, nrow = M, ncol = length(Softmax_kappa))
+      for (i in seq_along(Softmax_kappa)) {
 
-        if (run_test$Rayleigh) {
+        if (Softmax_kappa[i] == 0) {
 
-          stats$Softmax <- stats$Rayleigh
+          if (run_test$Rayleigh) {
+
+            Softmax[, i] <- stats$Rayleigh
+
+          } else {
+
+            Softmax[, i] <- sph_stat_Rayleigh(X = data)
+
+          }
 
         } else {
 
-          stats$Softmax <- sph_stat_Rayleigh(X = data)
+          Softmax[, i] <- sph_stat_Softmax(X = data, Psi_in_X = Psi_in_X,
+                                           p = p, kappa = Softmax_kappa[i])
 
         }
 
-      } else {
-
-        stats$Softmax <- sph_stat_Softmax(X = data, Psi_in_X = Psi_in_X, p = p,
-                                          kappa = Softmax_kappa)
       }
+      stats$Softmax <- Softmax
 
     }
     if (run_test$Sobolev) {
@@ -859,16 +1038,20 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
 
     }
 
-
   }
 
   # Avoid returning matrices in variables if there are vectorized tests.
   # Instead, return a data frame with Sobolev.1, Sobolev.2, etc. variables
-  if ("Sobolev" %in% type && nrow(rbind(Sobolev_vk2)) > 1) {
+  n_param_vectorised <- sapply(param_vectorised, function(par) {
+    obj <- get(x = par)
+    ifelse(is.null(dim(obj)), length(obj), nrow(obj))
+  })
+  if (any(stats_vectorised %in% type) && any(n_param_vectorised > 1)) {
 
     stats <- do.call(data.frame, stats)
 
   }
+
   return(stats)
 
 }

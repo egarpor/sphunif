@@ -289,3 +289,61 @@ test_that("Riesz vs. Pycke", {
     )))
 
 })
+
+test_that("Vectorization works in Stereo test", {
+  expect_equal(unname(as.matrix(unif_stat(data = X_3, type = "Stereo",
+                                Stereo_a = c(-0.5, 0, 0.5)))),
+               unname(cbind(
+                 unif_stat(data = X_3, type = "Stereo", Stereo_a = -0.5)$Stereo,
+                 unif_stat(data = X_3, type = "Stereo", Stereo_a = 0)$Stereo,
+                 unif_stat(data = X_3, type = "Stereo", Stereo_a = 0.5)$Stereo)
+                 ))
+})
+
+# Statistics with vectorised parameters
+cir_stats_vectorised <- c("Cressie", "Max_uncover", "Num_uncover", "Vacancy",
+                          "Rayleigh", "Riesz", "Rothman", "PRt", "Poisson",
+                          "Pycke_q", "Softmax", "Sobolev")
+sph_stats_vectorised <- c("Riesz", "PRt", "Poisson", "Softmax", "Stereo",
+                          "Sobolev")
+t <- c(0.2, 0.3, 0.8)
+m <- 1:3
+s <- c(0, 1, 2)
+kappa <- 1:3
+rho <- seq(0.1, 0.9, l = 3)
+vk2 <- rbind(1:3, 3:1, 3:5)
+
+test_that("Parameter-vectorized statistics work for p = 2", {
+  stats_1 <- as.matrix(
+    unif_stat(data = X_2, type = cir_stats_vectorised,
+              Cressie_t = t, cov_a = t, Rayleigh_m = m, Riesz_s = s,
+              Rothman_t = t, Softmax_kappa = kappa, Poisson_rho = rho,
+              Pycke_q = t, Sobolev_vk2 = vk2))
+  stats_2 <- lapply(1:3, function(i) as.matrix(
+    unif_stat(data = X_2, type = cir_stats_vectorised,
+              Cressie_t = t[i], cov_a = t[i], Rayleigh_m = m[i], Riesz_s = s[i],
+              Rothman_t = t[i], Softmax_kappa = kappa[i], Poisson_rho = rho[i],
+              Pycke_q = t[i], Sobolev_vk2 = vk2[i, ])))
+  stats_2 <- unname(do.call(cbind, stats_2))
+  stats_1 <- unname(stats_1)
+  stats_1 <- stats_1[, order(stats_1[1, ])]
+  stats_2 <- stats_2[, order(stats_2[1, ])]
+  expect_equal(stats_1, stats_2)
+})
+
+test_that("Parameter-vectorized statistics work for p = 4", {
+  stats_1 <- as.matrix(
+    unif_stat(data = X_4, type = sph_stats_vectorised, Riesz_s = s,
+              Rothman_t = t, Softmax_kappa = kappa, Poisson_rho = rho,
+              Stereo_a = t, Sobolev_vk2 = vk2))
+  stats_2 <- lapply(1:3, function(i) as.matrix(
+    unif_stat(data = X_4, type = sph_stats_vectorised, Riesz_s = s[i],
+              Rothman_t = t[i], Softmax_kappa = kappa[i],
+              Poisson_rho = rho[i], Stereo_a = t[i],
+              Sobolev_vk2 = vk2[i, ])))
+  stats_2 <- unname(do.call(cbind, stats_2))
+  stats_1 <- unname(stats_1)
+  stats_1 <- stats_1[, order(stats_1[1, ])]
+  stats_2 <- stats_2[, order(stats_2[1, ])]
+  expect_equal(stats_1, stats_2)
+})

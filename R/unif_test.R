@@ -70,6 +70,7 @@
 #'   \item \code{crit_val}: a vector with the critical values for the
 #'   significance levels \code{alpha} used with \code{p_value = "MC"} or
 #'   \code{p_value = "asymp"}.
+#'   \item \code{param}: parameter(s) used in the test (if any).
 #' }
 #' If \bold{several tests} are performed, a \code{type}-named list with
 #' entries for each test given by the above list.
@@ -489,8 +490,61 @@ unif_test <- function(data, type = "all", p_value = "asymp",
   Sobolev_vk2 <- rbind(Sobolev_vk2)
   for (i in seq_along(stats_type_vec)) {
 
+    # Parameter for statistics with vectorised arguments
+    par_i <- as.numeric(strsplit(stats_type_vec[i], split = ".",
+                                 fixed = TRUE)[[1]][2])
+
     # Type of test
     if (p == 2) {
+
+      param <- switch(stats_type_rep[i],
+         "Ajne" = NA,
+         "Bakshaev" = NA,
+         "Bingham" = NA,
+         "CCF09" = c("K_CCF09" = nrow(CCF09_dirs)),
+         "Cressie" = c("Cressie_t" = ifelse(length(Cressie_t) == 1, Cressie_t,
+                                            Cressie_t[par_i])),
+         "FG01" = NA,
+         "Gine_Fn" = NA,
+         "Gine_Gn" = NA,
+         "Gini" = NA,
+         "Gini_squared" = NA,
+         "Greenwood" = NA,
+         "Hermans_Rasson" = NA,
+         "Hodges_Ajne" = NA,
+         "Kuiper" = NA,
+         "Log_gaps" = NA,
+         "Max_uncover" = c("cov_a" = ifelse(length(cov_a) == 1, cov_a,
+                                            cov_a[par_i])),
+         "Num_uncover" = c("cov_a" = ifelse(length(cov_a) == 1, cov_a,
+                                            cov_a[par_i])),
+         "PAD" = NA,
+         "PCvM" = NA,
+         "Poisson" = c("Poisson_rho" = ifelse(length(Poisson_rho) == 1,
+                                              Poisson_rho, Poisson_rho[par_i])),
+         "PRt" = c("Rothman_t" = ifelse(length(Rothman_t) == 1, Rothman_t,
+                                        Rothman_t[par_i])),
+         "Pycke" = NA,
+         "Pycke_q" = c("Pycke_q" = ifelse(length(Pycke_q) == 1, Pycke_q,
+                                          Pycke_q[par_i])),
+         "Range" = NA,
+         "Rao" = NA,
+         "Rayleigh" = c("Rayleigh_m" = ifelse(length(Rayleigh_m) == 1,
+                                              Rayleigh_m, Rayleigh_m[par_i])),
+         "Riesz" = c("Riesz_s" = ifelse(length(Riesz_s) == 1, Riesz_s,
+                                        Riesz_s[par_i])),
+         "Rothman" = c("Rothman_t" = ifelse(length(Rothman_t) == 1, Rothman_t,
+                                            Rothman_t[par_i])),
+         "Sobolev" = c("Sobolev_vk2" = Sobolev_vk2[
+           ifelse(nrow(Sobolev_vk2) == 1, 1, par_i), ]),
+         "Softmax" = c("Softmax_kappa" = ifelse(length(Softmax_kappa) == 1,
+                                                Softmax_kappa,
+                                                Softmax_kappa[par_i])),
+         "Vacancy" = c("cov_a" = ifelse(length(cov_a) == 1, cov_a,
+                                        cov_a[par_i])),
+         "Watson" = NA,
+         "Watson_1976" = NA
+      )
 
       method <- switch(stats_type_rep[i],
          "Ajne" = "Ajne test of circular uniformity",
@@ -499,7 +553,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
          "CCF09" = paste("Cuesta-Albertos et al. (2009) test of circular",
                          "uniformity with k =", nrow(CCF09_dirs)),
          "Cressie" = paste("Cressie test of circular uniformity with t =",
-                           round(Cressie_t, 3)),
+                           round(param, 3)),
          "FG01" = paste("Cramer-von Mises 4-point test of Feltz and",
                         "Goldin (2001)"),
          "Gine_Fn" = "Gine's Fn test of circular uniformity",
@@ -514,38 +568,34 @@ unif_test <- function(data, type = "all", p_value = "asymp",
          "Log_gaps" = paste("Darling\'s log-gaps spacings test of",
                             "circular uniformity"),
          "Max_uncover" = paste("Maximum uncovered spacing test of",
-                               "circular uniformity with a =",
-                               round(cov_a, 3)),
+                               "circular uniformity with a =", round(param, 3)),
          "Num_uncover" = paste("Number of uncovered spacings test of",
-                               "circular uniformity with a =",
-                               round(cov_a, 3)),
+                               "circular uniformity with a =", round(param, 3)),
          "PAD" = paste("Projected Anderson-Darling test of",
                        "circular uniformity"),
          "PCvM" = paste("Projected Cramer-von Mises test of",
                         "circular uniformity"),
-         "Poisson" = "Poisson-kernel test of circular uniformity",
+         "Poisson" = paste("Poisson-kernel test of circular uniformity with",
+                           "rho =", round(param, 3)),
          "PRt" = paste("Projected Rothman test of circular uniformity",
-                       "with t =", round(Rothman_t, 3)),
+                       "with t =", round(param, 3)),
          "Pycke" = "Pycke test of circular uniformity",
          "Pycke_q" = paste("Pycke \"q-test\" of spherical uniformity with q =",
-                           round(Pycke_q, 3)),
+                           round(param, 3)),
          "Range" = "Range test of circular uniformity",
          "Rao" = "Rao\'s spacings test of circular uniformity",
-         "Rayleigh" = paste0("Rayleigh test of circular uniformity",
-                             ifelse(Rayleigh_m > 1, paste0(" with m = ",
-                                                           Rayleigh_m), "")),
-         "Riesz" = "Warning! This is an experimental test not meant to be used",
+         "Rayleigh" = paste0("Rayleigh test of circular uniformity with m =",
+                             round(param, 3)),
+         "Riesz" = paste("Warning! This is an experimental test not meant to",
+                         "be used with s =", round(param, 3)),
          "Rothman" = paste("Rothman test of circular uniformity with t =",
-                           round(Rothman_t, 3)),
+                           round(param, 3)),
          "Sobolev" = paste("Finite Sobolev test of circular uniformity with",
-                           "vk2 =", capture.output(dput(Sobolev_vk2[
-                             ifelse(nrow(Sobolev_vk2) == 1, 1, as.numeric(
-                               strsplit(stats_type_vec[i], split = ".",
-                                        fixed = TRUE)[[1]][2])),
-                           ]))),
-         "Softmax" = "Softmax test of circular uniformity",
+                           "vk2 =", capture.output(dput(unname(param)))),
+         "Softmax" = paste("Softmax test of circular uniformit with kappa =",
+                           round(param, 3)),
          "Vacancy" = paste("Vacancy test of circular uniformity with a =",
-                           round(cov_a, 3)),
+                           round(param, 3)),
          "Watson" = "Watson test of circular uniformity",
          "Watson_1976" = "Watson (1976) test of circular uniformity"
       )
@@ -593,35 +643,63 @@ unif_test <- function(data, type = "all", p_value = "asymp",
 
     } else {
 
+      param <- switch(stats_type_rep[i],
+         "Ajne" = NA,
+         "Bakshaev" = NA,
+         "Bingham" = NA,
+         "CJ12" = NA,
+         "CCF09" = c("K_CCF09" = nrow(CCF09_dirs)),
+         "Gine_Fn" = NA,
+         "Gine_Gn" = NA,
+         "PAD" = NA,
+         "PCvM" = NA,
+         "Poisson" = c("Poisson_rho" = ifelse(length(Poisson_rho) == 1,
+                                              Poisson_rho, Poisson_rho[par_i])),
+         "PRt" = c("Rothman_t" = ifelse(length(Rothman_t) == 1, Rothman_t,
+                                        Rothman_t[par_i])),
+         "Pycke" = NA,
+         "Rayleigh" = NA,
+         "Rayleigh_HD" = NA,
+         "Riesz" = c("Riesz_s" = ifelse(length(Riesz_s) == 1, Riesz_s,
+                                        Riesz_s[par_i])),
+         "Sobolev" = c("Sobolev_vk2" = Sobolev_vk2[
+           ifelse(nrow(Sobolev_vk2) == 1, 1, par_i), ]),
+         "Softmax" = c("Softmax_kappa" = ifelse(length(Softmax_kappa) == 1,
+                                                Softmax_kappa,
+                                                Softmax_kappa[par_i])),
+         "Stereo" = c("Stereo_a" = ifelse(length(Stereo_a) == 1,
+                                           Stereo_a, Stereo_a[par_i]))
+      )
+
       method <- switch(stats_type_rep[i],
          "Ajne" = "Ajne test of spherical uniformity",
          "Bakshaev" = "Bakshaev (2010) test of spherical uniformity",
          "Bingham" = "Bingham test of spherical uniformity",
          "CJ12" = "Cai and Jiang (2012) test of spherical uniformity",
          "CCF09" = paste("Cuesta-Albertos et al. (2009) test of spherical",
-                         "uniformity with k =", nrow(CCF09_dirs)),
+                         "uniformity with k =", param),
          "Gine_Fn" = "Gine's Fn test of spherical uniformity",
          "Gine_Gn" = "Gine's Gn test of spherical uniformity",
          "PAD" = paste("Projected Anderson-Darling test of",
                         "spherical uniformity"),
          "PCvM" = paste("Projected Cramer-von Mises test of",
                         "spherical uniformity"),
-         "Poisson" = "Poisson-kernel test of spherical uniformity",
+         "Poisson" = paste("Poisson-kernel test of spherical uniformity with",
+                           "rho =", round(param, 3)),
          "PRt" = paste("Projected Rothman test of spherical uniformity",
-                       "with t =", round(Rothman_t, 3)),
+                       "with t =", round(param, 3)),
          "Pycke" = "Pycke test of spherical uniformity",
          "Rayleigh" = "Rayleigh test of spherical uniformity",
          "Rayleigh_HD" = paste("HD-standardized Rayleigh test of",
                                "spherical uniformity"),
-         "Riesz" = "Warning! This is an experimental test not meant to be used",
+         "Riesz" = paste("Warning! This is an experimental test not meant to",
+                         "be used with s =", round(param, 3)),
          "Sobolev" = paste("Finite Sobolev test of spherical uniformity with",
-                           "vk2 =", capture.output(dput(Sobolev_vk2[
-                             ifelse(nrow(Sobolev_vk2) == 1, 1, as.numeric(
-                               strsplit(stats_type_vec[i], split = ".",
-                                        fixed = TRUE)[[1]][2])),
-                             ]))),
-         "Softmax" = "Softmax test of spherical uniformity",
-         "Stereo" = "Stereographic projection test of spherical uniformity"
+                           "vk2 =", capture.output(dput(unname(param)))),
+         "Softmax" = paste("Softmax test of spherical uniformit with kappa =",
+                           round(param, 3)),
+         "Stereo" = paste("Stereographic projection test of spherical",
+                           "uniformity with a =", round(param, 3))
       )
 
       alternative <- switch(stats_type_rep[i],
@@ -653,7 +731,8 @@ unif_test <- function(data, type = "all", p_value = "asymp",
     test[[i]] <- list(statistic = c("statistic" = stat[1, i]),
                       p.value = p_val[1, i], alternative = alternative,
                       method = method, data.name = data_name,
-                      reject = reject[i, ], crit_val = crit_val[, i])
+                      reject = reject[i, ], crit_val = crit_val[, i],
+                      param = param)
     class(test[[i]]) <- "htest"
 
   }

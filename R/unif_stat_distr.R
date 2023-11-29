@@ -223,6 +223,24 @@ unif_stat_distr <- function(x, type, p, n, approx = "asymp", M = 1e4,
   # Omit statistics that do not have asymptotic distribution
   if (approx == "asymp") {
 
+    # TODO: vectorize
+    param_vectorised <- c("Cressie_t", "cov_a", "Rayleigh_m", "Riesz_s",
+                          "Rothman_t", "Poisson_rho", "Pycke_q",
+                          "Softmax_kappa", "Stereo_a") # "Sobolev_vk2"
+    n_param_vectorised <- sapply(param_vectorised, function(par) {
+      obj <- get(x = par)
+      ifelse(is.null(dim(obj)), length(obj), nrow(obj))
+    })
+    if (any(n_param_vectorised > 1)) {
+
+      stop(paste("No vectorization is implemented for",
+                 paste(param_vectorised[n_param_vectorised > 1],
+                       collapse = ", "),
+                 "with approx = \"asymp\". Either use approx =",
+                 "\"MC\" or unvectorize"))
+
+    }
+
     ind_asymp <- sapply(paste0(prefix_distr, stats_type),
                         exists, where = asNamespace("sphunif"))
     if (!all(ind_asymp)) {

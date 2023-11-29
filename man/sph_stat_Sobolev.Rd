@@ -34,6 +34,10 @@ of size \code{n} of circular data on \eqn{[0, 2\pi)}. Must not contain
 \cr\code{\link{Psi_mat}(array(Theta, dim = c(n, 1, M)))}? If \code{FALSE}
 (default), \eqn{\boldsymbol\Psi}{\Psi} is computed internally.}
 }
+\value{
+A matrix of size \code{c(M, ncol(vk2))} containing the statistics for
+each of the \code{M} samples.
+}
 \description{
 Computes the finite Sobolev statistic \deqn{
 S_{n, p}(\{b_{k, p}\}_{k=1}^K) = \sum_{i, j = 1}^n

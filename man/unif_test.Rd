@@ -135,6 +135,7 @@ If only a \bold{single test} is performed, a list with class
   \item \code{crit_val}: a vector with the critical values for the
   significance levels \code{alpha} used with \code{p_value = "MC"} or
   \code{p_value = "asymp"}.
+  \item \code{param}: parameter(s) used in the test (if any).
 }
 If \bold{several tests} are performed, a \code{type}-named list with
 entries for each test given by the above list.

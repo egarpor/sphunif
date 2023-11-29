@@ -670,6 +670,8 @@ q_Sobolev <- function(u, p, type, method = c("I", "SW", "HBE", "MC")[1],
 #' @inheritParams cir_stat
 #' @param vk2 weights for the finite Sobolev test. A non-negative vector or
 #' matrix. Defaults to \code{c(0, 0, 1)}.
+#' @return A matrix of size \code{c(M, ncol(vk2))} containing the statistics for
+#' each of the \code{M} samples.
 #' @export
 sph_stat_Sobolev <- function(X, Psi_in_X = FALSE, p = 0, vk2 = c(0, 0, 1)) {
 

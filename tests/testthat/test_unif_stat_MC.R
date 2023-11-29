@@ -21,6 +21,60 @@ sph_pow <- unif_stat_MC(n = n, M = 5e2, p = 3, r_H1 = r_alt, alt = "MvMF",
                         kappa = 0.5, crit_val = sph_0$crit_val_MC,
                         CCF09_dirs = dirs_3)
 
+# Statistics with vectorised parameters
+cir_stats_vectorised <- c("Cressie", "Max_uncover", "Num_uncover", "Vacancy",
+                          "Rayleigh", "Riesz", "Rothman", "PRt", "Poisson",
+                          "Pycke_q", "Softmax", "Sobolev")
+sph_stats_vectorised <- c("Riesz", "PRt", "Poisson", "Softmax", "Stereo",
+                          "Sobolev")
+t <- c(0.2, 0.3, 0.8)
+m <- 1:3
+s <- c(0, 1, 2)
+kappa <- 1:3
+rho <- seq(0.1, 0.9, l = 3)
+vk2 <- rbind(1:3, 3:1, 3:5)
+
+test_that("Parameter-vectorized statistics work for p = 2", {
+
+  stats_1 <- as.matrix(
+    unif_stat_MC(n = 5, p = 2, M = 2, type = cir_stats_vectorised,
+                 Cressie_t = t, cov_a = t, Rayleigh_m = m, Riesz_s = s,
+                 Rothman_t = t, Softmax_kappa = kappa, Poisson_rho = rho,
+                 Pycke_q = t, Sobolev_vk2 = vk2, seeds = 1)$stats_MC)
+  stats_2 <- lapply(1:3, function(i) as.matrix(
+    unif_stat_MC(n = 5, p = 2, M = 2, type = cir_stats_vectorised,
+                 Cressie_t = t[i], cov_a = t[i], Rayleigh_m = m[i],
+                 Riesz_s = s[i], Rothman_t = t[i], Softmax_kappa = kappa[i],
+                 Poisson_rho = rho[i], Pycke_q = t[i], Sobolev_vk2 = vk2[i, ],
+                 seeds = 1)$stats_MC))
+  stats_2 <- unname(do.call(cbind, stats_2))
+  stats_1 <- unname(stats_1)
+  stats_1 <- stats_1[, order(stats_1[1, ])]
+  stats_2 <- stats_2[, order(stats_2[1, ])]
+  expect_equal(stats_1, stats_2)
+
+})
+
+test_that("Parameter-vectorized statistics work for p = 4", {
+
+  stats_1 <- as.matrix(
+    unif_stat_MC(n = 5, p = 4, M = 2, type = sph_stats_vectorised,
+                 Riesz_s = s, Rothman_t = t, Softmax_kappa = kappa,
+                 Poisson_rho = rho, Stereo_a = t, Sobolev_vk2 = vk2,
+                 seeds = 1)$stats_MC)
+  stats_2 <- lapply(1:3, function(i) as.matrix(
+    unif_stat_MC(n = 5, p = 4, M = 2, type = sph_stats_vectorised,
+                 Riesz_s = s[i], Rothman_t = t[i], Softmax_kappa = kappa[i],
+                 Poisson_rho = rho[i], Stereo_a = t[i], Sobolev_vk2 = vk2[i, ],
+                 seeds = 1)$stats_MC))
+  stats_2 <- unname(do.call(cbind, stats_2))
+  stats_1 <- unname(stats_1)
+  stats_1 <- stats_1[, order(stats_1[1, ])]
+  stats_2 <- stats_2[, order(stats_2[1, ])]
+  expect_equal(stats_1, stats_2)
+
+})
+
 test_that("Rejections for MvMF", {
 
   expect_true(all(sph_pow$power_MC[1, ] > 0.01))

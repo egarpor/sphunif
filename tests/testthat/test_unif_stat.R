@@ -150,41 +150,6 @@ test_that("unif_stat equality for data = Theta and data = Theta_to_X(Theta)", {
 
 })
 
-test_that("Errors in edge cases", {
-
-  expect_error(unif_stat(data = rbind(Theta_2, c(0, NA))))
-  expect_error(unif_stat(data = rbind(X_3, c(0, NA, 1))))
-  expect_error(unif_stat(data = rbind(c(1, 0))))
-  expect_error(unif_stat(data = 1))
-  expect_error(unif_stat(data = X_3, type = "Invent"))
-  expect_error(unif_test(data = X_3, type = 1e3))
-  expect_error(unif_test(data = X_3, type = function(x) x))
-
-})
-
-test_that("Passing edge cases", {
-
-  expect_equal(unif_stat(data = 1:6, type = c("Ajne", "Cressie")),
-               unif_stat(data = cbind(1:6), type = c("Ajne", "Cressie")))
-  expect_equal(unif_stat(data = cbind(1:5, 2:6), type = c("Ajne", "Cressie")),
-               {A <- array(dim = c(5, 1, 2)); A[, 1, ] <- cbind(1:5, 2:6);
-               unif_stat(data = A, type = c("Ajne", "Cressie"))})
-  expect_equal(c(as.matrix(unif_stat(data = Theta_2,
-                                     type = avail_cir_tests[2:5],
-                                     CCF09_dirs = r_d_2))),
-               c(sapply(2:5, function(test)
-                 as.matrix(unif_stat(data = Theta_2, type = test,
-                                     CCF09_dirs = r_d_2)))))
-  expect_equal(c(as.matrix(unif_stat(data = X_3, type = avail_sph_tests[2:5],
-                                     CCF09_dirs = r_d_3))),
-               c(sapply(2:5, function(test)
-                 as.matrix(unif_stat(data = X_3, type = test,
-                                     CCF09_dirs = r_d_3)))))
-  expect_equal(unif_stat(data = 1:6, type = c("Ajne", "Ajne", "Watson")),
-               unif_stat(data = 1:6, type = c("Ajne", "Watson")))
-
-})
-
 test_that("KS, CvM, and AD", {
 
   expect_equal(as.numeric(unif_stat(data = Theta_1, type = "KS")),
@@ -377,4 +342,39 @@ test_that("Parameter-vectorized statistics work for p = 4", {
   stats_1 <- stats_1[, order(stats_1[1, ])]
   stats_2 <- stats_2[, order(stats_2[1, ])]
   expect_equal(stats_1, stats_2)
+})
+
+test_that("Errors in edge cases", {
+
+  expect_error(unif_stat(data = rbind(Theta_2, c(0, NA))))
+  expect_error(unif_stat(data = rbind(X_3, c(0, NA, 1))))
+  expect_error(unif_stat(data = rbind(c(1, 0))))
+  expect_error(unif_stat(data = 1))
+  expect_error(unif_stat(data = X_3, type = "Invent"))
+  expect_error(unif_test(data = X_3, type = 1e3))
+  expect_error(unif_test(data = X_3, type = function(x) x))
+
+})
+
+test_that("Passing edge cases", {
+
+  expect_equal(unif_stat(data = 1:6, type = c("Ajne", "Cressie")),
+               unif_stat(data = cbind(1:6), type = c("Ajne", "Cressie")))
+  expect_equal(unif_stat(data = cbind(1:5, 2:6), type = c("Ajne", "Cressie")),
+               {A <- array(dim = c(5, 1, 2)); A[, 1, ] <- cbind(1:5, 2:6);
+               unif_stat(data = A, type = c("Ajne", "Cressie"))})
+  expect_equal(c(as.matrix(unif_stat(data = Theta_2,
+                                     type = avail_cir_tests[2:5],
+                                     CCF09_dirs = r_d_2))),
+               c(sapply(2:5, function(test)
+                 as.matrix(unif_stat(data = Theta_2, type = test,
+                                     CCF09_dirs = r_d_2)))))
+  expect_equal(c(as.matrix(unif_stat(data = X_3, type = avail_sph_tests[2:5],
+                                     CCF09_dirs = r_d_3))),
+               c(sapply(2:5, function(test)
+                 as.matrix(unif_stat(data = X_3, type = test,
+                                     CCF09_dirs = r_d_3)))))
+  expect_equal(unif_stat(data = 1:6, type = c("Ajne", "Ajne", "Watson")),
+               unif_stat(data = 1:6, type = c("Ajne", "Watson")))
+
 })

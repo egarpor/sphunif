@@ -412,7 +412,7 @@ test_that("CCF09", {
 
 })
 
-test_that("Edge cases", {
+test_that("Edge cases for missing p", {
 
   expect_error(sph_stat_Gine_Gn(Psi2, Psi_in_X = TRUE))
   expect_error(sph_stat_Gine_Fn(Psi2, Psi_in_X = TRUE))
@@ -422,6 +422,9 @@ test_that("Edge cases", {
   expect_error(sph_stat_PAD(Psi2, Psi_in_X = TRUE))
   expect_error(sph_stat_PRt(Psi2, Psi_in_X = TRUE))
   expect_error(sph_stat_CJ12(Psi2, Psi_in_X = TRUE))
+  expect_error(sph_stat_Poisson(Psi2, Psi_in_X = TRUE))
+  expect_error(sph_stat_Softmax(Psi2, Psi_in_X = TRUE))
+  expect_error(sph_stat_Stereo(Psi2, Psi_in_X = TRUE))
 
 })
 

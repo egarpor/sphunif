@@ -42,7 +42,10 @@
 #' alternatives. \emph{arXiv:2108.09874}. \url{https://arxiv.org/abs/2108.09874}
 #' @docType package
 #' @name sphunif-package
-#' @import graphics Rcpp stats
+#' @import Rcpp
+#' @importFrom graphics abline legend lines par segments
+#' @importFrom stats approxfun dchisq dgamma integrate nlm pchisq pgamma
+#' qchisq qgamma quantile rbeta rchisq runif splinefun uniroot
 #' @importFrom utils capture.output
 #' @useDynLib sphunif
 #' @aliases sphunif sphunif-package

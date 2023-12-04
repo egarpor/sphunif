@@ -102,3 +102,13 @@ test_that("Vectorization works for Sobolev test with other tests", {
   expect_equal(test_mc$p.value, test_as$p.value, tolerance = 0.1)
 
 })
+
+test_that("Errors in edge cases", {
+
+  expect_error(unif_test(data = rbind(X2, c(NA, NA))))
+  expect_error(unif_test(data = rbind(X3, c(0, NA, 1))))
+  expect_error(unif_test(data = X_3, type = "Invent"))
+  expect_error(unif_test(data = X_3, type = 1e3))
+  expect_error(unif_test(data = X_3, type = function(x) x))
+
+})

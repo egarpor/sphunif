@@ -142,8 +142,8 @@ int_sph_MC <- function(f, p, M = 1e4, cores = 1, chunks = ceiling(M / 1e3),
 
   }
 
-  # Return integral approximation
-  int <- rotasym::w_p(p = p) * int / M
+  # Return integral approximation, dropping seeds
+  int <- rotasym::w_p(p = p) * as.numeric(int) / M
   return(int)
 
 }

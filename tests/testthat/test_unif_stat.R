@@ -156,7 +156,7 @@ test_that("Errors in edge cases", {
   expect_error(unif_stat(data = rbind(X_3, c(0, NA, 1))))
   expect_error(unif_stat(data = rbind(c(1, 0))))
   expect_error(unif_stat(data = 1))
-  expect_error(unif_stat(data = 1:3, type = function(x) x^2))
+  expect_error(unif_stat(data = X_3, type = "Invent"))
 
 })
 

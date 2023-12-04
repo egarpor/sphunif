@@ -43,6 +43,7 @@ arma::uvec upper_tri_ind(arma::uword n);
 //' @param n sample size, used to determine the index vector that gives the
 //' upper triangular part of \eqn{\boldsymbol\Psi}{\Psi}.
 //' @return
+//'
 //' \itemize{
 //'   \item \code{Psi_mat}: a matrix of size
 //'   \code{c(n * (n - 1) / 2, M)} containing, for each column, the vector

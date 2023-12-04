@@ -98,6 +98,9 @@
 #' on the choice of \cr\code{CCF09_dirs}. That is, all the Monte
 #' Carlo statistics share the same random directions.
 #'
+#' Except \code{CCF09_dirs}, \code{K_CCF09}, and \code{CJ12_reg}, all the
+#' test-specific parameters are vectorized.
+#'
 #' Descriptions and references for most of the tests are available
 #' in García-Portugués and Verdebout (2018).
 #' @references

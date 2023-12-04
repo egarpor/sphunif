@@ -17,7 +17,7 @@
 # Continent: All.
 # Ethnic/Cultural Group or Country: All.
 # Reference: All.
-# Columns to include:	
+# Columns to include:
 # [x] Feature ID
 # [x] Feature Name
 # [ ] Clean Feature Name

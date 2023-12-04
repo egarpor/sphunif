@@ -97,6 +97,9 @@ which the sample(s) can be \emph{angles}
 within a single call, facilitating thus Monte Carlo experiments.
 }
 \details{
+Except \code{CCF09_dirs}, \code{K_CCF09}, and \code{CJ12_reg}, all the
+test-specific parameters are vectorized.
+
 Descriptions and references for most of the statistics are available
 in García-Portugués and Verdebout (2018).
 }

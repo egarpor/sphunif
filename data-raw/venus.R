@@ -13,7 +13,8 @@ download.file(url = paste0("https://astropedia.astrogeology.usgs.gov/",
 # Read data
 venus <- read.csv(file = "venuscraters.csv", header = FALSE, sep = ",",
                   dec = ".")[, 1:4]
-names(venus)[1:4] <- c("name", "Center_Latitude", "Center_Longitude", "diameter")
+names(venus)[1:4] <- c("name", "Center_Latitude", "Center_Longitude",
+                       "diameter")
 
 # Remove NAs (there are empty rows)
 noNA <- complete.cases(cbind(venus$Center_Latitude, venus$Center_Longitude))

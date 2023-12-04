@@ -75,8 +75,11 @@
 #' \code{alpha}-upper quantiles of the null distribution of the test statistic.
 #'
 #' The Monte Carlo simulation for the CCF09 test is made conditionally
-#' on the choice of \code{CCF09_dirs}. That is, all the Monte
-#' Carlo statistics share the same random directions.
+#' on the choice of \code{CCF09_dirs}. That is, all the Monte Carlo statistics
+#' share the same random directions.
+#'
+#' Except \code{CCF09_dirs}, \code{K_CCF09}, and \code{CJ12_reg}, all the
+#' test-specific parameters are vectorized.
 #' @examples
 #' ## Critical values
 #'

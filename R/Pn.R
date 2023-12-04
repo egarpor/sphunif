@@ -789,7 +789,7 @@ f_locdev_Pn <- function(p, type, K = 1e3, N = 320, K_max = 1e4, thre = 1e-3,
     f <- function(x) ((x >= x_t) + t) / rotasym::w_p(p = p)
 
   # Exact f for PCvM and p = 2
-  } else if (type == "PCvM" & p == 2) {
+  } else if (type == "PCvM" && p == 2) {
 
     f <- function(x) (1 - log(2 * (1 - x)) * sqrt(2) / (2 * pi)) / (2 * pi)
 

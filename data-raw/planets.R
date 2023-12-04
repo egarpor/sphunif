@@ -15,7 +15,7 @@ planets <- matrix(c(7.00559432, 48.33961819,
                   ncol = 2, byrow = TRUE)
 
 # As data.frame
-names <- c("Mercury","Venus", "Earth", "Mars", "Jupiter",
+names <- c("Mercury", "Venus", "Earth", "Mars", "Jupiter",
            "Saturn", "Uranus", "Neptune", "Pluto")
 planets <- data.frame("planet" = names, "i" = planets[, 1], "om" = planets[, 2])
 
@@ -25,4 +25,3 @@ planets$om <- planets$om / 180 * pi
 
 # Save object
 save(list = "planets", file = "planets.rda", compress = "bzip2")
-

@@ -6,10 +6,12 @@
 statistics}
 \usage{
 unif_stat_distr(x, type, p, n, approx = "asymp", M = 10000,
-  stats_MC = NULL, Rothman_t = 1/3, Pycke_q = 0.5, Riesz_s = 1,
-  CCF09_dirs = NULL, CJ12_reg = 3, CJ12_beta = 0, Stephens = FALSE,
-  K_Kuiper = 25, K_Watson = 25, K_Watson_1976 = 5, K_Ajne = 500,
-  K_CCF09 = 25, K_max = 10000, ...)
+  stats_MC = NULL, Rayleigh_m = 1, cov_a = 2 * pi, Rothman_t = 1/3,
+  Cressie_t = 1/3, Pycke_q = 0.5, Riesz_s = 1, CCF09_dirs = NULL,
+  K_CCF09 = 25, CJ12_reg = 3, Poisson_rho = 0.5, Softmax_kappa = 1,
+  Stereo_a = 0, Sobolev_vk2 = c(0, 0, 1), CJ12_beta = 0,
+  Stephens = FALSE, K_Kuiper = 25, K_Watson = 25, K_Watson_1976 = 5,
+  K_Ajne = 500, K_max = 10000, ...)
 }
 \arguments{
 \item{x}{evaluation points for the null distribution(s). Either a vector of
@@ -51,7 +53,16 @@ provided, the computation of Monte Carlo statistics when \code{approx = "MC"}
 is skipped. \code{stats_MC} is checked internally to see if it is sorted.
 Internally computed if \code{NULL} (default).}
 
+\item{Rayleigh_m}{integer \eqn{m} for the \eqn{m}-modal Rayleigh test.
+Defaults to \code{m = 1} (the standard Rayleigh test).}
+
+\item{cov_a}{\eqn{a_n = a / n} parameter used in the length of the arcs
+of the coverage-based tests. Must be positive. Defaults to \code{2 * pi}.}
+
 \item{Rothman_t}{\eqn{t} parameter for the Rothman test, a real in
+\eqn{(0, 1)}. Defaults to \code{1 / 3}.}
+
+\item{Cressie_t}{\eqn{t} parameter for the Cressie test, a real in
 \eqn{(0, 1)}. Defaults to \code{1 / 3}.}
 
 \item{Pycke_q}{\eqn{q} parameter for the Pycke "\eqn{q}-test", a real in
@@ -65,12 +76,28 @@ Internally computed if \code{NULL} (default).}
 to perform the CCF09 test. If \code{NULL} (default), a sample of size
 \code{n_proj = 50} directions is computed internally.}
 
+\item{K_CCF09}{integer giving the truncation of the series present in the
+asymptotic distribution of the Kolmogorov-Smirnov statistic. Defaults to
+\code{5e2}.}
+
 \item{CJ12_reg}{type of asymptotic regime for CJ12 test, either \code{1}
 (sub-exponential regime), \code{2} (exponential), or \code{3}
 (super-exponential; default).}
 
-\item{CJ12_beta}{\eqn{\beta} parameter in the exponential regime of CJ12 test,
-a positive real.}
+\item{Poisson_rho}{\eqn{\rho} parameter for the Poisson test, a real in
+\eqn{[0, 1)}. Defaults to \code{0.5}.}
+
+\item{Softmax_kappa}{\eqn{\kappa} parameter for the Softmax test, a
+non-negative real. Defaults to \code{1}.}
+
+\item{Stereo_a}{\eqn{a} parameter for the Stereo test, a real in
+\eqn{[-1, 1]}. Defaults to \code{0}.}
+
+\item{Sobolev_vk2}{weights for the finite Sobolev test. A non-negative
+vector or matrix. Defaults to \code{c(0, 0, 1)}.}
+
+\item{CJ12_beta}{\eqn{\beta} parameter in the exponential regime of CJ12
+test, a positive real.}
 
 \item{Stephens}{compute Stephens (1970) modification so that the null
 distribution of the is less dependent on the sample size? The modification
@@ -79,10 +106,6 @@ does not alter the test decision.}
 \item{K_Kuiper, K_Watson, K_Watson_1976, K_Ajne}{integer giving the truncation
 of the series present in the null asymptotic distributions. For the
 Kolmogorov-Smirnov-related series defaults to \code{25}.}
-
-\item{K_CCF09}{integer giving the truncation of the series present in the
-asymptotic distribution of the Kolmogorov-Smirnov statistic. Defaults to
-\code{5e2}.}
 
 \item{K_max}{integer giving the truncation of the series that compute the
 asymptotic p-value of a Sobolev test. Defaults to \code{1e4}.}
@@ -174,6 +197,21 @@ unif_stat_distr(x = x, type = "CJ12", p = 3, n = 100, CJ12_reg = 3)
 unif_stat_distr(x = x, type = "CJ12", p = 3, n = 100, CJ12_reg = 2,
                CJ12_beta = 0.01)
 unif_stat_distr(x = x, type = "CJ12", p = 3, n = 100, CJ12_reg = 1)
+
+## Sobolev
+
+x <- seq(0, 1, l = 10)
+vk2 <- diag(1, nrow = 3)
+unif_stat_distr(x = x, type = "Sobolev", approx = "asymp", p = 3, n = 100,
+                Sobolev_vk2 = vk2)
+sapply(1:3, function(i)
+  unif_stat_distr(x = x, type = "Sobolev", approx = "asymp", p = 3, n = 100,
+                  Sobolev_vk2 = vk2[i, ])$Sobolev)
+sapply(1:3, function(i)
+  unif_stat_distr(x = x, type = "Sobolev", approx = "MC", p = 3, n = 100,
+                  Sobolev_vk2 = vk2[i, ], M = 1e3)$Sobolev)
+unif_stat_distr(x = x, type = "Sobolev", approx = "MC", p = 3, n = 100,
+                Sobolev_vk2 = vk2, M = 1e3)
 }
 }
 \references{

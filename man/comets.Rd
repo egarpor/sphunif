@@ -76,9 +76,9 @@ are periodic.
 
 The \code{ccf09} variable gives the observations considered in
 Cuesta-Albertos et al. (2009) after fetching in the database in 2007-12-14
-for the comets such that \code{!(class \%in\% c("HYP", "PAR")) & per_y >= 200}.
-Due to the dynamic nature of the data, more comets were added to the
-database since 2007 and also some past records were updated.
+for the comets such that \code{!(class \%in\% c("HYP", "PAR")) &
+per_y >= 200}. Due to the dynamic nature of the data, more comets were added
+to the database since 2007 and also some past records were updated.
 
 The script performing the data preprocessing is available at
 \href{https://github.com/egarpor/sphunif/blob/master/data-raw/comets.R}{

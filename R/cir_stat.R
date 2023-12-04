@@ -39,8 +39,12 @@
 #' If \code{FALSE}, the geometric construction in Ajne (1968) is employed.
 #' @param minus compute the invariant \eqn{D_n^-} instead of \eqn{D_n^+}?
 #' Defaults to \code{FALSE}.
-#' @param a \eqn{a_n = a / n} parameter used in the length of the arcs
+#' @param a either: \itemize{
+#' \item \eqn{a_n = a / n} parameter used in the length of the arcs
 #' of the coverage-based tests. Must be positive. Defaults to \code{2 * pi}.
+#' \item \eqn{a} parameter for the Stereo test, a real in \eqn{[-1, 1]}.
+#' Defaults to \code{0}.
+#' }
 #' @param t \eqn{t} parameter for the Rothman and Cressie tests, a real in
 #' \eqn{(0, 1)}. Defaults to \code{1 / 3}.
 #' @param q \eqn{q} parameter for the Pycke "\eqn{q}-test", a real in
@@ -70,6 +74,10 @@
 #' @param Stephens compute Stephens (1970) modification so that the null
 #' distribution of the is less dependent on the sample size? The modification
 #' does not alter the test decision.
+#' @param rho \eqn{\rho} parameter for the Poisson test, a real in
+#' \eqn{[0, 1)}. Defaults to \code{0.5}.
+#' @param kappa \eqn{\kappa} parameter for the Softmax test, a
+#' non-negative real. Defaults to \code{1}.
 #' @return A matrix of size \code{c(M, 1)} containing the statistics for each
 #' of the \code{M} samples.
 #' @section Warning:

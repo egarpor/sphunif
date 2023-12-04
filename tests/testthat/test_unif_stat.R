@@ -15,6 +15,24 @@ avail_cir_tests_s2 <- c("Gine_Gn", "Rothman", "Watson_1976", "PRt")
 avail_sph_tests_s1 <- c("Gine_Fn", "Pycke", "PAD", "PCvM", "Cai")
 avail_sph_tests_s2 <- c("Gine_Gn", "CCF09", "Ajne", "PRt")
 
+test_that("Statistic arguments of unif_stat are the same of unif_stat_MC", {
+
+  expect_true(all(
+    names(formals(unif_stat))[-c(1:3)] ==
+      names(formals(unif_stat_MC))[-c(1:12, length(formals(unif_stat_MC)))]
+  ))
+
+})
+
+test_that("Statistic arguments of unif_stat are contained in those of
+          unif_test", {
+
+  expect_true(all(
+    names(formals(unif_stat))[-c(1:3)] %in% names(formals(unif_test))[-c(1:8)]
+  ))
+
+})
+
 test_that("unif_stat doing all or separate statistics", {
 
   expect_equal(as.numeric(unif_stat(data = Theta_1, type = "all",
@@ -132,39 +150,6 @@ test_that("unif_stat equality for data = Theta and data = Theta_to_X(Theta)", {
 
 })
 
-test_that("Errors in edge cases", {
-
-  expect_error(unif_stat(data = rbind(Theta_2, c(0, NA))))
-  expect_error(unif_stat(data = rbind(X_3, c(0, NA, 1))))
-  expect_error(unif_stat(data = rbind(c(1, 0))))
-  expect_error(unif_stat(data = 1))
-  expect_error(unif_stat(data = 1:3, type = function(x) x^2))
-
-})
-
-test_that("Passing edge cases", {
-
-  expect_equal(unif_stat(data = 1:6, type = c("Ajne", "Cressie")),
-               unif_stat(data = cbind(1:6), type = c("Ajne", "Cressie")))
-  expect_equal(unif_stat(data = cbind(1:5, 2:6), type = c("Ajne", "Cressie")),
-               {A <- array(dim = c(5, 1, 2)); A[, 1, ] <- cbind(1:5, 2:6);
-               unif_stat(data = A, type = c("Ajne", "Cressie"))})
-  expect_equal(c(as.matrix(unif_stat(data = Theta_2,
-                                     type = avail_cir_tests[2:5],
-                                     CCF09_dirs = r_d_2))),
-               c(sapply(2:5, function(test)
-                 as.matrix(unif_stat(data = Theta_2, type = test,
-                                     CCF09_dirs = r_d_2)))))
-  expect_equal(c(as.matrix(unif_stat(data = X_3, type = avail_sph_tests[2:5],
-                                     CCF09_dirs = r_d_3))),
-               c(sapply(2:5, function(test)
-                 as.matrix(unif_stat(data = X_3, type = test,
-                                     CCF09_dirs = r_d_3)))))
-  expect_equal(unif_stat(data = 1:6, type = c("Ajne", "Ajne", "Watson")),
-               unif_stat(data = 1:6, type = c("Ajne", "Watson")))
-
-})
-
 test_that("KS, CvM, and AD", {
 
   expect_equal(as.numeric(unif_stat(data = Theta_1, type = "KS")),
@@ -269,5 +254,127 @@ test_that("Riesz vs. Pycke", {
                            Riesz_s = 0)$Riesz),
       as.numeric(unif_stat(data = X_9, type = "Pycke")$Pycke)
     )))
+
+})
+
+test_that("Rayleigh vs. Softmax and Poisson", {
+  for (m in 1:2) {
+    expect_equal(
+      unif_stat(data = Theta_2, type = c("Softmax", "Poisson"),
+                Softmax_kappa = 0, Poisson_rho = 0, Rayleigh_m = m)[, 1:2],
+      unif_stat(data = Theta_2, type = c("Softmax", "Poisson", "Rayleigh"),
+                Softmax_kappa = 0, Poisson_rho = 0, Rayleigh_m = m)[, 1:2]
+    )
+  }
+  expect_equal(
+    unif_stat(data = X_2, type = c("Softmax", "Poisson"),
+              Softmax_kappa = 0, Poisson_rho = 0)[, 1:2],
+    unif_stat(data = X_2, type = c("Softmax", "Poisson", "Rayleigh"),
+              Softmax_kappa = 0, Poisson_rho = 0)[, 1:2]
+  )
+  expect_equal(
+    unif_stat(data = X_3, type = c("Softmax", "Poisson"),
+              Softmax_kappa = 0, Poisson_rho = 0)[, 1:2],
+    unif_stat(data = X_3, type = c("Softmax", "Poisson", "Rayleigh"),
+              Softmax_kappa = 0, Poisson_rho = 0)[, 1:2]
+  )
+  expect_equal(
+    unif_stat(data = X_4, type = c("Softmax", "Poisson"),
+              Softmax_kappa = 0, Poisson_rho = 0)[, 1:2],
+    unif_stat(data = X_4, type = c("Softmax", "Poisson", "Rayleigh"),
+              Softmax_kappa = 0, Poisson_rho = 0)[, 1:2]
+  )
+})
+
+test_that("Vectorization works in Stereo test", {
+  expect_equal(unname(as.matrix(unif_stat(data = X_3, type = "Stereo",
+                                Stereo_a = c(-0.5, 0, 0.5)))),
+               unname(cbind(
+                 unif_stat(data = X_3, type = "Stereo", Stereo_a = -0.5)$Stereo,
+                 unif_stat(data = X_3, type = "Stereo", Stereo_a = 0)$Stereo,
+                 unif_stat(data = X_3, type = "Stereo", Stereo_a = 0.5)$Stereo)
+                 ))
+})
+
+# Statistics with vectorised parameters
+cir_stats_vectorised <- c("Cressie", "Max_uncover", "Num_uncover", "Vacancy",
+                          "Rayleigh", "Riesz", "Rothman", "PRt", "Poisson",
+                          "Pycke_q", "Softmax", "Sobolev")
+sph_stats_vectorised <- c("Riesz", "PRt", "Poisson", "Softmax", "Stereo",
+                          "Sobolev")
+t <- c(0.2, 0.3, 0.8)
+m <- 1:3
+s <- c(0, 1, 2)
+kappa <- 1:3
+rho <- seq(0.1, 0.9, l = 3)
+vk2 <- rbind(1:3, 3:1, 3:5)
+
+test_that("Parameter-vectorized statistics work for p = 2", {
+  stats_1 <- as.matrix(
+    unif_stat(data = X_2, type = cir_stats_vectorised,
+              Cressie_t = t, cov_a = t, Rayleigh_m = m, Riesz_s = s,
+              Rothman_t = t, Softmax_kappa = kappa, Poisson_rho = rho,
+              Pycke_q = t, Sobolev_vk2 = vk2))
+  stats_2 <- lapply(1:3, function(i) as.matrix(
+    unif_stat(data = X_2, type = cir_stats_vectorised,
+              Cressie_t = t[i], cov_a = t[i], Rayleigh_m = m[i], Riesz_s = s[i],
+              Rothman_t = t[i], Softmax_kappa = kappa[i], Poisson_rho = rho[i],
+              Pycke_q = t[i], Sobolev_vk2 = vk2[i, ])))
+  stats_2 <- unname(do.call(cbind, stats_2))
+  stats_1 <- unname(stats_1)
+  stats_1 <- stats_1[, order(stats_1[1, ])]
+  stats_2 <- stats_2[, order(stats_2[1, ])]
+  expect_equal(stats_1, stats_2)
+})
+
+test_that("Parameter-vectorized statistics work for p = 4", {
+  stats_1 <- as.matrix(
+    unif_stat(data = X_4, type = sph_stats_vectorised, Riesz_s = s,
+              Rothman_t = t, Softmax_kappa = kappa, Poisson_rho = rho,
+              Stereo_a = t, Sobolev_vk2 = vk2))
+  stats_2 <- lapply(1:3, function(i) as.matrix(
+    unif_stat(data = X_4, type = sph_stats_vectorised, Riesz_s = s[i],
+              Rothman_t = t[i], Softmax_kappa = kappa[i],
+              Poisson_rho = rho[i], Stereo_a = t[i],
+              Sobolev_vk2 = vk2[i, ])))
+  stats_2 <- unname(do.call(cbind, stats_2))
+  stats_1 <- unname(stats_1)
+  stats_1 <- stats_1[, order(stats_1[1, ])]
+  stats_2 <- stats_2[, order(stats_2[1, ])]
+  expect_equal(stats_1, stats_2)
+})
+
+test_that("Errors in edge cases", {
+
+  expect_error(unif_stat(data = rbind(Theta_2, c(0, NA))))
+  expect_error(unif_stat(data = rbind(X_3, c(0, NA, 1))))
+  expect_error(unif_stat(data = rbind(c(1, 0))))
+  expect_error(unif_stat(data = 1))
+  expect_error(unif_stat(data = X_3, type = "Invent"))
+  expect_error(unif_test(data = X_3, type = 1e3))
+  expect_error(unif_test(data = X_3, type = function(x) x))
+
+})
+
+test_that("Passing edge cases", {
+
+  expect_equal(unif_stat(data = 1:6, type = c("Ajne", "Cressie")),
+               unif_stat(data = cbind(1:6), type = c("Ajne", "Cressie")))
+  expect_equal(unif_stat(data = cbind(1:5, 2:6), type = c("Ajne", "Cressie")),
+               {A <- array(dim = c(5, 1, 2)); A[, 1, ] <- cbind(1:5, 2:6);
+               unif_stat(data = A, type = c("Ajne", "Cressie"))})
+  expect_equal(c(as.matrix(unif_stat(data = Theta_2,
+                                     type = avail_cir_tests[2:5],
+                                     CCF09_dirs = r_d_2))),
+               c(sapply(2:5, function(test)
+                 as.matrix(unif_stat(data = Theta_2, type = test,
+                                     CCF09_dirs = r_d_2)))))
+  expect_equal(c(as.matrix(unif_stat(data = X_3, type = avail_sph_tests[2:5],
+                                     CCF09_dirs = r_d_3))),
+               c(sapply(2:5, function(test)
+                 as.matrix(unif_stat(data = X_3, type = test,
+                                     CCF09_dirs = r_d_3)))))
+  expect_equal(unif_stat(data = 1:6, type = c("Ajne", "Ajne", "Watson")),
+               unif_stat(data = 1:6, type = c("Ajne", "Watson")))
 
 })

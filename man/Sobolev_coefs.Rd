@@ -10,11 +10,11 @@
 \alias{uk_to_bk}
 \title{Transformation between different coefficients in Sobolev statistics}
 \usage{
-bk_to_vk2(bk, p)
+bk_to_vk2(bk, p, log = FALSE)
 
 bk_to_uk(bk, p, signs = 1)
 
-vk2_to_bk(vk2, p)
+vk2_to_bk(vk2, p, log = FALSE)
 
 vk2_to_uk(vk2, p, signs = 1)
 
@@ -28,6 +28,9 @@ uk_to_bk(uk, p)
 
 \item{p}{integer giving the dimension of the ambient space \eqn{R^p} that
 contains \eqn{S^{p-1}}.}
+
+\item{log}{do operations in log scale (log-in, log-out)? Defaults to
+\code{FALSE}.}
 
 \item{signs}{signs of the coefficients \eqn{u_{k, p}}, a vector of the
 same size as \code{vk2} or \code{bk}, or a scalar. Defaults to \code{1}.}

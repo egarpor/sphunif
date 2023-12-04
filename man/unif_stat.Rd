@@ -6,7 +6,9 @@
 \usage{
 unif_stat(data, type = "all", data_sorted = FALSE, Rayleigh_m = 1,
   cov_a = 2 * pi, Rothman_t = 1/3, Cressie_t = 1/3, Pycke_q = 0.5,
-  Riesz_s = 1, CCF09_dirs = NULL, K_CCF09 = 25, CJ12_reg = 3)
+  Riesz_s = 1, CCF09_dirs = NULL, K_CCF09 = 25, CJ12_reg = 3,
+  Poisson_rho = 0.5, Softmax_kappa = 1, Stereo_a = 0,
+  Sobolev_vk2 = c(0, 0, 1))
 }
 \arguments{
 \item{data}{sample to compute the test statistic. An \bold{array} of size
@@ -62,6 +64,18 @@ asymptotic distribution of the Kolmogorov-Smirnov statistic. Defaults to
 \item{CJ12_reg}{type of asymptotic regime for CJ12 test, either \code{1}
 (sub-exponential regime), \code{2} (exponential), or \code{3}
 (super-exponential; default).}
+
+\item{Poisson_rho}{\eqn{\rho} parameter for the Poisson test, a real in
+\eqn{[0, 1)}. Defaults to \code{0.5}.}
+
+\item{Softmax_kappa}{\eqn{\kappa} parameter for the Softmax test, a
+non-negative real. Defaults to \code{1}.}
+
+\item{Stereo_a}{\eqn{a} parameter for the Stereo test, a real in
+\eqn{[-1, 1]}. Defaults to \code{0}.}
+
+\item{Sobolev_vk2}{weights for the finite Sobolev test. A non-negative
+vector or matrix. Defaults to \code{c(0, 0, 1)}.}
 }
 \value{
 A data frame of size \code{c(M, length(type))}, with column names
@@ -83,6 +97,9 @@ which the sample(s) can be \emph{angles}
 within a single call, facilitating thus Monte Carlo experiments.
 }
 \details{
+Except \code{CCF09_dirs}, \code{K_CCF09}, and \code{CJ12_reg}, all the
+test-specific parameters are vectorized.
+
 Descriptions and references for most of the statistics are available
 in García-Portugués and Verdebout (2018).
 }

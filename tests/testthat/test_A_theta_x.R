@@ -36,7 +36,8 @@ test_that("Gegenbauer coefficients of A_theta_x for p >= 2", {
     for (i in 1:5) {
       expect_equal(drop(akx(x = x[i], p = p, k = k)),
                    drop(Gegen_coefs(psi = function(th)
-                     drop(A_theta_x(theta = th, x = x[i], p = p)), k = k, p = p)),
+                     drop(A_theta_x(theta = th, x = x[i], p = p)),
+                     k = k, p = p)),
                    tolerance = 1e-3)
     }
   }

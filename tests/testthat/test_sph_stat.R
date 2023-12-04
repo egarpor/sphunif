@@ -40,6 +40,8 @@ dim(Psi200_rep) <- c(dim(Psi200_rep), 1)
 Th2 <- X_to_Theta(X2)
 rd3 <- X3[1:5, , 1]
 
+## Projected-ecdf tests
+
 test_that("PAD with X", {
 
   expect_equal(drop(sph_stat_PAD(X2)), 0.5752646, tolerance = 1e-6)
@@ -143,129 +145,6 @@ test_that("PRt vs. Ajne", {
 
 })
 
-test_that("Riesz vs. Bakshaev", {
-
-  expect_equal(sph_stat_Bakshaev(X2), sph_stat_Riesz(X2, s = 1),
-               tolerance = 1e-5)
-  expect_equal(sph_stat_Bakshaev(X3), sph_stat_Riesz(X3, s = 1),
-               tolerance = 1e-5)
-  expect_equal(sph_stat_Bakshaev(X4), sph_stat_Riesz(X4, s = 1),
-               tolerance = 1e-5)
-  expect_equal(sph_stat_Bakshaev(X5), sph_stat_Riesz(X5, s = 1),
-               tolerance = 1e-5)
-  expect_equal(sph_stat_Bakshaev(X9), sph_stat_Riesz(X9, s = 1),
-               tolerance = 1e-5)
-  expect_equal(sph_stat_Bakshaev(X200), sph_stat_Riesz(X200, s = 1),
-               tolerance = 1e-5)
-
-})
-
-test_that("Riesz vs. Pycke", {
-
-  expect_equal((n - 1) / (2 * n) * sph_stat_Pycke(X2),
-               sph_stat_Riesz(X2, s = 0))
-  expect_equal((log(4) - 1) / 2 + (2 * pi * (n - 1) / n) * sph_stat_Pycke(X3),
-               sph_stat_Riesz(X3, s = 0))
-  expect_warning(expect_equal(sph_stat_Pycke(X4), sph_stat_Riesz(X4, s = 0)))
-  expect_warning(expect_equal(sph_stat_Pycke(X5), sph_stat_Riesz(X5, s = 0)))
-  expect_warning(expect_equal(sph_stat_Pycke(X9), sph_stat_Riesz(X9, s = 0)))
-  expect_warning(expect_equal(sph_stat_Pycke(X200),
-                              sph_stat_Riesz(X200, s = 0)))
-  expect_warning(sph_stat_Pycke(X4))
-  expect_warning(sph_stat_Pycke(X5))
-  expect_warning(sph_stat_Pycke(X9))
-  expect_warning(sph_stat_Pycke(X200))
-
-})
-
-test_that("Pycke with data repetitions is computable", {
-
-  expect_warning(expect_true(is.finite(sph_stat_Pycke(X2_rep))))
-  expect_warning(expect_true(is.finite(sph_stat_Pycke(X3_rep))))
-
-})
-
-test_that("Riesz with data repetitions is computable", {
-
-  for (s in c(-0.5, 0)) {
-    expect_warning(expect_true(is.finite(sph_stat_Riesz(X2_rep, s = s))))
-    expect_warning(expect_true(is.finite(sph_stat_Riesz(X3_rep, s = s))))
-    expect_warning(expect_true(is.finite(sph_stat_Riesz(X4_rep, s = s))))
-    expect_warning(expect_true(is.finite(sph_stat_Riesz(X5_rep, s = s))))
-    expect_warning(expect_true(is.finite(sph_stat_Riesz(X9_rep, s = s))))
-    expect_warning(expect_true(is.finite(sph_stat_Riesz(X200_rep, s = s))))
-  }
-
-})
-
-
-test_that("sph_stat with psi_in_X = TRUE", {
-
-  expect_equal(sph_stat_Ajne(Psi2, Psi_in_X = TRUE), sph_stat_Ajne(X2))
-  expect_equal(sph_stat_Ajne(Psi3, Psi_in_X = TRUE), sph_stat_Ajne(X3))
-  expect_equal(sph_stat_Gine_Gn(Psi2, Psi_in_X = TRUE, p = 2),
-               sph_stat_Gine_Gn(X2))
-  expect_equal(sph_stat_Gine_Gn(Psi3, Psi_in_X = TRUE, p = 3),
-               sph_stat_Gine_Gn(X3))
-  expect_equal(sph_stat_Gine_Fn(Psi2, Psi_in_X = TRUE, p = 2),
-               sph_stat_Gine_Fn(X2))
-  expect_equal(sph_stat_Gine_Fn(Psi3, Psi_in_X = TRUE, p = 3),
-               sph_stat_Gine_Fn(X3))
-  expect_equal(sph_stat_Pycke(cos(Psi2), Psi_in_X = TRUE, p = 2),
-               sph_stat_Pycke(X2))
-  expect_equal(sph_stat_Pycke(cos(Psi3), Psi_in_X = TRUE, p = 3),
-               sph_stat_Pycke(X3))
-
-})
-
-test_that("CJ12", {
-
-  expect_equal(sph_stat_CJ12(X3, regime = 1), sph_stat_CJ12(X3, regime = 2))
-  pn <- 3
-  expect_equal(drop(sph_stat_CJ12(X3, regime = 1) -
-                      sph_stat_CJ12(X3, regime = 3)),
-               4 * log(n) - log(log(n)) -
-                 (4 * pn * (pn - 2) * log(n) - log(pn)))
-
-})
-
-test_that("CCF09", {
-
-  expect_equal(1 - p_Kolmogorov(sph_stat_CCF09(X3, dirs = rd3)),
-               sph_stat_CCF09(X3, dirs = rd3, original = TRUE))
-  expect_error(sph_stat_CCF09(X4, dirs = rd3))
-
-})
-
-test_that("Edge cases", {
-
-  expect_error(sph_stat_Gine_Gn(Psi2, Psi_in_X = TRUE))
-  expect_error(sph_stat_Gine_Fn(Psi2, Psi_in_X = TRUE))
-  expect_error(sph_stat_Pycke(Psi2, Psi_in_X = TRUE))
-  expect_error(sph_stat_Bakshaev(Psi2, Psi_in_X = TRUE))
-  expect_error(sph_stat_PCvM(Psi2, Psi_in_X = TRUE))
-  expect_error(sph_stat_PAD(Psi2, Psi_in_X = TRUE))
-  expect_error(sph_stat_PRt(Psi2, Psi_in_X = TRUE))
-  expect_error(sph_stat_CJ12(Psi2, Psi_in_X = TRUE))
-
-})
-
-test_that("Edge cases psi", {
-
-  expect_error(sphunif:::sph_stat_PCvM_Psi(cbind(drop(Psi2)), n = n, p = 1,
-                                           th_grid = 1:10, int_grid = 1:10))
-  expect_error(sphunif:::sph_stat_PAD_Psi(cbind(drop(Psi2)), n = n, p = 1,
-                                          th_grid = 1:10, int_grid = 1:10))
-  expect_error(sphunif:::sph_stat_PRt_Psi(cbind(drop(Psi2)), n = n, p = 1,
-                                          t_m = 0.5, theta_t_m = 1,
-                                          th_grid = 1:10, int_grid = 1:10))
-  expect_error(expect_warning(
-  sphunif:::sph_stat_Pycke_Psi(cbind(drop(Psi2)), n = n, p = 1)))
-  expect_error(expect_warning(
-    sphunif:::sph_stat_Pycke_Psi(cbind(drop(Psi2)), n = n, p = 5)))
-
-})
-
 # Circular projected statistic with weight w
 cir_stat_Pn <- function(samp, w, N = 2560, ...) {
 
@@ -288,15 +167,15 @@ cir_stat_Pn <- function(samp, w, N = 2560, ...) {
 
   }
 
-  # integral on gamma
-  n * sum(wth_k * apply(Theta_to_X(th_k)[, , 1], 1, int)) / (2 * pi)
+  # Integral on gamma
+  nrow(samp) * sum(wth_k * apply(Theta_to_X(th_k)[, , 1], 1, int)) / (2 * pi)
 
 }
 
 # Parameters
-n <- 50
+m <- 50
 set.seed(1223213)
-samp <- r_unif_sph(n = n, p = 2)
+samp <- r_unif_sph(n = m, p = 2)
 w_PCvM <- function(x) rep(1, length(x))
 w_k <- function(x, k = 1) -2 * k^2 * pi^2 * cos(2 * pi * k * x)
 w_k_plus <- function(x, k = 1) pmax(w_k(x, k = k), 0)
@@ -332,5 +211,235 @@ test_that("cir_stat_Pn equals Bingham", {
   expect_equal(cir_stat_Pn(samp, w = w_k_plus, k = 2) -
                  cir_stat_Pn(samp, w = w_k_minus, k = 2),
                drop(sph_stat_Bingham(samp) / 2), tolerance = 1e-4)
+
+})
+
+## Riesz and Pycke
+
+test_that("Riesz vs. Bakshaev", {
+
+  expect_equal(sph_stat_Bakshaev(X2), sph_stat_Riesz(X2, s = 1),
+               tolerance = 1e-5)
+  expect_equal(sph_stat_Bakshaev(X3), sph_stat_Riesz(X3, s = 1),
+               tolerance = 1e-5)
+  expect_equal(sph_stat_Bakshaev(X4), sph_stat_Riesz(X4, s = 1),
+               tolerance = 1e-5)
+  expect_equal(sph_stat_Bakshaev(X5), sph_stat_Riesz(X5, s = 1),
+               tolerance = 1e-5)
+  expect_equal(sph_stat_Bakshaev(X9), sph_stat_Riesz(X9, s = 1),
+               tolerance = 1e-5)
+  expect_equal(sph_stat_Bakshaev(X200), sph_stat_Riesz(X200, s = 1),
+               tolerance = 1e-5)
+
+})
+
+test_that("Riesz vs. Pycke", {
+
+  expect_equal((nrow(X2) - 1) / (2 * nrow(X2)) * sph_stat_Pycke(X2),
+               sph_stat_Riesz(X2, s = 0))
+  expect_equal((log(4) - 1) / 2 + (2 * pi * (nrow(X3) - 1) / nrow(X3)) *
+                 sph_stat_Pycke(X3),
+               sph_stat_Riesz(X3, s = 0))
+  expect_warning(expect_equal(sph_stat_Pycke(X4), sph_stat_Riesz(X4, s = 0)))
+  expect_warning(expect_equal(sph_stat_Pycke(X5), sph_stat_Riesz(X5, s = 0)))
+  expect_warning(expect_equal(sph_stat_Pycke(X9), sph_stat_Riesz(X9, s = 0)))
+  expect_warning(expect_equal(sph_stat_Pycke(X200),
+                              sph_stat_Riesz(X200, s = 0)))
+  expect_warning(sph_stat_Pycke(X4))
+  expect_warning(sph_stat_Pycke(X5))
+  expect_warning(sph_stat_Pycke(X9))
+  expect_warning(sph_stat_Pycke(X200))
+
+})
+
+test_that("Pycke with data repetitions is computable", {
+
+  expect_warning(expect_true(is.finite(sph_stat_Pycke(X2_rep))))
+  expect_warning(expect_true(is.finite(sph_stat_Pycke(X3_rep))))
+
+})
+
+test_that("Riesz with data repetitions is computable", {
+
+  for (s in c(-0.5, 0)) {
+    expect_warning(expect_true(is.finite(sph_stat_Riesz(X2_rep, s = s))))
+    expect_warning(expect_true(is.finite(sph_stat_Riesz(X3_rep, s = s))))
+    expect_warning(expect_true(is.finite(sph_stat_Riesz(X4_rep, s = s))))
+    expect_warning(expect_true(is.finite(sph_stat_Riesz(X5_rep, s = s))))
+    expect_warning(expect_true(is.finite(sph_stat_Riesz(X9_rep, s = s))))
+    expect_warning(expect_true(is.finite(sph_stat_Riesz(X200_rep, s = s))))
+  }
+
+})
+
+## Poisson
+
+test_that("Poisson vs. Rayleigh", {
+
+  transf_Poisson <- function(X, rho, p) {
+    (sph_stat_Poisson(X, rho = rho) - 1 + (1 - rho^2) / (1 - rho)^p) / rho
+  }
+  expect_equal(transf_Poisson(X2, rho = 1e-6, p = 2), sph_stat_Rayleigh(X2),
+               tolerance = 1e-3)
+  expect_equal(transf_Poisson(X3, rho = 1e-6, p = 3), sph_stat_Rayleigh(X3),
+               tolerance = 1e-3)
+  expect_equal(transf_Poisson(X4, rho = 1e-6, p = 4), sph_stat_Rayleigh(X4),
+               tolerance = 1e-3)
+  expect_equal(transf_Poisson(X5, rho = 1e-6, p = 5), sph_stat_Rayleigh(X5),
+               tolerance = 1e-3)
+  expect_equal(transf_Poisson(X9, rho = 1e-6, p = 9), sph_stat_Rayleigh(X9),
+               tolerance = 1e-3)
+
+})
+test_that("Poisson edge case", {
+
+  expect_error(sph_stat_Poisson(X3, rho = 1))
+  expect_error(sph_stat_Poisson(X3, rho = -1.5))
+
+})
+
+## Softmax
+
+test_that("Softmax vs. Rayleigh", {
+
+  transf_Softmax <- function(X, kappa, p) {
+    p * (sph_stat_Softmax(X, kappa = kappa) / kappa + 1)
+  }
+  expect_equal(transf_Softmax(X2, kappa = 1e-6, p = 2), sph_stat_Rayleigh(X2),
+               tolerance = 1e-3)
+  expect_equal(transf_Softmax(X3, kappa = 1e-6, p = 3), sph_stat_Rayleigh(X3),
+               tolerance = 1e-3)
+  expect_equal(transf_Softmax(X4, kappa = 1e-6, p = 4), sph_stat_Rayleigh(X4),
+               tolerance = 1e-3)
+  expect_equal(transf_Softmax(X5, kappa = 1e-6, p = 5), sph_stat_Rayleigh(X5),
+               tolerance = 1e-3)
+  expect_equal(transf_Softmax(X9, kappa = 1e-6, p = 9), sph_stat_Rayleigh(X9),
+               tolerance = 1e-3)
+
+})
+
+test_that("Softmax edge case", {
+
+  expect_error(sph_stat_Softmax(X3, kappa = -1.5))
+
+})
+
+## Stereo
+
+test_that("Stereo edge cases", {
+
+  expect_error(sph_stat_Stereo(X2))
+  expect_error(sph_stat_Stereo(X3, a = -1.5))
+
+})
+
+test_that("Stereo with data repetitions is computable", {
+
+  expect_warning(expect_true(is.finite(sph_stat_Stereo(X3_rep))))
+  expect_warning(expect_true(is.finite(sph_stat_Stereo(X4_rep))))
+
+})
+
+## Other tests
+
+test_that("sph_stat with psi_in_X = TRUE", {
+
+  expect_equal(sph_stat_Ajne(Psi2, Psi_in_X = TRUE), sph_stat_Ajne(X2))
+  expect_equal(sph_stat_Ajne(Psi3, Psi_in_X = TRUE), sph_stat_Ajne(X3))
+  expect_equal(sph_stat_Bakshaev(Psi2, Psi_in_X = TRUE, p = 2),
+               sph_stat_Bakshaev(X2))
+  expect_equal(sph_stat_Bakshaev(Psi3, Psi_in_X = TRUE, p = 3),
+               sph_stat_Bakshaev(X3))
+  expect_equal(sph_stat_CJ12(Psi3, Psi_in_X = TRUE, p = 3),
+               sph_stat_CJ12(X3))
+  expect_equal(sph_stat_Gine_Gn(Psi2, Psi_in_X = TRUE, p = 2),
+               sph_stat_Gine_Gn(X2))
+  expect_equal(sph_stat_Gine_Gn(Psi3, Psi_in_X = TRUE, p = 3),
+               sph_stat_Gine_Gn(X3))
+  expect_equal(sph_stat_Gine_Fn(Psi2, Psi_in_X = TRUE, p = 2),
+               sph_stat_Gine_Fn(X2))
+  expect_equal(sph_stat_Gine_Fn(Psi3, Psi_in_X = TRUE, p = 3),
+               sph_stat_Gine_Fn(X3))
+  expect_equal(sph_stat_PCvM(Psi2, Psi_in_X = TRUE, p = 2),
+               sph_stat_PCvM(X2))
+  expect_equal(sph_stat_PCvM(Psi3, Psi_in_X = TRUE, p = 3),
+               sph_stat_PCvM(X3))
+  expect_equal(sph_stat_PAD(Psi2, Psi_in_X = TRUE, p = 2),
+               sph_stat_PAD(X2))
+  expect_equal(sph_stat_PAD(Psi3, Psi_in_X = TRUE, p = 3),
+               sph_stat_PAD(X3))
+  expect_equal(sph_stat_PRt(Psi2, Psi_in_X = TRUE, p = 2),
+               sph_stat_PRt(X2))
+  expect_equal(sph_stat_PRt(Psi3, Psi_in_X = TRUE, p = 3),
+               sph_stat_PRt(X3))
+  expect_equal(sph_stat_Poisson(Psi2, Psi_in_X = TRUE, p = 2),
+               sph_stat_Poisson(X2))
+  expect_equal(sph_stat_Poisson(Psi3, Psi_in_X = TRUE, p = 3),
+               sph_stat_Poisson(X3))
+  expect_equal(sph_stat_Pycke(Psi2, Psi_in_X = TRUE, p = 2),
+               sph_stat_Pycke(X2))
+  expect_equal(sph_stat_Pycke(Psi3, Psi_in_X = TRUE, p = 3),
+               sph_stat_Pycke(X3))
+  expect_equal(sph_stat_Riesz(Psi2, Psi_in_X = TRUE, p = 2),
+               sph_stat_Riesz(X2))
+  expect_equal(sph_stat_Riesz(Psi3, Psi_in_X = TRUE, p = 3),
+               sph_stat_Riesz(X3))
+  expect_equal(sph_stat_Softmax(Psi2, Psi_in_X = TRUE, p = 2),
+               sph_stat_Softmax(X2))
+  expect_equal(sph_stat_Softmax(Psi3, Psi_in_X = TRUE, p = 3),
+               sph_stat_Softmax(X3))
+  expect_equal(sph_stat_Stereo(Psi3, Psi_in_X = TRUE, p = 3),
+               sph_stat_Stereo(X3))
+
+})
+
+test_that("CJ12", {
+
+  expect_equal(sph_stat_CJ12(X3, regime = 1), sph_stat_CJ12(X3, regime = 2))
+  pn <- 3
+  expect_equal(drop(sph_stat_CJ12(X3, regime = 1) -
+                      sph_stat_CJ12(X3, regime = 3)),
+               4 * log(n) - log(log(n)) -
+                 (4 * pn * (pn - 2) * log(n) - log(pn)))
+
+})
+
+test_that("CCF09", {
+
+  expect_equal(1 - p_Kolmogorov(sph_stat_CCF09(X3, dirs = rd3)),
+               sph_stat_CCF09(X3, dirs = rd3, original = TRUE))
+  expect_error(sph_stat_CCF09(X4, dirs = rd3))
+
+})
+
+test_that("Edge cases for missing p", {
+
+  expect_error(sph_stat_Gine_Gn(Psi2, Psi_in_X = TRUE))
+  expect_error(sph_stat_Gine_Fn(Psi2, Psi_in_X = TRUE))
+  expect_error(sph_stat_Pycke(Psi2, Psi_in_X = TRUE))
+  expect_error(sph_stat_Bakshaev(Psi2, Psi_in_X = TRUE))
+  expect_error(sph_stat_PCvM(Psi2, Psi_in_X = TRUE))
+  expect_error(sph_stat_PAD(Psi2, Psi_in_X = TRUE))
+  expect_error(sph_stat_PRt(Psi2, Psi_in_X = TRUE))
+  expect_error(sph_stat_CJ12(Psi2, Psi_in_X = TRUE))
+  expect_error(sph_stat_Poisson(Psi2, Psi_in_X = TRUE))
+  expect_error(sph_stat_Softmax(Psi2, Psi_in_X = TRUE))
+  expect_error(sph_stat_Stereo(Psi2, Psi_in_X = TRUE))
+
+})
+
+test_that("Edge cases psi", {
+
+  expect_error(sphunif:::sph_stat_PCvM_Psi(cbind(drop(Psi2)), n = n, p = 1,
+                                           th_grid = 1:10, int_grid = 1:10))
+  expect_error(sphunif:::sph_stat_PAD_Psi(cbind(drop(Psi2)), n = n, p = 1,
+                                          th_grid = 1:10, int_grid = 1:10))
+  expect_error(sphunif:::sph_stat_PRt_Psi(cbind(drop(Psi2)), n = n, p = 1,
+                                          t_m = 0.5, theta_t_m = 1,
+                                          th_grid = 1:10, int_grid = 1:10))
+  expect_error(expect_warning(
+  sphunif:::sph_stat_Pycke_Psi(cbind(drop(Psi2)), n = n, p = 1)))
+  expect_error(expect_warning(
+    sphunif:::sph_stat_Pycke_Psi(cbind(drop(Psi2)), n = n, p = 5)))
 
 })

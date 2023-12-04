@@ -17,7 +17,6 @@
 
 ## Comments
 
-* In this resubmission I **fix the previous WARNING**: sph_stat.cpp:357:7: note: cast one or both operands to int to silence this warning
 * There is a **NOTE that is a false positive**:
   - Possibly misspelled words in DESCRIPTION:
       replicability (26:5)

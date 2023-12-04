@@ -80,7 +80,7 @@ int_sph_MC <- function(f, p, M = 1e4, cores = 1, chunks = ceiling(M / 1e3),
   names_args_f <- names(f_args)
 
   # Check seeds
-  if (!is.null(seeds) & length(seeds) != chunks) {
+  if (!is.null(seeds) && length(seeds) != chunks) {
 
     warning(paste("seeds and chunks do not have the same length:",
                   "seeds are ignored."))
@@ -91,15 +91,13 @@ int_sph_MC <- function(f, p, M = 1e4, cores = 1, chunks = ceiling(M / 1e3),
   # Parallel backend
   old_dopar <- doFuture::registerDoFuture()
   old_plan <- future::plan(future::multisession(), workers = cores)
-  options(future.rng.onMisuse = "ignore")
   on.exit({
 
     with(old_dopar, foreach::setDoPar(fun = fun, data = data, info = info))
     future::plan(old_plan)
-    options(future.rng.onMisuse = NULL)
 
   })
-  `%op%` <- foreach::`%dopar%`
+  `%op%` <- doRNG::`%dorng%`
 
   # Measure progress?
   if (requireNamespace("progressr", quietly = TRUE)) {
@@ -144,8 +142,8 @@ int_sph_MC <- function(f, p, M = 1e4, cores = 1, chunks = ceiling(M / 1e3),
 
   }
 
-  # Return integral approximation
-  int <- rotasym::w_p(p = p) * int / M
+  # Return integral approximation, dropping seeds
+  int <- rotasym::w_p(p = p) * as.numeric(int) / M
   return(int)
 
 }

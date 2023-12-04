@@ -175,459 +175,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// cir_stat_Kuiper
-arma::vec cir_stat_Kuiper(arma::mat Theta, bool sorted, bool KS, bool Stephens);
-RcppExport SEXP _sphunif_cir_stat_Kuiper(SEXP ThetaSEXP, SEXP sortedSEXP, SEXP KSSEXP, SEXP StephensSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
-    Rcpp::traits::input_parameter< bool >::type sorted(sortedSEXP);
-    Rcpp::traits::input_parameter< bool >::type KS(KSSEXP);
-    Rcpp::traits::input_parameter< bool >::type Stephens(StephensSEXP);
-    rcpp_result_gen = Rcpp::wrap(cir_stat_Kuiper(Theta, sorted, KS, Stephens));
-    return rcpp_result_gen;
-END_RCPP
-}
-// cir_stat_Watson
-arma::vec cir_stat_Watson(arma::mat Theta, bool sorted, bool CvM, bool Stephens);
-RcppExport SEXP _sphunif_cir_stat_Watson(SEXP ThetaSEXP, SEXP sortedSEXP, SEXP CvMSEXP, SEXP StephensSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
-    Rcpp::traits::input_parameter< bool >::type sorted(sortedSEXP);
-    Rcpp::traits::input_parameter< bool >::type CvM(CvMSEXP);
-    Rcpp::traits::input_parameter< bool >::type Stephens(StephensSEXP);
-    rcpp_result_gen = Rcpp::wrap(cir_stat_Watson(Theta, sorted, CvM, Stephens));
-    return rcpp_result_gen;
-END_RCPP
-}
-// cir_stat_Watson_1976
-arma::vec cir_stat_Watson_1976(arma::mat Theta, bool sorted, bool minus);
-RcppExport SEXP _sphunif_cir_stat_Watson_1976(SEXP ThetaSEXP, SEXP sortedSEXP, SEXP minusSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
-    Rcpp::traits::input_parameter< bool >::type sorted(sortedSEXP);
-    Rcpp::traits::input_parameter< bool >::type minus(minusSEXP);
-    rcpp_result_gen = Rcpp::wrap(cir_stat_Watson_1976(Theta, sorted, minus));
-    return rcpp_result_gen;
-END_RCPP
-}
-// cir_stat_Range
-arma::vec cir_stat_Range(arma::mat Theta, bool sorted, bool gaps_in_Theta, bool max_gap);
-RcppExport SEXP _sphunif_cir_stat_Range(SEXP ThetaSEXP, SEXP sortedSEXP, SEXP gaps_in_ThetaSEXP, SEXP max_gapSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
-    Rcpp::traits::input_parameter< bool >::type sorted(sortedSEXP);
-    Rcpp::traits::input_parameter< bool >::type gaps_in_Theta(gaps_in_ThetaSEXP);
-    Rcpp::traits::input_parameter< bool >::type max_gap(max_gapSEXP);
-    rcpp_result_gen = Rcpp::wrap(cir_stat_Range(Theta, sorted, gaps_in_Theta, max_gap));
-    return rcpp_result_gen;
-END_RCPP
-}
-// cir_stat_Rao
-arma::vec cir_stat_Rao(arma::mat Theta, bool sorted, bool gaps_in_Theta);
-RcppExport SEXP _sphunif_cir_stat_Rao(SEXP ThetaSEXP, SEXP sortedSEXP, SEXP gaps_in_ThetaSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
-    Rcpp::traits::input_parameter< bool >::type sorted(sortedSEXP);
-    Rcpp::traits::input_parameter< bool >::type gaps_in_Theta(gaps_in_ThetaSEXP);
-    rcpp_result_gen = Rcpp::wrap(cir_stat_Rao(Theta, sorted, gaps_in_Theta));
-    return rcpp_result_gen;
-END_RCPP
-}
-// cir_stat_Greenwood
-arma::vec cir_stat_Greenwood(arma::mat Theta, bool sorted, bool gaps_in_Theta);
-RcppExport SEXP _sphunif_cir_stat_Greenwood(SEXP ThetaSEXP, SEXP sortedSEXP, SEXP gaps_in_ThetaSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
-    Rcpp::traits::input_parameter< bool >::type sorted(sortedSEXP);
-    Rcpp::traits::input_parameter< bool >::type gaps_in_Theta(gaps_in_ThetaSEXP);
-    rcpp_result_gen = Rcpp::wrap(cir_stat_Greenwood(Theta, sorted, gaps_in_Theta));
-    return rcpp_result_gen;
-END_RCPP
-}
-// cir_stat_Log_gaps
-arma::vec cir_stat_Log_gaps(arma::mat Theta, bool sorted, bool gaps_in_Theta, bool abs_val);
-RcppExport SEXP _sphunif_cir_stat_Log_gaps(SEXP ThetaSEXP, SEXP sortedSEXP, SEXP gaps_in_ThetaSEXP, SEXP abs_valSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
-    Rcpp::traits::input_parameter< bool >::type sorted(sortedSEXP);
-    Rcpp::traits::input_parameter< bool >::type gaps_in_Theta(gaps_in_ThetaSEXP);
-    Rcpp::traits::input_parameter< bool >::type abs_val(abs_valSEXP);
-    rcpp_result_gen = Rcpp::wrap(cir_stat_Log_gaps(Theta, sorted, gaps_in_Theta, abs_val));
-    return rcpp_result_gen;
-END_RCPP
-}
-// cir_stat_Vacancy
-arma::vec cir_stat_Vacancy(arma::mat Theta, double a, bool sorted, bool gaps_in_Theta);
-RcppExport SEXP _sphunif_cir_stat_Vacancy(SEXP ThetaSEXP, SEXP aSEXP, SEXP sortedSEXP, SEXP gaps_in_ThetaSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
-    Rcpp::traits::input_parameter< double >::type a(aSEXP);
-    Rcpp::traits::input_parameter< bool >::type sorted(sortedSEXP);
-    Rcpp::traits::input_parameter< bool >::type gaps_in_Theta(gaps_in_ThetaSEXP);
-    rcpp_result_gen = Rcpp::wrap(cir_stat_Vacancy(Theta, a, sorted, gaps_in_Theta));
-    return rcpp_result_gen;
-END_RCPP
-}
-// cir_stat_Max_uncover
-arma::vec cir_stat_Max_uncover(arma::mat Theta, double a, bool sorted, bool gaps_in_Theta);
-RcppExport SEXP _sphunif_cir_stat_Max_uncover(SEXP ThetaSEXP, SEXP aSEXP, SEXP sortedSEXP, SEXP gaps_in_ThetaSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
-    Rcpp::traits::input_parameter< double >::type a(aSEXP);
-    Rcpp::traits::input_parameter< bool >::type sorted(sortedSEXP);
-    Rcpp::traits::input_parameter< bool >::type gaps_in_Theta(gaps_in_ThetaSEXP);
-    rcpp_result_gen = Rcpp::wrap(cir_stat_Max_uncover(Theta, a, sorted, gaps_in_Theta));
-    return rcpp_result_gen;
-END_RCPP
-}
-// cir_stat_Num_uncover
-arma::vec cir_stat_Num_uncover(arma::mat Theta, double a, bool sorted, bool gaps_in_Theta, bool minus_val);
-RcppExport SEXP _sphunif_cir_stat_Num_uncover(SEXP ThetaSEXP, SEXP aSEXP, SEXP sortedSEXP, SEXP gaps_in_ThetaSEXP, SEXP minus_valSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
-    Rcpp::traits::input_parameter< double >::type a(aSEXP);
-    Rcpp::traits::input_parameter< bool >::type sorted(sortedSEXP);
-    Rcpp::traits::input_parameter< bool >::type gaps_in_Theta(gaps_in_ThetaSEXP);
-    Rcpp::traits::input_parameter< bool >::type minus_val(minus_valSEXP);
-    rcpp_result_gen = Rcpp::wrap(cir_stat_Num_uncover(Theta, a, sorted, gaps_in_Theta, minus_val));
-    return rcpp_result_gen;
-END_RCPP
-}
-// cir_stat_Gini
-arma::vec cir_stat_Gini(arma::mat Theta, bool sorted, bool gaps_in_Theta);
-RcppExport SEXP _sphunif_cir_stat_Gini(SEXP ThetaSEXP, SEXP sortedSEXP, SEXP gaps_in_ThetaSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
-    Rcpp::traits::input_parameter< bool >::type sorted(sortedSEXP);
-    Rcpp::traits::input_parameter< bool >::type gaps_in_Theta(gaps_in_ThetaSEXP);
-    rcpp_result_gen = Rcpp::wrap(cir_stat_Gini(Theta, sorted, gaps_in_Theta));
-    return rcpp_result_gen;
-END_RCPP
-}
-// cir_stat_Gini_squared
-arma::vec cir_stat_Gini_squared(arma::mat Theta, bool sorted, bool gaps_in_Theta);
-RcppExport SEXP _sphunif_cir_stat_Gini_squared(SEXP ThetaSEXP, SEXP sortedSEXP, SEXP gaps_in_ThetaSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
-    Rcpp::traits::input_parameter< bool >::type sorted(sortedSEXP);
-    Rcpp::traits::input_parameter< bool >::type gaps_in_Theta(gaps_in_ThetaSEXP);
-    rcpp_result_gen = Rcpp::wrap(cir_stat_Gini_squared(Theta, sorted, gaps_in_Theta));
-    return rcpp_result_gen;
-END_RCPP
-}
-// cir_stat_Ajne
-arma::vec cir_stat_Ajne(arma::mat Theta, bool Psi_in_Theta);
-RcppExport SEXP _sphunif_cir_stat_Ajne(SEXP ThetaSEXP, SEXP Psi_in_ThetaSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
-    Rcpp::traits::input_parameter< bool >::type Psi_in_Theta(Psi_in_ThetaSEXP);
-    rcpp_result_gen = Rcpp::wrap(cir_stat_Ajne(Theta, Psi_in_Theta));
-    return rcpp_result_gen;
-END_RCPP
-}
-// cir_stat_An_Psi
-arma::vec cir_stat_An_Psi(arma::mat Psi, arma::uword n);
-RcppExport SEXP _sphunif_cir_stat_An_Psi(SEXP PsiSEXP, SEXP nSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type Psi(PsiSEXP);
-    Rcpp::traits::input_parameter< arma::uword >::type n(nSEXP);
-    rcpp_result_gen = Rcpp::wrap(cir_stat_An_Psi(Psi, n));
-    return rcpp_result_gen;
-END_RCPP
-}
-// cir_stat_Rothman
-arma::vec cir_stat_Rothman(arma::mat Theta, double t, bool Psi_in_Theta);
-RcppExport SEXP _sphunif_cir_stat_Rothman(SEXP ThetaSEXP, SEXP tSEXP, SEXP Psi_in_ThetaSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
-    Rcpp::traits::input_parameter< double >::type t(tSEXP);
-    Rcpp::traits::input_parameter< bool >::type Psi_in_Theta(Psi_in_ThetaSEXP);
-    rcpp_result_gen = Rcpp::wrap(cir_stat_Rothman(Theta, t, Psi_in_Theta));
-    return rcpp_result_gen;
-END_RCPP
-}
-// cir_stat_Rothman_Psi
-arma::vec cir_stat_Rothman_Psi(arma::mat Psi, double t_m2, double t_min2, arma::uword n);
-RcppExport SEXP _sphunif_cir_stat_Rothman_Psi(SEXP PsiSEXP, SEXP t_m2SEXP, SEXP t_min2SEXP, SEXP nSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type Psi(PsiSEXP);
-    Rcpp::traits::input_parameter< double >::type t_m2(t_m2SEXP);
-    Rcpp::traits::input_parameter< double >::type t_min2(t_min2SEXP);
-    Rcpp::traits::input_parameter< arma::uword >::type n(nSEXP);
-    rcpp_result_gen = Rcpp::wrap(cir_stat_Rothman_Psi(Psi, t_m2, t_min2, n));
-    return rcpp_result_gen;
-END_RCPP
-}
-// cir_stat_Hodges_Ajne
-arma::vec cir_stat_Hodges_Ajne(arma::mat Theta, bool asymp_std, bool sorted, bool use_Cressie);
-RcppExport SEXP _sphunif_cir_stat_Hodges_Ajne(SEXP ThetaSEXP, SEXP asymp_stdSEXP, SEXP sortedSEXP, SEXP use_CressieSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
-    Rcpp::traits::input_parameter< bool >::type asymp_std(asymp_stdSEXP);
-    Rcpp::traits::input_parameter< bool >::type sorted(sortedSEXP);
-    Rcpp::traits::input_parameter< bool >::type use_Cressie(use_CressieSEXP);
-    rcpp_result_gen = Rcpp::wrap(cir_stat_Hodges_Ajne(Theta, asymp_std, sorted, use_Cressie));
-    return rcpp_result_gen;
-END_RCPP
-}
-// cir_stat_Cressie
-arma::vec cir_stat_Cressie(arma::mat Theta, double t, bool sorted);
-RcppExport SEXP _sphunif_cir_stat_Cressie(SEXP ThetaSEXP, SEXP tSEXP, SEXP sortedSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
-    Rcpp::traits::input_parameter< double >::type t(tSEXP);
-    Rcpp::traits::input_parameter< bool >::type sorted(sortedSEXP);
-    rcpp_result_gen = Rcpp::wrap(cir_stat_Cressie(Theta, t, sorted));
-    return rcpp_result_gen;
-END_RCPP
-}
-// cir_stat_FG01
-arma::vec cir_stat_FG01(arma::mat Theta, bool sorted);
-RcppExport SEXP _sphunif_cir_stat_FG01(SEXP ThetaSEXP, SEXP sortedSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
-    Rcpp::traits::input_parameter< bool >::type sorted(sortedSEXP);
-    rcpp_result_gen = Rcpp::wrap(cir_stat_FG01(Theta, sorted));
-    return rcpp_result_gen;
-END_RCPP
-}
-// cir_stat_Rayleigh
-arma::vec cir_stat_Rayleigh(arma::mat Theta, arma::uword m);
-RcppExport SEXP _sphunif_cir_stat_Rayleigh(SEXP ThetaSEXP, SEXP mSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
-    Rcpp::traits::input_parameter< arma::uword >::type m(mSEXP);
-    rcpp_result_gen = Rcpp::wrap(cir_stat_Rayleigh(Theta, m));
-    return rcpp_result_gen;
-END_RCPP
-}
-// cir_stat_Bingham
-arma::vec cir_stat_Bingham(arma::mat Theta);
-RcppExport SEXP _sphunif_cir_stat_Bingham(SEXP ThetaSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
-    rcpp_result_gen = Rcpp::wrap(cir_stat_Bingham(Theta));
-    return rcpp_result_gen;
-END_RCPP
-}
-// cir_stat_Hermans_Rasson
-arma::vec cir_stat_Hermans_Rasson(arma::mat Theta, bool Psi_in_Theta);
-RcppExport SEXP _sphunif_cir_stat_Hermans_Rasson(SEXP ThetaSEXP, SEXP Psi_in_ThetaSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
-    Rcpp::traits::input_parameter< bool >::type Psi_in_Theta(Psi_in_ThetaSEXP);
-    rcpp_result_gen = Rcpp::wrap(cir_stat_Hermans_Rasson(Theta, Psi_in_Theta));
-    return rcpp_result_gen;
-END_RCPP
-}
-// cir_stat_Hermans_Rasson_Psi
-arma::vec cir_stat_Hermans_Rasson_Psi(arma::mat Psi, arma::uword n);
-RcppExport SEXP _sphunif_cir_stat_Hermans_Rasson_Psi(SEXP PsiSEXP, SEXP nSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type Psi(PsiSEXP);
-    Rcpp::traits::input_parameter< arma::uword >::type n(nSEXP);
-    rcpp_result_gen = Rcpp::wrap(cir_stat_Hermans_Rasson_Psi(Psi, n));
-    return rcpp_result_gen;
-END_RCPP
-}
-// cir_stat_Gine_Gn
-arma::vec cir_stat_Gine_Gn(arma::mat Theta, bool Psi_in_Theta);
-RcppExport SEXP _sphunif_cir_stat_Gine_Gn(SEXP ThetaSEXP, SEXP Psi_in_ThetaSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
-    Rcpp::traits::input_parameter< bool >::type Psi_in_Theta(Psi_in_ThetaSEXP);
-    rcpp_result_gen = Rcpp::wrap(cir_stat_Gine_Gn(Theta, Psi_in_Theta));
-    return rcpp_result_gen;
-END_RCPP
-}
-// cir_stat_Gine_Fn
-arma::vec cir_stat_Gine_Fn(arma::mat Theta, bool Psi_in_Theta);
-RcppExport SEXP _sphunif_cir_stat_Gine_Fn(SEXP ThetaSEXP, SEXP Psi_in_ThetaSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
-    Rcpp::traits::input_parameter< bool >::type Psi_in_Theta(Psi_in_ThetaSEXP);
-    rcpp_result_gen = Rcpp::wrap(cir_stat_Gine_Fn(Theta, Psi_in_Theta));
-    return rcpp_result_gen;
-END_RCPP
-}
-// cir_stat_Pycke
-arma::vec cir_stat_Pycke(arma::mat Theta, bool Psi_in_Theta);
-RcppExport SEXP _sphunif_cir_stat_Pycke(SEXP ThetaSEXP, SEXP Psi_in_ThetaSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
-    Rcpp::traits::input_parameter< bool >::type Psi_in_Theta(Psi_in_ThetaSEXP);
-    rcpp_result_gen = Rcpp::wrap(cir_stat_Pycke(Theta, Psi_in_Theta));
-    return rcpp_result_gen;
-END_RCPP
-}
-// cir_stat_Pycke_Psi
-arma::vec cir_stat_Pycke_Psi(arma::mat Psi, arma::uword n);
-RcppExport SEXP _sphunif_cir_stat_Pycke_Psi(SEXP PsiSEXP, SEXP nSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type Psi(PsiSEXP);
-    Rcpp::traits::input_parameter< arma::uword >::type n(nSEXP);
-    rcpp_result_gen = Rcpp::wrap(cir_stat_Pycke_Psi(Psi, n));
-    return rcpp_result_gen;
-END_RCPP
-}
-// cir_stat_Pycke_q
-arma::vec cir_stat_Pycke_q(arma::mat Theta, bool Psi_in_Theta, double q);
-RcppExport SEXP _sphunif_cir_stat_Pycke_q(SEXP ThetaSEXP, SEXP Psi_in_ThetaSEXP, SEXP qSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
-    Rcpp::traits::input_parameter< bool >::type Psi_in_Theta(Psi_in_ThetaSEXP);
-    Rcpp::traits::input_parameter< double >::type q(qSEXP);
-    rcpp_result_gen = Rcpp::wrap(cir_stat_Pycke_q(Theta, Psi_in_Theta, q));
-    return rcpp_result_gen;
-END_RCPP
-}
-// cir_stat_Pycke_q_Psi
-arma::vec cir_stat_Pycke_q_Psi(arma::mat Psi, arma::uword n, double q);
-RcppExport SEXP _sphunif_cir_stat_Pycke_q_Psi(SEXP PsiSEXP, SEXP nSEXP, SEXP qSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type Psi(PsiSEXP);
-    Rcpp::traits::input_parameter< arma::uword >::type n(nSEXP);
-    Rcpp::traits::input_parameter< double >::type q(qSEXP);
-    rcpp_result_gen = Rcpp::wrap(cir_stat_Pycke_q_Psi(Psi, n, q));
-    return rcpp_result_gen;
-END_RCPP
-}
-// cir_stat_Bakshaev
-arma::vec cir_stat_Bakshaev(arma::mat Theta, bool Psi_in_Theta);
-RcppExport SEXP _sphunif_cir_stat_Bakshaev(SEXP ThetaSEXP, SEXP Psi_in_ThetaSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
-    Rcpp::traits::input_parameter< bool >::type Psi_in_Theta(Psi_in_ThetaSEXP);
-    rcpp_result_gen = Rcpp::wrap(cir_stat_Bakshaev(Theta, Psi_in_Theta));
-    return rcpp_result_gen;
-END_RCPP
-}
-// cir_stat_Riesz
-arma::vec cir_stat_Riesz(arma::mat Theta, bool Psi_in_Theta, double s);
-RcppExport SEXP _sphunif_cir_stat_Riesz(SEXP ThetaSEXP, SEXP Psi_in_ThetaSEXP, SEXP sSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
-    Rcpp::traits::input_parameter< bool >::type Psi_in_Theta(Psi_in_ThetaSEXP);
-    Rcpp::traits::input_parameter< double >::type s(sSEXP);
-    rcpp_result_gen = Rcpp::wrap(cir_stat_Riesz(Theta, Psi_in_Theta, s));
-    return rcpp_result_gen;
-END_RCPP
-}
-// cir_stat_PCvM
-arma::vec cir_stat_PCvM(arma::mat Theta, bool Psi_in_Theta);
-RcppExport SEXP _sphunif_cir_stat_PCvM(SEXP ThetaSEXP, SEXP Psi_in_ThetaSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
-    Rcpp::traits::input_parameter< bool >::type Psi_in_Theta(Psi_in_ThetaSEXP);
-    rcpp_result_gen = Rcpp::wrap(cir_stat_PCvM(Theta, Psi_in_Theta));
-    return rcpp_result_gen;
-END_RCPP
-}
-// cir_stat_PRt
-arma::vec cir_stat_PRt(arma::mat Theta, double t, bool Psi_in_Theta);
-RcppExport SEXP _sphunif_cir_stat_PRt(SEXP ThetaSEXP, SEXP tSEXP, SEXP Psi_in_ThetaSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
-    Rcpp::traits::input_parameter< double >::type t(tSEXP);
-    Rcpp::traits::input_parameter< bool >::type Psi_in_Theta(Psi_in_ThetaSEXP);
-    rcpp_result_gen = Rcpp::wrap(cir_stat_PRt(Theta, t, Psi_in_Theta));
-    return rcpp_result_gen;
-END_RCPP
-}
-// cir_stat_PAD
-arma::vec cir_stat_PAD(arma::mat Theta, bool Psi_in_Theta, bool AD, bool sorted);
-RcppExport SEXP _sphunif_cir_stat_PAD(SEXP ThetaSEXP, SEXP Psi_in_ThetaSEXP, SEXP ADSEXP, SEXP sortedSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
-    Rcpp::traits::input_parameter< bool >::type Psi_in_Theta(Psi_in_ThetaSEXP);
-    Rcpp::traits::input_parameter< bool >::type AD(ADSEXP);
-    Rcpp::traits::input_parameter< bool >::type sorted(sortedSEXP);
-    rcpp_result_gen = Rcpp::wrap(cir_stat_PAD(Theta, Psi_in_Theta, AD, sorted));
-    return rcpp_result_gen;
-END_RCPP
-}
-// cir_stat_CCF09
-arma::vec cir_stat_CCF09(arma::mat Theta, arma::mat dirs, arma::uword K_CCF09, bool original);
-RcppExport SEXP _sphunif_cir_stat_CCF09(SEXP ThetaSEXP, SEXP dirsSEXP, SEXP K_CCF09SEXP, SEXP originalSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
-    Rcpp::traits::input_parameter< arma::mat >::type dirs(dirsSEXP);
-    Rcpp::traits::input_parameter< arma::uword >::type K_CCF09(K_CCF09SEXP);
-    Rcpp::traits::input_parameter< bool >::type original(originalSEXP);
-    rcpp_result_gen = Rcpp::wrap(cir_stat_CCF09(Theta, dirs, K_CCF09, original));
-    return rcpp_result_gen;
-END_RCPP
-}
 // p_Kolmogorov
 arma::vec p_Kolmogorov(arma::vec x, arma::uword K_Kolmogorov, bool alternating);
 RcppExport SEXP _sphunif_p_Kolmogorov(SEXP xSEXP, SEXP K_KolmogorovSEXP, SEXP alternatingSEXP) {
@@ -1072,6 +619,485 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// cir_stat_Kuiper
+arma::vec cir_stat_Kuiper(arma::mat Theta, bool sorted, bool KS, bool Stephens);
+RcppExport SEXP _sphunif_cir_stat_Kuiper(SEXP ThetaSEXP, SEXP sortedSEXP, SEXP KSSEXP, SEXP StephensSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
+    Rcpp::traits::input_parameter< bool >::type sorted(sortedSEXP);
+    Rcpp::traits::input_parameter< bool >::type KS(KSSEXP);
+    Rcpp::traits::input_parameter< bool >::type Stephens(StephensSEXP);
+    rcpp_result_gen = Rcpp::wrap(cir_stat_Kuiper(Theta, sorted, KS, Stephens));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cir_stat_Watson
+arma::vec cir_stat_Watson(arma::mat Theta, bool sorted, bool CvM, bool Stephens);
+RcppExport SEXP _sphunif_cir_stat_Watson(SEXP ThetaSEXP, SEXP sortedSEXP, SEXP CvMSEXP, SEXP StephensSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
+    Rcpp::traits::input_parameter< bool >::type sorted(sortedSEXP);
+    Rcpp::traits::input_parameter< bool >::type CvM(CvMSEXP);
+    Rcpp::traits::input_parameter< bool >::type Stephens(StephensSEXP);
+    rcpp_result_gen = Rcpp::wrap(cir_stat_Watson(Theta, sorted, CvM, Stephens));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cir_stat_Watson_1976
+arma::vec cir_stat_Watson_1976(arma::mat Theta, bool sorted, bool minus);
+RcppExport SEXP _sphunif_cir_stat_Watson_1976(SEXP ThetaSEXP, SEXP sortedSEXP, SEXP minusSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
+    Rcpp::traits::input_parameter< bool >::type sorted(sortedSEXP);
+    Rcpp::traits::input_parameter< bool >::type minus(minusSEXP);
+    rcpp_result_gen = Rcpp::wrap(cir_stat_Watson_1976(Theta, sorted, minus));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cir_stat_Range
+arma::vec cir_stat_Range(arma::mat Theta, bool sorted, bool gaps_in_Theta, bool max_gap);
+RcppExport SEXP _sphunif_cir_stat_Range(SEXP ThetaSEXP, SEXP sortedSEXP, SEXP gaps_in_ThetaSEXP, SEXP max_gapSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
+    Rcpp::traits::input_parameter< bool >::type sorted(sortedSEXP);
+    Rcpp::traits::input_parameter< bool >::type gaps_in_Theta(gaps_in_ThetaSEXP);
+    Rcpp::traits::input_parameter< bool >::type max_gap(max_gapSEXP);
+    rcpp_result_gen = Rcpp::wrap(cir_stat_Range(Theta, sorted, gaps_in_Theta, max_gap));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cir_stat_Rao
+arma::vec cir_stat_Rao(arma::mat Theta, bool sorted, bool gaps_in_Theta);
+RcppExport SEXP _sphunif_cir_stat_Rao(SEXP ThetaSEXP, SEXP sortedSEXP, SEXP gaps_in_ThetaSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
+    Rcpp::traits::input_parameter< bool >::type sorted(sortedSEXP);
+    Rcpp::traits::input_parameter< bool >::type gaps_in_Theta(gaps_in_ThetaSEXP);
+    rcpp_result_gen = Rcpp::wrap(cir_stat_Rao(Theta, sorted, gaps_in_Theta));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cir_stat_Greenwood
+arma::vec cir_stat_Greenwood(arma::mat Theta, bool sorted, bool gaps_in_Theta);
+RcppExport SEXP _sphunif_cir_stat_Greenwood(SEXP ThetaSEXP, SEXP sortedSEXP, SEXP gaps_in_ThetaSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
+    Rcpp::traits::input_parameter< bool >::type sorted(sortedSEXP);
+    Rcpp::traits::input_parameter< bool >::type gaps_in_Theta(gaps_in_ThetaSEXP);
+    rcpp_result_gen = Rcpp::wrap(cir_stat_Greenwood(Theta, sorted, gaps_in_Theta));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cir_stat_Log_gaps
+arma::vec cir_stat_Log_gaps(arma::mat Theta, bool sorted, bool gaps_in_Theta, bool abs_val);
+RcppExport SEXP _sphunif_cir_stat_Log_gaps(SEXP ThetaSEXP, SEXP sortedSEXP, SEXP gaps_in_ThetaSEXP, SEXP abs_valSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
+    Rcpp::traits::input_parameter< bool >::type sorted(sortedSEXP);
+    Rcpp::traits::input_parameter< bool >::type gaps_in_Theta(gaps_in_ThetaSEXP);
+    Rcpp::traits::input_parameter< bool >::type abs_val(abs_valSEXP);
+    rcpp_result_gen = Rcpp::wrap(cir_stat_Log_gaps(Theta, sorted, gaps_in_Theta, abs_val));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cir_stat_Vacancy
+arma::vec cir_stat_Vacancy(arma::mat Theta, double a, bool sorted, bool gaps_in_Theta);
+RcppExport SEXP _sphunif_cir_stat_Vacancy(SEXP ThetaSEXP, SEXP aSEXP, SEXP sortedSEXP, SEXP gaps_in_ThetaSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
+    Rcpp::traits::input_parameter< double >::type a(aSEXP);
+    Rcpp::traits::input_parameter< bool >::type sorted(sortedSEXP);
+    Rcpp::traits::input_parameter< bool >::type gaps_in_Theta(gaps_in_ThetaSEXP);
+    rcpp_result_gen = Rcpp::wrap(cir_stat_Vacancy(Theta, a, sorted, gaps_in_Theta));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cir_stat_Max_uncover
+arma::vec cir_stat_Max_uncover(arma::mat Theta, double a, bool sorted, bool gaps_in_Theta);
+RcppExport SEXP _sphunif_cir_stat_Max_uncover(SEXP ThetaSEXP, SEXP aSEXP, SEXP sortedSEXP, SEXP gaps_in_ThetaSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
+    Rcpp::traits::input_parameter< double >::type a(aSEXP);
+    Rcpp::traits::input_parameter< bool >::type sorted(sortedSEXP);
+    Rcpp::traits::input_parameter< bool >::type gaps_in_Theta(gaps_in_ThetaSEXP);
+    rcpp_result_gen = Rcpp::wrap(cir_stat_Max_uncover(Theta, a, sorted, gaps_in_Theta));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cir_stat_Num_uncover
+arma::vec cir_stat_Num_uncover(arma::mat Theta, double a, bool sorted, bool gaps_in_Theta, bool minus_val);
+RcppExport SEXP _sphunif_cir_stat_Num_uncover(SEXP ThetaSEXP, SEXP aSEXP, SEXP sortedSEXP, SEXP gaps_in_ThetaSEXP, SEXP minus_valSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
+    Rcpp::traits::input_parameter< double >::type a(aSEXP);
+    Rcpp::traits::input_parameter< bool >::type sorted(sortedSEXP);
+    Rcpp::traits::input_parameter< bool >::type gaps_in_Theta(gaps_in_ThetaSEXP);
+    Rcpp::traits::input_parameter< bool >::type minus_val(minus_valSEXP);
+    rcpp_result_gen = Rcpp::wrap(cir_stat_Num_uncover(Theta, a, sorted, gaps_in_Theta, minus_val));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cir_stat_Gini
+arma::vec cir_stat_Gini(arma::mat Theta, bool sorted, bool gaps_in_Theta);
+RcppExport SEXP _sphunif_cir_stat_Gini(SEXP ThetaSEXP, SEXP sortedSEXP, SEXP gaps_in_ThetaSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
+    Rcpp::traits::input_parameter< bool >::type sorted(sortedSEXP);
+    Rcpp::traits::input_parameter< bool >::type gaps_in_Theta(gaps_in_ThetaSEXP);
+    rcpp_result_gen = Rcpp::wrap(cir_stat_Gini(Theta, sorted, gaps_in_Theta));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cir_stat_Gini_squared
+arma::vec cir_stat_Gini_squared(arma::mat Theta, bool sorted, bool gaps_in_Theta);
+RcppExport SEXP _sphunif_cir_stat_Gini_squared(SEXP ThetaSEXP, SEXP sortedSEXP, SEXP gaps_in_ThetaSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
+    Rcpp::traits::input_parameter< bool >::type sorted(sortedSEXP);
+    Rcpp::traits::input_parameter< bool >::type gaps_in_Theta(gaps_in_ThetaSEXP);
+    rcpp_result_gen = Rcpp::wrap(cir_stat_Gini_squared(Theta, sorted, gaps_in_Theta));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cir_stat_Ajne
+arma::vec cir_stat_Ajne(arma::mat Theta, bool Psi_in_Theta);
+RcppExport SEXP _sphunif_cir_stat_Ajne(SEXP ThetaSEXP, SEXP Psi_in_ThetaSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
+    Rcpp::traits::input_parameter< bool >::type Psi_in_Theta(Psi_in_ThetaSEXP);
+    rcpp_result_gen = Rcpp::wrap(cir_stat_Ajne(Theta, Psi_in_Theta));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cir_stat_An_Psi
+arma::vec cir_stat_An_Psi(arma::mat Psi, arma::uword n);
+RcppExport SEXP _sphunif_cir_stat_An_Psi(SEXP PsiSEXP, SEXP nSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type Psi(PsiSEXP);
+    Rcpp::traits::input_parameter< arma::uword >::type n(nSEXP);
+    rcpp_result_gen = Rcpp::wrap(cir_stat_An_Psi(Psi, n));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cir_stat_Rothman
+arma::vec cir_stat_Rothman(arma::mat Theta, bool Psi_in_Theta, double t);
+RcppExport SEXP _sphunif_cir_stat_Rothman(SEXP ThetaSEXP, SEXP Psi_in_ThetaSEXP, SEXP tSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
+    Rcpp::traits::input_parameter< bool >::type Psi_in_Theta(Psi_in_ThetaSEXP);
+    Rcpp::traits::input_parameter< double >::type t(tSEXP);
+    rcpp_result_gen = Rcpp::wrap(cir_stat_Rothman(Theta, Psi_in_Theta, t));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cir_stat_Rothman_Psi
+arma::vec cir_stat_Rothman_Psi(arma::mat Psi, arma::uword n, double t_m2, double t_min2);
+RcppExport SEXP _sphunif_cir_stat_Rothman_Psi(SEXP PsiSEXP, SEXP nSEXP, SEXP t_m2SEXP, SEXP t_min2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type Psi(PsiSEXP);
+    Rcpp::traits::input_parameter< arma::uword >::type n(nSEXP);
+    Rcpp::traits::input_parameter< double >::type t_m2(t_m2SEXP);
+    Rcpp::traits::input_parameter< double >::type t_min2(t_min2SEXP);
+    rcpp_result_gen = Rcpp::wrap(cir_stat_Rothman_Psi(Psi, n, t_m2, t_min2));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cir_stat_Hodges_Ajne
+arma::vec cir_stat_Hodges_Ajne(arma::mat Theta, bool asymp_std, bool sorted, bool use_Cressie);
+RcppExport SEXP _sphunif_cir_stat_Hodges_Ajne(SEXP ThetaSEXP, SEXP asymp_stdSEXP, SEXP sortedSEXP, SEXP use_CressieSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
+    Rcpp::traits::input_parameter< bool >::type asymp_std(asymp_stdSEXP);
+    Rcpp::traits::input_parameter< bool >::type sorted(sortedSEXP);
+    Rcpp::traits::input_parameter< bool >::type use_Cressie(use_CressieSEXP);
+    rcpp_result_gen = Rcpp::wrap(cir_stat_Hodges_Ajne(Theta, asymp_std, sorted, use_Cressie));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cir_stat_Cressie
+arma::vec cir_stat_Cressie(arma::mat Theta, double t, bool sorted);
+RcppExport SEXP _sphunif_cir_stat_Cressie(SEXP ThetaSEXP, SEXP tSEXP, SEXP sortedSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
+    Rcpp::traits::input_parameter< double >::type t(tSEXP);
+    Rcpp::traits::input_parameter< bool >::type sorted(sortedSEXP);
+    rcpp_result_gen = Rcpp::wrap(cir_stat_Cressie(Theta, t, sorted));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cir_stat_FG01
+arma::vec cir_stat_FG01(arma::mat Theta, bool sorted);
+RcppExport SEXP _sphunif_cir_stat_FG01(SEXP ThetaSEXP, SEXP sortedSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
+    Rcpp::traits::input_parameter< bool >::type sorted(sortedSEXP);
+    rcpp_result_gen = Rcpp::wrap(cir_stat_FG01(Theta, sorted));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cir_stat_Rayleigh
+arma::vec cir_stat_Rayleigh(arma::mat Theta, arma::uword m);
+RcppExport SEXP _sphunif_cir_stat_Rayleigh(SEXP ThetaSEXP, SEXP mSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
+    Rcpp::traits::input_parameter< arma::uword >::type m(mSEXP);
+    rcpp_result_gen = Rcpp::wrap(cir_stat_Rayleigh(Theta, m));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cir_stat_Bingham
+arma::vec cir_stat_Bingham(arma::mat Theta);
+RcppExport SEXP _sphunif_cir_stat_Bingham(SEXP ThetaSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
+    rcpp_result_gen = Rcpp::wrap(cir_stat_Bingham(Theta));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cir_stat_Hermans_Rasson
+arma::vec cir_stat_Hermans_Rasson(arma::mat Theta, bool Psi_in_Theta);
+RcppExport SEXP _sphunif_cir_stat_Hermans_Rasson(SEXP ThetaSEXP, SEXP Psi_in_ThetaSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
+    Rcpp::traits::input_parameter< bool >::type Psi_in_Theta(Psi_in_ThetaSEXP);
+    rcpp_result_gen = Rcpp::wrap(cir_stat_Hermans_Rasson(Theta, Psi_in_Theta));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cir_stat_Hermans_Rasson_Psi
+arma::vec cir_stat_Hermans_Rasson_Psi(arma::mat Psi, arma::uword n);
+RcppExport SEXP _sphunif_cir_stat_Hermans_Rasson_Psi(SEXP PsiSEXP, SEXP nSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type Psi(PsiSEXP);
+    Rcpp::traits::input_parameter< arma::uword >::type n(nSEXP);
+    rcpp_result_gen = Rcpp::wrap(cir_stat_Hermans_Rasson_Psi(Psi, n));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cir_stat_Gine_Gn
+arma::vec cir_stat_Gine_Gn(arma::mat Theta, bool Psi_in_Theta);
+RcppExport SEXP _sphunif_cir_stat_Gine_Gn(SEXP ThetaSEXP, SEXP Psi_in_ThetaSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
+    Rcpp::traits::input_parameter< bool >::type Psi_in_Theta(Psi_in_ThetaSEXP);
+    rcpp_result_gen = Rcpp::wrap(cir_stat_Gine_Gn(Theta, Psi_in_Theta));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cir_stat_Gine_Fn
+arma::vec cir_stat_Gine_Fn(arma::mat Theta, bool Psi_in_Theta);
+RcppExport SEXP _sphunif_cir_stat_Gine_Fn(SEXP ThetaSEXP, SEXP Psi_in_ThetaSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
+    Rcpp::traits::input_parameter< bool >::type Psi_in_Theta(Psi_in_ThetaSEXP);
+    rcpp_result_gen = Rcpp::wrap(cir_stat_Gine_Fn(Theta, Psi_in_Theta));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cir_stat_Pycke
+arma::vec cir_stat_Pycke(arma::mat Theta, bool Psi_in_Theta);
+RcppExport SEXP _sphunif_cir_stat_Pycke(SEXP ThetaSEXP, SEXP Psi_in_ThetaSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
+    Rcpp::traits::input_parameter< bool >::type Psi_in_Theta(Psi_in_ThetaSEXP);
+    rcpp_result_gen = Rcpp::wrap(cir_stat_Pycke(Theta, Psi_in_Theta));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cir_stat_Pycke_Psi
+arma::vec cir_stat_Pycke_Psi(arma::mat Psi, arma::uword n);
+RcppExport SEXP _sphunif_cir_stat_Pycke_Psi(SEXP PsiSEXP, SEXP nSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type Psi(PsiSEXP);
+    Rcpp::traits::input_parameter< arma::uword >::type n(nSEXP);
+    rcpp_result_gen = Rcpp::wrap(cir_stat_Pycke_Psi(Psi, n));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cir_stat_Pycke_q
+arma::vec cir_stat_Pycke_q(arma::mat Theta, bool Psi_in_Theta, double q);
+RcppExport SEXP _sphunif_cir_stat_Pycke_q(SEXP ThetaSEXP, SEXP Psi_in_ThetaSEXP, SEXP qSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
+    Rcpp::traits::input_parameter< bool >::type Psi_in_Theta(Psi_in_ThetaSEXP);
+    Rcpp::traits::input_parameter< double >::type q(qSEXP);
+    rcpp_result_gen = Rcpp::wrap(cir_stat_Pycke_q(Theta, Psi_in_Theta, q));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cir_stat_Pycke_q_Psi
+arma::vec cir_stat_Pycke_q_Psi(arma::mat Psi, arma::uword n, double q);
+RcppExport SEXP _sphunif_cir_stat_Pycke_q_Psi(SEXP PsiSEXP, SEXP nSEXP, SEXP qSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type Psi(PsiSEXP);
+    Rcpp::traits::input_parameter< arma::uword >::type n(nSEXP);
+    Rcpp::traits::input_parameter< double >::type q(qSEXP);
+    rcpp_result_gen = Rcpp::wrap(cir_stat_Pycke_q_Psi(Psi, n, q));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cir_stat_Bakshaev
+arma::vec cir_stat_Bakshaev(arma::mat Theta, bool Psi_in_Theta);
+RcppExport SEXP _sphunif_cir_stat_Bakshaev(SEXP ThetaSEXP, SEXP Psi_in_ThetaSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
+    Rcpp::traits::input_parameter< bool >::type Psi_in_Theta(Psi_in_ThetaSEXP);
+    rcpp_result_gen = Rcpp::wrap(cir_stat_Bakshaev(Theta, Psi_in_Theta));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cir_stat_Riesz
+arma::vec cir_stat_Riesz(arma::mat Theta, bool Psi_in_Theta, double s);
+RcppExport SEXP _sphunif_cir_stat_Riesz(SEXP ThetaSEXP, SEXP Psi_in_ThetaSEXP, SEXP sSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
+    Rcpp::traits::input_parameter< bool >::type Psi_in_Theta(Psi_in_ThetaSEXP);
+    Rcpp::traits::input_parameter< double >::type s(sSEXP);
+    rcpp_result_gen = Rcpp::wrap(cir_stat_Riesz(Theta, Psi_in_Theta, s));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cir_stat_PCvM
+arma::vec cir_stat_PCvM(arma::mat Theta, bool Psi_in_Theta);
+RcppExport SEXP _sphunif_cir_stat_PCvM(SEXP ThetaSEXP, SEXP Psi_in_ThetaSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
+    Rcpp::traits::input_parameter< bool >::type Psi_in_Theta(Psi_in_ThetaSEXP);
+    rcpp_result_gen = Rcpp::wrap(cir_stat_PCvM(Theta, Psi_in_Theta));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cir_stat_PRt
+arma::vec cir_stat_PRt(arma::mat Theta, bool Psi_in_Theta, double t);
+RcppExport SEXP _sphunif_cir_stat_PRt(SEXP ThetaSEXP, SEXP Psi_in_ThetaSEXP, SEXP tSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
+    Rcpp::traits::input_parameter< bool >::type Psi_in_Theta(Psi_in_ThetaSEXP);
+    Rcpp::traits::input_parameter< double >::type t(tSEXP);
+    rcpp_result_gen = Rcpp::wrap(cir_stat_PRt(Theta, Psi_in_Theta, t));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cir_stat_PAD
+arma::vec cir_stat_PAD(arma::mat Theta, bool Psi_in_Theta, bool AD, bool sorted);
+RcppExport SEXP _sphunif_cir_stat_PAD(SEXP ThetaSEXP, SEXP Psi_in_ThetaSEXP, SEXP ADSEXP, SEXP sortedSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
+    Rcpp::traits::input_parameter< bool >::type Psi_in_Theta(Psi_in_ThetaSEXP);
+    Rcpp::traits::input_parameter< bool >::type AD(ADSEXP);
+    Rcpp::traits::input_parameter< bool >::type sorted(sortedSEXP);
+    rcpp_result_gen = Rcpp::wrap(cir_stat_PAD(Theta, Psi_in_Theta, AD, sorted));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cir_stat_Poisson
+arma::vec cir_stat_Poisson(arma::mat Theta, bool Psi_in_Theta, double rho);
+RcppExport SEXP _sphunif_cir_stat_Poisson(SEXP ThetaSEXP, SEXP Psi_in_ThetaSEXP, SEXP rhoSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
+    Rcpp::traits::input_parameter< bool >::type Psi_in_Theta(Psi_in_ThetaSEXP);
+    Rcpp::traits::input_parameter< double >::type rho(rhoSEXP);
+    rcpp_result_gen = Rcpp::wrap(cir_stat_Poisson(Theta, Psi_in_Theta, rho));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cir_stat_Softmax
+arma::vec cir_stat_Softmax(arma::mat Theta, bool Psi_in_Theta, double kappa);
+RcppExport SEXP _sphunif_cir_stat_Softmax(SEXP ThetaSEXP, SEXP Psi_in_ThetaSEXP, SEXP kappaSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
+    Rcpp::traits::input_parameter< bool >::type Psi_in_Theta(Psi_in_ThetaSEXP);
+    Rcpp::traits::input_parameter< double >::type kappa(kappaSEXP);
+    rcpp_result_gen = Rcpp::wrap(cir_stat_Softmax(Theta, Psi_in_Theta, kappa));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cir_stat_CCF09
+arma::vec cir_stat_CCF09(arma::mat Theta, arma::mat dirs, arma::uword K_CCF09, bool original);
+RcppExport SEXP _sphunif_cir_stat_CCF09(SEXP ThetaSEXP, SEXP dirsSEXP, SEXP K_CCF09SEXP, SEXP originalSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type dirs(dirsSEXP);
+    Rcpp::traits::input_parameter< arma::uword >::type K_CCF09(K_CCF09SEXP);
+    Rcpp::traits::input_parameter< bool >::type original(originalSEXP);
+    rcpp_result_gen = Rcpp::wrap(cir_stat_CCF09(Theta, dirs, K_CCF09, original));
+    return rcpp_result_gen;
+END_RCPP
+}
 // d_proj_unif
 arma::vec d_proj_unif(arma::vec x, arma::uword p, bool log);
 RcppExport SEXP _sphunif_d_proj_unif(SEXP xSEXP, SEXP pSEXP, SEXP logSEXP) {
@@ -1501,35 +1527,35 @@ BEGIN_RCPP
 END_RCPP
 }
 // sph_stat_PRt
-arma::vec sph_stat_PRt(arma::cube X, double t, bool Psi_in_X, arma::uword p, arma::uword N, arma::uword L);
-RcppExport SEXP _sphunif_sph_stat_PRt(SEXP XSEXP, SEXP tSEXP, SEXP Psi_in_XSEXP, SEXP pSEXP, SEXP NSEXP, SEXP LSEXP) {
+arma::vec sph_stat_PRt(arma::cube X, bool Psi_in_X, arma::uword p, double t, arma::uword N, arma::uword L);
+RcppExport SEXP _sphunif_sph_stat_PRt(SEXP XSEXP, SEXP Psi_in_XSEXP, SEXP pSEXP, SEXP tSEXP, SEXP NSEXP, SEXP LSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::cube >::type X(XSEXP);
-    Rcpp::traits::input_parameter< double >::type t(tSEXP);
     Rcpp::traits::input_parameter< bool >::type Psi_in_X(Psi_in_XSEXP);
     Rcpp::traits::input_parameter< arma::uword >::type p(pSEXP);
+    Rcpp::traits::input_parameter< double >::type t(tSEXP);
     Rcpp::traits::input_parameter< arma::uword >::type N(NSEXP);
     Rcpp::traits::input_parameter< arma::uword >::type L(LSEXP);
-    rcpp_result_gen = Rcpp::wrap(sph_stat_PRt(X, t, Psi_in_X, p, N, L));
+    rcpp_result_gen = Rcpp::wrap(sph_stat_PRt(X, Psi_in_X, p, t, N, L));
     return rcpp_result_gen;
 END_RCPP
 }
 // sph_stat_PRt_Psi
-arma::vec sph_stat_PRt_Psi(arma::mat Psi, double t_m, double theta_t_m, arma::uword n, arma::uword p, arma::vec th_grid, arma::vec int_grid);
-RcppExport SEXP _sphunif_sph_stat_PRt_Psi(SEXP PsiSEXP, SEXP t_mSEXP, SEXP theta_t_mSEXP, SEXP nSEXP, SEXP pSEXP, SEXP th_gridSEXP, SEXP int_gridSEXP) {
+arma::vec sph_stat_PRt_Psi(arma::mat Psi, arma::uword n, arma::uword p, double t_m, double theta_t_m, arma::vec th_grid, arma::vec int_grid);
+RcppExport SEXP _sphunif_sph_stat_PRt_Psi(SEXP PsiSEXP, SEXP nSEXP, SEXP pSEXP, SEXP t_mSEXP, SEXP theta_t_mSEXP, SEXP th_gridSEXP, SEXP int_gridSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::mat >::type Psi(PsiSEXP);
-    Rcpp::traits::input_parameter< double >::type t_m(t_mSEXP);
-    Rcpp::traits::input_parameter< double >::type theta_t_m(theta_t_mSEXP);
     Rcpp::traits::input_parameter< arma::uword >::type n(nSEXP);
     Rcpp::traits::input_parameter< arma::uword >::type p(pSEXP);
+    Rcpp::traits::input_parameter< double >::type t_m(t_mSEXP);
+    Rcpp::traits::input_parameter< double >::type theta_t_m(theta_t_mSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type th_grid(th_gridSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type int_grid(int_gridSEXP);
-    rcpp_result_gen = Rcpp::wrap(sph_stat_PRt_Psi(Psi, t_m, theta_t_m, n, p, th_grid, int_grid));
+    rcpp_result_gen = Rcpp::wrap(sph_stat_PRt_Psi(Psi, n, p, t_m, theta_t_m, th_grid, int_grid));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1563,6 +1589,90 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// sph_stat_Poisson
+arma::vec sph_stat_Poisson(arma::cube X, bool Psi_in_X, arma::uword p, double rho);
+RcppExport SEXP _sphunif_sph_stat_Poisson(SEXP XSEXP, SEXP Psi_in_XSEXP, SEXP pSEXP, SEXP rhoSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::cube >::type X(XSEXP);
+    Rcpp::traits::input_parameter< bool >::type Psi_in_X(Psi_in_XSEXP);
+    Rcpp::traits::input_parameter< arma::uword >::type p(pSEXP);
+    Rcpp::traits::input_parameter< double >::type rho(rhoSEXP);
+    rcpp_result_gen = Rcpp::wrap(sph_stat_Poisson(X, Psi_in_X, p, rho));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sph_stat_Poisson_Psi
+arma::vec sph_stat_Poisson_Psi(arma::mat Psi, arma::uword n, arma::uword p, double rho);
+RcppExport SEXP _sphunif_sph_stat_Poisson_Psi(SEXP PsiSEXP, SEXP nSEXP, SEXP pSEXP, SEXP rhoSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type Psi(PsiSEXP);
+    Rcpp::traits::input_parameter< arma::uword >::type n(nSEXP);
+    Rcpp::traits::input_parameter< arma::uword >::type p(pSEXP);
+    Rcpp::traits::input_parameter< double >::type rho(rhoSEXP);
+    rcpp_result_gen = Rcpp::wrap(sph_stat_Poisson_Psi(Psi, n, p, rho));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sph_stat_Softmax
+arma::vec sph_stat_Softmax(arma::cube X, bool Psi_in_X, arma::uword p, double kappa);
+RcppExport SEXP _sphunif_sph_stat_Softmax(SEXP XSEXP, SEXP Psi_in_XSEXP, SEXP pSEXP, SEXP kappaSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::cube >::type X(XSEXP);
+    Rcpp::traits::input_parameter< bool >::type Psi_in_X(Psi_in_XSEXP);
+    Rcpp::traits::input_parameter< arma::uword >::type p(pSEXP);
+    Rcpp::traits::input_parameter< double >::type kappa(kappaSEXP);
+    rcpp_result_gen = Rcpp::wrap(sph_stat_Softmax(X, Psi_in_X, p, kappa));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sph_stat_Softmax_Psi
+arma::vec sph_stat_Softmax_Psi(arma::mat Psi, arma::uword n, arma::uword p, double kappa);
+RcppExport SEXP _sphunif_sph_stat_Softmax_Psi(SEXP PsiSEXP, SEXP nSEXP, SEXP pSEXP, SEXP kappaSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type Psi(PsiSEXP);
+    Rcpp::traits::input_parameter< arma::uword >::type n(nSEXP);
+    Rcpp::traits::input_parameter< arma::uword >::type p(pSEXP);
+    Rcpp::traits::input_parameter< double >::type kappa(kappaSEXP);
+    rcpp_result_gen = Rcpp::wrap(sph_stat_Softmax_Psi(Psi, n, p, kappa));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sph_stat_Stereo
+arma::vec sph_stat_Stereo(arma::cube X, bool Psi_in_X, arma::uword p, double a);
+RcppExport SEXP _sphunif_sph_stat_Stereo(SEXP XSEXP, SEXP Psi_in_XSEXP, SEXP pSEXP, SEXP aSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::cube >::type X(XSEXP);
+    Rcpp::traits::input_parameter< bool >::type Psi_in_X(Psi_in_XSEXP);
+    Rcpp::traits::input_parameter< arma::uword >::type p(pSEXP);
+    Rcpp::traits::input_parameter< double >::type a(aSEXP);
+    rcpp_result_gen = Rcpp::wrap(sph_stat_Stereo(X, Psi_in_X, p, a));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sph_stat_Stereo_Psi
+arma::vec sph_stat_Stereo_Psi(arma::mat Psi, arma::uword n, arma::uword p, double a);
+RcppExport SEXP _sphunif_sph_stat_Stereo_Psi(SEXP PsiSEXP, SEXP nSEXP, SEXP pSEXP, SEXP aSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type Psi(PsiSEXP);
+    Rcpp::traits::input_parameter< arma::uword >::type n(nSEXP);
+    Rcpp::traits::input_parameter< arma::uword >::type p(pSEXP);
+    Rcpp::traits::input_parameter< double >::type a(aSEXP);
+    rcpp_result_gen = Rcpp::wrap(sph_stat_Stereo_Psi(Psi, n, p, a));
+    return rcpp_result_gen;
+END_RCPP
+}
 // sph_stat_CCF09
 arma::vec sph_stat_CCF09(arma::cube X, arma::mat dirs, arma::uword K_CCF09, bool original);
 RcppExport SEXP _sphunif_sph_stat_CCF09(SEXP XSEXP, SEXP dirsSEXP, SEXP K_CCF09SEXP, SEXP originalSEXP) {
@@ -1589,16 +1699,16 @@ BEGIN_RCPP
 END_RCPP
 }
 // sph_stat_CJ12
-arma::vec sph_stat_CJ12(arma::cube X, arma::uword regime, bool Psi_in_X, arma::uword p);
-RcppExport SEXP _sphunif_sph_stat_CJ12(SEXP XSEXP, SEXP regimeSEXP, SEXP Psi_in_XSEXP, SEXP pSEXP) {
+arma::vec sph_stat_CJ12(arma::cube X, bool Psi_in_X, arma::uword p, arma::uword regime);
+RcppExport SEXP _sphunif_sph_stat_CJ12(SEXP XSEXP, SEXP Psi_in_XSEXP, SEXP pSEXP, SEXP regimeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::cube >::type X(XSEXP);
-    Rcpp::traits::input_parameter< arma::uword >::type regime(regimeSEXP);
     Rcpp::traits::input_parameter< bool >::type Psi_in_X(Psi_in_XSEXP);
     Rcpp::traits::input_parameter< arma::uword >::type p(pSEXP);
-    rcpp_result_gen = Rcpp::wrap(sph_stat_CJ12(X, regime, Psi_in_X, p));
+    Rcpp::traits::input_parameter< arma::uword >::type regime(regimeSEXP);
+    rcpp_result_gen = Rcpp::wrap(sph_stat_CJ12(X, Psi_in_X, p, regime));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1630,41 +1740,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_sphunif_beta_inc_inv", (DL_FUNC) &_sphunif_beta_inc_inv, 5},
     {"_sphunif_n_from_dist_vector", (DL_FUNC) &_sphunif_n_from_dist_vector, 1},
     {"_sphunif_t_inv_sqrt_one", (DL_FUNC) &_sphunif_t_inv_sqrt_one, 1},
-    {"_sphunif_cir_stat_Kuiper", (DL_FUNC) &_sphunif_cir_stat_Kuiper, 4},
-    {"_sphunif_cir_stat_Watson", (DL_FUNC) &_sphunif_cir_stat_Watson, 4},
-    {"_sphunif_cir_stat_Watson_1976", (DL_FUNC) &_sphunif_cir_stat_Watson_1976, 3},
-    {"_sphunif_cir_stat_Range", (DL_FUNC) &_sphunif_cir_stat_Range, 4},
-    {"_sphunif_cir_stat_Rao", (DL_FUNC) &_sphunif_cir_stat_Rao, 3},
-    {"_sphunif_cir_stat_Greenwood", (DL_FUNC) &_sphunif_cir_stat_Greenwood, 3},
-    {"_sphunif_cir_stat_Log_gaps", (DL_FUNC) &_sphunif_cir_stat_Log_gaps, 4},
-    {"_sphunif_cir_stat_Vacancy", (DL_FUNC) &_sphunif_cir_stat_Vacancy, 4},
-    {"_sphunif_cir_stat_Max_uncover", (DL_FUNC) &_sphunif_cir_stat_Max_uncover, 4},
-    {"_sphunif_cir_stat_Num_uncover", (DL_FUNC) &_sphunif_cir_stat_Num_uncover, 5},
-    {"_sphunif_cir_stat_Gini", (DL_FUNC) &_sphunif_cir_stat_Gini, 3},
-    {"_sphunif_cir_stat_Gini_squared", (DL_FUNC) &_sphunif_cir_stat_Gini_squared, 3},
-    {"_sphunif_cir_stat_Ajne", (DL_FUNC) &_sphunif_cir_stat_Ajne, 2},
-    {"_sphunif_cir_stat_An_Psi", (DL_FUNC) &_sphunif_cir_stat_An_Psi, 2},
-    {"_sphunif_cir_stat_Rothman", (DL_FUNC) &_sphunif_cir_stat_Rothman, 3},
-    {"_sphunif_cir_stat_Rothman_Psi", (DL_FUNC) &_sphunif_cir_stat_Rothman_Psi, 4},
-    {"_sphunif_cir_stat_Hodges_Ajne", (DL_FUNC) &_sphunif_cir_stat_Hodges_Ajne, 4},
-    {"_sphunif_cir_stat_Cressie", (DL_FUNC) &_sphunif_cir_stat_Cressie, 3},
-    {"_sphunif_cir_stat_FG01", (DL_FUNC) &_sphunif_cir_stat_FG01, 2},
-    {"_sphunif_cir_stat_Rayleigh", (DL_FUNC) &_sphunif_cir_stat_Rayleigh, 2},
-    {"_sphunif_cir_stat_Bingham", (DL_FUNC) &_sphunif_cir_stat_Bingham, 1},
-    {"_sphunif_cir_stat_Hermans_Rasson", (DL_FUNC) &_sphunif_cir_stat_Hermans_Rasson, 2},
-    {"_sphunif_cir_stat_Hermans_Rasson_Psi", (DL_FUNC) &_sphunif_cir_stat_Hermans_Rasson_Psi, 2},
-    {"_sphunif_cir_stat_Gine_Gn", (DL_FUNC) &_sphunif_cir_stat_Gine_Gn, 2},
-    {"_sphunif_cir_stat_Gine_Fn", (DL_FUNC) &_sphunif_cir_stat_Gine_Fn, 2},
-    {"_sphunif_cir_stat_Pycke", (DL_FUNC) &_sphunif_cir_stat_Pycke, 2},
-    {"_sphunif_cir_stat_Pycke_Psi", (DL_FUNC) &_sphunif_cir_stat_Pycke_Psi, 2},
-    {"_sphunif_cir_stat_Pycke_q", (DL_FUNC) &_sphunif_cir_stat_Pycke_q, 3},
-    {"_sphunif_cir_stat_Pycke_q_Psi", (DL_FUNC) &_sphunif_cir_stat_Pycke_q_Psi, 3},
-    {"_sphunif_cir_stat_Bakshaev", (DL_FUNC) &_sphunif_cir_stat_Bakshaev, 2},
-    {"_sphunif_cir_stat_Riesz", (DL_FUNC) &_sphunif_cir_stat_Riesz, 3},
-    {"_sphunif_cir_stat_PCvM", (DL_FUNC) &_sphunif_cir_stat_PCvM, 2},
-    {"_sphunif_cir_stat_PRt", (DL_FUNC) &_sphunif_cir_stat_PRt, 3},
-    {"_sphunif_cir_stat_PAD", (DL_FUNC) &_sphunif_cir_stat_PAD, 4},
-    {"_sphunif_cir_stat_CCF09", (DL_FUNC) &_sphunif_cir_stat_CCF09, 4},
     {"_sphunif_p_Kolmogorov", (DL_FUNC) &_sphunif_p_Kolmogorov, 3},
     {"_sphunif_d_Kolmogorov", (DL_FUNC) &_sphunif_d_Kolmogorov, 3},
     {"_sphunif_p_cir_stat_Ajne", (DL_FUNC) &_sphunif_p_cir_stat_Ajne, 2},
@@ -1702,6 +1777,43 @@ static const R_CallMethodDef CallEntries[] = {
     {"_sphunif_d_cir_stat_Rao", (DL_FUNC) &_sphunif_d_cir_stat_Rao, 1},
     {"_sphunif_p_cir_stat_Rayleigh", (DL_FUNC) &_sphunif_p_cir_stat_Rayleigh, 1},
     {"_sphunif_d_cir_stat_Rayleigh", (DL_FUNC) &_sphunif_d_cir_stat_Rayleigh, 1},
+    {"_sphunif_cir_stat_Kuiper", (DL_FUNC) &_sphunif_cir_stat_Kuiper, 4},
+    {"_sphunif_cir_stat_Watson", (DL_FUNC) &_sphunif_cir_stat_Watson, 4},
+    {"_sphunif_cir_stat_Watson_1976", (DL_FUNC) &_sphunif_cir_stat_Watson_1976, 3},
+    {"_sphunif_cir_stat_Range", (DL_FUNC) &_sphunif_cir_stat_Range, 4},
+    {"_sphunif_cir_stat_Rao", (DL_FUNC) &_sphunif_cir_stat_Rao, 3},
+    {"_sphunif_cir_stat_Greenwood", (DL_FUNC) &_sphunif_cir_stat_Greenwood, 3},
+    {"_sphunif_cir_stat_Log_gaps", (DL_FUNC) &_sphunif_cir_stat_Log_gaps, 4},
+    {"_sphunif_cir_stat_Vacancy", (DL_FUNC) &_sphunif_cir_stat_Vacancy, 4},
+    {"_sphunif_cir_stat_Max_uncover", (DL_FUNC) &_sphunif_cir_stat_Max_uncover, 4},
+    {"_sphunif_cir_stat_Num_uncover", (DL_FUNC) &_sphunif_cir_stat_Num_uncover, 5},
+    {"_sphunif_cir_stat_Gini", (DL_FUNC) &_sphunif_cir_stat_Gini, 3},
+    {"_sphunif_cir_stat_Gini_squared", (DL_FUNC) &_sphunif_cir_stat_Gini_squared, 3},
+    {"_sphunif_cir_stat_Ajne", (DL_FUNC) &_sphunif_cir_stat_Ajne, 2},
+    {"_sphunif_cir_stat_An_Psi", (DL_FUNC) &_sphunif_cir_stat_An_Psi, 2},
+    {"_sphunif_cir_stat_Rothman", (DL_FUNC) &_sphunif_cir_stat_Rothman, 3},
+    {"_sphunif_cir_stat_Rothman_Psi", (DL_FUNC) &_sphunif_cir_stat_Rothman_Psi, 4},
+    {"_sphunif_cir_stat_Hodges_Ajne", (DL_FUNC) &_sphunif_cir_stat_Hodges_Ajne, 4},
+    {"_sphunif_cir_stat_Cressie", (DL_FUNC) &_sphunif_cir_stat_Cressie, 3},
+    {"_sphunif_cir_stat_FG01", (DL_FUNC) &_sphunif_cir_stat_FG01, 2},
+    {"_sphunif_cir_stat_Rayleigh", (DL_FUNC) &_sphunif_cir_stat_Rayleigh, 2},
+    {"_sphunif_cir_stat_Bingham", (DL_FUNC) &_sphunif_cir_stat_Bingham, 1},
+    {"_sphunif_cir_stat_Hermans_Rasson", (DL_FUNC) &_sphunif_cir_stat_Hermans_Rasson, 2},
+    {"_sphunif_cir_stat_Hermans_Rasson_Psi", (DL_FUNC) &_sphunif_cir_stat_Hermans_Rasson_Psi, 2},
+    {"_sphunif_cir_stat_Gine_Gn", (DL_FUNC) &_sphunif_cir_stat_Gine_Gn, 2},
+    {"_sphunif_cir_stat_Gine_Fn", (DL_FUNC) &_sphunif_cir_stat_Gine_Fn, 2},
+    {"_sphunif_cir_stat_Pycke", (DL_FUNC) &_sphunif_cir_stat_Pycke, 2},
+    {"_sphunif_cir_stat_Pycke_Psi", (DL_FUNC) &_sphunif_cir_stat_Pycke_Psi, 2},
+    {"_sphunif_cir_stat_Pycke_q", (DL_FUNC) &_sphunif_cir_stat_Pycke_q, 3},
+    {"_sphunif_cir_stat_Pycke_q_Psi", (DL_FUNC) &_sphunif_cir_stat_Pycke_q_Psi, 3},
+    {"_sphunif_cir_stat_Bakshaev", (DL_FUNC) &_sphunif_cir_stat_Bakshaev, 2},
+    {"_sphunif_cir_stat_Riesz", (DL_FUNC) &_sphunif_cir_stat_Riesz, 3},
+    {"_sphunif_cir_stat_PCvM", (DL_FUNC) &_sphunif_cir_stat_PCvM, 2},
+    {"_sphunif_cir_stat_PRt", (DL_FUNC) &_sphunif_cir_stat_PRt, 3},
+    {"_sphunif_cir_stat_PAD", (DL_FUNC) &_sphunif_cir_stat_PAD, 4},
+    {"_sphunif_cir_stat_Poisson", (DL_FUNC) &_sphunif_cir_stat_Poisson, 3},
+    {"_sphunif_cir_stat_Softmax", (DL_FUNC) &_sphunif_cir_stat_Softmax, 3},
+    {"_sphunif_cir_stat_CCF09", (DL_FUNC) &_sphunif_cir_stat_CCF09, 4},
     {"_sphunif_d_proj_unif", (DL_FUNC) &_sphunif_d_proj_unif, 3},
     {"_sphunif_p_proj_unif", (DL_FUNC) &_sphunif_p_proj_unif, 3},
     {"_sphunif_q_proj_unif", (DL_FUNC) &_sphunif_q_proj_unif, 2},
@@ -1739,6 +1851,12 @@ static const R_CallMethodDef CallEntries[] = {
     {"_sphunif_sph_stat_PRt_Psi", (DL_FUNC) &_sphunif_sph_stat_PRt_Psi, 7},
     {"_sphunif_sph_stat_PAD", (DL_FUNC) &_sphunif_sph_stat_PAD, 5},
     {"_sphunif_sph_stat_PAD_Psi", (DL_FUNC) &_sphunif_sph_stat_PAD_Psi, 5},
+    {"_sphunif_sph_stat_Poisson", (DL_FUNC) &_sphunif_sph_stat_Poisson, 4},
+    {"_sphunif_sph_stat_Poisson_Psi", (DL_FUNC) &_sphunif_sph_stat_Poisson_Psi, 4},
+    {"_sphunif_sph_stat_Softmax", (DL_FUNC) &_sphunif_sph_stat_Softmax, 4},
+    {"_sphunif_sph_stat_Softmax_Psi", (DL_FUNC) &_sphunif_sph_stat_Softmax_Psi, 4},
+    {"_sphunif_sph_stat_Stereo", (DL_FUNC) &_sphunif_sph_stat_Stereo, 4},
+    {"_sphunif_sph_stat_Stereo_Psi", (DL_FUNC) &_sphunif_sph_stat_Stereo_Psi, 4},
     {"_sphunif_sph_stat_CCF09", (DL_FUNC) &_sphunif_sph_stat_CCF09, 4},
     {"_sphunif_sph_stat_Rayleigh_HD", (DL_FUNC) &_sphunif_sph_stat_Rayleigh_HD, 1},
     {"_sphunif_sph_stat_CJ12", (DL_FUNC) &_sphunif_sph_stat_CJ12, 4},

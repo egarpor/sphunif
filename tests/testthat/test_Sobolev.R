@@ -31,6 +31,16 @@ psi_Hermans_Rasson <- function(th) {
 psi_Pycke_q <- function(th, q = 0.5) {
   2 * (cos(th) - q) / (1 + q^2 - 2 * q * cos(th))
 }
+psi_Poisson <- function(th, rho, q) {
+  (1 - rho^2) / (1 - 2 * rho * cos(th) + rho^2)^((q + 1) / 2)
+}
+psi_Softmax <- function(th, kappa) {
+  exp(kappa * (cos(th) - 1))
+}
+psi_Stereo <- function(th, a) {
+  ta <- tan(th / 2)
+  1 / ta + a * ta
+}
 alpha <- c(0.10, 0.05, 0.01)
 x <- c(0.1, 0.15, 0.2)
 eps <- 1e-9
@@ -45,13 +55,29 @@ test_that("d_p_k", {
 
 })
 
+## weights_dfs_Sobolev()
+
+test_that("weights_dfs_Sobolev returns the same number of coefficients", {
+
+  expect_true(all(lapply(sapply(avail_cir_tests, function(x)
+    tryCatch(as.data.frame(weights_dfs_Sobolev(p = 2, K = 4, type = x,
+                                               thre = 0, verbose = FALSE,
+                                               Sobolev_vk2 = 1:4)),
+             error = function(e) rbind(0))), nrow) %in% c(1, 4)))
+  expect_true(all(lapply(sapply(avail_sph_tests, function(x)
+    tryCatch(as.data.frame(weights_dfs_Sobolev(p = 3, K = 4, type = x,
+                                               thre = 0, verbose = FALSE,
+                                               Sobolev_vk2 = 1:4)),
+             error = function(e) rbind(0))), nrow) %in% c(1, 4)))
+
+})
+
 test_that("Gegen_coefs vs. weights_dfs_Sobolev for Ajne", {
 
   for (p in c(2, 3, 4, 11)) {
-    expect_equal(Gegen_coefs(psi = psi_Ajne, k = k, p = p),
-                 switch((p == 2) + 1, (1 + 2 * k / (p - 2)), 2) *
-                   weights_dfs_Sobolev(p = p, K_max = K, thre = 0,
-                                       type = "Ajne", verbose = FALSE)$weights,
+    expect_equal(bk_to_vk2(Gegen_coefs(psi = psi_Ajne, k = k, p = p), p = p),
+                 weights_dfs_Sobolev(p = p, K_max = K, thre = 0,
+                                     type = "Ajne", verbose = FALSE)$weights,
                  tolerance = 1e-6)
   }
 
@@ -60,10 +86,10 @@ test_that("Gegen_coefs vs. weights_dfs_Sobolev for Ajne", {
 test_that("Gegen_coefs vs. weights_dfs_Sobolev for PCvM", {
 
   for (p in c(2:4, 11)) {
-    expect_equal(Gegen_coefs(psi = psi_PCvM, k = k, p = p, q = p - 1),
-                 switch((p == 2) + 1, (1 + 2 * k / (p - 2)), 2) *
-                   weights_dfs_Sobolev(p = p, K_max = K, thre = 0,
-                                       type = "PCvM", verbose = FALSE)$weights,
+    expect_equal(bk_to_vk2(Gegen_coefs(psi = psi_PCvM, k = k, p = p, q = p - 1),
+                           p = p),
+                 weights_dfs_Sobolev(p = p, K_max = K, thre = 0,
+                                     type = "PCvM", verbose = FALSE)$weights,
                  tolerance = 1e-6)
   }
 
@@ -72,10 +98,10 @@ test_that("Gegen_coefs vs. weights_dfs_Sobolev for PCvM", {
 test_that("Gegen_coefs vs. weights_dfs_Sobolev for PAD", {
 
   for (p in c(2:4, 11)) {
-    expect_equal(Gegen_coefs(psi = psi_PAD, k = k, p = p, q = p - 1),
-                 switch((p == 2) + 1, (1 + 2 * k / (p - 2)), 2) *
-                   weights_dfs_Sobolev(p = p, K_max = K, thre = 0,
-                                       type = "PAD", verbose = FALSE)$weights,
+    expect_equal(bk_to_vk2(Gegen_coefs(psi = psi_PAD, k = k, p = p, q = p - 1),
+                           p = p),
+                 weights_dfs_Sobolev(p = p, K_max = K, thre = 0,
+                                     type = "PAD", verbose = FALSE)$weights,
                  tolerance = 1e-6)
   }
 
@@ -84,10 +110,10 @@ test_that("Gegen_coefs vs. weights_dfs_Sobolev for PAD", {
 test_that("Gegen_coefs vs. weights_dfs_Sobolev for PRt", {
 
   for (p in c(2:4, 11)) {
-    expect_equal(Gegen_coefs(psi = psi_PRt, k = k, p = p, q = p - 1),
-                 switch((p == 2) + 1, (1 + 2 * k / (p - 2)), 2) *
-                   weights_dfs_Sobolev(p = p, K_max = K, thre = 0,
-                                       type = "PRt", verbose = FALSE)$weights,
+    expect_equal(bk_to_vk2(Gegen_coefs(psi = psi_PRt, k = k, p = p, q = p - 1),
+                           p = p),
+                 weights_dfs_Sobolev(p = p, K_max = K, thre = 0,
+                                     type = "PRt", verbose = FALSE)$weights,
                  tolerance = 1e-5)
   }
 
@@ -96,11 +122,10 @@ test_that("Gegen_coefs vs. weights_dfs_Sobolev for PRt", {
 test_that("Gegen_coefs vs. weights_dfs_Sobolev for Gine_Gn", {
 
   for (p in c(2:4, 11)) {
-    expect_equal(Gegen_coefs(psi = psi_Gine_Gn, k = k, p = p, q = p - 1),
-                 switch((p == 2) + 1, (1 + 2 * k / (p - 2)), 2) *
-                   weights_dfs_Sobolev(p = p, K_max = K, thre = 0,
-                                       type = "Gine_Gn",
-                                       verbose = FALSE)$weights,
+    expect_equal(bk_to_vk2(Gegen_coefs(psi = psi_Gine_Gn, k = k, p = p,
+                                       q = p - 1), p = p),
+                 weights_dfs_Sobolev(p = p, K_max = K, thre = 0,
+                                     type = "Gine_Gn", verbose = FALSE)$weights,
                  tolerance = 1e-5)
   }
 
@@ -109,11 +134,10 @@ test_that("Gegen_coefs vs. weights_dfs_Sobolev for Gine_Gn", {
 test_that("Gegen_coefs vs. weights_dfs_Sobolev for Gine_Fn", {
 
   for (p in c(2:4, 11)) {
-    expect_equal(Gegen_coefs(psi = psi_Gine_Fn, k = k, p = p, q = p - 1),
-                 switch((p == 2) + 1, (1 + 2 * k / (p - 2)), 2) *
-                   weights_dfs_Sobolev(p = p, K_max = K, thre = 0,
-                                       type = "Gine_Fn",
-                                       verbose = FALSE)$weights,
+    expect_equal(bk_to_vk2(Gegen_coefs(psi = psi_Gine_Fn, k = k, p = p,
+                                       q = p - 1), p = p),
+                 weights_dfs_Sobolev(p = p, K_max = K, thre = 0,
+                                     type = "Gine_Fn", verbose = FALSE)$weights,
                  tolerance = 1e-5)
   }
 
@@ -122,11 +146,10 @@ test_that("Gegen_coefs vs. weights_dfs_Sobolev for Gine_Fn", {
 test_that("Gegen_coefs vs. weights_dfs_Sobolev for Bakshaev", {
 
   for (p in c(2:4, 11)) {
-    expect_equal(Gegen_coefs(psi = psi_Bakshaev, k = k, p = p),
-                 switch((p == 2) + 1, (1 + 2 * k / (p - 2)), 2) *
-                   weights_dfs_Sobolev(p = p, K_max = K, thre = 0,
-                                       type = "Bakshaev",
-                                       verbose = FALSE)$weights,
+    expect_equal(bk_to_vk2(Gegen_coefs(psi = psi_Bakshaev, k = k, p = p),
+                           p = p),
+                 weights_dfs_Sobolev(p = p, K_max = K, thre = 0,
+                                     type = "Bakshaev", verbose = FALSE)$weights,
                  tolerance = 1e-5)
   }
 
@@ -134,52 +157,60 @@ test_that("Gegen_coefs vs. weights_dfs_Sobolev for Bakshaev", {
 
 test_that("Gegen_coefs vs. weights_dfs_Sobolev for Riesz", {
 
+  for (s in c(0, 1, 2, 1.5, 0.1, -0.5)) {
+    for (p in c(2:4, 11)) {
+      expect_equal(bk_to_vk2(Gegen_coefs(psi = psi_Riesz, k = k, p = p, s = s,
+                                         N = 5120), p = p),
+                   weights_dfs_Sobolev(p = p, K_max = K, thre = 0,
+                                       type = "Riesz", Riesz_s = s,
+                                       verbose = FALSE)$weights,
+                   tolerance = 1e-3)
+    }
+  }
+
+})
+
+test_that("Gegen_coefs vs. weights_dfs_Sobolev for Poisson", {
+
   for (p in c(2:4, 11)) {
-    expect_equal(Gegen_coefs(psi = psi_Riesz, k = k, p = p, s = 0,
-                             N = 5120),
-                 switch((p == 2) + 1, (1 + 2 * k / (p - 2)), 2) *
+    for (rho in seq(0.1, 0.9, by = 0.1)) {
+      expect_equal(bk_to_vk2(Gegen_coefs(psi = psi_Poisson, k = k, p = p,
+                                         rho = rho, q = p - 1), p = p),
                    weights_dfs_Sobolev(p = p, K_max = K, thre = 0,
-                                       type = "Riesz", Riesz_s = 0,
+                                       type = "Poisson", Poisson_rho = rho,
                                        verbose = FALSE)$weights,
-                 tolerance = 1e-5)
-    expect_equal(Gegen_coefs(psi = psi_Riesz, k = k, p = p, s = 1),
-                 switch((p == 2) + 1, (1 + 2 * k / (p - 2)), 2) *
+                   tolerance = 1e-5)
+    }
+  }
+
+})
+
+test_that("Gegen_coefs vs. weights_dfs_Sobolev for Softmax", {
+
+  for (p in c(2:4, 11)) {
+    for (kappa in 0:3) {
+      expect_equal(bk_to_vk2(Gegen_coefs(psi = psi_Softmax, k = k, p = p,
+                                         kappa = kappa), p = p),
                    weights_dfs_Sobolev(p = p, K_max = K, thre = 0,
-                                       type = "Riesz", Riesz_s = 1,
+                                       type = "Softmax", Softmax_kappa = kappa,
                                        verbose = FALSE)$weights,
-                 tolerance = 1e-5)
-    expect_equal(Gegen_coefs(psi = psi_Riesz, k = k, p = p, s = 2),
-                 switch((p == 2) + 1, (1 + 2 * k / (p - 2)), 2) *
+                   tolerance = 1e-5)
+    }
+  }
+
+})
+
+test_that("Gegen_coefs vs. weights_dfs_Sobolev for Stereo", {
+
+  for (p in c(3:4, 11)) {
+    for (a in seq(-1, 1, by = 0.5)) {
+      expect_equal(bk_to_vk2(Gegen_coefs(psi = psi_Stereo, k = k, p = p, a = a),
+                             p = p),
                    weights_dfs_Sobolev(p = p, K_max = K, thre = 0,
-                                       type = "Riesz", Riesz_s = 2,
+                                       type = "Stereo", Stereo_a = a,
                                        verbose = FALSE)$weights,
-                 tolerance = 1e-5)
-    expect_equal(Gegen_coefs(psi = psi_Riesz, k = k, p = p, s = 1.5),
-                 switch((p == 2) + 1, (1 + 2 * k / (p - 2)), 2) *
-                   weights_dfs_Sobolev(p = p, K_max = K, thre = 0,
-                                       type = "Riesz", Riesz_s = 1.5,
-                                       verbose = FALSE)$weights,
-                 tolerance = 1e-5)
-    expect_equal(Gegen_coefs(psi = psi_Riesz, k = k, p = p, s = 0.5),
-                 switch((p == 2) + 1, (1 + 2 * k / (p - 2)), 2) *
-                   weights_dfs_Sobolev(p = p, K_max = K, thre = 0,
-                                       type = "Riesz", Riesz_s = 0.5,
-                                       verbose = FALSE)$weights,
-                 tolerance = 1e-5)
-    expect_equal(Gegen_coefs(psi = psi_Riesz, k = k, p = p, s = 0.1,
-                             N = 5120),
-                 switch((p == 2) + 1, (1 + 2 * k / (p - 2)), 2) *
-                   weights_dfs_Sobolev(p = p, K_max = K, thre = 0,
-                                       type = "Riesz", Riesz_s = 0.1,
-                                       verbose = FALSE)$weights,
-                 tolerance = 1e-5)
-    expect_equal(Gegen_coefs(psi = psi_Riesz, k = k, p = p, s = -0.5,
-                             N = 5120),
-                 switch((p == 2) + 1, (1 + 2 * k / (p - 2)), 2) *
-                   weights_dfs_Sobolev(p = p, K_max = K, thre = 0,
-                                       type = "Riesz", Riesz_s = -0.5,
-                                       verbose = FALSE)$weights,
-                 tolerance = 1e-3)
+                   tolerance = 1e-5)
+    }
   }
 
 })
@@ -198,7 +229,7 @@ test_that(paste("Gegen_coefs vs. weights_dfs_Sobolev for Watson, Rothman,",
                                        verbose = FALSE)$weights,
                tolerance = 1e-6)
   expect_equal(Gegen_coefs(psi = psi_Hermans_Rasson, k = k, p = 2),
-               2 * weights_dfs_Sobolev(p = 2, K_max = K %/% 2, thre = 0,
+               2 * weights_dfs_Sobolev(p = 2, K_max = K, thre = 0,
                                        type = "Hermans_Rasson",
                                        verbose = FALSE)$weights,
                tolerance = 1e-6)
@@ -235,13 +266,14 @@ test_that("weights_dfs_Sobolev for Ajne vs. PRt with t = 1 / 2", {
 
 })
 
+## Gegen_coefs_Pn()
+
 test_that("Gegen_coefs_Pn vs. weights_dfs_Sobolev for PCvM", {
 
   for (p in c(2, 3, 4, 11)) {
-    expect_equal(Gegen_coefs_Pn(k = k, p = p, type = "PCvM"),
-                 switch((p == 2) + 1, (1 + 2 * k / (p - 2)), 2) *
-                   weights_dfs_Sobolev(p = p, K_max = K, thre = 0,
-                                       type = "PCvM", verbose = FALSE)$weights)
+    expect_equal(bk_to_vk2(Gegen_coefs_Pn(k = k, p = p, type = "PCvM"), p = p),
+                 weights_dfs_Sobolev(p = p, K_max = K, thre = 0,
+                                     type = "PCvM", verbose = FALSE)$weights)
   }
 
 })
@@ -249,10 +281,9 @@ test_that("Gegen_coefs_Pn vs. weights_dfs_Sobolev for PCvM", {
 test_that("Gegen_coefs_Pn vs. weights_dfs_Sobolev for PAD", {
 
   for (p in c(2, 3, 4, 11)) {
-    expect_equal(Gegen_coefs_Pn(k = k, p = p, type = "PAD"),
-                 switch((p == 2) + 1, (1 + 2 * k / (p - 2)), 2) *
-                   weights_dfs_Sobolev(p = p, K_max = K, thre = 0,
-                                       type = "PAD", verbose = FALSE)$weights)
+    expect_equal(bk_to_vk2(Gegen_coefs_Pn(k = k, p = p, type = "PAD"), p = p),
+                 weights_dfs_Sobolev(p = p, K_max = K, thre = 0,
+                                     type = "PAD", verbose = FALSE)$weights)
   }
 
 })
@@ -260,13 +291,14 @@ test_that("Gegen_coefs_Pn vs. weights_dfs_Sobolev for PAD", {
 test_that("Gegen_coefs_Pn vs. weights_dfs_Sobolev for PRt", {
 
   for (p in c(2, 3, 4, 11)) {
-    expect_equal(Gegen_coefs_Pn(k = k, p = p, type = "PRt"),
-                 switch((p == 2) + 1, (1 + 2 * k / (p - 2)), 2) *
-                   weights_dfs_Sobolev(p = p, K_max = K, thre = 0,
-                                       type = "PRt", verbose = FALSE)$weights)
+    expect_equal(bk_to_vk2(Gegen_coefs_Pn(k = k, p = p, type = "PRt"), p = p),
+                 weights_dfs_Sobolev(p = p, K_max = K, thre = 0,
+                                     type = "PRt", verbose = FALSE)$weights)
   }
 
 })
+
+## [pq]_Sobolev
 
 test_that("p_Sobolev vs. q_Sobolev", {
 
@@ -345,3 +377,97 @@ test_that("p_Sobolev vs. d_Sobolev", {
   }
 
 })
+
+## sph_stat_Sobolev() and cir_stat_Sobolev()
+
+n <- 10
+vk2 <- runif(4)
+set.seed(46868)
+X2 <- r_unif_sph(n = n, p = 2)
+Theta2 <- X_to_Theta(X2)
+X3 <- r_unif_sph(n = n, p = 3)
+X4 <- r_unif_sph(n = n, p = 4)
+X5 <- r_unif_sph(n = n, p = 5)
+X9 <- r_unif_sph(n = n, p = 9)
+X200 <- r_unif_sph(n = n, p = 200)
+Psi2 <- Psi_mat(X2)
+Psi3 <- Psi_mat(X3)
+Psi4 <- Psi_mat(X4)
+Psi5 <- Psi_mat(X5)
+Psi9 <- Psi_mat(X9)
+Psi200 <- Psi_mat(X200)
+dim(Psi2) <- c(dim(Psi2), 1)
+dim(Psi3) <- c(dim(Psi3), 1)
+dim(Psi4) <- c(dim(Psi4), 1)
+dim(Psi5) <- c(dim(Psi5), 1)
+dim(Psi9) <- c(dim(Psi9), 1)
+dim(Psi200) <- c(dim(Psi200), 1)
+
+test_that("sph_stat_Sobolev for a single and several vk2's", {
+
+  expect_equal(cir_stat_Sobolev(X_to_Theta(X2), vk2 = rbind(vk2, vk2 - 1))[, 1],
+               drop(cir_stat_Sobolev(X_to_Theta(X2), vk2 = vk2)))
+  expect_equal(sph_stat_Sobolev(X2, vk2 = rbind(vk2, vk2 + 1))[, 1],
+               drop(sph_stat_Sobolev(X2, vk2 = vk2)))
+  expect_equal(sph_stat_Sobolev(X3, vk2 = rbind(vk2, vk2 + 1))[, 1],
+               drop(sph_stat_Sobolev(X3, vk2 = vk2)))
+  expect_equal(sph_stat_Sobolev(X4, vk2 = rbind(vk2, vk2 + 1))[, 1],
+               drop(sph_stat_Sobolev(X4, vk2 = vk2)))
+
+})
+
+test_that("sph_stat_Sobolev vs. cir_stat_Sobolev", {
+
+  expect_equal(sph_stat_Sobolev(X2, vk2 = vk2),
+               cir_stat_Sobolev(X_to_Theta(X2), vk2 = vk2),
+               tolerance = 1e-6)
+  expect_equal(sph_stat_Sobolev(Psi2, Psi_in_X = TRUE, p = 2, vk2 = vk2),
+               cir_stat_Sobolev(Psi2, Psi_in_Theta = TRUE, vk2 = vk2),
+               tolerance = 1e-6)
+
+})
+
+test_that("sph_stat_Sobolev with X and Psi", {
+
+  expect_equal(sph_stat_Sobolev(Psi2, Psi_in_X = TRUE, p = 2, vk2 = vk2),
+               sph_stat_Sobolev(X2, vk2 = vk2), tolerance = 1e-6)
+  expect_equal(sph_stat_Sobolev(Psi3, Psi_in_X = TRUE, p = 3, vk2 = vk2),
+               sph_stat_Sobolev(X3, vk2 = vk2), tolerance = 1e-6)
+  expect_equal(sph_stat_Sobolev(Psi4, Psi_in_X = TRUE, p = 4, vk2 = vk2),
+               sph_stat_Sobolev(X4, vk2 = vk2), tolerance = 1e-6)
+  expect_equal(sph_stat_Sobolev(Psi5, Psi_in_X = TRUE, p = 5, vk2 = vk2),
+               sph_stat_Sobolev(X5, vk2 = vk2), tolerance = 1e-6)
+  expect_equal(sph_stat_Sobolev(Psi9, Psi_in_X = TRUE, p = 9, vk2 = vk2),
+               sph_stat_Sobolev(X9, vk2 = vk2), tolerance = 1e-6)
+  expect_equal(sph_stat_Sobolev(Psi200, Psi_in_X = TRUE, p = 200, vk2 = vk2),
+               sph_stat_Sobolev(X200, vk2 = vk2), tolerance = 1e-6)
+
+})
+
+test_that("sph_stat_Sobolev(vk2 = 1) is a linear form of Rayleigh statistic", {
+
+  for (p in 2:9) {
+    stats <- unif_stat_MC(n = 5, type = c("Rayleigh", "Sobolev"), p = p, M = 5,
+                          return_stats = TRUE, Sobolev_vk2 = 1)
+    expect_equal(drop(cor(stats$stats_MC$Sobolev, stats$stats_MC$Rayleigh)), 1)
+  }
+
+})
+
+test_that("sph_stat_Sobolev(vk2 = c(0, 1)) is a linear form of Bingham
+          statistic", {
+
+  for (p in 2:9) {
+    stats <- unif_stat_MC(n = 5, type = c("Bingham", "Sobolev"), p = p, M = 5,
+                          return_stats = TRUE, Sobolev_vk2 = c(0, 1))
+    expect_equal(drop(cor(stats$stats_MC$Sobolev, stats$stats_MC$Bingham)), 1)
+  }
+
+})
+
+test_that("Edge cases sph_stat_Sobolev()", {
+
+  expect_error(sph_stat_Sobolev(Psi2, vk2 = vk2, Psi_in_X = TRUE))
+
+})
+

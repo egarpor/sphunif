@@ -75,8 +75,11 @@
 #' \code{alpha}-upper quantiles of the null distribution of the test statistic.
 #'
 #' The Monte Carlo simulation for the CCF09 test is made conditionally
-#' on the choice of \code{CCF09_dirs}. That is, all the Monte
-#' Carlo statistics share the same random directions.
+#' on the choice of \code{CCF09_dirs}. That is, all the Monte Carlo statistics
+#' share the same random directions.
+#'
+#' Except \code{CCF09_dirs}, \code{K_CCF09}, and \code{CJ12_reg}, all the
+#' test-specific parameters are vectorized.
 #' @examples
 #' ## Critical values
 #'
@@ -192,7 +195,8 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
                          seeds = NULL, Rayleigh_m = 1, cov_a = 2 * pi,
                          Rothman_t = 1 / 3, Cressie_t = 1 / 3, Pycke_q = 0.5,
                          Riesz_s = 1, CCF09_dirs = NULL, K_CCF09 = 25,
-                         CJ12_reg = 3, ...) {
+                         CJ12_reg = 3, Poisson_rho = 0.5, Softmax_kappa = 1,
+                         Stereo_a = 0, Sobolev_vk2 = c(0, 0, 1), ...) {
 
   # Check dimension
   if (p < 2) {
@@ -205,7 +209,7 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
   small_M <- M %/% chunks
 
   # Fix projections for the CCF09 test
-  if ("CCF09" %in% type & is.null(CCF09_dirs)) {
+  if ("CCF09" %in% type && is.null(CCF09_dirs)) {
 
     CCF09_dirs <- r_unif_sph(n = 50, p = p, M = 1)[, , 1]
 
@@ -240,7 +244,7 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
   r_H1_args <- dots[names(dots) %in% names(formals(r_H1))]
 
   # Check seeds
-  if (!is.null(seeds) & length(seeds) != chunks) {
+  if (!is.null(seeds) && length(seeds) != chunks) {
 
     warning(paste("seeds and chunks do not have the same length:",
                   "seeds are ignored."))
@@ -251,15 +255,13 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
   # Parallel backend
   old_dopar <- doFuture::registerDoFuture()
   old_plan <- future::plan(future::multisession(), workers = cores)
-  options(future.rng.onMisuse = "ignore")
   on.exit({
 
     with(old_dopar, foreach::setDoPar(fun = fun, data = data, info = info))
     future::plan(old_plan)
-    options(future.rng.onMisuse = NULL)
 
   })
-  `%op%` <- foreach::`%dopar%`
+  `%op%` <- doRNG::`%dorng%`
 
   # Measure progress?
   if (requireNamespace("progressr", quietly = TRUE)) {
@@ -290,7 +292,9 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
                        cov_a = cov_a, Rothman_t = Rothman_t,
                        Cressie_t = Cressie_t, Pycke_q = Pycke_q,
                        Riesz_s = Riesz_s, CCF09_dirs = CCF09_dirs,
-                       K_CCF09 = K_CCF09, CJ12_reg = CJ12_reg)
+                       K_CCF09 = K_CCF09, CJ12_reg = CJ12_reg,
+                       Stereo_a = Stereo_a, Poisson_rho = Poisson_rho,
+                       Softmax_kappa = Softmax_kappa, Sobolev_vk2 = Sobolev_vk2)
 
     # Remove X
     rm(X)
@@ -308,7 +312,7 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
   }
 
   # Sort statistics
-  if (stats_sorted & return_stats) {
+  if (stats_sorted && return_stats) {
 
     names <- names(stats)
     stats <- as.data.frame(sort_each_col(as.matrix(stats)))

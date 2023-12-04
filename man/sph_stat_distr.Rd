@@ -26,6 +26,8 @@
 \alias{d_sph_stat_PRt}
 \alias{p_sph_stat_Riesz}
 \alias{d_sph_stat_Riesz}
+\alias{p_sph_stat_Sobolev}
+\alias{d_sph_stat_Sobolev}
 \title{Asymptotic distributions for spherical uniformity statistics}
 \usage{
 p_sph_stat_Bingham(x, p)
@@ -75,6 +77,10 @@ d_sph_stat_PRt(x, p, t = 1/3, K_max = 1000, thre = 0, ...)
 p_sph_stat_Riesz(x, p, s = 1, K_max = 1000, thre = 0, ...)
 
 d_sph_stat_Riesz(x, p, s = 1, K_max = 1000, thre = 0, ...)
+
+p_sph_stat_Sobolev(x, p, vk2 = c(0, 0, 1), K_max = 1000, thre = 0, ...)
+
+d_sph_stat_Sobolev(x, p, vk2 = c(0, 0, 1), ...)
 }
 \arguments{
 \item{x}{a vector of size \code{nx} or a matrix of size \code{c(nx, 1)}.}
@@ -87,7 +93,7 @@ contains \eqn{S^{p-1}}.}
 (super-exponential; default).}
 
 \item{beta}{\eqn{\beta} parameter in the exponential regime of the CJ12
-test, a nonnegative real. Defaults to \code{0}.}
+test, a non-negative real. Defaults to \code{0}.}
 
 \item{K_max}{integer giving the truncation of the series that compute the
 asymptotic p-value of a Sobolev test. Defaults to \code{1e3}.}
@@ -104,6 +110,9 @@ the first terms of the truncated series of a Sobolev test. Defaults to
 
 \item{s}{\eqn{s} parameter for the \eqn{s}-Riesz test, a real in
 \eqn{(0, 2)}. Defaults to \code{1}.}
+
+\item{vk2}{weights for the finite Sobolev test. A non-negative vector or
+matrix. Defaults to \code{c(0, 0, 1)}.}
 }
 \value{
 \itemize{
@@ -191,4 +200,13 @@ curve(d_sph_stat_Riesz(x, p = 3, method = "HBE"), n = 2e2, from = 0, to = 5,
       ylim = c(0, 2))
 curve(p_sph_stat_Riesz(x, p = 3, method = "HBE"), n = 2e2, col = 2,
       add = TRUE)
+
+# Sobolev
+x <- seq(-1, 5, by = 0.05)
+vk2 <- diag(rep(0.3, 2))
+matplot(x, d_sph_stat_Sobolev(x = x, vk2 = vk2, p = 3), type = "l",
+        ylim = c(0, 1), lty = 1)
+matlines(x, p_sph_stat_Sobolev(x = x, vk2 = vk2, p = 3), lty = 1)
+matlines(x, d_sph_stat_Sobolev(x = x, vk2 = vk2 + 0.01, p = 3), lty = 2)
+matlines(x, p_sph_stat_Sobolev(x = x, vk2 = vk2 + 0.01, p = 3), lty = 2)
 }

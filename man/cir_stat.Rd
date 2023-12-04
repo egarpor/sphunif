@@ -30,6 +30,8 @@
 \alias{cir_stat_PCvM}
 \alias{cir_stat_PRt}
 \alias{cir_stat_PAD}
+\alias{cir_stat_Poisson}
+\alias{cir_stat_Softmax}
 \alias{cir_stat_CCF09}
 \alias{cir_stat}
 \title{Statistics for testing circular uniformity}
@@ -65,7 +67,7 @@ cir_stat_Gini_squared(Theta, sorted = FALSE, gaps_in_Theta = FALSE)
 
 cir_stat_Ajne(Theta, Psi_in_Theta = FALSE)
 
-cir_stat_Rothman(Theta, t = 1/3, Psi_in_Theta = FALSE)
+cir_stat_Rothman(Theta, Psi_in_Theta = FALSE, t = 1/3)
 
 cir_stat_Hodges_Ajne(Theta, asymp_std = FALSE, sorted = FALSE,
   use_Cressie = TRUE)
@@ -94,9 +96,13 @@ cir_stat_Riesz(Theta, Psi_in_Theta = FALSE, s = 1)
 
 cir_stat_PCvM(Theta, Psi_in_Theta = FALSE)
 
-cir_stat_PRt(Theta, t = 1/3, Psi_in_Theta = FALSE)
+cir_stat_PRt(Theta, Psi_in_Theta = FALSE, t = 1/3)
 
 cir_stat_PAD(Theta, Psi_in_Theta = FALSE, AD = FALSE, sorted = FALSE)
+
+cir_stat_Poisson(Theta, Psi_in_Theta = FALSE, rho = 0.5)
+
+cir_stat_Softmax(Theta, Psi_in_Theta = FALSE, kappa = 1)
 
 cir_stat_CCF09(Theta, dirs, K_CCF09 = 25L, original = FALSE)
 }
@@ -139,8 +145,12 @@ values of the statistic, which is consistent with the rest of tests.
 Otherwise, the signed statistic is computed and rejection happens for
 large \emph{absolute} values.}
 
-\item{a}{\eqn{a_n = a / n} parameter used in the length of the arcs
-of the coverage-based tests. Must be positive. Defaults to \code{2 * pi}.}
+\item{a}{either: \itemize{
+\item \eqn{a_n = a / n} parameter used in the length of the arcs
+of the coverage-based tests. Must be positive. Defaults to \code{2 * pi}.
+\item \eqn{a} parameter for the Stereo test, a real in \eqn{[-1, 1]}.
+Defaults to \code{0}.
+}}
 
 \item{minus_val}{return the negative value of the (standardized) number of
 uncovered spacings? If \code{TRUE} (default), rejection happens for
@@ -174,6 +184,12 @@ If \code{FALSE}, the geometric construction in Ajne (1968) is employed.}
 \item{AD}{compute the Anderson-Darling statistic (which is \emph{not}
 invariant under origin shifts) instead of the Projected Anderson-Darling
 statistic? Defaults to \code{FALSE}.}
+
+\item{rho}{\eqn{\rho} parameter for the Poisson test, a real in
+\eqn{[0, 1)}. Defaults to \code{0.5}.}
+
+\item{kappa}{\eqn{\kappa} parameter for the Softmax test, a
+non-negative real. Defaults to \code{1}.}
 
 \item{dirs}{a matrix of size \code{c(n_proj, 2)} containing \code{n_proj}
 random directions (in Cartesian coordinates) on \eqn{S^1} to perform the

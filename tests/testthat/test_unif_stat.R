@@ -157,6 +157,8 @@ test_that("Errors in edge cases", {
   expect_error(unif_stat(data = rbind(c(1, 0))))
   expect_error(unif_stat(data = 1))
   expect_error(unif_stat(data = X_3, type = "Invent"))
+  expect_error(unif_test(data = X_3, type = 1e3))
+  expect_error(unif_test(data = X_3, type = function(x) x))
 
 })
 
@@ -288,6 +290,35 @@ test_that("Riesz vs. Pycke", {
       as.numeric(unif_stat(data = X_9, type = "Pycke")$Pycke)
     )))
 
+})
+
+test_that("Rayleigh vs. Softmax and Poisson", {
+  for (m in 1:2) {
+    expect_equal(
+      unif_stat(data = Theta_2, type = c("Softmax", "Poisson"),
+                Softmax_kappa = 0, Poisson_rho = 0, Rayleigh_m = m)[, 1:2],
+      unif_stat(data = Theta_2, type = c("Softmax", "Poisson", "Rayleigh"),
+                Softmax_kappa = 0, Poisson_rho = 0, Rayleigh_m = m)[, 1:2]
+    )
+  }
+  expect_equal(
+    unif_stat(data = X_2, type = c("Softmax", "Poisson"),
+              Softmax_kappa = 0, Poisson_rho = 0)[, 1:2],
+    unif_stat(data = X_2, type = c("Softmax", "Poisson", "Rayleigh"),
+              Softmax_kappa = 0, Poisson_rho = 0)[, 1:2]
+  )
+  expect_equal(
+    unif_stat(data = X_3, type = c("Softmax", "Poisson"),
+              Softmax_kappa = 0, Poisson_rho = 0)[, 1:2],
+    unif_stat(data = X_3, type = c("Softmax", "Poisson", "Rayleigh"),
+              Softmax_kappa = 0, Poisson_rho = 0)[, 1:2]
+  )
+  expect_equal(
+    unif_stat(data = X_4, type = c("Softmax", "Poisson"),
+              Softmax_kappa = 0, Poisson_rho = 0)[, 1:2],
+    unif_stat(data = X_4, type = c("Softmax", "Poisson", "Rayleigh"),
+              Softmax_kappa = 0, Poisson_rho = 0)[, 1:2]
+  )
 })
 
 test_that("Vectorization works in Stereo test", {

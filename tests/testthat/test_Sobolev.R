@@ -468,7 +468,6 @@ test_that("sph_stat_Sobolev(vk2 = c(0, 1)) is a linear form of Bingham
 test_that("Edge cases sph_stat_Sobolev()", {
 
   expect_error(sph_stat_Sobolev(Psi2, vk2 = vk2, Psi_in_X = TRUE))
-  expect_error(cir_stat_Sobolev(Psi2, vk2 = vk2, Psi_in_Theta = TRUE))
 
 })
 

@@ -33,7 +33,8 @@ library(rjson)
 #   * "peri": argument of perihelion (deg).
 #   * "period": sidereal orbital period (years).
 #   * "orbit class": classification.
-#   * "date of first obs.": date of first observation used in the orbit fit (UT).
+#   * "date of first obs.": date of first observation used in the orbit
+#      fit (UT).
 #   * "date of last obs.": date of last observation used in the orbit fit (UT).
 # - Mark Full Precision in Output Fields
 #
@@ -175,7 +176,7 @@ ccf09 <- match(comets_ccf09$full_name,
 
 # Matches are correct and the same if done with the id's
 stopifnot(!anyNA(ccf09))
-stopifnot(all(ccf09 == match(comets_ccf09$id, comets$id))) 
+stopifnot(all(ccf09 == match(comets_ccf09$id, comets$id)))
 
 # Check cosine equality of observations
 summary(1 - rowSums(comets_normal[ccf09, ] * comets_ccf09_normal))

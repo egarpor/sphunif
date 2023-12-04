@@ -10,11 +10,13 @@
 #' @inheritParams r_unif
 #' @inheritParams wschisq
 #' @inheritParams unif_stat_distr
+#' @param vk2 weights for the finite Sobolev test. A non-negative vector or
+#' matrix. Defaults to \code{c(0, 0, 1)}.
 #' @param regime type of asymptotic regime for the CJ12 test, either \code{1}
 #' (sub-exponential regime), \code{2} (exponential), or \code{3}
 #' (super-exponential; default).
 #' @param beta \eqn{\beta} parameter in the exponential regime of the CJ12
-#' test, a nonnegative real. Defaults to \code{0}.
+#' test, a non-negative real. Defaults to \code{0}.
 #' @inheritParams cir_stat
 #' @param ... further parameters passed to \code{\link{p_Sobolev}} or
 #' \code{\link{d_Sobolev}} (such as \code{x_tail}).
@@ -98,6 +100,15 @@
 #'       ylim = c(0, 2))
 #' curve(p_sph_stat_Riesz(x, p = 3, method = "HBE"), n = 2e2, col = 2,
 #'       add = TRUE)
+#'
+#' # Sobolev
+#' x <- seq(-1, 5, by = 0.05)
+#' vk2 <- diag(rep(0.3, 2))
+#' matplot(x, d_sph_stat_Sobolev(x = x, vk2 = vk2, p = 3), type = "l",
+#'         ylim = c(0, 1), lty = 1)
+#' matlines(x, p_sph_stat_Sobolev(x = x, vk2 = vk2, p = 3), lty = 1)
+#' matlines(x, d_sph_stat_Sobolev(x = x, vk2 = vk2 + 0.01, p = 3), lty = 2)
+#' matlines(x, p_sph_stat_Sobolev(x = x, vk2 = vk2 + 0.01, p = 3), lty = 2)
 #' @name sph_stat_distr
 NULL
 
@@ -256,5 +267,115 @@ d_sph_stat_Riesz <- function(x, p, s = 1, K_max = 1e3, thre = 0, ...) {
 
   cbind(d_Sobolev(x = x, p = p, type = "Riesz", Riesz_s = s, K_max = K_max,
                   thre = thre, ...))
+
+}
+
+
+#' @rdname sph_stat_distr
+#' @export
+p_sph_stat_Sobolev <- function(x, p, vk2 = c(0, 0, 1), K_max = 1e3, thre = 0,
+                               ...) {
+
+  # As a matrix
+  if (is.vector(x)) {
+
+    x <- matrix(x, ncol = 1)
+
+  }
+
+  # Check x and vk2 are compatible
+  vk2 <- rbind(vk2)
+  n_vk2 <- nrow(vk2)
+  n_col_x <- ncol(x)
+  if (ncol(x) != n_vk2) {
+
+    if (n_col_x == 1) {
+
+      x <- matrix(x, nrow = nrow(x), ncol = n_vk2, byrow = FALSE)
+
+    } else {
+
+      stop("The number of columns of x must match the number of rows of vk2.")
+
+    }
+
+  }
+
+  # Loop for different vk2's
+  cdf <- matrix(nrow = nrow(x), ncol = n_vk2)
+  for (j in seq_len(n_vk2)) {
+
+    # Check if the asymptotic distribution is a single chi-squared
+    nonzero_vk2_j <- which(vk2[j, ] != 0)
+    if (length(nonzero_vk2_j) == 1) {
+
+      cdf[, j] <- pchisq(q = x[, j] / vk2[j, nonzero_vk2_j],
+                         df = d_p_k(p = p, k = nonzero_vk2_j))
+
+    } else {
+
+      cdf[, j] <- p_Sobolev(x = x[, j], p = p, type = "Sobolev",
+                            Sobolev_vk2 = vk2[j, ], K_max = max(nonzero_vk2_j),
+                            thre = 0, ...)
+
+    }
+
+  }
+  return(cdf)
+
+}
+
+
+#' @rdname sph_stat_distr
+#' @export
+d_sph_stat_Sobolev <- function(x, p, vk2 = c(0, 0, 1), ...) {
+
+  # As a matrix
+  if (is.vector(x)) {
+
+    x <- matrix(x, ncol = 1)
+
+  }
+
+  # Check x and vk2 are compatible
+  vk2 <- rbind(vk2)
+  n_vk2 <- nrow(vk2)
+  n_col_x <- ncol(x)
+  if (ncol(x) != n_vk2) {
+
+    if (n_col_x == 1) {
+
+      x <- matrix(x, nrow = nrow(x), ncol = n_vk2, byrow = FALSE)
+
+    } else {
+
+      stop("The number of columns of x must match the number of rows of vk2.")
+
+    }
+
+  }
+
+  # Loop for different vk2's
+  pdf <- matrix(nrow = nrow(x), ncol = n_vk2)
+  for (j in seq_len(n_vk2)) {
+
+    # Check if the asymptotic distribution is a single chi-squared
+    nonzero_vk2_j <- which(vk2[j, ] != 0)
+    if (length(nonzero_vk2_j) == 1) {
+
+      pdf[, j] <- dchisq(x = x[, j] / vk2[j, nonzero_vk2_j],
+                         df = d_p_k(p = p, k = nonzero_vk2_j)) /
+        vk2[j, nonzero_vk2_j]
+
+    } else {
+
+      pdf[, j] <- d_Sobolev(x = x[, j], p = p, type = "Sobolev",
+                            Sobolev_vk2 = vk2[j, ], K_max = max(nonzero_vk2_j),
+                            thre = 0, ...)
+
+    }
+
+  }
+  return(pdf)
 
 }

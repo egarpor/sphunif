@@ -8,7 +8,9 @@ unif_test(data, type = "all", p_value = "asymp", alpha = c(0.1, 0.05,
   0.01), M = 10000, stats_MC = NULL, crit_val = NULL,
   data_sorted = FALSE, Rayleigh_m = 1, cov_a = 2 * pi, Rothman_t = 1/3,
   Cressie_t = 1/3, Pycke_q = 0.5, Riesz_s = 1, CCF09_dirs = NULL,
-  K_CCF09 = 25, CJ12_reg = 3, CJ12_beta = 0, K_max = 10000, ...)
+  K_CCF09 = 25, CJ12_reg = 3, CJ12_beta = 0, Poisson_rho = 0.5,
+  Softmax_kappa = 1, Stereo_a = 0, Sobolev_vk2 = c(0, 0, 1),
+  K_max = 10000, ...)
 }
 \arguments{
 \item{data}{sample to perform the test. A matrix of size \code{c(n, p)}
@@ -94,8 +96,20 @@ asymptotic distribution of the Kolmogorov-Smirnov statistic. Defaults to
 (sub-exponential regime), \code{2} (exponential), or \code{3}
 (super-exponential; default).}
 
-\item{CJ12_beta}{\eqn{\beta} parameter in the exponential regime of CJ12 test,
-a positive real.}
+\item{CJ12_beta}{\eqn{\beta} parameter in the exponential regime of CJ12
+test, a positive real.}
+
+\item{Poisson_rho}{\eqn{\rho} parameter for the Poisson test, a real in
+\eqn{[0, 1)}. Defaults to \code{0.5}.}
+
+\item{Softmax_kappa}{\eqn{\kappa} parameter for the Softmax test, a
+non-negative real. Defaults to \code{1}.}
+
+\item{Stereo_a}{\eqn{a} parameter for the Stereo test, a real in
+\eqn{[-1, 1]}. Defaults to \code{0}.}
+
+\item{Sobolev_vk2}{weights for the finite Sobolev test. A non-negative
+vector or matrix. Defaults to \code{c(0, 0, 1)}.}
 
 \item{K_max}{integer giving the truncation of the series that compute the
 asymptotic p-value of a Sobolev test. Defaults to \code{1e4}.}
@@ -121,6 +135,7 @@ If only a \bold{single test} is performed, a list with class
   \item \code{crit_val}: a vector with the critical values for the
   significance levels \code{alpha} used with \code{p_value = "MC"} or
   \code{p_value = "asymp"}.
+  \item \code{param}: parameter(s) used in the test (if any).
 }
 If \bold{several tests} are performed, a \code{type}-named list with
 entries for each test given by the above list.
@@ -163,6 +178,9 @@ Hodges--Ajne statistic (\code{"Hodges_Ajne"}), the Cressie statistic
 The Monte Carlo calibration for the CCF09 test is made conditionally
 on the choice of \cr\code{CCF09_dirs}. That is, all the Monte
 Carlo statistics share the same random directions.
+
+Except \code{CCF09_dirs}, \code{K_CCF09}, and \code{CJ12_reg}, all the
+test-specific parameters are vectorized.
 
 Descriptions and references for most of the tests are available
 in García-Portugués and Verdebout (2018).

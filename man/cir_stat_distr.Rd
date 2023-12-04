@@ -59,6 +59,8 @@
 \alias{d_cir_stat_Rothman}
 \alias{p_cir_stat_Riesz}
 \alias{d_cir_stat_Riesz}
+\alias{p_cir_stat_Sobolev}
+\alias{d_cir_stat_Sobolev}
 \title{Asymptotic distributions for circular uniformity statistics}
 \usage{
 p_Kolmogorov(x, K_Kolmogorov = 25L, alternating = TRUE)
@@ -176,6 +178,10 @@ d_cir_stat_Rothman(x, t = 1/3, K_max = 1000, thre = 0, ...)
 p_cir_stat_Riesz(x, s = 1, K_max = 1000, thre = 0, ...)
 
 d_cir_stat_Riesz(x, s = 1, K_max = 1000, thre = 0, ...)
+
+p_cir_stat_Sobolev(x, vk2 = c(0, 0, 1), ...)
+
+d_cir_stat_Sobolev(x, vk2 = c(0, 0, 1), ...)
 }
 \arguments{
 \item{x}{a vector of size \code{nx} or a matrix of size \code{c(nx, 1)}.}
@@ -230,6 +236,9 @@ the first terms of the truncated series of a Sobolev test. Defaults to
 
 \item{s}{\eqn{s} parameter for the \eqn{s}-Riesz test, a real in
 \eqn{(0, 2)}. Defaults to \code{1}.}
+
+\item{vk2}{weights for the finite Sobolev test. A non-negative vector or
+matrix. Defaults to \code{c(0, 0, 1)}.}
 }
 \value{
 A matrix of size \code{c(nx, 1)} with the evaluation of the
@@ -378,6 +387,11 @@ curve(p_cir_stat_Watson(x), n = 2e2, col = 2, add = TRUE)
 # Watson (1976)
 curve(d_cir_stat_Watson_1976(x), to = 1.5, n = 2e2, ylim = c(0, 3))
 curve(p_cir_stat_Watson_1976(x), n = 2e2, col = 2, add = TRUE)
+
+# Sobolev
+vk2 <- c(0.5, 0)
+curve(d_cir_stat_Sobolev(x = x, vk2 = vk2), to = 3, n = 2e2, ylim = c(0, 2))
+curve(p_cir_stat_Sobolev(x = x, vk2 = vk2), n = 2e2, col = 2, add = TRUE)
 }
 \references{
 García-Portugués, E. and Verdebout, T. (2018) An overview of

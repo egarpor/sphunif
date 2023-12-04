@@ -55,7 +55,7 @@ distributions:
   e_p = (0, 0, \ldots, 1)}.
   \item \code{"MvMF"}: equally-weighted mixture of \eqn{p} von Mises--Fisher
   distributions with common concentration \eqn{\kappa} and directional means
-  \eqn{\pm{\bf e}_1, \ldots, \pm{\bf e}_p}{±e_1, \ldots, ±e_p} if
+  \eqn{\pm{\bf e}_1, \ldots, \pm{\bf e}_p}{±e_1, \ldots, ±e_p} if
   \code{axial_MvMF = TRUE}. If \code{axial_MvMF = FALSE}, then only means
   with positive signs are considered.
   \item \code{"ACG"}: Angular Central Gaussian distribution with diagonal

@@ -12,6 +12,9 @@
 \alias{sph_stat_PCvM}
 \alias{sph_stat_PRt}
 \alias{sph_stat_PAD}
+\alias{sph_stat_Poisson}
+\alias{sph_stat_Softmax}
+\alias{sph_stat_Stereo}
 \alias{sph_stat_CCF09}
 \alias{sph_stat_Rayleigh_HD}
 \alias{sph_stat_CJ12}
@@ -36,16 +39,22 @@ sph_stat_Riesz(X, Psi_in_X = FALSE, p = 0L, s = 1)
 
 sph_stat_PCvM(X, Psi_in_X = FALSE, p = 0L, N = 160L, L = 1000L)
 
-sph_stat_PRt(X, t = 1/3, Psi_in_X = FALSE, p = 0L, N = 160L,
+sph_stat_PRt(X, Psi_in_X = FALSE, p = 0L, t = 1/3, N = 160L,
   L = 1000L)
 
 sph_stat_PAD(X, Psi_in_X = FALSE, p = 0L, N = 160L, L = 1000L)
+
+sph_stat_Poisson(X, Psi_in_X = FALSE, p = 0L, rho = 0.5)
+
+sph_stat_Softmax(X, Psi_in_X = FALSE, p = 0L, kappa = 1)
+
+sph_stat_Stereo(X, Psi_in_X = FALSE, p = 0L, a = 0)
 
 sph_stat_CCF09(X, dirs, K_CCF09 = 25L, original = FALSE)
 
 sph_stat_Rayleigh_HD(X)
 
-sph_stat_CJ12(X, regime = 3L, Psi_in_X = FALSE, p = 0L)
+sph_stat_CJ12(X, Psi_in_X = FALSE, p = 0L, regime = 3L)
 }
 \arguments{
 \item{X}{an \bold{array} of size \code{c(n, p, M)} containing the Cartesian
@@ -72,6 +81,19 @@ that require evaluating an integral. Defaults to \code{1e3}.}
 
 \item{t}{\eqn{t} parameter for the Rothman and Cressie tests, a real in
 \eqn{(0, 1)}. Defaults to \code{1 / 3}.}
+
+\item{rho}{\eqn{\rho} parameter for the Poisson test, a real in
+\eqn{[0, 1)}. Defaults to \code{0.5}.}
+
+\item{kappa}{\eqn{\kappa} parameter for the Softmax test, a
+non-negative real. Defaults to \code{1}.}
+
+\item{a}{either: \itemize{
+\item \eqn{a_n = a / n} parameter used in the length of the arcs
+of the coverage-based tests. Must be positive. Defaults to \code{2 * pi}.
+\item \eqn{a} parameter for the Stereo test, a real in \eqn{[-1, 1]}.
+Defaults to \code{0}.
+}}
 
 \item{dirs}{a matrix of size \code{c(n_proj, p)} containing \code{n_proj}
 random directions (in Cartesian coordinates) on \eqn{S^{p-1}} to perform

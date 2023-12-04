@@ -34,8 +34,8 @@
 #' @inheritParams cir_stat
 #' @inheritParams cir_stat_distr
 #' @inheritParams sph_stat_distr
-#' @param CJ12_beta \eqn{\beta} parameter in the exponential regime of CJ12 test,
-#' a positive real.
+#' @param CJ12_beta \eqn{\beta} parameter in the exponential regime of CJ12
+#' test, a positive real.
 #' @param K_Kuiper,K_Watson,K_Watson_1976,K_Ajne integer giving the truncation
 #' of the series present in the null asymptotic distributions. For the
 #' Kolmogorov-Smirnov-related series defaults to \code{25}.
@@ -121,14 +121,32 @@
 #' unif_stat_distr(x = x, type = "CJ12", p = 3, n = 100, CJ12_reg = 2,
 #'                CJ12_beta = 0.01)
 #' unif_stat_distr(x = x, type = "CJ12", p = 3, n = 100, CJ12_reg = 1)
+#'
+#' ## Sobolev
+#'
+#' x <- seq(0, 1, l = 10)
+#' vk2 <- diag(1, nrow = 3)
+#' unif_stat_distr(x = x, type = "Sobolev", approx = "asymp", p = 3, n = 100,
+#'                 Sobolev_vk2 = vk2)
+#' sapply(1:3, function(i)
+#'   unif_stat_distr(x = x, type = "Sobolev", approx = "asymp", p = 3, n = 100,
+#'                   Sobolev_vk2 = vk2[i, ])$Sobolev)
+#' sapply(1:3, function(i)
+#'   unif_stat_distr(x = x, type = "Sobolev", approx = "MC", p = 3, n = 100,
+#'                   Sobolev_vk2 = vk2[i, ], M = 1e3)$Sobolev)
+#' unif_stat_distr(x = x, type = "Sobolev", approx = "MC", p = 3, n = 100,
+#'                 Sobolev_vk2 = vk2, M = 1e3)
 #' }
 #' @export
 unif_stat_distr <- function(x, type, p, n, approx = "asymp", M = 1e4,
-                            stats_MC = NULL, Rothman_t = 1 / 3, Pycke_q = 0.5,
-                            Riesz_s = 1, CCF09_dirs = NULL, CJ12_reg = 3,
+                            stats_MC = NULL, Rayleigh_m = 1, cov_a = 2 * pi,
+                            Rothman_t = 1 / 3, Cressie_t = 1 / 3, Pycke_q = 0.5,
+                            Riesz_s = 1, CCF09_dirs = NULL, K_CCF09 = 25,
+                            CJ12_reg = 3, Poisson_rho = 0.5, Softmax_kappa = 1,
+                            Stereo_a = 0, Sobolev_vk2 = c(0, 0, 1),
                             CJ12_beta = 0, Stephens = FALSE, K_Kuiper = 25,
                             K_Watson = 25, K_Watson_1976 = 5, K_Ajne = 5e2,
-                            K_CCF09 = 25, K_max = 1e4, ...) {
+                            K_max = 1e4, ...) {
 
   # Stop if NA's
   if (anyNA(x)) {
@@ -168,15 +186,33 @@ unif_stat_distr <- function(x, type, p, n, approx = "asymp", M = 1e4,
 
     } else {
 
-      stats_type <- match.arg(arg = type, choices = avail_stats,
-                              several.ok = TRUE)
+      stats_type <- try(match.arg(arg = type, choices = avail_stats,
+                                  several.ok = TRUE), silent = TRUE)
+      if (inherits(stats_type, "try-error")) {
+
+        stop(paste(strwrap(paste0(
+          "Statistic with type = \"", type, "\" is unsupported. ",
+          "Must be one of the following tests: \"",
+          paste(avail_stats, collapse = "\", \""), "\"."),
+          width = 80, indent = 0, exdent = 2), collapse = "\n"))
+
+      }
 
     }
 
   } else if (is.numeric(type)) {
 
     type <- unique(type)
-    stats_type <- avail_stats[type]
+    if (type > length(avail_stats)) {
+
+      stop("type must be a numeric vector with values between 1 and ",
+           length(avail_stats), ".")
+
+    } else {
+
+        stats_type <- avail_stats[type]
+
+    }
 
   } else {
 
@@ -186,6 +222,24 @@ unif_stat_distr <- function(x, type, p, n, approx = "asymp", M = 1e4,
 
   # Omit statistics that do not have asymptotic distribution
   if (approx == "asymp") {
+
+    # TODO: vectorize
+    param_vectorised <- c("Cressie_t", "cov_a", "Rayleigh_m", "Riesz_s",
+                          "Rothman_t", "Poisson_rho", "Pycke_q",
+                          "Softmax_kappa", "Stereo_a") # "Sobolev_vk2"
+    n_param_vectorised <- sapply(param_vectorised, function(par) {
+      obj <- get(x = par)
+      ifelse(is.null(dim(obj)), length(obj), nrow(obj))
+    })
+    if (any(n_param_vectorised > 1)) {
+
+      stop(paste("No vectorization is implemented for",
+                 paste(param_vectorised[n_param_vectorised > 1],
+                       collapse = ", "),
+                 "with approx = \"asymp\". Either use approx =",
+                 "\"MC\" or unvectorize"))
+
+    }
 
     ind_asymp <- sapply(paste0(prefix_distr, stats_type),
                         exists, where = asNamespace("sphunif"))
@@ -200,8 +254,25 @@ unif_stat_distr <- function(x, type, p, n, approx = "asymp", M = 1e4,
 
   }
 
-  # Number of statistics
-  n_stats <- length(stats_type)
+  # Number of statistics, counting statistics with vectorized parameters
+  Sobolev_vk2 <- rbind(Sobolev_vk2)
+  n_Sobolev_vk2 <- nrow(Sobolev_vk2)
+  n_stats <- length(stats_type) +
+    ifelse("Sobolev" %in% stats_type, n_Sobolev_vk2 - 1, 0)
+
+  # Expand the names of statistics including the ones with vectorized parameters
+  if ("Sobolev" %in% stats_type && n_Sobolev_vk2 > 1) {
+
+    stats_type_vec <-
+      strsplit(gsub(x = paste(stats_type, collapse = " "), pattern = "Sobolev",
+                    replacement = paste0("Sobolev.", seq_len(n_Sobolev_vk2),
+                                         collapse = " ")), split = " ")[[1]]
+
+  } else {
+
+    stats_type_vec <- stats_type
+
+  }
 
   # Check dimension
   n_col_x <- ncol(x)
@@ -213,15 +284,20 @@ unif_stat_distr <- function(x, type, p, n, approx = "asymp", M = 1e4,
 
     } else {
 
-      stop(paste("Check x and type, ncol(x) must equal the number of valid",
-                 "type values."))
+      stop(paste(strwrap(paste0(
+        "Incompatible number of columns in x (", ncol(x), ") and tests in type",
+        " (", n_stats, "; after expanding tests with vectorized arguments). ",
+        "The tests being considered are: \"",
+        paste(stats_type_vec, collapse = "\", \""), "\"."),
+        width = 80, indent = 0, exdent = 2), collapse = "\n"))
+
     }
 
   }
 
   # Put x as a data frame
   x <- as.data.frame(x)
-  names(x) <- stats_type
+  names(x) <- stats_type_vec
 
   # Asymptotic or Monte Carlo distribution?
   if (approx == "asymp") {
@@ -229,21 +305,36 @@ unif_stat_distr <- function(x, type, p, n, approx = "asymp", M = 1e4,
     # Optional arguments
     args <- list("t" = Rothman_t, "q" = Pycke_q, "s" = Riesz_s,
                  "dirs" = CCF09_dirs, "regime" = CJ12_reg, "beta" = CJ12_beta,
-                 "Stephens" = Stephens, "K_Kuiper" = K_Kuiper,
-                 "K_Watson" = K_Watson, "K_Watson_1976" = K_Watson_1976,
-                 "K_Ajne" = K_Ajne, "K_CCF09" = K_CCF09, "K_max" = K_max,
-                 "thre" = 0, "n" = n, "p" = p)
+                 "rho" = Poisson_rho, "kappa" = Softmax_kappa, "a" = Stereo_a,
+                 "vk2" = Sobolev_vk2, "Stephens" = Stephens,
+                 "K_Kuiper" = K_Kuiper, "K_Watson" = K_Watson,
+                 "K_Watson_1976" = K_Watson_1976, "K_Ajne" = K_Ajne,
+                 "K_CCF09" = K_CCF09, "K_max" = K_max, "thre" = 0, "n" = n,
+                 "p" = p)
     names_args <- names(args)
 
     # Evaluate distributions
     distrs <- sapply(stats_type, function(distr) {
 
-      # Additional arguments
+      # Additional arguments for the distribution
       name_distr <- paste0(prefix_distr, distr)
       distr_args <- args[names_args %in% names(formals(name_distr))]
 
+      # Where to evaluate the distribution, depending on whether the
+      # test is vectorized
+      if (distr %in% c("Sobolev")) {
+
+        x_distr <- as.matrix(x[, grep(pattern = distr, x = stats_type_vec,
+                                      value = TRUE)])
+
+      } else {
+
+        x_distr <- x[[distr]]
+
+      }
+
       # Call distribution
-      do.call(what = name_distr, args = c(list(x = x[[distr]]), distr_args))
+      do.call(what = name_distr, args = c(list(x = x_distr), distr_args))
 
     }, simplify = FALSE)
 
@@ -254,21 +345,25 @@ unif_stat_distr <- function(x, type, p, n, approx = "asymp", M = 1e4,
 
       stats_MC <- unif_stat_MC(n = n, type = stats_type, p = p, M = M,
                                r_H1 = NULL, crit_val = NULL,
-                               alpha = c(0.10, 0.05, 0.01),
                                return_stats = TRUE, stats_sorted = TRUE,
-                               Rothman_t = Rothman_t, Pycke_q = Pycke_q,
-                               CCF09_dirs = CCF09_dirs, CJ12_reg = CJ12_reg,
-                               K_CCF09 = K_CCF09, ...)$stats_MC
+                               Rayleigh_m = Rayleigh_m, cov_a = cov_a,
+                               Rothman_t = Rothman_t, Cressie_t = Cressie_t,
+                               Pycke_q = Pycke_q, Riesz_s = Riesz_s,
+                               CCF09_dirs = CCF09_dirs, K_CCF09 = K_CCF09,
+                               CJ12_reg = CJ12_reg, Stereo_a = Stereo_a,
+                               Poisson_rho = Poisson_rho,
+                               Softmax_kappa = Softmax_kappa,
+                               Sobolev_vk2 = Sobolev_vk2, ...)$stats_MC
 
     } else {
 
       # Check if there is any missing statistic in stats_MC
       names_stats_MC <- names(stats_MC)
-      missing_stats_MC <- !(stats_type %in% names_stats_MC)
+      missing_stats_MC <- !(stats_type_vec %in% names_stats_MC)
       if (any(missing_stats_MC)) {
 
         stop(paste0("Missing statistics in stats_MC: \"",
-                    paste(stats_type[missing_stats_MC],
+                    paste(stats_type_vec[missing_stats_MC],
                           collapse = "\", \""), "\"."))
 
       }
@@ -282,7 +377,7 @@ unif_stat_distr <- function(x, type, p, n, approx = "asymp", M = 1e4,
       }
 
       # Match columns of stats_MC with stats_type
-      stats_MC <- stats_MC[, pmatch(x = stats_type, table = names_stats_MC),
+      stats_MC <- stats_MC[, pmatch(x = stats_type_vec, table = names_stats_MC),
                            drop = FALSE]
 
     }
@@ -291,11 +386,11 @@ unif_stat_distr <- function(x, type, p, n, approx = "asymp", M = 1e4,
     if (any(apply(x, 2, is.unsorted))) {
 
       # Indexes for sorting and then unsorting
-      ind_1 <- sort_index_each_col(x);
-      ind_2 <- sort_index_each_col(ind_1);
+      ind_1 <- sort_index_each_col(x)
+      ind_2 <- sort_index_each_col(ind_1)
 
       # Approximate distributions
-      distrs <- sapply(stats_type, function(distr) {
+      distrs <- sapply(stats_type_vec, function(distr) {
         ecdf_bin(data = stats_MC[[distr]], sorted_x = x[[distr]][ind_1],
                  data_sorted = TRUE, efic = TRUE, divide_n = TRUE)
       }, simplify = FALSE)
@@ -304,7 +399,7 @@ unif_stat_distr <- function(x, type, p, n, approx = "asymp", M = 1e4,
     } else {
 
       # Approximate distributions
-      distrs <- sapply(stats_type, function(distr) {
+      distrs <- sapply(stats_type_vec, function(distr) {
         ecdf_bin(data = stats_MC[[distr]], sorted_x = x[[distr]],
                  data_sorted = TRUE, efic = TRUE, divide_n = TRUE)
       }, simplify = FALSE)
@@ -319,7 +414,7 @@ unif_stat_distr <- function(x, type, p, n, approx = "asymp", M = 1e4,
 
   # Return data frame
   distrs <- as.data.frame(lapply(lapply(distrs, pmin, 1), pmax, 0))
-  names(distrs) <- stats_type
+  names(distrs) <- stats_type_vec
   return(distrs)
 
 }

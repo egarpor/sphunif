@@ -305,7 +305,7 @@ cutoff_locdev <- function(p, K_max = 1e4, thre = 1e-3, type, Rothman_t = 1 / 3,
   # uk
   uk <- vk2_to_uk(vk2 = vk2, p = p, signs = signs)
 
-  # Cutoff based on the explained squared norm
+  # Cutoff based on the explained squared norm
   cum_norm <- Gegen_norm(coefs = uk, k = seq_len(K_max_new), p = p,
                          cumulative = TRUE)^2
   cum_norm <- cum_norm / cum_norm[K_max_new]
@@ -409,7 +409,7 @@ cutoff_locdev <- function(p, K_max = 1e4, thre = 1e-3, type, Rothman_t = 1 / 3,
 #' @export
 F_from_f <- function(f, p, Gauss = TRUE, N = 320, K = 1e3, tol = 1e-6, ...) {
 
-  # Integration grid
+  # Integration grid
   z <- seq(-1, 1, length.out = K)
 
   # Integrated \omega_{p - 1} * f(z) * (1 - z^2)^{(p - 3) / 2}
@@ -520,8 +520,9 @@ F_inv_from_f <- function(f, p, Gauss = TRUE, N = 320, K = 1e3, tol = 1e-6,
 #' @inheritParams r_unif_sph
 #' @param signs signs of the coefficients \eqn{u_{k, p}}, a vector of the
 #' same size as \code{vk2} or \code{bk}, or a scalar. Defaults to \code{1}.
-#' @return
-#' The corresponding vectors of coefficients \code{vk2}, \code{bk}, or
+#' @param log do operations in log scale (log-in, log-out)? Defaults to
+#' \code{FALSE}.
+#' @return The corresponding vectors of coefficients \code{vk2}, \code{bk}, or
 #' \code{uk}, depending on the call.
 #' @details
 #' See more details in Prentice (1978) and García-Portugués et al. (2023). The
@@ -555,20 +556,48 @@ F_inv_from_f <- function(f, p, Gauss = TRUE, N = 320, K = 1e3, tol = 1e-6,
 
 #' @rdname Sobolev_coefs
 #' @export
-bk_to_vk2 <- function(bk, p) {
+bk_to_vk2 <- function(bk, p, log = FALSE) {
 
   # Check dimension
   p <- as.integer(p)
   stopifnot(p >= 2)
 
-  # Add factor
-  if (p == 2) {
+  # Compute k
+  if (is.matrix(bk)) {
 
-    return(bk / 2)
+    k <- matrix(seq_len(ncol(bk)), nrow = nrow(bk), ncol = ncol(bk),
+                byrow = TRUE)
 
   } else {
 
-    return(bk / (1 + 2 * seq_along(bk) / (p - 2)))
+    k <- seq_along(bk)
+
+  }
+
+  # Add factor
+  if (log) {
+
+    if (p == 2) {
+
+      return(bk - log(2))
+
+    } else {
+
+      return(bk - log(1 + 2 * k / (p - 2)))
+
+    }
+
+  } else {
+
+    if (p == 2) {
+
+      return(bk / 2)
+
+    } else {
+
+      return(bk / (1 + 2 * k / (p - 2)))
+
+    }
 
   }
 
@@ -586,6 +615,18 @@ bk_to_uk <- function(bk, p, signs = 1) {
   # Check signs
   stopifnot(length(signs) %in% c(1, length(bk)))
 
+  # Compute k
+  if (is.matrix(bk)) {
+
+    k <- matrix(seq_len(ncol(bk)), nrow = nrow(bk), ncol = ncol(bk),
+                byrow = TRUE)
+
+  } else {
+
+    k <- seq_along(bk)
+
+  }
+
   # Add factor
   if (p == 2) {
 
@@ -593,7 +634,7 @@ bk_to_uk <- function(bk, p, signs = 1) {
 
   } else {
 
-    return(sign(signs) * sqrt((1 + 2 * seq_along(bk) / (p - 2)) * bk))
+    return(sign(signs) * sqrt((1 + 2 * k / (p - 2)) * bk))
 
   }
 
@@ -602,20 +643,48 @@ bk_to_uk <- function(bk, p, signs = 1) {
 
 #' @rdname Sobolev_coefs
 #' @export
-vk2_to_bk <- function(vk2, p) {
+vk2_to_bk <- function(vk2, p, log = FALSE) {
 
   # Check dimension
   p <- as.integer(p)
   stopifnot(p >= 2)
 
-  # Add factor
-  if (p == 2) {
+  # Compute k
+  if (is.matrix(vk2)) {
 
-    return(2 * vk2)
+    k <- matrix(seq_len(ncol(vk2)), nrow = nrow(vk2), ncol = ncol(vk2),
+                byrow = TRUE)
 
   } else {
 
-    return((1 + 2 * seq_along(vk2) / (p - 2)) * vk2)
+    k <- seq_along(vk2)
+
+  }
+
+  # Add factor
+  if (log) {
+
+    if (p == 2) {
+
+      return(vk2 + log(2))
+
+    } else {
+
+      return(vk2 + log(1 + 2 * k / (p - 2)))
+
+    }
+
+  } else {
+
+    if (p == 2) {
+
+      return(2 * vk2)
+
+    } else {
+
+      return((1 + 2 * k / (p - 2)) * vk2)
+
+    }
 
   }
 
@@ -633,6 +702,18 @@ vk2_to_uk <- function(vk2, p, signs = 1) {
   # Check signs
   stopifnot(length(signs) %in% c(1, length(vk2)))
 
+  # Compute k
+  if (is.matrix(vk2)) {
+
+    k <- matrix(seq_len(ncol(vk2)), nrow = nrow(vk2), ncol = ncol(vk2),
+                byrow = TRUE)
+
+  } else {
+
+    k <- seq_along(vk2)
+
+  }
+
   # Add factor
   if (p == 2) {
 
@@ -640,7 +721,7 @@ vk2_to_uk <- function(vk2, p, signs = 1) {
 
   } else {
 
-    return((1 + 2 * seq_along(vk2) / (p - 2)) * sign(signs) * sqrt(vk2))
+    return((1 + 2 * k / (p - 2)) * sign(signs) * sqrt(vk2))
 
   }
 
@@ -655,6 +736,18 @@ uk_to_vk2 <- function(uk, p) {
   p <- as.integer(p)
   stopifnot(p >= 2)
 
+  # Compute k
+  if (is.matrix(uk)) {
+
+    k <- matrix(seq_len(ncol(uk)), nrow = nrow(uk), ncol = ncol(uk),
+                byrow = TRUE)
+
+  } else {
+
+    k <- seq_along(uk)
+
+  }
+
   # Add factor
   if (p == 2) {
 
@@ -662,7 +755,7 @@ uk_to_vk2 <- function(uk, p) {
 
   } else {
 
-    return((uk / (1 + 2 * seq_along(uk) / (p - 2)))^2)
+    return((uk / (1 + 2 * k / (p - 2)))^2)
 
   }
 
@@ -677,6 +770,18 @@ uk_to_bk <- function(uk, p) {
   p <- as.integer(p)
   stopifnot(p >= 2)
 
+  # Compute k
+  if (is.matrix(uk)) {
+
+    k <- matrix(seq_len(ncol(uk)), nrow = nrow(uk), ncol = ncol(uk),
+                byrow = TRUE)
+
+  } else {
+
+    k <- seq_along(uk)
+
+  }
+
   # Add factor
   if (p == 2) {
 
@@ -684,7 +789,7 @@ uk_to_bk <- function(uk, p) {
 
   } else {
 
-    return(uk^2 / (1 + 2 * seq_along(uk) / (p - 2)))
+    return(uk^2 / (1 + 2 * k / (p - 2)))
 
   }
 
@@ -721,7 +826,7 @@ uk_to_bk <- function(uk, p) {
 #'   e_p = (0, 0, \ldots, 1)}.
 #'   \item \code{"MvMF"}: equally-weighted mixture of \eqn{p} von Mises--Fisher
 #'   distributions with common concentration \eqn{\kappa} and directional means
-#'   \eqn{\pm{\bf e}_1, \ldots, \pm{\bf e}_p}{±e_1, \ldots, ±e_p} if
+#'   \eqn{\pm{\bf e}_1, \ldots, \pm{\bf e}_p}{±e_1, \ldots, ±e_p} if
 #'   \code{axial_MvMF = TRUE}. If \code{axial_MvMF = FALSE}, then only means
 #'   with positive signs are considered.
 #'   \item \code{"ACG"}: Angular Central Gaussian distribution with diagonal

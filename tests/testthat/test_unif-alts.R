@@ -627,33 +627,54 @@ test_that("Conversion between coefficients", {
 
 })
 
-vk2 <- rbind(1:5, 6:10)
-bk <- rbind(5:1, 10:6)
-uk <- rbind(seq(-1, 1, l = 5), seq(-1, 1, l = 5)^2)
+vk2_mat <- rbind(vk2, vk2 + 1)
+log_vk2_mat <- log(vk2_mat)
+bk_mat <- rbind(bk, bk + 1)
+log_bk_mat <- log(bk_mat)
+uk_mat <- rbind(uk + 1, uk + 2)
+log_uk_mat <- log(uk_mat)
 
-test_that("Conversion between coefficients, matrix form", {
+test_that("Conversion between coefficients, matrix form and log", {
 
   skip_on_cran()
-  expect_equal(bk_to_vk2(vk2_to_bk(vk2, p = 2), p = 2), vk2)
-  expect_equal(bk_to_vk2(vk2_to_bk(vk2, p = 3), p = 3), vk2)
-  expect_equal(bk_to_vk2(vk2_to_bk(vk2, p = 2, log = TRUE), p = 2, log = TRUE),
-               vk2)
-  expect_equal(bk_to_vk2(vk2_to_bk(vk2, p = 3, log = TRUE), p = 3, log = TRUE),
-               vk2)
-  expect_equal(bk_to_uk(uk_to_bk(uk, p = 2), p = 2, signs = sign(uk)), uk)
-  expect_equal(bk_to_uk(uk_to_bk(uk, p = 3), p = 3, signs = sign(uk)), uk)
-  expect_equal(vk2_to_bk(bk_to_vk2(bk, p = 2), p = 2), bk)
-  expect_equal(vk2_to_bk(bk_to_vk2(bk, p = 3), p = 3), bk)
-  expect_equal(vk2_to_bk(bk_to_vk2(bk, p = 2, log = TRUE), p = 2, log = TRUE),
-               bk)
-  expect_equal(vk2_to_bk(bk_to_vk2(bk, p = 3, log = TRUE), p = 3, log = TRUE),
-               bk)
-  expect_equal(vk2_to_uk(uk_to_vk2(uk, p = 2), p = 2, signs = sign(uk)), uk)
-  expect_equal(vk2_to_uk(uk_to_vk2(uk, p = 3), p = 3, signs = sign(uk)), uk)
-  expect_equal(uk_to_vk2(vk2_to_uk(vk2, p = 2), p = 2), vk2)
-  expect_equal(uk_to_vk2(vk2_to_uk(vk2, p = 3), p = 3), vk2)
-  expect_equal(uk_to_bk(bk_to_uk(bk, p = 2), p = 2), bk)
-  expect_equal(uk_to_bk(bk_to_uk(bk, p = 3), p = 3), bk)
+  expect_equal(unname(vk2_to_bk(log_vk2_mat, p = 2, log = TRUE)),
+               log(rbind(vk2_to_bk(vk2_mat[1, ], p = 2),
+                         vk2_to_bk(vk2_mat[2, ], p = 2))))
+  expect_equal(unname(vk2_to_bk(log_vk2_mat, p = 3, log = TRUE)),
+               log(rbind(vk2_to_bk(vk2_mat[1, ], p = 3),
+                         vk2_to_bk(vk2_mat[2, ], p = 3))))
+  expect_equal(unname(vk2_to_uk(vk2_mat, p = 2)),
+               rbind(vk2_to_uk(vk2_mat[1, ], p = 2),
+                     vk2_to_uk(vk2_mat[2, ], p = 2)))
+  expect_equal(unname(vk2_to_uk(vk2_mat, p = 3)),
+               rbind(vk2_to_uk(vk2_mat[1, ], p = 3),
+                     vk2_to_uk(vk2_mat[2, ], p = 3)))
+
+  expect_equal(unname(bk_to_vk2(log_bk_mat, p = 2, log = TRUE)),
+               log(rbind(bk_to_vk2(bk_mat[1, ], p = 2),
+                         bk_to_vk2(bk_mat[2, ], p = 2))))
+  expect_equal(unname(bk_to_vk2(log_bk_mat, p = 3, log = TRUE)),
+               log(rbind(bk_to_vk2(bk_mat[1, ], p = 3),
+                         bk_to_vk2(bk_mat[2, ], p = 3))))
+  expect_equal(unname(bk_to_uk(bk_mat, p = 2)),
+               rbind(bk_to_uk(bk_mat[1, ], p = 2),
+                     bk_to_uk(bk_mat[2, ], p = 2)))
+  expect_equal(unname(bk_to_uk(bk_mat, p = 3)),
+               rbind(bk_to_uk(bk_mat[1, ], p = 3),
+                     bk_to_uk(bk_mat[2, ], p = 3)))
+
+  expect_equal(unname(uk_to_vk2(uk_mat, p = 2)),
+               rbind(uk_to_vk2(uk_mat[1, ], p = 2),
+                     uk_to_vk2(uk_mat[2, ], p = 2)))
+  expect_equal(unname(uk_to_vk2(uk_mat, p = 3)),
+               rbind(uk_to_vk2(uk_mat[1, ], p = 3),
+                     uk_to_vk2(uk_mat[2, ], p = 3)))
+  expect_equal(unname(uk_to_bk(uk_mat, p = 2)),
+               rbind(uk_to_bk(uk_mat[1, ], p = 2),
+                     uk_to_bk(uk_mat[2, ], p = 2)))
+  expect_equal(unname(uk_to_bk(uk_mat, p = 3)),
+               rbind(uk_to_bk(uk_mat[1, ], p = 3),
+                     uk_to_bk(uk_mat[2, ], p = 3)))
 
 })
 

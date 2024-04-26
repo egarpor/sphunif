@@ -1072,9 +1072,9 @@ arma::vec sph_stat_Poisson(arma::cube X, bool Psi_in_X = false,
 
   }
 
-  // Divide by n and add bias
+  // Divide by n and add bias (affected by the normalization)
   Tn *= 2.0 / n;
-  Tn -= (n - 1.0);
+  Tn -= (n - 1.0) * std::pow(1.0 - rho, p) / (1.0 - rho * rho);
   return Tn;
 
 }
@@ -1091,7 +1091,7 @@ arma::vec sph_stat_Poisson_Psi(arma::mat Psi, arma::uword p, double rho = 0.5) {
 
   // Normalized Psi
   // (1 - rho^2) / (1 - 2 * rho * Psi + rho^2)^(0.5 * p) *
-  //   (1 - rho)^(p - 1) / (1 + rho)
+  //   (1 - rho)^p / (1 - rho^2)
   // = (1 - rho)^p / (1 - 2 * rho * Psi + rho^2)^(0.5 * p)
   Psi = arma::pow((1 - rho) / arma::sqrt(1 - 2.0 * rho * Psi + rho * rho), p);
 

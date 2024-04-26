@@ -1244,8 +1244,8 @@ sph_stat_Poisson <- function(X, Psi_in_X = FALSE, p = 0L, rho = 0.5) {
 }
 
 #' @keywords internal
-sph_stat_Poisson_Psi <- function(Psi, n, p, rho = 0.5) {
-    .Call('_sphunif_sph_stat_Poisson_Psi', PACKAGE = 'sphunif', Psi, n, p, rho)
+sph_stat_Poisson_Psi <- function(Psi, p, rho = 0.5) {
+    .Call('_sphunif_sph_stat_Poisson_Psi', PACKAGE = 'sphunif', Psi, p, rho)
 }
 
 #' @rdname sph_stat
@@ -1255,8 +1255,8 @@ sph_stat_Softmax <- function(X, Psi_in_X = FALSE, p = 0L, kappa = 1) {
 }
 
 #' @keywords internal
-sph_stat_Softmax_Psi <- function(Psi, n, p, kappa = 1) {
-    .Call('_sphunif_sph_stat_Softmax_Psi', PACKAGE = 'sphunif', Psi, n, p, kappa)
+sph_stat_Softmax_Psi <- function(Psi, kappa = 1) {
+    .Call('_sphunif_sph_stat_Softmax_Psi', PACKAGE = 'sphunif', Psi, kappa)
 }
 
 #' @rdname sph_stat
@@ -1266,8 +1266,8 @@ sph_stat_Stereo <- function(X, Psi_in_X = FALSE, p = 0L, a = 0) {
 }
 
 #' @keywords internal
-sph_stat_Stereo_Psi <- function(Psi, n, p, a = 0) {
-    .Call('_sphunif_sph_stat_Stereo_Psi', PACKAGE = 'sphunif', Psi, n, p, a)
+sph_stat_Stereo_Psi <- function(Psi, a = 0) {
+    .Call('_sphunif_sph_stat_Stereo_Psi', PACKAGE = 'sphunif', Psi, a)
 }
 
 #' @rdname sph_stat
@@ -1289,7 +1289,7 @@ sph_stat_CJ12 <- function(X, Psi_in_X = FALSE, p = 0L, regime = 3L) {
 }
 
 #' @keywords internal
-sph_stat_CJ12_Psi <- function(Psi, n, p) {
-    .Call('_sphunif_sph_stat_CJ12_Psi', PACKAGE = 'sphunif', Psi, n, p)
+sph_stat_CJ12_Psi <- function(Psi) {
+    .Call('_sphunif_sph_stat_CJ12_Psi', PACKAGE = 'sphunif', Psi)
 }
 

@@ -19,11 +19,11 @@ arma::vec q_proj_unif(arma::vec u, arma::uword p);
 arma::vec p_Kolmogorov(arma::vec, arma::uword K_Kolmogorov, bool alternating);
 arma::vec Gauss_Legen_nodes(double a, double b, arma::uword N);
 arma::vec Gauss_Legen_weights(double a, double b, arma::uword N);
+arma::vec sph_stat_Riesz(arma::cube X, bool Psi_in_X, arma::uword p, double s);
 arma::vec cir_stat_An_Psi(arma::mat Psi, arma::uword n);
 arma::vec sph_stat_Gine_Gn_Psi(arma::mat Psi, arma::uword n, arma::uword p);
 arma::vec sph_stat_Gine_Fn_Psi(arma::mat Psi, arma::uword n, arma::uword p);
 arma::vec sph_stat_Pycke_Psi(arma::mat Psi, arma::uword n, arma::uword p);
-arma::vec sph_stat_Riesz(arma::cube X, bool Psi_in_X, arma::uword p, double s);
 arma::vec sph_stat_Riesz_Psi(arma::mat Psi, arma::uword n, double s);
 arma::vec sph_stat_PCvM_Psi(arma::mat Psi, arma::uword n, arma::uword p,
                             arma::vec th_grid, arma::vec int_grid);
@@ -32,13 +32,10 @@ arma::vec sph_stat_PRt_Psi(arma::mat Psi, arma::uword n, arma::uword p,
                            arma::vec int_grid);
 arma::vec sph_stat_PAD_Psi(arma::mat Psi, arma::uword n, arma::uword p,
                            arma::vec th_grid, arma::vec int_grid);
-arma::vec sph_stat_CJ12_Psi(arma::mat Psi, arma::uword n, arma::uword p);
-arma::vec sph_stat_Poisson_Psi(arma::mat Psi, arma::uword n, arma::uword p,
-                               double rho);
-arma::vec sph_stat_Softmax_Psi(arma::mat Psi, arma::uword n, arma::uword p,
-                               double kappa);
-arma::vec sph_stat_Stereo_Psi(arma::mat Psi, arma::uword n, arma::uword p,
-                              double a);
+arma::vec sph_stat_CJ12_Psi(arma::mat Psi);
+arma::vec sph_stat_Poisson_Psi(arma::mat Psi, arma::uword p, double rho);
+arma::vec sph_stat_Softmax_Psi(arma::mat Psi, double kappa);
+arma::vec sph_stat_Stereo_Psi(arma::mat Psi, double a);
 
 // Constants
 const double inv_M_PI = 1.0 / M_PI;
@@ -1056,7 +1053,7 @@ arma::vec sph_stat_Poisson(arma::cube X, bool Psi_in_X = false,
   if (Psi_in_X) {
 
     // Compute statistic
-    Tn = sph_stat_Poisson_Psi(arma::cos(X.slice(0)), n, p, rho);
+    Tn = sph_stat_Poisson_Psi(arma::cos(X.slice(0)), p, rho);
 
   } else {
 
@@ -1069,7 +1066,7 @@ arma::vec sph_stat_Poisson(arma::cube X, bool Psi_in_X = false,
                                 arma::span(k)), ind_tri, true, true, false);
 
       // Compute statistic
-      Tn(k) = arma::as_scalar(sph_stat_Poisson_Psi(Psi, n, p, rho));
+      Tn(k) = arma::as_scalar(sph_stat_Poisson_Psi(Psi, p, rho));
 
     }
 
@@ -1085,11 +1082,18 @@ arma::vec sph_stat_Poisson(arma::cube X, bool Psi_in_X = false,
 
 //' @keywords internal
 // [[Rcpp::export]]
-arma::vec sph_stat_Poisson_Psi(arma::mat Psi, arma::uword n, arma::uword p,
-                               double rho = 0.5) {
+arma::vec sph_stat_Poisson_Psi(arma::mat Psi, arma::uword p, double rho = 0.5) {
 
   // Addends -- Psi contains scalar products!
-  Psi = arma::pow(1 - 2.0 * rho * Psi + rho * rho, -0.5 * p) * (1 - rho * rho);
+  // Unnormalized Psi
+  // Psi = arma::pow(1 - 2.0 * rho * Psi + rho * rho, -0.5 * p) *
+  //   (1 - rho * rho);
+
+  // Normalized Psi
+  // (1 - rho^2) / (1 - 2 * rho * Psi + rho^2)^(0.5 * p) *
+  //   (1 - rho)^(p - 1) / (1 + rho)
+  // = (1 - rho)^p / (1 - 2 * rho * Psi + rho^2)^(0.5 * p)
+  Psi = arma::pow((1 - rho) / arma::sqrt(1 - 2.0 * rho * Psi + rho * rho), p);
 
   // Statistic
   arma::vec Tn = arma::sum(Psi, 0).t();
@@ -1128,7 +1132,7 @@ arma::vec sph_stat_Softmax(arma::cube X, bool Psi_in_X = false,
   if (Psi_in_X) {
 
     // Compute statistic
-    Tn = sph_stat_Softmax_Psi(arma::cos(X.slice(0)), n, p, kappa);
+    Tn = sph_stat_Softmax_Psi(arma::cos(X.slice(0)), kappa);
 
   } else {
 
@@ -1141,7 +1145,7 @@ arma::vec sph_stat_Softmax(arma::cube X, bool Psi_in_X = false,
                                 arma::span(k)), ind_tri, true, true, false);
 
       // Compute statistic
-      Tn(k) = arma::as_scalar(sph_stat_Softmax_Psi(Psi, n, p, kappa));
+      Tn(k) = arma::as_scalar(sph_stat_Softmax_Psi(Psi, kappa));
 
     }
 
@@ -1165,8 +1169,7 @@ arma::vec sph_stat_Softmax(arma::cube X, bool Psi_in_X = false,
 
 //' @keywords internal
 // [[Rcpp::export]]
-arma::vec sph_stat_Softmax_Psi(arma::mat Psi, arma::uword n, arma::uword p,
-                               double kappa = 1) {
+arma::vec sph_stat_Softmax_Psi(arma::mat Psi, double kappa = 1) {
 
   // Addends -- Psi contains scalar products!
   Psi = arma::exp(kappa * (Psi - 1.0));
@@ -1212,7 +1215,7 @@ arma::vec sph_stat_Stereo(arma::cube X, bool Psi_in_X = false,
  if (Psi_in_X) {
 
    // Compute statistic
-   Tn = sph_stat_Stereo_Psi(X.slice(0), n, p, a);
+   Tn = sph_stat_Stereo_Psi(X.slice(0), a);
 
  } else {
 
@@ -1225,7 +1228,7 @@ arma::vec sph_stat_Stereo(arma::cube X, bool Psi_in_X = false,
                                arma::span(k)), ind_tri, true, false, false);
 
      // Compute statistic
-     Tn(k) = arma::as_scalar(sph_stat_Stereo_Psi(Psi, n, p, a));
+     Tn(k) = arma::as_scalar(sph_stat_Stereo_Psi(Psi, a));
 
    }
 
@@ -1242,8 +1245,7 @@ arma::vec sph_stat_Stereo(arma::cube X, bool Psi_in_X = false,
 
 //' @keywords internal
 // [[Rcpp::export]]
-arma::vec sph_stat_Stereo_Psi(arma::mat Psi, arma::uword n, arma::uword p,
-                              double a = 0) {
+arma::vec sph_stat_Stereo_Psi(arma::mat Psi, double a = 0) {
 
   // Addends
   Psi = arma::tan(0.5 * Psi);
@@ -1392,7 +1394,7 @@ arma::vec sph_stat_CJ12(arma::cube X, bool Psi_in_X = false, arma::uword p = 0,
   if (Psi_in_X) {
 
     // Compute statistic
-    Cn = sph_stat_CJ12_Psi(arma::cos(X.slice(0)), n, p);
+    Cn = sph_stat_CJ12_Psi(arma::cos(X.slice(0)));
 
   } else {
 
@@ -1405,7 +1407,7 @@ arma::vec sph_stat_CJ12(arma::cube X, bool Psi_in_X = false, arma::uword p = 0,
                                 arma::span(k)), ind_tri, true, true, false);
 
       // Compute statistic
-      Cn(k) = arma::as_scalar(sph_stat_CJ12_Psi(Psi, n, p));
+      Cn(k) = arma::as_scalar(sph_stat_CJ12_Psi(Psi));
 
     }
 
@@ -1430,7 +1432,7 @@ arma::vec sph_stat_CJ12(arma::cube X, bool Psi_in_X = false, arma::uword p = 0,
 
 //' @keywords internal
 // [[Rcpp::export]]
-arma::vec sph_stat_CJ12_Psi(arma::mat Psi, arma::uword n, arma::uword p) {
+arma::vec sph_stat_CJ12_Psi(arma::mat Psi) {
 
   // Statistic -- Psi contains scalar products!
   arma::vec Cn = arma::max(arma::abs(Psi), 0).t();

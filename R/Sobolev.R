@@ -464,6 +464,7 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
         log_vk2 <- log(2 * k + p - 2) - log(p - 2) + k * log(Poisson_rho)
 
       }
+      log_vk2 <- log_vk2 + (p - 1) * log(1 - Poisson_rho) - log(1 + Poisson_rho)
 
       # Switch from bk to vk2
       log_vk2 <- bk_to_vk2(bk = log_vk2, p = p, log = TRUE)

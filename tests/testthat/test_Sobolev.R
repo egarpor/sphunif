@@ -32,7 +32,7 @@ psi_Pycke_q <- function(th, q = 0.5) {
   2 * (cos(th) - q) / (1 + q^2 - 2 * q * cos(th))
 }
 psi_Poisson <- function(th, rho, q) {
-  (1 - rho^2) / (1 - 2 * rho * cos(th) + rho^2)^((q + 1) / 2)
+  ((1 - rho) / sqrt(1 - 2 * rho * cos(th) + rho^2))^(q + 1)
 }
 psi_Softmax <- function(th, kappa) {
   exp(kappa * (cos(th) - 1))

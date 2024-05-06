@@ -806,8 +806,8 @@ uk_to_bk <- function(uk, p) {
 #'
 #' @inheritParams r_unif
 #' @param alt alternative, must be \code{"vMF"}, \code{"MvMF"},
-#' \code{"ACG"}, \code{"SC"}, \code{"W"}, \code{"C"}, or \code{"MC"}.
-#' See details below.
+#' \code{"ACG"}, \code{"SC"}, \code{"W"}, \code{"C"}, \code{"MC"}, or
+#' \code{"unif_antipodal"}. See details below.
 #' @param kappa non-negative parameter measuring the strength of the deviation
 #' with respect to uniformity (obtained with \eqn{\kappa = 0}).
 #' @param nu projection along \eqn{{\bf e}_p}{e_p} controlling the modal

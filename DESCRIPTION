@@ -40,6 +40,7 @@ Imports:
 Suggests:
     CompQuadForm,
     dgof,
+    gdata,
     goftest,
     knitr,
     markdown,
@@ -47,10 +48,9 @@ Suggests:
     numDeriv,
     progress,
     progressr,
+    rgl,
     rmarkdown,
     scatterplot3d,
-    rgl,
-    gdata,
     testthat,
     viridisLite
 LinkingTo: Rcpp, RcppArmadillo

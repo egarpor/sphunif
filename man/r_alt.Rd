@@ -4,8 +4,8 @@
 \alias{r_alt}
 \title{Sample non-uniformly distributed spherical data}
 \usage{
-r_alt(n, p, M = 1, alt = "vMF", kappa = 1, nu = 0.5, F_inv = NULL,
-  K = 1000, axial_MvMF = TRUE)
+r_alt(n, p, M = 1, alt = "vMF", kappa = 1, nu = 0.5, r = pi/10,
+  F_inv = NULL, K = 1000, axial_MvMF = TRUE)
 }
 \arguments{
 \item{n}{sample size.}
@@ -16,7 +16,8 @@ contains \eqn{S^{p-1}}.}
 \item{M}{number of samples of size \code{n}. Defaults to \code{1}.}
 
 \item{alt}{alternative, must be \code{"vMF"}, \code{"MvMF"},
-\code{"ACG"}, \code{"SC"}, \code{"W"}, or \code{"C"}. See details below.}
+\code{"ACG"}, \code{"SC"}, \code{"W"}, \code{"C"}, \code{"MC"}, or
+\code{"unif_antipodal"}. See details below.}
 
 \item{kappa}{non-negative parameter measuring the strength of the deviation
 with respect to uniformity (obtained with \eqn{\kappa = 0}).}
@@ -25,6 +26,9 @@ with respect to uniformity (obtained with \eqn{\kappa = 0}).}
 strip of the small circle distribution. Must be in (-1, 1). Defaults to
 \code{0.5}.}
 
+\item{r}{radius of the spherical cap around the antipodal observation in
+radians. A nonnegative scalar in \eqn{[0,\pi]}. Defaults to \eqn{\pi/10}.}
+
 \item{F_inv}{quantile function returned by \code{\link{F_inv_from_f}}. Used
 for \code{"SC"}, \code{"W"}, and \code{"C"}. Computed by internally if
 \code{NULL} (default).}
@@ -32,8 +36,8 @@ for \code{"SC"}, \code{"W"}, and \code{"C"}. Computed by internally if
 \item{K}{number of equispaced points on \eqn{[-1, 1]} used for evaluating
 \eqn{F^{-1}} and then interpolating. Defaults to \code{1e3}.}
 
-\item{axial_MvMF}{use a mixture of vMF that is axial (i.e., symmetrically
-distributed about the origin)? Defaults to \code{TRUE}.}
+\item{axial_MvMF}{use a mixture of vMF or Cauchy_like that is axial (i.e.,
+symmetrically distributed about the origin)? Defaults to \code{TRUE}.}
 }
 \value{
 An \bold{array} of size \code{c(n, p, M)} with \code{M} random
@@ -43,8 +47,9 @@ samples of size \code{n} of non-uniformly-generated directions on
 \description{
 Simple simulation of prespecified non-uniform spherical
 distributions: von Mises--Fisher (vMF), Mixture of vMF (MvMF),
-Angular Central Gaussian (ACG), Small Circle (SC), Watson (W), or
-Cauchy-like (C).
+Angular Central Gaussian (ACG), Small Circle (SC), Watson (W),
+Cauchy-like (C), Mixture of Cauchy-like (MC), or uniform distribution with
+antipodal dependent observations (unif_antipodal).
 }
 \details{
 The parameter \code{kappa} is used as \eqn{\kappa} in the following
@@ -72,6 +77,21 @@ distributions:
   \eqn{{\bf e}_p = (0, 0, \ldots, 1)}{e_p = (0, 0, \ldots, 1)} and
   concentration \eqn{\kappa = \rho / (1 - \rho^2)}. The circular Wrapped
   Cauchy distribution is a particular case of this Cauchy-like distribution.
+  \item \code{"MC"}: equally-weighted mixture of \eqn{p} Cauchy-like
+  distributions with common concentration \eqn{\kappa} and directional means
+  \eqn{\pm{\bf e}_1, \ldots, \pm{\bf e}_p}{±e_1, \ldots, ±e_p} if
+  \code{axial_MvMF = TRUE}. If \code{axial_MvMF = FALSE}, then only means
+  with positive signs are considered.
+
+}
+The parameter \code{r} is used as \eqn{r} in the distribution:
+\itemize{
+\item \code{"unif_antipodal"}: Sample formed by \eqn{\lceil\frac{n}{2}\rceil}
+observations, \eqn{\{{\bf x}_i\}_{i=1}^{\lceil\frac{n}{2}\rceil}},
+drawn uniformly on \eqn{S^{p-1}} and the remaining observations
+drawn from a uniform distribution within a spherical cap of
+radius \eqn{r} around \eqn{\{{-\bf x}_i\}_{i=1}^{\lfloor\frac{n}{2}\rfloor}}.
+See more about the uniform cap distribution on \code{\link{unif_cap_alt}}.
 }
 
 Much faster sampling for \code{"SC"}, \code{"W"}, and \code{"C"} is achieved
@@ -84,6 +104,7 @@ p <- 2
 n <- 200
 kappa <- 20
 nu <- 0.5
+r <- pi/10
 rho <- ((2 * kappa + 1) - sqrt(4 * kappa + 1)) / (2 * kappa)
 F_inv_SC_2 <- F_inv_from_f(f = function(z) exp(-kappa * (z - nu)^2), p = 2)
 F_inv_W_2 <- F_inv_from_f(f = function(z) exp(kappa * z^2), p = 2)
@@ -95,6 +116,9 @@ x3 <- r_alt(n = n, p = p, alt = "ACG", kappa = kappa)[, , 1]
 x4 <- r_alt(n = n, p = p, alt = "SC", F_inv = F_inv_SC_2)[, , 1]
 x5 <- r_alt(n = n, p = p, alt = "W", F_inv = F_inv_W_2)[, , 1]
 x6 <- r_alt(n = n, p = p, alt = "C", F_inv = F_inv_C_2)[, , 1]
+x7 <- r_alt(n = n, p = p, alt = "MC", kappa = kappa)[, , 1]
+# Only 20 observations to visualize antipodal dependency
+x8 <- r_alt(n = 20, p = p, alt = "unif_antipodal", r = r)[, , 1]
 r <- runif(n, 0.95, 1.05) # Radius perturbation to improve visualization
 plot(r * x1, pch = 16, xlim = c(-1.1, 1.1), ylim = c(-1.1, 1.1), col = 1)
 points(r * x2, pch = 16, col = 2)
@@ -102,6 +126,10 @@ points(r * x3, pch = 16, col = 3)
 points(r * x4, pch = 16, col = 4)
 points(r * x5, pch = 16, col = 5)
 points(r * x6, pch = 16, col = 6)
+points(r * x7, pch = 16, col = 7)
+# Same color represents antipodal observations
+plot(x8, pch = 16, xlim = c(-1.1, 1.1), ylim = c(-1.1, 1.1),
+     col = rep(rainbow(ceiling(nrow(x8)/2)), 2))
 
 ## Simulation with p = 3
 
@@ -109,6 +137,7 @@ n <- 200
 p <- 3
 kappa <- 20
 nu <- 0.5
+r <- pi/10
 rho <- ((2 * kappa + 1) - sqrt(4 * kappa + 1)) / (2 * kappa)
 F_inv_SC_3 <- F_inv_from_f(f = function(z) exp(-kappa * (z - nu)^2), p = 3)
 F_inv_W_3 <- F_inv_from_f(f = function(z) exp(kappa * z^2), p = 3)
@@ -120,6 +149,9 @@ x3 <- r_alt(n = n, p = p, alt = "ACG", kappa = kappa)[, , 1]
 x4 <- r_alt(n = n, p = p, alt = "SC", F_inv = F_inv_SC_3)[, , 1]
 x5 <- r_alt(n = n, p = p, alt = "W", F_inv = F_inv_W_3)[, , 1]
 x6 <- r_alt(n = n, p = p, alt = "C", F_inv = F_inv_C_3)[, , 1]
+x7 <- r_alt(n = n, p = p, alt = "MC", kappa = kappa)[, , 1]
+# Only 20 observations to visualize antipodal dependency
+x8 <- r_alt(n = 20, p = p, alt = "unif_antipodal", r = r)[, , 1]
 s3d <- scatterplot3d::scatterplot3d(x1, pch = 16, xlim = c(-1.1, 1.1),
                                     ylim = c(-1.1, 1.1), zlim = c(-1.1, 1.1))
 s3d$points3d(x2, pch = 16, col = 2)
@@ -127,4 +159,21 @@ s3d$points3d(x3, pch = 16, col = 3)
 s3d$points3d(x4, pch = 16, col = 4)
 s3d$points3d(x5, pch = 16, col = 5)
 s3d$points3d(x6, pch = 16, col = 6)
+s3d$points3d(x7, pch = 16, col = 7)
+scatterplot3d::scatterplot3d(x8, pch = 16, xlim = c(-1.1, 1.1),
+                             ylim = c(-1.1, 1.1), zlim = c(-1.1, 1.1),
+                             color = rep(rainbow(ceiling(nrow(x8)/2)), 2))
+if(require("gdata") && require("rgl")){
+  # 3D visualization of antipodal dependence
+  u <- x8[1:ceiling(nrow(x8)/2),]
+  a <- x8[(ceiling(nrow(x8)/2) + 1):nrow(x8),]
+  x8 <- gdata::interleave(u,a)
+  rainbow_col <- cbind(rainbow(ceiling(nrow(x8)/2)))
+  alternating_col <- gdata::interleave(rainbow_col, rainbow_col)
+  rgl::plot3d(x8, type = "p",
+              col = alternating_col,
+              size = 10,
+              xlim = c(-1,1), ylim = c(-1,1), zlim = c(-1,1))
+  rgl::segments3d(x8, col = alternating_col, lwd = 2)
+}
 }

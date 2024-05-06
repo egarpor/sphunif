@@ -49,6 +49,8 @@ Suggests:
     progressr,
     rmarkdown,
     scatterplot3d,
+    rgl,
+    gdata,
     testthat,
     viridisLite
 LinkingTo: Rcpp, RcppArmadillo

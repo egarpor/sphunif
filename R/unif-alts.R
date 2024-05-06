@@ -813,8 +813,8 @@ uk_to_bk <- function(uk, p) {
 #' @param nu projection along \eqn{{\bf e}_p}{e_p} controlling the modal
 #' strip of the small circle distribution. Must be in (-1, 1). Defaults to
 #' \code{0.5}.
-#' @param r radius of the spherical cap around the antipodal observation in radians.
-#' A nonnegative scalar in \eqn{[0,\pi]}. Defaults to \eqn{\pi/10}.
+#' @param r radius of the spherical cap around the antipodal observation in
+#' radians. A nonnegative scalar in \eqn{[0,\pi]}. Defaults to \eqn{\pi/10}.
 #' @param F_inv quantile function returned by \code{\link{F_inv_from_f}}. Used
 #' for \code{"SC"}, \code{"W"}, and \code{"C"}. Computed by internally if
 #' \code{NULL} (default).
@@ -935,20 +935,22 @@ uk_to_bk <- function(uk, p) {
 #' scatterplot3d::scatterplot3d(x8, pch = 16, xlim = c(-1.1, 1.1),
 #'                              ylim = c(-1.1, 1.1), zlim = c(-1.1, 1.1),
 #'                              color = rep(rainbow(ceiling(nrow(x8)/2)), 2))
-#' # 3D visualization of antipodal dependence
-#' u <- x8[1:ceiling(nrow(x8)/2),]
-#' a <- x8[(ceiling(nrow(x8)/2) + 1):nrow(x8),]
-#' x8 <- gdata::interleave(u,a)
-#' rainbow_col <- cbind(rainbow(ceiling(nrow(x8)/2)))
-#' alternating_col <- gdata::interleave(rainbow_col, rainbow_col)
-#' rgl::plot3d(x8, type = "p",
-#'             col = alternating_col,
-#'             size = 10,
-#'             xlim = c(-1,1), ylim = c(-1,1), zlim = c(-1,1))
-#' rgl::segments3d(x8, col = alternating_col, lwd = 2)
+#' if(require("gdata") && require("rgl")){
+#'   # 3D visualization of antipodal dependence
+#'   u <- x8[1:ceiling(nrow(x8)/2),]
+#'   a <- x8[(ceiling(nrow(x8)/2) + 1):nrow(x8),]
+#'   x8 <- gdata::interleave(u,a)
+#'   rainbow_col <- cbind(rainbow(ceiling(nrow(x8)/2)))
+#'   alternating_col <- gdata::interleave(rainbow_col, rainbow_col)
+#'   rgl::plot3d(x8, type = "p",
+#'               col = alternating_col,
+#'               size = 10,
+#'               xlim = c(-1,1), ylim = c(-1,1), zlim = c(-1,1))
+#'   rgl::segments3d(x8, col = alternating_col, lwd = 2)
+#' }
 
 #' @export
-r_alt <- function(n, p, M = 1, alt = "vMF", kappa = 1, nu = 0.5, r = pi/10,
+r_alt <- function(n, p, M = 1, alt = "vMF", kappa = 1, nu = 0.5, r = pi / 10,
                   F_inv = NULL, K = 1e3, axial_MvMF = TRUE) {
 
   # Common mean (North pole)
@@ -1064,10 +1066,9 @@ r_alt <- function(n, p, M = 1, alt = "vMF", kappa = 1, nu = 0.5, r = pi/10,
     # Compute the inverse of the distribution function F?
     if (is.null(F_inv)) {
 
-      rho <- ifelse(kappa == 0, 0, ((2 * kappa + 1) - sqrt(4 *
-                                                             kappa + 1))/(2 * kappa))
-      f <- function(z) (1 - rho^2)/(1 + rho^2 - 2 * rho *
-                                      z)^(p/2)
+      rho <- ifelse(kappa == 0, 0, ((2 * kappa + 1) - sqrt(4 * kappa
+                                                           + 1)) / (2 * kappa))
+      f <- function(z) (1 - rho^2) / (1 + rho^2 - 2 * rho * z)^(p / 2)
       F_inv <- F_inv_from_f(f = f, p = p, K = K)
 
     }
@@ -1080,7 +1081,8 @@ r_alt <- function(n, p, M = 1, alt = "vMF", kappa = 1, nu = 0.5, r = pi/10,
     long_samp <- matrix(nrow = n * M, ncol = p)
     for (k in which(nM_j > 0)) {
 
-      long_samp[j == k, ] <- rotasym::r_tang_norm(n = nM_j[k], theta = mu_j[k, ],
+      long_samp[j == k, ] <- rotasym::r_tang_norm(n = nM_j[k],
+                                                  theta = mu_j[k, ],
                                                   r_U = r_U, r_V = r_V)
 
     }
@@ -1098,19 +1100,19 @@ r_alt <- function(n, p, M = 1, alt = "vMF", kappa = 1, nu = 0.5, r = pi/10,
 
   } else if (alt == "unif_antipodal") {
 
-    n_2 <- ceiling(n/2)
+    n_2 <- ceiling(n / 2)
     n_ant <- n - n_2
     u <- r_unif_sph(n = n_2 * M, p = p, M = 1)[, , 1]
     ant <- array(dim = c(n_ant * M, p))
     for (i in 1:(n_ant * M)){
-      ant[i,] <- r_unif_cap(n = 1, mu = -u[i,], r = r)
+      ant[i, ] <- r_unif_cap(n = 1, mu = -u[i, ], r = r)
     }
 
-    long_samp <- rbind(u[1:n_2,], ant[1:n_ant,])
-    if (M > 1){
+    long_samp <- rbind(u[1:n_2, ], ant[1:n_ant, ])
+    if (M > 1) {
       for (j in 2:M){
-        long_samp <- rbind(long_samp, u[(1 + (j - 1) * n_2):(j * n_2),],
-                           ant[(1 + (j - 1) * n_ant):(j * n_ant),])
+        long_samp <- rbind(long_samp, u[(1 + (j - 1) * n_2):(j * n_2), ],
+                           ant[(1 + (j - 1) * n_ant):(j * n_ant), ])
       }
     }
 

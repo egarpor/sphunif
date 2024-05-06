@@ -25,3 +25,5 @@
 # sphunif 1.3.1
 
 * Normalize Poisson kernel to improve numerical stability.
+* Add uniform spherical cap distribution in `unif_cap_alt`.
+* Add alternative generating-process of uniform observations with antipodal dependency in `r_alt()`.

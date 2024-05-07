@@ -22,10 +22,14 @@
 \alias{d_sph_stat_PAD}
 \alias{p_sph_stat_PCvM}
 \alias{d_sph_stat_PCvM}
+\alias{p_sph_stat_Poisson}
+\alias{d_sph_stat_Poisson}
 \alias{p_sph_stat_PRt}
 \alias{d_sph_stat_PRt}
 \alias{p_sph_stat_Riesz}
 \alias{d_sph_stat_Riesz}
+\alias{p_sph_stat_Softmax}
+\alias{d_sph_stat_Softmax}
 \alias{p_sph_stat_Sobolev}
 \alias{d_sph_stat_Sobolev}
 \title{Asymptotic distributions for spherical uniformity statistics}
@@ -70,6 +74,10 @@ p_sph_stat_PCvM(x, p, K_max = 1000, thre = 0, ...)
 
 d_sph_stat_PCvM(x, p, K_max = 1000, thre = 0, ...)
 
+p_sph_stat_Poisson(x, p, rho = 0.5, K_max = 1000, thre = 0, ...)
+
+d_sph_stat_Poisson(x, p, rho = 0.5, K_max = 1000, thre = 0, ...)
+
 p_sph_stat_PRt(x, p, t = 1/3, K_max = 1000, thre = 0, ...)
 
 d_sph_stat_PRt(x, p, t = 1/3, K_max = 1000, thre = 0, ...)
@@ -77,6 +85,10 @@ d_sph_stat_PRt(x, p, t = 1/3, K_max = 1000, thre = 0, ...)
 p_sph_stat_Riesz(x, p, s = 1, K_max = 1000, thre = 0, ...)
 
 d_sph_stat_Riesz(x, p, s = 1, K_max = 1000, thre = 0, ...)
+
+p_sph_stat_Softmax(x, p, kappa = 1, K_max = 1000, thre = 0, ...)
+
+d_sph_stat_Softmax(x, p, kappa = 1, K_max = 1000, thre = 0, ...)
 
 p_sph_stat_Sobolev(x, p, vk2 = c(0, 0, 1), K_max = 1000, thre = 0, ...)
 
@@ -105,11 +117,17 @@ the first terms of the truncated series of a Sobolev test. Defaults to
 \item{...}{further parameters passed to \code{\link{p_Sobolev}} or
 \code{\link{d_Sobolev}} (such as \code{x_tail}).}
 
+\item{rho}{\eqn{\rho} parameter for the Poisson test, a real in
+\eqn{[0, 1)}. Defaults to \code{0.5}.}
+
 \item{t}{\eqn{t} parameter for the Rothman and Cressie tests, a real in
 \eqn{(0, 1)}. Defaults to \code{1 / 3}.}
 
 \item{s}{\eqn{s} parameter for the \eqn{s}-Riesz test, a real in
 \eqn{(0, 2)}. Defaults to \code{1}.}
+
+\item{kappa}{\eqn{\kappa} parameter for the Softmax test, a
+non-negative real. Defaults to \code{1}.}
 
 \item{vk2}{weights for the finite Sobolev test. A non-negative vector or
 matrix. Defaults to \code{c(0, 0, 1)}.}
@@ -182,6 +200,12 @@ curve(d_sph_stat_PCvM(x, p = 3, method = "HBE"), to = 0.6, n = 2e2,
 curve(p_sph_stat_PCvM(x, p = 3, method = "HBE"), n = 2e2, col = 2,
       add = TRUE)
 
+# Poisson
+curve(d_sph_stat_Poisson(x, p = 3, method = "HBE"), to = 2, n = 2e2,
+      ylim = c(0, 2))
+curve(p_sph_stat_Poisson(x, p = 3, method = "HBE"), n = 2e2, col = 2,
+      add = TRUE)
+
 # PRt
 curve(d_sph_stat_PRt(x, p = 3, method = "HBE"), n = 2e2, ylim = c(0, 5))
 curve(p_sph_stat_PRt(x, p = 3, method = "HBE"), n = 2e2, col = 2, add = TRUE)
@@ -209,4 +233,10 @@ matplot(x, d_sph_stat_Sobolev(x = x, vk2 = vk2, p = 3), type = "l",
 matlines(x, p_sph_stat_Sobolev(x = x, vk2 = vk2, p = 3), lty = 1)
 matlines(x, d_sph_stat_Sobolev(x = x, vk2 = vk2 + 0.01, p = 3), lty = 2)
 matlines(x, p_sph_stat_Sobolev(x = x, vk2 = vk2 + 0.01, p = 3), lty = 2)
+
+# Softmax
+curve(d_sph_stat_Softmax(x, p = 3, method = "HBE"), to = 2, n = 2e2,
+      ylim = c(0, 2))
+curve(p_sph_stat_Softmax(x, p = 3, method = "HBE"), n = 2e2, col = 2,
+      add = TRUE)
 }

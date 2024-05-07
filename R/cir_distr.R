@@ -136,6 +136,10 @@
 #' curve(d_cir_stat_PRt(x, method = "HBE"), n = 2e2, ylim = c(0, 5))
 #' curve(p_cir_stat_PRt(x, method = "HBE"), n = 2e2, add = TRUE, col = 2)
 #'
+#' # # Poisson
+#' # curve(d_cir_stat_Poisson(x), from = -5, to = 10, n = 2e2, ylim = c(0, 1))
+#' # curve(p_cir_stat_Poisson(x), n = 2e2, col = 2, add = TRUE)
+#'
 #' # Pycke
 #' curve(d_cir_stat_Pycke(x), from = -5, to = 10, n = 2e2, ylim = c(0, 1))
 #' curve(p_cir_stat_Pycke(x), n = 2e2, col = 2, add = TRUE)
@@ -177,6 +181,10 @@
 #' # Watson (1976)
 #' curve(d_cir_stat_Watson_1976(x), to = 1.5, n = 2e2, ylim = c(0, 3))
 #' curve(p_cir_stat_Watson_1976(x), n = 2e2, col = 2, add = TRUE)
+#'
+#' # # Softmax
+#' # curve(d_cir_stat_Softmax(x), to = 3, n = 2e2, ylim = c(0, 2))
+#' # curve(p_cir_stat_Softmax(x), n = 2e2, col = 2, add = TRUE)
 #'
 #' # Sobolev
 #' vk2 <- c(0.5, 0)
@@ -317,6 +325,26 @@ d_cir_stat_PRt <- function(x, t = 1 / 3, K_max = 1e3, thre = 0, ...) {
 
 #' @rdname cir_stat_distr
 #' @export
+p_cir_stat_Poisson <- function(x, rho = 0.5, K_max = 1e3, thre = 0, ...) {
+
+  cbind(p_Sobolev(x = x, p = 2, type = "Poisson", Poisson_rho = rho,
+                  K_max = K_max, thre = thre, ...))
+
+}
+
+
+#' @rdname cir_stat_distr
+#' @export
+d_cir_stat_Poisson <- function(x, rho = 0.5, K_max = 1e3, thre = 0, ...) {
+
+  cbind(d_Sobolev(x = x, p = 2, type = "Poisson", Poisson_rho = rho,
+                  K_max = K_max, thre = thre, ...))
+
+}
+
+
+#' @rdname cir_stat_distr
+#' @export
 p_cir_stat_Pycke_q <- function(x, q = 0.5, K_max = 1e3, thre = 0, ...) {
 
   cbind(p_Sobolev(x = x, p = 2, type = "Pycke_q", Pycke_q = q,
@@ -389,3 +417,24 @@ d_cir_stat_Sobolev <- function(x, vk2 = c(0, 0, 1), ...) {
   d_sph_stat_Sobolev(x = x, p = 2, vk2 = vk2, ...)
 
 }
+
+
+#' @rdname cir_stat_distr
+#' @export
+p_cir_stat_Softmax <- function(x, kappa = 1, K_max = 1e3, thre = 0, ...) {
+
+  cbind(p_Sobolev(x = x, p = 2, type = "Softmax", Softmax_kappa = kappa,
+                  K_max = K_max, thre = thre, ...))
+
+}
+
+
+#' @rdname cir_stat_distr
+#' @export
+d_cir_stat_Softmax <- function(x, kappa = 1, K_max = 1e3, thre = 0, ...) {
+
+  cbind(d_Sobolev(x = x, p = 2, type = "Softmax", Softmax_kappa = kappa,
+                  K_max = K_max, thre = thre, ...))
+
+}
+

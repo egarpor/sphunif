@@ -245,10 +245,9 @@ d_sph_stat_PCvM <- function(x, p, K_max = 1e3, thre = 0, ...) {
 
 #' @rdname sph_stat_distr
 #' @export
-p_sph_stat_Poisson <- function(x, p, Poisson_rho = 0.5, K_max = 1e3, thre = 0,
-                               ...) {
+p_sph_stat_Poisson <- function(x, p, rho = 0.5, K_max = 1e3, thre = 0, ...) {
 
-  cbind(p_Sobolev(x = x, p = p, type = "Poisson", Poisson_rho = Poisson_rho,
+  cbind(p_Sobolev(x = x, p = p, type = "Poisson", Poisson_rho = rho,
                   K_max = K_max, thre = thre, ...))
 
 }
@@ -256,10 +255,9 @@ p_sph_stat_Poisson <- function(x, p, Poisson_rho = 0.5, K_max = 1e3, thre = 0,
 
 #' @rdname sph_stat_distr
 #' @export
-d_sph_stat_Poisson <- function(x, p, Poisson_rho = 0.5, K_max = 1e3, thre = 0,
-                               ...) {
+d_sph_stat_Poisson <- function(x, p, rho = 0.5, K_max = 1e3, thre = 0, ...) {
 
-  cbind(d_Sobolev(x = x, p = p, type = "Poisson", Poisson_rho = Poisson_rho,
+  cbind(d_Sobolev(x = x, p = p, type = "Poisson", Poisson_rho = rho,
                   K_max = K_max, thre = thre, ...))
 
 }
@@ -307,10 +305,9 @@ d_sph_stat_Riesz <- function(x, p, s = 1, K_max = 1e3, thre = 0, ...) {
 
 #' @rdname sph_stat_distr
 #' @export
-p_sph_stat_Softmax <- function(x, p, Softmax_kappa = 1, K_max = 1e3, thre = 0,
-                               ...) {
+p_sph_stat_Softmax <- function(x, p, kappa = 1, K_max = 1e3, thre = 0, ...) {
 
-  cbind(p_Sobolev(x = x, p = p, type = "Softmax", Softmax_kappa = Softmax_kappa,
+  cbind(p_Sobolev(x = x, p = p, type = "Softmax", Softmax_kappa = kappa,
                   K_max = K_max, thre = thre, ...))
 
 }
@@ -318,10 +315,9 @@ p_sph_stat_Softmax <- function(x, p, Softmax_kappa = 1, K_max = 1e3, thre = 0,
 
 #' @rdname sph_stat_distr
 #' @export
-d_sph_stat_Softmax <- function(x, p, Softmax_kappa = 1, K_max = 1e3, thre = 0,
-                               ...) {
+d_sph_stat_Softmax <- function(x, p, kappa = 1, K_max = 1e3, thre = 0, ...) {
 
-  cbind(d_Sobolev(x = x, p = p, type = "Softmax", Softmax_kappa = Softmax_kappa,
+  cbind(d_Sobolev(x = x, p = p, type = "Softmax", Softmax_kappa = kappa,
                   K_max = K_max, thre = thre, ...))
 
 }

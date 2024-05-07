@@ -25,5 +25,6 @@
 # sphunif 1.3.1
 
 * Normalize Poisson kernel to improve numerical stability.
-* Add uniform spherical cap distribution in `unif_cap_alt`.
-* Add alternative generating-process of uniform observations with antipodal dependency in `r_alt()`.
+* Add uniform spherical cap distribution in `unif_cap`.
+* New non-uniform data generating-processes in `r_alt()`: `"MC"` and `"AUD"`.
+* Rename argument `axial_MvMF` to `axial_mix` in `r_alt()`.

@@ -44,7 +44,7 @@
 #' @name sphunif-package
 #' @import Rcpp
 #' @importFrom graphics abline legend lines par segments
-#' @importFrom stats approxfun dchisq dgamma integrate nlm pchisq pgamma
+#' @importFrom stats approxfun dchisq dgamma integrate na.omit nlm pchisq pgamma
 #' qchisq qgamma quantile rbeta rchisq runif splinefun uniroot
 #' @importFrom utils capture.output
 #' @useDynLib sphunif

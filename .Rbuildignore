@@ -11,5 +11,6 @@
 ^cran-comments\.md$
 ^LICENSE\.md$
 TODO.md
+Rplots.pdf
 ^\.github$
 ^CRAN-SUBMISSION$

@@ -10,7 +10,9 @@ Authors@R: c(
      person(given = "Thomas", family = "Verdebout", role = "aut",
             comment = c(ORCID = "0000-0002-3277-9587")),
      person(given = "Paula", family = "Navarro", role = "ctb",
-            email = "paula.navarro@unican.es")
+            email = "paula.navarro@unican.es"),
+     person(given = "Alberto", family = "Fernández-de-Marcos", role = "ctb",
+            email = "albertfe@est-econ.uc3m.es")
      )
 Description: Implementation of uniformity tests on the circle and
     (hyper)sphere. The main function of the package is unif_test(), which
@@ -39,8 +41,6 @@ Imports:
     rotasym
 Suggests:
     CompQuadForm,
-    dgof,
-    gdata,
     goftest,
     knitr,
     markdown,
@@ -48,7 +48,6 @@ Suggests:
     numDeriv,
     progress,
     progressr,
-    rgl,
     rmarkdown,
     scatterplot3d,
     testthat,

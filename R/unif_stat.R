@@ -656,8 +656,8 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
       for (i in seq_along(Pycke_q)) {
 
         Pycke_q_stat[, i] <- cir_stat_Pycke_q(Theta = data,
-                                         Psi_in_Theta = Psi_in_Theta,
-                                         q = Pycke_q[i])
+                                              Psi_in_Theta = Psi_in_Theta,
+                                              q = Pycke_q[i])
 
       }
       stats$Pycke_q <- Pycke_q_stat
@@ -1046,8 +1046,10 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
   # Avoid returning matrices in variables if there are vectorized tests.
   # Instead, return a data frame with Sobolev.1, Sobolev.2, etc. variables
   n_param_vectorised <- sapply(param_vectorised, function(par) {
+
     obj <- get(x = par)
-    ifelse(is.null(dim(obj)), length(obj), nrow(obj))
+    return(ifelse(is.null(dim(obj)), length(obj), nrow(obj)))
+
   })
   if (any(stats_vectorised %in% type) && any(n_param_vectorised > 1)) {
 

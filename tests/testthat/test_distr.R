@@ -1,11 +1,9 @@
 
-set.seed(123456)
+## prof_unif
+
+set.seed(412131)
 x <- cbind(seq(-1, 1, l = 20))
 u <- cbind(seq(0, 1, l = 20))
-K <- rpois(n = 1, lambda = 9) + 1
-weights <- rnorm(n = K)
-dfs <- rpois(n = K, lambda = 4) + 1
-ncps <- runif(n = K, min = 0, max = 2)^2
 
 test_that("r_proj_unif vs. p_proj_unif", {
 
@@ -25,7 +23,7 @@ test_that("r_proj_unif vs. r_unif_sph", {
 
 })
 
-test_that("sorting in r_unif_cir", {
+test_that("Sorting in r_unif_cir", {
 
   expect_equal({set.seed(1); drop(r_unif_cir(n = 10, sorted = TRUE))},
                {set.seed(1); sort(r_unif_cir(n = 10, sorted = FALSE))})
@@ -49,6 +47,64 @@ test_that("Wrong dimensions", {
   expect_error(r_proj_unif(n = 1, p = 1))
 
 })
+
+## unif_cap
+
+r <- 0.5
+set.seed(7281123)
+
+test_that("r_proj_unif_cap vs. p_proj_unif_cap", {
+
+  for (p in c(2:4, 11)) {
+    expect_gt(ks.test(r_proj_unif_cap(n = 1e3, p = p, r = r),
+                      "p_proj_unif_cap", p = p, r = r)$p.value, 0.05)
+  }
+
+})
+
+test_that("r_proj_unif_cap vs. simulating from a uniform cap by
+          rejection sampling", {
+
+  for (p in c(2:4, 11)) {
+    proj_unif_samp <- r_unif_sph(n = 1e4, p = p)[, , 1]
+    proj_unif_samp <- proj_unif_samp[proj_unif_samp[, 1] > cos(r), 1]
+    expect_gt(ks.test(r_proj_unif_cap(n = 1e3, p = p, r = r),
+                      proj_unif_samp)$p.value, 0.05)
+  }
+
+})
+
+test_that("p_proj_unif_cap vs. q_proj_unif_cap", {
+
+  for (p in c(2:4, 11)) {
+    expect_equal(q_proj_unif_cap(u = p_proj_unif_cap(x = x, p = p, r = r),
+                                 p = p, r = r), drop(x))
+    expect_equal(p_proj_unif_cap(x = q_proj_unif_cap(u = u, p = p, r = r),
+                                 p = p, r = r), drop(u))
+  }
+
+})
+
+test_that("Esge cases r", {
+
+  expect_error(d_unif_cap(x = 0:1, r = 4, mu = 0:1))
+  expect_error(d_unif_cap(x = 0:1, r = -1, mu = 0:1))
+  expect_error(d_proj_unif_cap(r = 4))
+  expect_error(d_proj_unif_cap(r = -1))
+  expect_error(p_proj_unif_cap(r = 4))
+  expect_error(p_proj_unif_cap(r = -1))
+  expect_error(q_proj_unif_cap(r = 4))
+  expect_error(q_proj_unif_cap(r = -1))
+
+})
+
+## chisq
+
+set.seed(13134)
+K <- rpois(n = 1, lambda = 9) + 1
+weights <- rnorm(n = K)
+dfs <- rpois(n = K, lambda = 4) + 1
+ncps <- runif(n = K, min = 0, max = 2)^2
 
 test_that("d_chisq and p_chisq", {
 

@@ -82,6 +82,12 @@
 #' curve(p_sph_stat_PCvM(x, p = 3, method = "HBE"), n = 2e2, col = 2,
 #'       add = TRUE)
 #'
+#' # Poisson
+#' curve(d_sph_stat_Poisson(x, p = 3, method = "HBE"), to = 2, n = 2e2,
+#'       ylim = c(0, 2))
+#' curve(p_sph_stat_Poisson(x, p = 3, method = "HBE"), n = 2e2, col = 2,
+#'       add = TRUE)
+#'
 #' # PRt
 #' curve(d_sph_stat_PRt(x, p = 3, method = "HBE"), n = 2e2, ylim = c(0, 5))
 #' curve(p_sph_stat_PRt(x, p = 3, method = "HBE"), n = 2e2, col = 2, add = TRUE)
@@ -109,6 +115,12 @@
 #' matlines(x, p_sph_stat_Sobolev(x = x, vk2 = vk2, p = 3), lty = 1)
 #' matlines(x, d_sph_stat_Sobolev(x = x, vk2 = vk2 + 0.01, p = 3), lty = 2)
 #' matlines(x, p_sph_stat_Sobolev(x = x, vk2 = vk2 + 0.01, p = 3), lty = 2)
+#'
+#' # Softmax
+#' curve(d_sph_stat_Softmax(x, p = 3, method = "HBE"), to = 2, n = 2e2,
+#'       ylim = c(0, 2))
+#' curve(p_sph_stat_Softmax(x, p = 3, method = "HBE"), n = 2e2, col = 2,
+#'       add = TRUE)
 #' @name sph_stat_distr
 NULL
 
@@ -233,6 +245,28 @@ d_sph_stat_PCvM <- function(x, p, K_max = 1e3, thre = 0, ...) {
 
 #' @rdname sph_stat_distr
 #' @export
+p_sph_stat_Poisson <- function(x, p, Poisson_rho = 0.5, K_max = 1e3, thre = 0,
+                               ...) {
+
+  cbind(p_Sobolev(x = x, p = p, type = "Poisson", Poisson_rho = Poisson_rho,
+                  K_max = K_max, thre = thre, ...))
+
+}
+
+
+#' @rdname sph_stat_distr
+#' @export
+d_sph_stat_Poisson <- function(x, p, Poisson_rho = 0.5, K_max = 1e3, thre = 0,
+                               ...) {
+
+  cbind(d_Sobolev(x = x, p = p, type = "Poisson", Poisson_rho = Poisson_rho,
+                  K_max = K_max, thre = thre, ...))
+
+}
+
+
+#' @rdname sph_stat_distr
+#' @export
 p_sph_stat_PRt <- function(x, p, t = 1 / 3, K_max = 1e3, thre = 0, ...) {
 
   cbind(p_Sobolev(x = x, p = p, type = "PRt", Rothman_t = t,
@@ -267,6 +301,28 @@ d_sph_stat_Riesz <- function(x, p, s = 1, K_max = 1e3, thre = 0, ...) {
 
   cbind(d_Sobolev(x = x, p = p, type = "Riesz", Riesz_s = s, K_max = K_max,
                   thre = thre, ...))
+
+}
+
+
+#' @rdname sph_stat_distr
+#' @export
+p_sph_stat_Softmax <- function(x, p, Softmax_kappa = 1, K_max = 1e3, thre = 0,
+                               ...) {
+
+  cbind(p_Sobolev(x = x, p = p, type = "Softmax", Softmax_kappa = Softmax_kappa,
+                  K_max = K_max, thre = thre, ...))
+
+}
+
+
+#' @rdname sph_stat_distr
+#' @export
+d_sph_stat_Softmax <- function(x, p, Softmax_kappa = 1, K_max = 1e3, thre = 0,
+                               ...) {
+
+  cbind(d_Sobolev(x = x, p = p, type = "Softmax", Softmax_kappa = Softmax_kappa,
+                  K_max = K_max, thre = thre, ...))
 
 }
 
@@ -379,3 +435,24 @@ d_sph_stat_Sobolev <- function(x, p, vk2 = c(0, 0, 1), ...) {
   return(pdf)
 
 }
+
+
+#' #' @rdname sph_stat_distr
+#' #' @export
+#' p_sph_stat_Stereo<- function(x, p, Stereo_a = 0, K_max = 1e3, thre = 0, ...) {
+#'
+#'   cbind(p_Sobolev(x = x, p = p, type = "Stereo", Stereo_a = Stereo_a,
+#'                   K_max = K_max, thre = thre, ...))
+#'
+#' }
+#'
+#'
+#' #' @rdname sph_stat_distr
+#' #' @export
+#' d_sph_stat_Stereo <- function(x, p, Stereo_a = 0, K_max = 1e3, thre = 0, ...) {
+#'
+#'   cbind(d_Sobolev(x = x, p = p, type = "Stereo", Stereo_a = Stereo_a,
+#'                   K_max = K_max, thre = thre, ...))
+#'
+#' }
+

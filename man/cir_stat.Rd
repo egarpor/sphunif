@@ -351,6 +351,7 @@ cir_stat_Bakshaev(Psi, Psi_in_Theta = TRUE)
 # Riesz
 cir_stat_Riesz(Theta, s = 1)
 cir_stat_Riesz(Psi, Psi_in_Theta = TRUE, s = 1)
+
 # Projected Cramér-von Mises
 cir_stat_PCvM(Theta)
 cir_stat_PCvM(Psi, Psi_in_Theta = TRUE)

@@ -35,7 +35,7 @@ required (with a \code{warning} message). For \code{d_unif_proj_cap} and
 \item{mu}{the directional mean \eqn{\boldsymbol{\mu}}{\mu} of the
 distribution. A unit-norm vector of length \code{p}.}
 
-\item{angle}{angle \eqn{\theta} defining the spherical cap about
+\item{angle}{angle \eqn{\alpha} defining the spherical cap about
 \eqn{\boldsymbol{\mu}}{\mu}. A scalar in \eqn{[0, \pi]}. Defaults to
 \eqn{\pi / 10}.}
 
@@ -70,7 +70,7 @@ Depending on the function:
 }
 \description{
 Density, simulation, and associated functions for a uniform
-distribution within a spherical cap of angle \eqn{0\leq \theta\leq \pi} about
+distribution within a spherical cap of angle \eqn{0\leq \alpha\leq \pi} about
 a direction \eqn{\boldsymbol{\mu}}{\mu} on \eqn{S^{p-1}:=\{\mathbf{x} \in
 R^p:||\mathbf{x}||=1\}}{S^{p-1}:=\{x \in R^p:||x||=1\}}, \eqn{p \geq 2}. The
 density at \eqn{\mathbf{x} \in S^{p-1}}{x \in S^{p-1}} is given by
@@ -78,7 +78,7 @@ density at \eqn{\mathbf{x} \in S^{p-1}}{x \in S^{p-1}} is given by
 \mathrm{with}\quad c_{p,r} := \omega_{p}\left[1 - F_p(1 - r)\right],}{
 c_{p,r} 1_{[1 - r, 1]}(x' \mu) with \quad
 c_{p,r}:=\omega_p \left[1 - F_p(1 - r)\right],} where
-\eqn{r=\cos(\theta)} is the projected radius of the spherical cap about
+\eqn{r=\cos(\alpha)} is the projected radius of the spherical cap about
 \eqn{\boldsymbol{\mu}}{\mu}, \eqn{\omega_p} is the surface area of
 \eqn{S^{p-1}}, and \eqn{F_p} is the projected uniform distribution (see
 \code{\link{p_proj_unif}}).

@@ -117,4 +117,3 @@ test_that("Edge cases in r_alt", {
   }
 
 })
-

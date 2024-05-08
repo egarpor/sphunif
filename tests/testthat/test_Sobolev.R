@@ -141,7 +141,8 @@ test_that("Gegen_coefs vs. weights_dfs_Sobolev for Bakshaev", {
     expect_equal(bk_to_vk2(Gegen_coefs(psi = psi_Bakshaev, k = k, p = p),
                            p = p),
                  weights_dfs_Sobolev(p = p, K_max = K, thre = 0,
-                                     type = "Bakshaev", verbose = FALSE)$weights,
+                                     type = "Bakshaev",
+                                     verbose = FALSE)$weights,
                  tolerance = 1e-5)
   }
 

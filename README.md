@@ -249,9 +249,9 @@ unif_test(data = hyp_data, type = "Rayleigh", p_value = "asymp")
 
 ### *On a projection-based class of uniformity tests on the hypersphere*
 
-The data application in García-Portugués, Navarro-Esteban and
-Cuesta-Albertos (2023) regarding the testing of uniformity of craters in
-Rhea can be reproduced through the script
+The data application in García-Portugués, Navarro-Esteban, and
+Cuesta-Albertos (2023) regarding the testing of uniformity of locations
+for craters in Rhea can be reproduced through the script
 [data-application-ecdf.R](https://github.com/egarpor/sphunif/blob/master/applications/data-application-ecdf.R).
 The code snippet below is a simplified version.
 
@@ -345,19 +345,24 @@ tests_rhea_20
 
 ### *A Cramér–von Mises test of uniformity on the hypersphere*
 
-TODO The data application in García-Portugués, Navarro-Esteban and
-Cuesta-Albertos (2021) can be reproduced through the script
+The data application in García-Portugués, Navarro-Esteban, and
+Cuesta-Albertos (2021) regarding the testing of the uniformity of
+locations for craters in Venus can be reproduced through the script
 [data-application-cvm.R](https://github.com/egarpor/sphunif/blob/master/applications/data-application-cvm.R).
 
 ### *On a class of Sobolev tests for symmetry of directions, their detection thresholds, and asymptotic powers*
 
-TODO
-[data-application-sobolev.R](https://github.com/egarpor/sphunif/blob/master/applications/data-application-sobolev.R)
+The data application in García-Portugués, Paindaveine, and Verdebout
+(2024) regarding the symmetry of comet orbits can be reproduced through
+the script
+[data-application-sobolev.R](https://github.com/egarpor/sphunif/blob/master/applications/data-application-sobolev.R).
 
 ### *A stereographic test of spherical uniformity*
 
-TODO
-[simulation-stereo.R](https://github.com/egarpor/sphunif/blob/master/simulations/simulation-stereo.R)
+The script
+[simulations-stereo.R](https://github.com/egarpor/sphunif/blob/master/simulations/simulations-stereo.R)
+contains some of the numerical experiments in Fernández-de-Marcos and
+García-Portugués (2024).
 
 ## References
 

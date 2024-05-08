@@ -59,11 +59,8 @@ and \code{1}.}
 \item{thre}{proportion of norm \emph{not} explained by the first terms of the
 truncated series. Defaults to \code{1e-3}.}
 
-\item{type}{Sobolev statistic. For \eqn{p = 2}, either \code{"Watson"},
-\code{"Rothman"}, \code{"Pycke_q"}, or \code{"Hermans_Rasson"}.
-For \eqn{p \ge 2}, \code{"Ajne"}, \code{"Gine_Gn"}, \code{"Gine_Fn"},
-\code{"Bakshaev"}, \code{"Riesz"}, \code{"PCvM"}, \code{"PAD"}, or
-\code{"PRt"}.}
+\item{type}{name of the Sobolev statistic, using the naming from
+\code{\link{avail_cir_tests}} and \code{\link{avail_sph_tests}}.}
 
 \item{Rothman_t}{\eqn{t} parameter for the Rothman test, a real in
 \eqn{(0, 1)}. Defaults to \code{1 / 3}.}

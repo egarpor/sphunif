@@ -29,8 +29,8 @@ with respect to uniformity (obtained with \eqn{\kappa = 0}).}
 strip of the small circle distribution. Must be in (-1, 1). Defaults to
 \code{0.5}.}
 
-\item{r}{angle of the spherical cap around the antipodal observation in
-radians. A nonnegative scalar in \eqn{[0, \pi]}. Defaults to \eqn{\pi / 10}.}
+\item{r}{angle of the spherical cap about \eqn{\boldsymbol{\mu}}{\mu}. A
+nonnegative scalar in \eqn{[0, \pi]}. Defaults to \eqn{\pi / 10}.}
 
 \item{F_inv}{quantile function returned by \code{\link{F_inv_from_f}}. Used
 for \code{"SC"}, \code{"W"}, and \code{"C"}. Computed by internally if

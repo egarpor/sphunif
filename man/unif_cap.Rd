@@ -9,7 +9,7 @@
 \alias{q_proj_unif_cap}
 \alias{d_proj_unif_cap}
 \alias{r_proj_unif_cap}
-\title{Uniform cap distribution}
+\title{Uniform spherical cap distribution}
 \usage{
 d_unif_cap(x, mu, r = pi/10)
 
@@ -35,8 +35,8 @@ required (with a \code{warning} message). For \code{d_unif_proj_cap} and
 \item{mu}{the directional mean \eqn{\boldsymbol{\mu}}{\mu} of the
 distribution. A unit-norm vector of length \code{p}.}
 
-\item{r}{angle of the spherical cap around the antipodal observation in
-radians. A nonnegative scalar in \eqn{[0, \pi]}. Defaults to \eqn{\pi / 10}.}
+\item{r}{angle of the spherical cap about \eqn{\boldsymbol{\mu}}{\mu}. A
+nonnegative scalar in \eqn{[0, \pi]}. Defaults to \eqn{\pi / 10}.}
 
 \item{p}{integer giving the dimension of the ambient space \eqn{R^p} that
 contains \eqn{S^{p-1}}.}
@@ -51,43 +51,42 @@ constant. Defaults to \code{TRUE}.}
 \value{
 Depending on the function:
 \itemize{
-\item \code{d_unif_cap}: a vector of length \code{nx} or \code{1} with the
-evaluated density at \code{x}.
-\item \code{r_unif_cap}: a matrix of size \code{c(n, p)} with the random
-sample.
-\item \code{c_unif_cap}: the normalizing constant.
-\item \code{q_proj_unif_cap}: a vector of length \code{x} with the evaluated
-distribution function at \code{x}.
-\item \code{q_proj_unif_cap}: a vector of length \code{u} with the evaluated
-quantile function at \code{u}.
-\item \code{d_proj_unif_cap}: a vector of size \code{length(t)} with the
-evaluated angular function.
-\item \code{r_proj_unif_cap}: a vector of length \code{n} containing simulated
-values from the cosines density associated to the angular function.
-
+  \item \code{d_unif_cap}: a vector of length \code{nx} or \code{1} with the
+  evaluated density at \code{x}.
+  \item \code{r_unif_cap}: a matrix of size \code{c(n, p)} with the random
+  sample.
+  \item \code{c_unif_cap}: the normalizing constant.
+  \item \code{p_proj_unif_cap}: a vector of length \code{x} with the
+  evaluated distribution function at \code{x}.
+  \item \code{q_proj_unif_cap}: a vector of length \code{u} with the
+  evaluated quantile function at \code{u}.
+  \item \code{d_proj_unif_cap}: a vector of size \code{nx} with the
+  evaluated angular function.
+  \item \code{r_proj_unif_cap}: a vector of length \code{n} containing
+  simulated values from the cosines density associated to the angular
+  function.
 }
 }
 \description{
-Density and simulation of a uniform distribution within a
-spherical cap of radius \eqn{0\leq r\leq \pi} around a direction
-\eqn{\boldsymbol{\mu}}{\mu} on \eqn{S^{p-1}:=\{\mathbf{x}\in
-R^p:||\mathbf{x}||=1\}}{S^{p-1}:=\{x\in R^p:||x||=1\}}, \eqn{p > 1}.
-The density at \eqn{\mathbf{x} \in S^{p-1}}{x \in S^{p-1}} is given by
-\deqn{c_{p,r}1_{[1-\tilde{r}, 1]}(\mathbf{x}' \boldsymbol{\mu})
-\quad\mathrm{with}\quad c_{p,r}:=\omega_{p}\left[1-F_{p}(1-\tilde{r})
-\right]}{c_{p,r}1_{[1-\tilde{r}, 1]}(x' \mu) with \quad c_{p,r}:=\omega_{p}
-\left[1-F_{p}(1-\tilde{r})\right]} where \eqn{\boldsymbol{\mu}\in S^{p-1}}{
-\mu\inS^{p-1}} is the directional mean, \eqn{\tilde{r}=\cos(r)} is the
-projected radius of the spherical cap about \eqn{\boldsymbol{\mu}}{\mu},
-\eqn{\omega_{p}} is the surface area of \eqn{S^{p-1}}{S^{p-1}}, and
-\eqn{F_p(x)} is the cdf of a \eqn{B(\frac{1}{2},\frac{p-1}{2})}
-beta distribution.
+Density, simulation, and associated functions for a uniform
+distribution within a spherical cap of angle \eqn{0\leq r\leq \pi} about a
+direction \eqn{\boldsymbol{\mu}}{\mu} on \eqn{S^{p-1}:=\{\mathbf{x} \in
+R^p:||\mathbf{x}||=1\}}{S^{p-1}:=\{x \in R^p:||x||=1\}}, \eqn{p \geq 2}. The
+density at \eqn{\mathbf{x} \in S^{p-1}}{x \in S^{p-1}} is given by
+\deqn{c_{p,r} 1_{[1 - \tilde{r}, 1]}(\mathbf{x}' \boldsymbol{\mu})
+\quad\mathrm{with}\quad c_{p, r} := \omega_{p}\left[1 - F_{p} (1 - \tilde{r})
+\right]}{c_{p,r} 1_{[1 - \tilde{r}, 1]}(x' \mu) with \quad
+c_{p,r}:=\omega_{p} \left[1 - F_{p}(1 - \tilde{r})\right]} where
+\eqn{\tilde{r}=\cos(r)} is the projected radius of the spherical cap about
+\eqn{\boldsymbol{\mu}}{\mu}, \eqn{\omega_{p}} is the surface area of
+\eqn{S^{p-1}}, and \eqn{F_p} is the projected uniform distribution (see
+\code{\link{p_proj_unif}}).
 
 The angular function of the uniform cap distribution is
-\eqn{g(t):=1_{[1-\tilde{r}, 1]}(t)}{g(t):=I_{[1-\tilde{r}, 1]}(t)}. The
-associated projected density is \eqn{\tilde{g}(v):=\omega_{p-1}c_{p,r}
-(1-v^2)^{\frac{p-3}{2}}1_{[1-\tilde{r}, 1]}(v)}{\tilde{g}(v):=\omega_{p-1}
-c_{p,r}(1-v^2)^{\frac{p-3}{2}}I_{[1-\tilde{r}, 1]}(v)}.
+\eqn{g(t):=1_{[1 - \tilde{r}, 1]}(t)}{g(t):=1_{[1 - \tilde{r}, 1]}(t)}. The
+associated projected density is \eqn{\tilde{g}(t):=\omega_{p-1} c_{p,r}
+(1 - t^2)^{(p - 3) / 2} 1_{[1 - \tilde{r}, 1]}(t)}{\tilde{g}(t):=\omega_{p-1}
+c_{p,r} (1 - t^2)^{(p - 3) / 2} 1_{[1 - \tilde{r}, 1]}(t)}.
 }
 \examples{
 # Simulation and density evaluation for p = 2
@@ -110,9 +109,9 @@ scatterplot3d::scatterplot3d(x, size = 5, xlim = c(-1, 1), ylim = c(-1, 1),
                               col[rank(d_unif_cap(x = x, mu = mu, r = r))])
 
 # Simulated data from the cosines density
-n <- 1e4
+n <- 1e3
 p <- 3
-r <- pi/3
+r <- pi / 3
 hist(r_proj_unif_cap(n = n, p = p, r = r), breaks = seq(cos(r), 1, l = 10),
      probability = TRUE, main = "Simulated data from d_proj_unif_cap",
      xlab = "t", xlim = c(-1, 1))

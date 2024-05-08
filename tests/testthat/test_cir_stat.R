@@ -84,7 +84,7 @@ test_that("Watson form in MJ (2000, page 111)", {
 
 })
 
-test_that("Hodges_Ajne use_Cressie and asymp_std", {
+test_that("Hodges_Ajne with use_Cressie and asymp_std", {
 
   expect_equal(cir_stat_Hodges_Ajne(Th1, use_Cressie = TRUE),
                cir_stat_Hodges_Ajne(Th1, use_Cressie = FALSE))

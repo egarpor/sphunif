@@ -41,6 +41,7 @@
 #' Kolmogorov-Smirnov-related series defaults to \code{25}.
 #' @param K_max integer giving the truncation of the series that compute the
 #' asymptotic p-value of a Sobolev test. Defaults to \code{1e4}.
+#' @inheritParams Sobolev method
 #' @param ... if \code{approx = "MC"}, optional performance parameters to be
 #' passed to \cr\code{\link{unif_stat_MC}}: \code{chunks}, \code{cores},
 #' and \code{seed}.
@@ -146,7 +147,7 @@ unif_stat_distr <- function(x, type, p, n, approx = "asymp", M = 1e4,
                             Stereo_a = 0, Sobolev_vk2 = c(0, 0, 1),
                             CJ12_beta = 0, Stephens = FALSE, K_Kuiper = 25,
                             K_Watson = 25, K_Watson_1976 = 5, K_Ajne = 5e2,
-                            K_max = 1e4, ...) {
+                            K_max = 1e4, method = "I", ...) {
 
   # Stop if NA's
   if (anyNA(x)) {
@@ -172,6 +173,26 @@ unif_stat_distr <- function(x, type, p, n, approx = "asymp", M = 1e4,
 
     avail_stats <- avail_sph_tests
     prefix_distr <- "p_sph_stat_"
+
+  }
+
+  # Check if n is missing
+  if (missing(n)) {
+
+    if (approx == "MC") {
+
+      stop("n must be specified for approx = \"MC\".")
+
+    } else if (approx == "asymp") {
+
+      n <- 0
+      warning(paste("n is not specified; set to n = 0. The asymptotic",
+                    "distributions of the Watson and Kuiper statistics accept",
+                    "n to improve their accuracy with Stephens = TRUE.",
+                    "The distributions of the Hodges-Ajne and Range statistics",
+                    "require to specify n."))
+
+    }
 
   }
 
@@ -223,7 +244,7 @@ unif_stat_distr <- function(x, type, p, n, approx = "asymp", M = 1e4,
   # Omit statistics that do not have asymptotic distribution
   if (approx == "asymp") {
 
-    # TODO: vectorize
+    # Exclude vectorizations. TODO: Allow for vectorizations
     param_vectorised <- c("Cressie_t", "cov_a", "Rayleigh_m", "Riesz_s",
                           "Rothman_t", "Poisson_rho", "Pycke_q",
                           "Softmax_kappa", "Stereo_a") # "Sobolev_vk2"
@@ -241,12 +262,23 @@ unif_stat_distr <- function(x, type, p, n, approx = "asymp", M = 1e4,
 
     }
 
+    # Search for p_*_stat_*
     ind_asymp <- sapply(paste0(prefix_distr, stats_type),
                         exists, where = asNamespace("sphunif"))
+
+    # Exclude Stereo if p <= 3
+    if (("Stereo" %in% stats_type) && (p <= 3)) {
+
+      ind_asymp[which(stats_type == "Stereo")] <- FALSE
+
+    }
+
+    # Exclude statistics and throw warning
     if (!all(ind_asymp)) {
 
-      warning(paste0(paste("Omitting the following statistics with not",
-                           "implemented or known asymptotic distributions: "),
+      warning(paste0(paste0("Omitting the following statistics with not ",
+                            "implemented or known asymptotic distributions ",
+                            "for p = ", p, ": "),
                      paste(stats_type[!ind_asymp], collapse = ", "), "."))
       stats_type <- stats_type[ind_asymp]
 
@@ -309,8 +341,8 @@ unif_stat_distr <- function(x, type, p, n, approx = "asymp", M = 1e4,
                  "vk2" = Sobolev_vk2, "Stephens" = Stephens,
                  "K_Kuiper" = K_Kuiper, "K_Watson" = K_Watson,
                  "K_Watson_1976" = K_Watson_1976, "K_Ajne" = K_Ajne,
-                 "K_CCF09" = K_CCF09, "K_max" = K_max, "thre" = 0, "n" = n,
-                 "p" = p)
+                 "K_CCF09" = K_CCF09, "K_max" = K_max, "thre" = 0,
+                 "method" = method, "n" = n, "p" = p)
     names_args <- names(args)
 
     # Evaluate distributions

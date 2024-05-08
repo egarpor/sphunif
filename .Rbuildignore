@@ -5,7 +5,7 @@
 ^checks$
 ^TODO$
 ^data-raw$
-^application$
+^applications$
 ^simulations$
 ^CRAN-RELEASE$
 ^cran-comments\.md$

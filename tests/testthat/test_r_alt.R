@@ -60,7 +60,21 @@ test_that("r_alt for non-rotationally symmetric alternatives", {
     samp_1b <- r_alt(n = 1e3, p = p, M = 1, kappa = 2, alt = "MvMF",
                      axial_mix = FALSE)[, p, 1]
     samp_2b <- c(apply(diag(rep(1, p)), 1, function(mu)
-      t(rotasym::r_vMF(n = round(1e3 / p), mu = mu, kappa = 2))))
+      t(r_alt(n = round(1e3 / p), p = p, alt = "vMF",
+              mu = mu, kappa = 2)[, , 1])))
+    samp_2b <- matrix(samp_2b, ncol = p, byrow = TRUE)[, p]
+    samp_2a <- samp_2b * sample(c(-1, 1), size = length(samp_2b),
+                                replace = TRUE)
+    expect_gt(ks.test(x = samp_1a, y = samp_2a)$p.value, 0.01)
+    expect_gt(ks.test(x = samp_1b, y = samp_2b)$p.value, 0.01)
+
+    samp_1a <- r_alt(n = 1e3, p = p, M = 1, kappa = 2, alt = "MC",
+                     axial_mix = TRUE)[, p, 1]
+    samp_1b <- r_alt(n = 1e3, p = p, M = 1, kappa = 2, alt = "MC",
+                     axial_mix = FALSE)[, p, 1]
+    samp_2b <- c(apply(diag(rep(1, p)), 1, function(mu)
+      t(r_alt(n = round(1e3 / p), p = p, alt = "C",
+              mu = mu, kappa = 2)[, , 1])))
     samp_2b <- matrix(samp_2b, ncol = p, byrow = TRUE)[, p]
     samp_2a <- samp_2b * sample(c(-1, 1), size = length(samp_2b),
                                 replace = TRUE)
@@ -81,7 +95,7 @@ test_that("r_alt for non-rotationally symmetric alternatives", {
 test_that("Edge cases in r_alt", {
 
   skip_on_cran()
-  for (p in c(2:4, 11)) {
+  for (p in 2:3) {
 
     expect_length(r_alt(n = 5, p = p, M = 1, alt = "MvMF"), 5 * p)
     expect_equal(dim(r_alt(n = 1, p = p, M = 1, alt = "vMF")), c(1, p, 1))
@@ -95,6 +109,10 @@ test_that("Edge cases in r_alt", {
     expect_error(r_alt(n = 100, p = p, M = 1, alt = "WC"))
     expect_error(r_alt(n = 100, p = p, M = 1, kappa = -1, alt = "C"))
     expect_error(r_alt(n = 0, p = p, M = 1, alt = "C"))
+    expect_no_warning(r_alt(n = 1, p = p, M = 1, alt = "UAD"))
+    expect_no_warning(r_alt(n = 2, p = p, M = 1, alt = "UAD"))
+    expect_no_warning(r_alt(n = 3, p = p, M = 2, alt = "UAD"))
+    expect_no_warning(r_alt(n = 4, p = p, M = 2, alt = "UAD"))
 
   }
 

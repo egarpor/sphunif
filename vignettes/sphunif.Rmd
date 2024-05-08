@@ -85,7 +85,7 @@ See again @Garcia-Portugues2020a for a review of tests of uniformity on the sphe
 The default `type = "all"` equals `type = avail_sph_tests`, which might be too much for standard analysis:
 
 ```{r, unif_test_avail_sph}
-unif_test(data = sph_data, type = "all", p_value = "MC", M = 1e3)
+unif_test(data = sph_data, type = "all", p_value = "MC", M = 1e2)
 unif_test(data = sph_data, type = "Rayleigh", p_value = "asymp")
 ```
 
@@ -150,7 +150,7 @@ Additionally, `unif_stat_MC` is an utility for performing the previous simulatio
 
 ```{r, MC}
 # Break the simulation in 10 chunks of tasks to be divided between 2 cores
-sim <- unif_stat_MC(n = 30, type = "all", p = 3, M = 1e4, cores = 2,
+sim <- unif_stat_MC(n = 30, type = "all", p = 3, M = 1e2, cores = 2,
                     chunks = 10)
 
 # Critical values for test statistics
@@ -160,7 +160,7 @@ sim$crit_val_MC
 head(sim$stats_MC)
 
 # Power computation using a pre-built sampler for the alternative
-pow <- unif_stat_MC(n = 30, type = "all", p = 3, M = 1e4, cores = 2,
+pow <- unif_stat_MC(n = 30, type = "all", p = 3, M = 1e2, cores = 2,
                     chunks = 10, r_H1 = r_alt, crit_val = sim$crit_val_MC,
                     alt = "vMF", kappa = 1)
 pow$power_MC

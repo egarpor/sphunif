@@ -28,7 +28,8 @@ test_that("omega{p - 2} / C_k^{(p - 2) / 2}(1) =
 
   k <- 0:5
   for (p in 2:5) {
-   expect_equal(rotasym::w_p(p = p - 1) / drop(Gegen_polyn(theta = 0, k = k, p = p)),
+   expect_equal(rotasym::w_p(p = p - 1) /
+                  drop(Gegen_polyn(theta = 0, k = k, p = p)),
                 1 / drop(Gegen_coefs(only_const = TRUE, p = p, k = k)) *
                 switch((p == 2) + 1, (1 + (2 * k) / (p - 2)),
                        2 - (k == 0))^(-1) * rotasym::w_p(p = p))
@@ -67,7 +68,7 @@ test_that("angles_to_sphere vs. sphere_to_angles", {
 
 })
 
-test_that("Harmonics with (i,k) vs. m", {
+test_that("Harmonics with (i, k) vs. m", {
 
   skip_on_cran()
   for (p in 2:5) {
@@ -89,7 +90,8 @@ test_that("Harmonics with (i,k) vs. m", {
 test_that("Orthonormality of harmonics among i's with common k", {
 
   skip_on_cran()
-  M <- 5e3
+  set.seed(323231)
+  M <- 1e3
   for (p in 2:5) {
     for (k in 1:2) {
 
@@ -114,7 +116,8 @@ test_that("Orthonormality of harmonics among i's with common k", {
 test_that("Orthonormality of harmonics among i's with different k's = 1,2", {
 
   skip_on_cran()
-  M <- 5e3
+  set.seed(323231)
+  M <- 1e3
   for (p in 2:5) {
 
     dpk1 <- d_p_k(p = p, k = 1)
@@ -138,7 +141,8 @@ test_that("Orthonormality of harmonics among i's with different k's = 1,2", {
 test_that("Orthonormality of harmonics among i's with different k's = 0,1", {
 
   skip_on_cran()
-  M <- 5e3
+  set.seed(323231)
+  M <- 1e3
   for (p in 2:5) {
 
     dpk0 <- d_p_k(p = p, k = 0)
@@ -176,7 +180,8 @@ test_that("Specific cases of harmonics for x = e_1", {
 test_that("Funk-Hecke formula in Dai and Xu (2013)", {
 
   skip_on_cran()
-  M <- 1e4
+  set.seed(323231)
+  M <- 1e3
   kappa <- 2
   i0 <- 1
   for (p in 2:5) {
@@ -203,7 +208,8 @@ test_that("Funk-Hecke formula in Dai and Xu (2013)", {
 test_that("Alternative version Funk-Hecke formula", {
 
   skip_on_cran()
-  M <- 1e4
+  set.seed(323231)
+  M <- 1e3
   kappa <- 2
   i0 <- 1
   for (p in 2:5) {

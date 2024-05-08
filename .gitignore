@@ -18,3 +18,4 @@ tests/testthat/Rplots.pdf
 *.gcno
 *.gcda
 Rplots.pdf
+sphunif.pdf

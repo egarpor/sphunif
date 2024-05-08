@@ -335,12 +335,23 @@ unif_test <- function(data, type = "all", p_value = "asymp",
   # Omit statistics that do not have asymptotic distribution
   if (p_value == "asymp") {
 
+    # Search for p_*_stat_*
     ind_asymp <- sapply(paste0("p_", prefix_stat, stats_type),
                         exists, where = asNamespace("sphunif"))
+
+    # Exclude Stereo if p <= 3
+    if (("Stereo" %in% stats_type) && (p <= 3)) {
+
+      ind_asymp[which(stats_type == "Stereo")] <- FALSE
+
+    }
+
+    # Exclude statistics and throw warning
     if (!all(ind_asymp)) {
 
-      warning(paste0(paste("Omitting the following statistics with not",
-                           "implemented or unknown asymptotic distributions: "),
+      warning(paste0(paste0("Omitting the following statistics with not ",
+                            "implemented or known asymptotic distributions ",
+                            "for p = ", p, ": "),
                      paste(stats_type[!ind_asymp], collapse = ", "), "."))
       stats_type <- stats_type[ind_asymp]
       if (length(stats_type) == 0) {

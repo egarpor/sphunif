@@ -15,7 +15,7 @@ status](https://github.com/egarpor/sphunif/workflows/test-coverage/badge.svg)](h
 
 ## Overview
 
-Implementation of more than 30 tests of uniformity on the circle,
+Implementation of more than 35 tests of uniformity on the circle,
 sphere, and hypersphere. Software companion for the (evolving) review
 “*An overview of uniformity tests on the hypersphere*” (García-Portugués
 and Verdebout, 2018) and the paper “*On a projection-based class of

@@ -51,11 +51,8 @@ asymptotic p-value of a Sobolev test. Defaults to \code{1e3}.}
 the first terms of the truncated series of a Sobolev test. Defaults to
 \code{1e-3}.}
 
-\item{type}{Sobolev statistic. For \eqn{p = 2}, either \code{"Watson"},
-\code{"Rothman"}, \code{"Pycke_q"}, or \code{"Hermans_Rasson"}.
-For \eqn{p \ge 2}, \code{"Ajne"}, \code{"Gine_Gn"}, \code{"Gine_Fn"},
-\code{"Bakshaev"}, \code{"Riesz"}, \code{"PCvM"}, \code{"PAD"}, or
-\code{"PRt"}.}
+\item{type}{name of the Sobolev statistic, using the naming from
+\code{\link{avail_cir_tests}} and \code{\link{avail_sph_tests}}.}
 
 \item{Rothman_t}{\eqn{t} parameter for the Rothman test, a real in
 \eqn{(0, 1)}. Defaults to \code{1 / 3}.}
@@ -92,7 +89,7 @@ Defaults to \code{320}.}
 \item{tol}{tolerance passed to \code{\link{integrate}}'s \code{rel.tol} and
 \code{abs.tol} if \code{Gauss = FALSE}. Defaults to \code{1e-6}.}
 
-\item{force_positive}{set negative}
+\item{force_positive}{set negative weights to zero? Defaults to \code{TRUE}.}
 
 \item{x_tail}{scalar evaluation point for determining the upper tail
 probability. If \code{NULL}, set to the \code{0.90} quantile of the whole
@@ -101,10 +98,10 @@ series, computed by the \code{"HBE"} approximation.}
 \item{x}{vector of quantiles.}
 
 \item{method}{method for approximating the density, distribution, or
-quantile function. Must be \code{"I"} (Imhof), \code{"SW"}
-(Satterthwaite--Welch), \code{"HBE"} (Hall--Buckley--Eagleson), or
-\code{"MC"} (Monte Carlo; only for distribution or quantile functions).
-Defaults to \code{"I"}.}
+quantile function of the weighted sum of chi squared random variables. Must
+be \code{"I"} (Imhof), \code{"SW"} (Satterthwaite--Welch), \code{"HBE"}
+(Hall--Buckley--Eagleson), or \code{"MC"} (Monte Carlo; only for distribution
+or quantile functions). Defaults to \code{"I"}.}
 
 \item{ncps}{non-centrality parameters. Either \code{0} (default) or a
 vector with the same length as \code{weights}.}

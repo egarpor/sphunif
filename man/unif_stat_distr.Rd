@@ -11,7 +11,7 @@ unif_stat_distr(x, type, p, n, approx = "asymp", M = 10000,
   K_CCF09 = 25, CJ12_reg = 3, Poisson_rho = 0.5, Softmax_kappa = 1,
   Stereo_a = 0, Sobolev_vk2 = c(0, 0, 1), CJ12_beta = 0,
   Stephens = FALSE, K_Kuiper = 25, K_Watson = 25, K_Watson_1976 = 5,
-  K_Ajne = 500, K_max = 10000, ...)
+  K_Ajne = 500, K_max = 10000, method = "I", ...)
 }
 \arguments{
 \item{x}{evaluation points for the null distribution(s). Either a vector of
@@ -109,6 +109,12 @@ Kolmogorov-Smirnov-related series defaults to \code{25}.}
 
 \item{K_max}{integer giving the truncation of the series that compute the
 asymptotic p-value of a Sobolev test. Defaults to \code{1e4}.}
+
+\item{method}{method for approximating the density, distribution, or
+quantile function of the weighted sum of chi squared random variables. Must
+be \code{"I"} (Imhof), \code{"SW"} (Satterthwaite--Welch), \code{"HBE"}
+(Hall--Buckley--Eagleson), or \code{"MC"} (Monte Carlo; only for distribution
+or quantile functions). Defaults to \code{"I"}.}
 
 \item{...}{if \code{approx = "MC"}, optional performance parameters to be
 passed to \cr\code{\link{unif_stat_MC}}: \code{chunks}, \code{cores},

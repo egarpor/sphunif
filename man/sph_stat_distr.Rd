@@ -28,10 +28,12 @@
 \alias{d_sph_stat_PRt}
 \alias{p_sph_stat_Riesz}
 \alias{d_sph_stat_Riesz}
-\alias{p_sph_stat_Softmax}
-\alias{d_sph_stat_Softmax}
 \alias{p_sph_stat_Sobolev}
 \alias{d_sph_stat_Sobolev}
+\alias{p_sph_stat_Softmax}
+\alias{d_sph_stat_Softmax}
+\alias{p_sph_stat_Stereo}
+\alias{d_sph_stat_Stereo}
 \title{Asymptotic distributions for spherical uniformity statistics}
 \usage{
 p_sph_stat_Bingham(x, p)
@@ -50,49 +52,61 @@ p_sph_stat_Rayleigh_HD(x, p)
 
 d_sph_stat_Rayleigh_HD(x, p)
 
-p_sph_stat_Ajne(x, p, K_max = 1000, thre = 0, ...)
+p_sph_stat_Ajne(x, p, K_max = 1000, thre = 0, method = "I", ...)
 
-d_sph_stat_Ajne(x, p, K_max = 1000, thre = 0, ...)
+d_sph_stat_Ajne(x, p, K_max = 1000, thre = 0, method = "I", ...)
 
-p_sph_stat_Bakshaev(x, p, K_max = 1000, thre = 0, ...)
+p_sph_stat_Bakshaev(x, p, K_max = 1000, thre = 0, method = "I", ...)
 
-d_sph_stat_Bakshaev(x, p, K_max = 1000, thre = 0, ...)
+d_sph_stat_Bakshaev(x, p, K_max = 1000, thre = 0, method = "I", ...)
 
-p_sph_stat_Gine_Fn(x, p, K_max = 1000, thre = 0, ...)
+p_sph_stat_Gine_Fn(x, p, K_max = 1000, thre = 0, method = "I", ...)
 
-d_sph_stat_Gine_Fn(x, p, K_max = 1000, thre = 0, ...)
+d_sph_stat_Gine_Fn(x, p, K_max = 1000, thre = 0, method = "I", ...)
 
-p_sph_stat_Gine_Gn(x, p, K_max = 1000, thre = 0, ...)
+p_sph_stat_Gine_Gn(x, p, K_max = 1000, thre = 0, method = "I", ...)
 
-d_sph_stat_Gine_Gn(x, p, K_max = 1000, thre = 0, ...)
+d_sph_stat_Gine_Gn(x, p, K_max = 1000, thre = 0, method = "I", ...)
 
-p_sph_stat_PAD(x, p, K_max = 1000, thre = 0, ...)
+p_sph_stat_PAD(x, p, K_max = 1000, thre = 0, method = "I", ...)
 
-d_sph_stat_PAD(x, p, K_max = 1000, thre = 0, ...)
+d_sph_stat_PAD(x, p, K_max = 1000, thre = 0, method = "I", ...)
 
-p_sph_stat_PCvM(x, p, K_max = 1000, thre = 0, ...)
+p_sph_stat_PCvM(x, p, K_max = 1000, thre = 0, method = "I", ...)
 
-d_sph_stat_PCvM(x, p, K_max = 1000, thre = 0, ...)
+d_sph_stat_PCvM(x, p, K_max = 1000, thre = 0, method = "I", ...)
 
-p_sph_stat_Poisson(x, p, rho = 0.5, K_max = 1000, thre = 0, ...)
+p_sph_stat_Poisson(x, p, rho = 0.5, K_max = 1000, thre = 0,
+  method = "I", ...)
 
-d_sph_stat_Poisson(x, p, rho = 0.5, K_max = 1000, thre = 0, ...)
+d_sph_stat_Poisson(x, p, rho = 0.5, K_max = 1000, thre = 0,
+  method = "I", ...)
 
-p_sph_stat_PRt(x, p, t = 1/3, K_max = 1000, thre = 0, ...)
+p_sph_stat_PRt(x, p, t = 1/3, K_max = 1000, thre = 0, method = "I",
+  ...)
 
-d_sph_stat_PRt(x, p, t = 1/3, K_max = 1000, thre = 0, ...)
+d_sph_stat_PRt(x, p, t = 1/3, K_max = 1000, thre = 0, method = "I",
+  ...)
 
-p_sph_stat_Riesz(x, p, s = 1, K_max = 1000, thre = 0, ...)
+p_sph_stat_Riesz(x, p, s = 1, K_max = 1000, thre = 0, method = "I",
+  ...)
 
-d_sph_stat_Riesz(x, p, s = 1, K_max = 1000, thre = 0, ...)
+d_sph_stat_Riesz(x, p, s = 1, K_max = 1000, thre = 0, method = "I",
+  ...)
 
-p_sph_stat_Softmax(x, p, kappa = 1, K_max = 1000, thre = 0, ...)
+p_sph_stat_Sobolev(x, p, vk2 = c(0, 0, 1), method = "I", ...)
 
-d_sph_stat_Softmax(x, p, kappa = 1, K_max = 1000, thre = 0, ...)
+d_sph_stat_Sobolev(x, p, vk2 = c(0, 0, 1), method = "I", ...)
 
-p_sph_stat_Sobolev(x, p, vk2 = c(0, 0, 1), K_max = 1000, thre = 0, ...)
+p_sph_stat_Softmax(x, p, kappa = 1, K_max = 1000, thre = 0,
+  method = "I", ...)
 
-d_sph_stat_Sobolev(x, p, vk2 = c(0, 0, 1), ...)
+d_sph_stat_Softmax(x, p, kappa = 1, K_max = 1000, thre = 0,
+  method = "I", ...)
+
+p_sph_stat_Stereo(x, p, a = 0, K_max = 1000, method = "I", ...)
+
+d_sph_stat_Stereo(x, p, a = 0, K_max = 1000, method = "I", ...)
 }
 \arguments{
 \item{x}{a vector of size \code{nx} or a matrix of size \code{c(nx, 1)}.}
@@ -114,6 +128,12 @@ asymptotic p-value of a Sobolev test. Defaults to \code{1e3}.}
 the first terms of the truncated series of a Sobolev test. Defaults to
 \code{0} (no further truncation).}
 
+\item{method}{method for approximating the density, distribution, or
+quantile function of the weighted sum of chi squared random variables. Must
+be \code{"I"} (Imhof), \code{"SW"} (Satterthwaite--Welch), \code{"HBE"}
+(Hall--Buckley--Eagleson), or \code{"MC"} (Monte Carlo; only for distribution
+or quantile functions). Defaults to \code{"I"}.}
+
 \item{...}{further parameters passed to \code{\link{p_Sobolev}} or
 \code{\link{d_Sobolev}} (such as \code{x_tail}).}
 
@@ -126,11 +146,18 @@ the first terms of the truncated series of a Sobolev test. Defaults to
 \item{s}{\eqn{s} parameter for the \eqn{s}-Riesz test, a real in
 \eqn{(0, 2)}. Defaults to \code{1}.}
 
+\item{vk2}{weights for the finite Sobolev test. A non-negative vector or
+matrix. Defaults to \code{c(0, 0, 1)}.}
+
 \item{kappa}{\eqn{\kappa} parameter for the Softmax test, a
 non-negative real. Defaults to \code{1}.}
 
-\item{vk2}{weights for the finite Sobolev test. A non-negative vector or
-matrix. Defaults to \code{c(0, 0, 1)}.}
+\item{a}{either: \itemize{
+\item \eqn{a_n = a / n} parameter used in the length of the arcs
+of the coverage-based tests. Must be positive. Defaults to \code{2 * pi}.
+\item \eqn{a} parameter for the Stereo test, a real in \eqn{[-1, 1]}.
+Defaults to \code{0}.
+}}
 }
 \value{
 \itemize{
@@ -238,5 +265,11 @@ matlines(x, p_sph_stat_Sobolev(x = x, vk2 = vk2 + 0.01, p = 3), lty = 2)
 curve(d_sph_stat_Softmax(x, p = 3, method = "HBE"), to = 2, n = 2e2,
       ylim = c(0, 2))
 curve(p_sph_stat_Softmax(x, p = 3, method = "HBE"), n = 2e2, col = 2,
+      add = TRUE)
+
+# Stereo
+curve(d_sph_stat_Stereo(x, p = 4, method = "HBE"), from=-5,to = 10, n = 2e2,
+      ylim = c(0, 2))
+curve(p_sph_stat_Stereo(x, p = 4, method = "HBE"), n = 2e2, col = 2,
       add = TRUE)
 }

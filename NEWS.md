@@ -22,9 +22,14 @@
 * Vectorization of test-specific parameters in `unif_stat()`, `unif_test(p_value = "MC")`, and `unif_stat_MC()`.
 * Use `doRNG::%dorng%` in `unif_stat_MC()` and `int_sph_MC()` to fix a bug when `seeds` was not set to `NULL`.
 
-# sphunif 1.3.1
+# sphunif 1.4.0
 
-* Normalize Poisson kernel to improve numerical stability.
-* Add uniform spherical cap distribution in `unif_cap`.
+* New uniform spherical cap distribution in `unif_cap`.
 * New non-uniform data generating-processes in `r_alt()`: `"MC"` and `"AUD"`.
+* Add replication codes for several publications.
+* Add support for `method` argument in `unif_stat_distr()`.
+* Add warnings on absence of argument `n` in `unif_stat_distr()`.
 * Rename argument `axial_MvMF` to `axial_mix` in `r_alt()`.
+* Normalize Poisson kernel to improve numerical stability.
+* Fix bugs in the coherence between asymptotic distributions and statistics of `"Poisson"` and `"Softmax"` tests.
+* Add `"Stereo"` test distribution.

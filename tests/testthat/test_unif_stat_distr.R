@@ -71,7 +71,8 @@ test_that("Errors in edge cases", {
 
   expect_error(unif_stat_distr(x = c(0, NA)))
   expect_error(unif_stat_distr(x = 1))
-  expect_error(unif_stat_distr(x = cbind(1, 3), n = 1, p = 2, type = "Rayleigh"))
+  expect_error(unif_stat_distr(x = cbind(1, 3), n = 1, p = 2,
+                               type = "Rayleigh"))
   expect_error(unif_stat_distr(x = 1, p = 2, n = 1, type = "Invent"))
   expect_error(unif_stat_distr(x = 1, p = 2, n = 1, type = 1e3))
   expect_error(expect_warning(unif_stat_distr(x = 1, p = 2,

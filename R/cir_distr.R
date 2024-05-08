@@ -482,4 +482,3 @@ d_cir_stat_Softmax <- function(x, kappa = 1, K_max = 1e3, thre = 0,
                   method = method, ...))
 
 }
-

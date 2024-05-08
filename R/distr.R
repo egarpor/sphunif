@@ -80,7 +80,7 @@ r_proj_unif <- function(n, p) {
 #' n <- 1e2
 #' x <- r_unif_cap(n = n, mu = mu, r = r)
 #' col <- viridisLite::viridis(n)
-#' r_noise <- runif(n, 0.95, 1.05) # Radius perturbation to improve visualization
+#' r_noise <- runif(n, 0.95, 1.05) # Perturbation to improve visualization
 #' plot(r_noise * x, pch = 16,
 #'      col = col[rank(d_unif_cap(x = x, mu = mu, r = r))],
 #'      xlim = c(-1,1), ylim = c(-1,1))
@@ -245,4 +245,3 @@ r_proj_unif_cap <- function(n, p, r) {
   return(q_proj_unif_cap(U, p = p, r = r))
 
 }
-

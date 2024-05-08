@@ -1093,6 +1093,7 @@ arma::vec sph_stat_Poisson_Psi(arma::mat Psi, arma::uword p, double rho = 0.5) {
   // (1 - rho^2) / (1 - 2 * rho * Psi + rho^2)^(0.5 * p) *
   //   (1 - rho)^p / (1 - rho^2)
   // = (1 - rho)^p / (1 - 2 * rho * Psi + rho^2)^(0.5 * p)
+  // = ((1 - rho) / sqrt(1 - 2 * rho * Psi + rho^2))^p
   Psi = arma::pow((1 - rho) / arma::sqrt(1 - 2.0 * rho * Psi + rho * rho), p);
 
   // Statistic

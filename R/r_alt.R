@@ -60,8 +60,10 @@
 #' The alternative \code{"UAD"} generates a sample formed by
 #' \eqn{\lceil n/2\rceil} observations drawn uniformly on \eqn{S^{p-1}}
 #' and the remaining observations drawn from a uniform spherical cap
-#' distribution of angle \eqn{\kappa} about each of the \eqn{\lceil n/2\rceil}
-#' observations (see \code{\link{unif_cap}}).
+#' distribution of angle \eqn{\pi-\kappa} about each of the
+#' \eqn{\lceil n/2\rceil} observations (see \code{\link{unif_cap}}). Hence,
+#' \code{kappa = 0} corresponds to a spherical cap covering the whole sphere and
+#' \code{kappa = pi} is a one-point degenerate spherical cap.
 #' @return An \bold{array} of size \code{c(n, p, M)} with \code{M} random
 #' samples of size \code{n} of non-uniformly-generated directions on
 #' \eqn{S^{p-1}}.
@@ -88,7 +90,7 @@
 #' x5 <- r_alt(n = n, p = p, alt = "W", F_inv = F_inv_W_2)[, , 1]
 #' x6 <- r_alt(n = n, p = p, alt = "MvMF", kappa = kappa)[, , 1]
 #' x7 <- r_alt(n = n, p = p, alt = "MC", kappa = kappa)[, , 1]
-#' x8 <- r_alt(n = n, p = p, alt = "UAD", kappa = angle)[, , 1]
+#' x8 <- r_alt(n = n, p = p, alt = "UAD", kappa = 1 - angle)[, , 1]
 #' r <- runif(n, 0.95, 1.05) # Radius perturbation to improve visualization
 #' plot(r * x1, pch = 16, xlim = c(-1.1, 1.1), ylim = c(-1.1, 1.1), col = 1)
 #' points(r * x2, pch = 16, col = 2)
@@ -120,7 +122,7 @@
 #' x5 <- r_alt(n = n, p = p, alt = "W", F_inv = F_inv_W_3)[, , 1]
 #' x6 <- r_alt(n = n, p = p, alt = "MvMF", kappa = kappa)[, , 1]
 #' x7 <- r_alt(n = n, p = p, alt = "MC", kappa = kappa)[, , 1]
-#' x8 <- r_alt(n = n, p = p, alt = "UAD", kappa = angle)[, , 1]
+#' x8 <- r_alt(n = n, p = p, alt = "UAD", kappa = 1 - angle)[, , 1]
 #' s3d <- scatterplot3d::scatterplot3d(x1, pch = 16, xlim = c(-1.1, 1.1),
 #'                                     ylim = c(-1.1, 1.1), zlim = c(-1.1, 1.1))
 #' s3d$points3d(x2, pch = 16, col = 2)
@@ -307,7 +309,7 @@ r_alt <- function(n, p, M = 1, alt = "vMF", mu = c(rep(0, p - 1), 1),
     ant <- array(dim = c(n_ant * M, p))
     for (i in seq_len(n_ant * M)) {
 
-      ant[i, ] <- r_unif_cap(n = 1, mu = -u[i, ], angle = kappa)
+      ant[i, ] <- r_unif_cap(n = 1, mu = -u[i, ], angle = pi - kappa)
 
     }
 

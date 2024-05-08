@@ -369,7 +369,7 @@ García-Portugués, E., Navarro-Esteban, P., and Cuesta-Albertos, J. A.
 (2021). A Cramér–von Mises test of uniformity on the hypersphere. In
 Balzano, S., Porzio, G. C., Salvatore, R., Vistocco, D., and Vichi, M.
 (Eds.), *Statistical Learning and Modeling in Data Analysis*, Studies in
-Classification, Data Analysis and Knowledge Organization, pp. 107–-116.
+Classification, Data Analysis and Knowledge Organization, pp. 107--116.
 Springer, Cham.
 [doi:10.1007/978-3-030-69944-4_12](https://doi.org/10.1007/978-3-030-69944-4_12).
 

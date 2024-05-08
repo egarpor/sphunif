@@ -50,14 +50,14 @@ test_that("Wrong dimensions", {
 
 ## unif_cap
 
-r <- 0.5
+angle <- 0.5
 set.seed(7281123)
 
 test_that("r_proj_unif_cap vs. p_proj_unif_cap", {
 
   for (p in c(2:4, 11)) {
-    expect_gt(ks.test(r_proj_unif_cap(n = 1e3, p = p, r = r),
-                      "p_proj_unif_cap", p = p, r = r)$p.value, 0.05)
+    expect_gt(ks.test(r_proj_unif_cap(n = 1e3, p = p, angle = angle),
+                      "p_proj_unif_cap", p = p, angle = angle)$p.value, 0.05)
   }
 
 })
@@ -67,8 +67,8 @@ test_that("r_proj_unif_cap vs. simulating from a uniform cap by
 
   for (p in c(2:4, 11)) {
     proj_unif_samp <- r_unif_sph(n = 1e4, p = p)[, , 1]
-    proj_unif_samp <- proj_unif_samp[proj_unif_samp[, 1] > cos(r), 1]
-    expect_gt(ks.test(r_proj_unif_cap(n = 1e3, p = p, r = r),
+    proj_unif_samp <- proj_unif_samp[proj_unif_samp[, 1] > cos(angle), 1]
+    expect_gt(ks.test(r_proj_unif_cap(n = 1e3, p = p, angle = angle),
                       proj_unif_samp)$p.value, 0.05)
   }
 
@@ -77,24 +77,26 @@ test_that("r_proj_unif_cap vs. simulating from a uniform cap by
 test_that("p_proj_unif_cap vs. q_proj_unif_cap", {
 
   for (p in c(2:4, 11)) {
-    expect_equal(q_proj_unif_cap(u = p_proj_unif_cap(x = x, p = p, r = r),
-                                 p = p, r = r), drop(x))
-    expect_equal(p_proj_unif_cap(x = q_proj_unif_cap(u = u, p = p, r = r),
-                                 p = p, r = r), drop(u))
+    expect_equal(q_proj_unif_cap(u = p_proj_unif_cap(x = x, p = p,
+                                                     angle = angle),
+                                 p = p, angle = angle), drop(x))
+    expect_equal(p_proj_unif_cap(x = q_proj_unif_cap(u = u, p = p,
+                                                     angle = angle),
+                                 p = p, angle = angle), drop(u))
   }
 
 })
 
-test_that("Esge cases r", {
+test_that("Edge cases r", {
 
-  expect_error(d_unif_cap(x = 0:1, r = 4, mu = 0:1))
-  expect_error(d_unif_cap(x = 0:1, r = -1, mu = 0:1))
-  expect_error(d_proj_unif_cap(r = 4))
-  expect_error(d_proj_unif_cap(r = -1))
-  expect_error(p_proj_unif_cap(r = 4))
-  expect_error(p_proj_unif_cap(r = -1))
-  expect_error(q_proj_unif_cap(r = 4))
-  expect_error(q_proj_unif_cap(r = -1))
+  expect_error(d_unif_cap(x = 0:1, angle = 4, mu = 0:1))
+  expect_error(d_unif_cap(x = 0:1, angle = -1, mu = 0:1))
+  expect_error(d_proj_unif_cap(angle = 4))
+  expect_error(d_proj_unif_cap(angle = -1))
+  expect_error(p_proj_unif_cap(angle = 4))
+  expect_error(p_proj_unif_cap(angle = -1))
+  expect_error(q_proj_unif_cap(angle = 4))
+  expect_error(q_proj_unif_cap(angle = -1))
 
 })
 

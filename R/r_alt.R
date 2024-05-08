@@ -213,7 +213,7 @@ r_alt <- function(n, p, M = 1, alt = "vMF", mu = c(rep(0, p - 1), 1),
     # Compute the inverse of the distribution function F?
     if (is.null(F_inv)) {
 
-      f <- function(z) exp(kappa * z^2)
+      f <- function(z) exp(kappa * (z^2 - 1))
       F_inv <- F_inv_from_f(f = f, p = p, K = K)
 
     }
@@ -231,7 +231,7 @@ r_alt <- function(n, p, M = 1, alt = "vMF", mu = c(rep(0, p - 1), 1),
 
       rho <- ifelse(kappa == 0, 0,
                     ((2 * kappa + 1) - sqrt(4 * kappa + 1)) / (2 * kappa))
-      f <- function(z) (1 - rho^2) / (1 + rho^2 - 2 * rho * z)^(p / 2)
+      f <- function(z) ((1 - rho) / sqrt(1 + rho^2 - 2 * rho * z))^p
       F_inv <- F_inv_from_f(f = f, p = p, K = K)
 
     }
@@ -254,7 +254,7 @@ r_alt <- function(n, p, M = 1, alt = "vMF", mu = c(rep(0, p - 1), 1),
 
       rho <- ifelse(kappa == 0, 0,
                     ((2 * kappa + 1) - sqrt(4 * kappa + 1)) / (2 * kappa))
-      f <- function(z) (1 - rho^2) / (1 + rho^2 - 2 * rho * z)^(p / 2)
+      f <- function(z) ((1 - rho) / sqrt(1 + rho^2 - 2 * rho * z))^p
       F_inv <- F_inv_from_f(f = f, p = p, K = K)
 
     }
@@ -289,7 +289,7 @@ r_alt <- function(n, p, M = 1, alt = "vMF", mu = c(rep(0, p - 1), 1),
     # Sample uniform
     n_2 <- ceiling(n / 2)
     n_ant <- n - n_2
-    u <- r_unif_sph(n = n_2 * M, p = p, M = 1)[, , 1]
+    u <- rbind(r_unif_sph(n = n_2 * M, p = p, M = 1)[, , 1])
 
     # Sample antipodal
     ant <- array(dim = c(n_ant * M, p))

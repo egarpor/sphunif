@@ -16,16 +16,18 @@
 #'
 #' @inheritParams r_unif
 #' @param k sequence of integer indexes.
+#' @param method method for approximating the density, distribution, or
+#' quantile function of the weighted sum of chi squared random variables. Must
+#' be \code{"I"} (Imhof), \code{"SW"} (Satterthwaite--Welch), \code{"HBE"}
+#' (Hall--Buckley--Eagleson), or \code{"MC"} (Monte Carlo; only for distribution
+#' or quantile functions). Defaults to \code{"I"}.
 #' @param K_max integer giving the truncation of the series that compute the
 #' asymptotic p-value of a Sobolev test. Defaults to \code{1e3}.
 #' @param thre error threshold for the tail probability given by the
 #' the first terms of the truncated series of a Sobolev test. Defaults to
 #' \code{1e-3}.
-#' @param type Sobolev statistic. For \eqn{p = 2}, either \code{"Watson"},
-#' \code{"Rothman"}, \code{"Pycke_q"}, or \code{"Hermans_Rasson"}.
-#' For \eqn{p \ge 2}, \code{"Ajne"}, \code{"Gine_Gn"}, \code{"Gine_Fn"},
-#' \code{"Bakshaev"}, \code{"Riesz"}, \code{"PCvM"}, \code{"PAD"}, or
-#' \code{"PRt"}.
+#' @param type name of the Sobolev statistic, using the naming from
+#' \code{\link{avail_cir_tests}} and \code{\link{avail_sph_tests}}.
 #' @param log compute the logarithm of \eqn{d_{p,k}}? Defaults to
 #' \code{FALSE}.
 #' @param verbose output information about the truncation? Defaults to
@@ -34,7 +36,7 @@
 #' @inheritParams wschisq
 #' @inheritParams Gegenbauer
 #' @inheritParams Pn
-#' @param force_positive set negative
+#' @param force_positive set negative weights to zero? Defaults to \code{TRUE}.
 #' @param ... further parameters passed to \code{*_\link{wschisq}}.
 #' @return
 #' \itemize{

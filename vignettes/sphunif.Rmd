@@ -53,14 +53,14 @@ You can perform *several* tests within a *single* call to `unif_test`. Choose th
 avail_cir_tests
 ```
 
-For example, you can use the Projected Anderson--Darling (@Garcia-Portugues2020b, also an omnibus test) test and the Watson test:
+For example, you can use the Projected Anderson--Darling (@Garcia-Portugues2023, also an omnibus test) test and the Watson test:
 
 ```{r, unif_test_avail_cir}
 # A *list* of htest objects
 unif_test(data = cir_data, type = c("PAD", "Watson"))
 ```
 
-@Garcia-Portugues2020a gives a review of different tests of uniformity on the circle. Section 5.1 in @Pewsey2021 also gives an overview of recent advances.
+@Garcia-Portugues2018 gives a review of different tests of uniformity on the circle. Section 5.1 in @Pewsey2021 also gives an overview of recent advances.
 
 ### Spherical data
 
@@ -80,7 +80,7 @@ The available spherical uniformity tests:
 avail_sph_tests
 ```
 
-See again @Garcia-Portugues2020a for a review of tests of uniformity on the sphere and complementary Section 5.1 in @Pewsey2021.
+See again @Garcia-Portugues2018 for a review of tests of uniformity on the sphere and complementary Section 5.1 in @Pewsey2021.
 
 The default `type = "all"` equals `type = avail_sph_tests`, which might be too much for standard analysis:
 

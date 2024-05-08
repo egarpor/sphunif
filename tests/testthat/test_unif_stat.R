@@ -286,6 +286,17 @@ test_that("Rayleigh vs. Softmax and Poisson", {
   )
 })
 
+test_that("Pycke_q vs. Poisson", {
+
+  mc <- unif_stat_MC(n = 10, type = c("Pycke_q", "Poisson"), p = 2,
+                     Poisson_rho = 0.3, Pycke_q = 0.3, M = 20)$stats_MC
+  expect_equal(cor(mc)[1, 2], 1)
+  mc <- unif_stat_MC(n = 10, type = c("Pycke_q", "Poisson"), p = 2,
+                     Poisson_rho = 0.85, Pycke_q = 0.85, M = 20)$stats_MC
+  expect_equal(cor(mc)[1, 2], 1)
+
+})
+
 test_that("Vectorization works in Stereo test", {
   expect_equal(unname(as.matrix(unif_stat(data = X_3, type = "Stereo",
                                 Stereo_a = c(-0.5, 0, 0.5)))),

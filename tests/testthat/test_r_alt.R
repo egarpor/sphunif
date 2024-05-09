@@ -106,14 +106,16 @@ test_that("Edge cases in r_alt", {
     expect_equal(dim(r_alt(n = 1, p = p, M = 1, alt = "ACG")), c(1, p, 1))
     expect_equal(dim(r_alt(n = 1, p = p, M = 1, alt = "MC")), c(1, p, 1))
     expect_equal(dim(r_alt(n = 1, p = p, M = 1, alt = "UAD")), c(1, p, 1))
-    expect_error(r_alt(n = 100, p = p, M = 1, alt = "WC"))
-    expect_error(r_alt(n = 100, p = p, M = 1, kappa = -1, alt = "C"))
-    expect_error(r_alt(n = 0, p = p, M = 1, alt = "C"))
-    expect_no_warning(r_alt(n = 1, p = p, M = 1, alt = "UAD"))
-    expect_no_warning(r_alt(n = 2, p = p, M = 1, alt = "UAD"))
-    expect_no_warning(r_alt(n = 3, p = p, M = 2, alt = "UAD"))
-    expect_no_warning(r_alt(n = 4, p = p, M = 2, alt = "UAD"))
 
   }
+  expect_error(r_alt(n = 100, p = 3, M = 1, alt = "WC"))
+  expect_error(r_alt(n = 100, p = 3, M = 1, kappa = -1, alt = "C"))
+  expect_error(r_alt(n = 0, p = 3, M = 1, alt = "C"))
+  expect_no_warning(r_alt(n = 1, p = 3, M = 1, alt = "UAD"))
+  expect_no_warning(r_alt(n = 2, p = 3, M = 1, alt = "UAD"))
+  expect_no_warning(r_alt(n = 3, p = 3, M = 2, alt = "UAD"))
+  expect_no_warning(r_alt(n = 4, p = 3, M = 2, alt = "UAD"))
+  expect_error(r_alt(n = 5, p = 3, M = 1, alt = "UAD", kappa = -1))
+  expect_error(r_alt(n = 5, p = 3, M = 1, alt = "UAD", kappa = 4))
 
 })

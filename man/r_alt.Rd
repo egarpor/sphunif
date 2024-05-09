@@ -5,7 +5,7 @@
 \title{Sample non-uniformly distributed spherical data}
 \usage{
 r_alt(n, p, M = 1, alt = "vMF", mu = c(rep(0, p - 1), 1), kappa = 1,
-  nu = 0.5, r = pi/10, F_inv = NULL, K = 1000, axial_mix = TRUE)
+  nu = 0.5, F_inv = NULL, K = 1000, axial_mix = TRUE)
 }
 \arguments{
 \item{n}{sample size.}
@@ -28,9 +28,6 @@ with respect to uniformity (obtained with \eqn{\kappa = 0}).}
 \item{nu}{projection along \eqn{{\bf e}_p}{e_p} controlling the modal
 strip of the small circle distribution. Must be in (-1, 1). Defaults to
 \code{0.5}.}
-
-\item{r}{angle of the spherical cap about \eqn{\boldsymbol{\mu}}{\mu}. A
-nonnegative scalar in \eqn{[0, \pi]}. Defaults to \eqn{\pi / 10}.}
 
 \item{F_inv}{quantile function returned by \code{\link{F_inv_from_f}}. Used
 for \code{"SC"}, \code{"W"}, and \code{"C"}. Computed by internally if
@@ -88,8 +85,10 @@ distributions:
 The alternative \code{"UAD"} generates a sample formed by
 \eqn{\lceil n/2\rceil} observations drawn uniformly on \eqn{S^{p-1}}
 and the remaining observations drawn from a uniform spherical cap
-distribution of angle \eqn{r} about each of the \eqn{\lceil n/2\rceil}
-observations (see \code{\link{unif_cap}}).
+distribution of angle \eqn{\pi-\kappa} about each of the
+\eqn{\lceil n/2\rceil} observations (see \code{\link{unif_cap}}). Hence,
+\code{kappa = 0} corresponds to a spherical cap covering the whole sphere and
+\code{kappa = pi} is a one-point degenerate spherical cap.
 
 Much faster sampling for \code{"SC"}, \code{"W"}, \code{"C"}, and \code{"MC"}
 is achieved providing \code{F_inv}; see examples.
@@ -101,7 +100,7 @@ p <- 2
 n <- 50
 kappa <- 20
 nu <- 0.5
-r <- pi / 10
+angle <- pi / 10
 rho <- ((2 * kappa + 1) - sqrt(4 * kappa + 1)) / (2 * kappa)
 F_inv_SC_2 <- F_inv_from_f(f = function(z) exp(-kappa * (z - nu)^2), p = 2)
 F_inv_W_2 <- F_inv_from_f(f = function(z) exp(kappa * z^2), p = 2)
@@ -114,7 +113,7 @@ x4 <- r_alt(n = n, p = p, alt = "ACG", kappa = kappa)[, , 1]
 x5 <- r_alt(n = n, p = p, alt = "W", F_inv = F_inv_W_2)[, , 1]
 x6 <- r_alt(n = n, p = p, alt = "MvMF", kappa = kappa)[, , 1]
 x7 <- r_alt(n = n, p = p, alt = "MC", kappa = kappa)[, , 1]
-x8 <- r_alt(n = n, p = p, alt = "UAD")[, , 1]
+x8 <- r_alt(n = n, p = p, alt = "UAD", kappa = 1 - angle)[, , 1]
 r <- runif(n, 0.95, 1.05) # Radius perturbation to improve visualization
 plot(r * x1, pch = 16, xlim = c(-1.1, 1.1), ylim = c(-1.1, 1.1), col = 1)
 points(r * x2, pch = 16, col = 2)
@@ -132,8 +131,8 @@ for (i in seq(1, n, by = 2)) lines((r * x8)[i + 0:1, ], col = col[i])
 n <- 50
 p <- 3
 kappa <- 20
+angle <- pi / 10
 nu <- 0.5
-r <- pi / 10
 rho <- ((2 * kappa + 1) - sqrt(4 * kappa + 1)) / (2 * kappa)
 F_inv_SC_3 <- F_inv_from_f(f = function(z) exp(-kappa * (z - nu)^2), p = 3)
 F_inv_W_3 <- F_inv_from_f(f = function(z) exp(kappa * z^2), p = 3)
@@ -146,7 +145,7 @@ x4 <- r_alt(n = n, p = p, alt = "ACG", kappa = kappa)[, , 1]
 x5 <- r_alt(n = n, p = p, alt = "W", F_inv = F_inv_W_3)[, , 1]
 x6 <- r_alt(n = n, p = p, alt = "MvMF", kappa = kappa)[, , 1]
 x7 <- r_alt(n = n, p = p, alt = "MC", kappa = kappa)[, , 1]
-x8 <- r_alt(n = n, p = p, alt = "UAD")[, , 1]
+x8 <- r_alt(n = n, p = p, alt = "UAD", kappa = 1 - angle)[, , 1]
 s3d <- scatterplot3d::scatterplot3d(x1, pch = 16, xlim = c(-1.1, 1.1),
                                     ylim = c(-1.1, 1.1), zlim = c(-1.1, 1.1))
 s3d$points3d(x2, pch = 16, col = 2)

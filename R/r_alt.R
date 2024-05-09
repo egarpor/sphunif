@@ -60,8 +60,10 @@
 #' The alternative \code{"UAD"} generates a sample formed by
 #' \eqn{\lceil n/2\rceil} observations drawn uniformly on \eqn{S^{p-1}}
 #' and the remaining observations drawn from a uniform spherical cap
-#' distribution of angle \eqn{r} about each of the \eqn{\lceil n/2\rceil}
-#' observations (see \code{\link{unif_cap}}).
+#' distribution of angle \eqn{\pi-\kappa} about each of the
+#' \eqn{\lceil n/2\rceil} observations (see \code{\link{unif_cap}}). Hence,
+#' \code{kappa = 0} corresponds to a spherical cap covering the whole sphere and
+#' \code{kappa = pi} is a one-point degenerate spherical cap.
 #' @return An \bold{array} of size \code{c(n, p, M)} with \code{M} random
 #' samples of size \code{n} of non-uniformly-generated directions on
 #' \eqn{S^{p-1}}.
@@ -75,7 +77,7 @@
 #' n <- 50
 #' kappa <- 20
 #' nu <- 0.5
-#' r <- pi / 10
+#' angle <- pi / 10
 #' rho <- ((2 * kappa + 1) - sqrt(4 * kappa + 1)) / (2 * kappa)
 #' F_inv_SC_2 <- F_inv_from_f(f = function(z) exp(-kappa * (z - nu)^2), p = 2)
 #' F_inv_W_2 <- F_inv_from_f(f = function(z) exp(kappa * z^2), p = 2)
@@ -88,7 +90,7 @@
 #' x5 <- r_alt(n = n, p = p, alt = "W", F_inv = F_inv_W_2)[, , 1]
 #' x6 <- r_alt(n = n, p = p, alt = "MvMF", kappa = kappa)[, , 1]
 #' x7 <- r_alt(n = n, p = p, alt = "MC", kappa = kappa)[, , 1]
-#' x8 <- r_alt(n = n, p = p, alt = "UAD")[, , 1]
+#' x8 <- r_alt(n = n, p = p, alt = "UAD", kappa = 1 - angle)[, , 1]
 #' r <- runif(n, 0.95, 1.05) # Radius perturbation to improve visualization
 #' plot(r * x1, pch = 16, xlim = c(-1.1, 1.1), ylim = c(-1.1, 1.1), col = 1)
 #' points(r * x2, pch = 16, col = 2)
@@ -106,8 +108,8 @@
 #' n <- 50
 #' p <- 3
 #' kappa <- 20
+#' angle <- pi / 10
 #' nu <- 0.5
-#' r <- pi / 10
 #' rho <- ((2 * kappa + 1) - sqrt(4 * kappa + 1)) / (2 * kappa)
 #' F_inv_SC_3 <- F_inv_from_f(f = function(z) exp(-kappa * (z - nu)^2), p = 3)
 #' F_inv_W_3 <- F_inv_from_f(f = function(z) exp(kappa * z^2), p = 3)
@@ -120,7 +122,7 @@
 #' x5 <- r_alt(n = n, p = p, alt = "W", F_inv = F_inv_W_3)[, , 1]
 #' x6 <- r_alt(n = n, p = p, alt = "MvMF", kappa = kappa)[, , 1]
 #' x7 <- r_alt(n = n, p = p, alt = "MC", kappa = kappa)[, , 1]
-#' x8 <- r_alt(n = n, p = p, alt = "UAD")[, , 1]
+#' x8 <- r_alt(n = n, p = p, alt = "UAD", kappa = 1 - angle)[, , 1]
 #' s3d <- scatterplot3d::scatterplot3d(x1, pch = 16, xlim = c(-1.1, 1.1),
 #'                                     ylim = c(-1.1, 1.1), zlim = c(-1.1, 1.1))
 #' s3d$points3d(x2, pch = 16, col = 2)
@@ -138,7 +140,7 @@
 #'                                           type = "l")
 #' @export
 r_alt <- function(n, p, M = 1, alt = "vMF", mu = c(rep(0, p - 1), 1),
-                  kappa = 1, nu = 0.5, r = pi / 10, F_inv = NULL, K = 1e3,
+                  kappa = 1, nu = 0.5, F_inv = NULL, K = 1e3,
                   axial_mix = TRUE) {
 
   # Check location and concentration parameters, and sample size
@@ -187,8 +189,8 @@ r_alt <- function(n, p, M = 1, alt = "vMF", mu = c(rep(0, p - 1), 1),
 
   } else if (alt == "ACG") {
 
-    Lambda <- diag(c(rep(1 / (p + kappa), p - 1),
-                     (1 + kappa) / (p + kappa)), nrow = p, ncol = p)
+    Lambda <- diag(c(rep(1 / (p + kappa), p - 1), (1 + kappa) / (p + kappa)),
+                   nrow = p, ncol = p)
     long_samp <- rotasym::r_ACG(n = n * M, Lambda = Lambda)
 
   } else if (alt == "SC") {
@@ -286,6 +288,18 @@ r_alt <- function(n, p, M = 1, alt = "vMF", mu = c(rep(0, p - 1), 1),
 
   } else if (alt == "UAD") {
 
+    # Check kappa
+    if (kappa < 0) {
+
+      stop("kappa must be non-negative.")
+
+    }
+    if (kappa > pi) {
+
+      stop("kappa must be lower than pi.")
+
+    }
+
     # Sample uniform
     n_2 <- ceiling(n / 2)
     n_ant <- n - n_2
@@ -295,7 +309,7 @@ r_alt <- function(n, p, M = 1, alt = "vMF", mu = c(rep(0, p - 1), 1),
     ant <- array(dim = c(n_ant * M, p))
     for (i in seq_len(n_ant * M)) {
 
-      ant[i, ] <- r_unif_cap(n = 1, mu = -u[i, ], r = r)
+      ant[i, ] <- r_unif_cap(n = 1, mu = -u[i, ], angle = pi - kappa)
 
     }
 

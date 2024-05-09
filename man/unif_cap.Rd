@@ -11,19 +11,19 @@
 \alias{r_proj_unif_cap}
 \title{Uniform spherical cap distribution}
 \usage{
-d_unif_cap(x, mu, r = pi/10)
+d_unif_cap(x, mu, angle = pi/10)
 
-c_unif_cap(p, r)
+c_unif_cap(p, angle = pi/10)
 
-r_unif_cap(n, mu, r)
+r_unif_cap(n, mu, angle = pi/10)
 
-p_proj_unif_cap(x, p, r)
+p_proj_unif_cap(x, p, angle = pi/10)
 
-q_proj_unif_cap(u, p, r)
+q_proj_unif_cap(u, p, angle = pi/10)
 
-d_proj_unif_cap(x, p, r, scaled = TRUE)
+d_proj_unif_cap(x, p, angle = pi/10, scaled = TRUE)
 
-r_proj_unif_cap(n, p, r)
+r_proj_unif_cap(n, p, angle = pi/10)
 }
 \arguments{
 \item{x}{locations to evaluate the density or distribution. For
@@ -35,8 +35,9 @@ required (with a \code{warning} message). For \code{d_unif_proj_cap} and
 \item{mu}{the directional mean \eqn{\boldsymbol{\mu}}{\mu} of the
 distribution. A unit-norm vector of length \code{p}.}
 
-\item{r}{angle of the spherical cap about \eqn{\boldsymbol{\mu}}{\mu}. A
-nonnegative scalar in \eqn{[0, \pi]}. Defaults to \eqn{\pi / 10}.}
+\item{angle}{angle \eqn{\alpha} defining the spherical cap about
+\eqn{\boldsymbol{\mu}}{\mu}. A scalar in \eqn{[0, \pi]}. Defaults to
+\eqn{\pi / 10}.}
 
 \item{p}{integer giving the dimension of the ambient space \eqn{R^p} that
 contains \eqn{S^{p-1}}.}
@@ -69,54 +70,53 @@ Depending on the function:
 }
 \description{
 Density, simulation, and associated functions for a uniform
-distribution within a spherical cap of angle \eqn{0\leq r\leq \pi} about a
-direction \eqn{\boldsymbol{\mu}}{\mu} on \eqn{S^{p-1}:=\{\mathbf{x} \in
+distribution within a spherical cap of angle \eqn{0\leq \alpha\leq \pi} about
+a direction \eqn{\boldsymbol{\mu}}{\mu} on \eqn{S^{p-1}:=\{\mathbf{x} \in
 R^p:||\mathbf{x}||=1\}}{S^{p-1}:=\{x \in R^p:||x||=1\}}, \eqn{p \geq 2}. The
 density at \eqn{\mathbf{x} \in S^{p-1}}{x \in S^{p-1}} is given by
-\deqn{c_{p,r} 1_{[1 - \tilde{r}, 1]}(\mathbf{x}' \boldsymbol{\mu})
-\quad\mathrm{with}\quad c_{p, r} := \omega_{p}\left[1 - F_{p} (1 - \tilde{r})
-\right]}{c_{p,r} 1_{[1 - \tilde{r}, 1]}(x' \mu) with \quad
-c_{p,r}:=\omega_{p} \left[1 - F_{p}(1 - \tilde{r})\right]} where
-\eqn{\tilde{r}=\cos(r)} is the projected radius of the spherical cap about
-\eqn{\boldsymbol{\mu}}{\mu}, \eqn{\omega_{p}} is the surface area of
+\deqn{c_{p,r} 1_{[1 - r, 1]}(\mathbf{x}' \boldsymbol{\mu}) \quad
+\mathrm{with}\quad c_{p,r} := \omega_{p}\left[1 - F_p(1 - r)\right],}{
+c_{p,r} 1_{[1 - r, 1]}(x' \mu) with \quad
+c_{p,r}:=\omega_p \left[1 - F_p(1 - r)\right],} where
+\eqn{r=\cos(\alpha)} is the projected radius of the spherical cap about
+\eqn{\boldsymbol{\mu}}{\mu}, \eqn{\omega_p} is the surface area of
 \eqn{S^{p-1}}, and \eqn{F_p} is the projected uniform distribution (see
 \code{\link{p_proj_unif}}).
 
 The angular function of the uniform cap distribution is
-\eqn{g(t):=1_{[1 - \tilde{r}, 1]}(t)}{g(t):=1_{[1 - \tilde{r}, 1]}(t)}. The
-associated projected density is \eqn{\tilde{g}(t):=\omega_{p-1} c_{p,r}
-(1 - t^2)^{(p - 3) / 2} 1_{[1 - \tilde{r}, 1]}(t)}{\tilde{g}(t):=\omega_{p-1}
-c_{p,r} (1 - t^2)^{(p - 3) / 2} 1_{[1 - \tilde{r}, 1]}(t)}.
+\eqn{g(t):=1_{[1 - r, 1]}(t)}{g(t):=1_{[1 - r, 1]}(t)}. The associated
+projected density is \eqn{\tilde{g}(t):=\omega_{p-1} c_{p,r}
+(1 - t^2)^{(p - 3) / 2} 1_{[1 - r, 1]}(t)}{\tilde{g}(t):=\omega_{p-1}
+c_{p,r} (1 - t^2)^{(p - 3) / 2} 1_{[1 - r, 1]}(t)}.
 }
 \examples{
 # Simulation and density evaluation for p = 2
 mu <- c(0, 1)
-r <- pi / 5
+angle <- pi / 5
 n <- 1e2
-x <- r_unif_cap(n = n, mu = mu, r = r)
+x <- r_unif_cap(n = n, mu = mu, angle = angle)
 col <- viridisLite::viridis(n)
-r_noise <- runif(n, 0.95, 1.05) # Radius perturbation to improve visualization
-plot(r_noise * x, pch = 16,
-     col = col[rank(d_unif_cap(x = x, mu = mu, r = r))],
-     xlim = c(-1,1), ylim = c(-1,1))
+r_noise <- runif(n, 0.95, 1.05) # Perturbation to improve visualization
+color <- col[rank(d_unif_cap(x = x, mu = mu, angle = angle))]
+plot(r_noise * x, pch = 16, col = color, xlim = c(-1, 1), ylim = c(-1, 1))
 
 # Simulation and density evaluation for p = 3
 mu <- c(0, 0, 1)
-r <- pi / 5
-x <- r_unif_cap(n = n, mu = mu, r = r)
+angle <- pi / 5
+x <- r_unif_cap(n = n, mu = mu, angle = angle)
+color <- col[rank(d_unif_cap(x = x, mu = mu, angle = angle))]
 scatterplot3d::scatterplot3d(x, size = 5, xlim = c(-1, 1), ylim = c(-1, 1),
-                             zlim = c(-1, 1), color =
-                              col[rank(d_unif_cap(x = x, mu = mu, r = r))])
+                             zlim = c(-1, 1), color = color)
 
 # Simulated data from the cosines density
 n <- 1e3
 p <- 3
-r <- pi / 3
-hist(r_proj_unif_cap(n = n, p = p, r = r), breaks = seq(cos(r), 1, l = 10),
-     probability = TRUE, main = "Simulated data from d_proj_unif_cap",
-     xlab = "t", xlim = c(-1, 1))
+angle <- pi / 3
+hist(r_proj_unif_cap(n = n, p = p, angle = angle),
+     breaks = seq(cos(angle), 1, l = 10), probability = TRUE,
+     main = "Simulated data from proj_unif_cap", xlab = "t", xlim = c(-1, 1))
 t <- seq(-1, 1, by = 0.01)
-lines(t, d_proj_unif_cap(x = t, p = p, r = r), col = "red")
+lines(t, d_proj_unif_cap(x = t, p = p, angle = angle), col = "red")
 }
 \author{
 Alberto Fernández-de-Marcos and Eduardo García-Portugués.

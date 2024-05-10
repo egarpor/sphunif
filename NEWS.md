@@ -27,9 +27,10 @@
 * New uniform spherical cap distribution in `unif_cap`.
 * New non-uniform data generating-processes in `r_alt()`: `"MC"` and `"AUD"`.
 * Add replication codes for several publications.
-* Add support for `method` argument in `unif_stat_distr()`.
+* Add support for `method` argument in `unif_stat_distr()` and `unif_test()`.
 * Add warnings on absence of argument `n` in `unif_stat_distr()`.
 * Rename argument `axial_MvMF` to `axial_mix` in `r_alt()`.
 * Normalize Poisson kernel to improve numerical stability.
 * Fix bugs in the coherence between asymptotic distributions and statistics of `"Poisson"` and `"Softmax"` tests.
 * Add `"Stereo"` test distribution.
+* Fix bug when supplying crit_val to unif_stat_MC() in vectorized statistics.

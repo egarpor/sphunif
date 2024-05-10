@@ -53,7 +53,8 @@
 #' @inheritParams unif_stat
 #' @param ... If \code{p_value = "MC"} or \code{p_value = "crit_val"}, optional
 #' performance parameters to be passed to \code{\link{unif_stat_MC}}:
-#' \code{chunks}, \code{cores}, and \code{seed}.
+#' \code{chunks}, \code{cores}, and \code{seed}. If \code{p_value = "MC"},
+#' additional parameters to \code{\link{unif_stat_distr}}.
 #' @return If only a \bold{single test} is performed, a list with class
 #' \code{htest} containing the following components:
 #' \itemize{
@@ -98,7 +99,7 @@
 #' on the choice of \cr\code{CCF09_dirs}. That is, all the Monte
 #' Carlo statistics share the same random directions.
 #'
-#' Except \code{CCF09_dirs}, \code{K_CCF09}, and \code{CJ12_reg}, all the
+#' Except for \code{CCF09_dirs}, \code{K_CCF09}, and \code{CJ12_reg}, all the
 #' test-specific parameters are vectorized.
 #'
 #' Descriptions and references for most of the tests are available
@@ -213,12 +214,13 @@
 #' @export
 unif_test <- function(data, type = "all", p_value = "asymp",
                       alpha = c(0.10, 0.05, 0.01), M = 1e4, stats_MC = NULL,
-                      crit_val = NULL, data_sorted = FALSE, Rayleigh_m = 1,
-                      cov_a = 2 * pi, Rothman_t = 1 / 3, Cressie_t = 1 / 3,
-                      Pycke_q = 0.5, Riesz_s = 1, CCF09_dirs = NULL,
-                      K_CCF09 = 25, CJ12_reg = 3, CJ12_beta = 0,
-                      Poisson_rho = 0.5, Softmax_kappa = 1, Stereo_a = 0,
-                      Sobolev_vk2 = c(0, 0, 1), K_max = 1e4, ...) {
+                      crit_val = NULL, data_sorted = FALSE, K_max = 1e4,
+                      method = "I", CCF09_dirs = NULL, CJ12_beta = 0,
+                      CJ12_reg = 3, cov_a = 2 * pi, Cressie_t = 1 / 3,
+                      K_CCF09 = 25, Poisson_rho = 0.5, Pycke_q = 0.5,
+                      Rayleigh_m = 1, Riesz_s = 1, Rothman_t = 1 / 3,
+                      Sobolev_vk2 = c(0, 0, 1), Softmax_kappa = 1,
+                      Stereo_a = 0, ...) {
 
   # Read data's name
   data_name <- deparse(substitute(data))
@@ -378,13 +380,12 @@ unif_test <- function(data, type = "all", p_value = "asymp",
 
   # Compute statistics
   stat <- unif_stat(data = data, type = stats_type, data_sorted = data_sorted,
-                    Rayleigh_m = Rayleigh_m, cov_a = cov_a,
-                    Rothman_t = Rothman_t, Cressie_t = Cressie_t,
-                    Pycke_q = Pycke_q, Riesz_s = Riesz_s,
-                    CCF09_dirs = CCF09_dirs, K_CCF09 = K_CCF09,
-                    CJ12_reg = CJ12_reg, Stereo_a = Stereo_a,
-                    Poisson_rho = Poisson_rho, Softmax_kappa = Softmax_kappa,
-                    Sobolev_vk2 = Sobolev_vk2)
+                    CCF09_dirs = CCF09_dirs, CJ12_reg = CJ12_reg,
+                    cov_a = cov_a, Cressie_t = Cressie_t, K_CCF09 = K_CCF09,
+                    Poisson_rho = Poisson_rho, Pycke_q = Pycke_q,
+                    Rayleigh_m = Rayleigh_m, Riesz_s = Riesz_s,
+                    Rothman_t = Rothman_t, Sobolev_vk2 = Sobolev_vk2,
+                    Softmax_kappa = Softmax_kappa, Stereo_a = Stereo_a)
   stats_type_vec <- names(stat) # We can have Sobolev.1, Sobolev.2, etc.
 
   # Update the number of statistics (to count those Sobolev.1, Sobolev.2, etc.)
@@ -400,14 +401,14 @@ unif_test <- function(data, type = "all", p_value = "asymp",
       crit_val <- unif_stat_MC(n = n, type = stats_type, p = p, M = M,
                                r_H1 = NULL, crit_val = NULL, alpha = alpha,
                                return_stats = FALSE, stats_sorted = FALSE,
-                               Rayleigh_m = Rayleigh_m, cov_a = cov_a,
-                               Rothman_t = Rothman_t, Cressie_t = Cressie_t,
-                               Pycke_q = Pycke_q, Riesz_s = Riesz_s,
-                               CCF09_dirs = CCF09_dirs, K_CCF09 = K_CCF09,
-                               CJ12_reg = CJ12_reg, Stereo_a = Stereo_a,
-                               Poisson_rho = Poisson_rho,
-                               Softmax_kappa = Softmax_kappa,
-                               Sobolev_vk2 = Sobolev_vk2, ...)$crit_val_MC
+                               CCF09_dirs = CCF09_dirs, CJ12_reg = CJ12_reg,
+                               cov_a = cov_a, Cressie_t = Cressie_t,
+                               K_CCF09 = K_CCF09, Poisson_rho = Poisson_rho,
+                               Pycke_q = Pycke_q, Rayleigh_m = Rayleigh_m,
+                               Riesz_s = Riesz_s, Rothman_t = Rothman_t,
+                               Sobolev_vk2 = Sobolev_vk2, Softmax_kappa =
+                                 Softmax_kappa, Stereo_a = Stereo_a,
+                               ...)$crit_val_MC
 
     } else {
 
@@ -442,12 +443,14 @@ unif_test <- function(data, type = "all", p_value = "asymp",
       stats_MC <- unif_stat_MC(n = n, type = stats_type, p = p, M = M,
                                r_H1 = NULL, crit_val = NULL, alpha = alpha,
                                return_stats = TRUE, stats_sorted = TRUE,
-                               Rothman_t = Rothman_t, Pycke_q = Pycke_q,
-                               Riesz_s = Riesz_s, CCF09_dirs = CCF09_dirs,
-                               CJ12_reg = CJ12_reg, K_CCF09 = K_CCF09,
-                               Stereo_a = Stereo_a, Poisson_rho = Poisson_rho,
-                               Softmax_kappa = Softmax_kappa,
-                               Sobolev_vk2 = Sobolev_vk2, ...)$stats_MC
+                               CCF09_dirs = CCF09_dirs, CJ12_reg = CJ12_reg,
+                               cov_a = cov_a, Cressie_t = Cressie_t,
+                               K_CCF09 = K_CCF09, Poisson_rho = Poisson_rho,
+                               Pycke_q = Pycke_q, Rayleigh_m = Rayleigh_m,
+                               Riesz_s = Riesz_s, Rothman_t = Rothman_t,
+                               Sobolev_vk2 = Sobolev_vk2, Softmax_kappa =
+                                 Softmax_kappa, Stereo_a = Stereo_a,
+                               ...)$stats_MC
 
     }
 
@@ -469,15 +472,15 @@ unif_test <- function(data, type = "all", p_value = "asymp",
     # p-values
     p_val <- 1 - unif_stat_distr(x = stat, type = stats_type, p = p, n = n,
                                  approx = "asymp", stats_MC = NULL, M = M,
-                                 cov_a = cov_a, Rothman_t = Rothman_t,
-                                 Cressie_t = Cressie_t, Pycke_q = Pycke_q,
-                                 Riesz_s = Riesz_s, CCF09_dirs = CCF09_dirs,
-                                 K_CCF09 = K_CCF09, CJ12_reg = CJ12_reg,
-                                 CJ12_beta = CJ12_beta, Stereo_a = Stereo_a,
-                                 Poisson_rho = Poisson_rho,
-                                 Softmax_kappa = Softmax_kappa,
-                                 Sobolev_vk2 = Sobolev_vk2, K_max = K_max,
-                                 thre = 0, ...)
+                                 K_max = K_max, method = method, thre = 0,
+                                 CCF09_dirs = CCF09_dirs, CJ12_reg = CJ12_reg,
+                                 CJ12_beta = CJ12_beta, cov_a = cov_a,
+                                 Cressie_t = Cressie_t, K_CCF09 = K_CCF09,
+                                 Poisson_rho = Poisson_rho, Pycke_q = Pycke_q,
+                                 Rayleigh_m = Rayleigh_m, Riesz_s = Riesz_s,
+                                 Rothman_t = Rothman_t, Sobolev_vk2 =
+                                   Sobolev_vk2, Softmax_kappa = Softmax_kappa,
+                                 Stereo_a = Stereo_a, ...)
 
     # Critical values
     crit_val <- as.data.frame(matrix(NA, nrow = length(alpha), ncol = n_stats))
@@ -504,7 +507,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
   Sobolev_vk2 <- rbind(Sobolev_vk2)
   for (i in seq_along(stats_type_vec)) {
 
-    # Parameter for statistics with vectorised arguments
+    # Parameter for statistics with vectorized arguments
     par_i <- as.numeric(strsplit(stats_type_vec[i], split = ".",
                                  fixed = TRUE)[[1]][2])
 
@@ -515,7 +518,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
          "Ajne" = NA,
          "Bakshaev" = NA,
          "Bingham" = NA,
-         "CCF09" = c("K_CCF09" = nrow(CCF09_dirs)),
+         "CCF09" = CCF09_dirs,
          "Cressie" = c("Cressie_t" = ifelse(length(Cressie_t) == 1, Cressie_t,
                                             Cressie_t[par_i])),
          "FG01" = NA,
@@ -565,7 +568,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
          "Bakshaev" = "Bakshaev (2010) test of circular uniformity",
          "Bingham" = "Bingham test of circular uniformity",
          "CCF09" = paste("Cuesta-Albertos et al. (2009) test of circular",
-                         "uniformity with k =", nrow(CCF09_dirs)),
+                         "uniformity with k =", nrow(param)),
          "Cressie" = paste("Cressie test of circular uniformity with t =",
                            round(param, 3)),
          "FG01" = paste("Cramer-von Mises 4-point test of Feltz and",
@@ -662,7 +665,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
          "Bakshaev" = NA,
          "Bingham" = NA,
          "CJ12" = NA,
-         "CCF09" = c("K_CCF09" = nrow(CCF09_dirs)),
+         "CCF09" = CCF09_dirs,
          "Gine_Fn" = NA,
          "Gine_Gn" = NA,
          "PAD" = NA,
@@ -691,7 +694,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
          "Bingham" = "Bingham test of spherical uniformity",
          "CJ12" = "Cai and Jiang (2012) test of spherical uniformity",
          "CCF09" = paste("Cuesta-Albertos et al. (2009) test of spherical",
-                         "uniformity with k =", param),
+                         "uniformity with k =", nrow(param)),
          "Gine_Fn" = "Gine's Fn test of spherical uniformity",
          "Gine_Gn" = "Gine's Gn test of spherical uniformity",
          "PAD" = paste("Projected Anderson-Darling test of",

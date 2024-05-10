@@ -101,7 +101,7 @@ the CCF09 test.}
 
 \item{K_CCF09}{integer giving the truncation of the series present in the
 asymptotic distribution of the Kolmogorov-Smirnov statistic. Defaults to
-\code{5e2}.}
+\code{25}.}
 
 \item{original}{return the CCF09 statistic as originally defined?
 If \code{FALSE} (default), a faster and equivalent statistic is computed,

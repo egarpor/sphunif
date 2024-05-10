@@ -50,7 +50,7 @@ Simple simulation of prespecified non-uniform spherical
 distributions: von Mises--Fisher (vMF), Mixture of vMF (MvMF),
 Angular Central Gaussian (ACG), Small Circle (SC), Watson (W),
 Cauchy-like (C), Mixture of Cauchy-like (MC), or Uniform distribution with
-Antipodal Dependent observations (UAD).
+Antipodal-Dependent observations (UAD).
 }
 \details{
 The parameter \code{kappa} is used as \eqn{\kappa} in the following

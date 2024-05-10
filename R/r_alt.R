@@ -6,7 +6,7 @@
 #' distributions: von Mises--Fisher (vMF), Mixture of vMF (MvMF),
 #' Angular Central Gaussian (ACG), Small Circle (SC), Watson (W),
 #' Cauchy-like (C), Mixture of Cauchy-like (MC), or Uniform distribution with
-#' Antipodal Dependent observations (UAD).
+#' Antipodal-Dependent observations (UAD).
 #'
 #' @inheritParams r_unif
 #' @param alt alternative, must be \code{"vMF"}, \code{"MvMF"}, \code{"ACG"},

@@ -192,7 +192,8 @@
 #' require(progress)
 #' require(progressr)
 #' handlers(handler_progress(
-#'   format = ":spin [:bar] :percent Total: :elapsedfull End \u2248 :eta",
+#'   format = paste("(:spin) [:bar] :percent Iter: :current/:total Rate:",
+#'                  ":tick_rate iter/sec ETA: :eta Elapsed: :elapsedfull"),
 #'   clear = FALSE))
 #'
 #' # Call unif_test() within with_progress()

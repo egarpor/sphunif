@@ -488,7 +488,7 @@ p_sph_stat_Stereo <- function(x, p, a = 0, K_max = 1e3, method = "I", ...) {
 
   # psi_tilde_0 is the shift from U-stat to V-stat
   v_k2 <- weights_dfs_Sobolev(p = p, K_max = K_max, thre = 0, type = "Stereo",
-                              Stereo_a = a)$weights
+                              Stereo_a = a, ...)$weights
   psi_tilde_0 <- Gegen_series(theta = 0, coefs = vk2_to_bk(vk2 = v_k2, p = p),
                               k = 1:K_max, p = p)
   cbind(p_Sobolev(x = x + psi_tilde_0, p = p, type = "Stereo", Stereo_a = a,

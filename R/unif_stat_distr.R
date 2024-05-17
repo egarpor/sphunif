@@ -147,7 +147,8 @@ unif_stat_distr <- function(x, type, p, n, approx = "asymp", M = 1e4,
                             K_Watson = 25, K_Watson_1976 = 5, Poisson_rho = 0.5,
                             Pycke_q = 0.5, Rayleigh_m = 1, Riesz_s = 1,
                             Rothman_t = 1 / 3, Sobolev_vk2 = c(0, 0, 1),
-                            Softmax_kappa = 1, Stereo_a = 0, ...) {
+                            Softmax_kappa = 1, Stereo_a = 0, verbose = TRUE,
+                            ...) {
 
 
   # Stop if NA's
@@ -343,7 +344,7 @@ unif_stat_distr <- function(x, type, p, n, approx = "asymp", M = 1e4,
                  "K_Watson" = K_Watson, "K_Watson_1976" = K_Watson_1976,
                  "t" = Rothman_t, "rho" = Poisson_rho, "q" = Pycke_q,
                  "s" = Riesz_s, "vk2" = Sobolev_vk2, "kappa" = Softmax_kappa,
-                 "a" = Stereo_a)
+                 "a" = Stereo_a, "verbose" = verbose)
     names_args <- names(args)
 
     # Evaluate distributions
@@ -351,7 +352,8 @@ unif_stat_distr <- function(x, type, p, n, approx = "asymp", M = 1e4,
 
       # Additional arguments for the distribution
       name_distr <- paste0(prefix_distr, distr)
-      distr_args <- args[names_args %in% names(formals(name_distr))]
+      fun_args <- c(names(formals(name_distr)), "verbose")
+      distr_args <- args[names_args %in% fun_args]
 
       # Where to evaluate the distribution, depending on whether the
       # test is vectorized

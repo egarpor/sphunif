@@ -408,7 +408,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
                                Riesz_s = Riesz_s, Rothman_t = Rothman_t,
                                Sobolev_vk2 = Sobolev_vk2, Softmax_kappa =
                                  Softmax_kappa, Stereo_a = Stereo_a,
-                               verbose = verbose, ...)$crit_val_MC
+                               ...)$crit_val_MC
 
     } else {
 

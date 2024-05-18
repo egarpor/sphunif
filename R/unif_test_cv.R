@@ -102,8 +102,57 @@
 #' tests on the hypersphere. \emph{arXiv:1804.00286}.
 #' \url{https://arxiv.org/abs/1804.00286}.
 #' @examples
-#  TODO:
-#' Example
+#' ## Asymptotic distribution
+#'
+#' # Circular data
+#' n <- 50
+#' samp_cir <- r_unif_cir(n = n)
+#'
+#' # Matrix
+#' unif_test_cv(data = samp_cir, type = "all", K = 3, p_value = "asymp")
+#'
+#' # Vector
+#' unif_test_cv(data = samp_cir[, 1], type = "all", K = 3, p_value = "asymp")
+#'
+#' # Array
+#' unif_test_cv(data = array(samp_cir, dim = c(n, 1, 1)), type = "all", K = 3,
+#'              p_value = "asymp")
+#'
+#' # Spherical data
+#' n <- 50
+#' samp_sph <- r_unif_sph(n = n, p = 3)
+#'
+#' # Array
+#' unif_test_cv(data = samp_sph, type = "all", K = 3, p_value = "asymp")
+#'
+#' # Matrix
+#' unif_test_cv(data = samp_sph[, , 1], type = "all", K = 3, p_value = "asymp")
+#'
+#' ## Monte Carlo
+#'
+#' # Circular data
+#' unif_test_cv(data = samp_cir, type = "all", K = 3, p_value = "MC")
+#'
+#' # Spherical data
+#' unif_test_cv(data = samp_sph, type = "all", K = 3, p_value = "MC")
+#'
+#' # Caching stats_MC
+#' stats_MC_cir <- unif_stat_MC(n = nrow(samp_cir), type = avail_cir_cv_tests,
+#'                              p = 2, M = 1e3, r_H1 = NULL, crit_val = NULL,
+#'                              return_stats = TRUE, stats_sorted = TRUE,
+#'                              Poisson_rho = seq(0.1, 0.9, 0.1),
+#'                              Softmax_kappa = seq(0.1, 20, 1),
+#'                              Stereo_a = seq(-1, 1, 0.25))$stats_MC
+#' stats_MC_sph <- unif_stat_MC(n = nrow(samp_sph), type = avail_cir_cv_tests,
+#'                              p = 3, M = 1e3, r_H1 = NULL, crit_val = NULL,
+#'                              return_stats = TRUE, stats_sorted = TRUE,
+#'                              Poisson_rho = seq(0.1, 0.9, 0.1),
+#'                              Softmax_kappa = seq(0.1, 20, 1),
+#'                              Stereo_a = seq(-1, 1, 0.25))$stats_MC
+#' unif_test_cv(data = samp_cir, type = avail_cir_tests, K = 3, p_value = "MC",
+#'              stats_MC = stats_MC_cir)
+#' unif_test_cv(data = samp_sph, type = avail_sph_tests, K = 3, p_value = "MC",
+#'              stats_MC = stats_MC_sph)
 #' @name unif_test_cv
 
 #' @rdname unif_test_cv
@@ -114,7 +163,7 @@ unif_test_cv <- function(data, type = "all", K = 10, p_value = "asymp",
                          rel.tol = 1e-10, Poisson_rho = seq(0.1, 0.9, 0.1),
                          Softmax_kappa = seq(0.1, 20, 1),
                          Stereo_a = seq(-1, 1, 0.25),
-                         seed_fold = NULL, verbose = TRUE, ...) {
+                         seed_fold = NULL, ...) {
 
   # Check K > 1
   if (K < 2) {
@@ -388,8 +437,9 @@ unif_test_cv <- function(data, type = "all", K = 10, p_value = "asymp",
                                      M = M, K_max = K_max, method = method,
                                      Poisson_rho = lambda_hat_k[["Poisson"]],
                                      Softmax_kappa = lambda_hat_k[["Softmax"]],
-                                     Stereo_a = lambda_hat_k[["Stereo"]],
-                                     verbose = verbose)
+                                     Stereo_a = lambda_hat_k[["Stereo"]])
+                                     # TODO: Include verbose
+                                     # verbose = verbose)
       p_val <- rbind(p_val, p_val_k)
 
     } else {

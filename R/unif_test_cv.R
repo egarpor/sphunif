@@ -85,6 +85,7 @@
 #' When \code{p_value = "asymp"}, tests that do not have an implemented or
 #' known asymptotic are omitted, and a warning is generated.
 #'
+#  TODO:
 #' When \code{p_value = "MC"}, it is possible to have a progress bar indicating
 #' the Monte Carlo simulation progress if \code{unif_test} is wrapped with
 #' \code{\link[progressr:with_progress]{progressr::with_progress}} or if

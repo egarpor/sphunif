@@ -104,37 +104,45 @@
 #' @examples
 #' ## Asymptotic distribution
 #'
+#' seed <- 12345
+#'
 #' # Circular data
 #' n <- 50
 #' samp_cir <- r_unif_cir(n = n)
 #'
 #' # Matrix
-#' unif_test_cv(data = samp_cir, type = "all", K = 3, p_value = "asymp")
+#' unif_test_cv(data = samp_cir, type = "all", K = 3, p_value = "asymp",
+#'              seed_fold = seed)
 #'
 #' # Vector
-#' unif_test_cv(data = samp_cir[, 1], type = "all", K = 3, p_value = "asymp")
+#' unif_test_cv(data = samp_cir[, 1], type = "all", K = 3, p_value = "asymp",
+#'              seed_fold = seed)
 #'
 #' # Array
 #' unif_test_cv(data = array(samp_cir, dim = c(n, 1, 1)), type = "all", K = 3,
-#'              p_value = "asymp")
+#'              p_value = "asymp", seed_fold = seed)
 #'
 #' # Spherical data
 #' n <- 50
 #' samp_sph <- r_unif_sph(n = n, p = 3)
 #'
 #' # Array
-#' unif_test_cv(data = samp_sph, type = "all", K = 3, p_value = "asymp")
+#' unif_test_cv(data = samp_sph, type = c("Poisson", "Softmax"), K = 3,
+#'              p_value = "asymp", seed_fold = seed)
 #'
 #' # Matrix
-#' unif_test_cv(data = samp_sph[, , 1], type = "all", K = 3, p_value = "asymp")
+#' unif_test_cv(data = samp_sph[, , 1], type = c("Poisson", "Softmax"), K = 3,
+#'              p_value = "asymp", seed_fold = seed)
 #'
 #' ## Monte Carlo
 #'
 #' # Circular data
-#' unif_test_cv(data = samp_cir, type = "all", K = 3, p_value = "MC")
+#' unif_test_cv(data = samp_cir, type = "all", K = 3, p_value = "MC",
+#'              seed_fold = seed)
 #'
 #' # Spherical data
-#' unif_test_cv(data = samp_sph, type = "all", K = 3, p_value = "MC")
+#' unif_test_cv(data = samp_sph, type = c("Poisson", "Softmax"), K = 3,
+#'              p_value = "MC", seed_fold = seed)
 #'
 #' # Caching stats_MC
 #' stats_MC_cir <- unif_stat_MC(n = nrow(samp_cir), type = avail_cir_cv_tests,
@@ -143,16 +151,16 @@
 #'                              Poisson_rho = seq(0.1, 0.9, 0.1),
 #'                              Softmax_kappa = seq(0.1, 20, 1),
 #'                              Stereo_a = seq(-1, 1, 0.25))$stats_MC
-#' stats_MC_sph <- unif_stat_MC(n = nrow(samp_sph), type = avail_cir_cv_tests,
+#' stats_MC_sph <- unif_stat_MC(n = nrow(samp_sph), type = avail_sph_cv_tests,
 #'                              p = 3, M = 1e3, r_H1 = NULL, crit_val = NULL,
 #'                              return_stats = TRUE, stats_sorted = TRUE,
 #'                              Poisson_rho = seq(0.1, 0.9, 0.1),
 #'                              Softmax_kappa = seq(0.1, 20, 1),
 #'                              Stereo_a = seq(-1, 1, 0.25))$stats_MC
 #' unif_test_cv(data = samp_cir, type = avail_cir_tests, K = 3, p_value = "MC",
-#'              stats_MC = stats_MC_cir)
-#' unif_test_cv(data = samp_sph, type = avail_sph_tests, K = 3, p_value = "MC",
-#'              stats_MC = stats_MC_sph)
+#'              stats_MC = stats_MC_cir, seed_fold = seed)
+#' unif_test_cv(data = samp_sph, type = c("Poisson", "Softmax), K = 3,
+#'              p_value = "MC", stats_MC = stats_MC_sph, seed_fold = seed)
 #' @name unif_test_cv
 
 #' @rdname unif_test_cv
@@ -315,6 +323,16 @@ unif_test_cv <- function(data, type = "all", K = 10, p_value = "asymp",
 
   }
 
+  # Define parameter names for unif_stat_ calls
+  param_name <- list("Poisson" = "Poisson_rho",
+                     "Softmax" = "Softmax_kappa",
+                     "Stereo" = "Stereo_a")
+  param_args_name <- unname(sapply(stats_type, function(stat_type){
+
+    param_name[[stat_type]]
+
+  }))
+
   # Split data into K disjoint subsamples of (roughly) same sizes
   folds <- k_fold_split(n = n, K = K, seed = seed_fold)
 
@@ -371,15 +389,22 @@ unif_test_cv <- function(data, type = "all", K = 10, p_value = "asymp",
 
     # Perform test based on T(\hat{\lambda}; S\S_k) on the remaining subsamples
     if (p == 2) {
-      S_notk <- data[!(1:n) %in% folds[[k]], ]
+      S_notk <- data[!((1:n) %in% folds[[k]]), ]
     } else {
-      S_notk <- data[!(1:n) %in% folds[[k]], , ]
+      S_notk <- data[!((1:n) %in% folds[[k]]), , ]
       dim(S_notk) <- c(dim(S_notk), 1)
     }
-    stat_k <- unif_stat(S_notk, type = stats_type,
-                        Poisson_rho = lambda_hat_k[["Poisson"]],
-                        Softmax_kappa = lambda_hat_k[["Softmax"]],
-                        Stereo_a = lambda_hat_k[["Stereo"]])
+
+    unif_stat_args <- list(data = S_notk, type = stats_type)
+    specific_args <- sapply(stats_type, function(stat_type) {
+
+      return(lambda_hat_k[[stat_type]])
+
+    })
+
+    # Statistic on K - 1 folds
+    names(specific_args) <- param_args_name
+    stat_k <- do.call(what = unif_stat, args = c(unif_stat_args, specific_args))
 
     stat <- rbind(stat, stat_k)
 
@@ -389,13 +414,12 @@ unif_test_cv <- function(data, type = "all", K = 10, p_value = "asymp",
       # Get the stats_MC
       if (is.null(stats_MC)) {
 
-        stats_MC_k <- unif_stat_MC(n = n, type = stats_type, p = p, M = M,
-                                   r_H1 = NULL, crit_val = NULL, alpha = alpha,
-                                   return_stats = TRUE, stats_sorted = TRUE,
-                                   Poisson_rho = lambda_hat_k[["Poisson"]],
-                                   Softmax_kappa = lambda_hat_k[["Softmax"]],
-                                   Stereo_a = lambda_hat_k[["Stereo"]],
-                                   ...)$stats_MC
+        unif_stat_MC_args <- list(n = n, type = stats_type, p = p, M = M,
+                                  r_H1 = NULL, crit_val = NULL, alpha = alpha,
+                                  return_stats = TRUE, stats_sorted = TRUE)
+        stats_MC_k <- do.call(what = unif_stat_MC,
+                              args = c(unif_stat_MC_args,
+                                       specific_args))$stats_MC
 
         # p-values
         p_val_k <- 1 - as.data.frame(sapply(stats_type, function(distr) {
@@ -432,14 +456,13 @@ unif_test_cv <- function(data, type = "all", K = 10, p_value = "asymp",
 
     } else if (p_value == "asymp") {
 
-      p_val_k <- 1 - unif_stat_distr(x = stat_k, type = stats_type, p = p,
-                                     n = n, approx = "asymp", stats_MC = NULL,
-                                     M = M, K_max = K_max, method = method,
-                                     Poisson_rho = lambda_hat_k[["Poisson"]],
-                                     Softmax_kappa = lambda_hat_k[["Softmax"]],
-                                     Stereo_a = lambda_hat_k[["Stereo"]])
-                                     # TODO: Include verbose
-                                     # verbose = verbose)
+      # TODO: Include verbose
+      unif_stat_distr_args <- list(x = stat_k, type = stats_type, p = p,
+                                   n = n, approx = "asymp", stats_MC = NULL,
+                                   M = M, K_max = K_max, method = method)
+      p_val_k <- 1 - do.call(what = unif_stat_distr,
+                             args = c(unif_stat_distr_args, specific_args))
+
       p_val <- rbind(p_val, p_val_k)
 
     } else {

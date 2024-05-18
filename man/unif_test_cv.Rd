@@ -148,6 +148,9 @@ which the sample can be represented in terms of \emph{angles}
 \code{unif_test_cv} allows to perform several tests within a single call,
 facilitating thus the exploration of a dataset by applying several tests.
 
+\code{unif_test_cv} needs a grid of parameters to find the one that maximizes
+the power proxy. The grids are specified for each statistic parameter.
+
 \code{null_var} computes the exact-\code{n} variance of the statistic for
 a set of parameters \code{lambda_grid}.
 }
@@ -207,11 +210,11 @@ unif_test_cv(data = samp_sph[, , 1], type = c("Poisson", "Softmax"), K = 3,
 ## Monte Carlo
 
 # Circular data
-unif_test_cv(data = samp_cir, type = "all", K = 3, p_value = "MC",
+unif_test_cv(data = samp_cir, type = "all", K = 3, p_value = "MC", M = 1e3,
              seed_fold = seed)
 
 # Spherical data
-unif_test_cv(data = samp_sph, type = c("Poisson", "Softmax"), K = 3,
+unif_test_cv(data = samp_sph, type = c("Poisson", "Softmax"), K = 3, M = 1e3,
              p_value = "MC", seed_fold = seed)
 
 # Caching stats_MC

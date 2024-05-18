@@ -140,11 +140,11 @@
 #' ## Monte Carlo
 #'
 #' # Circular data
-#' unif_test_cv(data = samp_cir, type = "all", K = 3, p_value = "MC",
+#' unif_test_cv(data = samp_cir, type = "all", K = 3, p_value = "MC", M = 1e3,
 #'              seed_fold = seed)
 #'
 #' # Spherical data
-#' unif_test_cv(data = samp_sph, type = c("Poisson", "Softmax"), K = 3,
+#' unif_test_cv(data = samp_sph, type = c("Poisson", "Softmax"), K = 3, M = 1e3,
 #'              p_value = "MC", seed_fold = seed)
 #'
 #' # Caching stats_MC

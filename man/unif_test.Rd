@@ -10,7 +10,7 @@ unif_test(data, type = "all", p_value = "asymp", alpha = c(0.1, 0.05,
   CJ12_beta = 0, CJ12_reg = 3, cov_a = 2 * pi, Cressie_t = 1/3,
   K_CCF09 = 25, Poisson_rho = 0.5, Pycke_q = 0.5, Rayleigh_m = 1,
   Riesz_s = 1, Rothman_t = 1/3, Sobolev_vk2 = c(0, 0, 1),
-  Softmax_kappa = 1, Stereo_a = 0, verbose = TRUE, ...)
+  Softmax_kappa = 1, Stereo_a = 0, ...)
 }
 \arguments{
 \item{data}{sample to perform the test. A matrix of size \code{c(n, p)}

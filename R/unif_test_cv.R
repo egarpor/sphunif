@@ -16,6 +16,9 @@
 #' \code{unif_test_cv} allows to perform several tests within a single call,
 #' facilitating thus the exploration of a dataset by applying several tests.
 #'
+#' \code{unif_test_cv} needs a grid of parameters to find the one that maximizes
+#' the power proxy. The grids are specified for each statistic parameter.
+#'
 #' \code{null_var} computes the exact-\code{n} variance of the statistic for
 #' a set of parameters \code{lambda_grid}.
 #'
@@ -159,7 +162,7 @@
 #'                              Stereo_a = seq(-1, 1, 0.25))$stats_MC
 #' unif_test_cv(data = samp_cir, type = avail_cir_tests, K = 3, p_value = "MC",
 #'              stats_MC = stats_MC_cir, seed_fold = seed)
-#' unif_test_cv(data = samp_sph, type = c("Poisson", "Softmax), K = 3,
+#' unif_test_cv(data = samp_sph, type = c("Poisson", "Softmax"), K = 3,
 #'              p_value = "MC", stats_MC = stats_MC_sph, seed_fold = seed)
 #' @name unif_test_cv
 

@@ -220,7 +220,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
                       K_CCF09 = 25, Poisson_rho = 0.5, Pycke_q = 0.5,
                       Rayleigh_m = 1, Riesz_s = 1, Rothman_t = 1 / 3,
                       Sobolev_vk2 = c(0, 0, 1), Softmax_kappa = 1,
-                      Stereo_a = 0, verbose = TRUE, ...) {
+                      Stereo_a = 0, ...) {
 
   # Read data's name
   data_name <- deparse(substitute(data))

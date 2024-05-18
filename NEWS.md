@@ -34,4 +34,4 @@
 * Fix bugs in the coherence between asymptotic distributions and statistics of `"Poisson"` and `"Softmax"` tests.
 * Add `"Stereo"` test distribution.
 * Fix bug when supplying crit_val to unif_stat_MC() in vectorized statistics.
-* New K-fold (cross-validation) uniformity testing procedure.
+* New K-fold (cross-validation) uniformity testing procedure in `unif_test_cv()`.

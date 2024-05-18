@@ -312,7 +312,7 @@ unif_test_cv <- function(data, type = "all", K = 10, p_value = "asymp",
                             "Softmax" = Softmax_kappa,
                             "Stereo" = Stereo_a)
 
-      return(null_var(n = n, p = p, type = stat_type,
+      return(null_var(n = round(n / K), p = p, type = stat_type,
                       lambda_grid = lambda_grid,
                       rel.tol = rel.tol))
 

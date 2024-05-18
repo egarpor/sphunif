@@ -41,6 +41,7 @@ Imports:
     foreach,
     future,
     gsl,
+    harmonicmeanp,
     rotasym
 Suggests:
     CompQuadForm,

@@ -330,7 +330,7 @@ unif_test_cv <- function(data, type = "all", K = 10, p_value = "asymp",
   param_name <- list("Poisson" = "Poisson_rho",
                      "Softmax" = "Softmax_kappa",
                      "Stereo" = "Stereo_a")
-  param_args_name <- unname(sapply(stats_type, function(stat_type){
+  param_args_name <- unname(sapply(stats_type, function(stat_type) {
 
     param_name[[stat_type]]
 

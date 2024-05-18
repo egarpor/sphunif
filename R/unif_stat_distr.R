@@ -41,7 +41,7 @@
 #' Kolmogorov-Smirnov-related series defaults to \code{25}.
 #' @param K_max integer giving the truncation of the series that compute the
 #' asymptotic p-value of a Sobolev test. Defaults to \code{1e4}.
-#' @inheritParams Sobolev method
+#' @inheritParams Sobolev
 #' @param ... if \code{approx = "MC"}, optional performance parameters to be
 #' passed to \cr\code{\link{unif_stat_MC}}: \code{chunks}, \code{cores},
 #' and \code{seed}.

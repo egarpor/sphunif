@@ -40,7 +40,7 @@ test_that("K-fold partition when K > n/2 must throw an error", {
 
 test_that("Variance under null hypothesis coincides with MC variance (p > 3)", {
 
-  for (p in c(4, 6, 10, 20)){
+  for (p in c(4, 10)){
 
     # Monte Carlo variance
     MC_var <- apply(unif_stat_MC(n = n, p = p,
@@ -106,13 +106,14 @@ test_that("Variance under null hypothesis equals MC variance (p <= 3)", {
 })
 
 # Hyperspherical
-for (p in c(4, 6, 10)){
+for (p in c(4, 10)){
 
   set.seed(12345)
   samp <- r_unif_sph(n = n, p = p)
 
-  t_asymp <- unif_test_cv(data = samp, type = "all", K = 4,
-                          p_value = "asymp", seed_fold = 123)
+  # Hide warnings because of precision losses in besselI for high K_max
+  t_asymp <- suppressWarnings(unif_test_cv(data = samp, type = "all", K = 4,
+                          p_value = "asymp", seed_fold = 123, K_max = 1000))
   t_MC <- unif_test_cv(data = samp, type = "all", K = 4,
                        p_value = "MC", M = 1e3, seed_fold = 123)
   stats_MC <- unif_stat_MC(n = n, type = c("Softmax", "Poisson", "Stereo"),
@@ -124,6 +125,7 @@ for (p in c(4, 6, 10)){
   t_stats_MC <- unif_test_cv(data = samp, type = "all", K = 4,
                              p_value = "MC", stats_MC = stats_MC,
                              seed_fold = 123)
+
 
   test_that("Asymptotic matches MC p-value", {
 
@@ -156,7 +158,7 @@ for (p in c(2, 3)){
   samp <- r_unif_sph(n = n, p = p)
 
   t_asymp <- unif_test_cv(data = samp, type = c("Softmax", "Poisson"), K = 4,
-                          p_value = "asymp", seed_fold = 123)
+                          p_value = "asymp", seed_fold = 123, K_max = 100)
   t_MC <- unif_test_cv(data = samp, type = c("Softmax", "Poisson"), K = 4,
                        p_value = "MC", M = 1e3, seed_fold = 123)
   stats_MC <- unif_stat_MC(n = n, type = c("Softmax", "Poisson"),

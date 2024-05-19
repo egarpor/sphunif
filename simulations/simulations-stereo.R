@@ -10,7 +10,7 @@ handlers(handler_progress(
 
 seed <- 12345# Random seed
 
-p <- 4# Ambient space dimension
+p <- 4# Ambient space dimension # TODO: Adapt to 3
 n <- 100# Sample size
 M <- 1e4# Monte Carlo samples
 
@@ -42,7 +42,8 @@ with_progress({
   stats_MC <- unif_stat_MC(n = n, type = avail_sph_cv_tests,
                            p = p, M = 1e5, return_stats = TRUE,
                            stats_sorted = TRUE, Poisson_rho = Poisson_grid,
-                           Softmax_kappa = Softmax_grid, Stereo_a = Stereo_grid
+                           Softmax_kappa = Softmax_grid,
+                           Stereo_a = Stereo_grid
                            )$stats_MC
 })
 
@@ -57,59 +58,60 @@ emp_rej_antipodal_cv <- array(dim = c(length(radius_list),
                               dimnames = list(radius_list, avail_sph_cv_tests))
 
 ## Simulation
-with_progress({
-  for (radius_deg in radius_list) {
+for (radius_deg in radius_list) {
 
-    print(paste0("r = ", radius_deg, "º"))
+  print(paste0("r = ", radius_deg, "º"))
 
-    # Concentration parameter
-    kappa <- pi - radius_deg * pi / 180
+  # Concentration parameter
+  kappa <- pi - radius_deg * pi / 180
 
-    # Simulation of UAD sample
-    set.seed(seed)
-    samp <- r_alt(n = n, p = p, M = M, alt = "UAD", kappa = kappa)
+  # Simulation of UAD sample
+  set.seed(seed)
+  samp <- r_alt(n = n, p = p, M = M, alt = "UAD", kappa = kappa)
 
-    # Statistics computation
-    stat <- unif_stat(data = samp, type = stat_list,
-                      Poisson_rho = Poisson_rho,
-                      Softmax_kappa = Softmax_kappa,
-                      Stereo_a = Stereo_a)
+  # Statistics computation
+  stat <- unif_stat(data = samp, type = stat_list,
+                    Poisson_rho = Poisson_rho,
+                    Softmax_kappa = Softmax_kappa,
+                    Stereo_a = Stereo_a)
 
-    # Rejection?
-    for (s in stat_names) {
-      emp_rej_antipodal[as.character(radius_deg),
-                        s] <- mean(stat[, s] > q_H0[as.character(alpha), s])
+  # Rejection?
+  for (s in stat_names) {
+    emp_rej_antipodal[as.character(radius_deg),
+                      s] <- mean(stat[, s] > q_H0[as.character(alpha), s])
 
-    }
+  }
 
-    # K-fold tests computation
-    cv_reject <- array(dim = c(M, length(avail_sph_cv_tests)),
-                       dimnames = list(1:M, avail_sph_cv_tests))
-    for (i in 1:M) {
-      cv_test <- unif_test_cv(data = samp[, , i], type = stat_list, K = K,
-                              p_value = "MC", alpha = alpha,
-                              stats_MC = stats_MC,
-                              Poisson_rho = Poisson_grid,
-                              Softmax_kappa = Softmax_grid,
-                              Stereo_a = Stereo_grid,
-                              seed_fold = seed)
-      for (s in avail_sph_cv_tests){
+  # K-fold tests computation
+  cv_reject <- array(dim = c(M, length(avail_sph_cv_tests)),
+                     dimnames = list(1:M, avail_sph_cv_tests))
+  for (i in 1:M) {
 
-        cv_reject[i, s] <- cv_test[[s]][["reject"]]
+    # Progress
+    if ((100 * i / M) %% 10 == 0) print(100 * i / M)
 
-      }
-
-    }
-
+    cv_test <- unif_test_cv(data = samp[, , i], type = stat_list, K = K,
+                            p_value = "MC", alpha = alpha,
+                            stats_MC = stats_MC,
+                            Poisson_rho = Poisson_grid,
+                            Softmax_kappa = Softmax_grid,
+                            Stereo_a = Stereo_grid,
+                            seed_fold = seed)
     for (s in avail_sph_cv_tests){
 
-      emp_rej_antipodal_cv[as.character(radius_deg), s] <- mean(cv_reject[, s])
+      cv_reject[i, s] <- cv_test[[s]][["reject"]]
 
     }
 
   }
 
-})
+  for (s in avail_sph_cv_tests){
+
+    emp_rej_antipodal_cv[as.character(radius_deg), s] <- mean(cv_reject[, s])
+
+  }
+
+}
 
 ## Show results
 print(emp_rej_antipodal)

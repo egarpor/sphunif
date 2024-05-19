@@ -46,6 +46,18 @@ with_progress({
                            Stereo_a = Stereo_grid
                            )$stats_MC
 })
+# Pre-compute null variance for each statistic
+null_variance <- sapply(avail_sph_cv_tests, function(stat_type) {
+
+  lambda_grid <- switch(stat_type,
+                        "Poisson" = Poisson_grid,
+                        "Softmax" = Softmax_grid,
+                        "Stereo" = Stereo_grid)
+
+  return(null_var(n = round(n / K), p = p, type = stat_type,
+                  lambda_grid = lambda_grid))
+
+})
 
 # UAD simulation parameters
 radius_list <- c(1, 10, 20, 45, 90, 135, 180)
@@ -85,6 +97,7 @@ for (radius_deg in radius_list) {
   # K-fold tests computation
   cv_reject <- array(dim = c(M, length(avail_sph_cv_tests)),
                      dimnames = list(1:M, avail_sph_cv_tests))
+
   for (i in 1:M) {
 
     # Progress
@@ -92,7 +105,7 @@ for (radius_deg in radius_list) {
 
     cv_test <- unif_test_cv(data = samp[, , i], type = stat_list, K = K,
                             p_value = "MC", alpha = alpha,
-                            stats_MC = stats_MC,
+                            stats_MC = stats_MC, null_variance = null_variance,
                             Poisson_rho = Poisson_grid,
                             Softmax_kappa = Softmax_grid,
                             Stereo_a = Stereo_grid,

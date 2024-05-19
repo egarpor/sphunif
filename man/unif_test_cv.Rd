@@ -78,7 +78,10 @@ be \code{"I"} (Imhof), \code{"SW"} (Satterthwaite--Welch), \code{"HBE"}
 (Hall--Buckley--Eagleson), or \code{"MC"} (Monte Carlo; only for distribution
 or quantile functions). Defaults to \code{"I"}.}
 
-\item{null_variance}{TODO}
+\item{null_variance}{list of length \code{length(type)} and names equal
+to \code{type} that contains the null variance values returned by
+\code{null_var()} for the required grid of parameters. If \code{NULL}
+(default), it is computed internally.}
 
 \item{rel.tol}{TODO}
 
@@ -234,6 +237,21 @@ unif_test_cv(data = samp_cir, type = avail_cir_tests, K = 3, p_value = "MC",
              stats_MC = stats_MC_cir, seed_fold = seed)
 unif_test_cv(data = samp_sph, type = c("Poisson", "Softmax"), K = 3,
              p_value = "MC", stats_MC = stats_MC_sph, seed_fold = seed)
+
+## Using a progress bar when p_value = "MC"
+
+# Define a progress bar
+require(progress)
+require(progressr)
+handlers(handler_progress(
+  format = ":spin [:bar] :percent Total: :elapsedfull End \u2248 :eta",
+  clear = FALSE))
+
+# Call unif_test() within with_progress()
+with_progress(
+  unif_test_cv(data = samp_sph, type = c("Poisson", "Softmax"), K = 3,
+               p_value = "MC", , M = 1e3, seed_fold = seed, chunks = 10)
+)
 }
 \references{
 Fernández-de-Marcos, A. and García-Portugués, E. (2023) On new omnibus tests

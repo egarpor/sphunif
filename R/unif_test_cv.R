@@ -177,7 +177,7 @@
 #'                         "Poisson" = Poisson_grid,
 #'                         "Softmax" = Softmax_grid)
 #'
-#'   return(null_var(n = round(n / K), p = p, type = stat_type,
+#'   return(null_var(n = round(n / 3), p = 3, type = stat_type,
 #'                   lambda_grid = lambda_grid))
 #'
 #' })

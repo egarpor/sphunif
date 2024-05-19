@@ -40,7 +40,10 @@
 #' employing the approximation by Monte Carlo of the exact null distribution or
 #' \code{"asymp"} (default) for the use of the asymptotic null distribution
 #'  (if available).
-#' @param null_variance TODO
+#' @param null_variance list of length \code{length(type)} and names equal
+#' to \code{type} that contains the null variance values returned by
+#' \code{null_var()} for the required grid of parameters. If \code{NULL}
+#' (default), it is computed internally.
 #' @param rel.tol TODO
 #' @param seed_fold an integer that fixes the seed for splitting data into
 #' \code{K} folds.
@@ -85,7 +88,6 @@
 #' When \code{p_value = "asymp"}, tests that do not have an implemented or
 #' known asymptotic are omitted, and a warning is generated.
 #'
-#  TODO:
 #' When \code{p_value = "MC"}, it is possible to have a progress bar indicating
 #' the Monte Carlo simulation progress if \code{unif_test} is wrapped with
 #' \code{\link[progressr:with_progress]{progressr::with_progress}} or if
@@ -165,6 +167,39 @@
 #'              stats_MC = stats_MC_cir, seed_fold = seed)
 #' unif_test_cv(data = samp_sph, type = c("Poisson", "Softmax"), K = 3,
 #'              p_value = "MC", stats_MC = stats_MC_sph, seed_fold = seed)
+#'
+#' ## Pre-specifying null_variance
+#' Poisson_grid <- c(0.1, 0.5, 0.7)
+#' Softmax_grid <- c(0.1, 0.5, 1, 5, 10)
+#' null_variance <- sapply(c("Poisson", "Softmax"), function(stat_type) {
+#'
+#'   lambda_grid <- switch(stat_type,
+#'                         "Poisson" = Poisson_grid,
+#'                         "Softmax" = Softmax_grid)
+#'
+#'   return(null_var(n = round(n / K), p = p, type = stat_type,
+#'                   lambda_grid = lambda_grid))
+#'
+#' })
+#' unif_test_cv(data = samp_sph, type = c("Poisson", "Softmax"), K = 3,
+#'              p_value = "MC", M = 1e3, null_variance = null_variance,
+#'              seed_fold = seed, Poisson_rho = Poisson_grid,
+#'              Softmax_kappa = Softmax_grid)
+#'
+#' ## Using a progress bar when p_value = "MC"
+#'
+#' # Define a progress bar
+#' require(progress)
+#' require(progressr)
+#' handlers(handler_progress(
+#'   format = ":spin [:bar] :percent Total: :elapsedfull End \u2248 :eta",
+#'   clear = FALSE))
+#'
+#' # Call unif_test() within with_progress()
+#' with_progress(
+#'   unif_test_cv(data = samp_sph, type = c("Poisson", "Softmax"), K = 3,
+#'                p_value = "MC", , M = 1e3, seed_fold = seed, chunks = 10)
+#' )
 #' @name unif_test_cv
 
 #' @rdname unif_test_cv
@@ -322,8 +357,40 @@ unif_test_cv <- function(data, type = "all", K = 10, p_value = "asymp",
 
   } else {
 
-    # TODO: Include null variance as an input, whether it has been done
-    # asymptotically or exactly.
+    # Check that all needed statistics are given
+    checks <- stats_type %in% names(null_variance)
+    if (any(!checks)) {
+
+      stop(paste("null_variance must be a list with names containing",
+                 "the tests names required in type with the values from ",
+                 "null_var(...). null_variance misses",
+                 paste(paste0("\"", stats_type[!checks], "\""),
+                       collapse = ", "), "."))
+
+    } else {
+
+      # Check all parameters in grids for each specific stat_type are given
+      check_grid_size <- sapply(stats_type, function (stat_type) {
+
+        length_grid <- switch(stat_type,
+                              "Poisson" = length(Poisson_rho),
+                              "Softmax" = length(Softmax_kappa),
+                              "Stereo" = length(Stereo_a))
+
+        return(length(null_variance[[stat_type]]) == length_grid)
+
+      })
+
+      if (any(!check_grid_size)) {
+
+        stop(paste("null_variance contains the statistics",
+                   paste(paste0("\"", stats_type[!check_grid_size], "\""),
+                         collapse = ", "), "that misses some of the parameters",
+                   "required for the grid. Check grids of parameters."))
+
+      }
+
+    }
 
   }
 

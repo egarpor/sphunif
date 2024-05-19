@@ -238,6 +238,24 @@ unif_test_cv(data = samp_cir, type = avail_cir_tests, K = 3, p_value = "MC",
 unif_test_cv(data = samp_sph, type = c("Poisson", "Softmax"), K = 3,
              p_value = "MC", stats_MC = stats_MC_sph, seed_fold = seed)
 
+## Pre-specifying null_variance
+Poisson_grid <- c(0.1, 0.5, 0.7)
+Softmax_grid <- c(0.1, 0.5, 1, 5, 10)
+null_variance <- sapply(c("Poisson", "Softmax"), function(stat_type) {
+
+  lambda_grid <- switch(stat_type,
+                        "Poisson" = Poisson_grid,
+                        "Softmax" = Softmax_grid)
+
+  return(null_var(n = round(n / 3), p = 3, type = stat_type,
+                  lambda_grid = lambda_grid))
+
+})
+unif_test_cv(data = samp_sph, type = c("Poisson", "Softmax"), K = 3,
+             p_value = "MC", M = 1e3, null_variance = null_variance,
+             seed_fold = seed, Poisson_rho = Poisson_grid,
+             Softmax_kappa = Softmax_grid)
+
 ## Using a progress bar when p_value = "MC"
 
 # Define a progress bar

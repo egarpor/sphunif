@@ -196,7 +196,7 @@ test_that("If null_variance is given, unif_test_cv checks every statistic
 
   Poisson_grid <- c(0.1, 0.5, 0.8)
   n_v <- list("Poisson" = null_var(n = 10, p = 3, type = "Poisson",
-                  lambda_grid = Poisson_grid))
+                                   lambda_grid = Poisson_grid))
   expect_error(unif_test_cv(data = r_unif_sph(n = 10, p = 3), K = 3,
                             type = c("Poisson", "Softmax"),
                             null_variance = n_v, Poisson_rho = Poisson_grid))

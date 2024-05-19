@@ -370,7 +370,7 @@ unif_test_cv <- function(data, type = "all", K = 10, p_value = "asymp",
     } else {
 
       # Check all parameters in grids for each specific stat_type are given
-      check_grid_size <- sapply(stats_type, function (stat_type) {
+      check_grid_size <- sapply(stats_type, function(stat_type) {
 
         length_grid <- switch(stat_type,
                               "Poisson" = length(Poisson_rho),

@@ -485,9 +485,11 @@ unif_test_cv <- function(data, type = "all", K = 10, p_value = "asymp",
       # Get the stats_MC
       if (is.null(stats_MC)) {
 
-        unif_stat_MC_args <- list(n = n, type = stats_type, p = p, M = M,
-                                  r_H1 = NULL, crit_val = NULL, alpha = alpha,
-                                  return_stats = TRUE, stats_sorted = TRUE)
+        n_not_k <- if (p == 2) length(S_notk) else nrow(S_notk)
+        unif_stat_MC_args <- list(n = n_not_k, type = stats_type, p = p,
+                                  M = M, r_H1 = NULL, crit_val = NULL,
+                                  alpha = alpha, return_stats = TRUE,
+                                  stats_sorted = TRUE)
         stats_MC_k <- do.call(what = unif_stat_MC,
                               args = c(unif_stat_MC_args,
                                        specific_args))$stats_MC
@@ -706,7 +708,9 @@ null_var <- function(n, p, type, lambda_grid, rel.tol = 1e-10) {
     } else if (p == 3) {
 
       stop(paste0("Variance of \'Stereo\' statistic under uniformity ",
-                  "(H_0) is not finite when p = 3."))
+                  "(H_0) is not finite when p = 3. Instead, input
+                  \"rep(1, length(lambda_grid))\" as null_variance in order to
+                  not account it in the q-score function."))
 
     }
 

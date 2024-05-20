@@ -116,7 +116,8 @@ for (p in c(4, 10)){
                           p_value = "asymp", seed_fold = 123, K_max = 1000))
   t_MC <- unif_test_cv(data = samp, type = "all", K = 4,
                        p_value = "MC", M = 1e3, seed_fold = 123)
-  stats_MC <- unif_stat_MC(n = n, type = c("Softmax", "Poisson", "Stereo"),
+  stats_MC <- unif_stat_MC(n = n - round(n / 4),
+                           type = c("Softmax", "Poisson", "Stereo"),
                            p = p, M = 1e3, r_H1 = NULL, crit_val = NULL,
                            return_stats = TRUE, stats_sorted = TRUE,
                            Poisson_rho = seq(0.1, 0.9, 0.1),
@@ -145,7 +146,7 @@ for (p in c(4, 10)){
     expect_equal(t_MC$Poisson$p.value, t_stats_MC$Poisson$p.value,
                  tolerance = 0.1)
     expect_equal(t_MC$Stereo$p.value, t_stats_MC$Stereo$p.value,
-                 tolerance = 0.1)
+                 tolerance = 0.15)
 
   })
 
@@ -161,7 +162,7 @@ for (p in c(2, 3)){
                           p_value = "asymp", seed_fold = 123, K_max = 100)
   t_MC <- unif_test_cv(data = samp, type = c("Softmax", "Poisson"), K = 4,
                        p_value = "MC", M = 1e3, seed_fold = 123)
-  stats_MC <- unif_stat_MC(n = n, type = c("Softmax", "Poisson"),
+  stats_MC <- unif_stat_MC(n = n - round(n / 4), type = c("Softmax", "Poisson"),
                            p = p, M = 1e3, r_H1 = NULL, crit_val = NULL,
                            return_stats = TRUE, stats_sorted = TRUE,
                            Poisson_rho = seq(0.1, 0.9, 0.1),

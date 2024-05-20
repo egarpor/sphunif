@@ -10,7 +10,7 @@ handlers(handler_progress(
 
 seed <- 12345# Random seed
 
-p <- 4# Ambient space dimension # TODO: Adapt to 3
+p <- 4# Ambient space dimension
 n <- 100# Sample size
 M <- 1e4# Monte Carlo samples
 
@@ -37,9 +37,10 @@ with_progress({
                        Stereo_a = Stereo_a,
                        M = 1e5, alpha = alpha)$crit_val_MC
 })
-# Monte Carlo M=10^5 exact-n samples to compute critical values in CV tests
+# Monte Carlo M=10^5 exact-n_{K-1} samples to compute critical values in
+# CV tests
 with_progress({
-  stats_MC <- unif_stat_MC(n = n, type = avail_sph_cv_tests,
+  stats_MC <- unif_stat_MC(n = n - round(n / K), type = avail_sph_cv_tests,
                            p = p, M = 1e5, return_stats = TRUE,
                            stats_sorted = TRUE, Poisson_rho = Poisson_grid,
                            Softmax_kappa = Softmax_grid,
@@ -54,8 +55,17 @@ null_variance <- sapply(avail_sph_cv_tests, function(stat_type) {
                         "Softmax" = Softmax_grid,
                         "Stereo" = Stereo_grid)
 
-  return(null_var(n = round(n / K), p = p, type = stat_type,
-                  lambda_grid = lambda_grid))
+  if (p == 3) {
+
+    # Since null variance is non finite, do not reescale the score with it.
+    return(rep(1, length(lambda_grid)))
+
+  } else if (p == 4) {
+
+    return(null_var(n = round(n / K), p = p, type = stat_type,
+                    lambda_grid = lambda_grid))
+
+  }
 
 })
 
@@ -101,7 +111,7 @@ for (radius_deg in radius_list) {
   for (i in 1:M) {
 
     # Progress
-    if ((100 * i / M) %% 10 == 0) print(100 * i / M)
+    if ((100 * i / M) %% 20 == 0) print(100 * i / M)
 
     cv_test <- unif_test_cv(data = samp[, , i], type = stat_list, K = K,
                             p_value = "MC", alpha = alpha,
@@ -127,7 +137,8 @@ for (radius_deg in radius_list) {
 }
 
 ## Show results
-print(emp_rej_antipodal)
-
 colnames(emp_rej_antipodal_cv) <- paste0(avail_sph_cv_tests," (", K, "-CV)")
-print(emp_rej_antipodal_cv)
+
+print(cbind(emp_rej_antipodal[, c("Rayleigh", "Bingham")],
+            emp_rej_antipodal_cv,
+            emp_rej_antipodal[, c("Stereo.1", "Stereo.2", "Stereo.3")]))

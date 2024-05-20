@@ -55,17 +55,15 @@ null_variance <- sapply(avail_sph_cv_tests, function(stat_type) {
                         "Softmax" = Softmax_grid,
                         "Stereo" = Stereo_grid)
 
-  if (p == 3) {
+  if (p == 3 && stat_type == "Stereo") {
 
     # Since null variance is non finite, do not reescale the score with it.
     return(rep(1, length(lambda_grid)))
 
-  } else if (p == 4) {
-
-    return(null_var(n = round(n / K), p = p, type = stat_type,
-                    lambda_grid = lambda_grid))
-
   }
+
+  return(null_var(n = round(n / K), p = p, type = stat_type,
+                    lambda_grid = lambda_grid))
 
 })
 
@@ -139,6 +137,7 @@ for (radius_deg in radius_list) {
 ## Show results
 colnames(emp_rej_antipodal_cv) <- paste0(avail_sph_cv_tests," (", K, "-CV)")
 
+# Rejection rate in percentage
 print(cbind(emp_rej_antipodal[, c("Rayleigh", "Bingham")],
             emp_rej_antipodal_cv,
-            emp_rej_antipodal[, c("Stereo.1", "Stereo.2", "Stereo.3")]))
+            emp_rej_antipodal[, c("Stereo.1", "Stereo.2", "Stereo.3")])) * 100

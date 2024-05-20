@@ -370,7 +370,7 @@ Fernández-de-Marcos, A. and García-Portugués, E. (2024) A stereographic
 test of spherical uniformity. *arXiv:TODO*.
 <https://arxiv.org/abs/TODO>.
 
-Fernández-de-Marcos, A. and García-Portugués, E. (2023) On new omnibus tests of uniformity on the hypersphere. *Test*, 32(4):1508-–1529. [doi:10.1007/s11749-023-00882-x](https://doi.org/10.1007/s11749-023-00882-x).
+Fernández-de-Marcos, A. and García-Portugués, E. (2023) On new omnibus tests of uniformity on the hypersphere. *Test*, 32(4):1508–1529. [doi:10.1007/s11749-023-00882-x](https://doi.org/10.1007/s11749-023-00882-x).
 
 García-Portugués, E., Navarro-Esteban, P., and Cuesta-Albertos, J. A.
 (2021). A Cramér–von Mises test of uniformity on the hypersphere. In

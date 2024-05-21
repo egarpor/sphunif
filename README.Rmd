@@ -134,7 +134,7 @@ unif_test(data = hyp_data, type = "Rayleigh", p_value = "asymp")
 
 ### *On a projection-based class of uniformity tests on the hypersphere*
 
-The data application in García-Portugués, Navarro-Esteban, and Cuesta-Albertos (2023) regarding the testing of uniformity of locations for craters in Rhea can be reproduced through the script [data-application-ecdf.R](https://github.com/egarpor/sphunif/blob/master/applications/data-application-ecdf.R).  The code snippet below is a simplified version.
+The data application in García-Portugués, Navarro-Esteban, and Cuesta-Albertos (2023) regarding the testing of uniformity of locations for craters in Rhea can be reproduced through the script [data-application-ecdf.R](https://github.com/egarpor/sphunif/blob/master/applications/data-application-ecdf.R). The code snippet below is a simplified version.
 
 ```{r, rhea}
 # Load data

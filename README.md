@@ -20,7 +20,7 @@ sphere, and hypersphere. Software companion for the (evolving) review
 “*An overview of uniformity tests on the hypersphere*” (García-Portugués
 and Verdebout, 2018) and the paper “*On a projection-based class of
 uniformity tests on the hypersphere*” (García-Portugués, Navarro-Esteban
-and Cuesta-Albertos, 2020).
+and Cuesta-Albertos, 2023).
 
 ## Installation
 
@@ -367,8 +367,8 @@ García-Portugués (2024).
 ## References
 
 Fernández-de-Marcos, A. and García-Portugués, E. (2024) A stereographic
-test of spherical uniformity. *arXiv:TODO*.
-<https://arxiv.org/abs/TODO>.
+test of spherical uniformity. *arXiv:2405.TODO*.
+<https://arxiv.org/abs/2405.TODO>.
 
 García-Portugués, E., Navarro-Esteban, P., and Cuesta-Albertos, J. A.
 (2021). A Cramér–von Mises test of uniformity on the hypersphere. In

@@ -32,5 +32,5 @@
 * Rename argument `axial_MvMF` to `axial_mix` in `r_alt()`.
 * Normalize Poisson kernel to improve numerical stability.
 * Fix bugs in the coherence between asymptotic distributions and statistics of `"Poisson"` and `"Softmax"` tests.
-* Add `"Stereo"` test distribution.
+* Add `"Stereo"` test null distribution.
 * Fix bug when supplying `crit_val` to `unif_stat_MC()` in vectorized statistics.

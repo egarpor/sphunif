@@ -8,24 +8,26 @@ source("unif_test_cv.R")
 
 # Progress bar
 handlers(handler_progress(
-  format = ":spin [:bar] :percent Total: :elapsedfull End \u2248 :eta",
-  clear = FALSE
-))
+  format = paste("(:spin) [:bar] :percent Iter: :current/:total Rate:",
+                 ":tick_rate iter/sec ETA: :eta Elapsed: :elapsedfull"),
+  clear = FALSE))
 
-seed <- 12345# Random seed
+## Simulation setup
 
-p <- 4# Ambient space dimension
-n <- 100# Sample size
-M <- 1e4# Monte Carlo samples
+seed <- 12345 # Random seed
+p <- 4 # Ambient space dimension
+n <- 100 # Sample size
+M <- 1e4 # Monte Carlo samples
 
-alpha <- 0.05# Significance level
+alpha <- 0.05 # Significance level
 stat_list <- c("Rayleigh", "Bingham", "Softmax", "Poisson", "Stereo")
 Poisson_rho <- c(0.25, 0.5, 0.75)
 Softmax_kappa <- c(1, 5, 10)
 Stereo_a <- c(-1, 0, 1)
 
 ## CV tests
-K <- 10# Number of folds
+
+K <- 10 # Number of folds
 # Grids of parameters
 Poisson_grid <- seq(0.02, 0.98, 0.02)
 Softmax_grid <- c(1e-3, 1e-2, seq(0.1, 1, 0.1),
@@ -33,24 +35,27 @@ Softmax_grid <- c(1e-3, 1e-2, seq(0.1, 1, 0.1),
                   seq(35, 60, 5))
 Stereo_grid <- seq(-1, 1, 0.1)
 
-# Monte Carlo M=10^5 exact-n alpha quantiles
+## Statistics under H_0
+
+# Monte Carlo M = 10^5 exact-n alpha quantiles
 with_progress({
   q_H0 <- unif_stat_MC(n = n, p = p, type = c(stat_list),
                        Poisson_rho = Poisson_rho,
                        Softmax_kappa = Softmax_kappa,
-                       Stereo_a = Stereo_a,
-                       M = 1e5, alpha = alpha)$crit_val_MC
+                       Stereo_a = Stereo_a, M = 1e5, alpha = alpha,
+                       cores = 4)$crit_val_MC
 })
-# Monte Carlo M=10^5 exact-n_{K-1} samples to compute critical values in
+
+# Monte Carlo M = 10^5 exact-n_{K-1} samples to compute critical values in
 # CV tests
 with_progress({
   stats_MC <- unif_stat_MC(n = n - round(n / K), type = avail_sph_cv_tests,
                            p = p, M = 1e5, return_stats = TRUE,
                            stats_sorted = TRUE, Poisson_rho = Poisson_grid,
                            Softmax_kappa = Softmax_grid,
-                           Stereo_a = Stereo_grid
-  )$stats_MC
+                           Stereo_a = Stereo_grid, cores = 4)$stats_MC
 })
+
 # Pre-compute null variance for each statistic
 null_variance <- sapply(avail_sph_cv_tests, function(stat_type) {
 
@@ -71,6 +76,8 @@ null_variance <- sapply(avail_sph_cv_tests, function(stat_type) {
 
 })
 
+## Simulation under H_1
+
 # UAD simulation parameters
 theta_list <- c(1, 10, 20, 45, 90, 135, 180)
 
@@ -81,9 +88,9 @@ emp_rej_antipodal_cv <- array(dim = c(length(theta_list),
                                       length(avail_sph_cv_tests)),
                               dimnames = list(theta_list, avail_sph_cv_tests))
 
-## Simulation
 for (theta_deg in theta_list) {
 
+  # Progress
   print(paste0("r = ", theta_deg, "º"))
 
   # Concentration parameter
@@ -93,16 +100,17 @@ for (theta_deg in theta_list) {
   set.seed(seed)
   samp <- r_alt(n = n, p = p, M = M, alt = "UAD", kappa = kappa)
 
-  # Statistics computation
+  # Non-CV statistics computation
   stat <- unif_stat(data = samp, type = stat_list,
                     Poisson_rho = Poisson_rho,
                     Softmax_kappa = Softmax_kappa,
                     Stereo_a = Stereo_a)
 
-  # Rejection?
+  # Power
   for (s in stat_names) {
-    emp_rej_antipodal[as.character(theta_deg),
-                      s] <- mean(stat[, s] > q_H0[as.character(alpha), s])
+
+    emp_rej_antipodal[as.character(theta_deg), s] <-
+      mean(stat[, s] > q_H0[as.character(alpha), s])
 
   }
 
@@ -110,6 +118,7 @@ for (theta_deg in theta_list) {
   cv_reject <- array(dim = c(M, length(avail_sph_cv_tests)),
                      dimnames = list(1:M, avail_sph_cv_tests))
 
+  # CV statistics computation
   for (i in 1:M) {
 
     # Progress
@@ -122,7 +131,7 @@ for (theta_deg in theta_list) {
                             Softmax_kappa = Softmax_grid,
                             Stereo_a = Stereo_grid,
                             seed_fold = seed)
-    for (s in avail_sph_cv_tests){
+    for (s in avail_sph_cv_tests) {
 
       cv_reject[i, s] <- cv_test[[s]][["reject"]]
 
@@ -130,7 +139,8 @@ for (theta_deg in theta_list) {
 
   }
 
-  for (s in avail_sph_cv_tests){
+  # Power
+  for (s in avail_sph_cv_tests) {
 
     emp_rej_antipodal_cv[as.character(theta_deg), s] <- mean(cv_reject[, s])
 

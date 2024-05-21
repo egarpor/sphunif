@@ -2,17 +2,17 @@ Package: sphunif
 Type: Package
 Title: Uniformity Tests on the Circle, Sphere, and Hypersphere
 Version: 1.4.0
-Date: 2024-05-10
+Date: 2024-05-21
 Authors@R: c(
      person(given = "Eduardo", family = "García-Portugués",
             role = c("aut", "cre"), email = "edgarcia@est-econ.uc3m.es",
             comment = c(ORCID = "0000-0002-9224-4111")),
      person(given = "Thomas", family = "Verdebout", role = "aut",
             comment = c(ORCID = "0000-0002-3277-9587")),
-     person(given = "Paula", family = "Navarro", role = "ctb",
-            email = "paula.navarro@unican.es"),
      person(given = "Alberto", family = "Fernández-de-Marcos", role = "ctb",
-            email = "albertfe@est-econ.uc3m.es")
+            email = "albertfe@est-econ.uc3m.es"),
+     person(given = "Paula", family = "Navarro", role = "ctb",
+            email = "paula.navarro@unican.es")
      )
 Description: Implementation of uniformity tests on the circle and
     (hyper)sphere. The main function of the package is unif_test(), which

@@ -211,88 +211,88 @@ unif_test_cv <- function(data, type = "all", K = 10, p_value = "asymp",
                          Softmax_kappa = seq(0.1, 20, 1),
                          Stereo_a = seq(-1, 1, 0.25),
                          seed_fold = NULL, ...) {
-  
+
   # Check K > 1
   if (K < 2) {
-    
+
     stop(paste0("The number of folds (K = ", K, ") must be at least 2."))
-    
+
   }
-  
+
   # Read data's name
   data_name <- deparse(substitute(data))
-  
+
   # If data is a vector, transform it to matrix
   if (is.vector(data)) {
-    
+
     data <- matrix(data, ncol = 1)
-    
+
   }
-  
+
   # If data is an array, transform it to matrix
   d <- dim(data)
   l <- length(d)
   if (l == 3) {
-    
+
     # As matrix
     data <- matrix(data[, , 1], nrow = d[1], ncol = d[2])
-    
+
     # First slice only
     if (d[3] != 1) {
-      
+
       message(paste("data is an array with more than one slice,",
                     "only the first one is employed."))
-      
+
     }
-    
+
   } else if (l > 3) {
-    
+
     stop("data must be a vector, matrix, or a 3-dimensional array.")
-    
+
   }
-  
+
   # Sample size and dimension
   n <- nrow(data)
   d <- ncol(data)
-  
+
   # Circular or spherical data?
   if (d == 1 || d == 2) {
-    
+
     avail_stats <- avail_cir_cv_tests
     p <- 2
-    
+
     # As polar coordinates
     if (d == 2) {
-      
+
       dim(data) <- c(n, d, 1)
       data <- X_to_Theta(X = data)
-      
+
     }
-    
+
   } else {
-    
+
     avail_stats <- avail_sph_cv_tests
     p <- d
     dim(data) <- c(n, d, 1) # As an array
-    
+
   }
-  
+
   # Get the type of statistics
   if (is.character(type)) {
-    
+
     type <- gsub("-", "_", type)
     type <- unique(type)
     if ("all" %in% type) {
-      
+
       stats_type <- avail_stats
-      
+
     } else {
-      
+
       # TODO: Improvement. Warn the user that some statistics are being omitted.
       stats_type <- try(match.arg(arg = type, choices = avail_stats,
                                   several.ok = TRUE), silent = TRUE)
       if (inherits(stats_type, "try-error")) {
-        
+
         stop(
           paste(
             strwrap(
@@ -302,127 +302,127 @@ unif_test_cv <- function(data, type = "all", K = 10, p_value = "asymp",
               width = 80, indent = 0, exdent = 2),
             collapse = "\n")
         )
-        
+
       }
-      
+
     }
-    
+
   } else {
-    
+
     stop("type must be a character vector")
-    
+
   }
-  
+
   # Check if there is any missing statistic in stats_MC
   if (!is.null(stats_MC)) {
-    
+
     # Dummy stats
     check_stat <- unif_stat(data = r_unif_sph(n = 2, p = p, M = 1),
                             type = stats_type, Poisson_rho = Poisson_rho,
                             Softmax_kappa = Softmax_kappa, Stereo_a = Stereo_a)
-    
+
     # Names check
     checks <- names(check_stat) %in% colnames(stats_MC)
     if (any(!checks)) {
-      
+
       stop(paste("stats_MC must be a data.frame with colnames containing",
                  "the tests names returned by unif_stat(...). stats_MC misses",
                  paste(paste0("\"", colnames(check_stat)[!checks], "\""),
                        collapse = ", "), ". Check grids of parameters."))
-      
+
     }
-    
+
   }
-  
+
   # Number of statistics
   n_stats <- length(stats_type)
-  
+
   # Get null variance of statistic. If null_variance is given, check it is
   # the same size of lambda_grid. Otherwise, compute asymptotic null variance.
   if (is.null(null_variance)) {
-    
+
     null_variance <- sapply(stats_type, function(stat_type) {
-      
+
       lambda_grid <- switch(stat_type,
                             "Poisson" = Poisson_rho,
                             "Softmax" = Softmax_kappa,
                             "Stereo" = Stereo_a)
-      
+
       return(null_var(n = round(n / K), p = p, type = stat_type,
                       lambda_grid = lambda_grid,
                       rel.tol = rel.tol))
-      
+
     })
-    
-    
+
+
   } else {
-    
+
     # Check that all needed statistics are given
     checks <- stats_type %in% names(null_variance)
     if (any(!checks)) {
-      
+
       stop(paste("null_variance must be a list with names containing",
                  "the tests names required in type with the values from ",
                  "null_var(...). null_variance misses",
                  paste(paste0("\"", stats_type[!checks], "\""),
                        collapse = ", "), "."))
-      
+
     } else {
-      
+
       # Check all parameters in grids for each specific stat_type are given
       check_grid_size <- sapply(stats_type, function(stat_type) {
-        
+
         length_grid <- switch(stat_type,
                               "Poisson" = length(Poisson_rho),
                               "Softmax" = length(Softmax_kappa),
                               "Stereo" = length(Stereo_a))
-        
+
         return(length(null_variance[[stat_type]]) == length_grid)
-        
+
       })
-      
+
       if (any(!check_grid_size)) {
-        
+
         stop(paste("null_variance contains the statistics",
                    paste(paste0("\"", stats_type[!check_grid_size], "\""),
                          collapse = ", "), "that misses some of the parameters",
                    "required for the grid. Check grids of parameters."))
-        
+
       }
-      
+
     }
-    
+
   }
-  
+
   # Define parameter names for unif_stat_ calls
   param_name <- list("Poisson" = "Poisson_rho",
                      "Softmax" = "Softmax_kappa",
                      "Stereo" = "Stereo_a")
   param_args_name <- unname(sapply(stats_type, function(stat_type) {
-    
+
     param_name[[stat_type]]
-    
+
   }))
-  
+
   # Split data into K disjoint subsamples of (roughly) same sizes
   folds <- k_fold_split(n = n, K = K, seed = seed_fold)
-  
+
   # Create summary data.frames for statistic, p.values and optimal parameters.
   p_val <- vector("list", length = n_stats)
   names(p_val) <- stats_type
   p_val <- as.data.frame(p_val)
-  
+
   lambda_hat <- vector("list", length = n_stats)
   names(lambda_hat) <- stats_type
   lambda_hat <- as.data.frame(lambda_hat)
-  
+
   stat <- vector("list", length = n_stats)
   names(stat) <- stats_type
   stat <- as.data.frame(stat)
-  
+
   # K-fold testing
   for (k in 1:K){
-    
+
     # Compute estimator of approximate oracle parameter \hat{lambda}(S_k)
     if (p == 2) {
       Sk <- data[folds[[k]], ]
@@ -430,20 +430,20 @@ unif_test_cv <- function(data, type = "all", K = 10, p_value = "asymp",
       Sk <- data[folds[[k]], , ]
       dim(Sk) <- c(dim(Sk), 1)
     }
-    
+
     # Compute power-approximate score in grid
     stat_k <- unif_stat(Sk, type = stats_type,
                         Poisson_rho = Poisson_rho,
                         Softmax_kappa = Softmax_kappa,
                         Stereo_a = Stereo_a)
-    
+
     lambda_hat_k <- sapply(stats_type, function(stat_type) {
-      
+
       lambda_grid <- switch(stat_type,
                             "Poisson" = Poisson_rho,
                             "Softmax" = Softmax_kappa,
                             "Stereo" = Stereo_a)
-      
+
       stat_k_cols <- names(stat_k)
       idx_stat_type <- sapply(strsplit(stat_k_cols, "\\."),
                               function(x) x[1] == stat_type)
@@ -451,13 +451,13 @@ unif_test_cv <- function(data, type = "all", K = 10, p_value = "asymp",
       # TODO: Generalize to other statistics: Score in case of V-statistic must
       # be E_H1 - H_H0
       q <- stat_k[stat_type_k] / sqrt(null_variance[[stat_type]])
-      
+
       return(lambda_grid[which.max(q)])
-      
+
     })
-    
+
     lambda_hat <- rbind(lambda_hat, lambda_hat_k)
-    
+
     # Perform test based on T(\hat{\lambda}; S\S_k) on the remaining subsamples
     if (p == 2) {
       S_notk <- data[!((1:n) %in% folds[[k]]), ]
@@ -465,26 +465,26 @@ unif_test_cv <- function(data, type = "all", K = 10, p_value = "asymp",
       S_notk <- data[!((1:n) %in% folds[[k]]), , ]
       dim(S_notk) <- c(dim(S_notk), 1)
     }
-    
+
     unif_stat_args <- list(data = S_notk, type = stats_type)
     specific_args <- sapply(stats_type, function(stat_type) {
-      
+
       return(lambda_hat_k[[stat_type]])
-      
+
     })
-    
+
     # Statistic on K - 1 folds
     names(specific_args) <- param_args_name
     stat_k <- do.call(what = unif_stat, args = c(unif_stat_args, specific_args))
-    
+
     stat <- rbind(stat, stat_k)
-    
+
     # Calibration
     if (p_value == "MC") {
-      
+
       # Get the stats_MC
       if (is.null(stats_MC)) {
-        
+
         n_not_k <- if (p == 2) length(S_notk) else nrow(S_notk)
         unif_stat_MC_args <- list(n = n_not_k, type = stats_type, p = p,
                                   M = M, r_H1 = NULL, crit_val = NULL,
@@ -493,111 +493,113 @@ unif_test_cv <- function(data, type = "all", K = 10, p_value = "asymp",
         stats_MC_k <- do.call(what = unif_stat_MC,
                               args = c(unif_stat_MC_args,
                                        specific_args))$stats_MC
-        
+
         # p-values
         p_val_k <- 1 - as.data.frame(sapply(stats_type, function(distr) {
-          ecdf_bin(data = stats_MC_k[[distr]], sorted_x = stat_k[[distr]],
-                   data_sorted = TRUE,
-                   efic = TRUE, divide_n = TRUE)
+          sphunif:::ecdf_bin(data = stats_MC_k[[distr]],
+                             sorted_x = stat_k[[distr]],
+                             data_sorted = TRUE,
+                             efic = TRUE, divide_n = TRUE)
         }, simplify = FALSE))
-        
+
       } else {
-        
+
         # Get the index of distr.idx for lambda_hat_k
         idx_lambda_hat <- sapply(stats_type, function(stat_type) {
-          
+
           lambda_grid <- switch(stat_type,
                                 "Poisson" = Poisson_rho,
                                 "Softmax" = Softmax_kappa,
                                 "Stereo" = Stereo_a)
-          
+
           return(which(lambda_grid == lambda_hat_k[[stat_type]]))
-          
+
         })
-        
+
         # p-values
         p_val_k <- 1 - as.data.frame(sapply(stats_type, function(distr) {
-          ecdf_bin(data = stats_MC[[paste(distr, idx_lambda_hat[[distr]],
-                                          sep = ".")]],
-                   sorted_x = stat_k[[distr]], data_sorted = TRUE,
-                   efic = TRUE, divide_n = TRUE)
+          sphunif:::ecdf_bin(data = stats_MC[[paste(distr,
+                                                    idx_lambda_hat[[distr]],
+                                                    sep = ".")]],
+                             sorted_x = stat_k[[distr]], data_sorted = TRUE,
+                             efic = TRUE, divide_n = TRUE)
         }, simplify = FALSE))
-        
+
       }
-      
+
       p_val <- rbind(p_val, p_val_k)
-      
+
     } else if (p_value == "asymp") {
-      
+
       # TODO: Include verbose
       unif_stat_distr_args <- list(x = stat_k, type = stats_type, p = p,
                                    n = n, approx = "asymp", stats_MC = NULL,
                                    M = M, K_max = K_max, method = method)
       p_val_k <- 1 - do.call(what = unif_stat_distr,
                              args = c(unif_stat_distr_args, specific_args))
-      
+
       p_val <- rbind(p_val, p_val_k)
-      
+
     } else {
-      
+
       stop("Wrong choice for calibration, must be \"MC\" or \"asymp\".")
-      
+
     }
-    
+
   }
-  
+
   # Set a minimum value for p_values when they are 0 to deal with HMP.
   # TODO: When p_value = "asymp", seems a little odd.
   p_val <- apply(p_val, 2, function(p) pmax(p, 1 / M))
-  
+
   # Compute asymptotically-exact HMP
   p_val_hmp <- apply(p_val, 2, function(p) {
-    
+
     harmonicmeanp::p.hmp(p, L = length(p))
-    
+
   })
-  
+
   # Rejection?
   reject <- rbind(sapply(alpha, function(a) p_val_hmp < a))
   colnames(reject) <- alpha
-  
+
   ## Prepare return object
-  
+
   # Create list of htest objects
   test <- vector(mode = "list", length = n_stats)
   names(test) <- stats_type
-  
+
   for (i in seq_along(stats_type)) {
-    
+
     # Type of test
     if (p == 2) {
-      
+
       method <- switch(stats_type[i],
                        "Poisson" = "Poisson-kernel test of circular uniformity (CV)",
                        "Softmax" = "Softmax test of circular uniformity (CV)"
       )
-      
+
       alternative <- switch(stats_type[i],
                             "Poisson" = "any alternative to circular uniformity for rho > 0",
                             "Softmax" = "any alternative to circular uniformity for kappa > 0"
       )
-      
+
     } else {
-      
+
       method <- switch(stats_type[i],
                        "Poisson" = "Poisson-kernel test of spherical uniformity (CV)",
                        "Softmax" = "Softmax test of spherical uniformit (CV)",
                        "Stereo" = "Stereographic projection test of spherical uniformity (CV)",
       )
-      
+
       alternative <- switch(stats_type[i],
                             "Poisson" = "any alternative to spherical uniformity for rho > 0",
                             "Softmax" = "any alternative to spherical uniformity for kappa > 0",
                             "Stereo" = "any alternative to spherical uniformity for |a| < 1"
       )
-      
+
     }
-    
+
     # htest object
     test[[i]] <- list(fold_statistics = stat[, i],
                       fold_params = lambda_hat[, i],
@@ -606,22 +608,22 @@ unif_test_cv <- function(data, type = "all", K = 10, p_value = "asymp",
                       method = method, data.name = data_name,
                       reject = reject[i, ])
     class(test[[i]]) <- "htest"
-    
+
   }
-  
+
   # If there is only one test, return htest directly
   if (n_stats == 1) {
-    
+
     test <- test[[1]]
-    
+
   }
-  
+
   return(test)
-  
+
 }
 
 k_fold_split <- function(n, K, seed = NULL) {
-  
+
   # Divide into (roughly) same sizes K folds
   if (K > (n / 2)) {
     stop(paste0("Number of folds, K = ", K, ", must be lower or equal ",
@@ -629,115 +631,115 @@ k_fold_split <- function(n, K, seed = NULL) {
   }
   quo <- as.integer(n / K)
   rem <- n / K - quo
-  
+
   # Random ordering setting seed
   if (!is.null(seed)) {
-    
+
     set.seed(seed)
-    
+
   }
-  
+
   rand_order <- sample.int(n)
-  
+
   # Get exact number of elements for each partition from random ordered index
   idx <- vector("list", length = K)
   for (k in 1:K){
-    
+
     idx[[k]] <- rand_order[(((k - 1) * quo + as.integer(rem * k)) :
                               (k * quo + as.integer(rem * (k + 1)) - 1)) + 1]
-    
+
   }
-  
+
   return(idx)
-  
+
 }
 
 #' @rdname unif_test_cv
 #' @export
 null_var <- function(n, p, type, lambda_grid, rel.tol = 1e-10) {
   # TODO: Expand the number of statistics available
-  
+
   alpha <- 0.5 * p - 1
-  
+
   if (type == "Poisson") {
-    
+
     psi <- function(th, lambda) {
-      
+
       exp(log(1 - lambda^2) - (p / 2) * log(1 - 2 * lambda * cos(th)
                                             + lambda^2)
           + (p - 1) * log(1 - lambda) - log(1 + lambda))
-      
+
     }
     # TODO: Check if rel.tol affects anything else.
     # SOLVED: Throws an error when p = 4, because of the finiteness of
     # the integral.
-    
-    
+
+
     if (p == 2) {
-      
+
       log_b0 <- log(1 - lambda_grid) - log(1 + lambda_grid)
-      
+
     } else {
-      
+
       log_b0 <- (p - 1) * log(1 - lambda_grid) - log(1 + lambda_grid)
-      
+
     }
-    
+
   } else if (type == "Softmax") {
-    
+
     psi <- function(th, lambda) exp(lambda * (cos(th) - 1))
-    
+
     if (p == 2) {
-      
+
       log_b0 <- log(besselI(x = lambda_grid, nu = 0, expon.scaled = TRUE))
-      
+
     } else {
-      
+
       log_b0 <- alpha * log(2 / lambda_grid) + lgamma(alpha) +
         log(alpha) + log(besselI(x = lambda_grid,
                                  nu = alpha, expon.scaled = TRUE))
-      
+
     }
-    
+
   } else if (type == "Stereo") {
-    
+
     if (p == 2) {
-      
+
       stop(paste0("\'Stereo\' statistic is not defined when p = 2."))
-      
+
     } else if (p == 3) {
-      
+
       stop(paste0("Variance of \'Stereo\' statistic under uniformity ",
                   "(H_0) is not finite when p = 3. Instead, input
                   \"rep(1, length(lambda_grid))\" as null_variance in order to
                   not account it in the q-score function."))
-      
+
     }
-    
+
     psi <- function(th, lambda) 1 / tan(th / 2) + lambda * tan(th / 2)
-    
+
     log_b0 <- log(1 + lambda_grid) + log(alpha) + 2 * (
       lgamma(alpha) - lgamma((p - 1) / 2))
-    
+
   } else {
-    
+
     stop("Incompatible choice of p and type.")
-    
+
   }
-  
+
   b0 <- exp(log_b0)
   b0_sq <- numeric(length(lambda_grid))
   for (i in seq_along(lambda_grid)) {
-    
+
     lambda <- lambda_grid[i]
     b0_sq[i] <- rotasym::w_p(p - 1) / rotasym::w_p(p) * integrate(
       function(x) psi(acos(x), lambda)^2 * (1 - x^2)^((p - 3) / 2),
       lower = -1, upper = 1, rel.tol = rel.tol)$value
-    
+
   }
-  
+
   return(2 * (n - 1) / n * (b0_sq - b0^2))
-  
+
 }
 
 #' @rdname unif_test_cv

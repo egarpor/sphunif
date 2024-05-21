@@ -366,7 +366,7 @@ García-Portugués (2024).
 
 ## References
 
-Fernández-de-Marcos, A. and García-Portugués, E. (2024) A stereographic
+Fernández-de-Marcos, A. and García-Portugués, E. (2024). A stereographic
 test of spherical uniformity. *arXiv:2405.TODO*.
 <https://arxiv.org/abs/2405.TODO>.
 

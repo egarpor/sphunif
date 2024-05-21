@@ -715,7 +715,7 @@ sph_stat_Sobolev <- function(X, Psi_in_X = FALSE, p = 0, vk2 = c(0, 0, 1)) {
   bk <- vk2_to_bk(vk2 = vk2, p = p)
 
   # Construct statistic, a matrix of size c(M, length(bk))
-  Tn <- (2 / n)  * (Tnk %*% t(bk))
+  Tn <- (2 / n) * (Tnk %*% t(bk))
 
   # Add diagonal bias
   bias <- drop(bk[, nonzero_vk2] %*% Gegen_polyn(theta = 0, k = nonzero_vk2,

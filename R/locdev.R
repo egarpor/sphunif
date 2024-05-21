@@ -419,7 +419,8 @@ F_from_f <- function(f, p, Gauss = TRUE, N = 320, K = 1e3, tol = 1e-6, ...) {
     F_grid <- rotasym::w_p(p = p - 1) * sapply(z, function(t) {
       z_k <- drop(Gauss_Legen_nodes(a = -1, b = t, N = N))
       w_k <- drop(Gauss_Legen_weights(a = -1, b = t, N = N))
-      sum(w_k * pmax(f(z_k, ...), 0) * (1 - z_k^2)^((p - 3) / 2), na.rm = TRUE)
+      sum(w_k * exp(log(pmax(f(z_k, ...), 0)) + ((p - 3) / 2) * log1p(-z_k^2)),
+          na.rm = TRUE)
     })
 
     # Normalize f (the normalizing constant may not be included in f)
@@ -429,7 +430,7 @@ F_from_f <- function(f, p, Gauss = TRUE, N = 320, K = 1e3, tol = 1e-6, ...) {
   } else {
 
     # Using integrate
-    g <- function(t) pmax(f(t, ...), 0) * (1 - t^2)^((p - 3) / 2)
+    g <- function(t) exp(log(pmax(f(t, ...), 0)) + ((p - 3) / 2) * log1p(-t^2))
     F_grid <- sapply(z[-1], function(u) rotasym::w_p(p = p - 1) *
                        integrate(f = g, lower = -1, upper = u,
                                  subdivisions = 1e3, rel.tol = tol,

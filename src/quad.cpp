@@ -87,7 +87,7 @@ using namespace Rcpp;
 // [[Rcpp::export]]
 arma::vec Gauss_Legen_nodes(double a = -1, double b = 1, arma::uword N = 40) {
 
-  // Nodes (+-x_k) for the Gauss–-Legendre quadrature in (-1, 1). The nodes
+  // Nodes (+-x_k) for the Gauss--Legendre quadrature in (-1, 1). The nodes
   // up to N = 80 are retrieved from https://dlmf.nist.gov/3.5#v, and for
   // N = 160 onwards they were computed with:
   // statmod::gauss.quad(n = N, kind = "legendre")
@@ -2708,7 +2708,7 @@ arma::vec Gauss_Legen_nodes(double a = -1, double b = 1, arma::uword N = 40) {
 // [[Rcpp::export]]
 arma::vec Gauss_Legen_weights(double a = -1, double b = 1, arma::uword N = 40) {
 
-  // Weights (w_k) for the Gauss–-Legendre quadrature in (-1, 1). The weights
+  // Weights (w_k) for the Gauss--Legendre quadrature in (-1, 1). The weights
   // up to N = 80 are retrieved from https://dlmf.nist.gov/3.5#v, and for
   // N = 160 onwards they were computed with:
   // statmod::gauss.quad(n = N, kind = "legendre")

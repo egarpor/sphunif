@@ -136,6 +136,11 @@
 #' curve(d_cir_stat_PRt(x, method = "HBE"), n = 2e2, ylim = c(0, 5))
 #' curve(p_cir_stat_PRt(x, method = "HBE"), n = 2e2, add = TRUE, col = 2)
 #'
+#' # Poisson
+#' curve(d_cir_stat_Poisson(x, method = "HBE"), from = -1, to = 5, n = 2e2,
+#'       ylim = c(0, 2))
+#' curve(p_cir_stat_Poisson(x, method = "HBE"), n = 2e2, col = 2, add = TRUE)
+#'
 #' # Pycke
 #' curve(d_cir_stat_Pycke(x), from = -5, to = 10, n = 2e2, ylim = c(0, 1))
 #' curve(p_cir_stat_Pycke(x), n = 2e2, col = 2, add = TRUE)
@@ -178,6 +183,10 @@
 #' curve(d_cir_stat_Watson_1976(x), to = 1.5, n = 2e2, ylim = c(0, 3))
 #' curve(p_cir_stat_Watson_1976(x), n = 2e2, col = 2, add = TRUE)
 #'
+#' # Softmax
+#' curve(d_cir_stat_Softmax(x, method = "HBE"), to = 3, n = 2e2, ylim = c(0, 2))
+#' curve(p_cir_stat_Softmax(x, method = "HBE"), n = 2e2, col = 2, add = TRUE)
+#'
 #' # Sobolev
 #' vk2 <- c(0.5, 0)
 #' curve(d_cir_stat_Sobolev(x = x, vk2 = vk2), to = 3, n = 2e2, ylim = c(0, 2))
@@ -188,54 +197,60 @@ NULL
 
 #' @rdname cir_stat_distr
 #' @export
-p_cir_stat_Bakshaev <- function(x, K_max = 1e3, thre = 0, ...) {
+p_cir_stat_Bakshaev <- function(x, K_max = 1e3, thre = 0, method = "I", ...) {
 
-  p_sph_stat_Bakshaev(x = x, p = 2, K_max = K_max, thre = thre, ...)
-
-}
-
-
-#' @rdname cir_stat_distr
-#' @export
-d_cir_stat_Bakshaev <- function(x, K_max = 1e3, thre = 0, ...) {
-
-  d_sph_stat_Bakshaev(x = x, p = 2, K_max = K_max, thre = thre, ...)
+  p_sph_stat_Bakshaev(x = x, p = 2, K_max = K_max, thre = thre, method = method,
+                      ...)
 
 }
 
 
 #' @rdname cir_stat_distr
 #' @export
-p_cir_stat_Gine_Fn <- function(x, K_max = 1e3, thre = 0, ...) {
+d_cir_stat_Bakshaev <- function(x, K_max = 1e3, thre = 0, method = "I", ...) {
 
-  p_sph_stat_Gine_Fn(x = x, p = 2, K_max = K_max, thre = thre, ...)
-
-}
-
-
-#' @rdname cir_stat_distr
-#' @export
-d_cir_stat_Gine_Fn <- function(x, K_max = 1e3, thre = 0, ...) {
-
-  d_sph_stat_Gine_Fn(x = x, p = 2, K_max = K_max, thre = thre, ...)
+  d_sph_stat_Bakshaev(x = x, p = 2, K_max = K_max, thre = thre, method = method,
+                      ...)
 
 }
 
 
 #' @rdname cir_stat_distr
 #' @export
-p_cir_stat_Gine_Gn <- function(x, K_max = 1e3, thre = 0, ...) {
+p_cir_stat_Gine_Fn <- function(x, K_max = 1e3, thre = 0, method = "I", ...) {
 
-  p_sph_stat_Gine_Gn(x = x, p = 2, K_max = K_max, thre = thre, ...)
+  p_sph_stat_Gine_Fn(x = x, p = 2, K_max = K_max, thre = thre, method = method,
+                     ...)
 
 }
 
 
 #' @rdname cir_stat_distr
 #' @export
-d_cir_stat_Gine_Gn <- function(x, K_max = 1e3, thre = 0, ...) {
+d_cir_stat_Gine_Fn <- function(x, K_max = 1e3, thre = 0, method = "I", ...) {
 
-  d_sph_stat_Gine_Gn(x = x, p = 2, K_max = K_max, thre = thre, ...)
+  d_sph_stat_Gine_Fn(x = x, p = 2, K_max = K_max, thre = thre, method = method,
+                     ...)
+
+}
+
+
+#' @rdname cir_stat_distr
+#' @export
+p_cir_stat_Gine_Gn <- function(x, K_max = 1e3, thre = 0, method = "I", ...) {
+
+  p_sph_stat_Gine_Gn(x = x, p = 2, K_max = K_max, thre = thre, method = method,
+                     ...)
+
+}
+
+
+#' @rdname cir_stat_distr
+#' @export
+d_cir_stat_Gine_Gn <- function(x, K_max = 1e3, thre = 0, method = "I", ...) {
+
+  d_sph_stat_Gine_Gn(x = x, p = 2, K_max = K_max, thre = thre, method = method,
+                     ...)
 
 }
 
@@ -243,149 +258,227 @@ d_cir_stat_Gine_Gn <- function(x, K_max = 1e3, thre = 0, ...) {
 
 #' @rdname cir_stat_distr
 #' @export
-p_cir_stat_Hermans_Rasson <- function(x, K_max = 1e3, thre = 0, ...) {
+p_cir_stat_Hermans_Rasson <- function(x, K_max = 1e3, thre = 0, method = "I",
+                                      ...) {
 
   cbind(p_Sobolev(x = x, p = 2, type = "Hermans_Rasson", K_max = K_max,
-                  thre = thre, ...))
+                  thre = thre, method = method, ...))
 
 }
 
 
 #' @rdname cir_stat_distr
 #' @export
-d_cir_stat_Hermans_Rasson <- function(x, K_max = 1e3, thre = 0, ...) {
+d_cir_stat_Hermans_Rasson <- function(x, K_max = 1e3, thre = 0, method = "I",
+                                      ...) {
 
   cbind(d_Sobolev(x = x, p = 2, type = "Hermans_Rasson", K_max = K_max,
-                  thre = thre, ...))
+                  thre = thre, method = method, ...))
 
 }
 
 
 #' @rdname cir_stat_distr
 #' @export
-p_cir_stat_PAD <- function(x, K_max = 1e3, thre = 0, ...) {
+p_cir_stat_PAD <- function(x, K_max = 1e3, thre = 0, method = "I", ...) {
 
-  p_sph_stat_PAD(x = x, p = 2, K_max = K_max, thre = thre, ...)
-
-}
-
-
-#' @rdname cir_stat_distr
-#' @export
-d_cir_stat_PAD <- function(x, K_max = 1e3, thre = 0, ...) {
-
-  d_sph_stat_PAD(x = x, p = 2, K_max = K_max, thre = thre, ...)
+  p_sph_stat_PAD(x = x, p = 2, K_max = K_max, thre = thre, method = method,
+                 ...)
 
 }
 
 
 #' @rdname cir_stat_distr
 #' @export
-p_cir_stat_PCvM <- function(x, K_max = 1e3, thre = 0, ...) {
+d_cir_stat_PAD <- function(x, K_max = 1e3, thre = 0, method = "I", ...) {
 
-  p_sph_stat_PCvM(x = x, p = 2, K_max = K_max, thre = thre, ...)
-
-}
-
-
-#' @rdname cir_stat_distr
-#' @export
-d_cir_stat_PCvM <- function(x, K_max = 1e3, thre = 0, ...) {
-
-  d_sph_stat_PCvM(x = x, p = 2, K_max = K_max, thre = thre, ...)
+  d_sph_stat_PAD(x = x, p = 2, K_max = K_max, thre = thre, method = method,
+                 ...)
 
 }
 
 
 #' @rdname cir_stat_distr
 #' @export
-p_cir_stat_PRt <- function(x, t = 1 / 3, K_max = 1e3, thre = 0, ...) {
+p_cir_stat_PCvM <- function(x, K_max = 1e3, thre = 0, method = "I", ...) {
 
-  p_sph_stat_PRt(x = x, p = 2, t = t, K_max = K_max, thre = thre, ...)
-
-}
-
-
-#' @rdname cir_stat_distr
-#' @export
-d_cir_stat_PRt <- function(x, t = 1 / 3, K_max = 1e3, thre = 0, ...) {
-
-  d_sph_stat_PRt(x = x, p = 2, t = t, K_max = K_max, thre = thre, ...)
+  p_sph_stat_PCvM(x = x, p = 2, K_max = K_max, thre = thre, method = method,
+                  ...)
 
 }
 
 
 #' @rdname cir_stat_distr
 #' @export
-p_cir_stat_Pycke_q <- function(x, q = 0.5, K_max = 1e3, thre = 0, ...) {
+d_cir_stat_PCvM <- function(x, K_max = 1e3, thre = 0, method = "I", ...) {
+
+  d_sph_stat_PCvM(x = x, p = 2, K_max = K_max, thre = thre, method = method,
+                  ...)
+
+}
+
+
+#' @rdname cir_stat_distr
+#' @export
+p_cir_stat_PRt <- function(x, t = 1 / 3, K_max = 1e3, thre = 0, method = "I",
+                           ...) {
+
+  p_sph_stat_PRt(x = x, p = 2, t = t, K_max = K_max, thre = thre,
+                 method = method, ...)
+
+}
+
+
+#' @rdname cir_stat_distr
+#' @export
+d_cir_stat_PRt <- function(x, t = 1 / 3, K_max = 1e3, thre = 0, method = "I",
+                           ...) {
+
+  d_sph_stat_PRt(x = x, p = 2, t = t, K_max = K_max, thre = thre,
+                 method = method, ...)
+
+}
+
+
+#' @rdname cir_stat_distr
+#' @export
+p_cir_stat_Poisson <- function(x, rho = 0.5, K_max = 1e3, thre = 0,
+                               method = "I", ...) {
+
+  # psi_tilde_0 is the shift from U-stat to V-stat
+  b_0 <- (1 - rho) / (1 + rho)
+  psi_tilde_0 <- ((1 - rho) / sqrt(1 - 2 * rho + rho^2))^2 - b_0
+  cbind(p_Sobolev(x = x + psi_tilde_0, p = 2, type = "Poisson",
+                  Poisson_rho = rho, K_max = K_max, thre = thre,
+                  method = method, ...))
+
+}
+
+
+#' @rdname cir_stat_distr
+#' @export
+d_cir_stat_Poisson <- function(x, rho = 0.5, K_max = 1e3, thre = 0,
+                               method = "I", ...) {
+
+  # psi_tilde_0 is the shift from U-stat to V-stat
+  b_0 <- (1 - rho) / (1 + rho)
+  psi_tilde_0 <- ((1 - rho) / sqrt(1 - 2 * rho + rho^2))^2 - b_0
+  cbind(d_Sobolev(x = x + psi_tilde_0, p = 2, type = "Poisson",
+                  Poisson_rho = rho, K_max = K_max, thre = thre,
+                  method = method, ...))
+
+}
+
+
+#' @rdname cir_stat_distr
+#' @export
+p_cir_stat_Pycke_q <- function(x, q = 0.5, K_max = 1e3, thre = 0, method = "I",
+                               ...) {
 
   cbind(p_Sobolev(x = x, p = 2, type = "Pycke_q", Pycke_q = q,
-                  K_max = K_max, thre = thre, ...))
+                  K_max = K_max, thre = thre, method = method, ...))
 
 }
 
 
 #' @rdname cir_stat_distr
 #' @export
-d_cir_stat_Pycke_q <- function(x, q = 0.5, K_max = 1e3, thre = 0, ...) {
+d_cir_stat_Pycke_q <- function(x, q = 0.5, K_max = 1e3, thre = 0, method = "I",
+                               ...) {
 
   cbind(d_Sobolev(x = x, p = 2, type = "Pycke_q", Pycke_q = q,
-                  K_max = K_max, thre = thre, ...))
+                  K_max = K_max, thre = thre, method = method, ...))
 
 }
 
 
 #' @rdname cir_stat_distr
 #' @export
-p_cir_stat_Rothman <- function(x, t = 1 / 3, K_max = 1e3, thre = 0, ...) {
+p_cir_stat_Rothman <- function(x, t = 1 / 3, K_max = 1e3, thre = 0,
+                               method = "I", ...) {
 
   cbind(p_Sobolev(x = x, p = 2, type = "Rothman", Rothman_t = t,
-                  K_max = K_max, thre = thre, ...))
+                  K_max = K_max, thre = thre, method = method, ...))
 
 }
 
 
 #' @rdname cir_stat_distr
 #' @export
-d_cir_stat_Rothman <- function(x, t = 1 / 3, K_max = 1e3, thre = 0, ...) {
+d_cir_stat_Rothman <- function(x, t = 1 / 3, K_max = 1e3, thre = 0,
+                               method = "I", ...) {
 
   cbind(d_Sobolev(x = x, p = 2, type = "Rothman", Rothman_t = t,
-                  K_max = K_max, thre = thre, ...))
+                  K_max = K_max, thre = thre, method = method, ...))
 
 }
 
 
 #' @rdname cir_stat_distr
 #' @export
-p_cir_stat_Riesz <- function(x, s = 1, K_max = 1e3, thre = 0, ...) {
+p_cir_stat_Riesz <- function(x, s = 1, K_max = 1e3, thre = 0, method = "I",
+                             ...) {
 
-  p_sph_stat_Riesz(x = x, p = 2, s = s, K_max = K_max, thre = thre, ...)
-
-}
-
-
-#' @rdname cir_stat_distr
-#' @export
-d_cir_stat_Riesz <- function(x, s = 1, K_max = 1e3, thre = 0, ...) {
-
-  d_sph_stat_Riesz(x = x, p = 2, s = s, K_max = K_max, thre = thre, ...)
+  p_sph_stat_Riesz(x = x, p = 2, s = s, K_max = K_max, thre = thre,
+                   method = method, ...)
 
 }
 
 
 #' @rdname cir_stat_distr
 #' @export
-p_cir_stat_Sobolev <- function(x, vk2 = c(0, 0, 1), ...) {
+d_cir_stat_Riesz <- function(x, s = 1, K_max = 1e3, thre = 0, method = "I",
+                             ...) {
 
-  p_sph_stat_Sobolev(x = x, p = 2, vk2 = vk2, ...)
+  d_sph_stat_Riesz(x = x, p = 2, s = s, K_max = K_max, thre = thre,
+                   method = method, ...)
 
 }
 
 
 #' @rdname cir_stat_distr
 #' @export
-d_cir_stat_Sobolev <- function(x, vk2 = c(0, 0, 1), ...) {
+p_cir_stat_Sobolev <- function(x, vk2 = c(0, 0, 1), method = "I", ...) {
 
-  d_sph_stat_Sobolev(x = x, p = 2, vk2 = vk2, ...)
+  p_sph_stat_Sobolev(x = x, p = 2, vk2 = vk2, method = method, ...)
+
+}
+
+
+#' @rdname cir_stat_distr
+#' @export
+d_cir_stat_Sobolev <- function(x, vk2 = c(0, 0, 1), method = "I", ...) {
+
+  d_sph_stat_Sobolev(x = x, p = 2, vk2 = vk2, method = method, ...)
+
+}
+
+
+#' @rdname cir_stat_distr
+#' @export
+p_cir_stat_Softmax <- function(x, kappa = 1, K_max = 1e3, thre = 0,
+                               method = "I", ...) {
+
+  # psi_tilde_0 is the shift from U-stat to V-stat
+  b_0 <- besselI(x = kappa, nu = 0, expon.scaled = TRUE)
+  psi_tilde_0 <- 1 - b_0
+  cbind(p_Sobolev(x = x + psi_tilde_0, p = 2, type = "Softmax",
+                  Softmax_kappa = kappa, K_max = K_max, thre = thre,
+                  method = method, ...))
+
+}
+
+
+#' @rdname cir_stat_distr
+#' @export
+d_cir_stat_Softmax <- function(x, kappa = 1, K_max = 1e3, thre = 0,
+                               method = "I", ...) {
+
+  # psi_tilde_0 is the shift from U-stat to V-stat
+  b_0 <- besselI(x = kappa, nu = 0, expon.scaled = TRUE)
+  psi_tilde_0 <- 1 - b_0
+  cbind(d_Sobolev(x = x + psi_tilde_0, p = 2, type = "Softmax",
+                  Softmax_kappa = kappa, K_max = K_max, thre = thre,
+                  method = method, ...))
 
 }

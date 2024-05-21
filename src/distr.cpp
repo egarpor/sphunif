@@ -33,8 +33,8 @@ const double inv_M_PI = 1.0 / M_PI;
 //' invariant to the choice of \eqn{\boldsymbol{\gamma}}{\gamma}. Also,
 //' efficient simulation of \eqn{\boldsymbol{\gamma}'{\bf X}}{\gamma'X}.
 //'
-//' @inheritParams cir_stat_distr
 //' @inheritParams r_unif
+//' @inheritParams cir_stat_distr
 //' @param u vector of probabilities.
 //' @param log compute the logarithm of the density or distribution?
 //' @return A matrix of size \code{c(nx, 1)} with the evaluation of the

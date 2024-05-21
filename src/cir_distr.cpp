@@ -314,6 +314,13 @@ arma::vec d_cir_stat_Gini_squared(arma::vec x) {
 arma::vec p_cir_stat_Hodges_Ajne2(arma::vec x, arma::uword n,
                                   bool asymp_std = false) {
 
+  // Stop if n <= 0
+  if (n <= 0) {
+
+    Rcpp::stop("The sample size n must be larger or equal to 1.");
+
+  }
+
   if (asymp_std) {
 
     return 1 - p_Kolmogorov(half_M_PI / x);
@@ -348,6 +355,13 @@ arma::vec p_cir_stat_Hodges_Ajne(arma::vec x, arma::uword n, bool exact = true,
                                  bool asymp_std = false) {
 
   // TODO: way slower than p_cir_stat_Hodges_Ajne2
+
+  // Stop if n <= 0
+  if (n <= 0) {
+
+    Rcpp::stop("The sample size n must be larger or equal to 1.");
+
+  }
 
   // Unstandardize evaluation points
   if (asymp_std) {
@@ -425,6 +439,13 @@ arma::vec p_cir_stat_Hodges_Ajne(arma::vec x, arma::uword n, bool exact = true,
 arma::vec d_cir_stat_Hodges_Ajne(arma::vec x, arma::uword n, bool exact = true,
                                  bool asymp_std = false) {
 
+  // Stop if n <= 0
+  if (n <= 0) {
+
+    Rcpp::stop("The sample size n must be larger or equal to 1.");
+
+  }
+
   // Zero for the unfeasible values
   arma::vec f = arma::zeros(x.n_elem);
   arma::uvec ind = arma::find(x >= floor(0.5 * n) && x <= n);
@@ -474,6 +495,13 @@ arma::vec p_cir_stat_Kuiper(arma::vec x, arma::uword n,
                             bool Stephens = false) {
 
   // For 0 <= x <= 0.32 and 2 <= n <= 1e6, it happens that p_Kuiper(x) < 1e-15
+
+  // Stop if n <= 0 for Stephens modification
+  if (Stephens && n <= 0) {
+
+    Rcpp::stop("The sample size n must be larger or equal to 1.");
+
+  }
 
   // Zero for the unfeasible values
   arma::vec F = arma::zeros(x.n_elem);
@@ -525,6 +553,13 @@ arma::vec d_cir_stat_Kuiper(arma::vec x, arma::uword n,
                             bool Stephens = false) {
 
   // Same comment as for p_cir_stat_Kuiper holds
+
+  // Stop if n <= 0 for Stephens modification
+  if (Stephens && n <= 0) {
+
+    Rcpp::stop("The sample size n must be larger or equal to 1.");
+
+  }
 
   // Zero for the unfeasible values
   arma::vec f = arma::zeros(x.n_elem);
@@ -713,6 +748,13 @@ arma::vec d_cir_stat_Vacancy(arma::vec x) {
 arma::vec p_cir_stat_Watson(arma::vec x, arma::uword n = 0,
                             arma::uword K_Watson = 25, bool Stephens = false) {
 
+  // Stop if n <= 0 for Stephens modification
+  if (Stephens && n <= 0) {
+
+    Rcpp::stop("The sample size n must be larger or equal to 1.");
+
+  }
+
   // Zero for the unfeasible values
   arma::vec F = arma::zeros(x.n_elem);
   arma::uvec ind = arma::find(x > 0);
@@ -743,6 +785,13 @@ arma::vec p_cir_stat_Watson(arma::vec x, arma::uword n = 0,
 // [[Rcpp::export]]
 arma::vec d_cir_stat_Watson(arma::vec x, arma::uword n = 0,
                             arma::uword K_Watson = 25, bool Stephens = false) {
+
+  // Stop if n <= 0 for Stephens modification
+  if (Stephens && n <= 0) {
+
+    Rcpp::stop("The sample size n must be larger or equal to 1.");
+
+  }
 
   // Zero for the unfeasible values
   arma::vec f = arma::zeros(x.n_elem);
@@ -936,6 +985,13 @@ arma::vec d_cir_stat_Watson_1976(arma::vec x, arma::uword K_Watson_1976 = 8) {
 // [[Rcpp::export]]
 arma::vec p_cir_stat_Range(arma::vec x, arma::uword n, bool max_gap = true) {
 
+  // Stop if n <= 0
+  if (n <= 0) {
+
+    Rcpp::stop("The sample size n must be larger or equal to 1.");
+
+  }
+
   // Standardize x
   x *= inv_two_M_PI;
 
@@ -1018,6 +1074,13 @@ arma::vec p_cir_stat_Range(arma::vec x, arma::uword n, bool max_gap = true) {
 //' @export
 // [[Rcpp::export]]
 arma::vec d_cir_stat_Range(arma::vec x, arma::uword n, bool max_gap = true) {
+
+  // Stop if n <= 0
+  if (n <= 0) {
+
+    Rcpp::stop("The sample size n must be larger or equal to 1.");
+
+  }
 
   // Standardize x
   x *= inv_two_M_PI;

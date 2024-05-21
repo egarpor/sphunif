@@ -78,7 +78,7 @@
 #' on the choice of \code{CCF09_dirs}. That is, all the Monte Carlo statistics
 #' share the same random directions.
 #'
-#' Except \code{CCF09_dirs}, \code{K_CCF09}, and \code{CJ12_reg}, all the
+#' Except for \code{CCF09_dirs}, \code{K_CCF09}, and \code{CJ12_reg}, all the
 #' test-specific parameters are vectorized.
 #' @examples
 #' ## Critical values
@@ -104,7 +104,8 @@
 #' require(progress)
 #' require(progressr)
 #' handlers(handler_progress(
-#'   format = ":spin [:bar] :percent Total: :elapsedfull End \u2248 :eta",
+#'   format = paste("(:spin) [:bar] :percent Iter: :current/:total Rate:",
+#'                  ":tick_rate iter/sec ETA: :eta Elapsed: :elapsedfull"),
 #'   clear = FALSE))
 #'
 #' # Call unif_stat_MC() within with_progress()
@@ -192,11 +193,12 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
                          crit_val = NULL, alpha = c(0.10, 0.05, 0.01),
                          return_stats = TRUE, stats_sorted = FALSE,
                          chunks = ceiling((n * M) / 1e5), cores = 1,
-                         seeds = NULL, Rayleigh_m = 1, cov_a = 2 * pi,
-                         Rothman_t = 1 / 3, Cressie_t = 1 / 3, Pycke_q = 0.5,
-                         Riesz_s = 1, CCF09_dirs = NULL, K_CCF09 = 25,
-                         CJ12_reg = 3, Poisson_rho = 0.5, Softmax_kappa = 1,
-                         Stereo_a = 0, Sobolev_vk2 = c(0, 0, 1), ...) {
+                         seeds = NULL, CCF09_dirs = NULL, CJ12_reg = 3,
+                         cov_a = 2 * pi, Cressie_t = 1 / 3, K_CCF09 = 25,
+                         Poisson_rho = 0.5, Pycke_q = 0.5, Rayleigh_m = 1,
+                         Riesz_s = 1, Rothman_t = 1 / 3,
+                         Sobolev_vk2 = c(0, 0, 1), Softmax_kappa = 1,
+                         Stereo_a = 0, ...) {
 
   # Check dimension
   if (p < 2) {
@@ -222,17 +224,28 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
 
   }
 
-  # Check if it is a data frame with colnames in avail_cir or avail_sph
+  # Check if crit_val is a compatible data.frame with the output by unif_stat()
   if (!is.null(crit_val)) {
 
-    avail <- switch((p > 2) + 1, avail_cir_tests, avail_sph_tests)
-    tests <- colnames(crit_val) %in% avail
-    if (!all(tests)) {
+    # Dummy stats
+    check_stat <- unif_stat(data = r_unif_sph(n = 2, p = p, M = 1), type = type,
+                            CCF09_dirs = CCF09_dirs, CJ12_reg = CJ12_reg,
+                            cov_a = cov_a, Cressie_t = Cressie_t,
+                            K_CCF09 = K_CCF09, Poisson_rho = Poisson_rho,
+                            Pycke_q = Pycke_q, Rayleigh_m = Rayleigh_m,
+                            Riesz_s = Riesz_s, Rothman_t = Rothman_t,
+                            Sobolev_vk2 = Sobolev_vk2, Softmax_kappa =
+                              Softmax_kappa, Stereo_a = Stereo_a)
 
-      stop(paste0(
-        "crit_val must be a data.frame with valid tests names as colnames, ",
-        "check: ", paste(paste0("\"", colnames(crit_val)[!tests], "\""),
-                         collapse = ", "), "."))
+
+    # Names check
+    checks <- names(check_stat) %in% colnames(crit_val)
+    if (any(!checks)) {
+
+      stop(paste("crit_val must be a data.frame with colnames containing",
+                 "the tests names returned by unif_stat(...). crit_val misses",
+                 paste(paste0("\"", colnames(check_stat)[!checks], "\""),
+                       collapse = ", "), "."))
 
     }
 
@@ -288,13 +301,14 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
                                             r_H1_args))
 
     # Statistics
-    stats <- unif_stat(data = X, type = type, Rayleigh_m = Rayleigh_m,
-                       cov_a = cov_a, Rothman_t = Rothman_t,
-                       Cressie_t = Cressie_t, Pycke_q = Pycke_q,
-                       Riesz_s = Riesz_s, CCF09_dirs = CCF09_dirs,
-                       K_CCF09 = K_CCF09, CJ12_reg = CJ12_reg,
-                       Stereo_a = Stereo_a, Poisson_rho = Poisson_rho,
-                       Softmax_kappa = Softmax_kappa, Sobolev_vk2 = Sobolev_vk2)
+    stats <- unif_stat(data = X, type = type, CCF09_dirs = CCF09_dirs,
+                       CJ12_reg = CJ12_reg, cov_a = cov_a,
+                       Cressie_t = Cressie_t, K_CCF09 = K_CCF09,
+                       Poisson_rho = Poisson_rho, Pycke_q = Pycke_q,
+                       Rayleigh_m = Rayleigh_m, Riesz_s = Riesz_s,
+                       Rothman_t = Rothman_t, Sobolev_vk2 = Sobolev_vk2,
+                       Softmax_kappa =
+                         Softmax_kappa, Stereo_a = Stereo_a)
 
     # Remove X
     rm(X)

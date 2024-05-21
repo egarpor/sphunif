@@ -286,6 +286,17 @@ test_that("Rayleigh vs. Softmax and Poisson", {
   )
 })
 
+test_that("Pycke_q vs. Poisson", {
+
+  mc <- unif_stat_MC(n = 10, type = c("Pycke_q", "Poisson"), p = 2,
+                     Poisson_rho = 0.3, Pycke_q = 0.3, M = 20)$stats_MC
+  expect_equal(cor(mc)[1, 2], 1)
+  mc <- unif_stat_MC(n = 10, type = c("Pycke_q", "Poisson"), p = 2,
+                     Poisson_rho = 0.85, Pycke_q = 0.85, M = 20)$stats_MC
+  expect_equal(cor(mc)[1, 2], 1)
+
+})
+
 test_that("Vectorization works in Stereo test", {
   expect_equal(unname(as.matrix(unif_stat(data = X_3, type = "Stereo",
                                 Stereo_a = c(-0.5, 0, 0.5)))),
@@ -296,11 +307,11 @@ test_that("Vectorization works in Stereo test", {
                  ))
 })
 
-# Statistics with vectorised parameters
-cir_stats_vectorised <- c("Cressie", "Max_uncover", "Num_uncover", "Vacancy",
+# Statistics with vectorized parameters
+cir_stats_vectorized <- c("Cressie", "Max_uncover", "Num_uncover", "Vacancy",
                           "Rayleigh", "Riesz", "Rothman", "PRt", "Poisson",
                           "Pycke_q", "Softmax", "Sobolev")
-sph_stats_vectorised <- c("Riesz", "PRt", "Poisson", "Softmax", "Stereo",
+sph_stats_vectorized <- c("Riesz", "PRt", "Poisson", "Softmax", "Stereo",
                           "Sobolev")
 t <- c(0.2, 0.3, 0.8)
 m <- 1:3
@@ -311,12 +322,12 @@ vk2 <- rbind(1:3, 3:1, 3:5)
 
 test_that("Parameter-vectorized statistics work for p = 2", {
   stats_1 <- as.matrix(
-    unif_stat(data = X_2, type = cir_stats_vectorised,
+    unif_stat(data = X_2, type = cir_stats_vectorized,
               Cressie_t = t, cov_a = t, Rayleigh_m = m, Riesz_s = s,
               Rothman_t = t, Softmax_kappa = kappa, Poisson_rho = rho,
               Pycke_q = t, Sobolev_vk2 = vk2))
   stats_2 <- lapply(1:3, function(i) as.matrix(
-    unif_stat(data = X_2, type = cir_stats_vectorised,
+    unif_stat(data = X_2, type = cir_stats_vectorized,
               Cressie_t = t[i], cov_a = t[i], Rayleigh_m = m[i], Riesz_s = s[i],
               Rothman_t = t[i], Softmax_kappa = kappa[i], Poisson_rho = rho[i],
               Pycke_q = t[i], Sobolev_vk2 = vk2[i, ])))
@@ -329,11 +340,11 @@ test_that("Parameter-vectorized statistics work for p = 2", {
 
 test_that("Parameter-vectorized statistics work for p = 4", {
   stats_1 <- as.matrix(
-    unif_stat(data = X_4, type = sph_stats_vectorised, Riesz_s = s,
+    unif_stat(data = X_4, type = sph_stats_vectorized, Riesz_s = s,
               Rothman_t = t, Softmax_kappa = kappa, Poisson_rho = rho,
               Stereo_a = t, Sobolev_vk2 = vk2))
   stats_2 <- lapply(1:3, function(i) as.matrix(
-    unif_stat(data = X_4, type = sph_stats_vectorised, Riesz_s = s[i],
+    unif_stat(data = X_4, type = sph_stats_vectorized, Riesz_s = s[i],
               Rothman_t = t[i], Softmax_kappa = kappa[i],
               Poisson_rho = rho[i], Stereo_a = t[i],
               Sobolev_vk2 = vk2[i, ])))

@@ -44,7 +44,7 @@
 #' \code{n_proj = 50} directions is computed internally.
 #' @param K_CCF09 integer giving the truncation of the series present in the
 #' asymptotic distribution of the Kolmogorov-Smirnov statistic. Defaults to
-#' \code{5e2}.
+#' \code{25}.
 #' @param CJ12_reg type of asymptotic regime for CJ12 test, either \code{1}
 #' (sub-exponential regime), \code{2} (exponential), or \code{3}
 #' (super-exponential; default).
@@ -59,7 +59,7 @@
 #' @return A data frame of size \code{c(M, length(type))}, with column names
 #' given by \code{type}, that contains the values of the test statistics.
 #' @details
-#' Except \code{CCF09_dirs}, \code{K_CCF09}, and \code{CJ12_reg}, all the
+#' Except for \code{CCF09_dirs}, \code{K_CCF09}, and \code{CJ12_reg}, all the
 #' test-specific parameters are vectorized.
 #'
 #' Descriptions and references for most of the statistics are available
@@ -114,11 +114,11 @@
 #' unif_stat(data = X, type = "CJ12", CJ12_reg = 1)
 #' @export
 unif_stat <- function(data, type = "all", data_sorted = FALSE,
-                      Rayleigh_m = 1, cov_a = 2 * pi, Rothman_t = 1 / 3,
-                      Cressie_t = 1 / 3, Pycke_q = 0.5, Riesz_s = 1,
-                      CCF09_dirs = NULL, K_CCF09 = 25, CJ12_reg = 3,
-                      Poisson_rho = 0.5, Softmax_kappa = 1, Stereo_a = 0,
-                      Sobolev_vk2 = c(0, 0, 1)) {
+                      CCF09_dirs = NULL, CJ12_reg = 3, cov_a = 2 * pi,
+                      Cressie_t = 1 / 3, K_CCF09 = 25, Poisson_rho = 0.5,
+                      Pycke_q = 0.5, Rayleigh_m = 1, Riesz_s = 1,
+                      Rothman_t = 1 / 3, Sobolev_vk2 = c(0, 0, 1),
+                      Softmax_kappa = 1, Stereo_a = 0) {
 
   # Stop if NA's
   if (anyNA(data)) {
@@ -257,13 +257,13 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
                          "Pycke", "Pycke_q", "Rothman", "Riesz", "Sobolev",
                          "Softmax", "Stereo")
 
-    # Statistics with vectorised parameters
-    stats_vectorised <- c("Cressie", "Max_uncover", "Num_uncover", "Vacancy",
-                          "Rayleigh", "Riesz", "Rothman", "PRt", "Poisson",
-                          "Pycke_q", "Softmax", "Sobolev")
-    param_vectorised <- c("Cressie_t", rep("cov_a", 3), "Rayleigh_m", "Riesz_s",
+    # Statistics with vectorized parameters
+    stats_vectorized <- c("Cressie", c("Max_uncover", "Num_uncover", "Vacancy"),
+                          "Rayleigh", "Riesz", c("Rothman", "PRt"), "Poisson",
+                          "Pycke_q", "Sobolev", "Softmax")
+    param_vectorized <- c("Cressie_t", rep("cov_a", 3), "Rayleigh_m", "Riesz_s",
                           rep("Rothman_t", 2), "Poisson_rho", "Pycke_q",
-                          "Softmax_kappa", "Sobolev_vk2")
+                          "Sobolev_vk2", "Softmax_kappa")
 
     # Evaluate which statistics to apply
     run_test <- as.list(c(avail_cir_tests, "KS", "CvM", "AD") %in% stats_type)
@@ -480,7 +480,7 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
     # Number of statistics
     n_stats_type_Psi <- sum(stats_type %in% stats_using_Psi)
 
-    # Add statistics with vectorised parameters
+    # Add statistics with vectorized parameters
     n_stats_type_Psi <- n_stats_type_Psi + (
       run_test$Riesz * (length(Riesz_s) - 1) +
       (run_test$PRt || run_test$Rothman) * (length(Rothman_t) - 1) +
@@ -656,8 +656,8 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
       for (i in seq_along(Pycke_q)) {
 
         Pycke_q_stat[, i] <- cir_stat_Pycke_q(Theta = data,
-                                         Psi_in_Theta = Psi_in_Theta,
-                                         q = Pycke_q[i])
+                                              Psi_in_Theta = Psi_in_Theta,
+                                              q = Pycke_q[i])
 
       }
       stats$Pycke_q <- Pycke_q_stat
@@ -736,11 +736,11 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
                          "PAD", "PCvM", "PRt", "Poisson", "Pycke", "Riesz",
                          "Sobolev", "Softmax", "Stereo")
 
-    # Statistics with vectorised parameters
-    stats_vectorised <- c("Riesz", "PRt", "Poisson", "Softmax", "Stereo",
-                          "Sobolev")
-    param_vectorised <- c("Riesz_s", "Rothman_t", "Poisson_rho",
-                          "Softmax_kappa", "Stereo_a", "Sobolev_vk2")
+    # Statistics with vectorized parameters
+    stats_vectorized <- c("Poisson", "PRt", "Riesz", "Sobolev", "Softmax",
+                          "Stereo")
+    param_vectorized <- c("Poisson_rho", "Rothman_t", "Riesz_s",
+                          "Sobolev_vk2", "Softmax_kappa", "Stereo_a")
 
     # Evaluate which statistics to apply
     run_test <- as.list(avail_sph_tests %in% stats_type)
@@ -794,7 +794,7 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
     # Number of statistics
     n_stats_type_Psi <- sum(stats_type %in% stats_using_Psi)
 
-    # Add statistics with vectorised parameters
+    # Add statistics with vectorized parameters
     n_stats_type_Psi <- n_stats_type_Psi + (
       run_test$Riesz * (length(Riesz_s) - 1) +
       run_test$PRt * (length(Rothman_t) - 1) +
@@ -1045,11 +1045,13 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
 
   # Avoid returning matrices in variables if there are vectorized tests.
   # Instead, return a data frame with Sobolev.1, Sobolev.2, etc. variables
-  n_param_vectorised <- sapply(param_vectorised, function(par) {
+  n_param_vectorized <- sapply(param_vectorized, function(par) {
+
     obj <- get(x = par)
-    ifelse(is.null(dim(obj)), length(obj), nrow(obj))
+    return(ifelse(is.null(dim(obj)), length(obj), nrow(obj)))
+
   })
-  if (any(stats_vectorised %in% type) && any(n_param_vectorised > 1)) {
+  if (any(stats_vectorized %in% type) && any(n_param_vectorized > 1)) {
 
     stats <- do.call(data.frame, stats)
 

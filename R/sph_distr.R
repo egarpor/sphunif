@@ -82,6 +82,12 @@
 #' curve(p_sph_stat_PCvM(x, p = 3, method = "HBE"), n = 2e2, col = 2,
 #'       add = TRUE)
 #'
+#' # Poisson
+#' curve(d_sph_stat_Poisson(x, p = 3, method = "HBE"), to = 2, n = 2e2,
+#'       ylim = c(0, 2))
+#' curve(p_sph_stat_Poisson(x, p = 3, method = "HBE"), n = 2e2, col = 2,
+#'       add = TRUE)
+#'
 #' # PRt
 #' curve(d_sph_stat_PRt(x, p = 3, method = "HBE"), n = 2e2, ylim = c(0, 5))
 #' curve(p_sph_stat_PRt(x, p = 3, method = "HBE"), n = 2e2, col = 2, add = TRUE)
@@ -109,172 +115,221 @@
 #' matlines(x, p_sph_stat_Sobolev(x = x, vk2 = vk2, p = 3), lty = 1)
 #' matlines(x, d_sph_stat_Sobolev(x = x, vk2 = vk2 + 0.01, p = 3), lty = 2)
 #' matlines(x, p_sph_stat_Sobolev(x = x, vk2 = vk2 + 0.01, p = 3), lty = 2)
+#'
+#' # Softmax
+#' curve(d_sph_stat_Softmax(x, p = 3, method = "HBE"), to = 2, n = 2e2,
+#'       ylim = c(0, 2))
+#' curve(p_sph_stat_Softmax(x, p = 3, method = "HBE"), n = 2e2, col = 2,
+#'       add = TRUE)
+#'
+#' # Stereo
+#' curve(d_sph_stat_Stereo(x, p = 4, method = "HBE"), from=-5,to = 10, n = 2e2,
+#'       ylim = c(0, 2))
+#' curve(p_sph_stat_Stereo(x, p = 4, method = "HBE"), n = 2e2, col = 2,
+#'       add = TRUE)
 #' @name sph_stat_distr
 NULL
 
 
 #' @rdname sph_stat_distr
 #' @export
-p_sph_stat_Ajne <- function(x, p, K_max = 1e3, thre = 0, ...) {
+p_sph_stat_Ajne <- function(x, p, K_max = 1e3, thre = 0, method = "I", ...) {
 
-  cbind(p_Sobolev(x = x, p = p, type = "Ajne", K_max = K_max, thre = thre, ...))
-
-}
-
-
-#' @rdname sph_stat_distr
-#' @export
-d_sph_stat_Ajne <- function(x, p, K_max = 1e3, thre = 0, ...) {
-
-  cbind(d_Sobolev(x = x, p = p, type = "Ajne", K_max = K_max, thre = thre, ...))
+  cbind(p_Sobolev(x = x, p = p, type = "Ajne", K_max = K_max, thre = thre,
+                  method = method, ...))
 
 }
 
 
 #' @rdname sph_stat_distr
 #' @export
-p_sph_stat_Bakshaev <- function(x, p, K_max = 1e3, thre = 0, ...) {
+d_sph_stat_Ajne <- function(x, p, K_max = 1e3, thre = 0, method = "I", ...) {
+
+  cbind(d_Sobolev(x = x, p = p, type = "Ajne", K_max = K_max, thre = thre,
+                  method = method, ...))
+
+}
+
+
+#' @rdname sph_stat_distr
+#' @export
+p_sph_stat_Bakshaev <- function(x, p, K_max = 1e3, thre = 0, method = "I",
+                                ...) {
 
   cbind(p_Sobolev(x = x, p = p, type = "Bakshaev", K_max = K_max, thre = thre,
-                  ...))
+                  method = method, ...))
 
 }
 
 
 #' @rdname sph_stat_distr
 #' @export
-d_sph_stat_Bakshaev <- function(x, p, K_max = 1e3, thre = 0, ...) {
+d_sph_stat_Bakshaev <- function(x, p, K_max = 1e3, thre = 0, method = "I",
+                                ...) {
 
   cbind(d_Sobolev(x = x, p = p, type = "Bakshaev", K_max = K_max, thre = thre,
-                  ...))
+                  method = method, ...))
 
 }
 
 
 #' @rdname sph_stat_distr
 #' @export
-p_sph_stat_Gine_Fn <- function(x, p, K_max = 1e3, thre = 0, ...) {
+p_sph_stat_Gine_Fn <- function(x, p, K_max = 1e3, thre = 0, method = "I", ...) {
 
   cbind(p_Sobolev(x = x, p = p, type = "Gine_Fn", K_max = K_max, thre = thre,
-                  ...))
+                  method = method, ...))
 
 }
 
 
 #' @rdname sph_stat_distr
 #' @export
-d_sph_stat_Gine_Fn <- function(x, p, K_max = 1e3, thre = 0, ...) {
+d_sph_stat_Gine_Fn <- function(x, p, K_max = 1e3, thre = 0, method = "I", ...) {
 
   cbind(d_Sobolev(x = x, p = p, type = "Gine_Fn", K_max = K_max, thre = thre,
-                  ...))
+                  method = method, ...))
 
 }
 
 
 #' @rdname sph_stat_distr
 #' @export
-p_sph_stat_Gine_Gn <- function(x, p, K_max = 1e3, thre = 0, ...) {
+p_sph_stat_Gine_Gn <- function(x, p, K_max = 1e3, thre = 0, method = "I", ...) {
 
   cbind(p_Sobolev(x = x, p = p, type = "Gine_Gn", K_max = K_max, thre = thre,
-                  ...))
+                  method = method, ...))
 
 }
 
 
 #' @rdname sph_stat_distr
 #' @export
-d_sph_stat_Gine_Gn <- function(x, p, K_max = 1e3, thre = 0, ...) {
+d_sph_stat_Gine_Gn <- function(x, p, K_max = 1e3, thre = 0, method = "I", ...) {
 
   cbind(d_Sobolev(x = x, p = p, type = "Gine_Gn", K_max = K_max, thre = thre,
-                  ...))
+                  method = method, ...))
 
 }
 
 
 #' @rdname sph_stat_distr
 #' @export
-p_sph_stat_PAD <- function(x, p, K_max = 1e3, thre = 0, ...) {
+p_sph_stat_PAD <- function(x, p, K_max = 1e3, thre = 0, method = "I", ...) {
 
   cbind(p_Sobolev(x = x, p = p, type = "PAD", K_max = K_max, thre = thre,
-                  ...))
+                  method = method, ...))
 
 }
 
 
 #' @rdname sph_stat_distr
 #' @export
-d_sph_stat_PAD <- function(x, p, K_max = 1e3, thre = 0, ...) {
+d_sph_stat_PAD <- function(x, p, K_max = 1e3, thre = 0, method = "I", ...) {
 
   cbind(d_Sobolev(x = x, p = p, type = "PAD", K_max = K_max, thre = thre,
-                  ...))
+                  method = method, ...))
 
 }
 
 
 #' @rdname sph_stat_distr
 #' @export
-p_sph_stat_PCvM <- function(x, p, K_max = 1e3, thre = 0, ...) {
+p_sph_stat_PCvM <- function(x, p, K_max = 1e3, thre = 0, method = "I", ...) {
 
   cbind(p_Sobolev(x = x, p = p, type = "PCvM", K_max = K_max, thre = thre,
-                  ...))
+                  method = method, ...))
 
 }
 
 
 #' @rdname sph_stat_distr
 #' @export
-d_sph_stat_PCvM <- function(x, p, K_max = 1e3, thre = 0, ...) {
+d_sph_stat_PCvM <- function(x, p, K_max = 1e3, thre = 0, method = "I", ...) {
 
   cbind(d_Sobolev(x = x, p = p, type = "PCvM", K_max = K_max, thre = thre,
-                  ...))
+                  method = method, ...))
 
 }
 
 
 #' @rdname sph_stat_distr
 #' @export
-p_sph_stat_PRt <- function(x, p, t = 1 / 3, K_max = 1e3, thre = 0, ...) {
+p_sph_stat_Poisson <- function(x, p, rho = 0.5, K_max = 1e3, thre = 0,
+                               method = "I", ...) {
+
+  # psi_tilde_0 is the shift from U-stat to V-stat
+  b_0 <- (1 - rho)^(p - 1) / (1 + rho)
+  psi_tilde_0 <- ((1 - rho) / sqrt(1 - 2 * rho + rho^2))^p - b_0
+  cbind(p_Sobolev(x = x + psi_tilde_0, p = p, type = "Poisson",
+                  Poisson_rho = rho, K_max = K_max, thre = thre,
+                  method = method, ...))
+
+}
+
+
+#' @rdname sph_stat_distr
+#' @export
+d_sph_stat_Poisson <- function(x, p, rho = 0.5, K_max = 1e3, thre = 0,
+                               method = "I", ...) {
+
+  # psi_tilde_0 is the shift from U-stat to V-stat
+  b_0 <- (1 - rho)^(p - 1) / (1 + rho)
+  psi_tilde_0 <- ((1 - rho) / sqrt(1 - 2 * rho + rho^2))^p - b_0
+  cbind(d_Sobolev(x = x + psi_tilde_0, p = p, type = "Poisson",
+                  Poisson_rho = rho, K_max = K_max, thre = thre,
+                  method = method, ...))
+
+}
+
+
+#' @rdname sph_stat_distr
+#' @export
+p_sph_stat_PRt <- function(x, p, t = 1 / 3, K_max = 1e3, thre = 0,
+                           method = "I", ...) {
 
   cbind(p_Sobolev(x = x, p = p, type = "PRt", Rothman_t = t,
-                  K_max = K_max, thre = thre, ...))
+                  K_max = K_max, thre = thre, method = method, ...))
 
 }
 
 
 #' @rdname sph_stat_distr
 #' @export
-d_sph_stat_PRt <- function(x, p, t = 1 / 3, K_max = 1e3, thre = 0, ...) {
+d_sph_stat_PRt <- function(x, p, t = 1 / 3, K_max = 1e3, thre = 0,
+                           method = "I", ...) {
 
   cbind(d_Sobolev(x = x, p = p, type = "PRt", Rothman_t = t,
-                  K_max = K_max, thre = thre, ...))
+                  K_max = K_max, thre = thre, method = method, ...))
 
 }
 
 
 #' @rdname sph_stat_distr
 #' @export
-p_sph_stat_Riesz <- function(x, p, s = 1, K_max = 1e3, thre = 0, ...) {
+p_sph_stat_Riesz <- function(x, p, s = 1, K_max = 1e3, thre = 0,  method = "I",
+                             ...) {
 
   cbind(p_Sobolev(x = x, p = p, type = "Riesz", Riesz_s = s, K_max = K_max,
-                  thre = thre, ...))
+                  thre = thre, method = method, ...))
 
 }
 
 
 #' @rdname sph_stat_distr
 #' @export
-d_sph_stat_Riesz <- function(x, p, s = 1, K_max = 1e3, thre = 0, ...) {
+d_sph_stat_Riesz <- function(x, p, s = 1, K_max = 1e3, thre = 0, method = "I",
+                             ...) {
 
   cbind(d_Sobolev(x = x, p = p, type = "Riesz", Riesz_s = s, K_max = K_max,
-                  thre = thre, ...))
+                  thre = thre, method = method, ...))
 
 }
 
 
 #' @rdname sph_stat_distr
 #' @export
-p_sph_stat_Sobolev <- function(x, p, vk2 = c(0, 0, 1), K_max = 1e3, thre = 0,
-                               ...) {
+p_sph_stat_Sobolev <- function(x, p, vk2 = c(0, 0, 1), method = "I", ...) {
 
   # As a matrix
   if (is.vector(x)) {
@@ -316,7 +371,7 @@ p_sph_stat_Sobolev <- function(x, p, vk2 = c(0, 0, 1), K_max = 1e3, thre = 0,
 
       cdf[, j] <- p_Sobolev(x = x[, j], p = p, type = "Sobolev",
                             Sobolev_vk2 = vk2[j, ], K_max = max(nonzero_vk2_j),
-                            thre = 0, ...)
+                            thre = 0, method = method, ...)
 
     }
 
@@ -328,7 +383,7 @@ p_sph_stat_Sobolev <- function(x, p, vk2 = c(0, 0, 1), K_max = 1e3, thre = 0,
 
 #' @rdname sph_stat_distr
 #' @export
-d_sph_stat_Sobolev <- function(x, p, vk2 = c(0, 0, 1), ...) {
+d_sph_stat_Sobolev <- function(x, p, vk2 = c(0, 0, 1), method = "I", ...) {
 
   # As a matrix
   if (is.vector(x)) {
@@ -371,7 +426,7 @@ d_sph_stat_Sobolev <- function(x, p, vk2 = c(0, 0, 1), ...) {
 
       pdf[, j] <- d_Sobolev(x = x[, j], p = p, type = "Sobolev",
                             Sobolev_vk2 = vk2[j, ], K_max = max(nonzero_vk2_j),
-                            thre = 0, ...)
+                            thre = 0, method = method, ...)
 
     }
 
@@ -379,3 +434,86 @@ d_sph_stat_Sobolev <- function(x, p, vk2 = c(0, 0, 1), ...) {
   return(pdf)
 
 }
+
+
+#' @rdname sph_stat_distr
+#' @export
+p_sph_stat_Softmax <- function(x, p, kappa = 1, K_max = 1e3, thre = 0,
+                               method = "I", ...) {
+
+  # psi_tilde_0 is the shift from U-stat to V-stat
+  b_0 <- exp(switch((p > 2) + 1,
+                    log(besselI(x = kappa, nu = 0, expon.scaled = TRUE)),
+                    (0.5 * p - 1) * (log(2) - log(kappa)) +
+                      lgamma(0.5 * p - 1) + log(0.5 * p - 1) +
+                      log(besselI(x = kappa, nu = 0.5 * p - 1,
+                                  expon.scaled = TRUE))))
+  psi_tilde_0 <- 1 - b_0
+  cbind(p_Sobolev(x = x + psi_tilde_0, p = p, type = "Softmax",
+                  Softmax_kappa = kappa, K_max = K_max, thre = thre,
+                  method = method, ...))
+
+}
+
+
+#' @rdname sph_stat_distr
+#' @export
+d_sph_stat_Softmax <- function(x, p, kappa = 1, K_max = 1e3, thre = 0,
+                               method = "I", ...) {
+
+  # psi_tilde_0 is the shift from U-stat to V-stat
+  b_0 <- exp(switch((p > 2) + 1,
+                    log(besselI(x = kappa, nu = 0, expon.scaled = TRUE)),
+                    (0.5 * p - 1) * (log(2) - log(kappa)) +
+                      lgamma(0.5 * p - 1) + log(0.5 * p - 1) +
+                      log(besselI(x = kappa, nu = 0.5 * p - 1,
+                                  expon.scaled = TRUE))))
+  psi_tilde_0 <- 1 - b_0
+  cbind(d_Sobolev(x = x + psi_tilde_0, p = p, type = "Softmax",
+                  Softmax_kappa = kappa, K_max = K_max, thre = thre,
+                  method = method, ...))
+
+}
+
+
+#' @rdname sph_stat_distr
+#' @export
+p_sph_stat_Stereo <- function(x, p, a = 0, K_max = 1e3, method = "I", ...) {
+
+  if (p <= 3) {
+
+    stop("The asymptotic distribution is only available for p > 3.")
+
+  }
+
+  # psi_tilde_0 is the shift from U-stat to V-stat
+  v_k2 <- weights_dfs_Sobolev(p = p, K_max = K_max, thre = 0, type = "Stereo",
+                              Stereo_a = a, ...)$weights
+  psi_tilde_0 <- Gegen_series(theta = 0, coefs = vk2_to_bk(vk2 = v_k2, p = p),
+                              k = 1:K_max, p = p)
+  cbind(p_Sobolev(x = x + psi_tilde_0, p = p, type = "Stereo", Stereo_a = a,
+                  K_max = K_max, thre = 0, method = method, ...))
+
+}
+
+
+#' @rdname sph_stat_distr
+#' @export
+d_sph_stat_Stereo <- function(x, p, a = 0, K_max = 1e3, method = "I", ...) {
+
+  if (p <= 3) {
+
+    stop("The asymptotic distribution is only available for p > 3.")
+
+  }
+
+  # psi_tilde_0 is the shift from U-stat to V-stat
+  v_k2 <- weights_dfs_Sobolev(p = p, K_max = K_max, thre = 0, type = "Stereo",
+                              Stereo_a = a, ...)$weights
+  psi_tilde_0 <- Gegen_series(theta = 0, coefs = vk2_to_bk(vk2 = v_k2, p = p),
+                              k = 1:K_max, p = p)
+  cbind(d_Sobolev(x = x + psi_tilde_0, p = p, type = "Stereo", Stereo_a = a,
+                  K_max = K_max, thre = 0, method = method, ...))
+
+}
+

@@ -5,11 +5,13 @@
 ^checks$
 ^TODO$
 ^data-raw$
-^application$
+^applications$
 ^simulations$
 ^CRAN-RELEASE$
 ^cran-comments\.md$
 ^LICENSE\.md$
 TODO.md
+Rplots.pdf
 ^\.github$
 ^CRAN-SUBMISSION$
+sphunif.pdf

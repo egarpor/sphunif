@@ -53,14 +53,14 @@ You can perform *several* tests within a *single* call to `unif_test`. Choose th
 avail_cir_tests
 ```
 
-For example, you can use the Projected Anderson--Darling (@Garcia-Portugues2020b, also an omnibus test) test and the Watson test:
+For example, you can use the Projected Anderson--Darling (@Garcia-Portugues2023, also an omnibus test) test and the Watson test:
 
 ```{r, unif_test_avail_cir}
 # A *list* of htest objects
 unif_test(data = cir_data, type = c("PAD", "Watson"))
 ```
 
-@Garcia-Portugues2020a gives a review of different tests of uniformity on the circle. Section 5.1 in @Pewsey2021 also gives an overview of recent advances.
+@Garcia-Portugues2018 gives a review of different tests of uniformity on the circle. Section 5.1 in @Pewsey2021 also gives an overview of recent advances.
 
 ### Spherical data
 
@@ -80,12 +80,12 @@ The available spherical uniformity tests:
 avail_sph_tests
 ```
 
-See again @Garcia-Portugues2020a for a review of tests of uniformity on the sphere and complementary Section 5.1 in @Pewsey2021.
+See again @Garcia-Portugues2018 for a review of tests of uniformity on the sphere and complementary Section 5.1 in @Pewsey2021.
 
 The default `type = "all"` equals `type = avail_sph_tests`, which might be too much for standard analysis:
 
 ```{r, unif_test_avail_sph}
-unif_test(data = sph_data, type = "all", p_value = "MC", M = 1e3)
+unif_test(data = sph_data, type = "all", p_value = "MC", M = 1e2)
 unif_test(data = sph_data, type = "Rayleigh", p_value = "asymp")
 ```
 
@@ -124,7 +124,8 @@ unif_test(data = venus$X, type = c("PCvM", "PAD"), p_value = "asymp")
 require(progress)
 require(progressr)
 handlers(handler_progress(
-  format = ":spin [:bar] :percent Total: :elapsedfull End \u2248 :eta",
+  format = paste("(:spin) [:bar] :percent Iter: :current/:total Rate:",
+                 ":tick_rate iter/sec ETA: :eta Elapsed: :elapsedfull"),
   clear = FALSE))
 
 # Test uniformity using Monte-Carlo approximated null distributions
@@ -150,7 +151,7 @@ Additionally, `unif_stat_MC` is an utility for performing the previous simulatio
 
 ```{r, MC}
 # Break the simulation in 10 chunks of tasks to be divided between 2 cores
-sim <- unif_stat_MC(n = 30, type = "all", p = 3, M = 1e4, cores = 2,
+sim <- unif_stat_MC(n = 30, type = "all", p = 3, M = 1e2, cores = 2,
                     chunks = 10)
 
 # Critical values for test statistics
@@ -160,7 +161,7 @@ sim$crit_val_MC
 head(sim$stats_MC)
 
 # Power computation using a pre-built sampler for the alternative
-pow <- unif_stat_MC(n = 30, type = "all", p = 3, M = 1e4, cores = 2,
+pow <- unif_stat_MC(n = 30, type = "all", p = 3, M = 1e2, cores = 2,
                     chunks = 10, r_H1 = r_alt, crit_val = sim$crit_val_MC,
                     alt = "vMF", kappa = 1)
 pow$power_MC

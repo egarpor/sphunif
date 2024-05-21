@@ -53,6 +53,8 @@
 \alias{d_cir_stat_PCvM}
 \alias{p_cir_stat_PRt}
 \alias{d_cir_stat_PRt}
+\alias{p_cir_stat_Poisson}
+\alias{d_cir_stat_Poisson}
 \alias{p_cir_stat_Pycke_q}
 \alias{d_cir_stat_Pycke_q}
 \alias{p_cir_stat_Rothman}
@@ -61,6 +63,8 @@
 \alias{d_cir_stat_Riesz}
 \alias{p_cir_stat_Sobolev}
 \alias{d_cir_stat_Sobolev}
+\alias{p_cir_stat_Softmax}
+\alias{d_cir_stat_Softmax}
 \title{Asymptotic distributions for circular uniformity statistics}
 \usage{
 p_Kolmogorov(x, K_Kolmogorov = 25L, alternating = TRUE)
@@ -139,49 +143,65 @@ p_cir_stat_Rayleigh(x)
 
 d_cir_stat_Rayleigh(x)
 
-p_cir_stat_Bakshaev(x, K_max = 1000, thre = 0, ...)
+p_cir_stat_Bakshaev(x, K_max = 1000, thre = 0, method = "I", ...)
 
-d_cir_stat_Bakshaev(x, K_max = 1000, thre = 0, ...)
+d_cir_stat_Bakshaev(x, K_max = 1000, thre = 0, method = "I", ...)
 
-p_cir_stat_Gine_Fn(x, K_max = 1000, thre = 0, ...)
+p_cir_stat_Gine_Fn(x, K_max = 1000, thre = 0, method = "I", ...)
 
-d_cir_stat_Gine_Fn(x, K_max = 1000, thre = 0, ...)
+d_cir_stat_Gine_Fn(x, K_max = 1000, thre = 0, method = "I", ...)
 
-p_cir_stat_Gine_Gn(x, K_max = 1000, thre = 0, ...)
+p_cir_stat_Gine_Gn(x, K_max = 1000, thre = 0, method = "I", ...)
 
-d_cir_stat_Gine_Gn(x, K_max = 1000, thre = 0, ...)
+d_cir_stat_Gine_Gn(x, K_max = 1000, thre = 0, method = "I", ...)
 
-p_cir_stat_Hermans_Rasson(x, K_max = 1000, thre = 0, ...)
+p_cir_stat_Hermans_Rasson(x, K_max = 1000, thre = 0, method = "I", ...)
 
-d_cir_stat_Hermans_Rasson(x, K_max = 1000, thre = 0, ...)
+d_cir_stat_Hermans_Rasson(x, K_max = 1000, thre = 0, method = "I", ...)
 
-p_cir_stat_PAD(x, K_max = 1000, thre = 0, ...)
+p_cir_stat_PAD(x, K_max = 1000, thre = 0, method = "I", ...)
 
-d_cir_stat_PAD(x, K_max = 1000, thre = 0, ...)
+d_cir_stat_PAD(x, K_max = 1000, thre = 0, method = "I", ...)
 
-p_cir_stat_PCvM(x, K_max = 1000, thre = 0, ...)
+p_cir_stat_PCvM(x, K_max = 1000, thre = 0, method = "I", ...)
 
-d_cir_stat_PCvM(x, K_max = 1000, thre = 0, ...)
+d_cir_stat_PCvM(x, K_max = 1000, thre = 0, method = "I", ...)
 
-p_cir_stat_PRt(x, t = 1/3, K_max = 1000, thre = 0, ...)
+p_cir_stat_PRt(x, t = 1/3, K_max = 1000, thre = 0, method = "I", ...)
 
-d_cir_stat_PRt(x, t = 1/3, K_max = 1000, thre = 0, ...)
+d_cir_stat_PRt(x, t = 1/3, K_max = 1000, thre = 0, method = "I", ...)
 
-p_cir_stat_Pycke_q(x, q = 0.5, K_max = 1000, thre = 0, ...)
+p_cir_stat_Poisson(x, rho = 0.5, K_max = 1000, thre = 0, method = "I",
+  ...)
 
-d_cir_stat_Pycke_q(x, q = 0.5, K_max = 1000, thre = 0, ...)
+d_cir_stat_Poisson(x, rho = 0.5, K_max = 1000, thre = 0, method = "I",
+  ...)
 
-p_cir_stat_Rothman(x, t = 1/3, K_max = 1000, thre = 0, ...)
+p_cir_stat_Pycke_q(x, q = 0.5, K_max = 1000, thre = 0, method = "I",
+  ...)
 
-d_cir_stat_Rothman(x, t = 1/3, K_max = 1000, thre = 0, ...)
+d_cir_stat_Pycke_q(x, q = 0.5, K_max = 1000, thre = 0, method = "I",
+  ...)
 
-p_cir_stat_Riesz(x, s = 1, K_max = 1000, thre = 0, ...)
+p_cir_stat_Rothman(x, t = 1/3, K_max = 1000, thre = 0, method = "I",
+  ...)
 
-d_cir_stat_Riesz(x, s = 1, K_max = 1000, thre = 0, ...)
+d_cir_stat_Rothman(x, t = 1/3, K_max = 1000, thre = 0, method = "I",
+  ...)
 
-p_cir_stat_Sobolev(x, vk2 = c(0, 0, 1), ...)
+p_cir_stat_Riesz(x, s = 1, K_max = 1000, thre = 0, method = "I", ...)
 
-d_cir_stat_Sobolev(x, vk2 = c(0, 0, 1), ...)
+d_cir_stat_Riesz(x, s = 1, K_max = 1000, thre = 0, method = "I", ...)
+
+p_cir_stat_Sobolev(x, vk2 = c(0, 0, 1), method = "I", ...)
+
+d_cir_stat_Sobolev(x, vk2 = c(0, 0, 1), method = "I", ...)
+
+p_cir_stat_Softmax(x, kappa = 1, K_max = 1000, thre = 0, method = "I",
+  ...)
+
+d_cir_stat_Softmax(x, kappa = 1, K_max = 1000, thre = 0, method = "I",
+  ...)
 }
 \arguments{
 \item{x}{a vector of size \code{nx} or a matrix of size \code{c(nx, 1)}.}
@@ -225,11 +245,20 @@ asymptotic p-value of a Sobolev test. Defaults to \code{1e3}.}
 the first terms of the truncated series of a Sobolev test. Defaults to
 \code{0} (no further truncation).}
 
+\item{method}{method for approximating the density, distribution, or
+quantile function of the weighted sum of chi squared random variables. Must
+be \code{"I"} (Imhof), \code{"SW"} (Satterthwaite--Welch), \code{"HBE"}
+(Hall--Buckley--Eagleson), or \code{"MC"} (Monte Carlo; only for distribution
+or quantile functions). Defaults to \code{"I"}.}
+
 \item{...}{further parameters passed to \code{\link{p_Sobolev}} or
 \code{\link{d_Sobolev}} (such as \code{x_tail}).}
 
 \item{t}{\eqn{t} parameter for the Rothman and Cressie tests, a real in
 \eqn{(0, 1)}. Defaults to \code{1 / 3}.}
+
+\item{rho}{\eqn{\rho} parameter for the Poisson test, a real in
+\eqn{[0, 1)}. Defaults to \code{0.5}.}
 
 \item{q}{\eqn{q} parameter for the Pycke "\eqn{q}-test", a real in
 \eqn{(0, 1)}. Defaults to \code{1 / 2}.}
@@ -239,6 +268,9 @@ the first terms of the truncated series of a Sobolev test. Defaults to
 
 \item{vk2}{weights for the finite Sobolev test. A non-negative vector or
 matrix. Defaults to \code{c(0, 0, 1)}.}
+
+\item{kappa}{\eqn{\kappa} parameter for the Softmax test, a
+non-negative real. Defaults to \code{1}.}
 }
 \value{
 A matrix of size \code{c(nx, 1)} with the evaluation of the
@@ -346,6 +378,11 @@ curve(p_cir_stat_PCvM(x, method = "HBE"), n = 2e2, add = TRUE, col = 2)
 curve(d_cir_stat_PRt(x, method = "HBE"), n = 2e2, ylim = c(0, 5))
 curve(p_cir_stat_PRt(x, method = "HBE"), n = 2e2, add = TRUE, col = 2)
 
+# Poisson
+curve(d_cir_stat_Poisson(x, method = "HBE"), from = -1, to = 5, n = 2e2,
+      ylim = c(0, 2))
+curve(p_cir_stat_Poisson(x, method = "HBE"), n = 2e2, col = 2, add = TRUE)
+
 # Pycke
 curve(d_cir_stat_Pycke(x), from = -5, to = 10, n = 2e2, ylim = c(0, 1))
 curve(p_cir_stat_Pycke(x), n = 2e2, col = 2, add = TRUE)
@@ -387,6 +424,10 @@ curve(p_cir_stat_Watson(x), n = 2e2, col = 2, add = TRUE)
 # Watson (1976)
 curve(d_cir_stat_Watson_1976(x), to = 1.5, n = 2e2, ylim = c(0, 3))
 curve(p_cir_stat_Watson_1976(x), n = 2e2, col = 2, add = TRUE)
+
+# Softmax
+curve(d_cir_stat_Softmax(x, method = "HBE"), to = 3, n = 2e2, ylim = c(0, 2))
+curve(p_cir_stat_Softmax(x, method = "HBE"), n = 2e2, col = 2, add = TRUE)
 
 # Sobolev
 vk2 <- c(0.5, 0)

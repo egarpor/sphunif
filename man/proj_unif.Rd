@@ -26,7 +26,7 @@ contains \eqn{S^{p-1}}.}
 
 \item{u}{vector of probabilities.}
 
-\item{n}{sample size employed for computing the statistic.}
+\item{n}{sample size.}
 }
 \value{
 A matrix of size \code{c(nx, 1)} with the evaluation of the

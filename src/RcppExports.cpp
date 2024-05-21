@@ -1604,16 +1604,15 @@ BEGIN_RCPP
 END_RCPP
 }
 // sph_stat_Poisson_Psi
-arma::vec sph_stat_Poisson_Psi(arma::mat Psi, arma::uword n, arma::uword p, double rho);
-RcppExport SEXP _sphunif_sph_stat_Poisson_Psi(SEXP PsiSEXP, SEXP nSEXP, SEXP pSEXP, SEXP rhoSEXP) {
+arma::vec sph_stat_Poisson_Psi(arma::mat Psi, arma::uword p, double rho);
+RcppExport SEXP _sphunif_sph_stat_Poisson_Psi(SEXP PsiSEXP, SEXP pSEXP, SEXP rhoSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::mat >::type Psi(PsiSEXP);
-    Rcpp::traits::input_parameter< arma::uword >::type n(nSEXP);
     Rcpp::traits::input_parameter< arma::uword >::type p(pSEXP);
     Rcpp::traits::input_parameter< double >::type rho(rhoSEXP);
-    rcpp_result_gen = Rcpp::wrap(sph_stat_Poisson_Psi(Psi, n, p, rho));
+    rcpp_result_gen = Rcpp::wrap(sph_stat_Poisson_Psi(Psi, p, rho));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1632,16 +1631,14 @@ BEGIN_RCPP
 END_RCPP
 }
 // sph_stat_Softmax_Psi
-arma::vec sph_stat_Softmax_Psi(arma::mat Psi, arma::uword n, arma::uword p, double kappa);
-RcppExport SEXP _sphunif_sph_stat_Softmax_Psi(SEXP PsiSEXP, SEXP nSEXP, SEXP pSEXP, SEXP kappaSEXP) {
+arma::vec sph_stat_Softmax_Psi(arma::mat Psi, double kappa);
+RcppExport SEXP _sphunif_sph_stat_Softmax_Psi(SEXP PsiSEXP, SEXP kappaSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::mat >::type Psi(PsiSEXP);
-    Rcpp::traits::input_parameter< arma::uword >::type n(nSEXP);
-    Rcpp::traits::input_parameter< arma::uword >::type p(pSEXP);
     Rcpp::traits::input_parameter< double >::type kappa(kappaSEXP);
-    rcpp_result_gen = Rcpp::wrap(sph_stat_Softmax_Psi(Psi, n, p, kappa));
+    rcpp_result_gen = Rcpp::wrap(sph_stat_Softmax_Psi(Psi, kappa));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1660,16 +1657,14 @@ BEGIN_RCPP
 END_RCPP
 }
 // sph_stat_Stereo_Psi
-arma::vec sph_stat_Stereo_Psi(arma::mat Psi, arma::uword n, arma::uword p, double a);
-RcppExport SEXP _sphunif_sph_stat_Stereo_Psi(SEXP PsiSEXP, SEXP nSEXP, SEXP pSEXP, SEXP aSEXP) {
+arma::vec sph_stat_Stereo_Psi(arma::mat Psi, double a);
+RcppExport SEXP _sphunif_sph_stat_Stereo_Psi(SEXP PsiSEXP, SEXP aSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::mat >::type Psi(PsiSEXP);
-    Rcpp::traits::input_parameter< arma::uword >::type n(nSEXP);
-    Rcpp::traits::input_parameter< arma::uword >::type p(pSEXP);
     Rcpp::traits::input_parameter< double >::type a(aSEXP);
-    rcpp_result_gen = Rcpp::wrap(sph_stat_Stereo_Psi(Psi, n, p, a));
+    rcpp_result_gen = Rcpp::wrap(sph_stat_Stereo_Psi(Psi, a));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1713,15 +1708,13 @@ BEGIN_RCPP
 END_RCPP
 }
 // sph_stat_CJ12_Psi
-arma::vec sph_stat_CJ12_Psi(arma::mat Psi, arma::uword n, arma::uword p);
-RcppExport SEXP _sphunif_sph_stat_CJ12_Psi(SEXP PsiSEXP, SEXP nSEXP, SEXP pSEXP) {
+arma::vec sph_stat_CJ12_Psi(arma::mat Psi);
+RcppExport SEXP _sphunif_sph_stat_CJ12_Psi(SEXP PsiSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::mat >::type Psi(PsiSEXP);
-    Rcpp::traits::input_parameter< arma::uword >::type n(nSEXP);
-    Rcpp::traits::input_parameter< arma::uword >::type p(pSEXP);
-    rcpp_result_gen = Rcpp::wrap(sph_stat_CJ12_Psi(Psi, n, p));
+    rcpp_result_gen = Rcpp::wrap(sph_stat_CJ12_Psi(Psi));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1852,15 +1845,15 @@ static const R_CallMethodDef CallEntries[] = {
     {"_sphunif_sph_stat_PAD", (DL_FUNC) &_sphunif_sph_stat_PAD, 5},
     {"_sphunif_sph_stat_PAD_Psi", (DL_FUNC) &_sphunif_sph_stat_PAD_Psi, 5},
     {"_sphunif_sph_stat_Poisson", (DL_FUNC) &_sphunif_sph_stat_Poisson, 4},
-    {"_sphunif_sph_stat_Poisson_Psi", (DL_FUNC) &_sphunif_sph_stat_Poisson_Psi, 4},
+    {"_sphunif_sph_stat_Poisson_Psi", (DL_FUNC) &_sphunif_sph_stat_Poisson_Psi, 3},
     {"_sphunif_sph_stat_Softmax", (DL_FUNC) &_sphunif_sph_stat_Softmax, 4},
-    {"_sphunif_sph_stat_Softmax_Psi", (DL_FUNC) &_sphunif_sph_stat_Softmax_Psi, 4},
+    {"_sphunif_sph_stat_Softmax_Psi", (DL_FUNC) &_sphunif_sph_stat_Softmax_Psi, 2},
     {"_sphunif_sph_stat_Stereo", (DL_FUNC) &_sphunif_sph_stat_Stereo, 4},
-    {"_sphunif_sph_stat_Stereo_Psi", (DL_FUNC) &_sphunif_sph_stat_Stereo_Psi, 4},
+    {"_sphunif_sph_stat_Stereo_Psi", (DL_FUNC) &_sphunif_sph_stat_Stereo_Psi, 2},
     {"_sphunif_sph_stat_CCF09", (DL_FUNC) &_sphunif_sph_stat_CCF09, 4},
     {"_sphunif_sph_stat_Rayleigh_HD", (DL_FUNC) &_sphunif_sph_stat_Rayleigh_HD, 1},
     {"_sphunif_sph_stat_CJ12", (DL_FUNC) &_sphunif_sph_stat_CJ12, 4},
-    {"_sphunif_sph_stat_CJ12_Psi", (DL_FUNC) &_sphunif_sph_stat_CJ12_Psi, 3},
+    {"_sphunif_sph_stat_CJ12_Psi", (DL_FUNC) &_sphunif_sph_stat_CJ12_Psi, 1},
     {NULL, NULL, 0}
 };
 

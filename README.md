@@ -15,12 +15,12 @@ status](https://github.com/egarpor/sphunif/workflows/test-coverage/badge.svg)](h
 
 ## Overview
 
-Implementation of more than 30 tests of uniformity on the circle,
+Implementation of more than 35 tests of uniformity on the circle,
 sphere, and hypersphere. Software companion for the (evolving) review
 “*An overview of uniformity tests on the hypersphere*” (García-Portugués
 and Verdebout, 2018) and the paper “*On a projection-based class of
 uniformity tests on the hypersphere*” (García-Portugués, Navarro-Esteban
-and Cuesta-Albertos, 2020).
+and Cuesta-Albertos, 2023).
 
 ## Installation
 
@@ -75,7 +75,7 @@ unif_test(data = cir_data, type = "Watson", p_value = "MC") # Monte Carlo
 #>  Watson test of circular uniformity
 #> 
 #> data:  cir_data
-#> statistic = 0.036003, p-value = 0.8844
+#> statistic = 0.036003, p-value = 0.8831
 #> alternative hypothesis: any alternative to circular uniformity
 unif_test(data = cir_data, type = "Watson", p_value = "asymp") # Asymp. distr.
 #> 
@@ -95,10 +95,11 @@ avail_cir_tests
 #>  [5] "CCF09"          "FG01"           "Gine_Fn"        "Gine_Gn"       
 #>  [9] "Gini"           "Gini_squared"   "Greenwood"      "Hermans_Rasson"
 #> [13] "Hodges_Ajne"    "Kuiper"         "Log_gaps"       "Max_uncover"   
-#> [17] "Num_uncover"    "PAD"            "PCvM"           "PRt"           
-#> [21] "Pycke"          "Pycke_q"        "Range"          "Rao"           
-#> [25] "Rayleigh"       "Riesz"          "Rothman"        "Vacancy"       
-#> [29] "Watson"         "Watson_1976"
+#> [17] "Num_uncover"    "PAD"            "PCvM"           "Poisson"       
+#> [21] "PRt"            "Pycke"          "Pycke_q"        "Range"         
+#> [25] "Rao"            "Rayleigh"       "Riesz"          "Rothman"       
+#> [29] "Sobolev"        "Softmax"        "Vacancy"        "Watson"        
+#> [33] "Watson_1976"
 ```
 
 For example:
@@ -151,9 +152,10 @@ The available spherical uniformity tests:
 
 ``` r
 avail_sph_tests
-#>  [1] "Ajne"        "Bakshaev"    "Bingham"     "CJ12"        "CCF09"      
-#>  [6] "Gine_Fn"     "Gine_Gn"     "PAD"         "PCvM"        "PRt"        
-#> [11] "Pycke"       "Rayleigh"    "Rayleigh_HD" "Riesz"
+#>  [1] "Ajne"        "Bakshaev"    "Bingham"     "CCF09"       "CJ12"       
+#>  [6] "Gine_Fn"     "Gine_Gn"     "PAD"         "PCvM"        "Poisson"    
+#> [11] "PRt"         "Pycke"       "Sobolev"     "Softmax"     "Stereo"     
+#> [16] "Rayleigh"    "Rayleigh_HD" "Riesz"
 ```
 
 The default `type = "all"` equals `type = avail_sph_tests`:
@@ -165,7 +167,7 @@ head(unif_test(data = sph_data, type = "all", p_value = "MC"))
 #>  Ajne test of spherical uniformity
 #> 
 #> data:  sph_data
-#> statistic = 0.079876, p-value = 0.9562
+#> statistic = 0.079876, p-value = 0.9578
 #> alternative hypothesis: any non-axial alternative to spherical uniformity
 #> 
 #> 
@@ -174,7 +176,7 @@ head(unif_test(data = sph_data, type = "all", p_value = "MC"))
 #>  Bakshaev (2010) test of spherical uniformity
 #> 
 #> data:  sph_data
-#> statistic = 1.2727, p-value = 0.4389
+#> statistic = 1.2727, p-value = 0.4418
 #> alternative hypothesis: any alternative to spherical uniformity
 #> 
 #> 
@@ -183,17 +185,8 @@ head(unif_test(data = sph_data, type = "all", p_value = "MC"))
 #>  Bingham test of spherical uniformity
 #> 
 #> data:  sph_data
-#> statistic = 22.455, p-value = 5e-04
+#> statistic = 22.455, p-value < 2.2e-16
 #> alternative hypothesis: scatter matrix different from constant
-#> 
-#> 
-#> $CJ12
-#> 
-#>  Cai and Jiang (2012) test of spherical uniformity
-#> 
-#> data:  sph_data
-#> statistic = 27.401, p-value = 0.2691
-#> alternative hypothesis: unclear consistency
 #> 
 #> 
 #> $CCF09
@@ -201,8 +194,17 @@ head(unif_test(data = sph_data, type = "all", p_value = "MC"))
 #>  Cuesta-Albertos et al. (2009) test of spherical uniformity with k = 50
 #> 
 #> data:  sph_data
-#> statistic = 1.4619, p-value = 0.278
+#> statistic = 1.4619, p-value = 0.2775
 #> alternative hypothesis: any alternative to spherical uniformity
+#> 
+#> 
+#> $CJ12
+#> 
+#>  Cai and Jiang (2012) test of spherical uniformity
+#> 
+#> data:  sph_data
+#> statistic = 27.401, p-value = 0.262
+#> alternative hypothesis: unclear consistency
 #> 
 #> 
 #> $Gine_Fn
@@ -210,7 +212,7 @@ head(unif_test(data = sph_data, type = "all", p_value = "MC"))
 #>  Gine's Fn test of spherical uniformity
 #> 
 #> data:  sph_data
-#> statistic = 1.8889, p-value = 0.2267
+#> statistic = 1.8889, p-value = 0.2216
 #> alternative hypothesis: any alternative to spherical uniformity
 unif_test(data = sph_data, type = "Rayleigh", p_value = "asymp")
 #> 
@@ -243,13 +245,15 @@ unif_test(data = hyp_data, type = "Rayleigh", p_value = "asymp")
 #> alternative hypothesis: mean direction different from zero
 ```
 
-## Data application in astronomy
+## Replicability
 
-The data application in García-Portugués, Navarro-Esteban and
-Cuesta-Albertos (2020) can be reproduced through the script
-[data-application-ecdf.R](https://github.com/egarpor/sphunif/blob/master/application/data-application-ecdf.R).
-The code snippet below illustrates the testing of the uniformity of
-craters in Rhea.
+### *On a projection-based class of uniformity tests on the hypersphere*
+
+The data application in García-Portugués, Navarro-Esteban, and
+Cuesta-Albertos (2023) regarding the testing of uniformity of locations
+for craters in Rhea can be reproduced through the script
+[data-application-ecdf.R](https://github.com/egarpor/sphunif/blob/master/applications/data-application-ecdf.R).
+The code snippet below is a simplified version.
 
 ``` r
 # Load data
@@ -339,24 +343,51 @@ tests_rhea_20
 #> alternative hypothesis: any alternative to spherical uniformity if t is irrational
 ```
 
+### *A Cramér–von Mises test of uniformity on the hypersphere*
+
+The data application in García-Portugués, Navarro-Esteban, and
+Cuesta-Albertos (2021) regarding the testing of the uniformity of
+locations for craters in Venus can be reproduced through the script
+[data-application-cvm.R](https://github.com/egarpor/sphunif/blob/master/applications/data-application-cvm.R).
+
+### *On a class of Sobolev tests for symmetry of directions, their detection thresholds, and asymptotic powers*
+
+The data application in García-Portugués, Paindaveine, and Verdebout
+(2024) regarding the symmetry of comet orbits can be reproduced through
+the script
+[data-application-sobolev.R](https://github.com/egarpor/sphunif/blob/master/applications/data-application-sobolev.R).
+
+### *A stereographic test of spherical uniformity*
+
+The script
+[simulations-stereo.R](https://github.com/egarpor/sphunif/blob/master/simulations/simulations-stereo.R)
+contains some of the numerical experiments in Fernández-de-Marcos and
+García-Portugués (2024).
+
 ## References
+
+Fernández-de-Marcos, A. and García-Portugués, E. (2024) A stereographic
+test of spherical uniformity. *arXiv:2405.TODO*.
+<https://arxiv.org/abs/2405.TODO>.
 
 García-Portugués, E., Navarro-Esteban, P., and Cuesta-Albertos, J. A.
 (2021). A Cramér–von Mises test of uniformity on the hypersphere. In
 Balzano, S., Porzio, G. C., Salvatore, R., Vistocco, D., and Vichi, M.
 (Eds.), *Statistical Learning and Modeling in Data Analysis*, Studies in
-Classification, Data Analysis and Knowledge Organization, pp. 107–-116.
+Classification, Data Analysis and Knowledge Organization, pp. 107–116.
 Springer, Cham.
 [doi:10.1007/978-3-030-69944-4_12](https://doi.org/10.1007/978-3-030-69944-4_12).
 
 García-Portugués, E., Navarro-Esteban, P., and Cuesta-Albertos, J. A.
-(2020). On a projection-based class of uniformity tests on the
-hypersphere. *arXiv:2008.09897*. <https://arxiv.org/abs/2008.09897>.
+(2023). On a projection-based class of uniformity tests on the
+hypersphere. *Bernoulli*, 29(1):181–204.
+[doi:10.1007/978-3-030-69944-4_12](https://doi.org/10.3150/21-BEJ1454).
 
 García-Portugués, E. and Verdebout, T. (2018). An overview of uniformity
 tests on the hypersphere. *arXiv:1804.00286*.
 <https://arxiv.org/abs/1804.00286>.
 
-García-Portugués, E., Paindaveine, D., and Verdebout, T. (2021). On the
-power of Sobolev tests for isotropy under local rotationally symmetric
-alternatives. *arXiv:2108.09874*. <https://arxiv.org/abs/2108.09874>.
+García-Portugués, E., Paindaveine, D., and Verdebout, T. (2024). On a
+class of Sobolev tests for symmetry of directions, their detection
+thresholds, and asymptotic powers. *arXiv:2108.09874v2*.
+<https://arxiv.org/abs/2108.09874>.

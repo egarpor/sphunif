@@ -6,11 +6,11 @@
 \usage{
 unif_test(data, type = "all", p_value = "asymp", alpha = c(0.1, 0.05,
   0.01), M = 10000, stats_MC = NULL, crit_val = NULL,
-  data_sorted = FALSE, Rayleigh_m = 1, cov_a = 2 * pi, Rothman_t = 1/3,
-  Cressie_t = 1/3, Pycke_q = 0.5, Riesz_s = 1, CCF09_dirs = NULL,
-  K_CCF09 = 25, CJ12_reg = 3, CJ12_beta = 0, Poisson_rho = 0.5,
-  Softmax_kappa = 1, Stereo_a = 0, Sobolev_vk2 = c(0, 0, 1),
-  K_max = 10000, ...)
+  data_sorted = FALSE, K_max = 10000, method = "I", CCF09_dirs = NULL,
+  CJ12_beta = 0, CJ12_reg = 3, cov_a = 2 * pi, Cressie_t = 1/3,
+  K_CCF09 = 25, Poisson_rho = 0.5, Pycke_q = 0.5, Rayleigh_m = 1,
+  Riesz_s = 1, Rothman_t = 1/3, Sobolev_vk2 = c(0, 0, 1),
+  Softmax_kappa = 1, Stereo_a = 0, ...)
 }
 \arguments{
 \item{data}{sample to perform the test. A matrix of size \code{c(n, p)}
@@ -65,42 +65,54 @@ a call to \code{\link{unif_stat_MC}}. Internally computed if
 \item{data_sorted}{is the circular data sorted? If \code{TRUE}, certain
 statistics are faster to compute. Defaults to \code{FALSE}.}
 
-\item{Rayleigh_m}{integer \eqn{m} for the \eqn{m}-modal Rayleigh test.
-Defaults to \code{m = 1} (the standard Rayleigh test).}
+\item{K_max}{integer giving the truncation of the series that compute the
+asymptotic p-value of a Sobolev test. Defaults to \code{1e4}.}
 
-\item{cov_a}{\eqn{a_n = a / n} parameter used in the length of the arcs
-of the coverage-based tests. Must be positive. Defaults to \code{2 * pi}.}
-
-\item{Rothman_t}{\eqn{t} parameter for the Rothman test, a real in
-\eqn{(0, 1)}. Defaults to \code{1 / 3}.}
-
-\item{Cressie_t}{\eqn{t} parameter for the Cressie test, a real in
-\eqn{(0, 1)}. Defaults to \code{1 / 3}.}
-
-\item{Pycke_q}{\eqn{q} parameter for the Pycke "\eqn{q}-test", a real in
-\eqn{(0, 1)}. Defaults to \code{1 / 2}.}
-
-\item{Riesz_s}{\eqn{s} parameter for the \eqn{s}-Riesz test, a real in
-\eqn{(0, 2)}. Defaults to \code{1}.}
+\item{method}{method for approximating the density, distribution, or
+quantile function of the weighted sum of chi squared random variables. Must
+be \code{"I"} (Imhof), \code{"SW"} (Satterthwaite--Welch), \code{"HBE"}
+(Hall--Buckley--Eagleson), or \code{"MC"} (Monte Carlo; only for distribution
+or quantile functions). Defaults to \code{"I"}.}
 
 \item{CCF09_dirs}{a matrix of size \code{c(n_proj, p)} containing
 \code{n_proj} random directions (in Cartesian coordinates) on \eqn{S^{p-1}}
 to perform the CCF09 test. If \code{NULL} (default), a sample of size
 \code{n_proj = 50} directions is computed internally.}
 
-\item{K_CCF09}{integer giving the truncation of the series present in the
-asymptotic distribution of the Kolmogorov-Smirnov statistic. Defaults to
-\code{5e2}.}
+\item{CJ12_beta}{\eqn{\beta} parameter in the exponential regime of CJ12
+test, a positive real.}
 
 \item{CJ12_reg}{type of asymptotic regime for CJ12 test, either \code{1}
 (sub-exponential regime), \code{2} (exponential), or \code{3}
 (super-exponential; default).}
 
-\item{CJ12_beta}{\eqn{\beta} parameter in the exponential regime of CJ12
-test, a positive real.}
+\item{cov_a}{\eqn{a_n = a / n} parameter used in the length of the arcs
+of the coverage-based tests. Must be positive. Defaults to \code{2 * pi}.}
+
+\item{Cressie_t}{\eqn{t} parameter for the Cressie test, a real in
+\eqn{(0, 1)}. Defaults to \code{1 / 3}.}
+
+\item{K_CCF09}{integer giving the truncation of the series present in the
+asymptotic distribution of the Kolmogorov-Smirnov statistic. Defaults to
+\code{25}.}
 
 \item{Poisson_rho}{\eqn{\rho} parameter for the Poisson test, a real in
 \eqn{[0, 1)}. Defaults to \code{0.5}.}
+
+\item{Pycke_q}{\eqn{q} parameter for the Pycke "\eqn{q}-test", a real in
+\eqn{(0, 1)}. Defaults to \code{1 / 2}.}
+
+\item{Rayleigh_m}{integer \eqn{m} for the \eqn{m}-modal Rayleigh test.
+Defaults to \code{m = 1} (the standard Rayleigh test).}
+
+\item{Riesz_s}{\eqn{s} parameter for the \eqn{s}-Riesz test, a real in
+\eqn{(0, 2)}. Defaults to \code{1}.}
+
+\item{Rothman_t}{\eqn{t} parameter for the Rothman test, a real in
+\eqn{(0, 1)}. Defaults to \code{1 / 3}.}
+
+\item{Sobolev_vk2}{weights for the finite Sobolev test. A non-negative
+vector or matrix. Defaults to \code{c(0, 0, 1)}.}
 
 \item{Softmax_kappa}{\eqn{\kappa} parameter for the Softmax test, a
 non-negative real. Defaults to \code{1}.}
@@ -108,15 +120,10 @@ non-negative real. Defaults to \code{1}.}
 \item{Stereo_a}{\eqn{a} parameter for the Stereo test, a real in
 \eqn{[-1, 1]}. Defaults to \code{0}.}
 
-\item{Sobolev_vk2}{weights for the finite Sobolev test. A non-negative
-vector or matrix. Defaults to \code{c(0, 0, 1)}.}
-
-\item{K_max}{integer giving the truncation of the series that compute the
-asymptotic p-value of a Sobolev test. Defaults to \code{1e4}.}
-
 \item{...}{If \code{p_value = "MC"} or \code{p_value = "crit_val"}, optional
 performance parameters to be passed to \code{\link{unif_stat_MC}}:
-\code{chunks}, \code{cores}, and \code{seed}.}
+\code{chunks}, \code{cores}, and \code{seed}. If \code{p_value = "MC"},
+additional parameters to \code{\link{unif_stat_distr}}.}
 }
 \value{
 If only a \bold{single test} is performed, a list with class
@@ -179,7 +186,7 @@ The Monte Carlo calibration for the CCF09 test is made conditionally
 on the choice of \cr\code{CCF09_dirs}. That is, all the Monte
 Carlo statistics share the same random directions.
 
-Except \code{CCF09_dirs}, \code{K_CCF09}, and \code{CJ12_reg}, all the
+Except for \code{CCF09_dirs}, \code{K_CCF09}, and \code{CJ12_reg}, all the
 test-specific parameters are vectorized.
 
 Descriptions and references for most of the tests are available
@@ -269,7 +276,8 @@ unif_test(data = samp_sph, type = "CCF09", p_value = "MC",
 require(progress)
 require(progressr)
 handlers(handler_progress(
-  format = ":spin [:bar] :percent Total: :elapsedfull End \u2248 :eta",
+  format = paste("(:spin) [:bar] :percent Iter: :current/:total Rate:",
+                 ":tick_rate iter/sec ETA: :eta Elapsed: :elapsedfull"),
   clear = FALSE))
 
 # Call unif_test() within with_progress()

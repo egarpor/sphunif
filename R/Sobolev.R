@@ -16,16 +16,18 @@
 #'
 #' @inheritParams r_unif
 #' @param k sequence of integer indexes.
+#' @param method method for approximating the density, distribution, or
+#' quantile function of the weighted sum of chi squared random variables. Must
+#' be \code{"I"} (Imhof), \code{"SW"} (Satterthwaite--Welch), \code{"HBE"}
+#' (Hall--Buckley--Eagleson), or \code{"MC"} (Monte Carlo; only for distribution
+#' or quantile functions). Defaults to \code{"I"}.
 #' @param K_max integer giving the truncation of the series that compute the
 #' asymptotic p-value of a Sobolev test. Defaults to \code{1e3}.
 #' @param thre error threshold for the tail probability given by the
 #' the first terms of the truncated series of a Sobolev test. Defaults to
 #' \code{1e-3}.
-#' @param type Sobolev statistic. For \eqn{p = 2}, either \code{"Watson"},
-#' \code{"Rothman"}, \code{"Pycke_q"}, or \code{"Hermans_Rasson"}.
-#' For \eqn{p \ge 2}, \code{"Ajne"}, \code{"Gine_Gn"}, \code{"Gine_Fn"},
-#' \code{"Bakshaev"}, \code{"Riesz"}, \code{"PCvM"}, \code{"PAD"}, or
-#' \code{"PRt"}.
+#' @param type name of the Sobolev statistic, using the naming from
+#' \code{\link{avail_cir_tests}} and \code{\link{avail_sph_tests}}.
 #' @param log compute the logarithm of \eqn{d_{p,k}}? Defaults to
 #' \code{FALSE}.
 #' @param verbose output information about the truncation? Defaults to
@@ -34,7 +36,7 @@
 #' @inheritParams wschisq
 #' @inheritParams Gegenbauer
 #' @inheritParams Pn
-#' @param force_positive set negative
+#' @param force_positive set negative weights to zero? Defaults to \code{TRUE}.
 #' @param ... further parameters passed to \code{*_\link{wschisq}}.
 #' @return
 #' \itemize{
@@ -464,6 +466,7 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
         log_vk2 <- log(2 * k + p - 2) - log(p - 2) + k * log(Poisson_rho)
 
       }
+      log_vk2 <- log_vk2 + (p - 1) * log(1 - Poisson_rho) - log(1 + Poisson_rho)
 
       # Switch from bk to vk2
       log_vk2 <- bk_to_vk2(bk = log_vk2, p = p, log = TRUE)
@@ -712,7 +715,7 @@ sph_stat_Sobolev <- function(X, Psi_in_X = FALSE, p = 0, vk2 = c(0, 0, 1)) {
   bk <- vk2_to_bk(vk2 = vk2, p = p)
 
   # Construct statistic, a matrix of size c(M, length(bk))
-  Tn <- (2 / n)  * (Tnk %*% t(bk))
+  Tn <- (2 / n) * (Tnk %*% t(bk))
 
   # Add diagonal bias
   bias <- drop(bk[, nonzero_vk2] %*% Gegen_polyn(theta = 0, k = nonzero_vk2,
@@ -739,6 +742,321 @@ cir_stat_Sobolev <- function(Theta, Psi_in_Theta = FALSE, vk2 = c(0, 0, 1)) {
   } else {
 
     return(sph_stat_Sobolev(X = Theta_to_X(Theta), Psi_in_X = FALSE, vk2 = vk2))
+
+  }
+
+}
+
+
+#' @title Transformation between different coefficients in Sobolev statistics
+#'
+#' @description Given a Sobolev statistic
+#' \deqn{S_{n, p} = \sum_{i, j = 1}^n \psi(\cos^{-1}({\bf X}_i'{\bf X}_j)),}{
+#' S_{n, p} = \sum_{i, j = 1}^n \psi(\cos^{-1}(X_i'X_j)),}
+#' for a sample \eqn{{\bf X}_1, \ldots, {\bf X}_n \in S^{p - 1} := \{{\bf x}
+#' \in R^p : ||{\bf x}|| = 1\}}{X_1, \ldots, X_n \in S^{p - 1} :=
+#' \{x \in R^p : ||x|| = 1\}}, \eqn{p\ge 2}, three important sequences
+#' are related to \eqn{S_{n, p}}.
+#' \itemize{
+#' \item \link[=Gegen_coefs]{Gegenbauer coefficients} \eqn{\{b_{k, p}\}} of
+#' \eqn{\psi_p} (see, e.g., the \link[=Pn]{projected-ecdf statistics}), given
+#' by
+#' \deqn{b_{k, p} := \frac{1}{c_{k, p}}\int_0^\pi \psi_p(\theta)
+#' C_k^{p / 2 - 1}(\cos\theta)\,\mathrm{d}\theta.}{
+#' b_{k, p} := \frac{1}{c_{k, p}} \int_0^\pi \psi_p(\theta)
+#' C_k^(p / 2 - 1)(\cos\theta) d\theta.}
+#' \item Weights \eqn{\{v_{k, p}^2\}} of the
+#' \link[=Sobolev]{asymptotic distribution} of the Sobolev statistic,
+#' \eqn{\sum_{k = 1}^\infty v_k^2 \chi^2_{d_{p, k}}}, given by
+#' \deqn{v_{k, p}^2 = \left(1 + \frac{2k}{p - 2}\right)^{-1} b_{k, p},
+#' \quad p \ge 3.}{v_{k, p}^2 = (1 + 2k / (p - 2))^{-1} b_{k, p}, p \ge 3.}
+#' \item Gegenbauer coefficients \eqn{\{u_{k, p}\}} of the
+#' \link[=locdev]{local projected alternative} associated to \eqn{S_{n, p}},
+#' given by
+#' \deqn{u_{k, p} = \left(1 + \frac{2k}{p - 2}\right) v_{k, p},
+#' \quad p \ge 3.}{u_{k, p} = (1 + 2k / (p - 2)) b_{k, p}, p \ge 3.}
+#' }
+#' For \eqn{p = 2}, the factor \eqn{(1 + 2k / (p - 2))} is replaced by \eqn{2}.
+#'
+#' @param bk coefficients \eqn{b_{k, p}} associated to the indexes
+#' \code{1:length(bk)}, a vector.
+#' @param vk2 \bold{squared} coefficients \eqn{v_{k, p}^2} associated to the
+#' indexes \code{1:length(vk2)}, a vector.
+#' @param uk coefficients \eqn{u_{k, p}} associated to the indexes
+#' \code{1:length(uk)}, a vector.
+#' @inheritParams r_unif_sph
+#' @param signs signs of the coefficients \eqn{u_{k, p}}, a vector of the
+#' same size as \code{vk2} or \code{bk}, or a scalar. Defaults to \code{1}.
+#' @param log do operations in log scale (log-in, log-out)? Defaults to
+#' \code{FALSE}.
+#' @return The corresponding vectors of coefficients \code{vk2}, \code{bk}, or
+#' \code{uk}, depending on the call.
+#' @details
+#' See more details in Prentice (1978) and García-Portugués et al. (2023). The
+#' adequate signs of \code{uk} for the \code{"PRt"} \link[=Pn]{Rothman test}
+#' can be retrieved with \code{\link{akx}} and \code{sqr = TRUE}, see the
+#' examples.
+#' @references
+#' García-Portugués, E., Navarro-Esteban, P., Cuesta-Albertos, J. A. (2023)
+#' On a projection-based class of uniformity tests on the hypersphere.
+#' \emph{Bernoulli}, 29(1):181--204. \doi{10.3150/21-BEJ1454}.
+#'
+#' Prentice, M. J. (1978). On invariant tests of uniformity for directions and
+#' orientations. \emph{The Annals of Statistics}, 6(1):169--176.
+#' \doi{10.1214/aos/1176344075}
+#' @examples
+#' # bk, vk2, and uk for the PCvM test in p = 3
+#' (bk <- Gegen_coefs_Pn(k = 1:5, type = "PCvM", p = 3))
+#' (vk2 <- bk_to_vk2(bk = bk, p = 3))
+#' (uk <- bk_to_uk(bk = bk, p = 3))
+#'
+#' # vk2 is the same as
+#' weights_dfs_Sobolev(K_max = 10, thre = 0, p = 3, type = "PCvM")$weights
+#'
+#' # bk and uk for the Rothman test in p = 3, with adequate signs
+#' t <- 1 / 3
+#' (bk <- Gegen_coefs_Pn(k = 1:5, type = "PRt", p = 3, Rothman_t = t))
+#' (ak <- akx(x = drop(q_proj_unif(t, p = 3)), p = 3, k = 1:5, sqr = TRUE))
+#' (uk <- bk_to_uk(bk = bk, p = 3, signs = ak))
+#' @name Sobolev_coefs
+
+
+#' @rdname Sobolev_coefs
+#' @export
+bk_to_vk2 <- function(bk, p, log = FALSE) {
+
+  # Check dimension
+  p <- as.integer(p)
+  stopifnot(p >= 2)
+
+  # Compute k
+  if (is.matrix(bk)) {
+
+    k <- matrix(seq_len(ncol(bk)), nrow = nrow(bk), ncol = ncol(bk),
+                byrow = TRUE)
+
+  } else {
+
+    k <- seq_along(bk)
+
+  }
+
+  # Add factor
+  if (log) {
+
+    if (p == 2) {
+
+      return(bk - log(2))
+
+    } else {
+
+      return(bk - log(1 + 2 * k / (p - 2)))
+
+    }
+
+  } else {
+
+    if (p == 2) {
+
+      return(bk / 2)
+
+    } else {
+
+      return(bk / (1 + 2 * k / (p - 2)))
+
+    }
+
+  }
+
+}
+
+
+#' @rdname Sobolev_coefs
+#' @export
+bk_to_uk <- function(bk, p, signs = 1) {
+
+  # Check dimension
+  p <- as.integer(p)
+  stopifnot(p >= 2)
+
+  # Check signs
+  stopifnot(length(signs) %in% c(1, length(bk)))
+
+  # Compute k
+  if (is.matrix(bk)) {
+
+    k <- matrix(seq_len(ncol(bk)), nrow = nrow(bk), ncol = ncol(bk),
+                byrow = TRUE)
+
+  } else {
+
+    k <- seq_along(bk)
+
+  }
+
+  # Add factor
+  if (p == 2) {
+
+    return(sign(signs) * sqrt(2 * bk))
+
+  } else {
+
+    return(sign(signs) * sqrt((1 + 2 * k / (p - 2)) * bk))
+
+  }
+
+}
+
+
+#' @rdname Sobolev_coefs
+#' @export
+vk2_to_bk <- function(vk2, p, log = FALSE) {
+
+  # Check dimension
+  p <- as.integer(p)
+  stopifnot(p >= 2)
+
+  # Compute k
+  if (is.matrix(vk2)) {
+
+    k <- matrix(seq_len(ncol(vk2)), nrow = nrow(vk2), ncol = ncol(vk2),
+                byrow = TRUE)
+
+  } else {
+
+    k <- seq_along(vk2)
+
+  }
+
+  # Add factor
+  if (log) {
+
+    if (p == 2) {
+
+      return(vk2 + log(2))
+
+    } else {
+
+      return(vk2 + log(1 + 2 * k / (p - 2)))
+
+    }
+
+  } else {
+
+    if (p == 2) {
+
+      return(2 * vk2)
+
+    } else {
+
+      return((1 + 2 * k / (p - 2)) * vk2)
+
+    }
+
+  }
+
+}
+
+
+#' @rdname Sobolev_coefs
+#' @export
+vk2_to_uk <- function(vk2, p, signs = 1) {
+
+  # Check dimension
+  p <- as.integer(p)
+  stopifnot(p >= 2)
+
+  # Check signs
+  stopifnot(length(signs) %in% c(1, length(vk2)))
+
+  # Compute k
+  if (is.matrix(vk2)) {
+
+    k <- matrix(seq_len(ncol(vk2)), nrow = nrow(vk2), ncol = ncol(vk2),
+                byrow = TRUE)
+
+  } else {
+
+    k <- seq_along(vk2)
+
+  }
+
+  # Add factor
+  if (p == 2) {
+
+    return(2 * sign(signs) * sqrt(vk2))
+
+  } else {
+
+    return((1 + 2 * k / (p - 2)) * sign(signs) * sqrt(vk2))
+
+  }
+
+}
+
+
+#' @rdname Sobolev_coefs
+#' @export
+uk_to_vk2 <- function(uk, p) {
+
+  # Check dimension
+  p <- as.integer(p)
+  stopifnot(p >= 2)
+
+  # Compute k
+  if (is.matrix(uk)) {
+
+    k <- matrix(seq_len(ncol(uk)), nrow = nrow(uk), ncol = ncol(uk),
+                byrow = TRUE)
+
+  } else {
+
+    k <- seq_along(uk)
+
+  }
+
+  # Add factor
+  if (p == 2) {
+
+    return((uk / 2)^2)
+
+  } else {
+
+    return((uk / (1 + 2 * k / (p - 2)))^2)
+
+  }
+
+}
+
+
+#' @rdname Sobolev_coefs
+#' @export
+uk_to_bk <- function(uk, p) {
+
+  # Check dimension
+  p <- as.integer(p)
+  stopifnot(p >= 2)
+
+  # Compute k
+  if (is.matrix(uk)) {
+
+    k <- matrix(seq_len(ncol(uk)), nrow = nrow(uk), ncol = ncol(uk),
+                byrow = TRUE)
+
+  } else {
+
+    k <- seq_along(uk)
+
+  }
+
+  # Add factor
+  if (p == 2) {
+
+    return(uk^2 / 2)
+
+  } else {
+
+    return(uk^2 / (1 + 2 * k / (p - 2)))
 
   }
 

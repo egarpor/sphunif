@@ -277,7 +277,8 @@ test_that("Riesz with data repetitions is computable", {
 test_that("Poisson vs. Rayleigh", {
 
   transf_Poisson <- function(X, rho, p) {
-    (sph_stat_Poisson(X, rho = rho) - 1 + (1 - rho^2) / (1 - rho)^p) / rho
+    ((1 - rho^2) / (1 - rho)^p * sph_stat_Poisson(X, rho = rho)
+     - 1 + (1 - rho^2) / (1 - rho)^p) / rho
   }
   expect_equal(transf_Poisson(X2, rho = 1e-6, p = 2), sph_stat_Rayleigh(X2),
                tolerance = 1e-3)
@@ -291,6 +292,7 @@ test_that("Poisson vs. Rayleigh", {
                tolerance = 1e-3)
 
 })
+
 test_that("Poisson edge case", {
 
   expect_error(sph_stat_Poisson(X3, rho = 1))

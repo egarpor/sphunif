@@ -55,9 +55,9 @@
 #' require(progress)
 #' require(progressr)
 #' handlers(handler_progress(
-#'   format = ":spin [:bar] :percent Total: :elapsedfull End \u2248 :eta",
+#'   format = paste("(:spin) [:bar] :percent Iter: :current/:total Rate:",
+#'                  ":tick_rate iter/sec ETA: :eta Elapsed: :elapsedfull"),
 #'   clear = FALSE))
-#'
 #' # Call int_sph_MC() within with_progress()
 #' with_progress(int_sph_MC(f = x1, p = 3, cores = 2, M = 1e5, chunks = 100))
 #'

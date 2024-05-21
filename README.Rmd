@@ -4,7 +4,7 @@ output:
     variant: gfm
 ---
 
-```{r, echo = FALSE}
+```{r, setup, echo = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE, comment = "#>", fig.path = "README/README-",
   message = FALSE, warning = FALSE, fig.asp = 1, fig.align = 'center'
@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 sphunif
 =======
 
-```{r, echo = FALSE, results = 'asis'}
+```{r, badges, echo = FALSE, results = 'asis'}
 cat(
   badger::badge_license(license = "GPLv3", color = "blue",
                         url = "https://www.gnu.org/licenses/gpl-3.0"),
@@ -31,7 +31,7 @@ cat(
 
 ## Overview
 
-Implementation of more than 30 tests of uniformity on the circle, sphere, and hypersphere. Software companion for the (evolving) review "*An overview of uniformity tests on the hypersphere*" (García-Portugués and Verdebout, 2018) and the paper "*On a projection-based class of uniformity tests on the hypersphere*" (García-Portugués, Navarro-Esteban and Cuesta-Albertos, 2020).
+Implementation of more than 35 tests of uniformity on the circle, sphere, and hypersphere. Software companion for the (evolving) review "*An overview of uniformity tests on the hypersphere*" (García-Portugués and Verdebout, 2018) and the paper "*On a projection-based class of uniformity tests on the hypersphere*" (García-Portugués, Navarro-Esteban and Cuesta-Albertos, 2023).
 
 ## Installation
 
@@ -130,9 +130,11 @@ hyp_data <- r_unif_sph(n = 50, p = 10)
 unif_test(data = hyp_data, type = "Rayleigh", p_value = "asymp")
 ```
 
-## Data application in astronomy
+## Replicability
 
-The data application in García-Portugués, Navarro-Esteban and Cuesta-Albertos (2023) can be reproduced through the script [data-application-ecdf.R](https://github.com/egarpor/sphunif/blob/master/application/data-application-ecdf.R). The code snippet below illustrates the testing of the uniformity of craters in Rhea.
+### *On a projection-based class of uniformity tests on the hypersphere*
+
+The data application in García-Portugués, Navarro-Esteban, and Cuesta-Albertos (2023) regarding the testing of uniformity of locations for craters in Rhea can be reproduced through the script [data-application-ecdf.R](https://github.com/egarpor/sphunif/blob/master/applications/data-application-ecdf.R). The code snippet below is a simplified version.
 
 ```{r, rhea}
 # Load data
@@ -167,12 +169,26 @@ tests_rhea_15_20
 tests_rhea_20
 ```
 
+### *A Cramér–von Mises test of uniformity on the hypersphere*
+
+The data application in García-Portugués, Navarro-Esteban, and Cuesta-Albertos (2021) regarding the testing of the uniformity of locations for craters in Venus can be reproduced through the script [data-application-cvm.R](https://github.com/egarpor/sphunif/blob/master/applications/data-application-cvm.R).
+
+### *On a class of Sobolev tests for symmetry of directions, their detection thresholds, and asymptotic powers*
+
+The data application in García-Portugués, Paindaveine, and Verdebout (2024) regarding the symmetry of comet orbits can be reproduced through the script [data-application-sobolev.R](https://github.com/egarpor/sphunif/blob/master/applications/data-application-sobolev.R).
+
+### *A stereographic test of spherical uniformity*
+
+The script [simulations-stereo.R](https://github.com/egarpor/sphunif/blob/master/simulations/simulations-stereo.R) contains some of the numerical experiments in Fernández-de-Marcos and García-Portugués (2024).
+
 ## References
 
-García-Portugués, E., Navarro-Esteban, P., and Cuesta-Albertos, J. A. (2021). A Cramér–von Mises test of uniformity on the hypersphere. In Balzano, S., Porzio, G. C., Salvatore, R., Vistocco, D., and Vichi, M. (Eds.), *Statistical Learning and Modeling in Data Analysis*, Studies in Classification, Data Analysis and Knowledge Organization, pp. 107–-116. Springer, Cham. [doi:10.1007/978-3-030-69944-4_12](https://doi.org/10.1007/978-3-030-69944-4_12).
+Fernández-de-Marcos, A. and García-Portugués, E. (2024) A stereographic test of spherical uniformity. *arXiv:2405.TODO*. <https://arxiv.org/abs/2405.TODO>.
+
+García-Portugués, E., Navarro-Esteban, P., and Cuesta-Albertos, J. A. (2021). A Cramér–von Mises test of uniformity on the hypersphere. In Balzano, S., Porzio, G. C., Salvatore, R., Vistocco, D., and Vichi, M. (Eds.), *Statistical Learning and Modeling in Data Analysis*, Studies in Classification, Data Analysis and Knowledge Organization, pp. 107--116. Springer, Cham. [doi:10.1007/978-3-030-69944-4_12](https://doi.org/10.1007/978-3-030-69944-4_12).
 
 García-Portugués, E., Navarro-Esteban, P., and Cuesta-Albertos, J. A. (2023). On a projection-based class of uniformity tests on the hypersphere. *Bernoulli*, 29(1):181--204. [doi:10.1007/978-3-030-69944-4_12](https://doi.org/10.3150/21-BEJ1454).
 
 García-Portugués, E. and Verdebout, T. (2018). An overview of uniformity tests on the hypersphere. *arXiv:1804.00286*. <https://arxiv.org/abs/1804.00286>.
 
-García-Portugués, E., Paindaveine, D., and Verdebout, T. (2021). On the power of Sobolev tests for isotropy under local rotationally symmetric alternatives. *arXiv:2108.09874*. <https://arxiv.org/abs/2108.09874>.
+García-Portugués, E., Paindaveine, D., and Verdebout, T. (2024). On a class of Sobolev tests for symmetry of directions, their detection thresholds, and asymptotic powers. *arXiv:2108.09874v2*. <https://arxiv.org/abs/2108.09874>.

@@ -98,7 +98,7 @@ sphere_to_angles <- function(x) {
 #' (hyper)spherical harmonics on
 #' \eqn{S^{p-1}:=\{{\bf x}\in R^p:||{\bf x}||=1\}}{
 #' S^{p-1}:=\{x\in R^p:||x||=1\}}, \eqn{p\ge 2}. Details are available in
-#' García-Portugués et al. (2021).
+#' García-Portugués et al. (2024).
 #'
 #' @param x locations in \eqn{S^{p-1}} to evaluate \eqn{g_{i,k}}. Either a
 #' matrix of size \code{c(nx, p)} or a vector of size \code{p}. Normalized
@@ -106,15 +106,14 @@ sphere_to_angles <- function(x) {
 #' @param i,k alternative indexing to refer to the \code{i}-th (hyper)spherical
 #' harmonic of order \code{k}. \code{i} is a positive integer smaller than
 #' \code{\link[=Sobolev]{d_p_k}} and \code{k} is a non-negative integer.
-#'
-#' @param m (hyper)spherical harmonic index, as used in Proposition 2.1. The
+#' @param m (hyper)spherical harmonic index, as used in Proposition 3.1. The
 #' index is computed internally from \code{i} and \code{k}. Defaults to
 #' \code{NULL}.
 #' @param show_m flag to print \code{m} if computed internally when
 #' \code{m = NULL}.
 #' @return A vector of size \code{nrow(x)}.
 #' @details
-#' The implementation uses Proposition 2.1 in García-Portugués et al. (2021),
+#' The implementation uses Proposition 3.1 in García-Portugués et al. (2024),
 #' which adapts Theorem 1.5.1 in Dai and Xu (2013) with the correction of
 #' typos in the normalizing constant \eqn{h_\alpha} and in the definition of
 #' the function \eqn{g_\alpha} of the latter theorem.
@@ -122,9 +121,10 @@ sphere_to_angles <- function(x) {
 #' Dai, F. and Xu, Y. (2013). \emph{Approximation Theory and Harmonic Analysis
 #' on Spheres and Balls}. Springer, New York. \doi{10.1007/978-1-4614-6660-4}
 #'
-#' García-Portugués, E., Paindaveine, D., and Verdebout, T. (2021). On the
-#' power of Sobolev tests for isotropy under local rotationally symmetric
-#' alternatives. \emph{arXiv:2108.09874}. \url{https://arxiv.org/abs/2108.09874}
+#' García-Portugués, E., Paindaveine, D., and Verdebout, T. (2024). On a class
+#' of Sobolev tests for symmetry of directions, their detection thresholds, and
+#' asymptotic powers. \emph{arXiv:2108.09874v2}.
+#' \url{https://arxiv.org/abs/2108.09874}
 #' @examples
 #' n <- 3e3
 #' old_par <- par(mfrow = c(2, 3))

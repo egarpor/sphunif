@@ -4,28 +4,31 @@ Sys.unsetenv("R_TESTS")
 
 n <- 10
 set.seed(1242333)
-cir_0 <- unif_stat_MC(n = n, M = 5e2, type = "all", p = 2, seeds = 5)
-sph_0 <- unif_stat_MC(n = n, M = 5e2, type = "all", p = 3, seeds = 5)
+cir_0 <- unif_stat_MC(n = n, M = 10, type = "all", p = 2, seeds = 5)
+sph_0 <- unif_stat_MC(n = n, M = 10, type = "all", p = 3, seeds = 5)
+sph_0 <- unif_stat_MC(n = n, M = 10, type = "all", p = 3, seeds = 5)
+sph_0_v <- unif_stat_MC(n = n, M = 2, type = c("Softmax", "Rayleigh"),
+                        p = 3, seeds = 5, Softmax_kappa = 1:3)
 crit_val_bad <- sph_0$crit_val_MC
 colnames(crit_val_bad) <- paste0(colnames(crit_val_bad), "_bad")
 
 # Circular
 dirs_2 <- r_unif_sph(n = 20, p = 2, M = 1)[, , 1]
-cir_pow <- unif_stat_MC(n = n, M = 5e2, p = 2, r_H1 = r_alt, alt = "MvMF",
+cir_pow <- unif_stat_MC(n = n, M = 100, p = 2, r_H1 = r_alt, alt = "MvMF",
                         kappa = 0.5, crit_val = cir_0$crit_val_MC,
                         CCF09_dirs = dirs_2)
 
 # Spherical
 dirs_3 <- r_unif_sph(n = 20, p = 3, M = 1)[, , 1]
-sph_pow <- unif_stat_MC(n = n, M = 5e2, p = 3, r_H1 = r_alt, alt = "MvMF",
+sph_pow <- unif_stat_MC(n = n, M = 100, p = 3, r_H1 = r_alt, alt = "MvMF",
                         kappa = 0.5, crit_val = sph_0$crit_val_MC,
                         CCF09_dirs = dirs_3)
 
-# Statistics with vectorised parameters
-cir_stats_vectorised <- c("Cressie", "Max_uncover", "Num_uncover", "Vacancy",
+# Statistics with vectorized parameters
+cir_stats_vectorized <- c("Cressie", "Max_uncover", "Num_uncover", "Vacancy",
                           "Rayleigh", "Riesz", "Rothman", "PRt", "Poisson",
                           "Pycke_q", "Softmax", "Sobolev")
-sph_stats_vectorised <- c("Riesz", "PRt", "Poisson", "Softmax", "Stereo",
+sph_stats_vectorized <- c("Riesz", "PRt", "Poisson", "Softmax", "Stereo",
                           "Sobolev")
 t <- c(0.2, 0.3, 0.8)
 m <- 1:3
@@ -37,12 +40,12 @@ vk2 <- rbind(1:3, 3:1, 3:5)
 test_that("Parameter-vectorized statistics work for p = 2", {
 
   stats_1 <- as.matrix(
-    unif_stat_MC(n = 5, p = 2, M = 2, type = cir_stats_vectorised,
+    unif_stat_MC(n = 5, p = 2, M = 2, type = cir_stats_vectorized,
                  Cressie_t = t, cov_a = t, Rayleigh_m = m, Riesz_s = s,
                  Rothman_t = t, Softmax_kappa = kappa, Poisson_rho = rho,
                  Pycke_q = t, Sobolev_vk2 = vk2, seeds = 1)$stats_MC)
   stats_2 <- lapply(1:3, function(i) as.matrix(
-    unif_stat_MC(n = 5, p = 2, M = 2, type = cir_stats_vectorised,
+    unif_stat_MC(n = 5, p = 2, M = 2, type = cir_stats_vectorized,
                  Cressie_t = t[i], cov_a = t[i], Rayleigh_m = m[i],
                  Riesz_s = s[i], Rothman_t = t[i], Softmax_kappa = kappa[i],
                  Poisson_rho = rho[i], Pycke_q = t[i], Sobolev_vk2 = vk2[i, ],
@@ -58,12 +61,12 @@ test_that("Parameter-vectorized statistics work for p = 2", {
 test_that("Parameter-vectorized statistics work for p = 4", {
 
   stats_1 <- as.matrix(
-    unif_stat_MC(n = 5, p = 4, M = 2, type = sph_stats_vectorised,
+    unif_stat_MC(n = 5, p = 4, M = 2, type = sph_stats_vectorized,
                  Riesz_s = s, Rothman_t = t, Softmax_kappa = kappa,
                  Poisson_rho = rho, Stereo_a = t, Sobolev_vk2 = vk2,
                  seeds = 1)$stats_MC)
   stats_2 <- lapply(1:3, function(i) as.matrix(
-    unif_stat_MC(n = 5, p = 4, M = 2, type = sph_stats_vectorised,
+    unif_stat_MC(n = 5, p = 4, M = 2, type = sph_stats_vectorized,
                  Riesz_s = s[i], Rothman_t = t[i], Softmax_kappa = kappa[i],
                  Poisson_rho = rho[i], Stereo_a = t[i], Sobolev_vk2 = vk2[i, ],
                  seeds = 1)$stats_MC))
@@ -82,20 +85,38 @@ test_that("Rejections for MvMF", {
 
 })
 
+test_that("Check crit_val and vectorized parameters", {
+
+  expect_error(unif_stat_MC(n = n, M = 2, type = "all", p = 3,
+                            crit_val = sph_0$crit_val_MC[, 1:3]))
+  expect_error(unif_stat_MC(n = n, M = 2, type = "all", p = 3,
+                            crit_val = crit_val_bad[, 1:3]))
+  expect_equal(unif_stat_MC(n = n, M = 2, type = c("PAD", "Ajne"), p = 3,
+                            seeds = 5)$stats_MC$PAD,
+               unif_stat_MC(n = n, M = 2, type = "PAD", p = 3, seeds = 5,
+                            crit_val = sph_0$crit_val_MC)$stats_MC$PAD)
+  expect_equal(unif_stat_MC(n = n, M = 2, type = c("Softmax", "Rayleigh"),
+                            p = 3, Softmax_kappa = 1:3,
+                            seeds = 5)$stats_MC$Softmax.2,
+               unif_stat_MC(n = n, M = 2, type = c("Softmax", "Rayleigh"),
+                            p = 3, seeds = 5, Softmax_kappa = 1:3,
+                            crit_val = sph_0_v$crit_val_MC)$stats_MC$Softmax.2)
+  expect_error(unif_stat_MC(n = n, M = 2, type = c("Softmax", "Rayleigh"),
+                            p = 3, seeds = 5, Softmax_kappa = 1:5,
+                            crit_val = sph_0_v$crit_val_MC))
+  expect_no_error(unif_stat_MC(n = n, M = 2, type = c("Softmax", "Rayleigh"),
+                            p = 3, seeds = 5, Softmax_kappa = 1:2,
+                            crit_val = sph_0_v$crit_val_MC))
+
+})
+
+
 test_that("Edge cases", {
 
-  expect_error(unif_stat_MC(n = n, M = 1e2, type = "all", p = 1))
-  expect_error(unif_stat_MC(n = n, M = 1e2, type = "all", p = 3,
-                            crit_val = sph_0$crit_val_MC[, 1:3]))
-  expect_error(unif_stat_MC(n = n, M = 1e2, type = "all", p = 3,
-                            crit_val = crit_val_bad[, 1:3]))
-  suppressWarnings(expect_warning(unif_stat_MC(n = n, M = 1e2, type = "all",
+  expect_error(unif_stat_MC(n = n, M = 2, type = "all", p = 1))
+  suppressWarnings(expect_warning(unif_stat_MC(n = n, M = 2, type = "all",
                                                p = 5, seeds = 1:3,
                                                chunks = 2)))
-  expect_equal(unif_stat_MC(n = n, M = 1e2, type = c("PAD", "Ajne"), p = 3,
-                            seeds = 5)$stats$PAD,
-               unif_stat_MC(n = n, M = 1e2, type = "PAD", p = 3, seeds = 5,
-                            crit_val = sph_0$crit_val_MC)$stats$PAD)
 
 })
 
@@ -180,9 +201,9 @@ test_that("Parallelization is faster", {
 
   skip_on_ci()
   skip_on_cran()
-  t1 <- system.time(unif_stat_MC(n = 100, M = 1e4, type = "all", p = 2,
+  t1 <- system.time(unif_stat_MC(n = 100, M = 5e3, type = "all", p = 2,
                                  chunks = 10, cores = 1))[3]
-  t2 <- system.time(unif_stat_MC(n = 100, M = 1e4, type = "all", p = 2,
+  t2 <- system.time(unif_stat_MC(n = 100, M = 5e3, type = "all", p = 2,
                                  chunks = 10, cores = 2))[3]
   expect_gt(t1, t2)
 

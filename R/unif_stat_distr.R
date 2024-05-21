@@ -41,6 +41,7 @@
 #' Kolmogorov-Smirnov-related series defaults to \code{25}.
 #' @param K_max integer giving the truncation of the series that compute the
 #' asymptotic p-value of a Sobolev test. Defaults to \code{1e4}.
+#' @inheritParams Sobolev method
 #' @param ... if \code{approx = "MC"}, optional performance parameters to be
 #' passed to \cr\code{\link{unif_stat_MC}}: \code{chunks}, \code{cores},
 #' and \code{seed}.
@@ -139,14 +140,15 @@
 #' }
 #' @export
 unif_stat_distr <- function(x, type, p, n, approx = "asymp", M = 1e4,
-                            stats_MC = NULL, Rayleigh_m = 1, cov_a = 2 * pi,
-                            Rothman_t = 1 / 3, Cressie_t = 1 / 3, Pycke_q = 0.5,
-                            Riesz_s = 1, CCF09_dirs = NULL, K_CCF09 = 25,
-                            CJ12_reg = 3, Poisson_rho = 0.5, Softmax_kappa = 1,
-                            Stereo_a = 0, Sobolev_vk2 = c(0, 0, 1),
-                            CJ12_beta = 0, Stephens = FALSE, K_Kuiper = 25,
-                            K_Watson = 25, K_Watson_1976 = 5, K_Ajne = 5e2,
-                            K_max = 1e4, ...) {
+                            stats_MC = NULL, K_max = 1e4, method = "I",
+                            Stephens = FALSE, CCF09_dirs = NULL, CJ12_beta = 0,
+                            CJ12_reg = 3, cov_a = 2 * pi, Cressie_t = 1 / 3,
+                            K_Ajne = 5e2, K_CCF09 = 25, K_Kuiper = 25,
+                            K_Watson = 25, K_Watson_1976 = 5, Poisson_rho = 0.5,
+                            Pycke_q = 0.5, Rayleigh_m = 1, Riesz_s = 1,
+                            Rothman_t = 1 / 3, Sobolev_vk2 = c(0, 0, 1),
+                            Softmax_kappa = 1, Stereo_a = 0, ...) {
+
 
   # Stop if NA's
   if (anyNA(x)) {
@@ -172,6 +174,26 @@ unif_stat_distr <- function(x, type, p, n, approx = "asymp", M = 1e4,
 
     avail_stats <- avail_sph_tests
     prefix_distr <- "p_sph_stat_"
+
+  }
+
+  # Check if n is missing
+  if (missing(n)) {
+
+    if (approx == "MC") {
+
+      stop("n must be specified for approx = \"MC\".")
+
+    } else if (approx == "asymp") {
+
+      n <- 0
+      warning(paste("n is not specified; set to n = 0. The asymptotic",
+                    "distributions of the Watson and Kuiper statistics accept",
+                    "n to improve their accuracy with Stephens = TRUE.",
+                    "The distributions of the Hodges-Ajne and Range statistics",
+                    "require to specify n."))
+
+    }
 
   }
 
@@ -223,30 +245,41 @@ unif_stat_distr <- function(x, type, p, n, approx = "asymp", M = 1e4,
   # Omit statistics that do not have asymptotic distribution
   if (approx == "asymp") {
 
-    # TODO: vectorize
-    param_vectorised <- c("Cressie_t", "cov_a", "Rayleigh_m", "Riesz_s",
-                          "Rothman_t", "Poisson_rho", "Pycke_q",
+    # Exclude vectorizations. TODO: Allow for vectorizations
+    param_vectorized <- c("cov_a", "Cressie_t", "Poisson_rho", "Pycke_q",
+                          "Rayleigh_m", "Riesz_s", "Rothman_t",
                           "Softmax_kappa", "Stereo_a") # "Sobolev_vk2"
-    n_param_vectorised <- sapply(param_vectorised, function(par) {
+    n_param_vectorized <- sapply(param_vectorized, function(par) {
       obj <- get(x = par)
       ifelse(is.null(dim(obj)), length(obj), nrow(obj))
     })
-    if (any(n_param_vectorised > 1)) {
+    if (any(n_param_vectorized > 1)) {
 
       stop(paste("No vectorization is implemented for",
-                 paste(param_vectorised[n_param_vectorised > 1],
+                 paste(param_vectorized[n_param_vectorized > 1],
                        collapse = ", "),
                  "with approx = \"asymp\". Either use approx =",
                  "\"MC\" or unvectorize"))
 
     }
 
+    # Search for p_*_stat_*
     ind_asymp <- sapply(paste0(prefix_distr, stats_type),
                         exists, where = asNamespace("sphunif"))
+
+    # Exclude Stereo if p <= 3
+    if (("Stereo" %in% stats_type) && (p <= 3)) {
+
+      ind_asymp[which(stats_type == "Stereo")] <- FALSE
+
+    }
+
+    # Exclude statistics and throw warning
     if (!all(ind_asymp)) {
 
-      warning(paste0(paste("Omitting the following statistics with not",
-                           "implemented or known asymptotic distributions: "),
+      warning(paste0(paste0("Omitting the following statistics with not ",
+                            "implemented or known asymptotic distributions ",
+                            "for p = ", p, ": "),
                      paste(stats_type[!ind_asymp], collapse = ", "), "."))
       stats_type <- stats_type[ind_asymp]
 
@@ -303,14 +336,14 @@ unif_stat_distr <- function(x, type, p, n, approx = "asymp", M = 1e4,
   if (approx == "asymp") {
 
     # Optional arguments
-    args <- list("t" = Rothman_t, "q" = Pycke_q, "s" = Riesz_s,
-                 "dirs" = CCF09_dirs, "regime" = CJ12_reg, "beta" = CJ12_beta,
-                 "rho" = Poisson_rho, "kappa" = Softmax_kappa, "a" = Stereo_a,
-                 "vk2" = Sobolev_vk2, "Stephens" = Stephens,
-                 "K_Kuiper" = K_Kuiper, "K_Watson" = K_Watson,
-                 "K_Watson_1976" = K_Watson_1976, "K_Ajne" = K_Ajne,
-                 "K_CCF09" = K_CCF09, "K_max" = K_max, "thre" = 0, "n" = n,
-                 "p" = p)
+    args <- list("n" = n, "p" = p, "K_max" = K_max, "method" = method,
+                 "thre" = 0, "Stephens" = Stephens, "dirs" = CCF09_dirs,
+                 "regime" = CJ12_reg, "beta" = CJ12_beta, "K_Ajne" = K_Ajne,
+                 "K_CCF09" = K_CCF09, "K_Kuiper" = K_Kuiper,
+                 "K_Watson" = K_Watson, "K_Watson_1976" = K_Watson_1976,
+                 "t" = Rothman_t, "rho" = Poisson_rho, "q" = Pycke_q,
+                 "s" = Riesz_s, "vk2" = Sobolev_vk2, "kappa" = Softmax_kappa,
+                 "a" = Stereo_a)
     names_args <- names(args)
 
     # Evaluate distributions
@@ -346,14 +379,14 @@ unif_stat_distr <- function(x, type, p, n, approx = "asymp", M = 1e4,
       stats_MC <- unif_stat_MC(n = n, type = stats_type, p = p, M = M,
                                r_H1 = NULL, crit_val = NULL,
                                return_stats = TRUE, stats_sorted = TRUE,
-                               Rayleigh_m = Rayleigh_m, cov_a = cov_a,
-                               Rothman_t = Rothman_t, Cressie_t = Cressie_t,
-                               Pycke_q = Pycke_q, Riesz_s = Riesz_s,
-                               CCF09_dirs = CCF09_dirs, K_CCF09 = K_CCF09,
-                               CJ12_reg = CJ12_reg, Stereo_a = Stereo_a,
-                               Poisson_rho = Poisson_rho,
-                               Softmax_kappa = Softmax_kappa,
-                               Sobolev_vk2 = Sobolev_vk2, ...)$stats_MC
+                               CCF09_dirs = CCF09_dirs, CJ12_reg = CJ12_reg,
+                               cov_a = cov_a, Cressie_t = Cressie_t,
+                               K_CCF09 = K_CCF09, Poisson_rho = Poisson_rho,
+                               Pycke_q = Pycke_q, Rayleigh_m = Rayleigh_m,
+                               Riesz_s = Riesz_s, Rothman_t = Rothman_t,
+                               Sobolev_vk2 = Sobolev_vk2, Softmax_kappa =
+                                 Softmax_kappa, Stereo_a = Stereo_a,
+                               ...)$stats_MC
 
     } else {
 

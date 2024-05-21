@@ -2,7 +2,8 @@ library(sphunif)
 library(progress)
 library(progressr)
 
-setwd(getSrcDirectory())
+# Load unif_test_cv function
+setwd(dirname(rstudioapi::getSourceEditorContext()$path))
 source("unif_test_cv.R")
 
 # Progress bar

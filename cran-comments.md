@@ -17,6 +17,4 @@
 
 ## Comments
 
-* In some platforms, there is a **NOTE that is a false positive**:
-  - Found the following (possibly) invalid URLs:
-      **All the URLs have been double-checked. They work fine.**
+False positive NOTE in check_win_release() and check_win_devel() about the spelling of the words "al", "de", "et", and "ndez" in the DESCRIPTION file. These words are correctly spelled.

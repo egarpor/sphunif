@@ -371,6 +371,11 @@ test of spherical uniformity. *arXiv:2405.13531*.
 <https://arxiv.org/abs/2405.13531>.
 
 García-Portugués, E., Navarro-Esteban, P., and Cuesta-Albertos, J. A.
+(2023). On a projection-based class of uniformity tests on the
+hypersphere. *Bernoulli*, 29(1):181–204.
+[doi:10.1007/978-3-030-69944-4_12](https://doi.org/10.3150/21-BEJ1454).
+
+García-Portugués, E., Navarro-Esteban, P., and Cuesta-Albertos, J. A.
 (2021). A Cramér–von Mises test of uniformity on the hypersphere. In
 Balzano, S., Porzio, G. C., Salvatore, R., Vistocco, D., and Vichi, M.
 (Eds.), *Statistical Learning and Modeling in Data Analysis*, Studies in
@@ -378,16 +383,11 @@ Classification, Data Analysis and Knowledge Organization, pp. 107–116.
 Springer, Cham.
 [doi:10.1007/978-3-030-69944-4_12](https://doi.org/10.1007/978-3-030-69944-4_12).
 
-García-Portugués, E., Navarro-Esteban, P., and Cuesta-Albertos, J. A.
-(2023). On a projection-based class of uniformity tests on the
-hypersphere. *Bernoulli*, 29(1):181–204.
-[doi:10.1007/978-3-030-69944-4_12](https://doi.org/10.3150/21-BEJ1454).
-
-García-Portugués, E. and Verdebout, T. (2018). An overview of uniformity
-tests on the hypersphere. *arXiv:1804.00286*.
-<https://arxiv.org/abs/1804.00286>.
-
 García-Portugués, E., Paindaveine, D., and Verdebout, T. (2024). On a
 class of Sobolev tests for symmetry of directions, their detection
 thresholds, and asymptotic powers. *arXiv:2108.09874v2*.
 <https://arxiv.org/abs/2108.09874>.
+
+García-Portugués, E. and Verdebout, T. (2018). An overview of uniformity
+tests on the hypersphere. *arXiv:1804.00286*.
+<https://arxiv.org/abs/1804.00286>.

@@ -17,4 +17,6 @@
 
 ## Comments
 
+Adde arXiv doi's in DESCRIPTION and other documentation.
+
 False positive NOTE in check_win_release() and check_win_devel() about the spelling of the words "al", "de", "et", and "ndez" in the DESCRIPTION file. These words are correctly spelled.

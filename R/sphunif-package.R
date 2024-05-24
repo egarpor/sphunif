@@ -20,18 +20,18 @@
 #' simulations in García-Portugués et al. (2021)
 #' <doi:10.1007/978-3-030-69944-4_12>, García-Portugués et al. (2023)
 #' <doi:10.3150/21-BEJ1454>, García-Portugués et al. (2024)
-#' <arXiv:2108.09874v2>, and Fernández-de-Marcos and García-Portugués (2024)
-#' <arXiv:2405.13531>.
+#' <doi:10.48550/2108.09874>, and Fernández-de-Marcos and
+#' García-Portugués (2024) <doi:10.48550/arXiv.405.13531>.
 #'
 #' @author Eduardo García-Portugués and Thomas Verdebout.
 #' @references
 #' Fernández-de-Marcos, A. and García-Portugués, E. (2024) A stereographic test
 #' of spherical uniformity. \emph{arXiv:2405.13531}.
-#' \url{https://arxiv.org/abs/2405.13531}.
+#' \doi{10.48550/arXiv.2405.13531}.
 #'
 #' García-Portugués, E. and Verdebout, T. (2018) An overview of uniformity
 #' tests on the hypersphere. \emph{arXiv:1804.00286}.
-#' \url{https://arxiv.org/abs/1804.00286}.
+#' \doi{10.48550/arXiv.1804.00286}.
 #'
 #' García-Portugués, E., Navarro-Esteban, P., Cuesta-Albertos, J. A. (2023)
 #' On a projection-based class of uniformity tests on the hypersphere.
@@ -47,7 +47,7 @@
 #' García-Portugués, E., Paindaveine, D., and Verdebout, T. (2024). On a class
 #' of Sobolev tests for symmetry of directions, their detection thresholds, and
 #' asymptotic powers. \emph{arXiv:2108.09874v2}.
-#' \url{https://arxiv.org/abs/2108.09874v2}
+#' \doi{10.48550/2108.09874}.
 #' @docType package
 #' @name sphunif-package
 #' @import Rcpp

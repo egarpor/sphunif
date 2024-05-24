@@ -50,7 +50,7 @@ Springer, Cham. \doi{10.1007/978-3-030-69944-4_12}.
 García-Portugués, E., Paindaveine, D., and Verdebout, T. (2024). On a class
 of Sobolev tests for symmetry of directions, their detection thresholds, and
 asymptotic powers. \emph{arXiv:2108.09874v2}.
-\doi{10.48550/2108.09874}.
+\doi{10.48550/arXiv.2108.09874}.
 }
 \author{
 Eduardo García-Portugués and Thomas Verdebout.

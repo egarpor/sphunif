@@ -367,8 +367,8 @@ García-Portugués (2024).
 ## References
 
 Fernández-de-Marcos, A. and García-Portugués, E. (2024). A stereographic
-test of spherical uniformity. *arXiv:2405.TODO*.
-<https://arxiv.org/abs/2405.TODO>.
+test of spherical uniformity. *arXiv:2405.13531*.
+<https://arxiv.org/abs/2405.13531>.
 
 García-Portugués, E., Navarro-Esteban, P., and Cuesta-Albertos, J. A.
 (2021). A Cramér–von Mises test of uniformity on the hypersphere. In

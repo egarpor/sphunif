@@ -24,7 +24,7 @@ novel datasets and gives the replicability for the data applications/
 simulations in García-Portugués et al. (2021)
 <doi:10.1007/978-3-030-69944-4_12>, García-Portugués et al. (2023)
 <doi:10.3150/21-BEJ1454>, García-Portugués et al. (2024)
-<doi:10.48550/2108.09874>, and Fernández-de-Marcos and
+<doi:10.48550/arXiv.2108.09874>, and Fernández-de-Marcos and
 García-Portugués (2024) <doi:10.48550/arXiv.405.13531>.
 }
 \references{

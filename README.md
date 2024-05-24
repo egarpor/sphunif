@@ -368,7 +368,7 @@ García-Portugués (2024).
 
 Fernández-de-Marcos, A. and García-Portugués, E. (2024). A stereographic
 test of spherical uniformity. *arXiv:2405.13531*.
-<https://arxiv.org/abs/2405.13531>.
+[doi:10.48550/arXiv.2405.13531](https://doi.org/10.48550/arXiv.2405.13531).
 
 García-Portugués, E., Navarro-Esteban, P., and Cuesta-Albertos, J. A.
 (2023). On a projection-based class of uniformity tests on the
@@ -386,8 +386,8 @@ Springer, Cham.
 García-Portugués, E., Paindaveine, D., and Verdebout, T. (2024). On a
 class of Sobolev tests for symmetry of directions, their detection
 thresholds, and asymptotic powers. *arXiv:2108.09874v2*.
-<https://arxiv.org/abs/2108.09874>.
+[doi:10.48550/arXiv.2108.09874](https://doi.org/10.48550/arXiv.2108.09874).
 
 García-Portugués, E. and Verdebout, T. (2018). An overview of uniformity
 tests on the hypersphere. *arXiv:1804.00286*.
-<https://arxiv.org/abs/1804.00286>.
+[doi:10.48550/arXiv.1804.00286](https://doi.org/10.48550/arXiv.1804.00286).

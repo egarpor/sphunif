@@ -394,10 +394,16 @@ Gegen_series <- function(theta, coefs, k, p, normalize = TRUE) {
 
 #' @rdname Gegenbauer
 #' @export
-Gegen_norm <- function(coefs, k, p, normalize = TRUE, cumulative = FALSE) {
+Gegen_norm <- function(coefs, k, p, normalize = TRUE,
+                       cumulative = FALSE, c_kp = NULL) {
 
   # Normalizing constants (required for both cases)
-  c_kp <- Gegen_coefs(k = k, p = p, only_const = TRUE)
+  if (is.null(c_kp)){
+
+    # If c_kp is null, compute constants
+    c_kp <- Gegen_coefs(k = k, p = p, only_const = TRUE)
+
+  }
 
   # Norm
   op <- ifelse(cumulative, cumsum, sum)

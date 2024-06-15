@@ -98,6 +98,9 @@
 #' @param ... further arguments to be passed to \code{psi}.
 #' @param cumulative return the cumulative norm for increasing truncation of
 #' the series? Defaults to \code{FALSE}.
+#' @param c_kp vector of normalizing constants \eqn{c_{k,p}} with length
+#' \code{length(k)} to skip internal computation. If \code{NULL}, compute it
+#' internally. Defaults to \code{NULL}.
 #' @return
 #' \itemize{
 #'   \item \code{Gegen_polyn}: a matrix of size

@@ -10,21 +10,22 @@
 \alias{uk_to_bk}
 \title{Transformation between different coefficients in Sobolev statistics}
 \usage{
-bk_to_vk2(bk, p, log = FALSE)
+bk_to_vk2(bk, p, log = FALSE, K_start = 1)
 
-bk_to_uk(bk, p, signs = 1)
+bk_to_uk(bk, p, signs = 1, K_start = 1)
 
-vk2_to_bk(vk2, p, log = FALSE)
+vk2_to_bk(vk2, p, log = FALSE, K_start = 1)
 
-vk2_to_uk(vk2, p, signs = 1)
+vk2_to_uk(vk2, p, signs = 1, K_start = 1)
 
-uk_to_vk2(uk, p)
+uk_to_vk2(uk, p, K_start = 1)
 
-uk_to_bk(uk, p)
+uk_to_bk(uk, p, K_start = 1)
 }
 \arguments{
 \item{bk}{coefficients \eqn{b_{k, p}} associated to the indexes
-\code{1:length(bk)}, a vector.}
+\code{1:length(bk)} (if \code{K_start = 1}) or \code{0:(length(bk)-1)} (if
+\code{K_start = 0}), a vector.}
 
 \item{p}{integer giving the dimension of the ambient space \eqn{R^p} that
 contains \eqn{S^{p-1}}.}
@@ -32,14 +33,20 @@ contains \eqn{S^{p-1}}.}
 \item{log}{do operations in log scale (log-in, log-out)? Defaults to
 \code{FALSE}.}
 
+\item{K_start}{either \code{0} or \code{1}, giving the order \eqn{k} of the
+ first coefficient in \eqn{b_{k,p}}, \eqn{v^2_{k,p}}, and \eqn{u_{k,p}}.
+Defaults to \code{1}.}
+
 \item{signs}{signs of the coefficients \eqn{u_{k, p}}, a vector of the
 same size as \code{vk2} or \code{bk}, or a scalar. Defaults to \code{1}.}
 
 \item{vk2}{\bold{squared} coefficients \eqn{v_{k, p}^2} associated to the
-indexes \code{1:length(vk2)}, a vector.}
+indexes  \code{1:length(vk2)} (if \code{K_start = 1}) or
+\code{0:(length(vk2)-1)} (if \code{K_start = 0}), a vector.}
 
 \item{uk}{coefficients \eqn{u_{k, p}} associated to the indexes
-\code{1:length(uk)}, a vector.}
+\code{1:length(uk)} (if \code{K_start = 1}) or \code{0:(length(uk)-1)}
+(if \code{K_start = 0}), a vector.}
 }
 \value{
 The corresponding vectors of coefficients \code{vk2}, \code{bk}, or

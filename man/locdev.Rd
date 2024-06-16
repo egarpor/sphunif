@@ -28,7 +28,8 @@ cutoff_locdev(p, K_max = 10000, thre = 0.001, type, Rothman_t = 1/3,
 contains \eqn{S^{p-1}}.}
 
 \item{uk}{coefficients \eqn{u_{k, p}} associated to the indexes
-\code{1:length(uk)}, a vector.}
+\code{1:length(uk)} (if \code{K_start = 1}) or \code{0:(length(uk)-1)}
+(if \code{K_start = 0}), a vector.}
 
 \item{f}{angular function defined on \eqn{[-1, 1]}. Must be vectorized.}
 

@@ -401,7 +401,7 @@ Gegen_norm <- function(coefs, k, p, normalize = TRUE,
                        cumulative = FALSE, c_kp = NULL) {
 
   # Normalizing constants (required for both cases)
-  if (is.null(c_kp)){
+  if (is.null(c_kp)) {
 
     # If c_kp is null, compute constants
     c_kp <- Gegen_coefs(k = k, p = p, only_const = TRUE)

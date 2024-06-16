@@ -19,7 +19,8 @@ Gegen_coefs(k, p, psi, Gauss = TRUE, N = 320, normalize = TRUE,
 
 Gegen_series(theta, coefs, k, p, normalize = TRUE)
 
-Gegen_norm(coefs, k, p, normalize = TRUE, cumulative = FALSE)
+Gegen_norm(coefs, k, p, normalize = TRUE, cumulative = FALSE,
+  c_kp = NULL)
 
 Gegen_polyn_2d(theta_1, theta_2, k, m, p)
 
@@ -71,6 +72,10 @@ order of the coefficients is given by \code{k} and \code{m}.}
 
 \item{cumulative}{return the cumulative norm for increasing truncation of
 the series? Defaults to \code{FALSE}.}
+
+\item{c_kp}{vector of normalizing constants \eqn{c_{k,p}} with length
+\code{length(k)} to skip internal computation. If \code{NULL}, compute it
+internally. Defaults to \code{NULL}.}
 }
 \value{
 \itemize{

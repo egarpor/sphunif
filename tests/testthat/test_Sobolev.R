@@ -52,12 +52,12 @@ x_eps2 <- x - eps
 test_that("weights_dfs_Sobolev returns the same number of coefficients", {
 
   expect_true(all(lapply(sapply(avail_cir_tests, function(x)
-    tryCatch(as.data.frame(weights_dfs_Sobolev(p = 2, K = 4, type = x,
+    tryCatch(as.data.frame(weights_dfs_Sobolev(p = 2, K_max = 4, type = x,
                                                thre = 0, verbose = FALSE,
                                                Sobolev_vk2 = 1:4)),
              error = function(e) rbind(0))), nrow) %in% c(1, 4)))
   expect_true(all(lapply(sapply(avail_sph_tests, function(x)
-    tryCatch(as.data.frame(weights_dfs_Sobolev(p = 3, K = 4, type = x,
+    tryCatch(as.data.frame(weights_dfs_Sobolev(p = 3, K_max = 4, type = x,
                                                thre = 0, verbose = FALSE,
                                                Sobolev_vk2 = 1:4)),
              error = function(e) rbind(0))), nrow) %in% c(1, 4)))
@@ -167,12 +167,21 @@ test_that("Gegen_coefs vs. weights_dfs_Sobolev for Poisson", {
 
   for (p in c(2:4, 11)) {
     for (rho in seq(0.1, 0.9, by = 0.1)) {
-      expect_equal(bk_to_vk2(Gegen_coefs(psi = psi_Poisson, k = k, p = p,
-                                         rho = rho, q = p - 1), p = p),
-                   weights_dfs_Sobolev(p = p, K_max = K, thre = 0,
+      Gegen_vk2 <- bk_to_vk2(Gegen_coefs(psi = psi_Poisson, k = k, p = p,
+                                         rho = rho, q = p - 1), p = p)
+      Sob_vk2_1 <- weights_dfs_Sobolev(p = p, K_max = K, thre = 0,
                                        type = "Poisson", Poisson_rho = rho,
-                                       verbose = FALSE)$weights,
-                   tolerance = 1e-5)
+                                       verbose = FALSE)$weights
+      Gegen_v02 <- bk_to_vk2(Gegen_coefs(psi = psi_Poisson, k = 0, p = p,
+                                         rho = rho, q = p - 1),
+                             p = p, K_start = 0)
+      Sob_vk2_0 <- weights_dfs_Sobolev(p = p, K_max = K, K_start = 0, thre = 0,
+                                       type = "Poisson", Poisson_rho = rho,
+                                       verbose = FALSE)$weights
+
+      expect_equal(Gegen_vk2, Sob_vk2_1, tolerance = 1e-5)
+      expect_equal(Sob_vk2_1, Sob_vk2_0[2:length(Sob_vk2_0)], tolerance = 1e-5)
+      expect_equal(Gegen_v02, Sob_vk2_0[1], tolerance = 1e-5)
     }
   }
 
@@ -181,13 +190,21 @@ test_that("Gegen_coefs vs. weights_dfs_Sobolev for Poisson", {
 test_that("Gegen_coefs vs. weights_dfs_Sobolev for Softmax", {
 
   for (p in c(2:4, 11)) {
-    for (kappa in 0:3) {
-      expect_equal(bk_to_vk2(Gegen_coefs(psi = psi_Softmax, k = k, p = p,
-                                         kappa = kappa), p = p),
-                   weights_dfs_Sobolev(p = p, K_max = K, thre = 0,
+    for (kappa in c(0.1, 1, 2, 3)) {
+      Gegen_vk2 <- bk_to_vk2(Gegen_coefs(psi = psi_Softmax, k = k, p = p,
+                                         kappa = kappa), p = p)
+      Sob_vk2_1 <- weights_dfs_Sobolev(p = p, K_max = K, thre = 0,
                                        type = "Softmax", Softmax_kappa = kappa,
-                                       verbose = FALSE)$weights,
-                   tolerance = 1e-5)
+                                       verbose = FALSE)$weights
+      Gegen_v02 <- bk_to_vk2(Gegen_coefs(psi = psi_Softmax, k = 0, p = p,
+                                         kappa = kappa), p = p, K_start = 0)
+      Sob_vk2_0 <- weights_dfs_Sobolev(p = p, K_max = K, K_start = 0, thre = 0,
+                                       type = "Softmax", Softmax_kappa = kappa,
+                                       verbose = FALSE)$weights
+
+      expect_equal(Gegen_vk2, Sob_vk2_1, tolerance = 1e-5)
+      expect_equal(Sob_vk2_1, Sob_vk2_0[2:length(Sob_vk2_0)], tolerance = 1e-5)
+      expect_equal(Gegen_v02, Sob_vk2_0[1], tolerance = 1e-5)
     }
   }
 
@@ -197,12 +214,20 @@ test_that("Gegen_coefs vs. weights_dfs_Sobolev for Stereo", {
 
   for (p in c(3:4, 11)) {
     for (a in seq(-1, 1, by = 0.5)) {
-      expect_equal(bk_to_vk2(Gegen_coefs(psi = psi_Stereo, k = k, p = p, a = a),
-                             p = p),
-                   weights_dfs_Sobolev(p = p, K_max = K, thre = 0,
+      Gegen_vk2 <- bk_to_vk2(Gegen_coefs(psi = psi_Stereo, k = k, p = p, a = a),
+                             p = p)
+      Sob_vk2_1 <- weights_dfs_Sobolev(p = p, K_max = K, thre = 0,
                                        type = "Stereo", Stereo_a = a,
-                                       verbose = FALSE)$weights,
-                   tolerance = 1e-5)
+                                       verbose = FALSE)$weights
+      Gegen_v02 <- bk_to_vk2(Gegen_coefs(psi = psi_Stereo, k = 0, p = p, a = a),
+                             p = p, K_start = 0)
+      Sob_vk2_0 <- weights_dfs_Sobolev(p = p, K_max = K, K_start = 0, thre = 0,
+                                       type = "Stereo", Stereo_a = a,
+                                       verbose = FALSE)$weights
+
+      expect_equal(Gegen_vk2, Sob_vk2_1, tolerance = 1e-5)
+      expect_equal(Sob_vk2_1, Sob_vk2_0[2:length(Sob_vk2_0)], tolerance = 1e-5)
+      expect_equal(Gegen_v02, Sob_vk2_0[1], tolerance = 1e-5)
     }
   }
 
@@ -859,6 +884,44 @@ test_that("Conversion between coefficients", {
 
 })
 
+test_that("Conversion between coefficients with K_start = 0", {
+
+  skip_on_cran()
+  expect_equal(bk_to_vk2(vk2_to_bk(vk2, p = 2, K_start = 0),
+                         p = 2, K_start = 0), vk2)
+  expect_equal(bk_to_vk2(vk2_to_bk(vk2, p = 3, K_start = 0),
+                         p = 3, K_start = 0), vk2)
+  expect_equal(bk_to_vk2(vk2_to_bk(vk2, p = 2, log = TRUE, K_start = 0),
+                         p = 2, log = TRUE, K_start = 0), vk2)
+  expect_equal(bk_to_vk2(vk2_to_bk(vk2, p = 3, log = TRUE, K_start = 0),
+                         p = 3, log = TRUE, K_start = 0), vk2)
+  expect_equal(bk_to_uk(uk_to_bk(uk, p = 2, K_start = 0),
+                        p = 2, signs = sign(uk), K_start = 0), uk)
+  expect_equal(bk_to_uk(uk_to_bk(uk, p = 3, K_start = 0),
+                        p = 3, signs = sign(uk), K_start = 0), uk)
+  expect_equal(vk2_to_bk(bk_to_vk2(bk, p = 2, K_start = 0),
+                         p = 2, K_start = 0), bk)
+  expect_equal(vk2_to_bk(bk_to_vk2(bk, p = 3, K_start = 0),
+                         p = 3, K_start = 0), bk)
+  expect_equal(vk2_to_bk(bk_to_vk2(bk, p = 2, log = TRUE, K_start = 0),
+                         p = 2, log = TRUE, K_start = 0), bk)
+  expect_equal(vk2_to_bk(bk_to_vk2(bk, p = 3, log = TRUE, K_start = 0),
+                         p = 3, log = TRUE, K_start = 0), bk)
+  expect_equal(vk2_to_uk(uk_to_vk2(uk, p = 2, K_start = 0),
+                         p = 2, signs = sign(uk), K_start = 0), uk)
+  expect_equal(vk2_to_uk(uk_to_vk2(uk, p = 3, K_start = 0),
+                         p = 3, signs = sign(uk), K_start = 0), uk)
+  expect_equal(uk_to_vk2(vk2_to_uk(vk2, p = 2, K_start = 0),
+                         p = 2, K_start = 0), vk2)
+  expect_equal(uk_to_vk2(vk2_to_uk(vk2, p = 3, K_start = 0),
+                         p = 3, K_start = 0), vk2)
+  expect_equal(uk_to_bk(bk_to_uk(bk, p = 2, K_start = 0),
+                        p = 2, K_start = 0), bk)
+  expect_equal(uk_to_bk(bk_to_uk(bk, p = 3, K_start = 0),
+                        p = 3, K_start = 0), bk)
+
+})
+
 vk2_mat <- rbind(vk2, vk2 + 1)
 log_vk2_mat <- log(vk2_mat)
 bk_mat <- rbind(bk, bk + 1)
@@ -907,6 +970,50 @@ test_that("Conversion between coefficients, matrix form and log", {
   expect_equal(unname(uk_to_bk(uk_mat, p = 3)),
                rbind(uk_to_bk(uk_mat[1, ], p = 3),
                      uk_to_bk(uk_mat[2, ], p = 3)))
+
+})
+
+test_that("Conversion between coefficients, matrix form and log, K_start = 0", {
+
+  skip_on_cran()
+  expect_equal(unname(vk2_to_bk(log_vk2_mat, p = 2, log = TRUE, K_start = 0)),
+               log(rbind(vk2_to_bk(vk2_mat[1, ], p = 2, K_start = 0),
+                         vk2_to_bk(vk2_mat[2, ], p = 2, K_start = 0))))
+  expect_equal(unname(vk2_to_bk(log_vk2_mat, p = 3, log = TRUE, K_start = 0)),
+               log(rbind(vk2_to_bk(vk2_mat[1, ], p = 3, K_start = 0),
+                         vk2_to_bk(vk2_mat[2, ], p = 3, K_start = 0))))
+  expect_equal(unname(vk2_to_uk(vk2_mat, p = 2, K_start = 0)),
+               rbind(vk2_to_uk(vk2_mat[1, ], p = 2, K_start = 0),
+                     vk2_to_uk(vk2_mat[2, ], p = 2, K_start = 0)))
+  expect_equal(unname(vk2_to_uk(vk2_mat, p = 3, K_start = 0)),
+               rbind(vk2_to_uk(vk2_mat[1, ], p = 3, K_start = 0),
+                     vk2_to_uk(vk2_mat[2, ], p = 3, K_start = 0)))
+
+  expect_equal(unname(bk_to_vk2(log_bk_mat, p = 2, log = TRUE, K_start = 0)),
+               log(rbind(bk_to_vk2(bk_mat[1, ], p = 2, K_start = 0),
+                         bk_to_vk2(bk_mat[2, ], p = 2, K_start = 0))))
+  expect_equal(unname(bk_to_vk2(log_bk_mat, p = 3, log = TRUE, K_start = 0)),
+               log(rbind(bk_to_vk2(bk_mat[1, ], p = 3, K_start = 0),
+                         bk_to_vk2(bk_mat[2, ], p = 3, K_start = 0))))
+  expect_equal(unname(bk_to_uk(bk_mat, p = 2, K_start = 0)),
+               rbind(bk_to_uk(bk_mat[1, ], p = 2, K_start = 0),
+                     bk_to_uk(bk_mat[2, ], p = 2, K_start = 0)))
+  expect_equal(unname(bk_to_uk(bk_mat, p = 3, K_start = 0)),
+               rbind(bk_to_uk(bk_mat[1, ], p = 3, K_start = 0),
+                     bk_to_uk(bk_mat[2, ], p = 3, K_start = 0)))
+
+  expect_equal(unname(uk_to_vk2(uk_mat, p = 2, K_start = 0)),
+               rbind(uk_to_vk2(uk_mat[1, ], p = 2, K_start = 0),
+                     uk_to_vk2(uk_mat[2, ], p = 2, K_start = 0)))
+  expect_equal(unname(uk_to_vk2(uk_mat, p = 3, K_start = 0)),
+               rbind(uk_to_vk2(uk_mat[1, ], p = 3, K_start = 0),
+                     uk_to_vk2(uk_mat[2, ], p = 3, K_start = 0)))
+  expect_equal(unname(uk_to_bk(uk_mat, p = 2, K_start = 0)),
+               rbind(uk_to_bk(uk_mat[1, ], p = 2, K_start = 0),
+                     uk_to_bk(uk_mat[2, ], p = 2, K_start = 0)))
+  expect_equal(unname(uk_to_bk(uk_mat, p = 3, K_start = 0)),
+               rbind(uk_to_bk(uk_mat[1, ], p = 3, K_start = 0),
+                     uk_to_bk(uk_mat[2, ], p = 3, K_start = 0)))
 
 })
 
@@ -1013,6 +1120,91 @@ test_that("Watson vs. Sobolev statistic using f in MJ (2000) page 114", {
   expect_false(isTRUE(all.equal(wat, int1_mod, tolerance = 1e-3)))
   expect_false(isTRUE(all.equal(diff(wat / int1_mod), rep(0, M - 1),
                                 tolerance = 1e-3)))
+
+})
+
+## Sobolev statistics' variance under uniformity
+
+n <- 100
+rho_list <- c(0.1, 0.25, 0.75)
+kappa_list <- c(0.1, 1, 10)
+a_list <- c(-1, 0, 1)
+
+test_that("Variance under null hypothesis coincides with MC variance (p > 3)", {
+
+  for (p in c(4, 10)){
+
+    # Monte Carlo variance
+    MC_var <- apply(unif_stat_MC(n = n, p = p,
+                                 type = c("Poisson", "Softmax", "Stereo"),
+                                 M = 1e4,
+                                 Poisson_rho = rho_list,
+                                 Softmax_kappa = kappa_list,
+                                 Stereo_a = a_list)$stats_MC, 2, var)
+
+    # Theoretical variance
+    suppressWarnings(
+      Poisson_var <- null_var_Sobolev(n = n, p = p, type = "Poisson",
+                                      lambda_grid = rho_list, verbose = FALSE)
+    )
+    suppressWarnings(
+      Softmax_var <- null_var_Sobolev(n = n, p = p, type = "Softmax",
+                                      lambda_grid = kappa_list, verbose = FALSE)
+    )
+    suppressWarnings(
+      Stereo_var <- null_var_Sobolev(n = n, p = p, type = "Stereo",
+                                     lambda_grid = a_list, verbose = FALSE)
+    )
+
+    expect_equal(Poisson_var, MC_var[seq_along(rho_list)],
+                 tolerance = 4e-2, ignore_attr = TRUE)
+
+    expect_equal(Softmax_var, MC_var[(length(rho_list) + 1):(
+      length(rho_list) + length(kappa_list))],
+      tolerance = 4e-2, ignore_attr = TRUE)
+
+    expect_equal(Stereo_var,
+                 MC_var[(length(rho_list) + length(kappa_list) + 1):(
+                   length(rho_list) + length(kappa_list) + length(a_list))],
+                 tolerance = 4e-2, ignore_attr = TRUE)
+
+  }
+
+})
+
+test_that("Variance under null hypothesis equals MC variance (p <= 3)", {
+
+  for (p in c(2, 3)){
+
+    # Monte Carlo variance
+    MC_var <- apply(unif_stat_MC(n = n, p = p,
+                                 type = c("Poisson", "Softmax", "Stereo"),
+                                 M = 1e4,
+                                 Poisson_rho = rho_list,
+                                 Softmax_kappa = kappa_list,
+                                 Stereo_a = a_list)$stats_MC, 2, var)
+
+    # Theoretical variance
+    suppressWarnings(
+      Poisson_var <- null_var_Sobolev(n = n, p = p, type = "Poisson",
+                                      lambda_grid = rho_list, verbose = FALSE)
+    )
+    suppressWarnings(
+      Softmax_var <- null_var_Sobolev(n = n, p = p, type = "Softmax",
+                                      lambda_grid = kappa_list, verbose = FALSE)
+    )
+
+    expect_equal(Poisson_var,
+                 MC_var[seq_along(rho_list)],
+                 tolerance = 4e-2, ignore_attr = TRUE)
+    expect_equal(Softmax_var,
+                 MC_var[(length(rho_list) + 1):(
+                   length(rho_list) + length(kappa_list))],
+                 tolerance = 4e-2, ignore_attr = TRUE)
+    expect_error(null_var_Sobolev(n = n, p = p, type = "Stereo",
+                                  lambda_grid = a_list))
+
+  }
 
 })
 

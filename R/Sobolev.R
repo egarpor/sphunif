@@ -35,7 +35,7 @@
 #' @param log compute the logarithm of \eqn{d_{p,k}}? Defaults to
 #' \code{FALSE}.
 #' @param lambda_grid a single parameter or vector of parameters for the
-#' statistic. (See \code{Poisson_rho}, \code{Softmax_kappa}, or \code{Stereo_a}
+#' statistic (see \code{Poisson_rho}, \code{Softmax_kappa}, or \code{Stereo_a}
 #' for additional requirements).
 #' @param verbose output information about the truncation? Defaults to
 #' \code{TRUE}.
@@ -57,7 +57,8 @@
 #'   a vector.
 #'   \item \code{q_Sobolev}: quantile function evaluated at \code{u}, a vector.
 #'   \item \code{null_var_Sobolev}: variance of Sobolev statistic of sample size
-#'   \code{n} and parameter(s) \code{lambda_grid}.
+#'   \code{n} and parameter(s) \code{lambda_grid}, a vector of
+#'   length \code{length(lambda_grid)}.
 #' }
 #' @author Eduardo García-Portugués and Paula Navarro-Esteban.
 #' @details

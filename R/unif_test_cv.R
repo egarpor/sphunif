@@ -780,6 +780,10 @@ stat_args_name <- list("Poisson" = "Poisson_rho",
                        "Softmax" = "Softmax_kappa",
                        "Stereo" = "Stereo_a")
 
+#' @rdname unif_test_cv
+#' @export
 avail_cir_cv_tests <- c("Poisson", "Softmax")
 
+#' @rdname unif_test_cv
+#' @export
 avail_sph_cv_tests <- c("Poisson", "Softmax", "Stereo")

@@ -126,10 +126,11 @@ be passed to \code{\link{unif_stat_MC}}: \code{chunks},
 list with class \code{htest} containing the following components:
 \itemize{
   \item \code{fold_statistics}: the value of the test statistic for
-  each fold.
+  each fold, a vector of length \code{K}.
   \item \code{fold_params}: the value of the optimal parameter for
-  each fold.
-  \item \code{fold_p.values}: the p-values of the test for each fold.
+  each fold, a vector of length \code{K}.
+  \item \code{fold_p.values}: the p-values of the test for each fold, a
+  vector of length \code{K}.
   \item \code{p.value}: the HMP-aggregated p-value of the test.
   \item \code{alternative}: a character string describing the alternative
   hypothesis.

@@ -79,6 +79,7 @@ test_that("Prepare test data returns correct n, p, and correct sizes", {
 
 # K-fold statistic and optimal lambda computation
 n <- 10
+K <- 3
 lambda_grid <- list("Poisson" = seq(0.1, 0.9, 0.1),
                     "Softmax" = c(0.1, 1, 3, 10, 20, 60),
                     "Stereo" = seq(-1, 1, 0.25))
@@ -191,22 +192,22 @@ test_that("p_val_hmp returns correct structure for single test", {
 
 # unif_test_cv
 n <- 100
-
+K <- 4
 # Hyperspherical
-for (p in c(4, 10)){
+for (p in c(4, 10)) {
 
   set.seed(1234)
   samp <- r_unif_sph(n = n, p = p)
 
   # Hide warnings because of precision losses in besselI for high K_max
   suppressWarnings(
-    t_asymp <- unif_test_cv(data = samp, type = "all", K = 4,
+    t_asymp <- unif_test_cv(data = samp, type = "all", K = K,
                             p_value = "asymp", seed_fold = 123, K_max = 1000,
                             verbose = FALSE)
   )
   suppressWarnings(
-    t_MC <- unif_test_cv(data = samp, type = "all", K = 4,
-                         p_value = "MC", M = 1e3, seed_fold = 123,
+    t_MC <- unif_test_cv(data = samp, type = "all", K = K,
+                         p_value = "MC", M = 1e3, seed_fold = 123, K_max = 1000,
                          verbose = FALSE)
   )
   stats_MC <- unif_stat_MC(n = n - round(n / 4),
@@ -217,13 +218,78 @@ for (p in c(4, 10)){
                            Softmax_kappa = c(0.1, seq(1, 5, 1), seq(10, 30, 5)),
                            Stereo_a = seq(-1, 1, 0.25))$stats_MC
   suppressWarnings(
-    t_stats_MC <- unif_test_cv(data = samp, type = "all", K = 4,
+    t_stats_MC <- unif_test_cv(data = samp, type = "all", K = K,
                                p_value = "MC", stats_MC = stats_MC,
-                               seed_fold = 123, verbose = FALSE)
+                               K_max = 1000, seed_fold = 123, verbose = FALSE)
   )
 
+  test_that("(hypsph) unif_test_cv computations MC are equal to asymp", {
+    for (t in c("Softmax", "Poisson", "Stereo")){
+      expect_equal(t_MC[[t]][["fold_statistics"]],
+                   t_asymp[[t]][["fold_statistics"]])
+      expect_equal(t_MC[[t]][["fold_params"]],
+                   t_asymp[[t]][["fold_params"]])
+      expect_equal(t_MC[[t]][["fold_p.values"]],
+                   t_asymp[[t]][["fold_p.values"]], tolerance = 0.2)
+      expect_equal(t_MC[[t]][["reject"]],
+                   t_asymp[[t]][["reject"]])
+    }
+  })
 
-  test_that("Asymptotic matches MC p-value", {
+  test_that("(hypsph) unif_test_cv computations are equal to stats_MC = NULL", {
+    for (t in c("Softmax", "Poisson", "Stereo")){
+      expect_equal(t_MC[[t]][["fold_statistics"]],
+                   t_stats_MC[[t]][["fold_statistics"]])
+      expect_equal(t_MC[[t]][["fold_params"]],
+                   t_stats_MC[[t]][["fold_params"]])
+      expect_equal(t_MC[[t]][["fold_p.values"]],
+                   t_stats_MC[[t]][["fold_p.values"]], tolerance = 5e-2)
+      expect_equal(t_MC[[t]][["reject"]],
+                   t_stats_MC[[t]][["reject"]])
+    }
+  })
+
+  test_that("(hypsph) unif_test_cv with multiple vs. single statistics", {
+    for (t in c("Softmax", "Poisson", "Stereo")){
+      suppressWarnings(
+        t_asymp_single <- unif_test_cv(data = samp, type = t, K = K,
+                                p_value = "asymp", seed_fold = 123,
+                                K_max = 1000, verbose = FALSE)
+      )
+      suppressWarnings(
+        t_stats_MC_single <- unif_test_cv(data = samp, type = t, K = K,
+                                   p_value = "MC", stats_MC = stats_MC,
+                                   K_max = 1000, seed_fold = 123,
+                                   verbose = FALSE)
+      )
+    }
+    for (output in c("fold_statistics", "fold_params",
+                     "fold_p.values", "p.value", "reject")){
+      expect_equal(t_asymp[[t]][[output]],
+                   t_asymp_single[[output]])
+      expect_equal(t_stats_MC[[t]][[output]],
+                   t_stats_MC_single[[output]])
+    }
+  })
+
+  test_that("(hypsph) unif_test_cv returns adequate structure", {
+
+    for (t in c("Softmax", "Poisson", "Stereo")){
+      for (output in c("fold_statistics", "fold_params",
+                       "fold_p.values")){
+        expect_true(is.vector(t_asymp[[t]][[output]]))
+        expect_true(is.vector(t_MC[[t]][[output]]))
+        expect_true(is.vector(t_stats_MC[[t]][[output]]))
+
+        expect_equal(length(t_asymp[[t]][[output]]), K)
+        expect_equal(length(t_MC[[t]][[output]]), K)
+        expect_equal(length(t_stats_MC[[t]][[output]]), K)
+      }
+    }
+
+  })
+
+  test_that("(hypsph) Asymptotic matches MC p-value", {
 
     expect_equal(t_asymp$Softmax$p.value, t_MC$Softmax$p.value,
                  tolerance = 0.2)
@@ -234,7 +300,7 @@ for (p in c(4, 10)){
 
   })
 
-  test_that("MC p-value equals p-value with stats_MC", {
+  test_that("(hypsph) MC p-value equals p-value with stats_MC", {
 
     expect_equal(t_MC$Softmax$p.value, t_stats_MC$Softmax$p.value,
                  tolerance = 0.1)
@@ -248,19 +314,19 @@ for (p in c(4, 10)){
 }
 
 # Circular and spherical
-for (p in c(2, 3)){
+for (p in c(2, 3)) {
 
   set.seed(1234)
   samp <- r_unif_sph(n = n, p = p)
 
   suppressWarnings(
-    t_asymp <- unif_test_cv(data = samp, type = c("Softmax", "Poisson"), K = 4,
+    t_asymp <- unif_test_cv(data = samp, type = c("Softmax", "Poisson"), K = K,
                             p_value = "asymp", seed_fold = 123, K_max = 100,
                             verbose = FALSE)
   )
   suppressWarnings(
-    t_MC <- unif_test_cv(data = samp, type = c("Softmax", "Poisson"), K = 4,
-                         p_value = "MC", M = 1e3, seed_fold = 123,
+    t_MC <- unif_test_cv(data = samp, type = c("Softmax", "Poisson"), K = K,
+                         p_value = "MC", M = 1e3, seed_fold = 123, K_max = 100,
                          verbose = FALSE)
   )
   stats_MC <- unif_stat_MC(n = n - round(n / 4), type = c("Softmax", "Poisson"),
@@ -271,11 +337,84 @@ for (p in c(2, 3)){
                            Stereo_a = seq(-1, 1, 0.25))$stats_MC
   suppressWarnings(
     t_stats_MC <- unif_test_cv(data = samp, type = c("Softmax", "Poisson"),
-                               K = 4, p_value = "MC", stats_MC = stats_MC,
-                               M = 1e3, seed_fold = 123, verbose = FALSE)
+                               K = K, p_value = "MC", stats_MC = stats_MC,
+                               K_max = 100, M = 1e3, seed_fold = 123,
+                               verbose = FALSE)
   )
 
-  test_that("Asymptotic matches MC p-value", {
+  test_that("(cir-sph) unif_test_cv computations MC are equal to asymp", {
+    for (t in c("Softmax", "Poisson")){
+      expect_equal(t_MC[[t]][["fold_statistics"]],
+                   t_asymp[[t]][["fold_statistics"]])
+      expect_equal(t_MC[[t]][["fold_params"]],
+                   t_asymp[[t]][["fold_params"]])
+      expect_equal(t_MC[[t]][["fold_p.values"]],
+                   t_asymp[[t]][["fold_p.values"]], tolerance = 5e-2)
+      expect_equal(t_MC[[t]][["reject"]],
+                   t_asymp[[t]][["reject"]])
+    }
+  })
+
+  test_that("(cir-sph)unif_test_cv computations are equal to stats_MC = NULL", {
+    for (t in c("Softmax", "Poisson")){
+      expect_equal(t_MC[[t]][["fold_statistics"]],
+                   t_stats_MC[[t]][["fold_statistics"]])
+      expect_equal(t_MC[[t]][["fold_params"]],
+                   t_stats_MC[[t]][["fold_params"]])
+      expect_equal(t_MC[[t]][["fold_p.values"]],
+                   t_stats_MC[[t]][["fold_p.values"]], tolerance = 5e-2)
+      expect_equal(t_MC[[t]][["reject"]],
+                   t_stats_MC[[t]][["reject"]])
+    }
+  })
+
+  test_that("(cir-sph) unif_test_cv with multiple vs. single statistics", {
+    for (t in c("Softmax", "Poisson")){
+      suppressWarnings(
+        t_asymp_single <- unif_test_cv(data = samp, type = t, K = K,
+                                       p_value = "asymp", seed_fold = 123,
+                                       K_max = 100, verbose = FALSE)
+      )
+      suppressWarnings(
+        t_stats_MC_single <- unif_test_cv(data = samp, type = t, K = K,
+                                          p_value = "MC", stats_MC = stats_MC,
+                                          K_max = 100, seed_fold = 123,
+                                          verbose = FALSE)
+      )
+    }
+    for (output in c("fold_statistics", "fold_params",
+                     "fold_p.values", "p.value", "reject")){
+      expect_equal(t_asymp[[t]][[output]],
+                   t_asymp_single[[output]])
+      expect_equal(t_stats_MC[[t]][[output]],
+                   t_stats_MC_single[[output]])
+    }
+  })
+
+  test_that("(cir-sph) unif_test_cv returns adequate structure", {
+
+    for (t in c("Softmax", "Poisson")){
+      for (output in c("fold_statistics", "fold_params",
+                       "fold_p.values")){
+        expect_true(is.vector(t_asymp[[t]][[output]]))
+        expect_true(is.vector(t_MC[[t]][[output]]))
+        expect_true(is.vector(t_stats_MC[[t]][[output]]))
+
+        expect_equal(length(t_asymp[[t]][[output]]), K)
+        expect_equal(length(t_MC[[t]][[output]]), K)
+        expect_equal(length(t_stats_MC[[t]][[output]]), K)
+      }
+    }
+
+  })
+
+  test_that("Stereo not available for p in {2,3}", {
+    expect_error(unif_test_cv(data = samp, type = c("Stereo"),
+                              K = K, p_value = "MC", M = 1e3, seed_fold = 123,
+                              verbose = FALSE))
+  })
+
+  test_that("(cir-sph) Asymptotic matches MC p-value", {
 
     expect_equal(t_asymp$Softmax$p.value, t_MC$Softmax$p.value,
                  tolerance = 0.2)
@@ -284,7 +423,7 @@ for (p in c(2, 3)){
 
   })
 
-  test_that("MC p-value equals p-value with stats_MC", {
+  test_that("(cir-sph) MC p-value equals p-value with stats_MC", {
 
     expect_equal(t_MC$Softmax$p.value, t_stats_MC$Softmax$p.value,
                  tolerance = 0.1)
@@ -294,3 +433,31 @@ for (p in c(2, 3)){
   })
 
 }
+
+test_that("If null_variance is given, unif_test_cv checks every statistic
+          and every parameter is given", {
+
+    Poisson_grid <- c(0.1, 0.5, 0.8)
+    K <- 3
+    n_v <- list("Poisson" = null_var_Sobolev(n = 10, p = 3,
+                                             type = "Poisson",
+                                             lambda_grid = Poisson_grid,
+                                             verbose = FALSE)
+    )
+    expect_error(unif_test_cv(data = r_unif_sph(n = 10, p = 3), K = K,
+                              type = c("Poisson", "Softmax"),
+                              null_variance = n_v, K_max = 10,
+                              Poisson_rho = Poisson_grid))
+    expect_error(unif_test_cv(data = r_unif_sph(n = 10, p = 3), K = K,
+                              type = c("Poisson"), null_variance = n_v,
+                              K_max = 10, Poisson_rho = Poisson_grid[1:2]))
+    expect_no_error(unif_test_cv(data = r_unif_sph(n = 10, p = 3),
+                                 K = K, type = c("Poisson"),
+                                 null_variance = n_v, K_max = 10,
+                                 Poisson_rho = Poisson_grid))
+
+})
+
+test_that("null_variance = NULL equals given null_variance", {
+  #TODO
+})

@@ -65,10 +65,11 @@
 #' list with class \code{htest} containing the following components:
 #' \itemize{
 #'   \item \code{fold_statistics}: the value of the test statistic for
-#'   each fold.
+#'   each fold, a vector of length \code{K}.
 #'   \item \code{fold_params}: the value of the optimal parameter for
-#'   each fold.
-#'   \item \code{fold_p.values}: the p-values of the test for each fold.
+#'   each fold, a vector of length \code{K}.
+#'   \item \code{fold_p.values}: the p-values of the test for each fold, a
+#'   vector of length \code{K}.
 #'   \item \code{p.value}: the HMP-aggregated p-value of the test.
 #'   \item \code{alternative}: a character string describing the alternative
 #'   hypothesis.
@@ -461,6 +462,46 @@ unif_test_cv <- function(data, type, K, p_value = "asymp",
                  "the tests names returned by unif_stat(...). stats_MC misses",
                  paste(paste0("\"", colnames(check_stat)[!checks], "\""),
                        collapse = ", "), ". Check grids of parameters."))
+
+    }
+
+  }
+
+  # If null_variance is given, check it is the same size of lambda_grid.
+  if (!is.null(null_variance)) {
+
+    # Check that all needed statistics are given
+    checks <- stats_type %in% names(null_variance)
+    if (any(!checks)) {
+
+      stop(paste("null_variance must be a list with names containing",
+                 "the tests names required in type with the values from ",
+                 "null_var(...). null_variance misses",
+                 paste(paste0("\"", stats_type[!checks], "\""),
+                       collapse = ", "), "."))
+
+    } else {
+
+      # Check all parameters in grids for each specific stat_type are given
+      check_grid_size <- sapply(stats_type, function(t) {
+
+        length_grid <- switch(t,
+                              "Poisson" = length(Poisson_rho),
+                              "Softmax" = length(Softmax_kappa),
+                              "Stereo" = length(Stereo_a))
+
+        return(length(null_variance[[t]]) == length_grid)
+
+      })
+
+      if (any(!check_grid_size)) {
+
+        stop(paste("null_variance contains the statistics",
+                   paste(paste0("\"", stats_type[!check_grid_size], "\""),
+                         collapse = ", "), "that misses some of the parameters",
+                   "required for the grid. Check grids of parameters."))
+
+      }
 
     }
 

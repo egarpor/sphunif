@@ -103,14 +103,14 @@ for (K in c(2, 3)){
     ## given precomputed folds
     suppressWarnings(
       k_given_fold_all <- k_fold_stat(data = data, type = avail_cv_tests,
-                                lambda_grid = lambda_grid, folds = folds,
-                                verbose = FALSE)
+                                      lambda_grid = lambda_grid, folds = folds,
+                                      verbose = FALSE)
     )
     ## computing the folds
     suppressWarnings(
       k_fold_all <- k_fold_stat(data = data, type = avail_cv_tests,
-                                      lambda_grid = lambda_grid, K = K,
-                                      seed = 1234, verbose = FALSE)
+                                lambda_grid = lambda_grid, K = K,
+                                seed = 1234, verbose = FALSE)
     )
 
     test_that("lambda_hat and k_fold_stat multiple vs. single statistics", {
@@ -253,14 +253,14 @@ for (p in c(4, 10)) {
     for (t in c("Softmax", "Poisson", "Stereo")){
       suppressWarnings(
         t_asymp_single <- unif_test_cv(data = samp, type = t, K = K,
-                                p_value = "asymp", seed_fold = 123,
-                                K_max = 1000, verbose = FALSE)
+                                       p_value = "asymp", seed_fold = 123,
+                                       K_max = 1000, verbose = FALSE)
       )
       suppressWarnings(
         t_stats_MC_single <- unif_test_cv(data = samp, type = t, K = K,
-                                   p_value = "MC", stats_MC = stats_MC,
-                                   K_max = 1000, seed_fold = 123,
-                                   verbose = FALSE)
+                                          p_value = "MC", stats_MC = stats_MC,
+                                          K_max = 1000, seed_fold = 123,
+                                          verbose = FALSE)
       )
     }
     for (output in c("fold_statistics", "fold_params",
@@ -437,24 +437,24 @@ for (p in c(2, 3)) {
 test_that("If null_variance is given, unif_test_cv checks every statistic
           and every parameter is given", {
 
-    Poisson_grid <- c(0.1, 0.5, 0.8)
-    K <- 3
-    n_v <- list("Poisson" = null_var_Sobolev(n = 10, p = 3,
-                                             type = "Poisson",
-                                             lambda_grid = Poisson_grid,
-                                             verbose = FALSE)
-    )
-    expect_error(unif_test_cv(data = r_unif_sph(n = 10, p = 3), K = K,
-                              type = c("Poisson", "Softmax"),
-                              null_variance = n_v, K_max = 10,
-                              Poisson_rho = Poisson_grid))
-    expect_error(unif_test_cv(data = r_unif_sph(n = 10, p = 3), K = K,
-                              type = c("Poisson"), null_variance = n_v,
-                              K_max = 10, Poisson_rho = Poisson_grid[1:2]))
-    expect_no_error(unif_test_cv(data = r_unif_sph(n = 10, p = 3),
-                                 K = K, type = c("Poisson"),
-                                 null_variance = n_v, K_max = 10,
-                                 Poisson_rho = Poisson_grid))
+  Poisson_grid <- c(0.1, 0.5, 0.8)
+  K <- 3
+  n_v <- list("Poisson" = null_var_Sobolev(n = 10, p = 3,
+                                           type = "Poisson",
+                                           lambda_grid = Poisson_grid,
+                                           verbose = FALSE)
+  )
+  expect_error(unif_test_cv(data = r_unif_sph(n = 10, p = 3), K = K,
+                            type = c("Poisson", "Softmax"),
+                            null_variance = n_v, K_max = 10,
+                            Poisson_rho = Poisson_grid))
+  expect_error(unif_test_cv(data = r_unif_sph(n = 10, p = 3), K = K,
+                            type = c("Poisson"), null_variance = n_v,
+                            K_max = 10, Poisson_rho = Poisson_grid[1:2]))
+  expect_no_error(unif_test_cv(data = r_unif_sph(n = 10, p = 3),
+                               K = K, type = c("Poisson"),
+                               null_variance = n_v, K_max = 10,
+                               Poisson_rho = Poisson_grid))
 
 })
 

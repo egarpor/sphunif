@@ -91,7 +91,8 @@
 #'   of size \code{K x length(type)} containing the statistic and the optimal
 #'   parameters for each of the \code{K} folds.
 #'   \item \code{p_val_hmp}: a matrix of size \code{K x length(type)}
-#'   containing the aggregated Harmonic Mean P-value for each test in \code{type}.
+#'   containing the aggregated Harmonic Mean P-value for each test in
+#'   \code{type}.
 #'   \item \code{k_fold_split}: a list of length \code{K}, each element
 #'   containing a vector with the indexes of observations included in each fold.
 #'   \item \code{prepare_test_data}: a named list containing the processed data
@@ -273,8 +274,8 @@ lambda_hat <- function(data, type, lambda_grid, folds, K_max = 1e3,
   null_variance <- lapply(type, function(t) {
 
     return(null_var_Sobolev(n = round(n / K), p = p, type = t,
-                    lambda_grid = lambda_grid[[t]], K_max = K_max,
-                    verbose = verbose))
+                            lambda_grid = lambda_grid[[t]], K_max = K_max,
+                            verbose = verbose))
 
   })
   names(null_variance) <- type
@@ -283,7 +284,7 @@ lambda_hat <- function(data, type, lambda_grid, folds, K_max = 1e3,
   lambda_optimal <- sapply(type, function(t) {
 
     idx_type <- sapply(strsplit(stat_cols, "\\."),
-                            function(x) x[1] == t)
+                       function(x) x[1] == t)
     type_k <- stat_cols[idx_type]
 
     # TODO: Generalize to other statistics: Score in case of V-statistic must
@@ -528,7 +529,7 @@ unif_test_cv <- function(data, type, K, p_value = "asymp",
     # Get the stats_MC
     if (is.null(stats_MC)) {
 
-      p_values <- sapply(seq_along(folds), function (k) {
+      p_values <- sapply(seq_along(folds), function(k) {
 
         # Sample size for K - 1 folds
         # Subsample S_k
@@ -567,7 +568,7 @@ unif_test_cv <- function(data, type, K, p_value = "asymp",
       idx_lambda_hat <- sapply(stats_type, function(t) {
 
         return(lapply(stat$lambda_hat[, t],
-                      function (lambda) which(lambda_grid[[t]] == lambda)))
+                      function(lambda) which(lambda_grid[[t]] == lambda)))
 
       })
 
@@ -593,14 +594,14 @@ unif_test_cv <- function(data, type, K, p_value = "asymp",
     # TODO: Include verbose
     p_values <- sapply(seq_along(folds), function(k) {
 
-      unif_stat_distr_args <- list(x = stat$statistic[k,], type = stats_type,
+      unif_stat_distr_args <- list(x = stat$statistic[k, ], type = stats_type,
                                    p = p, n = n, approx = "asymp",
                                    stats_MC = NULL, M = M, K_max = K_max,
                                    method = method)
       stat_args <- lapply(stats_type, function(t) stat$lambda_hat[k, t])
       names(stat_args) <- lapply(stats_type, function(t) stat_args_name[[t]])
       p_val <- as.matrix(1 - do.call(what = unif_stat_distr,
-                             args = c(unif_stat_distr_args, stat_args)))
+                                     args = c(unif_stat_distr_args, stat_args)))
       return(p_val)
 
     })

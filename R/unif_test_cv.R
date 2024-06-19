@@ -19,6 +19,12 @@
 #' \code{unif_test_cv} needs a grid of parameters to find the one that maximizes
 #' the power proxy. The grids are specified for each test statistic parameter.
 #'
+#' \code{avail_cir_cv_tests} and \code{avail_sph_cv_tests} are character vectors
+#' whose elements are valid inputs for the \code{type} argument in
+#' \code{unif_test_cv}, \code{k_fold_stat}, and \code{lambda_hat}.
+#' \code{*_cir_*} provides circular \eqn{K}-fold tests and \code{*_sph_*}
+#' the (hyper)spherical \eqn{K}-fold tests.
+#'
 #' @param type type of test to be applied. A character vector or a single string
 #'  containing any of the following types of tests, depending on the dimension
 #'  \eqn{p}:
@@ -119,7 +125,7 @@
 #' Description of the \eqn{K}-fold cross-validation procedure is available
 #' in Fernández-de-Marcos and García-Portugués (2023). Descriptions and
 #' references for most of the tests are available in
-#' García-Portugués andVerdebout (2018).
+#' García-Portugués and Verdebout (2018).
 #' @references
 #' Fernández-de-Marcos, A. and García-Portugués, E. (2023) On new omnibus tests
 #' of uniformity on the hypersphere. \emph{Test}, 32(4):1508-–1529.
@@ -236,7 +242,7 @@
 #' @rdname unif_test_cv
 #' @export
 lambda_hat <- function(data, type, lambda_grid, folds, K_max = 1e3,
-                       verbose = TRUE) {
+                       null_variance = NULL, verbose = TRUE) {
 
   # Get data parameters
   d <- prepare_test_data(data)
@@ -244,6 +250,18 @@ lambda_hat <- function(data, type, lambda_grid, folds, K_max = 1e3,
   n <- d[["n"]]
   p <- d[["p"]]
   K <- length(folds)
+
+  # Check that all needed statistics have its correspoding lambda_grid
+  checks <- type %in% names(lambda_grid)
+  if (any(!checks)) {
+
+    stop(paste("null_variance must be a list with names containing",
+               "the tests' name required in type with the values from ",
+               "null_var_Sobolev(...). null_variance misses",
+               paste(paste0("\"", type[!checks], "\""),
+                     collapse = ", "), "."))
+
+  }
 
   # Compute estimator of E_{H_1}[T_n(S_k)]
   stat <- data.frame(t(sapply(seq_along(folds), function(k) {
@@ -270,15 +288,53 @@ lambda_hat <- function(data, type, lambda_grid, folds, K_max = 1e3,
 
   })))
 
-  # Compute null variance
-  null_variance <- lapply(type, function(t) {
+  # Compute null variance if not given. If given, check it is the same size of
+  # lambda_grid.
+  if (is.null(null_variance)) {
 
-    return(null_var_Sobolev(n = round(n / K), p = p, type = t,
-                            lambda_grid = lambda_grid[[t]], K_max = K_max,
-                            verbose = verbose))
+    null_variance <- lapply(type, function(t) {
 
-  })
-  names(null_variance) <- type
+      return(null_var_Sobolev(n = round(n / K), p = p, type = t,
+                              lambda_grid = lambda_grid[[t]], K_max = K_max,
+                              verbose = verbose))
+
+    })
+    names(null_variance) <- type
+
+  } else {
+
+    # Check that all needed statistics are given
+    checks <- type %in% names(null_variance)
+    if (any(!checks)) {
+
+      stop(paste("null_variance must be a list with names containing",
+                 "the tests' name required in type with the values from ",
+                 "null_var_Sobolev(...). null_variance misses",
+                 paste(paste0("\"", type[!checks], "\""),
+                       collapse = ", "), "."))
+
+    } else {
+
+      # Check all parameters in grids for each specific stat_type are given
+      check_grid_size <- sapply(type, function(t) {
+
+        return(length(null_variance[[t]]) == length(lambda_grid[[t]]))
+
+      })
+
+      if (any(!check_grid_size)) {
+
+        stop(paste("null_variance contains the statistics",
+                   paste(paste0("\"", type[!check_grid_size], "\""),
+                         collapse = ", "), "whose number of parameters",
+                   "do not match the length of the grid. Check lambda_grid",
+                   "or null_variance."))
+
+      }
+
+    }
+
+  }
 
   stat_cols <- names(stat)
   lambda_optimal <- sapply(type, function(t) {
@@ -289,7 +345,8 @@ lambda_hat <- function(data, type, lambda_grid, folds, K_max = 1e3,
 
     # TODO: Generalize to other statistics: Score in case of V-statistic must
     # be E_H1 - H_H0
-    q <- stat[type_k] / sqrt(null_variance[[t]])
+    q <- stat[type_k] / rep(sqrt(null_variance[[t]]),
+                            each = K)
 
     return(lambda_grid[[t]][apply(q, 1, which.max)])
 
@@ -304,7 +361,7 @@ lambda_hat <- function(data, type, lambda_grid, folds, K_max = 1e3,
 #' @export
 k_fold_stat <- function(data, type, lambda_grid,
                         folds = NULL, K = NULL, seed = NULL, K_max = 1e3,
-                        verbose = TRUE) {
+                        null_variance = NULL, verbose = TRUE) {
 
   # Get data parameters
   d <- prepare_test_data(data)
@@ -330,7 +387,8 @@ k_fold_stat <- function(data, type, lambda_grid,
   # Compute power-approximate score in grid
   lambda_opt <- lambda_hat(data = data, type = type,
                            lambda_grid = lambda_grid, folds = folds,
-                           K_max = K_max, verbose = verbose)
+                           K_max = K_max, null_variance = null_variance,
+                           verbose = verbose)
 
   # Perform test based on T(\hat{\lambda}; S\S_k) on the remaining subsamples
   stat <- sapply(seq_along(folds), function(k) {
@@ -468,46 +526,6 @@ unif_test_cv <- function(data, type, K, p_value = "asymp",
 
   }
 
-  # If null_variance is given, check it is the same size of lambda_grid.
-  if (!is.null(null_variance)) {
-
-    # Check that all needed statistics are given
-    checks <- stats_type %in% names(null_variance)
-    if (any(!checks)) {
-
-      stop(paste("null_variance must be a list with names containing",
-                 "the tests names required in type with the values from ",
-                 "null_var(...). null_variance misses",
-                 paste(paste0("\"", stats_type[!checks], "\""),
-                       collapse = ", "), "."))
-
-    } else {
-
-      # Check all parameters in grids for each specific stat_type are given
-      check_grid_size <- sapply(stats_type, function(t) {
-
-        length_grid <- switch(t,
-                              "Poisson" = length(Poisson_rho),
-                              "Softmax" = length(Softmax_kappa),
-                              "Stereo" = length(Stereo_a))
-
-        return(length(null_variance[[t]]) == length_grid)
-
-      })
-
-      if (any(!check_grid_size)) {
-
-        stop(paste("null_variance contains the statistics",
-                   paste(paste0("\"", stats_type[!check_grid_size], "\""),
-                         collapse = ", "), "that misses some of the parameters",
-                   "required for the grid. Check grids of parameters."))
-
-      }
-
-    }
-
-  }
-
   # Number of statistics
   n_stats <- length(stats_type)
 
@@ -520,8 +538,9 @@ unif_test_cv <- function(data, type, K, p_value = "asymp",
   folds <- k_fold_split(n = n, K = K, seed = seed_fold)
 
   # Compute statistic
-  stat <- k_fold_stat(data = data, type = stats_type, lambda_grid = lambda_grid,
-                      folds = folds, K_max = K_max, verbose = verbose)
+  stat <- k_fold_stat(data = data, type = stats_type,
+                      lambda_grid = lambda_grid, folds = folds, K_max = K_max,
+                      null_variance = null_variance, verbose = verbose)
 
   # Calibration
   if (p_value == "MC") {

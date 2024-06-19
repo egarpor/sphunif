@@ -83,6 +83,23 @@ K <- 3
 lambda_grid <- list("Poisson" = seq(0.1, 0.9, 0.1),
                     "Softmax" = c(0.1, 1, 3, 10, 20, 60),
                     "Stereo" = seq(-1, 1, 0.25))
+
+test_that("lambda_hat fails when grid of parameters do not contain all stats", {
+
+  data <- r_unif_sph(n = n, p = 4)
+  folds <- k_fold_split(n, K, seed = 123)
+  expect_error(
+    lambda_hat(data = data, type = c("Poisson", "Softmax", "Stereo"),
+               lambda_grid = list("Poisson" = lambda_grid[["Poisson"]]),
+               folds = folds, K_max = 10))
+  expect_error(
+    lambda_hat(data = data, type = c("Poisson", "Softmax", "Stereo"),
+               lambda_grid = list("Poisson" = lambda_grid[["Poisson"]],
+                                  "Softmax" = lambda_grid[["Softmax"]]),
+               folds = folds, K_max = 10))
+
+})
+
 for (K in c(2, 3)){
   for (p in c(2:4, 11)) {
 
@@ -434,30 +451,102 @@ for (p in c(2, 3)) {
 
 }
 
-test_that("If null_variance is given, unif_test_cv checks every statistic
-          and every parameter is given", {
+# null_variance
+Poisson_grid <- c(0.1, 0.5, 0.8)
+Softmax_grid <- c(0.1, 1, 10)
+Stereo_grid <- c(-1, 0, 1)
+n <- 10
+K <- 4
+p <- 4
+set.seed(12345)
+data <- r_unif_sph(n = n, p = p)
+folds <- k_fold_split(n, K, seed = 123)
 
-  Poisson_grid <- c(0.1, 0.5, 0.8)
-  K <- 3
-  n_v <- list("Poisson" = null_var_Sobolev(n = 10, p = 3,
+test_that("If null_variance is given, lambda_hat checks every statistic
+          and every parameter (same length as lambda_grid) is given", {
+
+  n_v <- list("Poisson" = null_var_Sobolev(n = n, p = p,
                                            type = "Poisson",
                                            lambda_grid = Poisson_grid,
                                            verbose = FALSE)
   )
-  expect_error(unif_test_cv(data = r_unif_sph(n = 10, p = 3), K = K,
-                            type = c("Poisson", "Softmax"),
-                            null_variance = n_v, K_max = 10,
-                            Poisson_rho = Poisson_grid))
-  expect_error(unif_test_cv(data = r_unif_sph(n = 10, p = 3), K = K,
-                            type = c("Poisson"), null_variance = n_v,
-                            K_max = 10, Poisson_rho = Poisson_grid[1:2]))
-  expect_no_error(unif_test_cv(data = r_unif_sph(n = 10, p = 3),
-                               K = K, type = c("Poisson"),
-                               null_variance = n_v, K_max = 10,
-                               Poisson_rho = Poisson_grid))
+  n_v_multiple <- list("Poisson" = n_v[["Poisson"]],
+                       "Softmax" = null_var_Sobolev(n = n, p = p,
+                                                    type = "Softmax",
+                                                    K_max = 10,
+                                                    lambda_grid = Softmax_grid,
+                                                    verbose = FALSE)
+  )
+  # Single tests null_variance
+  expect_error(lambda_hat(data = data, type = c("Poisson", "Softmax"),
+                          null_variance = n_v,
+                          lambda_grid = list("Poisson" = Poisson_grid),
+                          K_max = 10, folds = folds))
+  expect_error(lambda_hat(data = data, type = c("Poisson"), null_variance = n_v,
+                          lambda_grid = list("Poisson" = c(Poisson_grid, 0.9)),
+                          K_max = 10, folds = folds))
+  expect_error(lambda_hat(data = data, type = c("Poisson"), null_variance = n_v,
+                          lambda_grid = list("Poisson" = Poisson_grid[1:2]),
+                          K_max = 10, folds = folds))
+  expect_no_error(lambda_hat(data = data, type = c("Poisson"),
+                             null_variance = n_v,
+                             lambda_grid = list("Poisson" = Poisson_grid),
+                             K_max = 10, folds = folds))
+  # Multiple tests null_variance
+  expect_error(lambda_hat(data = data, type = c("Poisson", "Softmax"),
+                          null_variance = n_v_multiple,
+                          lambda_grid = list("Poisson" = Poisson_grid,
+                                             "Softmax" = c(Softmax_grid, 30)),
+                          K_max = 10, folds = folds))
+  expect_error(lambda_hat(data = data, type = c("Poisson", "Softmax"),
+                          null_variance = n_v_multiple,
+                          lambda_grid = list("Poisson" = Poisson_grid,
+                                             "Softmax" = Softmax_grid[1:2]),
+                          K_max = 10, folds = folds))
+  expect_no_error(lambda_hat(data = data, type = c("Poisson", "Softmax"),
+                             null_variance = n_v_multiple,
+                             lambda_grid = list("Poisson" = Poisson_grid,
+                                                "Softmax" = Softmax_grid),
+                             K_max = 10, folds = folds))
 
 })
 
 test_that("null_variance = NULL equals given null_variance", {
-  #TODO
+
+  lambda_grid <- list("Poisson" = Poisson_grid, "Softmax" = Softmax_grid,
+                      "Stereo" = Stereo_grid)
+
+  n_v <- list("Poisson" = null_var_Sobolev(n = n, p = p,
+                                           type = "Poisson",
+                                           lambda_grid = Poisson_grid,
+                                           verbose = FALSE, K_max = 10),
+              "Softmax" = null_var_Sobolev(n = n, p = p,
+                                           type = "Softmax",
+                                           lambda_grid = Softmax_grid,
+                                           verbose = FALSE, K_max = 10),
+              "Stereo" = null_var_Sobolev(n = n, p = p,
+                                          type = "Stereo",
+                                          lambda_grid = Stereo_grid,
+                                          verbose = FALSE, K_max = 10))
+  lambda_given_nv <- lambda_hat(data = data,
+                                type = c("Poisson", "Softmax", "Stereo"),
+                                lambda_grid = lambda_grid, folds = folds,
+                                K_max = 10, null_variance = n_v,
+                                verbose = FALSE)
+  lambda_no_nv <- lambda_hat(data = data,
+                             type = c("Poisson", "Softmax", "Stereo"),
+                             lambda_grid = lambda_grid, folds = folds,
+                             K_max = 10, null_variance = NULL, verbose = FALSE)
+  lambda_fake_nv <- lambda_hat(data = data,
+                               type = c("Poisson", "Softmax", "Stereo"),
+                               lambda_grid = lambda_grid, folds = folds,
+                               K_max = 10,
+                               null_variance = list("Poisson" = rep(1, 3),
+                                                    "Softmax" = rep(1, 3),
+                                                    "Stereo" = rep(1, 3)),
+                               verbose = FALSE)
+
+  expect_equal(lambda_no_nv, lambda_given_nv)
+  expect_true(any(lambda_no_nv != lambda_fake_nv))
+
 })

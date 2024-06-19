@@ -451,6 +451,24 @@ for (p in c(2, 3)) {
 
 }
 
+test_that("unif_test_cv type = 'all' and type = avail_*_tests coincide", {
+
+  cir_data <- r_unif_cir(n = 10)
+  hypsph_data <- r_unif_sph(n = 10, p = 4)
+  all_cir <- unif_test_cv(data = cir_data, type = "all", K = 3, K_max = 10,
+                          verbose = FALSE, seed = 123)
+  avail_cir <- unif_test_cv(data = cir_data, type = avail_cir_tests, K = 3,
+                            K_max = 10, verbose = FALSE, seed = 123)
+  all_hypsph <- unif_test_cv(data = hypsph_data, type = "all", K = 3,
+                             K_max = 10, verbose = FALSE, seed = 123)
+  avail_hypsph <- unif_test_cv(data = hypsph_data, type = avail_sph_tests,
+                               K = 3, K_max = 10, verbose = FALSE, seed = 123)
+
+  expect_equal(all_cir, avail_cir)
+  expect_equal(all_hypsph, avail_hypsph)
+
+})
+
 # null_variance
 Poisson_grid <- c(0.1, 0.5, 0.8)
 Softmax_grid <- c(0.1, 1, 10)

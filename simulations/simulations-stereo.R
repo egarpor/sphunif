@@ -2,10 +2,6 @@ library(sphunif)
 library(progress)
 library(progressr)
 
-# Load unif_test_cv function
-setwd(dirname(rstudioapi::getSourceEditorContext()$path))
-source("unif_test_cv.R")
-
 # Progress bar
 handlers(handler_progress(
   format = paste("(:spin) [:bar] :percent Iter: :current/:total Rate:",
@@ -71,8 +67,8 @@ null_variance <- sapply(avail_sph_cv_tests, function(stat_type) {
 
   }
 
-  return(null_var(n = round(n / K), p = p, type = stat_type,
-                  lambda_grid = lambda_grid))
+  return(null_var_Sobolev(n = round(n / K), p = p, type = stat_type,
+                          lambda_grid = lambda_grid))
 
 })
 
@@ -154,4 +150,4 @@ colnames(emp_rej_antipodal_cv) <- paste0(avail_sph_cv_tests," (", K, "-CV)")
 # Rejection rate in percentage
 print(cbind(emp_rej_antipodal[, c("Rayleigh", "Bingham")],
             emp_rej_antipodal_cv,
-            emp_rej_antipodal[, c("Stereo.1", "Stereo.2", "Stereo.3")])) * 100
+            emp_rej_antipodal[, c("Stereo.1", "Stereo.2", "Stereo.3")]) * 100)

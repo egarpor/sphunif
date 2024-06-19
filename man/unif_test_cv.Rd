@@ -194,6 +194,10 @@ facilitating thus the exploration of a dataset by applying several tests.
 
 \code{unif_test_cv} needs a grid of parameters to find the one that maximizes
 the power proxy. The grids are specified for each test statistic parameter.
+Internally, \code{lambda_hat} computes the approximate optimal parameter
+within  \code{lambda_grid}, and \code{k_fold_stat} computes the approximate
+optimal \code{type} statistic, using the computed \code{lambda_hat} for
+each of the \code{K}-folds.
 
 \code{avail_cir_cv_tests} and \code{avail_sph_cv_tests} are character vectors
 whose elements are valid inputs for the \code{type} argument in
@@ -320,6 +324,18 @@ with_progress(
                p_value = "MC", , M = 1e3, seed_fold = seed,
                K_max = 1e3, verbose = FALSE, chunks = 10)
 )
+
+## Using k_fold_stat() with k_fold_split()
+# Split data into K-folds
+folds <- k_fold_split(n = n, K = 3, seed = 123)
+
+# Define grid of lambda parameters for optimal search
+lambda_grid <- list("Poisson" = Poisson_grid, "Softmax" = Softmax_grid)
+
+# Compute K-fold optimal lambda and statistic
+k_fold_stat(data = samp_sph, type = c("Poisson", "Softmax"),
+            lambda_grid, folds = folds, K_max = 50, verbose = FALSE)
+
 }
 \references{
 Fernández-de-Marcos, A. and García-Portugués, E. (2023) On new omnibus tests

@@ -17,10 +17,11 @@ An object of class \code{character} of length 2.
 An object of class \code{character} of length 3.
 }
 \usage{
-lambda_hat(data, type, lambda_grid, folds, K_max = 1000, verbose = TRUE)
+lambda_hat(data, type, lambda_grid, folds, K_max = 1000,
+  null_variance = NULL, verbose = TRUE)
 
 k_fold_stat(data, type, lambda_grid, folds = NULL, K = NULL, seed = NULL,
-  K_max = 1000, verbose = TRUE)
+  K_max = 1000, null_variance = NULL, verbose = TRUE)
 
 p_val_hmp(p_vals, M)
 
@@ -75,6 +76,11 @@ to \code{k_fold_split}. Optional in \code{k_fold_stat}, defaults to
 \item{K_max}{integer giving the truncation of the series that compute the
 asymptotic p-value of a Sobolev test. Defaults to \code{1e3}.}
 
+\item{null_variance}{list of length \code{length(type)} and names equal
+to \code{type} that contains the null variance values returned by
+\code{null_var_Sobolev()} for the required grid of parameters. If \code{NULL}
+(default), it is computed internally.}
+
 \item{verbose}{output information about the truncation? Defaults to
 \code{TRUE}.}
 
@@ -108,11 +114,6 @@ quantile function of the weighted sum of chi squared random variables. Must
 be \code{"I"} (Imhof), \code{"SW"} (Satterthwaite--Welch), \code{"HBE"}
 (Hall--Buckley--Eagleson), or \code{"MC"} (Monte Carlo; only for distribution
 or quantile functions). Defaults to \code{"I"}.}
-
-\item{null_variance}{list of length \code{length(type)} and names equal
-to \code{type} that contains the null variance values returned by
-\code{null_var_Sobolev()} for the required grid of parameters. If \code{NULL}
-(default), it is computed internally.}
 
 \item{Poisson_rho}{\eqn{\rho} parameter for the Poisson test, a real in
 \eqn{[0, 1)}. Defaults to \code{0.5}.}
@@ -193,6 +194,12 @@ facilitating thus the exploration of a dataset by applying several tests.
 
 \code{unif_test_cv} needs a grid of parameters to find the one that maximizes
 the power proxy. The grids are specified for each test statistic parameter.
+
+\code{avail_cir_cv_tests} and \code{avail_sph_cv_tests} are character vectors
+whose elements are valid inputs for the \code{type} argument in
+\code{unif_test_cv}, \code{k_fold_stat}, and \code{lambda_hat}.
+\code{*_cir_*} provides circular \eqn{K}-fold tests and \code{*_sph_*}
+the (hyper)spherical \eqn{K}-fold tests.
 }
 \details{
 All the tests reject for large values of the test statistic, so the critical
@@ -212,7 +219,7 @@ finished chunks.
 Description of the \eqn{K}-fold cross-validation procedure is available
 in Fernández-de-Marcos and García-Portugués (2023). Descriptions and
 references for most of the tests are available in
-García-Portugués andVerdebout (2018).
+García-Portugués and Verdebout (2018).
 }
 \examples{
 ## Asymptotic distribution

@@ -457,11 +457,11 @@ test_that("unif_test_cv type = 'all' and type = avail_*_tests coincide", {
   hypsph_data <- r_unif_sph(n = 10, p = 4)
   all_cir <- unif_test_cv(data = cir_data, type = "all", K = 3, K_max = 10,
                           verbose = FALSE, seed = 123)
-  avail_cir <- unif_test_cv(data = cir_data, type = avail_cir_tests, K = 3,
+  avail_cir <- unif_test_cv(data = cir_data, type = avail_cir_cv_tests, K = 3,
                             K_max = 10, verbose = FALSE, seed = 123)
   all_hypsph <- unif_test_cv(data = hypsph_data, type = "all", K = 3,
                              K_max = 10, verbose = FALSE, seed = 123)
-  avail_hypsph <- unif_test_cv(data = hypsph_data, type = avail_sph_tests,
+  avail_hypsph <- unif_test_cv(data = hypsph_data, type = avail_sph_cv_tests,
                                K = 3, K_max = 10, verbose = FALSE, seed = 123)
 
   expect_equal(all_cir, avail_cir)
@@ -582,7 +582,7 @@ test_that("unif_test_cv() warns omitted statistics", {
              "Softmax" = null_var_Sobolev(n = n, p = p, type = "Softmax",
                                           lambda_grid = Softmax_kappa,
                                           K_max = 10),
-             "Stereo" = c(1,1,1))
+             "Stereo" = c(1, 1, 1))
   sph_data <- r_unif_sph(n = n, p = p)
   cir_data <- r_unif_cir(n = n)
 
@@ -593,10 +593,10 @@ test_that("unif_test_cv() warns omitted statistics", {
   ## With no asymptotic distribution available
   # Asymptotic Stereo distribution not available for p = 3
   expect_warning(unif_test_cv(data = sph_data, type = avail_sph_cv_tests, K = 3,
-                             p_value = "asymp", K_max = 10, null_variance = nv,
-                             Poisson_rho = Poisson_rho,
-                             Softmax_kappa = Softmax_kappa, Stereo_a = Stereo_a,
-                             verbose = FALSE))
+                              p_value = "asymp", K_max = 10, null_variance = nv,
+                              Poisson_rho = Poisson_rho,
+                              Softmax_kappa = Softmax_kappa,
+                              Stereo_a = Stereo_a, verbose = FALSE))
   # MC Stereo distribution can be computed.
   expect_no_warning(unif_test_cv(data = sph_data, type = avail_sph_cv_tests,
                                  K = 3, p_value = "MC", K_max = 10,
@@ -605,10 +605,12 @@ test_that("unif_test_cv() warns omitted statistics", {
                                  Stereo_a = Stereo_a, verbose = FALSE))
   # Error. No remaining statistics.
   expect_warning(expect_error(unif_test_cv(data = sph_data, type = "Stereo",
-                              K = 3, p_value = "asymp", K_max = 10,
-                              null_variance = nv, Poisson_rho = Poisson_rho,
-                              Softmax_kappa = Softmax_kappa,
-                              Stereo_a = Stereo_a, verbose = FALSE)))
+                                           K = 3, p_value = "asymp", K_max = 10,
+                                           null_variance = nv,
+                                           Poisson_rho = Poisson_rho,
+                                           Softmax_kappa = Softmax_kappa,
+                                           Stereo_a = Stereo_a,
+                                           verbose = FALSE)))
 
 
 })

@@ -220,6 +220,11 @@ the Monte Carlo simulation progress if \code{unif_test} is wrapped with
 See the examples below. The progress bar is updated with the number of
 finished chunks.
 
+For \code{type = "Stereo"} and \code{p = 3}, \code{null_variance} is required
+since the asymptotic null variance is not finite. In order to compute the
+the optimal parameter a, set Stereo's \code{null_variance} to
+\code{rep(1, length(Stereo_a))}.
+
 Description of the \eqn{K}-fold cross-validation procedure is available
 in Fernández-de-Marcos and García-Portugués (2023). Descriptions and
 references for most of the tests are available in

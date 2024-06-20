@@ -426,7 +426,7 @@ for (p in c(2, 3)) {
   })
 
   test_that("Stereo not available for p in {2,3}", {
-    expect_error(unif_test_cv(data = samp, type = c("Stereo"),
+    expect_error(unif_test_cv(data = samp, type = "Stereo",
                               K = K, p_value = "MC", M = 1e3, seed_fold = 123,
                               verbose = FALSE))
   })
@@ -469,13 +469,14 @@ test_that("unif_test_cv type = 'all' and type = avail_*_tests coincide", {
 
 })
 
+
 # null_variance
-Poisson_grid <- c(0.1, 0.5, 0.8)
-Softmax_grid <- c(0.1, 1, 10)
-Stereo_grid <- c(-1, 0, 1)
 n <- 10
 K <- 4
 p <- 4
+Poisson_grid <- c(0.1, 0.5, 0.8)
+Softmax_grid <- c(0.1, 1, 10)
+Stereo_grid <- c(-1, 0, 1)
 set.seed(12345)
 data <- r_unif_sph(n = n, p = p)
 folds <- k_fold_split(n, K, seed = 123)
@@ -566,5 +567,48 @@ test_that("null_variance = NULL equals given null_variance", {
 
   expect_equal(lambda_no_nv, lambda_given_nv)
   expect_true(any(lambda_no_nv != lambda_fake_nv))
+
+})
+
+test_that("unif_test_cv() warns omitted statistics", {
+
+  n <- 10
+  p <- 3
+  Poisson_rho <- c(0.25, 0.5, 0.75)
+  Softmax_kappa <- c(0.1, 1, 10)
+  Stereo_a <- c(-1, 0, 1)
+  nv <- list("Poisson" = null_var_Sobolev(n = n, p = p, type = "Poisson",
+                                          lambda_grid = Poisson_rho),
+             "Softmax" = null_var_Sobolev(n = n, p = p, type = "Softmax",
+                                          lambda_grid = Softmax_kappa,
+                                          K_max = 10),
+             "Stereo" = c(1,1,1))
+  sph_data <- r_unif_sph(n = n, p = p)
+  cir_data <- r_unif_cir(n = n)
+
+  ## Statistic not available for specific p = 2
+  expect_warning(unif_test_cv(data = cir_data, type = avail_sph_cv_tests, K = 3,
+                              p_value = "asymp", K_max = 10, verbose = FALSE))
+
+  ## With no asymptotic distribution available
+  # Asymptotic Stereo distribution not available for p = 3
+  expect_warning(unif_test_cv(data = sph_data, type = avail_sph_cv_tests, K = 3,
+                             p_value = "asymp", K_max = 10, null_variance = nv,
+                             Poisson_rho = Poisson_rho,
+                             Softmax_kappa = Softmax_kappa, Stereo_a = Stereo_a,
+                             verbose = FALSE))
+  # MC Stereo distribution can be computed.
+  expect_no_warning(unif_test_cv(data = sph_data, type = avail_sph_cv_tests,
+                                 K = 3, p_value = "MC", K_max = 10,
+                                 null_variance = nv, Poisson_rho = Poisson_rho,
+                                 Softmax_kappa = Softmax_kappa,
+                                 Stereo_a = Stereo_a, verbose = FALSE))
+  # Error. No remaining statistics.
+  expect_warning(expect_error(unif_test_cv(data = sph_data, type = "Stereo",
+                              K = 3, p_value = "asymp", K_max = 10,
+                              null_variance = nv, Poisson_rho = Poisson_rho,
+                              Softmax_kappa = Softmax_kappa,
+                              Stereo_a = Stereo_a, verbose = FALSE)))
+
 
 })

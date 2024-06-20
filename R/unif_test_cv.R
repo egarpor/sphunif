@@ -489,7 +489,6 @@ unif_test_cv <- function(data, type, K, p_value = "asymp",
 
     } else {
 
-      # TODO: Improvement. Warn the user that some statistics are being omitted.
       stats_type <- try(match.arg(arg = type, choices = avail_stats,
                                   several.ok = TRUE), silent = TRUE)
       if (inherits(stats_type, "try-error")) {
@@ -506,11 +505,54 @@ unif_test_cv <- function(data, type, K, p_value = "asymp",
 
       }
 
+      if (any(!(type %in% avail_stats))) {
+
+        warning(paste0(paste0("Omitting the following statistics not ",
+                              "available for p = ", p, ": "),
+                       paste(type[!(type %in% avail_stats)],
+                             collapse = ", "), "."))
+
+      }
+
     }
 
   } else {
 
-    stop("type must be a character vector")
+    stop("type must be a character vector.")
+
+  }
+
+  # Omit statistics that do not have asymptotic distribution
+  if (p_value == "asymp") {
+
+    prefix_stat <- if (p == 2) "cir_stat_" else "sph_stat_"
+
+    # Search for p_*_stat_*
+    ind_asymp <- sapply(paste0("p_", prefix_stat, stats_type),
+                        exists, where = asNamespace("sphunif"))
+
+    # Exclude Stereo if p <= 3
+    if (("Stereo" %in% stats_type) && (p <= 3)) {
+
+      ind_asymp[which(stats_type == "Stereo")] <- FALSE
+
+    }
+
+    # Exclude statistics and throw warning
+    if (!all(ind_asymp)) {
+
+      warning(paste0(paste0("Omitting the following statistics with not ",
+                            "implemented or known asymptotic distributions ",
+                            "for p = ", p, ": "),
+                     paste(stats_type[!ind_asymp], collapse = ", "), "."))
+      stats_type <- stats_type[ind_asymp]
+      if (length(stats_type) == 0) {
+
+        stop("No remaining statistics to use.")
+
+      }
+
+    }
 
   }
 

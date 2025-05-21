@@ -6,7 +6,7 @@ GPLv3](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://www.gnu.org
 status](https://github.com/egarpor/sphunif/workflows/R-CMD-check/badge.svg)](https://github.com/egarpor/sphunif/actions)
 [![R build
 status](https://github.com/egarpor/sphunif/workflows/test-coverage/badge.svg)](https://github.com/egarpor/sphunif/actions)
-[![](https://codecov.io/gh/egarpor/sphunif/branch/master/graph/badge.svg)](https://codecov.io/gh/egarpor/sphunif)
+[![](https://codecov.io/gh/egarpor/sphunif/branch/master/graph/badge.svg)](https://app.codecov.io/gh/egarpor/sphunif)
 [![](https://www.r-pkg.org/badges/version/sphunif?color=green)](https://cran.r-project.org/package=sphunif)
 [![](http://cranlogs.r-pkg.org/badges/grand-total/sphunif)](https://cran.r-project.org/package=sphunif)
 [![](http://cranlogs.r-pkg.org/badges/last-month/sphunif)](https://cran.r-project.org/package=sphunif)

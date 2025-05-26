@@ -56,7 +56,7 @@ asymptotic powers. \emph{arXiv:2108.09874v2}.
 Useful links:
 \itemize{
   \item \url{https://github.com/egarpor/sphunif}
-  \item Report bugs at \url{https://github.com/egarpor/sphunif}
+  \item Report bugs at \url{https://github.com/egarpor/sphunif/issues}
 }
 
 }

@@ -198,7 +198,7 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
                          Poisson_rho = 0.5, Pycke_q = 0.5, Rayleigh_m = 1,
                          Riesz_s = 1, Rothman_t = 1 / 3,
                          Sobolev_vk2 = c(0, 0, 1), Softmax_kappa = 1,
-                         Stereo_a = 0, ...) {
+                         Stein_K = 10, Stereo_a = 0, ...) {
 
   # Check dimension
   if (p < 2) {
@@ -235,7 +235,8 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
                             Pycke_q = Pycke_q, Rayleigh_m = Rayleigh_m,
                             Riesz_s = Riesz_s, Rothman_t = Rothman_t,
                             Sobolev_vk2 = Sobolev_vk2, Softmax_kappa =
-                              Softmax_kappa, Stereo_a = Stereo_a)
+                              Softmax_kappa, Stein_K = Stein_K,
+                            Stereo_a = Stereo_a)
 
 
     # Names check
@@ -307,8 +308,8 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
                        Poisson_rho = Poisson_rho, Pycke_q = Pycke_q,
                        Rayleigh_m = Rayleigh_m, Riesz_s = Riesz_s,
                        Rothman_t = Rothman_t, Sobolev_vk2 = Sobolev_vk2,
-                       Softmax_kappa =
-                         Softmax_kappa, Stereo_a = Stereo_a)
+                       Softmax_kappa = Softmax_kappa,
+                       Stereo_a = Stereo_a, Stein_K = Stein_K)
 
     # Remove X
     rm(X)

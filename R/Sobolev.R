@@ -507,6 +507,34 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
       log_weights <- log_vk2
       log_dfs <- log_dk
 
+    } else if (type == "Stein"){
+
+      # Sequence of indexes
+      k <- 1:K_max
+
+      # log(b_k)
+      if (p == 2) {
+
+        log_vk2 <- log(2) + 4 * log(k) + 2 * log(besselJ(x = 1, nu = k))
+
+      } else {
+
+        log_vk2 <- (p - 3) * log(2) + log((p - 2) * (k + (p - 2) / 2)) +
+          2 * (lgamma((p - 2) / 2) + log(k * (k + p - 2)) +
+                 log(besselJ(x = 1, nu = (p - 2) / 2 + k)))
+
+      }
+
+      # Switch from bk to vk2
+      log_vk2 <- bk_to_vk2(bk = log_vk2, p = p, log = TRUE)
+
+      # log(d_{p, k})
+      log_dk <- d_p_k(p = p, k = k, log = TRUE)
+
+      # Log weights and dfs
+      log_weights <- log_vk2
+      log_dfs <- log_dk
+
     } else if (type == "Stereo") {
 
       # Halve K_max since we compute the odd/even coefficients separately

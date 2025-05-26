@@ -362,7 +362,7 @@ cutoff_locdev <- function(p, K_max = 1e4, thre = 1e-3, type, Rothman_t = 1 / 3,
 #'
 #' @description Numerical computation of the distribution function \eqn{F} and
 #' the quantile function \eqn{F^{-1}} for an \link[=locdev]{angular function}
-#' \eqn{f} in a \link[=rotasym:tang-norm-decomp]{tangent-normal decomposition}.
+#' \eqn{f} in a \link[rotasym:d_tang_norm]{tangent-normal decomposition}.
 #' \eqn{F^{-1}(x)} results from the inversion of
 #' \deqn{F(x) = \int_{-1}^x \omega_{p - 1}c_f f(z) (1 - z^2)^{(p - 3) / 2}
 #' \,\mathrm{d}z}{F(x) = \int_{-1}^x \omega_{p - 1}c_f f(z)

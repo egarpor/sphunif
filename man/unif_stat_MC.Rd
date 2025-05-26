@@ -11,7 +11,7 @@ unif_stat_MC(n, type = "all", p, M = 10000, r_H1 = NULL,
   seeds = NULL, CCF09_dirs = NULL, CJ12_reg = 3, cov_a = 2 * pi,
   Cressie_t = 1/3, K_CCF09 = 25, Poisson_rho = 0.5, Pycke_q = 0.5,
   Rayleigh_m = 1, Riesz_s = 1, Rothman_t = 1/3, Sobolev_vk2 = c(0, 0,
-  1), Softmax_kappa = 1, Stereo_a = 0, ...)
+  1), Softmax_kappa = 1, Stein_K = 10, Stereo_a = 0, ...)
 }
 \arguments{
 \item{n}{sample size.}
@@ -109,6 +109,9 @@ vector or matrix. Defaults to \code{c(0, 0, 1)}.}
 
 \item{Softmax_kappa}{\eqn{\kappa} parameter for the Softmax test, a
 non-negative real. Defaults to \code{1}.}
+
+\item{Stein_K}{truncation \eqn{K} parameter for the Stein test, a positive
+integer. Defaults to \code{10}.}
 
 \item{Stereo_a}{\eqn{a} parameter for the Stereo test, a real in
 \eqn{[-1, 1]}. Defaults to \code{0}.}

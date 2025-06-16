@@ -213,6 +213,23 @@ test_that("Gegen_norm with unnormalized coefficients", {
 
 })
 
+test_that("Gegen_norm with precomputed c_kp", {
+
+  c_2p <- Gegen_coefs(k = k, p = 2, only_const = TRUE)
+  expect_equal(Gegen_norm(coefs = coefs_1, k = k, p = 2),
+               Gegen_norm(coefs = coefs_1, k = k, p = 2, c_kp = c_2p))
+  c_3p <- Gegen_coefs(k = k, p = 3, only_const = TRUE)
+  expect_equal(Gegen_norm(coefs = coefs_1, k = k, p = 3),
+               Gegen_norm(coefs = coefs_1, k = k, p = 3, c_kp = c_3p))
+  c_4p <- Gegen_coefs(k = k, p = 4, only_const = TRUE)
+  expect_equal(Gegen_norm(coefs = coefs_1, k = k, p = 4),
+               Gegen_norm(coefs = coefs_1, k = k, p = 4, c_kp = c_4p))
+  c_11p <- Gegen_coefs(k = k, p = 11, only_const = TRUE)
+  expect_equal(Gegen_norm(coefs = coefs_1, k = k, p = 11),
+               Gegen_norm(coefs = coefs_1, k = k, p = 11, c_kp = c_11p))
+
+})
+
 test_that("Gegen_norm_2d", {
 
   expect_equal(Gegen_norm_2d(coefs = coefs_2, k = k, m = m, p = 2)^2,

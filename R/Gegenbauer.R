@@ -98,6 +98,9 @@
 #' @param ... further arguments to be passed to \code{psi}.
 #' @param cumulative return the cumulative norm for increasing truncation of
 #' the series? Defaults to \code{FALSE}.
+#' @param c_kp vector of normalizing constants \eqn{c_{k,p}} with length
+#' \code{length(k)} to skip internal computation. If \code{NULL}, compute it
+#' internally. Defaults to \code{NULL}.
 #' @return
 #' \itemize{
 #'   \item \code{Gegen_polyn}: a matrix of size
@@ -394,10 +397,16 @@ Gegen_series <- function(theta, coefs, k, p, normalize = TRUE) {
 
 #' @rdname Gegenbauer
 #' @export
-Gegen_norm <- function(coefs, k, p, normalize = TRUE, cumulative = FALSE) {
+Gegen_norm <- function(coefs, k, p, normalize = TRUE,
+                       cumulative = FALSE, c_kp = NULL) {
 
   # Normalizing constants (required for both cases)
-  c_kp <- Gegen_coefs(k = k, p = p, only_const = TRUE)
+  if (is.null(c_kp)) {
+
+    # If c_kp is null, compute constants
+    c_kp <- Gegen_coefs(k = k, p = p, only_const = TRUE)
+
+  }
 
   # Norm
   op <- ifelse(cumulative, cumsum, sum)

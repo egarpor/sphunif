@@ -34,3 +34,7 @@
 * Fix bugs in the coherence between asymptotic distributions and statistics of `"Poisson"` and `"Softmax"` tests.
 * Add `"Stereo"` test null distribution.
 * Fix bug when supplying `crit_val` to `unif_stat_MC()` in vectorized statistics.
+
+# sphunif 1.4.1
+
+* New K-fold testing procedure `unif_test_cv()` for `"Poisson"`, `"Softmax"`, and `"Stereo"` test statistics.

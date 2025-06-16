@@ -7,15 +7,16 @@
 \alias{d_Sobolev}
 \alias{p_Sobolev}
 \alias{q_Sobolev}
+\alias{null_var_Sobolev}
 \title{Asymptotic distributions of Sobolev statistics of spherical uniformity}
 \usage{
 d_p_k(p, k, log = FALSE)
 
 weights_dfs_Sobolev(p, K_max = 1000, thre = 0.001, type, Rothman_t = 1/3,
   Pycke_q = 0.5, Riesz_s = 1, Poisson_rho = 0.5, Softmax_kappa = 1,
-  Stereo_a = 0, Sobolev_vk2 = c(0, 0, 1), log = FALSE, verbose = TRUE,
-  Gauss = TRUE, N = 320, tol = 1e-06, force_positive = TRUE,
-  x_tail = NULL)
+  Stereo_a = 0, Sobolev_vk2 = c(0, 0, 1), K_start = 1, log = FALSE,
+  verbose = TRUE, Gauss = TRUE, N = 320, tol = 1e-06,
+  force_positive = TRUE, x_tail = NULL)
 
 d_Sobolev(x, p, type, method = c("I", "SW", "HBE")[1], K_max = 1000,
   thre = 0.001, Rothman_t = 1/3, Pycke_q = 0.5, Riesz_s = 1,
@@ -34,6 +35,8 @@ q_Sobolev(u, p, type, method = c("I", "SW", "HBE", "MC")[1], K_max = 1000,
   Poisson_rho = 0.5, Softmax_kappa = 1, Stereo_a = 0,
   Sobolev_vk2 = c(0, 0, 1), ncps = 0, verbose = TRUE, N = 320,
   x_tail = NULL, ...)
+
+null_var_Sobolev(n, p, type, lambda_grid, K_max = 1000, verbose = TRUE)
 }
 \arguments{
 \item{p}{integer giving the dimension of the ambient space \eqn{R^p} that
@@ -75,6 +78,11 @@ non-negative real. Defaults to \code{1}.}
 \item{Sobolev_vk2}{weights for the finite Sobolev test. A non-negative
 vector or matrix. Defaults to \code{c(0, 0, 1)}.}
 
+\item{K_start}{either \code{0} or \code{1}, giving the order of the first
+coefficient of the series that compute the asymptotic p-value of a Sobolev
+test. If equals \code{0}, the bias coefficient is included.
+Defaults to \code{1}.}
+
 \item{verbose}{output information about the truncation? Defaults to
 \code{TRUE}.}
 
@@ -109,6 +117,12 @@ vector with the same length as \code{weights}.}
 \item{...}{further parameters passed to \code{*_\link{wschisq}}.}
 
 \item{u}{vector of probabilities.}
+
+\item{n}{sample size.}
+
+\item{lambda_grid}{a single parameter or vector of parameters for the
+statistic (see \code{Poisson_rho}, \code{Softmax_kappa}, or \code{Stereo_a}
+for additional requirements).}
 }
 \value{
 \itemize{
@@ -121,12 +135,15 @@ vector with the same length as \code{weights}.}
   \item \code{p_Sobolev}: distribution function evaluated at \code{x},
   a vector.
   \item \code{q_Sobolev}: quantile function evaluated at \code{u}, a vector.
+  \item \code{null_var_Sobolev}: variance of Sobolev statistic of sample size
+  \code{n} and parameter(s) \code{lambda_grid}, a vector of
+  length \code{length(lambda_grid)}.
 }
 }
 \description{
-Approximated density, distribution, and quantile functions for
-the asymptotic null distributions of Sobolev statistics of uniformity
-on \eqn{S^{p-1}:=\{{\bf x}\in R^p:||{\bf x}||=1\}}{S^{p-1}:=
+Approximated density, distribution, and quantile functions, and
+variance for the asymptotic null distributions of Sobolev statistics of
+uniformity on \eqn{S^{p-1}:=\{{\bf x}\in R^p:||{\bf x}||=1\}}{S^{p-1}:=
 \{x\in R^p:||x||=1\}}. These asymptotic distributions are infinite
 weighted sums of (central) chi squared random variables:
 \deqn{\sum_{k = 1}^\infty v_k^2 \chi^2_{d_{p, k}},}
@@ -211,6 +228,17 @@ t(sapply(p, function(p) q_Sobolev(u = c(0.10, 0.05, 0.01), p = p,
 sapply(p, function(p) length(weights_dfs_Sobolev(p = p, type = "PCvM")$dfs))
 sapply(p, function(p) length(weights_dfs_Sobolev(p = p, type = "PRt")$dfs))
 sapply(p, function(p) length(weights_dfs_Sobolev(p = p, type = "PAD")$dfs))
+
+# Variance
+n <- 100
+p <- 4
+(var_Poisson <- null_var_Sobolev(n = n, p = p, type = "Poisson", K_max = 200,
+                                 lambda_grid = seq(0.1, 0.9, 0.1)))
+(var_Softmax <- null_var_Sobolev(n = n, p = p, type = "Softmax", K_max = 20,
+                                 lambda_grid = c(0.1, 1, 5)))
+(var_Stereo <- null_var_Sobolev(n = n, p = p, type = "Stereo",
+                                lambda_grid = seq(-1, 1, 0.25)))
+
 }
 }
 \author{

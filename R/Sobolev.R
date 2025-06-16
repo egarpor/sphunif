@@ -2,9 +2,9 @@
 
 #' @title Asymptotic distributions of Sobolev statistics of spherical uniformity
 #'
-#' @description Approximated density, distribution, and quantile functions for
-#' the asymptotic null distributions of Sobolev statistics of uniformity
-#' on \eqn{S^{p-1}:=\{{\bf x}\in R^p:||{\bf x}||=1\}}{S^{p-1}:=
+#' @description Approximated density, distribution, and quantile functions, and
+#' variance for the asymptotic null distributions of Sobolev statistics of
+#' uniformity on \eqn{S^{p-1}:=\{{\bf x}\in R^p:||{\bf x}||=1\}}{S^{p-1}:=
 #' \{x\in R^p:||x||=1\}}. These asymptotic distributions are infinite
 #' weighted sums of (central) chi squared random variables:
 #' \deqn{\sum_{k = 1}^\infty v_k^2 \chi^2_{d_{p, k}},}
@@ -23,6 +23,10 @@
 #' or quantile functions). Defaults to \code{"I"}.
 #' @param K_max integer giving the truncation of the series that compute the
 #' asymptotic p-value of a Sobolev test. Defaults to \code{1e3}.
+#' @param K_start either \code{0} or \code{1}, giving the order of the first
+#' coefficient of the series that compute the asymptotic p-value of a Sobolev
+#' test. If equals \code{0}, the bias coefficient is included.
+#' Defaults to \code{1}.
 #' @param thre error threshold for the tail probability given by the
 #' the first terms of the truncated series of a Sobolev test. Defaults to
 #' \code{1e-3}.
@@ -30,6 +34,9 @@
 #' \code{\link{avail_cir_tests}} and \code{\link{avail_sph_tests}}.
 #' @param log compute the logarithm of \eqn{d_{p,k}}? Defaults to
 #' \code{FALSE}.
+#' @param lambda_grid a single parameter or vector of parameters for the
+#' statistic (see \code{Poisson_rho}, \code{Softmax_kappa}, or \code{Stereo_a}
+#' for additional requirements).
 #' @param verbose output information about the truncation? Defaults to
 #' \code{TRUE}.
 #' @inheritParams unif_stat
@@ -49,6 +56,9 @@
 #'   \item \code{p_Sobolev}: distribution function evaluated at \code{x},
 #'   a vector.
 #'   \item \code{q_Sobolev}: quantile function evaluated at \code{u}, a vector.
+#'   \item \code{null_var_Sobolev}: variance of Sobolev statistic of sample size
+#'   \code{n} and parameter(s) \code{lambda_grid}, a vector of
+#'   length \code{length(lambda_grid)}.
 #' }
 #' @author Eduardo García-Portugués and Paula Navarro-Esteban.
 #' @details
@@ -125,6 +135,17 @@
 #' sapply(p, function(p) length(weights_dfs_Sobolev(p = p, type = "PCvM")$dfs))
 #' sapply(p, function(p) length(weights_dfs_Sobolev(p = p, type = "PRt")$dfs))
 #' sapply(p, function(p) length(weights_dfs_Sobolev(p = p, type = "PAD")$dfs))
+#'
+#' # Variance
+#' n <- 100
+#' p <- 4
+#' (var_Poisson <- null_var_Sobolev(n = n, p = p, type = "Poisson", K_max = 200,
+#'                                  lambda_grid = seq(0.1, 0.9, 0.1)))
+#' (var_Softmax <- null_var_Sobolev(n = n, p = p, type = "Softmax", K_max = 20,
+#'                                  lambda_grid = c(0.1, 1, 5)))
+#' (var_Stereo <- null_var_Sobolev(n = n, p = p, type = "Stereo",
+#'                                 lambda_grid = seq(-1, 1, 0.25)))
+#'
 #' }
 #' @name Sobolev
 
@@ -155,9 +176,20 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
                                 Rothman_t = 1 / 3, Pycke_q = 0.5, Riesz_s = 1,
                                 Poisson_rho = 0.5, Softmax_kappa = 1,
                                 Stereo_a = 0, Sobolev_vk2 = c(0, 0, 1),
-                                log = FALSE, verbose = TRUE, Gauss = TRUE,
-                                N = 320, tol = 1e-6, force_positive = TRUE,
-                                x_tail = NULL) {
+                                K_start = 1, log = FALSE, verbose = TRUE,
+                                Gauss = TRUE, N = 320, tol = 1e-6,
+                                force_positive = TRUE, x_tail = NULL) {
+
+  # Check K_start lower than K_max
+  if (K_start > 1) {
+
+    stop(paste("K_start =", K_start, "must be either 0 or 1"))
+
+  } else if (K_start >= K_max) {
+
+    stop(paste("K_max =", K_max, "must be larger than K_start = ", K_start))
+
+  }
 
   # alpha
   alpha <- 0.5 * p - 1
@@ -454,7 +486,7 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
     } else if (type == "Poisson") {
 
       # Sequence of indexes
-      k <- 1:K_max
+      k <- seq(K_start, K_max, 1)
 
       # log(b_k)
       if (p == 2) {
@@ -469,7 +501,7 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
       log_vk2 <- log_vk2 + (p - 1) * log(1 - Poisson_rho) - log(1 + Poisson_rho)
 
       # Switch from bk to vk2
-      log_vk2 <- bk_to_vk2(bk = log_vk2, p = p, log = TRUE)
+      log_vk2 <- bk_to_vk2(bk = log_vk2, p = p, log = TRUE, K_start = K_start)
 
       # log(d_{p, k})
       log_dk <- d_p_k(p = p, k = k, log = TRUE)
@@ -481,7 +513,7 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
     } else if (type == "Softmax") {
 
       # Sequence of indexes
-      k <- 1:K_max
+      k <- seq(K_start, K_max, 1)
 
       # log(b_k)
       if (p == 2) {
@@ -498,7 +530,7 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
       }
 
       # Switch from bk to vk2
-      log_vk2 <- bk_to_vk2(bk = log_vk2, p = p, log = TRUE)
+      log_vk2 <- bk_to_vk2(bk = log_vk2, p = p, log = TRUE, K_start = K_start)
 
       # log(d_{p, k})
       log_dk <- d_p_k(p = p, k = k, log = TRUE)
@@ -513,27 +545,36 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
       K_max <- K_max %/% 2
 
       # Sequence of indexes
-      k <- 1:K_max
+      k_odd <- seq_len(K_max)
+      k_even <- seq(K_start, K_max, 1)
 
       # log(v_{2 * k - 1}^2)
-      log_v2km12 <- log(2 * k - 1) + log(4 * (k - 1) + p) - log(2 * k + p - 3) +
-        log(1 - Stereo_a)
-      log_alpha_2km1 <- 2 * (lgamma(k - 0.5) + lgamma(alpha) -
-                               lgamma(k + alpha - 0.5)) - log(2 * pi)
+      log_v2km12 <- log(2 * k_odd - 1) + log(4 * (k_odd - 1) + p) -
+        log(2 * k_odd + p - 3) + log(1 - Stereo_a)
+      log_alpha_2km1 <- 2 * (lgamma(k_odd - 0.5) + lgamma(alpha) -
+                               lgamma(k_odd + alpha - 0.5)) - log(2 * pi)
 
       # log(v_{2 * k}^2)
-      log_v2k2 <- log(4 * k + p - 2) + log(1 + Stereo_a)
-      log_alpha_2k <- 2 * (lgamma(k + 0.5) + lgamma(alpha) -
-                             lgamma(k + 0.5 * (p - 1))) - log(2 * pi)
+      log_v2k2 <- log(4 * k_even + p - 2) + log(1 + Stereo_a)
+      log_alpha_2k <- 2 * (lgamma(k_even + 0.5) + lgamma(alpha) -
+                             lgamma(k_even + 0.5 * (p - 1))) - log(2 * pi)
 
       # log(b_k)
-      log_vk2 <- c(rbind(log_alpha_2km1 + log_v2km12, log_alpha_2k + log_v2k2))
+      if (K_start == 0) {
+        log_vk2 <- c(log_alpha_2k[1] + log_v2k2[1],
+                     rbind(log_alpha_2km1 + log_v2km12,
+                           log_alpha_2k[seq(2, length(log_alpha_2k), 1)] +
+                             log_v2k2[seq(2, length(log_alpha_2k), 1)]))
+      } else {
+        log_vk2 <- c(rbind(log_alpha_2km1 + log_v2km12,
+                           log_alpha_2k + log_v2k2))
+      }
 
       # Switch from bk to vk2
-      log_vk2 <- bk_to_vk2(bk = log_vk2, p = p, log = TRUE)
+      log_vk2 <- bk_to_vk2(bk = log_vk2, p = p, log = TRUE, K_start = K_start)
 
       # log(d_{p, k})
-      log_dk <- d_p_k(p = p, k = 1:(2 * K_max), log = TRUE)
+      log_dk <- d_p_k(p = p, k = seq(K_start, 2 * K_max, 1), log = TRUE)
 
       # Log weights and dfs
       log_weights <- log_vk2
@@ -591,7 +632,6 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
   return(list("weights" = log_weights, "dfs" = log_dfs))
 
 }
-
 
 #' @rdname Sobolev
 #' @export
@@ -658,6 +698,60 @@ q_Sobolev <- function(u, p, type, method = c("I", "SW", "HBE", "MC")[1],
                                      x_tail = x_tail)
   q_wschisq(u = u, weights = weights_dfs$weights, dfs = weights_dfs$dfs,
             ncps = ncps, method = method, ...)
+
+}
+
+#' @rdname Sobolev
+#' @export
+null_var_Sobolev <- function(n, p, type, lambda_grid, K_max = 1e3,
+                             verbose = TRUE) {
+
+  # Check existence of Stereo depending on dimension
+  if (type == "Stereo") {
+
+    if (p == 2) {
+
+      stop(paste0("'Stereo' statistic is not defined when p = 2."))
+
+    } else if (p == 3) {
+
+      stop(paste0("Variance of \'Stereo\' statistic under uniformity ",
+                  "(H_0) is not finite when p = 3. If using it as input of ",
+                  "unif_test_cv(), set \"rep(1, length(lambda_grid))\" as ",
+                  "null_variance in order not to account it in the ",
+                  "q-score function."))
+
+    }
+  }
+
+  b0 <- numeric(length(lambda_grid))
+  b0_sq <- numeric(length(lambda_grid))
+  for (i in seq_along(lambda_grid)) {
+
+    lambda <- lambda_grid[i]
+
+    # Gegenbauer coefficients
+    bk <- vk2_to_bk(weights_dfs_Sobolev(p = p, K_max = K_max, K_start = 0,
+                                        type = type, Poisson_rho = lambda,
+                                        Softmax_kappa = lambda,
+                                        Stereo_a = lambda,
+                                        verbose = verbose)$weights,
+                    p = p, K_start = 0)
+
+    # Normalizing constants (required for both cases)
+    c_kp <- Gegen_coefs(k = seq_along(bk) - 1, p = p, only_const = TRUE)
+
+    # Kernel bias coefficient
+    b0[i] <- bk[1]
+
+    # Bias of squared kernel coefficient
+    b0_sq[i] <- Gegen_norm(coefs = bk, k = seq(0, K_max, 1), p = p,
+                           c_kp = c_kp)^2 * (rotasym::w_p(p - 1)
+                                             / rotasym::w_p(p))
+
+  }
+
+  return(2 * (n - 1) / n * (b0_sq - b0^2))
 
 }
 
@@ -779,16 +873,22 @@ cir_stat_Sobolev <- function(Theta, Psi_in_Theta = FALSE, vk2 = c(0, 0, 1)) {
 #' For \eqn{p = 2}, the factor \eqn{(1 + 2k / (p - 2))} is replaced by \eqn{2}.
 #'
 #' @param bk coefficients \eqn{b_{k, p}} associated to the indexes
-#' \code{1:length(bk)}, a vector.
+#' \code{1:length(bk)} (if \code{K_start = 1}) or \code{0:(length(bk)-1)} (if
+#' \code{K_start = 0}), a vector.
 #' @param vk2 \bold{squared} coefficients \eqn{v_{k, p}^2} associated to the
-#' indexes \code{1:length(vk2)}, a vector.
+#' indexes  \code{1:length(vk2)} (if \code{K_start = 1}) or
+#' \code{0:(length(vk2)-1)} (if \code{K_start = 0}), a vector.
 #' @param uk coefficients \eqn{u_{k, p}} associated to the indexes
-#' \code{1:length(uk)}, a vector.
+#' \code{1:length(uk)} (if \code{K_start = 1}) or \code{0:(length(uk)-1)}
+#' (if \code{K_start = 0}), a vector.
 #' @inheritParams r_unif_sph
 #' @param signs signs of the coefficients \eqn{u_{k, p}}, a vector of the
 #' same size as \code{vk2} or \code{bk}, or a scalar. Defaults to \code{1}.
 #' @param log do operations in log scale (log-in, log-out)? Defaults to
 #' \code{FALSE}.
+#' @param K_start either \code{0} or \code{1}, giving the order \eqn{k} of the
+#'  first coefficient in \eqn{b_{k,p}}, \eqn{v^2_{k,p}}, and \eqn{u_{k,p}}.
+#' Defaults to \code{1}.
 #' @return The corresponding vectors of coefficients \code{vk2}, \code{bk}, or
 #' \code{uk}, depending on the call.
 #' @details
@@ -823,21 +923,41 @@ cir_stat_Sobolev <- function(Theta, Psi_in_Theta = FALSE, vk2 = c(0, 0, 1)) {
 
 #' @rdname Sobolev_coefs
 #' @export
-bk_to_vk2 <- function(bk, p, log = FALSE) {
+bk_to_vk2 <- function(bk, p, log = FALSE, K_start = 1) {
 
   # Check dimension
   p <- as.integer(p)
   stopifnot(p >= 2)
 
+  # Check K_start
+  stopifnot(K_start %in% c(0, 1))
+
   # Compute k
   if (is.matrix(bk)) {
 
-    k <- matrix(seq_len(ncol(bk)), nrow = nrow(bk), ncol = ncol(bk),
+    if (K_start == 1) {
+
+      k <- matrix(seq_len(ncol(bk)), nrow = nrow(bk), ncol = ncol(bk),
                 byrow = TRUE)
+
+    } else {
+
+      k <- matrix(seq_len(ncol(bk)) - 1, nrow = nrow(bk), ncol = ncol(bk),
+                  byrow = TRUE)
+
+    }
 
   } else {
 
-    k <- seq_along(bk)
+    if (K_start == 1) {
+
+      k <- seq_along(bk)
+
+    } else {
+
+      k <- seq_along(bk) - 1
+
+    }
 
   }
 
@@ -873,7 +993,7 @@ bk_to_vk2 <- function(bk, p, log = FALSE) {
 
 #' @rdname Sobolev_coefs
 #' @export
-bk_to_uk <- function(bk, p, signs = 1) {
+bk_to_uk <- function(bk, p, signs = 1, K_start = 1) {
 
   # Check dimension
   p <- as.integer(p)
@@ -882,15 +1002,35 @@ bk_to_uk <- function(bk, p, signs = 1) {
   # Check signs
   stopifnot(length(signs) %in% c(1, length(bk)))
 
+  # Check K_start
+  stopifnot(K_start %in% c(0, 1))
+
   # Compute k
   if (is.matrix(bk)) {
 
-    k <- matrix(seq_len(ncol(bk)), nrow = nrow(bk), ncol = ncol(bk),
-                byrow = TRUE)
+    if (K_start == 1) {
+
+      k <- matrix(seq_len(ncol(bk)), nrow = nrow(bk), ncol = ncol(bk),
+                  byrow = TRUE)
+
+    } else {
+
+      k <- matrix(seq_len(ncol(bk)) - 1, nrow = nrow(bk), ncol = ncol(bk),
+                  byrow = TRUE)
+
+    }
 
   } else {
 
-    k <- seq_along(bk)
+    if (K_start == 1) {
+
+      k <- seq_along(bk)
+
+    } else {
+
+      k <- seq_along(bk) - 1
+
+    }
 
   }
 
@@ -910,21 +1050,41 @@ bk_to_uk <- function(bk, p, signs = 1) {
 
 #' @rdname Sobolev_coefs
 #' @export
-vk2_to_bk <- function(vk2, p, log = FALSE) {
+vk2_to_bk <- function(vk2, p, log = FALSE, K_start = 1) {
 
   # Check dimension
   p <- as.integer(p)
   stopifnot(p >= 2)
 
+  # Check K_start
+  stopifnot(K_start %in% c(0, 1))
+
   # Compute k
   if (is.matrix(vk2)) {
 
-    k <- matrix(seq_len(ncol(vk2)), nrow = nrow(vk2), ncol = ncol(vk2),
-                byrow = TRUE)
+    if (K_start == 1) {
+
+      k <- matrix(seq_len(ncol(vk2)), nrow = nrow(vk2), ncol = ncol(vk2),
+                  byrow = TRUE)
+
+    } else {
+
+      k <- matrix(seq_len(ncol(vk2)) - 1, nrow = nrow(vk2), ncol = ncol(vk2),
+                  byrow = TRUE)
+
+    }
 
   } else {
 
-    k <- seq_along(vk2)
+    if (K_start == 1) {
+
+      k <- seq_along(vk2)
+
+    } else {
+
+      k <- seq_along(vk2) - 1
+
+    }
 
   }
 
@@ -960,7 +1120,7 @@ vk2_to_bk <- function(vk2, p, log = FALSE) {
 
 #' @rdname Sobolev_coefs
 #' @export
-vk2_to_uk <- function(vk2, p, signs = 1) {
+vk2_to_uk <- function(vk2, p, signs = 1, K_start = 1) {
 
   # Check dimension
   p <- as.integer(p)
@@ -969,15 +1129,35 @@ vk2_to_uk <- function(vk2, p, signs = 1) {
   # Check signs
   stopifnot(length(signs) %in% c(1, length(vk2)))
 
+  # Check K_start
+  stopifnot(K_start %in% c(0, 1))
+
   # Compute k
   if (is.matrix(vk2)) {
 
-    k <- matrix(seq_len(ncol(vk2)), nrow = nrow(vk2), ncol = ncol(vk2),
-                byrow = TRUE)
+    if (K_start == 1) {
+
+      k <- matrix(seq_len(ncol(vk2)), nrow = nrow(vk2), ncol = ncol(vk2),
+                  byrow = TRUE)
+
+    } else {
+
+      k <- matrix(seq_len(ncol(vk2)) - 1, nrow = nrow(vk2), ncol = ncol(vk2),
+                  byrow = TRUE)
+
+    }
 
   } else {
 
-    k <- seq_along(vk2)
+    if (K_start == 1) {
+
+      k <- seq_along(vk2)
+
+    } else {
+
+      k <- seq_along(vk2) - 1
+
+    }
 
   }
 
@@ -997,21 +1177,41 @@ vk2_to_uk <- function(vk2, p, signs = 1) {
 
 #' @rdname Sobolev_coefs
 #' @export
-uk_to_vk2 <- function(uk, p) {
+uk_to_vk2 <- function(uk, p, K_start = 1) {
 
   # Check dimension
   p <- as.integer(p)
   stopifnot(p >= 2)
 
+  # Check K_start
+  stopifnot(K_start %in% c(0, 1))
+
   # Compute k
   if (is.matrix(uk)) {
 
-    k <- matrix(seq_len(ncol(uk)), nrow = nrow(uk), ncol = ncol(uk),
-                byrow = TRUE)
+    if (K_start == 1) {
+
+      k <- matrix(seq_len(ncol(uk)), nrow = nrow(uk), ncol = ncol(uk),
+                  byrow = TRUE)
+
+    } else {
+
+      k <- matrix(seq_len(ncol(uk)) - 1, nrow = nrow(uk), ncol = ncol(uk),
+                  byrow = TRUE)
+
+    }
 
   } else {
 
-    k <- seq_along(uk)
+    if (K_start == 1) {
+
+      k <- seq_along(uk)
+
+    } else {
+
+      k <- seq_along(uk) - 1
+
+    }
 
   }
 
@@ -1031,21 +1231,41 @@ uk_to_vk2 <- function(uk, p) {
 
 #' @rdname Sobolev_coefs
 #' @export
-uk_to_bk <- function(uk, p) {
+uk_to_bk <- function(uk, p, K_start = 1) {
 
   # Check dimension
   p <- as.integer(p)
   stopifnot(p >= 2)
 
+  # Check K_start
+  stopifnot(K_start %in% c(0, 1))
+
   # Compute k
   if (is.matrix(uk)) {
 
-    k <- matrix(seq_len(ncol(uk)), nrow = nrow(uk), ncol = ncol(uk),
-                byrow = TRUE)
+    if (K_start == 1) {
+
+      k <- matrix(seq_len(ncol(uk)), nrow = nrow(uk), ncol = ncol(uk),
+                  byrow = TRUE)
+
+    } else {
+
+      k <- matrix(seq_len(ncol(uk)) - 1, nrow = nrow(uk), ncol = ncol(uk),
+                  byrow = TRUE)
+
+    }
 
   } else {
 
-    k <- seq_along(uk)
+    if (K_start == 1) {
+
+      k <- seq_along(uk)
+
+    } else {
+
+      k <- seq_along(uk) - 1
+
+    }
 
   }
 

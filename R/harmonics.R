@@ -156,11 +156,39 @@ g_i_k <- function(x, i = 1, k = 1, m = NULL, show_m = FALSE) {
 
   }
 
+  # Get dimension
+  p <- ncol(x)
+
   # Check unit norm
   x <- rotasym::check_unit_norm(x)
 
-  # Get dimension
-  p <- ncol(x)
+  # Check that a single index is passed for (i, k)
+  if (length(i) > 1 || length(k) > 1) {
+
+    stop("Only a single i and k can be passed.")
+
+  }
+
+  # Check m
+  if (!is.null(m)) {
+
+    if (nrow(rbind(m)) > 1) {
+
+      stop("Only a single m can be passed.")
+
+    }
+    if (p != length(m)) {
+
+      stop("m must have the same length as the number of columns in x.")
+
+    }
+    if (!(all(m >= 0) && m[p] %in% c(0, 1))) {
+
+      stop("m must be a non-negative integer vector last entry in {0, 1}.")
+
+    }
+
+  }
 
   # Obtain m if not supplied
   if (is.null(m)) {
@@ -183,10 +211,6 @@ g_i_k <- function(x, i = 1, k = 1, m = NULL, show_m = FALSE) {
     # Retrieve k for p = 2
     k <- sum(m)
 
-    # Initial checks
-    stopifnot(p == length(m))
-    stopifnot(all(m >= 0) && m[p] %in% c(0, 1))
-
   }
 
   # Obtain angles
@@ -204,7 +228,7 @@ g_i_k <- function(x, i = 1, k = 1, m = NULL, show_m = FALSE) {
       g <- sin(k * theta[, 1])
 
     }
-    g <- sqrt(2) * g
+    g <- ifelse(k > 0, sqrt(2), 1) * g
 
   } else if (p >= 3) {
 

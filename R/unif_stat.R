@@ -1059,7 +1059,7 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
 
       Stein_vk2 <- weights_dfs_Sobolev(p = p, K_max = Stein_K, thre = 0,
                                        type = "Stein", Stein_cf = Stein_cf,
-                                       verbose = FALSE,)$weights
+                                       verbose = FALSE)$weights
       stats$Stein <- sph_stat_Sobolev(X = data, Psi_in_X = Psi_in_X, p = p,
                                       vk2 = Stein_vk2)
 

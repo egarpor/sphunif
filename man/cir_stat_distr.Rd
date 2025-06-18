@@ -65,6 +65,8 @@
 \alias{d_cir_stat_Sobolev}
 \alias{p_cir_stat_Softmax}
 \alias{d_cir_stat_Softmax}
+\alias{p_cir_stat_Stein}
+\alias{d_cir_stat_Stein}
 \title{Asymptotic distributions for circular uniformity statistics}
 \usage{
 p_Kolmogorov(x, K_Kolmogorov = 25L, alternating = TRUE)
@@ -202,6 +204,10 @@ p_cir_stat_Softmax(x, kappa = 1, K_max = 1000, thre = 0, method = "I",
 
 d_cir_stat_Softmax(x, kappa = 1, K_max = 1000, thre = 0, method = "I",
   ...)
+
+p_cir_stat_Stein(x, Stein_K = 10, Stein_cf = FALSE, method = "I", ...)
+
+d_cir_stat_Stein(x, Stein_K = 10, Stein_cf = FALSE, method = "I", ...)
 }
 \arguments{
 \item{x}{a vector of size \code{nx} or a matrix of size \code{c(nx, 1)}.}
@@ -271,6 +277,13 @@ matrix. Defaults to \code{c(0, 0, 1)}.}
 
 \item{kappa}{\eqn{\kappa} parameter for the Softmax test, a
 non-negative real. Defaults to \code{1}.}
+
+\item{Stein_K}{truncation \eqn{K} parameter for the Stein test, a positive
+integer. Defaults to \code{10}.}
+
+\item{Stein_cf}{logical indicating whether to use the characteristic
+function in the Stein test. Defaults to \code{FALSE} (moment generating
+function).}
 }
 \value{
 A matrix of size \code{c(nx, 1)} with the evaluation of the

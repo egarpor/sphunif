@@ -8,7 +8,7 @@ unif_stat(data, type = "all", data_sorted = FALSE, CCF09_dirs = NULL,
   CJ12_reg = 3, cov_a = 2 * pi, Cressie_t = 1/3, K_CCF09 = 25,
   Poisson_rho = 0.5, Pycke_q = 0.5, Rayleigh_m = 1, Riesz_s = 1,
   Rothman_t = 1/3, Sobolev_vk2 = c(0, 0, 1), Softmax_kappa = 1,
-  Stein_K = 10, Stereo_a = 0)
+  Stein_K = 10, Stein_cf = FALSE, Stereo_a = 0)
 }
 \arguments{
 \item{data}{sample to compute the test statistic. An \bold{array} of size
@@ -76,6 +76,10 @@ non-negative real. Defaults to \code{1}.}
 
 \item{Stein_K}{truncation \eqn{K} parameter for the Stein test, a positive
 integer. Defaults to \code{10}.}
+
+\item{Stein_cf}{logical indicating whether to use the characteristic
+function in the Stein test. Defaults to \code{FALSE} (moment generating
+function).}
 
 \item{Stereo_a}{\eqn{a} parameter for the Stereo test, a real in
 \eqn{[-1, 1]}. Defaults to \code{0}.}

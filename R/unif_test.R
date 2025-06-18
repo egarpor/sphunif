@@ -221,7 +221,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
                       K_CCF09 = 25, Poisson_rho = 0.5, Pycke_q = 0.5,
                       Rayleigh_m = 1, Riesz_s = 1, Rothman_t = 1 / 3,
                       Sobolev_vk2 = c(0, 0, 1), Softmax_kappa = 1,
-                      Stein_K = 10, Stereo_a = 0, ...) {
+                      Stein_K = 10, Stein_cf = FALSE, Stereo_a = 0, ...) {
 
   # Read data's name
   data_name <- deparse(substitute(data))
@@ -387,7 +387,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
                     Rayleigh_m = Rayleigh_m, Riesz_s = Riesz_s,
                     Rothman_t = Rothman_t, Sobolev_vk2 = Sobolev_vk2,
                     Softmax_kappa = Softmax_kappa, Stein_K = Stein_K,
-                    Stereo_a = Stereo_a)
+                    Stein_cf = Stein_cf, Stereo_a = Stereo_a)
   stats_type_vec <- names(stat) # We can have Sobolev.1, Sobolev.2, etc.
 
   # Update the number of statistics (to count those Sobolev.1, Sobolev.2, etc.)
@@ -408,9 +408,10 @@ unif_test <- function(data, type = "all", p_value = "asymp",
                                K_CCF09 = K_CCF09, Poisson_rho = Poisson_rho,
                                Pycke_q = Pycke_q, Rayleigh_m = Rayleigh_m,
                                Riesz_s = Riesz_s, Rothman_t = Rothman_t,
-                               Sobolev_vk2 = Sobolev_vk2, Softmax_kappa =
-                                 Softmax_kappa, Stein_K = Stein_K,
-                               Stereo_a = Stereo_a, ...)$crit_val_MC
+                               Sobolev_vk2 = Sobolev_vk2,
+                               Softmax_kappa = Softmax_kappa, Stein_K = Stein_K,
+                               Stein_cf = Stein_cf, Stereo_a = Stereo_a,
+                               ...)$crit_val_MC
 
     } else {
 
@@ -450,9 +451,10 @@ unif_test <- function(data, type = "all", p_value = "asymp",
                                K_CCF09 = K_CCF09, Poisson_rho = Poisson_rho,
                                Pycke_q = Pycke_q, Rayleigh_m = Rayleigh_m,
                                Riesz_s = Riesz_s, Rothman_t = Rothman_t,
-                               Sobolev_vk2 = Sobolev_vk2, Softmax_kappa =
-                                 Softmax_kappa, Stein_K = Stein_K,
-                               Stereo_a = Stereo_a, ...)$stats_MC
+                               Sobolev_vk2 = Sobolev_vk2,
+                               Softmax_kappa = Softmax_kappa, Stein_K = Stein_K,
+                               Stein_cf = Stein_cf, Stereo_a = Stereo_a,
+                               ...)$stats_MC
 
     }
 
@@ -480,9 +482,11 @@ unif_test <- function(data, type = "all", p_value = "asymp",
                                  Cressie_t = Cressie_t, K_CCF09 = K_CCF09,
                                  Poisson_rho = Poisson_rho, Pycke_q = Pycke_q,
                                  Rayleigh_m = Rayleigh_m, Riesz_s = Riesz_s,
-                                 Rothman_t = Rothman_t, Sobolev_vk2 =
-                                   Sobolev_vk2, Softmax_kappa = Softmax_kappa,
-                                 Stein_K = Stein_K, Stereo_a = Stereo_a, ...)
+                                 Rothman_t = Rothman_t,
+                                 Sobolev_vk2 = Sobolev_vk2,
+                                 Softmax_kappa = Softmax_kappa,
+                                 Stein_K = Stein_K, Stein_cf = Stein_cf,
+                                 Stereo_a = Stereo_a, ...)
 
     # Critical values
     crit_val <- as.data.frame(matrix(NA, nrow = length(alpha), ncol = n_stats))
@@ -559,7 +563,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
          "Softmax" = c("Softmax_kappa" = ifelse(length(Softmax_kappa) == 1,
                                                 Softmax_kappa,
                                                 Softmax_kappa[par_i])),
-         "Stein" = c("Stein_K" = Stein_K),
+         "Stein" = c("Stein_K" = Stein_K, "Stein_cf" = Stein_cf),
          "Vacancy" = c("cov_a" = ifelse(length(cov_a) == 1, cov_a,
                                         cov_a[par_i])),
          "Watson" = NA,
@@ -615,7 +619,8 @@ unif_test <- function(data, type = "all", p_value = "asymp",
          "Softmax" = paste("Softmax test of circular uniformity with kappa =",
                            round(param, 3)),
          "Stein" = paste0("Stein test of circular uniformity (truncated to ",
-                          "K = ", param, " terms)"),
+                          "K = ", param[1], " terms; ",
+                          ifelse(param[2], "cf", "mgf"), "-based)"),
          "Vacancy" = paste("Vacancy test of circular uniformity with a =",
                            round(param, 3)),
          "Watson" = "Watson test of circular uniformity",
@@ -690,7 +695,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
          "Softmax" = c("Softmax_kappa" = ifelse(length(Softmax_kappa) == 1,
                                                 Softmax_kappa,
                                                 Softmax_kappa[par_i])),
-         "Stein" = c("Stein_K" = Stein_K),
+         "Stein" = c("Stein_K" = Stein_K, "Stein_cf" = Stein_cf),
          "Stereo" = c("Stereo_a" = ifelse(length(Stereo_a) == 1,
                                            Stereo_a, Stereo_a[par_i]))
       )
@@ -723,7 +728,8 @@ unif_test <- function(data, type = "all", p_value = "asymp",
          "Softmax" = paste("Softmax test of spherical uniformity with kappa =",
                            round(param, 3)),
          "Stein" = paste0("Stein test of spherical uniformity (truncated to ",
-                          "K = ", param, " terms)"),
+                          "K = ", param[1], " terms; ",
+                          ifelse(param[2], "cf", "mgf"), "-based)"),
          "Stereo" = paste("Stereographic projection test of spherical",
                            "uniformity with a =", round(param, 3))
       )

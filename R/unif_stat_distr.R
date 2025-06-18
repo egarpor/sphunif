@@ -147,7 +147,8 @@ unif_stat_distr <- function(x, type, p, n, approx = "asymp", M = 1e4,
                             K_Watson = 25, K_Watson_1976 = 5, Poisson_rho = 0.5,
                             Pycke_q = 0.5, Rayleigh_m = 1, Riesz_s = 1,
                             Rothman_t = 1 / 3, Sobolev_vk2 = c(0, 0, 1),
-                            Softmax_kappa = 1, Stereo_a = 0, ...) {
+                            Softmax_kappa = 1, Stein_K = 10, Stein_cf = FALSE,
+                            Stereo_a = 0, ...) {
 
 
   # Stop if NA's
@@ -248,7 +249,8 @@ unif_stat_distr <- function(x, type, p, n, approx = "asymp", M = 1e4,
     # Exclude vectorizations. TODO: Allow for vectorizations
     param_vectorized <- c("cov_a", "Cressie_t", "Poisson_rho", "Pycke_q",
                           "Rayleigh_m", "Riesz_s", "Rothman_t",
-                          "Softmax_kappa", "Stereo_a") # "Sobolev_vk2"
+                          "Softmax_kappa", "Stein_K", "Stein_cf",
+                          "Stereo_a") # "Sobolev_vk2"
     n_param_vectorized <- sapply(param_vectorized, function(par) {
       obj <- get(x = par)
       ifelse(is.null(dim(obj)), length(obj), nrow(obj))
@@ -343,7 +345,7 @@ unif_stat_distr <- function(x, type, p, n, approx = "asymp", M = 1e4,
                  "K_Watson" = K_Watson, "K_Watson_1976" = K_Watson_1976,
                  "t" = Rothman_t, "rho" = Poisson_rho, "q" = Pycke_q,
                  "s" = Riesz_s, "vk2" = Sobolev_vk2, "kappa" = Softmax_kappa,
-                 "a" = Stereo_a)
+                 "Stein_K" = Stein_K, "Stein_cf" = Stein_cf, "a" = Stereo_a)
     names_args <- names(args)
 
     # Evaluate distributions
@@ -384,9 +386,10 @@ unif_stat_distr <- function(x, type, p, n, approx = "asymp", M = 1e4,
                                K_CCF09 = K_CCF09, Poisson_rho = Poisson_rho,
                                Pycke_q = Pycke_q, Rayleigh_m = Rayleigh_m,
                                Riesz_s = Riesz_s, Rothman_t = Rothman_t,
-                               Sobolev_vk2 = Sobolev_vk2, Softmax_kappa =
-                                 Softmax_kappa, Stereo_a = Stereo_a,
-                               ...)$stats_MC
+                               Sobolev_vk2 = Sobolev_vk2,
+                               Softmax_kappa = Softmax_kappa,
+                               Stein_K = Stein_K, Stein_cf = Stein_cf,
+                               Stereo_a = Stereo_a, ...)$stats_MC
 
     } else {
 

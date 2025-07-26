@@ -37,7 +37,7 @@
 
 # sphunif 1.4.1
 
-* Fix bug on `g_i_k(k = 0)` for `p = 2` and robustify arguments for `g_i_k`.
+* Fix bug on `g_i_k(k = 0)` for `p = 2` and make more robust the arguments for `g_i_k`.
 * Add `"Stein"` test.
 * Add `rot_ab` and `H_ab` convenience functions to rotate data.
 * Fix NOTE on Rd cross-references.

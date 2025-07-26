@@ -34,3 +34,11 @@
 * Fix bugs in the coherence between asymptotic distributions and statistics of `"Poisson"` and `"Softmax"` tests.
 * Add `"Stereo"` test null distribution.
 * Fix bug when supplying `crit_val` to `unif_stat_MC()` in vectorized statistics.
+
+# sphunif 1.4.1
+
+* Fix bug on `g_i_k(k = 0)` for `p = 2` and robustify arguments for `g_i_k`.
+* Add `"Stein"` test.
+* Fix NOTE on Rd cross-references.
+
+

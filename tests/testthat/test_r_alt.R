@@ -119,3 +119,32 @@ test_that("Edge cases in r_alt", {
   expect_error(r_alt(n = 5, p = 3, M = 1, alt = "UAD", kappa = 4))
 
 })
+
+test_that("Idempotency of rot_ab and H_ab", {
+
+  for (p in 2:4) {
+
+    X <- r_unif_sph(n = 10, p = p, M = 2)
+    a <- r_unif_sph(n = 1, p = p)[, , 1]
+    b <- r_unif_sph(n = 1, p = p)[, , 1]
+    expect_equal(H_ab(a = a, b = b) %*% H_ab(a = b, b = a), diag(rep(1, p)))
+    expect_equal(H_ab(a = a, b = -a) %*% H_ab(a = -a, b = a), diag(rep(1, p)))
+    expect_equal(rot_ab(rot_ab(X, a = a, b = b), a = b, b = a), X)
+    expect_equal(rot_ab(rot_ab(X, a = a, b = -a), a = -a, b = a), X)
+
+  }
+
+})
+
+test_that("Edge cases of rot_ab and H_ab", {
+
+  p <- 3
+  X <- r_unif_sph(n = 10, p = p, M = 1)[, , 1]
+  a <- r_unif_sph(n = 1, p = p)[, , 1]
+  b <- r_unif_sph(n = 1, p = p)[, , 1]
+  expect_error(H_ab(a = a, b = c(a, 1)))
+  expect_warning(H_ab(a = 2 * a, b = a))
+  expect_error(rot_ab(X = X[, 1], a = a, b = b))
+  expect_error(rot_ab(X = X, a = a[-1], b = b[-1]))
+
+})

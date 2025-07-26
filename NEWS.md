@@ -39,6 +39,7 @@
 
 * Fix bug on `g_i_k(k = 0)` for `p = 2` and robustify arguments for `g_i_k`.
 * Add `"Stein"` test.
+* Add `rot_ab` and `H_ab` convenience functions to rotate data.
 * Fix NOTE on Rd cross-references.
 
 

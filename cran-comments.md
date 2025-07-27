@@ -1,7 +1,9 @@
 ## Test environments
 
 * local R installation, R 4.2.2
-* win-builder (release, devel)
+* check_win_release()
+* check_win_devel()
+* check_mac_release()
 
 ## R CMD check results
 

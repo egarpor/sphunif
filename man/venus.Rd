@@ -23,7 +23,7 @@ venus
 }
 \description{
 Craters on Venus from the
-\href{https://astrogeology.usgs.gov/search/map/Venus/venuscraters}{
+\href{https://web.archive.org/web/20240221073126/https://astrogeology.usgs.gov/search/map/Venus/venuscraters}{
 USGS Astrogeology Science Center}.
 }
 \details{

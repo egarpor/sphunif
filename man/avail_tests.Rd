@@ -7,9 +7,9 @@
 \alias{avail_sph_tests}
 \title{Available circular and (hyper)spherical uniformity tests}
 \format{
-An object of class \code{character} of length 33.
+An object of class \code{character} of length 34.
 
-An object of class \code{character} of length 18.
+An object of class \code{character} of length 19.
 }
 \usage{
 avail_cir_tests

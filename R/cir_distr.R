@@ -31,6 +31,7 @@
 #' @param abs_val compute the distribution associated to the absolute value of
 #' the Darling's log gaps statistic? Defaults to \code{TRUE}.
 #' @inheritParams sph_stat_distr
+#' @inheritParams unif_stat
 #' @param ... further parameters passed to \code{\link{p_Sobolev}} or
 #' \code{\link{d_Sobolev}} (such as \code{x_tail}).
 #' @return A matrix of size \code{c(nx, 1)} with the evaluation of the
@@ -480,5 +481,31 @@ d_cir_stat_Softmax <- function(x, kappa = 1, K_max = 1e3, thre = 0,
   cbind(d_Sobolev(x = x + psi_tilde_0, p = 2, type = "Softmax",
                   Softmax_kappa = kappa, K_max = K_max, thre = thre,
                   method = method, ...))
+
+}
+
+
+#' @rdname cir_stat_distr
+#' @export
+p_cir_stat_Stein <- function(x, Stein_K = 10, Stein_cf = FALSE, method = "I",
+                             ...) {
+
+  Stein_vk2 <- weights_dfs_Sobolev(p = 2, K_max = Stein_K, thre = 0,
+                                   type = "Stein", Stein_cf = Stein_cf,
+                                   verbose = FALSE)$weights
+  p_sph_stat_Sobolev(x = x, p = 2, vk2 = Stein_vk2, method = method, ...)
+
+}
+
+
+#' @rdname cir_stat_distr
+#' @export
+d_cir_stat_Stein <- function(x, Stein_K = 10, Stein_cf = FALSE,
+                             method = "I", ...) {
+
+  Stein_vk2 <- weights_dfs_Sobolev(p = 2, K_max = Stein_K, thre = 0,
+                                   type = "Stein", Stein_cf = Stein_cf,
+                                   verbose = FALSE)$weights
+  d_sph_stat_Sobolev(x = x, p = 2, vk2 = Stein_vk2, method = method, ...)
 
 }

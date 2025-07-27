@@ -32,6 +32,8 @@
 \alias{d_sph_stat_Sobolev}
 \alias{p_sph_stat_Softmax}
 \alias{d_sph_stat_Softmax}
+\alias{p_sph_stat_Stein}
+\alias{d_sph_stat_Stein}
 \alias{p_sph_stat_Stereo}
 \alias{d_sph_stat_Stereo}
 \title{Asymptotic distributions for spherical uniformity statistics}
@@ -104,6 +106,10 @@ p_sph_stat_Softmax(x, p, kappa = 1, K_max = 1000, thre = 0,
 d_sph_stat_Softmax(x, p, kappa = 1, K_max = 1000, thre = 0,
   method = "I", ...)
 
+p_sph_stat_Stein(x, p, Stein_K = 10, Stein_cf = FALSE, method = "I", ...)
+
+d_sph_stat_Stein(x, p, Stein_K = 10, Stein_cf = FALSE, method = "I", ...)
+
 p_sph_stat_Stereo(x, p, a = 0, K_max = 1000, method = "I", ...)
 
 d_sph_stat_Stereo(x, p, a = 0, K_max = 1000, method = "I", ...)
@@ -151,6 +157,13 @@ matrix. Defaults to \code{c(0, 0, 1)}.}
 
 \item{kappa}{\eqn{\kappa} parameter for the Softmax test, a
 non-negative real. Defaults to \code{1}.}
+
+\item{Stein_K}{truncation \eqn{K} parameter for the Stein test, a positive
+integer. Defaults to \code{10}.}
+
+\item{Stein_cf}{logical indicating whether to use the characteristic
+function in the Stein test. Defaults to \code{FALSE} (moment generating
+function).}
 
 \item{a}{either: \itemize{
 \item \eqn{a_n = a / n} parameter used in the length of the arcs

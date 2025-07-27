@@ -16,7 +16,7 @@ A data frame with 967 rows and 4 variables:
 }
 }
 \source{
-\url{https://astrogeology.usgs.gov/search/map/Venus/venuscraters}
+\url{https://web.archive.org/web/20240221073126/https://astrogeology.usgs.gov/search/map/Venus/venuscraters}
 }
 \usage{
 venus

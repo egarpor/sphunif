@@ -249,7 +249,7 @@
 #' The script performing the data preprocessing is available at
 #' \href{https://github.com/egarpor/sphunif/blob/master/data-raw/venus.R}{
 #' \code{venus.R}}.
-#' @source \url{https://astrogeology.usgs.gov/search/map/Venus/venuscraters}
+#' @source \url{https://web.archive.org/web/20240221073126/https://astrogeology.usgs.gov/search/map/Venus/venuscraters}
 #' @examples
 #' # Load data
 #' data("venus")

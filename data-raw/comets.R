@@ -150,7 +150,8 @@ comets$last_obs <- as.Date(comets$last_obs)
 comets$discovery <- as.Date(comets$discovery, tryFormats = "%Y-%B-%d")
 
 # Most of the discovery dates are missing... However, we know from
-# https://www.iau.org/public/themes/naming/#comets that:
+# https://web.archive.org/web/20240118190835/https://www.iau.org/public/themes/naming/#comets
+# that:
 # "When a periodic comet is observed after its second apparition, the IAU’s
 # Minor Planet Center (MPC) gives it a sequential number indicating the order
 # of the discovery." Therefore, the pdes and the id fields encode the

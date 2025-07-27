@@ -588,7 +588,7 @@ unif_test_cv <- function(data, type = "all", K = 10, p_value = "asymp",
 
       method <- switch(stats_type[i],
                        "Poisson" = "Poisson-kernel test of spherical uniformity (CV)",
-                       "Softmax" = "Softmax test of spherical uniformit (CV)",
+                       "Softmax" = "Softmax test of spherical uniformity (CV)",
                        "Stereo" = "Stereographic projection test of spherical uniformity (CV)",
       )
 

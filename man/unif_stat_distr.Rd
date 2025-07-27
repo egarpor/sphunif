@@ -11,7 +11,8 @@ unif_stat_distr(x, type, p, n, approx = "asymp", M = 10000,
   Cressie_t = 1/3, K_Ajne = 500, K_CCF09 = 25, K_Kuiper = 25,
   K_Watson = 25, K_Watson_1976 = 5, Poisson_rho = 0.5, Pycke_q = 0.5,
   Rayleigh_m = 1, Riesz_s = 1, Rothman_t = 1/3, Sobolev_vk2 = c(0, 0,
-  1), Softmax_kappa = 1, Stereo_a = 0, ...)
+  1), Softmax_kappa = 1, Stein_K = 10, Stein_cf = FALSE, Stereo_a = 0,
+  ...)
 }
 \arguments{
 \item{x}{evaluation points for the null distribution(s). Either a vector of
@@ -112,6 +113,13 @@ vector or matrix. Defaults to \code{c(0, 0, 1)}.}
 
 \item{Softmax_kappa}{\eqn{\kappa} parameter for the Softmax test, a
 non-negative real. Defaults to \code{1}.}
+
+\item{Stein_K}{truncation \eqn{K} parameter for the Stein test, a positive
+integer. Defaults to \code{10}.}
+
+\item{Stein_cf}{logical indicating whether to use the characteristic
+function in the Stein test. Defaults to \code{FALSE} (moment generating
+function).}
 
 \item{Stereo_a}{\eqn{a} parameter for the Stereo test, a real in
 \eqn{[-1, 1]}. Defaults to \code{0}.}

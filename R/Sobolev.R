@@ -152,12 +152,13 @@ d_p_k <- function(p, k, log = FALSE) {
 #' @rdname Sobolev
 #' @export
 weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
-                                Rothman_t = 1 / 3, Pycke_q = 0.5, Riesz_s = 1,
-                                Poisson_rho = 0.5, Softmax_kappa = 1,
-                                Stereo_a = 0, Sobolev_vk2 = c(0, 0, 1),
-                                log = FALSE, verbose = TRUE, Gauss = TRUE,
-                                N = 320, tol = 1e-6, force_positive = TRUE,
-                                x_tail = NULL) {
+                                Poisson_rho = 0.5, Pycke_q = 0.5,
+                                Riesz_s = 1, Rothman_t = 1 / 3,
+                                Sobolev_vk2 = c(0, 0, 1), Softmax_kappa = 1,
+                                Stein_cf = FALSE, Stereo_a = 0,
+                                log = FALSE, verbose = TRUE,
+                                Gauss = TRUE, N = 320, tol = 1e-6,
+                                force_positive = TRUE, x_tail = NULL) {
 
   # alpha
   alpha <- 0.5 * p - 1
@@ -494,6 +495,38 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
         log_vk2 <- alpha * log(2 / Softmax_kappa) + lgamma(alpha) +
           log(k + alpha) + log(besselI(x = Softmax_kappa, nu = k + alpha,
                                        expon.scaled = TRUE))
+
+      }
+
+      # Switch from bk to vk2
+      log_vk2 <- bk_to_vk2(bk = log_vk2, p = p, log = TRUE)
+
+      # log(d_{p, k})
+      log_dk <- d_p_k(p = p, k = k, log = TRUE)
+
+      # Log weights and dfs
+      log_weights <- log_vk2
+      log_dfs <- log_dk
+
+    } else if (type == "Stein"){
+
+      # Sequence of indexes
+      k <- 1:K_max
+
+      # Log(IJ)
+      log_IJ <- switch(Stein_cf + 1,
+                       log(besselI(x = 1, nu = (p - 2) / 2 + k)),
+                       log(besselJ(x = 1, nu = (p - 2) / 2 + k)))
+
+      # log(b_k)
+      if (p == 2) {
+
+        log_vk2 <- log(2) + 4 * log(k) + 2 * log_IJ
+
+      } else {
+
+        log_vk2 <- (p - 3) * log(2) + log((p - 2) * (k + (p - 2) / 2)) +
+          2 * (lgamma((p - 2) / 2) + log(k * (k + p - 2)) + log_IJ)
 
       }
 

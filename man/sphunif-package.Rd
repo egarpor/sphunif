@@ -52,6 +52,14 @@ of Sobolev tests for symmetry of directions, their detection thresholds, and
 asymptotic powers. \emph{arXiv:2108.09874v2}.
 \doi{10.48550/arXiv.2108.09874}.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/egarpor/sphunif}
+  \item Report bugs at \url{https://github.com/egarpor/sphunif/issues}
+}
+
+}
 \author{
 Eduardo García-Portugués and Thomas Verdebout.
 }

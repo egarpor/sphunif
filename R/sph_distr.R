@@ -18,6 +18,7 @@
 #' @param beta \eqn{\beta} parameter in the exponential regime of the CJ12
 #' test, a non-negative real. Defaults to \code{0}.
 #' @inheritParams cir_stat
+#' @inheritParams unif_stat
 #' @param ... further parameters passed to \code{\link{p_Sobolev}} or
 #' \code{\link{d_Sobolev}} (such as \code{x_tail}).
 #' @return
@@ -472,6 +473,32 @@ d_sph_stat_Softmax <- function(x, p, kappa = 1, K_max = 1e3, thre = 0,
   cbind(d_Sobolev(x = x + psi_tilde_0, p = p, type = "Softmax",
                   Softmax_kappa = kappa, K_max = K_max, thre = thre,
                   method = method, ...))
+
+}
+
+
+#' @rdname sph_stat_distr
+#' @export
+p_sph_stat_Stein <- function(x, p, Stein_K = 10, Stein_cf = FALSE, method = "I",
+                             ...) {
+
+  Stein_vk2 <- weights_dfs_Sobolev(p = p, K_max = Stein_K, thre = 0,
+                                   type = "Stein", Stein_cf = Stein_cf,
+                                   verbose = FALSE)$weights
+  p_sph_stat_Sobolev(x = x, p = p, vk2 = Stein_vk2, method = method, ...)
+
+}
+
+
+#' @rdname sph_stat_distr
+#' @export
+d_sph_stat_Stein <- function(x, p, Stein_K = 10, Stein_cf = FALSE,
+                             method = "I", ...) {
+
+  Stein_vk2 <- weights_dfs_Sobolev(p = p, K_max = Stein_K, thre = 0,
+                                   type = "Stein", Stein_cf = Stein_cf,
+                                   verbose = FALSE)$weights
+  d_sph_stat_Sobolev(x = x, p = p, vk2 = Stein_vk2, method = method, ...)
 
 }
 

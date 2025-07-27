@@ -87,13 +87,13 @@ test_that("Harmonics with (i, k) vs. m", {
 
 })
 
-test_that("Orthonormality of harmonics among i's with common k", {
+test_that("Orthonormality of harmonics among i's with common k = 0,1,2", {
 
   skip_on_cran()
-  set.seed(323231)
+  set.seed(323213)
   M <- 1e3
   for (p in 2:5) {
-    for (k in 1:2) {
+    for (k in 0:2) {
 
       dpk <- d_p_k(p = p, k = k)
       intprods <- diag(rep(1, dpk))
@@ -104,7 +104,7 @@ test_that("Orthonormality of harmonics among i's with common k", {
                                          cores = 1) /
             rotasym::w_p(p = p)
           image(abs(intprods), zlim = c(0, 1.5))
-          expect_lt(max(abs(intprods - diag(rep(1, dpk)))), 0.1)
+          expect_lt(max(abs(intprods - diag(rep(1, dpk)))), 0.15)
         }
       }
 

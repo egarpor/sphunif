@@ -48,7 +48,6 @@
 #' of Sobolev tests for symmetry of directions, their detection thresholds, and
 #' asymptotic powers. \emph{arXiv:2108.09874v2}.
 #' \doi{10.48550/arXiv.2108.09874}.
-#' @docType package
 #' @name sphunif-package
 #' @import Rcpp
 #' @importFrom graphics abline legend lines par segments
@@ -57,4 +56,4 @@
 #' @importFrom utils capture.output
 #' @useDynLib sphunif
 #' @aliases sphunif sphunif-package
-NULL
+"_PACKAGE"

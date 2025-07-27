@@ -52,6 +52,11 @@
 #' \eqn{[0, 1)}. Defaults to \code{0.5}.
 #' @param Softmax_kappa \eqn{\kappa} parameter for the Softmax test, a
 #' non-negative real. Defaults to \code{1}.
+#' @param Stein_K truncation \eqn{K} parameter for the Stein test, a positive
+#' integer. Defaults to \code{10}.
+#' @param Stein_cf logical indicating whether to use the characteristic
+#' function in the Stein test. Defaults to \code{FALSE} (moment generating
+#' function).
 #' @param Stereo_a \eqn{a} parameter for the Stereo test, a real in
 #' \eqn{[-1, 1]}. Defaults to \code{0}.
 #' @param Sobolev_vk2 weights for the finite Sobolev test. A non-negative
@@ -118,7 +123,8 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
                       Cressie_t = 1 / 3, K_CCF09 = 25, Poisson_rho = 0.5,
                       Pycke_q = 0.5, Rayleigh_m = 1, Riesz_s = 1,
                       Rothman_t = 1 / 3, Sobolev_vk2 = c(0, 0, 1),
-                      Softmax_kappa = 1, Stereo_a = 0) {
+                      Softmax_kappa = 1, Stein_K = 10, Stein_cf = FALSE,
+                      Stereo_a = 0) {
 
   # Stop if NA's
   if (anyNA(data)) {
@@ -728,6 +734,15 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
                                         vk2 = Sobolev_vk2)
 
     }
+    if (run_test$Stein) {
+
+      Stein_vk2 <- weights_dfs_Sobolev(p = 2, K_max = Stein_K, thre = 0,
+                                       type = "Stein", verbose = FALSE,
+                                       Stein_cf = Stein_cf)$weights
+      stats$Stein <- cir_stat_Sobolev(Theta = data, Psi_in_Theta = Psi_in_Theta,
+                                      vk2 = Stein_vk2)
+
+    }
 
   } else { # p >= 3
 
@@ -1038,6 +1053,15 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
 
       stats$Sobolev <- sph_stat_Sobolev(X = data, Psi_in_X = Psi_in_X, p = p,
                                         vk2 = Sobolev_vk2)
+
+    }
+    if (run_test$Stein) {
+
+      Stein_vk2 <- weights_dfs_Sobolev(p = p, K_max = Stein_K, thre = 0,
+                                       type = "Stein", Stein_cf = Stein_cf,
+                                       verbose = FALSE)$weights
+      stats$Stein <- sph_stat_Sobolev(X = data, Psi_in_X = Psi_in_X, p = p,
+                                      vk2 = Stein_vk2)
 
     }
 

@@ -64,12 +64,12 @@
 #' \eqn{\lceil n/2\rceil} observations (see \code{\link{unif_cap}}). Hence,
 #' \code{kappa = 0} corresponds to a spherical cap covering the whole sphere and
 #' \code{kappa = pi} is a one-point degenerate spherical cap.
+#'
+#' Much faster sampling for \code{"SC"}, \code{"W"}, \code{"C"}, and \code{"MC"}
+#' is achieved providing \code{F_inv}; see examples.
 #' @return An \bold{array} of size \code{c(n, p, M)} with \code{M} random
 #' samples of size \code{n} of non-uniformly-generated directions on
 #' \eqn{S^{p-1}}.
-#' @details
-#' Much faster sampling for \code{"SC"}, \code{"W"}, \code{"C"}, and \code{"MC"}
-#' is achieved providing \code{F_inv}; see examples.
 #' @examples
 #' ## Simulation with p = 2
 #'
@@ -339,5 +339,97 @@ r_alt <- function(n, p, M = 1, alt = "vMF", mu = c(rep(0, p - 1), 1),
 
   }
   return(samp)
+
+}
+
+
+#' @title Rotate a sample of spherical data
+#'
+#' @description Rotate a sample of spherical data by a rotation matrix
+#' \eqn{{\bf H}_{{\bf a},{\bf b}} = ({\bf a}+{\bf b})({\bf a}+{\bf b})' /
+#' (1 + {\bf a}'{\bf b}) - {\bf I}_p}.
+#' @param X a sample of spherical data, an array of size \code{c(n, p, M)} or
+#' a matrix of size \code{c(n, p)}.
+#' @param a vector on \eqn{S^{p-1}} to rotate from.
+#' @param b vector on \eqn{S^{p-1}} to rotate to.
+#' @details
+#' The vectors \code{a} and \code{b} are checked for unit norms.
+#' @return
+#' \itemize{
+#'   \item \code{rot_ab}: an array or matrix with the same size as \code{X}
+#'   containing the rotated sample.
+#'   \item \code{H_ab}: a rotation matrix of size \code{c(p, p)}.
+#' }
+#' @examples
+#' p <- 3
+#' a <- c(rep(0, p - 1), 1)
+#' b <- c(1, rep(0, p - 1))
+#' H_ab(a = a, b = b)
+#' X <- r_alt(n = 100, p = p, M = 1, alt = "vMF", kappa = 10)[, , 1]
+#' X_rot <- rot_ab(X, a = a, b = b)
+#' s3d <- scatterplot3d::scatterplot3d(X, pch = 16, xlim = c(-1.1, 1.1),
+#'                              ylim = c(-1.1, 1.1), zlim = c(-1.1, 1.1))
+#' s3d$points3d(X_rot, col = 2, pch = 16)
+#' @export
+rot_ab <- function(X, a, b) {
+
+  # Check dimensions
+  dims <- dim(X)
+  if (is.null(dims) || !(length(dims) %in% c(2, 3))) {
+
+    stop("X must be a matrix of size c(n, p) or an array of size c(n, p, M).")
+
+  }
+  if (dims[2] != length(a) || dims[2] != length(b)) {
+
+    stop("X must have the same number of columns as the length of a and b.")
+
+  }
+
+  # Rotate X
+  H <- H_ab(a = a, b = b)
+  if (length(dims) == 2) {
+
+    X <- X %*% H
+
+  } else if (length(dims) == 3) {
+
+    for (k in seq_len(dims[3])) {
+
+      X[, , k] <- X[, , k] %*% H
+
+    }
+
+  }
+  return(X)
+
+}
+
+
+#' @rdname rot_ab
+#' @export
+H_ab <- function(a, b) {
+
+  # Check a and b
+  stopifnot(length(a) == length(b))
+  a <- rotasym::check_unit_norm(a)
+  b <- rotasym::check_unit_norm(b)
+
+  # Arbitrary dimension
+  p <- length(a)
+  I <- diag(1, nrow = p, ncol = p)
+
+  # Rotation matrix, handling the undefined case a = -b
+  ab <- sum(a * b)
+  if (abs(ab + 1) < 1e-15) {
+
+    H <- -I
+
+  } else {
+
+    H <- tcrossprod(a + b) / (1 + ab) - I
+
+  }
+  return(H)
 
 }

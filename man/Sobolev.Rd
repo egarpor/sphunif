@@ -11,11 +11,11 @@
 \usage{
 d_p_k(p, k, log = FALSE)
 
-weights_dfs_Sobolev(p, K_max = 1000, thre = 0.001, type, Rothman_t = 1/3,
-  Pycke_q = 0.5, Riesz_s = 1, Poisson_rho = 0.5, Softmax_kappa = 1,
-  Stereo_a = 0, Sobolev_vk2 = c(0, 0, 1), log = FALSE, verbose = TRUE,
-  Gauss = TRUE, N = 320, tol = 1e-06, force_positive = TRUE,
-  x_tail = NULL)
+weights_dfs_Sobolev(p, K_max = 1000, thre = 0.001, type,
+  Poisson_rho = 0.5, Pycke_q = 0.5, Riesz_s = 1, Rothman_t = 1/3,
+  Sobolev_vk2 = c(0, 0, 1), Softmax_kappa = 1, Stein_cf = FALSE,
+  Stereo_a = 0, log = FALSE, verbose = TRUE, Gauss = TRUE, N = 320,
+  tol = 1e-06, force_positive = TRUE, x_tail = NULL)
 
 d_Sobolev(x, p, type, method = c("I", "SW", "HBE")[1], K_max = 1000,
   thre = 0.001, Rothman_t = 1/3, Pycke_q = 0.5, Riesz_s = 1,
@@ -54,8 +54,8 @@ the first terms of the truncated series of a Sobolev test. Defaults to
 \item{type}{name of the Sobolev statistic, using the naming from
 \code{\link{avail_cir_tests}} and \code{\link{avail_sph_tests}}.}
 
-\item{Rothman_t}{\eqn{t} parameter for the Rothman test, a real in
-\eqn{(0, 1)}. Defaults to \code{1 / 3}.}
+\item{Poisson_rho}{\eqn{\rho} parameter for the Poisson test, a real in
+\eqn{[0, 1)}. Defaults to \code{0.5}.}
 
 \item{Pycke_q}{\eqn{q} parameter for the Pycke "\eqn{q}-test", a real in
 \eqn{(0, 1)}. Defaults to \code{1 / 2}.}
@@ -63,17 +63,21 @@ the first terms of the truncated series of a Sobolev test. Defaults to
 \item{Riesz_s}{\eqn{s} parameter for the \eqn{s}-Riesz test, a real in
 \eqn{(0, 2)}. Defaults to \code{1}.}
 
-\item{Poisson_rho}{\eqn{\rho} parameter for the Poisson test, a real in
-\eqn{[0, 1)}. Defaults to \code{0.5}.}
+\item{Rothman_t}{\eqn{t} parameter for the Rothman test, a real in
+\eqn{(0, 1)}. Defaults to \code{1 / 3}.}
+
+\item{Sobolev_vk2}{weights for the finite Sobolev test. A non-negative
+vector or matrix. Defaults to \code{c(0, 0, 1)}.}
 
 \item{Softmax_kappa}{\eqn{\kappa} parameter for the Softmax test, a
 non-negative real. Defaults to \code{1}.}
 
+\item{Stein_cf}{logical indicating whether to use the characteristic
+function in the Stein test. Defaults to \code{FALSE} (moment generating
+function).}
+
 \item{Stereo_a}{\eqn{a} parameter for the Stereo test, a real in
 \eqn{[-1, 1]}. Defaults to \code{0}.}
-
-\item{Sobolev_vk2}{weights for the finite Sobolev test. A non-negative
-vector or matrix. Defaults to \code{c(0, 0, 1)}.}
 
 \item{verbose}{output information about the truncation? Defaults to
 \code{TRUE}.}

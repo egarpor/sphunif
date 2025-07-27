@@ -13,8 +13,8 @@
 #'   \item{id}{database ID.}
 #'   \item{spkid}{object primary SPK-ID.}
 #'   \item{full_name}{full name/designation following the
-#'   \href{https://www.iau.org/public/themes/naming/#comets}{
-#'   IUA naming convention}.}
+#'   \href{https://web.archive.org/web/20240118190835/
+#'   https://www.iau.org/public/themes/naming/#comets}{IUA naming convention}.}
 #'   \item{pdes}{object primary designation.}
 #'   \item{frag}{flag indicating if the record is a comet fragment.}
 #'   \item{diameter}{diameter from equivalent sphere (in km).}
@@ -227,7 +227,8 @@
 #' @title Venus craters
 #'
 #' @description Craters on Venus from the
-#' \href{https://astrogeology.usgs.gov/search/map/Venus/venuscraters}{
+#' \href{https://web.archive.org/web/20240221073126/
+#' https://astrogeology.usgs.gov/search/map/Venus/venuscraters}{
 #' USGS Astrogeology Science Center}.
 #'
 #' @docType data

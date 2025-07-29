@@ -41,5 +41,3 @@
 * Add `"Stein"` test.
 * Add `rot_ab` and `H_ab` convenience functions to rotate data.
 * Fix NOTE on Rd cross-references.
-
-

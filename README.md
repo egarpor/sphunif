@@ -98,8 +98,8 @@ avail_cir_tests
 #> [17] "Num_uncover"    "PAD"            "PCvM"           "Poisson"       
 #> [21] "PRt"            "Pycke"          "Pycke_q"        "Range"         
 #> [25] "Rao"            "Rayleigh"       "Riesz"          "Rothman"       
-#> [29] "Sobolev"        "Softmax"        "Vacancy"        "Watson"        
-#> [33] "Watson_1976"
+#> [29] "Sobolev"        "Softmax"        "Stein"          "Vacancy"       
+#> [33] "Watson"         "Watson_1976"
 ```
 
 For example:
@@ -154,8 +154,8 @@ The available spherical uniformity tests:
 avail_sph_tests
 #>  [1] "Ajne"        "Bakshaev"    "Bingham"     "CCF09"       "CJ12"       
 #>  [6] "Gine_Fn"     "Gine_Gn"     "PAD"         "PCvM"        "Poisson"    
-#> [11] "PRt"         "Pycke"       "Sobolev"     "Softmax"     "Stereo"     
-#> [16] "Rayleigh"    "Rayleigh_HD" "Riesz"
+#> [11] "PRt"         "Pycke"       "Sobolev"     "Softmax"     "Stein"      
+#> [16] "Stereo"      "Rayleigh"    "Rayleigh_HD" "Riesz"
 ```
 
 The default `type = "all"` equals `type = avail_sph_tests`:
@@ -228,7 +228,7 @@ unif_test(data = sph_data, type = "Rayleigh", p_value = "asymp")
 The *hyperspherical* setting is treated analogously to the spherical
 setting, and the available tests are exactly the same
 (`avail_sph_tests`). An example of testing uniformity with a sample of
-size `100` on the $9$-sphere:
+size `100` on the $`9`$-sphere:
 
 ``` r
 # Sample data on S^9
@@ -367,8 +367,9 @@ García-Portugués (2024).
 ## References
 
 Fernández-de-Marcos, A. and García-Portugués, E. (2024). A stereographic
-test of spherical uniformity. *arXiv:2405.13531*.
-[doi:10.48550/arXiv.2405.13531](https://doi.org/10.48550/arXiv.2405.13531).
+test of spherical uniformity. *Statistics and Probability Letters*,
+215:110218.
+[doi:10.1016/j.spl.2024.110218](https://doi.org/10.1016/j.spl.2024.110218).
 
 García-Portugués, E., Navarro-Esteban, P., and Cuesta-Albertos, J. A.
 (2023). On a projection-based class of uniformity tests on the

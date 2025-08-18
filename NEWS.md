@@ -41,3 +41,7 @@
 * Add `"Stein"` test.
 * Add `rot_ab` and `H_ab` convenience functions to rotate data.
 * Fix NOTE on Rd cross-references.
+
+# sphunif 1.4.2
+
+* Update the reference Fernández-de-Marcos and García-Portugués (2024).

@@ -10,5 +10,3 @@
 0 errors | 0 warnings | 0 notes
 
 ## Comments
-
-Fixed NOTE as requested. Fixed 404 error in deprecated URL.

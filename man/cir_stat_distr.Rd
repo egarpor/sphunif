@@ -232,8 +232,7 @@ Defaults to \code{TRUE}.}
 distribution of the Kuiper statistic? Defaults to \code{TRUE}.}
 
 \item{Stephens}{compute Stephens (1970) modification so that the null
-distribution of the is less dependent on the sample size? The modification
-does not alter the test decision.}
+distribution of the is less dependent on the sample size?}
 
 \item{abs_val}{compute the distribution associated to the absolute value of
 the Darling's log gaps statistic? Defaults to \code{TRUE}.}

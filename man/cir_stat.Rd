@@ -120,8 +120,7 @@ column of \code{Theta} is sorted internally.}
 Defaults to \code{FALSE}.}
 
 \item{Stephens}{compute Stephens (1970) modification so that the null
-distribution of the is less dependent on the sample size? The modification
-does not alter the test decision.}
+distribution of the is less dependent on the sample size?}
 
 \item{CvM}{compute the Cramér-von Mises statistic (which is \emph{not}
 invariant under origin shifts) instead of the Watson statistic? Defaults to

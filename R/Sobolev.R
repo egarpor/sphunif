@@ -50,7 +50,6 @@
 #'   a vector.
 #'   \item \code{q_Sobolev}: quantile function evaluated at \code{u}, a vector.
 #' }
-#' @author Eduardo García-Portugués and Paula Navarro-Esteban.
 #' @details
 #' The truncation of \eqn{\sum_{k = 1}^\infty v_k^2 \chi^2_{d_{p, k}}} is
 #' done to the first \code{K_max} terms and then up to the index such that
@@ -163,8 +162,14 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
   # alpha
   alpha <- 0.5 * p - 1
 
+  # Sobolev tests
+  type_Sobolev_2 <- c("Watson", "Rothman", "Hermans_Rasson", "Pycke_q")
+  type_Sobolev_p <- c("Ajne", "Gine_Gn", "Gine_Fn", "Bakshaev", "Riesz",
+                      "PCvM", "PAD", "PRt", "Poisson", "Softmax", "Stein",
+                      "Stereo", "Sobolev")
+
   # Sobolev weights and dfs
-  if (p == 2 && type %in% c("Watson", "Rothman", "Hermans_Rasson", "Pycke_q")) {
+  if (p == 2 && type %in% type_Sobolev_2) {
 
     if (type == "Watson") {
 
@@ -172,7 +177,7 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
       k <- 1:K_max
 
       # log(v_k^2)
-      log_vk2 <- -2 * log(k * pi)
+      log_vk2 <- -2 * log(k * pi) - log(4)
 
       # log(d_{2, k})
       log_dk <- d_p_k(p = 2, k = k, log = TRUE)
@@ -238,7 +243,7 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
 
     }
 
-  } else {
+  } else if (type %in% type_Sobolev_p) {
 
     if (type == "Ajne") {
 
@@ -508,7 +513,7 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
       log_weights <- log_vk2
       log_dfs <- log_dk
 
-    } else if (type == "Stein"){
+    } else if (type == "Stein") {
 
       # Sequence of indexes
       k <- 1:K_max
@@ -581,11 +586,15 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
       log_weights <- log(Sobolev_vk2)
       log_dfs <- log_dk
 
-    } else {
-
-      stop("Incompatible choice of p and type.")
-
     }
+
+  } else {
+
+    stop(paste0(type, " is not a valid Sobolev test name for p = ", p,
+                " (", ifelse(p == 2,
+                             paste(c(type_Sobolev_2, type_Sobolev_p),
+                                   collapse = ", "),
+                             paste(type_Sobolev_p, collapse = ", ")), ")."))
 
   }
 

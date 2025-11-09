@@ -64,8 +64,7 @@ be \code{"I"} (Imhof), \code{"SW"} (Satterthwaite--Welch), \code{"HBE"}
 or quantile functions). Defaults to \code{"I"}.}
 
 \item{Stephens}{compute Stephens (1970) modification so that the null
-distribution of the is less dependent on the sample size? The modification
-does not alter the test decision.}
+distribution of the is less dependent on the sample size?}
 
 \item{CCF09_dirs}{a matrix of size \code{c(n_proj, p)} containing
 \code{n_proj} random directions (in Cartesian coordinates) on \eqn{S^{p-1}}

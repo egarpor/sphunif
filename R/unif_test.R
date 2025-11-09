@@ -53,7 +53,7 @@
 #' @inheritParams unif_stat
 #' @param ... If \code{p_value = "MC"} or \code{p_value = "crit_val"}, optional
 #' performance parameters to be passed to \code{\link{unif_stat_MC}}:
-#' \code{chunks}, \code{cores}, and \code{seed}. If \code{p_value = "MC"},
+#' \code{chunks}, \code{cores}, and \code{seed}. If \code{p_value = "asymp"},
 #' additional parameters to \code{\link{unif_stat_distr}}.
 #' @return If only a \bold{single test} is performed, a list with class
 #' \code{htest} containing the following components:

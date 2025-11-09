@@ -24,7 +24,7 @@ A character vector whose elements are valid inputs for the
 \code{avail_sph_tests} the (hyper)spherical tests.
 }
 \description{
-Listing of the tests implemented in the \code{\link{sphunif}}
+List of the tests implemented in the \code{\link{sphunif}}
 package.
 }
 \examples{

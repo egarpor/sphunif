@@ -158,5 +158,5 @@ unif_stat(data = X, type = "CJ12", CJ12_reg = 1)
 \references{
 García-Portugués, E. and Verdebout, T. (2018) An overview of uniformity
 tests on the hypersphere. \emph{arXiv:1804.00286}.
-\doi{10.48550/arXiv.1804.00286}.
+\doi{10.48550/arXiv.1804.00286}
 }

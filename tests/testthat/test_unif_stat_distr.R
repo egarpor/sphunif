@@ -82,6 +82,7 @@ test_that("Errors in edge cases", {
   expect_error(unif_stat_distr(x = 1, p = 2, type = function(x) x))
   expect_error(unif_stat_distr(x = 0.5, p = 2, type = "Range"))
   expect_error(unif_stat_distr(x = 0.5, p = 2, type = "Kuiper"))
+  expect_error(unif_stat_distr(x = 1, p = 2, type = "PCvM", approx = "MC"))
 
 })
 

@@ -1,8 +1,8 @@
 Package: sphunif
 Type: Package
 Title: Uniformity Tests on the Circle, Sphere, and Hypersphere
-Version: 1.4.2
-Date: 2025-08-18
+Version: 1.4.3
+Date: 2025-11-08
 Authors@R: c(
      person(given = "Eduardo", family = "García-Portugués",
             role = c("aut", "cre"), email = "edgarcia@est-econ.uc3m.es",
@@ -29,7 +29,7 @@ Description: Implementation of uniformity tests on the circle and
     <doi:10.1007/978-3-030-69944-4_12>, García-Portugués et al. (2023)
     <doi:10.3150/21-BEJ1454>, Fernández-de-Marcos and
     García-Portugués (2024) <doi:10.1016/j.spl.2024.110218>, and
-    García-Portugués et al. (2024) <doi:10.48550/arXiv.2108.09874>.
+    García-Portugués et al. (2025) <doi:10.1080/01621459.2025.2566414>.
 License: GPL-3
 LazyData: true
 Depends:

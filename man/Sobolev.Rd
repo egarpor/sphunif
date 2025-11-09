@@ -217,6 +217,3 @@ sapply(p, function(p) length(weights_dfs_Sobolev(p = p, type = "PRt")$dfs))
 sapply(p, function(p) length(weights_dfs_Sobolev(p = p, type = "PAD")$dfs))
 }
 }
-\author{
-Eduardo García-Portugués and Paula Navarro-Esteban.
-}

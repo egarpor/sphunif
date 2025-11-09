@@ -360,10 +360,10 @@ The script
 contains some of the numerical experiments in Fernández-de-Marcos and
 García-Portugués (2024).
 
-### *On a class of Sobolev tests for symmetry of directions, their detection thresholds, and asymptotic powers*
+### *On a class of Sobolev tests for symmetry, their detection thresholds, and asymptotic powers*
 
 The data application in García-Portugués, Paindaveine, and Verdebout
-(2024) regarding the symmetry of comet orbits can be reproduced through
+(2025) regarding the symmetry of comet orbits can be reproduced through
 the script
 [data-application-sobolev.R](https://github.com/egarpor/sphunif/blob/master/applications/data-application-sobolev.R).
 
@@ -377,7 +377,7 @@ test of spherical uniformity. *Statistics and Probability Letters*,
 García-Portugués, E., Navarro-Esteban, P., and Cuesta-Albertos, J. A.
 (2023). On a projection-based class of uniformity tests on the
 hypersphere. *Bernoulli*, 29(1):181–204.
-[doi:10.1007/978-3-030-69944-4_12](https://doi.org/10.3150/21-BEJ1454).
+[doi:10.3150/21-BEJ1454](https://doi.org/10.3150/21-BEJ1454).
 
 García-Portugués, E., Navarro-Esteban, P., and Cuesta-Albertos, J. A.
 (2021). A Cramér–von Mises test of uniformity on the hypersphere. In
@@ -387,10 +387,10 @@ Classification, Data Analysis and Knowledge Organization, pp. 107–116.
 Springer, Cham.
 [doi:10.1007/978-3-030-69944-4_12](https://doi.org/10.1007/978-3-030-69944-4_12).
 
-García-Portugués, E., Paindaveine, D., and Verdebout, T. (2024). On a
-class of Sobolev tests for symmetry of directions, their detection
-thresholds, and asymptotic powers. *arXiv:2108.09874v2*.
-[doi:10.48550/arXiv.2108.09874](https://doi.org/10.48550/arXiv.2108.09874).
+García-Portugués, E., Paindaveine, D., and Verdebout, T. (2025). On a
+class of Sobolev tests for symmetry, their detection thresholds, and
+asymptotic powers . *Journal of the American Statistical Association*.
+[doi:10.1080/01621459.2025.2566414](https://doi.org/10.1080/01621459.2025.2566414).
 
 García-Portugués, E. and Verdebout, T. (2018). An overview of uniformity
 tests on the hypersphere. *arXiv:1804.00286*.

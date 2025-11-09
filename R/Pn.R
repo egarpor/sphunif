@@ -74,7 +74,7 @@
 #' @references
 #' García-Portugués, E., Navarro-Esteban, P., Cuesta-Albertos, J. A. (2023)
 #' On a projection-based class of uniformity tests on the hypersphere.
-#' \emph{Bernoulli}, 29(1):181--204. \doi{10.3150/21-BEJ1454}.
+#' \emph{Bernoulli}, 29(1):181--204. \doi{10.3150/21-BEJ1454}
 #' @examples
 #' # Kernels in the projected-ecdf test statistics
 #' k <- 0:10

@@ -38,7 +38,7 @@
 #' distribution or density function at \code{x}.
 #' @references García-Portugués, E. and Verdebout, T. (2018) An overview of
 #' uniformity tests on the hypersphere. \emph{arXiv:1804.00286}.
-#' \doi{10.48550/arXiv.1804.00286}.
+#' \doi{10.48550/arXiv.1804.00286}
 #' @details
 #' Descriptions and references for most of the tests are available
 #' in García-Portugués and Verdebout (2018).

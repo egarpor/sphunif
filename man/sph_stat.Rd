@@ -225,5 +225,5 @@ sph_stat_CJ12(Psi, regime = 3, Psi_in_X = TRUE, p = p)
 \references{
 García-Portugués, E. and Verdebout, T. (2018) An overview of uniformity
 tests on the hypersphere. \emph{arXiv:1804.00286}.
-\doi{10.48550/arXiv.1804.00286}.
+\doi{10.48550/arXiv.1804.00286}
 }

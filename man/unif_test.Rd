@@ -129,7 +129,7 @@ function).}
 
 \item{...}{If \code{p_value = "MC"} or \code{p_value = "crit_val"}, optional
 performance parameters to be passed to \code{\link{unif_stat_MC}}:
-\code{chunks}, \code{cores}, and \code{seed}. If \code{p_value = "MC"},
+\code{chunks}, \code{cores}, and \code{seed}. If \code{p_value = "asymp"},
 additional parameters to \code{\link{unif_stat_distr}}.}
 }
 \value{
@@ -307,5 +307,5 @@ with_progress(
 \references{
 García-Portugués, E. and Verdebout, T. (2018) An overview of uniformity
 tests on the hypersphere. \emph{arXiv:1804.00286}.
-\doi{10.48550/arXiv.1804.00286}.
+\doi{10.48550/arXiv.1804.00286}
 }

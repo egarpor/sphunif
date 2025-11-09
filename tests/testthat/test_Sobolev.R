@@ -19,7 +19,7 @@ psi_Riesz <- function(th, s) {
     return(-sign(s) * 2^s * sin(th / 2)^s)
   }
 }
-psi_Watson <- function(th) 2 * (th^2 / (4 * pi^2) - th / (2 * pi))
+psi_Watson <- function(th) 0.5 * (th^2 / (4 * pi^2) - th / (2 * pi))
 psi_Rothman <- function(th, t = 1 / 3) {
   tm <- min(t, 1 - t)
   pmax(0, tm - th / (2 * pi)) - tm^2
@@ -48,6 +48,13 @@ x_eps1 <- x + eps
 x_eps2 <- x - eps
 
 ## weights_dfs_Sobolev()
+
+test_that("weights_dfs_Sobolev erros if invalid test name", {
+
+  expect_error(weights_dfs_Sobolev(p = 2, K = 4, type = "Invent"))
+  expect_error(weights_dfs_Sobolev(p = 3, K = 4, type = "Watson"))
+
+})
 
 test_that("weights_dfs_Sobolev returns the same number of coefficients", {
 
@@ -237,9 +244,9 @@ test_that(paste("Gegen_coefs vs. weights_dfs_Sobolev for Watson, Rothman,",
 
 test_that("weights_dfs_Sobolev for Watson vs. PCvM with p = 2", {
 
-  expect_equal(0.5 * weights_dfs_Sobolev(p = 2, K_max = K, thre = 0,
-                                         type = "Watson",
-                                         verbose = FALSE)$weights,
+  expect_equal(2 * weights_dfs_Sobolev(p = 2, K_max = K, thre = 0,
+                                       type = "Watson",
+                                       verbose = FALSE)$weights,
                weights_dfs_Sobolev(p = 2, K_max = K, thre = 0, type = "PCvM",
                                    verbose = FALSE)$weights,
                tolerance = 1e-6)

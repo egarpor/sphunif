@@ -10,7 +10,7 @@ A data frame with 3798 rows and 13 variables:
   \item{id}{database ID.}
   \item{spkid}{object primary SPK-ID.}
   \item{full_name}{full name/designation following the
-  \href{https://web.archive.org/web/20240118190835/https://www.iau.org/public/themes/naming/#comets}{IUA naming convention}.}
+  \href{https://web.archive.org/web/20240118190835/https://www.iau.org/public/themes/naming/#comets}{IAU naming convention}.}
   \item{pdes}{object primary designation.}
   \item{frag}{flag indicating if the record is a comet fragment.}
   \item{diameter}{diameter from equivalent sphere (in km).}

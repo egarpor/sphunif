@@ -53,7 +53,7 @@
 #' @inheritParams unif_stat
 #' @param ... If \code{p_value = "MC"} or \code{p_value = "crit_val"}, optional
 #' performance parameters to be passed to \code{\link{unif_stat_MC}}:
-#' \code{chunks}, \code{cores}, and \code{seed}. If \code{p_value = "MC"},
+#' \code{chunks}, \code{cores}, and \code{seed}. If \code{p_value = "asymp"},
 #' additional parameters to \code{\link{unif_stat_distr}}.
 #' @return If only a \bold{single test} is performed, a list with class
 #' \code{htest} containing the following components:
@@ -107,7 +107,7 @@
 #' @references
 #' García-Portugués, E. and Verdebout, T. (2018) An overview of uniformity
 #' tests on the hypersphere. \emph{arXiv:1804.00286}.
-#' \doi{10.48550/arXiv.1804.00286}.
+#' \doi{10.48550/arXiv.1804.00286}
 #' @examples
 #' ## Asymptotic distribution
 #'
@@ -783,7 +783,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
 
 #' @title Available circular and (hyper)spherical uniformity tests
 #'
-#' @description Listing of the tests implemented in the \code{\link{sphunif}}
+#' @description List of the tests implemented in the \code{\link{sphunif}}
 #' package.
 #'
 #' @return A character vector whose elements are valid inputs for the

@@ -65,7 +65,7 @@
 #' @references
 #' García-Portugués, E. and Verdebout, T. (2018) An overview of uniformity
 #' tests on the hypersphere. \emph{arXiv:1804.00286}.
-#' \doi{10.48550/arXiv.1804.00286}.
+#' \doi{10.48550/arXiv.1804.00286}
 #' @examples
 #' ## Asymptotic distribution
 #'
@@ -178,26 +178,6 @@ unif_stat_distr <- function(x, type, p, n, approx = "asymp", M = 1e4,
 
   }
 
-  # Check if n is missing
-  if (missing(n)) {
-
-    if (approx == "MC") {
-
-      stop("n must be specified for approx = \"MC\".")
-
-    } else if (approx == "asymp") {
-
-      n <- 0
-      warning(paste("n is not specified; set to n = 0. The asymptotic",
-                    "distributions of the Watson and Kuiper statistics accept",
-                    "n to improve their accuracy with Stephens = TRUE.",
-                    "The distributions of the Hodges-Ajne and Range statistics",
-                    "require to specify n."))
-
-    }
-
-  }
-
   # Get the type of statistics
   if (is.character(type)) {
 
@@ -240,6 +220,41 @@ unif_stat_distr <- function(x, type, p, n, approx = "asymp", M = 1e4,
   } else {
 
     stop("type must be a character or a numeric vector.")
+
+  }
+
+  # Check if n is missing
+  if (missing(n)) {
+
+    if (approx == "MC") {
+
+      stop("n must be specified for approx = \"MC\".")
+
+    } else if (approx == "asymp") {
+
+      if ("Watson" %in% type) {
+
+        warning(paste("n is not specified; set to n = 0. The asymptotic",
+                      "distribution of the Watson statistic accepts n to",
+                      "improve its accuracy with Stephens = TRUE."))
+
+      }
+      if ("Kuiper" %in% type) {
+
+        stop(paste("n is not specified. The asymptotic distribution of the",
+                   "Kuiper statistic requires n to improve its accuracy",
+                   "(and Stephens = TRUE can also be set)."))
+
+      }
+      if (any(c("Hodges_Ajne", "Range") %in% type)) {
+
+        stop(paste("n is not specified. The distributions of the Hodges-Ajne",
+                   "and Range statistics require to specify n."))
+
+      }
+      n <- 0
+
+    }
 
   }
 

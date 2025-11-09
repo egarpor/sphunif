@@ -31,10 +31,10 @@ Computation of a certain explicit representation of
 (hyper)spherical harmonics on
 \eqn{S^{p-1}:=\{{\bf x}\in R^p:||{\bf x}||=1\}}{
 S^{p-1}:=\{x\in R^p:||x||=1\}}, \eqn{p\ge 2}. Details are available in
-García-Portugués et al. (2024).
+García-Portugués et al. (2025).
 }
 \details{
-The implementation uses Proposition 3.1 in García-Portugués et al. (2024),
+The implementation uses Proposition 3.1 in García-Portugués et al. (2025),
 which adapts Theorem 1.5.1 in Dai and Xu (2013) with the correction of
 typos in the normalizing constant \eqn{h_\alpha} and in the definition of
 the function \eqn{g_\alpha} of the latter theorem.
@@ -61,8 +61,8 @@ par(old_par)
 Dai, F. and Xu, Y. (2013). \emph{Approximation Theory and Harmonic Analysis
 on Spheres and Balls}. Springer, New York. \doi{10.1007/978-1-4614-6660-4}
 
-García-Portugués, E., Paindaveine, D., and Verdebout, T. (2024). On a class
-of Sobolev tests for symmetry of directions, their detection thresholds, and
-asymptotic powers. \emph{arXiv:2108.09874v2}.
-\doi{10.48550/arXiv.2108.09874}
+García-Portugués, E., Paindaveine, D., and Verdebout, T. (2025). On a class
+of Sobolev tests for symmetry, their detection thresholds, and asymptotic
+powers. \emph{Journal of the American Statistical Association}.
+\doi{10.1080/01621459.2025.2566414}
 }

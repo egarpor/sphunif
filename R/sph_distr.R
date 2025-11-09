@@ -543,4 +543,3 @@ d_sph_stat_Stereo <- function(x, p, a = 0, K_max = 1e3, method = "I", ...) {
                   K_max = K_max, thre = 0, method = method, ...))
 
 }
-

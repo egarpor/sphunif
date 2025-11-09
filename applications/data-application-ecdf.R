@@ -5,7 +5,7 @@ rm(list = ls())
 # Load packages
 library(sphunif)
 
-## Craters named by the IUA
+## Craters named by the IAU
 
 # Read data of named craters
 data("craters")

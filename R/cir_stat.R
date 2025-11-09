@@ -72,8 +72,7 @@
 #' consistent with the rest of tests. Otherwise, rejection happens for
 #' \emph{low} values.
 #' @param Stephens compute Stephens (1970) modification so that the null
-#' distribution of the is less dependent on the sample size? The modification
-#' does not alter the test decision.
+#' distribution of the is less dependent on the sample size?
 #' @param rho \eqn{\rho} parameter for the Poisson test, a real in
 #' \eqn{[0, 1)}. Defaults to \code{0.5}.
 #' @param kappa \eqn{\kappa} parameter for the Softmax test, a
@@ -105,7 +104,7 @@
 #' @references
 #' García-Portugués, E. and Verdebout, T. (2018) An overview of uniformity
 #' tests on the hypersphere. \emph{arXiv:1804.00286}.
-#' \doi{10.48550/arXiv.1804.00286}.
+#' \doi{10.48550/arXiv.1804.00286}
 #' @examples
 #' ## Sample uniform circular data
 #'

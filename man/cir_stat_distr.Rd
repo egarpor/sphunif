@@ -232,8 +232,7 @@ Defaults to \code{TRUE}.}
 distribution of the Kuiper statistic? Defaults to \code{TRUE}.}
 
 \item{Stephens}{compute Stephens (1970) modification so that the null
-distribution of the is less dependent on the sample size? The modification
-does not alter the test decision.}
+distribution of the is less dependent on the sample size?}
 
 \item{abs_val}{compute the distribution associated to the absolute value of
 the Darling's log gaps statistic? Defaults to \code{TRUE}.}
@@ -450,5 +449,5 @@ curve(p_cir_stat_Sobolev(x = x, vk2 = vk2), n = 2e2, col = 2, add = TRUE)
 \references{
 García-Portugués, E. and Verdebout, T. (2018) An overview of
 uniformity tests on the hypersphere. \emph{arXiv:1804.00286}.
-\doi{10.48550/arXiv.1804.00286}.
+\doi{10.48550/arXiv.1804.00286}
 }

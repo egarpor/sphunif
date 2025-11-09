@@ -18,6 +18,7 @@ vignette: >
 options(rmarkdown.html_vignette.check_title = FALSE)
 knitr::opts_chunk$set(
   collapse = TRUE,
+  message = FALSE,
   comment = "#>"
 )
 ```
@@ -33,7 +34,7 @@ set.seed(987202226)
 cir_data <- runif(n = 30, min = 0, max = 2 * pi)
 ```
 
-Then you can call the main function in the `sphunif` package, `unif_test`, specifying the `type` of test to be performed. For example, the Watson (omnibus) test:
+Then you can call the main function in the `sphunif` package, `unif_test()`, specifying the `type` of test to be performed. For example, the Watson (omnibus) test:
 
 ```{r, unif_test_cir}
 library(sphunif)
@@ -47,13 +48,13 @@ unif_test(data = cir_data, type = "Watson", p_value = "MC") # Monte Carlo
 unif_test(data = cir_data, type = "Watson", p_value = "asymp") # Asymp. distr.
 ```
 
-You can perform *several* tests within a *single* call to `unif_test`. Choose the available circular uniformity tests from
+You can perform *several* tests within a *single* call to `unif_test()`. Choose the available circular uniformity tests from
 
 ```{r, avail_cir}
 avail_cir_tests
 ```
 
-For example, you can use the Projected Anderson--Darling (@Garcia-Portugues2023, also an omnibus test) test and the Watson test:
+For example, you can use the more powerful Projected Anderson--Darling test (@Garcia-Portugues2023, also omnibus) and the Watson test:
 
 ```{r, unif_test_avail_cir}
 # A *list* of htest objects
@@ -137,7 +138,7 @@ with_progress(
 
 ## Simulation studies done simple
 
-`unif_stat` allows to compute several statistics to different samples within a single call, thus facilitating Monte Carlo experiments:
+`unif_stat()` allows computing several statistics to different samples within a single call, thus facilitating Monte Carlo experiments:
 
 ```{r, unif_stat_vec}
 # M samples of size n on S^2
@@ -147,7 +148,7 @@ samps_sph <- r_unif_sph(n = 30, p = 3, M = 10)
 unif_stat(data = samps_sph, type = "all")
 ```
 
-Additionally, `unif_stat_MC` is an utility for performing the previous simulation through a convenient parallel wrapper:
+Additionally, `unif_stat_MC()` is an utility for performing the previous simulation through a convenient parallel wrapper:
 
 ```{r, MC}
 # Break the simulation in 10 chunks of tasks to be divided between 2 cores
@@ -185,7 +186,7 @@ pow <- unif_stat_MC(n = 30, type = "all", p = 3, M = 1e2, cores = 2,
 pow$power_MC
 ```
 
-`unif_stat_MC` can be used for constructing the Monte Carlo calibration necessary for `unif_test`, either for providing a rejection rule based on `$crit_val_MC` or for approximating the $p$-value by `$stats_MC`.
+`unif_stat_MC()` can be used for constructing the Monte Carlo calibration necessary for `unif_test()`, either for providing a rejection rule based on `$crit_val_MC` or for approximating the $p$-value by `$stats_MC`.
 
 ```{r, crit_val}
 # Using precomputed critical values
@@ -202,6 +203,14 @@ ht2$reject
 
 # Faster than
 unif_test(data = samps_sph[, , 1], type = "Rayleigh", p_value = "MC")
+```
+
+## Citation
+
+If you use `sphunif`, please cite it!
+
+```{r}
+citation("sphunif")
 ```
 
 ## References

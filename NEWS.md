@@ -45,3 +45,11 @@
 # sphunif 1.4.2
 
 * Update the reference Fernández-de-Marcos and García-Portugués (2024).
+
+# sphunif 1.4.3
+
+* Fix bug in `weights_dfs_Sobolev(type = "Watson")` (did not affect `unif_test(type = "Watson")`).
+* Add further unit testing for `p_Sobolev()`.
+* Update reference García-Portugués et al. (2025).
+* Update vignette.
+* Fix typos in documentation.

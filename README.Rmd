@@ -187,7 +187,7 @@ Fernández-de-Marcos, A. and García-Portugués, E. (2024). A stereographic
 test of spherical uniformity. *Statistics and Probability Letters*, 215:110218.
 [doi:10.1016/j.spl.2024.110218](https://doi.org/10.1016/j.spl.2024.110218).
 
-García-Portugués, E., Navarro-Esteban, P., and Cuesta-Albertos, J. A. (2023). On a projection-based class of uniformity tests on the hypersphere. *Bernoulli*, 29(1):181--204. [doi:10.1007/978-3-030-69944-4_12](https://doi.org/10.3150/21-BEJ1454).
+García-Portugués, E., Navarro-Esteban, P., and Cuesta-Albertos, J. A. (2023). On a projection-based class of uniformity tests on the hypersphere. *Bernoulli*, 29(1):181--204. [doi:10.3150/21-BEJ1454](https://doi.org/10.3150/21-BEJ1454).
 
 García-Portugués, E., Navarro-Esteban, P., and Cuesta-Albertos, J. A. (2021). A Cramér–von Mises test of uniformity on the hypersphere. In Balzano, S., Porzio, G. C., Salvatore, R., Vistocco, D., and Vichi, M. (Eds.), *Statistical Learning and Modeling in Data Analysis*, Studies in Classification, Data Analysis and Knowledge Organization, pp. 107--116. Springer, Cham. [doi:10.1007/978-3-030-69944-4_12](https://doi.org/10.1007/978-3-030-69944-4_12).
 

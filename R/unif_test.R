@@ -783,7 +783,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
 
 #' @title Available circular and (hyper)spherical uniformity tests
 #'
-#' @description Listing of the tests implemented in the \code{\link{sphunif}}
+#' @description List of the tests implemented in the \code{\link{sphunif}}
 #' package.
 #'
 #' @return A character vector whose elements are valid inputs for the

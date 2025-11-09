@@ -377,7 +377,7 @@ test of spherical uniformity. *Statistics and Probability Letters*,
 García-Portugués, E., Navarro-Esteban, P., and Cuesta-Albertos, J. A.
 (2023). On a projection-based class of uniformity tests on the
 hypersphere. *Bernoulli*, 29(1):181–204.
-[doi:10.1007/978-3-030-69944-4_12](https://doi.org/10.3150/21-BEJ1454).
+[doi:10.3150/21-BEJ1454](https://doi.org/10.3150/21-BEJ1454).
 
 García-Portugués, E., Navarro-Esteban, P., and Cuesta-Albertos, J. A.
 (2021). A Cramér–von Mises test of uniformity on the hypersphere. In

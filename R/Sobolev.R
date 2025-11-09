@@ -835,7 +835,7 @@ cir_stat_Sobolev <- function(Theta, Psi_in_Theta = FALSE, vk2 = c(0, 0, 1)) {
 #' \code{uk}, depending on the call.
 #' @details
 #' See more details in Prentice (1978) and García-Portugués et al. (2023). The
-#' adequate signs of \code{uk} for the \code{"PRt"} \link[=Pn]{Rothman test}
+#' appropriate signs of \code{uk} for the \code{"PRt"} \link[=Pn]{Rothman test}
 #' can be retrieved with \code{\link{akx}} and \code{sqr = TRUE}, see the
 #' examples.
 #' @references

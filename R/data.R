@@ -13,7 +13,7 @@
 #'   \item{id}{database ID.}
 #'   \item{spkid}{object primary SPK-ID.}
 #'   \item{full_name}{full name/designation following the
-#'   \href{https://web.archive.org/web/20240118190835/https://www.iau.org/public/themes/naming/#comets}{IUA naming convention}.}
+#'   \href{https://web.archive.org/web/20240118190835/https://www.iau.org/public/themes/naming/#comets}{IAU naming convention}.}
 #'   \item{pdes}{object primary designation.}
 #'   \item{frag}{flag indicating if the record is a comet fragment.}
 #'   \item{diameter}{diameter from equivalent sphere (in km).}
@@ -157,11 +157,11 @@
 "planets"
 
 
-#' @title Craters named by the IUA
+#' @title Craters named by the IAU
 #'
 #' @description \emph{Named} craters of the Solar System by the
 #' \href{https://planetarynames.wr.usgs.gov}{Gazetteer of Planetary
-#' Nomenclature} of the International Astronomical Union (IUA).
+#' Nomenclature} of the International Astronomical Union (IAU).
 #'
 #' @docType data
 #' @format A data frame with 5235 rows and 7 variables:
@@ -185,15 +185,15 @@
 #' (the geological origin is
 #' \href{https://planetarynames.wr.usgs.gov/DescriptorTerms}{unspecified}).
 #'
-#' Be aware that the dataset only contains \emph{named} craters by the IUA.
-#' Therefore, there is likely a \bold{high uniform bias} on the distribution
+#' Be aware that the dataset contains only \emph{named} craters by the IAU.
+#' Therefore, a \bold{uniform bias} is likely present on the distribution
 #' of craters. Presumably the naming process attempts to cover the planet in
 #' a somehow uniform fashion (distant craters are more likely to be named than
 #' neighboring craters). Also, there are substantially more craters in the
-#' listed bodies than those named by the IUA. See \code{\link{venus}} and
+#' listed bodies than those named by the IAU. See \code{\link{venus}} and
 #' \code{\link{rhea}} for more detailed and specific crater datasets.
 #'
-#' The \eqn{(\theta, \phi)} angles are such their associated planetocentric
+#' The \eqn{(\theta, \phi)} angles are such the associated planetocentric
 #' coordinates are:
 #' \deqn{(\cos(\phi) \cos(\theta), \cos(\phi) \sin(\theta), \sin(\phi))',}{
 #' (cos(\phi) cos(\theta), cos(\phi) sin(\theta), sin(\phi))',}

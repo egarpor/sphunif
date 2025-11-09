@@ -76,7 +76,7 @@ For \eqn{p = 2}, the factor \eqn{(1 + 2k / (p - 2))} is replaced by \eqn{2}.
 }
 \details{
 See more details in Prentice (1978) and García-Portugués et al. (2023). The
-adequate signs of \code{uk} for the \code{"PRt"} \link[=Pn]{Rothman test}
+appropriate signs of \code{uk} for the \code{"PRt"} \link[=Pn]{Rothman test}
 can be retrieved with \code{\link{akx}} and \code{sqr = TRUE}, see the
 examples.
 }

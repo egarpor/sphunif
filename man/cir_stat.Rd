@@ -402,5 +402,5 @@ abline(h = mean(AD_alpha), col = 3)
 \references{
 García-Portugués, E. and Verdebout, T. (2018) An overview of uniformity
 tests on the hypersphere. \emph{arXiv:1804.00286}.
-\doi{10.48550/arXiv.1804.00286}.
+\doi{10.48550/arXiv.1804.00286}
 }

@@ -30,27 +30,27 @@ simulations in García-Portugués et al. (2021)
 \references{
 Fernández-de-Marcos, A. and García-Portugués, E. (2024) A stereographic test
 of spherical uniformity. \emph{Statistics & Probability Letters},
-215:110218. \doi{doi:10.1016/j.spl.2024.110218}.
+215:110218. \doi{doi:10.1016/j.spl.2024.110218}
 
 García-Portugués, E. and Verdebout, T. (2018) An overview of uniformity
 tests on the hypersphere. \emph{arXiv:1804.00286}.
-\doi{10.48550/arXiv.1804.00286}.
+\doi{10.48550/arXiv.1804.00286}
 
 García-Portugués, E., Navarro-Esteban, P., Cuesta-Albertos, J. A. (2023)
 On a projection-based class of uniformity tests on the hypersphere.
-\emph{Bernoulli}, 29(1):181--204. \doi{10.3150/21-BEJ1454}.
+\emph{Bernoulli}, 29(1):181--204. \doi{10.3150/21-BEJ1454}
 
 García-Portugués, E., Navarro-Esteban, P., and Cuesta-Albertos, J. A. (2021).
 A Cramér–von Mises test of uniformity on the hypersphere. In Balzano, S.,
 Porzio, G. C., Salvatore, R., Vistocco, D., and Vichi, M. (Eds.), \emph{
 Statistical Learning and Modeling in Data Analysis}, Studies in
 Classification, Data Analysis and Knowledge Organization, pp. 107--116.
-Springer, Cham. \doi{10.1007/978-3-030-69944-4_12}.
+Springer, Cham. \doi{10.1007/978-3-030-69944-4_12}
 
 García-Portugués, E., Paindaveine, D., and Verdebout, T. (2025). On a class
 of Sobolev tests for symmetry, their detection thresholds, and asymptotic
 powers. \emph{Journal of the American Statistical Association}.
-\doi{10.1080/01621459.2025.2566414}.
+\doi{10.1080/01621459.2025.2566414}
 }
 \seealso{
 Useful links:

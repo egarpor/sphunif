@@ -52,3 +52,4 @@
 * Add further unit testing for `p_Sobolev()`.
 * Update reference García-Portugués et al. (2025).
 * Update vignette.
+* Fix typos in documentation.

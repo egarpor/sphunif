@@ -124,7 +124,7 @@ sphere_to_angles <- function(x) {
 #' García-Portugués, E., Paindaveine, D., and Verdebout, T. (2025). On a class
 #' of Sobolev tests for symmetry, their detection thresholds, and asymptotic
 #' powers. \emph{Journal of the American Statistical Association}.
-#' \doi{10.1080/01621459.2025.2566414}.
+#' \doi{10.1080/01621459.2025.2566414}
 #' @examples
 #' n <- 3e3
 #' old_par <- par(mfrow = c(2, 3))

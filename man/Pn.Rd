@@ -202,7 +202,7 @@ legend("topleft", legend = paste("p =", p), col = col, lwd = 2)
 \references{
 García-Portugués, E., Navarro-Esteban, P., Cuesta-Albertos, J. A. (2023)
 On a projection-based class of uniformity tests on the hypersphere.
-\emph{Bernoulli}, 29(1):181--204. \doi{10.3150/21-BEJ1454}.
+\emph{Bernoulli}, 29(1):181--204. \doi{10.3150/21-BEJ1454}
 }
 \author{
 Eduardo García-Portugués and Paula Navarro-Esteban.

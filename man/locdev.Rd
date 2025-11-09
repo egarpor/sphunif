@@ -200,7 +200,7 @@ loc_alt_diagnostic(p = 11, type = "PRt")
 \references{
 García-Portugués, E., Navarro-Esteban, P., Cuesta-Albertos, J. A. (2023)
 On a projection-based class of uniformity tests on the hypersphere.
-\emph{Bernoulli}, 29(1):181--204. \doi{10.3150/21-BEJ1454}.
+\emph{Bernoulli}, 29(1):181--204. \doi{10.3150/21-BEJ1454}
 
 Prentice, M. J. (1978). On invariant tests of uniformity for directions and
 orientations. \emph{The Annals of Statistics}, 6(1):169--176.

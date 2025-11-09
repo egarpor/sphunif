@@ -389,7 +389,7 @@ Springer, Cham.
 
 García-Portugués, E., Paindaveine, D., and Verdebout, T. (2025). On a
 class of Sobolev tests for symmetry, their detection thresholds, and
-asymptotic powers . *Journal of the American Statistical Association*.
+asymptotic powers. *Journal of the American Statistical Association*.
 [doi:10.1080/01621459.2025.2566414](https://doi.org/10.1080/01621459.2025.2566414).
 
 García-Portugués, E. and Verdebout, T. (2018). An overview of uniformity

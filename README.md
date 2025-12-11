@@ -372,9 +372,9 @@ Verdebout (2025) regarding the symmetry of comet orbits.
 ### *High-dimensional Sobolev tests on hyperspheres*
 
 The scripts
-[simulations-hd.R](https://github.com/egarpor/sphunif/blob/master/simulations/simulations-hd.R)
+[simulations-sobolev-hd.R](https://github.com/egarpor/sphunif/blob/master/simulations/simulations-sobolev-hd.R)
 and
-[experiments-hd.R](https://github.com/egarpor/sphunif/blob/master/simulations/experiments-hd.R)
+[experiments-sobolev-hd.R](https://github.com/egarpor/sphunif/blob/master/simulations/experiments-sobolev-hd.R)
 respectively contain the simulations and numerical experiments in Ebner,
 García-Portugués, and Verdebout (2025).
 

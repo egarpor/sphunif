@@ -691,13 +691,12 @@ null_var <- function(n, p, type, lambda_grid, rel.tol = 1e-10) {
 
     if (p == 2) {
 
-      log_b0 <- log(besselI(x = lambda_grid, nu = 0, expon.scaled = TRUE))
+      log_b0 <- log_besselI_scaled_asymp(x = lambda_grid, nu = 0)
 
     } else {
 
       log_b0 <- alpha * log(2 / lambda_grid) + lgamma(alpha) +
-        log(alpha) + log(besselI(x = lambda_grid,
-                                 nu = alpha, expon.scaled = TRUE))
+        log(alpha) + log_besselI_scaled_asymp(x = lambda_grid, nu = alpha)
 
     }
 

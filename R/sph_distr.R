@@ -444,11 +444,10 @@ p_sph_stat_Softmax <- function(x, p, kappa = 1, K_max = 1e3, thre = 0,
 
   # psi_tilde_0 is the shift from U-stat to V-stat
   b_0 <- exp(switch((p > 2) + 1,
-                    log(besselI(x = kappa, nu = 0, expon.scaled = TRUE)),
+                    log_besselI_scaled_asymp(x = kappa, nu = 0),
                     (0.5 * p - 1) * (log(2) - log(kappa)) +
                       lgamma(0.5 * p - 1) + log(0.5 * p - 1) +
-                      log(besselI(x = kappa, nu = 0.5 * p - 1,
-                                  expon.scaled = TRUE))))
+                      log_besselI_scaled_asymp(x = kappa, nu = 0.5 * p - 1)))
   psi_tilde_0 <- 1 - b_0
   cbind(p_Sobolev(x = x + psi_tilde_0, p = p, type = "Softmax",
                   Softmax_kappa = kappa, K_max = K_max, thre = thre,
@@ -464,11 +463,10 @@ d_sph_stat_Softmax <- function(x, p, kappa = 1, K_max = 1e3, thre = 0,
 
   # psi_tilde_0 is the shift from U-stat to V-stat
   b_0 <- exp(switch((p > 2) + 1,
-                    log(besselI(x = kappa, nu = 0, expon.scaled = TRUE)),
+                    log_besselI_scaled_asymp(x = kappa, nu = 0),
                     (0.5 * p - 1) * (log(2) - log(kappa)) +
                       lgamma(0.5 * p - 1) + log(0.5 * p - 1) +
-                      log(besselI(x = kappa, nu = 0.5 * p - 1,
-                                  expon.scaled = TRUE))))
+                      log_besselI_scaled_asymp(x = kappa, nu = 0.5 * p - 1)))
   psi_tilde_0 <- 1 - b_0
   cbind(d_Sobolev(x = x + psi_tilde_0, p = p, type = "Softmax",
                   Softmax_kappa = kappa, K_max = K_max, thre = thre,

@@ -36,6 +36,7 @@ Depends:
     R (>= 3.5.0),
     Rcpp
 Imports:
+    Bessel,
     doFuture,
     doRNG,
     foreach,

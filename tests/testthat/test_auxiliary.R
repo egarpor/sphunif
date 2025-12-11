@@ -72,3 +72,76 @@ test_that("t_inv_sqrt_one and n_from_dist_vector", {
     sum(lower.tri(tcrossprod(1:n), diag = FALSE)))), n)
 
 })
+
+## log_besselI_scaled_asymp()
+
+test_that("Correct vectorizations on nu and x", {
+  xs <- 1:10
+  nus <- c(1:9, 101)
+  nus_a <- c(101:102)
+  expect_equal(log_besselI_scaled_asymp(nu = nus, x = xs),
+               sapply(seq_along(nus), function(i)
+                 log_besselI_scaled_asymp(nu = nus[i], x = xs[i])))
+  expect_equal(log_besselI_scaled_asymp(nu = nus, x = xs[4]),
+               sapply(seq_along(nus), function(i)
+                 log_besselI_scaled_asymp(nu = nus[i], x = xs)[4]))
+  expect_equal(log_besselI_scaled_asymp(nu = nus[4], x = xs),
+               sapply(seq_along(nus), function(i)
+                 log_besselI_scaled_asymp(nu = nus, x = xs[i])[4]))
+  expect_equal(log_besselI_scaled_asymp(nu = nus_a, x = xs[4]),
+               sapply(seq_along(nus_a), function(i)
+                 log_besselI_scaled_asymp(nu = nus_a[i], x = xs)[4]))
+})
+
+test_that("Correct vectorizations on nu and x for NA's", {
+  xs <- c(1, NA, 3:4, NA)
+  nus <- 1:5
+  for (j in 1:2) {
+    expect_equal(log_besselI_scaled_asymp(nu = nus, x = xs),
+                 sapply(seq_along(nus), function(i)
+                   log_besselI_scaled_asymp(nu = nus[i], x = xs[i])))
+    expect_equal(log_besselI_scaled_asymp(nu = nus, x = xs[j]),
+                 sapply(seq_along(nus), function(i)
+                   log_besselI_scaled_asymp(nu = nus[i], x = xs)[j]))
+    expect_equal(log_besselI_scaled_asymp(nu = nus[j], x = xs),
+                 sapply(seq_along(nus), function(i)
+                   log_besselI_scaled_asymp(nu = nus, x = xs[i])[j]))
+  }
+})
+
+test_that("Accuracy of log_besselI_scaled_asymp(nu = seq(0, 6, by = 0.5)) with
+          asymptotic approximations", {
+            x <- seq(1e4, 1e5, l = 100)
+            nus <- seq(0, 10, by = 1)
+            for (nu in nus) {
+              expect_equal(
+                log_besselI_scaled_asymp(nu = nu, x = x),
+                log_besselI_scaled_asymp(nu = nu, x = x),
+                tolerance = 1e-9)
+            }
+          })
+
+test_that("Asymptotic-kappa Bessel approximation", {
+  paper_asymp <- function(x, d) {
+    log1p(-d * (d - 2) / (8 * x)) - log(2 * pi * x) / 2
+  }
+  Bessel_asymp <- function(x, d) {
+    Bessel::besselIasym(x = x, nu = (d - 1) / 2, expon.scaled = TRUE,
+                        log = TRUE, k.max = 1)
+  }
+  for (d in 1:10) {
+    expect_equal(paper_asymp(x = c(50:100, 1e4, 1e5), d = d),
+                 Bessel_asymp(x = c(50:100, 1e4, 1e5), d = d))
+  }
+})
+
+test_that("Asymptotic-d Bessel approximation", {
+  for (x in c(0.1, 1, 10, 100)) {
+    expect_lt(
+      max(abs(diff(log_besselI_scaled_asymp(nu = 95:105, x = x),
+                   differences = 2))),
+      max(abs(diff(log_besselI_scaled_asymp(nu = 85:95, x = x),
+                   differences = 2)))
+    )
+  }
+})

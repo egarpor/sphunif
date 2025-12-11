@@ -493,13 +493,13 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
       if (p == 2) {
 
         log_vk2 <- log(2 - (k == 0)) +
-          log(besselI(x = Softmax_kappa, nu = k, expon.scaled = TRUE))
+          log_besselI_scaled_asymp(nu = k, x = Softmax_kappa)
 
       } else {
 
-        log_vk2 <- alpha * log(2 / Softmax_kappa) + lgamma(alpha) +
-          log(k + alpha) + log(besselI(x = Softmax_kappa, nu = k + alpha,
-                                       expon.scaled = TRUE))
+        log_vk2 <- alpha * log(2 / Softmax_kappa) +
+          lgamma(alpha) + log(k + alpha) +
+          log_besselI_scaled_asymp(nu = k + alpha, x = Softmax_kappa)
 
       }
 

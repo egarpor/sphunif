@@ -286,8 +286,10 @@ for (ni in n) {
     ks <- ks.test(stats_n_p, "pnorm", mean = mu_1, sd = sigma)
     lillie <- tryCatch(nortest::lillie.test(stats_n_p),
                        error = function(e) list(statistic = NA, p.value = NA))
-    curve(dnorm(x, mean = mu_1, sd = sigma), add = TRUE, col = "red", lwd = 2)
-    curve(dnorm(x, mean = mu_0, sd = sigma), add = TRUE, col = "blue", lwd = 2)
+    curve(dnorm(x, mean = mu_1, sd = sigma), add = TRUE,
+          col = "red", lwd = 2)
+    curve(dnorm(x, mean = mu_0, sd = sigma), add = TRUE,
+          col = "blue", lwd = 2)
     title(main = substitute(list(n == ni, d == di),
                             list(ni = ni, di = pi - 1)), line = 0)
     title(sub = substitute(list("KS" == p1, "L" == p2),

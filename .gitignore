@@ -19,3 +19,5 @@ tests/testthat/Rplots.pdf
 *.gcda
 Rplots.pdf
 sphunif.pdf
+simulations/sobolev-hd/check-vMF-Sobolev-*.RData
+simulations/sobolev-hd/check-vMF-Sobolev-*.pdf

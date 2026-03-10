@@ -183,11 +183,11 @@ The script [data-application-sobolev.R](https://github.com/egarpor/sphunif/blob/
 
 ### *High-dimensional Sobolev tests on hyperspheres*
 
-The scripts [simulations-sobolev-hd.R](https://github.com/egarpor/sphunif/blob/master/simulations/simulations-sobolev-hd.R) and [experiments-sobolev-hd.R](https://github.com/egarpor/sphunif/blob/master/simulations/experiments-sobolev-hd.R) respectively contain the simulations and numerical experiments in Ebner, García-Portugués, and Verdebout (2025).
+The scripts [simulations-sobolev-hd.R](https://github.com/egarpor/sphunif/blob/master/simulations/simulations-sobolev-hd.R) and [experiments-sobolev-hd.R](https://github.com/egarpor/sphunif/blob/master/simulations/experiments-sobolev-hd.R) respectively contain the simulations and numerical experiments in Ebner, García-Portugués, and Verdebout (2026).
 
 ## References
 
-Ebner, B., García-Portugués, E., and Verdebout, T. (2025). High-dimensional Sobolev tests on hyperspheres. *arXiv:2501.10898*. [doi:10.48550/arXiv.2501.10898](https://doi.org/10.48550/arXiv.2501.10898).
+Ebner, B., García-Portugués, E., and Verdebout, T. (2026). High-dimensional Sobolev tests on hyperspheres. *arXiv:2501.10898*. [doi:10.48550/arXiv.2501.10898](https://doi.org/10.48550/arXiv.2501.10898v2).
 
 Fernández-de-Marcos, A. and García-Portugués, E. (2024). A stereographic
 test of spherical uniformity. *Statistics and Probability Letters*, 215:110218.

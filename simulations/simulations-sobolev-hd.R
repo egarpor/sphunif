@@ -141,7 +141,7 @@ stat_hyb <- function(X, Sobolev_vk2 = c(1, 0), u2 = 2 * (pi^2 / 3 - 3), nu = 1,
 
   } else if (type == "t") {
 
-    stop("Preliminar version, does not work yet (does not respect significance
+    stop("Preliminary version, does not work yet (does not respect significance
          --- issues with the radii_2 distribution).")
 
     # X'X / p ~ F(nu, p) https://en.wikipedia.org/wiki/Multivariate_t-distribution#Radial_Distribution)
@@ -248,7 +248,7 @@ H0.quan <- function(samplesize = 100, dimension = 100) {
 
 }
 
-set.seed(0815)
+set.seed(815)
 param_list <- list("samplesize" = c(100, 200), "dimension" = c(100, 200, 300))
 time_START <- Sys.time()
 s.hyb.quan <- MonteCarlo(

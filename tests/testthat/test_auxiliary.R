@@ -109,18 +109,6 @@ test_that("Correct vectorizations on nu and x for NA's", {
   }
 })
 
-test_that("Accuracy of log_besselI_scaled_asymp(nu = seq(0, 6, by = 0.5)) with
-          asymptotic approximations", {
-            x <- seq(1e4, 1e5, l = 100)
-            nus <- seq(0, 10, by = 1)
-            for (nu in nus) {
-              expect_equal(
-                log_besselI_scaled_asymp(nu = nu, x = x),
-                log_besselI_scaled_asymp(nu = nu, x = x),
-                tolerance = 1e-9)
-            }
-          })
-
 test_that("Asymptotic-kappa Bessel approximation", {
   paper_asymp <- function(x, d) {
     log1p(-d * (d - 2) / (8 * x)) - log(2 * pi * x) / 2

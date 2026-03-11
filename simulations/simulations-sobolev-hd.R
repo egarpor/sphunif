@@ -321,11 +321,11 @@ H1.s.hyb <- function(Choice = c(1, 2), samplesize = c(100, 200),
     projs_stat <- 1 - pchisq(projs_stat^2, df = 1)
 
     ## Radii statistic
+
     radii_stat <- ad.test(x = radii_2,
                           null = function(x) pchisq(x, df = p))$p.value
 
     ## Sum of statistics
-
     return(list(
       statistic = -2 * (log(projs_stat) + log(radii_stat)),
       p.value = 1 - pchisq(-2 * (log(projs_stat) + log(radii_stat)), df = 4)
@@ -1824,6 +1824,7 @@ H1.s.hyb <- function(Choice = 1, samplesize = 100, dimension = 100) {
     projs_stat <- 1 - pchisq(projs_stat^2, df = 1)
 
     ## Radii statistic
+
     para <- gamma_est(radii)
     radii_stat <- AD(radii / para[2], para[1])
     Test.value <- u2 * projs_stat + radii_stat

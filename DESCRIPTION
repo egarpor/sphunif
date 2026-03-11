@@ -1,8 +1,8 @@
 Package: sphunif
 Type: Package
 Title: Uniformity Tests on the Circle, Sphere, and Hypersphere
-Version: 1.4.3
-Date: 2025-11-08
+Version: 1.4.5
+Date: 2026-03-11
 Authors@R: c(
      person(given = "Eduardo", family = "García-Portugués",
             role = c("aut", "cre"), email = "edgarcia@est-econ.uc3m.es",
@@ -36,6 +36,7 @@ Depends:
     R (>= 3.5.0),
     Rcpp
 Imports:
+    Bessel,
     doFuture,
     doRNG,
     foreach,
@@ -59,7 +60,7 @@ LinkingTo: Rcpp, RcppArmadillo
 URL: https://github.com/egarpor/sphunif
 BugReports: https://github.com/egarpor/sphunif/issues
 Encoding: UTF-8
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Roxygen: list(old_usage = TRUE)
 VignetteBuilder: knitr
 Config/testthat/edition: 3

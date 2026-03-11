@@ -461,7 +461,7 @@ p_cir_stat_Softmax <- function(x, kappa = 1, K_max = 1e3, thre = 0,
                                method = "I", ...) {
 
   # psi_tilde_0 is the shift from U-stat to V-stat
-  b_0 <- besselI(x = kappa, nu = 0, expon.scaled = TRUE)
+  b_0 <- exp(log_besselI_scaled_asymp(x = kappa, nu = 0))
   psi_tilde_0 <- 1 - b_0
   cbind(p_Sobolev(x = x + psi_tilde_0, p = 2, type = "Softmax",
                   Softmax_kappa = kappa, K_max = K_max, thre = thre,
@@ -476,7 +476,7 @@ d_cir_stat_Softmax <- function(x, kappa = 1, K_max = 1e3, thre = 0,
                                method = "I", ...) {
 
   # psi_tilde_0 is the shift from U-stat to V-stat
-  b_0 <- besselI(x = kappa, nu = 0, expon.scaled = TRUE)
+  b_0 <- exp(log_besselI_scaled_asymp(x = kappa, nu = 0))
   psi_tilde_0 <- 1 - b_0
   cbind(d_Sobolev(x = x + psi_tilde_0, p = 2, type = "Softmax",
                   Softmax_kappa = kappa, K_max = K_max, thre = thre,

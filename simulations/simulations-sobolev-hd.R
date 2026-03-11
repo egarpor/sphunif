@@ -47,8 +47,7 @@ BHEP_SH <- function(data, a = 1) {
       SUMME2 <- 0
       for (j in 1:n) {
 
-        SUMME2 <- SUMME2 + exp(-a^2 * data[j]^2 / (2 * (1 +
-          a^2)))
+        SUMME2 <- SUMME2 + exp(-a^2 * data[j]^2 / (2 * (1 + a^2)))
         for (k in 1:n) {
 
           SUMME1 <- SUMME1 + exp(-a^2 * (data[j] - data[k])^2 / 2)
@@ -184,7 +183,6 @@ H0.quan <- function(samplesize = 100, dimension = 100) {
       if (is.vector(data)) {
 
         n <- length(data)
-
         SUMME1 <- 0
         SUMME2 <- 0
         for (j in 1:n) {
@@ -213,11 +211,10 @@ H0.quan <- function(samplesize = 100, dimension = 100) {
 
     } else if (!a > 0) {
 
-      warning("tuning parameter a>0 needed!")
+      warning("Tuning parameter a>0 needed!")
 
     } else {
 
-      # data = standard(data)
       Djk <- data %*% t(data)
       Rquad <- diag(Djk)
       Dj <- matrix(Rquad, n, n)
@@ -345,7 +342,6 @@ H1.s.hyb <- function(Choice = c(1, 2), samplesize = c(100, 200),
       if (is.vector(data)) {
 
         n <- length(data)
-
         SUMME1 <- 0
         SUMME2 <- 0
         for (j in 1:n) {
@@ -374,7 +370,7 @@ H1.s.hyb <- function(Choice = c(1, 2), samplesize = c(100, 200),
 
     } else if (!a > 0) {
 
-      warning("tuning parameter a>0 needed!")
+      warning("Tuning parameter a>0 needed!")
 
     } else {
 
@@ -604,7 +600,6 @@ stat_hyb <- function(X, Sobolev_vk2 = c(1, 0), u2 = 2 * (pi^2 / 3 - 3),
 
   } else if (type == "t") {
 
-
     # X'X / p ~ F(nu, p) (https://en.wikipedia.org/wiki/Multivariate_t-distribution#Radial_Distribution)
     radii_2 <- radii_2 / p
 
@@ -700,7 +695,6 @@ H0.quan <- function(samplesize = c(20, 50, 100), dimension = c(2, 3, 5)) {
     }
 
     ## Fisher's method for combination of independent statistics
-
     return(list(
       statistic = -2 * (log(projs_stat) + log(radii_stat)),
       p.value = 1 - pchisq(-2 * (log(projs_stat) + log(radii_stat)),
@@ -804,7 +798,6 @@ H1.s.hyb <- function(Choice = c(1, 2), samplesize = c(100, 200),
       )$statistic
 
     } else if (type == "t") {
-
 
       # X'X / p ~ F(nu, p) (https://en.wikipedia.org/wiki/Multivariate_t-distribution#Radial_Distribution)
       radii_2 <- radii_2 / p
@@ -1309,7 +1302,7 @@ s.hyb.alt.t.2 <- MonteCarlo(
 )
 summary(s.hyb.alt.t.2)
 time_END <- Sys.time()
-difftime(time_START, time_END)
+difftime(time_END, time_START)
 save(s.hyb.alt.t.2, file = "t_CH.RData")
 
 # Get results: For every sample size we have a new table
@@ -1489,17 +1482,16 @@ H0.quan <- function(samplesize = c(20, 50, 100), dimension = c(2, 3, 5)) {
   return(list("Erg" = Erg))
 
 }
-library(MonteCarlo)
 set.seed(0815)
 param_list <- list("samplesize" = c(50, 100), "dimension" = c(50, 100))
-ZeitAnfang <- Sys.time()
+time_START <- Sys.time()
 s.hyb.quan <- MonteCarlo(
   func = H0.quan, nrep = 100, param_list = param_list,
   ncpus = 10
 )
 summary(s.hyb.quan)
-ZeitEnde <- Sys.time()
-difftime(ZeitEnde, ZeitAnfang)
+time_END <- Sys.time()
+difftime(time_END, time_START)
 
 par(mfrow = c(2, 2))
 j.n <- 0
@@ -1638,12 +1630,12 @@ H1.s.hyb <- function(Choice = c(1, 2), samplesize = c(100, 200),
   }
 
   # Distributions
-  # simulate non-normal data due to dependency between the radial part and the
+  # Simulate non-normal data due to dependency between the radial part and the
   # projections, both marginally correct
   r_non_normal <- function(n, p, mu = c(1, rep(0, p - 1)), rho = 0) {
 
     # Simulate dependency between the radial part and the projections using a
-    # gaussian copula
+    # Gaussian copula
     stopifnot(p >= 2)
     stopifnot(abs(rho) <= 1)
     rhos <- rho^c(1:p)
@@ -1749,14 +1741,14 @@ param_list <- list(
   "Choice" = 1:7, "samplesize" = c(50, 100),
   "dimension" = c(50, 100)
 )
-ZeitAnfang <- Sys.time()
+time_START <- Sys.time()
 s.hyb.alt1 <- MonteCarlo(
   func = H1.s.hyb, nrep = 5000, param_list = param_list,
   ncpus = 14
 )
 summary(s.hyb.alt1)
-ZeitEnde <- Sys.time()
-difftime(ZeitEnde, ZeitAnfang)
+time_END <- Sys.time()
+difftime(time_END, time_START)
 
 # Get results in one table
 Erg <- matrix(0, nrow = 7, ncol = 4)
@@ -1857,12 +1849,12 @@ H1.s.hyb <- function(Choice = 1, samplesize = 100, dimension = 100) {
   }
 
   # Distributions
-  # simulate non-normal data due to dependency between the radial part and the
+  # Simulate non-normal data due to dependency between the radial part and the
   # projections, both marginally correct
   r_non_normal <- function(n, p, mu = c(1, rep(0, p - 1)), rho = 0) {
 
     # Simulate dependency between the radial part and the projections using a
-    # gaussian copula
+    # Gaussian copula
     stopifnot(p >= 2)
     stopifnot(abs(rho) <= 1)
     rhos <- rho^c(1:p)
@@ -1965,14 +1957,14 @@ param_list <- list(
   "Choice" = 1:10, "samplesize" = c(100, 200),
   "dimension" = c(100, 200, 300, 1000)
 )
-ZeitAnfang <- Sys.time()
+time_START <- Sys.time()
 s.hyb.alt3 <- MonteCarlo(
   func = H1.s.hyb, nrep = 5000, param_list = param_list,
   ncpus = 14
 )
 summary(s.hyb.alt3)
-ZeitEnde <- Sys.time()
-difftime(ZeitEnde, ZeitAnfang)
+time_END <- Sys.time()
+difftime(time_END, time_START)
 save(s.hyb.alt3, file = "gamma.RData")
 
 # Get results in a single table

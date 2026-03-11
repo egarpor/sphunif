@@ -60,9 +60,9 @@ the `type` of test to be performed. For example, the `"Watson"` test:
 ``` r
 library(sphunif)
 unif_test(data = cir_data, type = "Watson") # An htest object
-#> 
+#>
 #>  Watson test of circular uniformity
-#> 
+#>
 #> data:  cir_data
 #> statistic = 0.036003, p-value = 0.8694
 #> alternative hypothesis: any alternative to circular uniformity
@@ -74,16 +74,16 @@ distributions (faster, but not available for all tests):
 
 ``` r
 unif_test(data = cir_data, type = "Watson", p_value = "MC") # Monte Carlo
-#> 
+#>
 #>  Watson test of circular uniformity
-#> 
+#>
 #> data:  cir_data
 #> statistic = 0.036003, p-value = 0.8831
 #> alternative hypothesis: any alternative to circular uniformity
 unif_test(data = cir_data, type = "Watson", p_value = "asymp") # Asymp. distr.
-#> 
+#>
 #>  Watson test of circular uniformity
-#> 
+#>
 #> data:  cir_data
 #> statistic = 0.036003, p-value = 0.8694
 #> alternative hypothesis: any alternative to circular uniformity
@@ -94,14 +94,14 @@ Choose the available circular uniformity tests from
 
 ``` r
 avail_cir_tests
-#>  [1] "Ajne"           "Bakshaev"       "Bingham"        "Cressie"       
-#>  [5] "CCF09"          "FG01"           "Gine_Fn"        "Gine_Gn"       
+#>  [1] "Ajne"           "Bakshaev"       "Bingham"        "Cressie"
+#>  [5] "CCF09"          "FG01"           "Gine_Fn"        "Gine_Gn"
 #>  [9] "Gini"           "Gini_squared"   "Greenwood"      "Hermans_Rasson"
-#> [13] "Hodges_Ajne"    "Kuiper"         "Log_gaps"       "Max_uncover"   
-#> [17] "Num_uncover"    "PAD"            "PCvM"           "Poisson"       
-#> [21] "PRt"            "Pycke"          "Pycke_q"        "Range"         
-#> [25] "Rao"            "Rayleigh"       "Riesz"          "Rothman"       
-#> [29] "Sobolev"        "Softmax"        "Stein"          "Vacancy"       
+#> [13] "Hodges_Ajne"    "Kuiper"         "Log_gaps"       "Max_uncover"
+#> [17] "Num_uncover"    "PAD"            "PCvM"           "Poisson"
+#> [21] "PRt"            "Pycke"          "Pycke_q"        "Range"
+#> [25] "Rao"            "Rayleigh"       "Riesz"          "Rothman"
+#> [29] "Sobolev"        "Softmax"        "Stein"          "Vacancy"
 #> [33] "Watson"         "Watson_1976"
 ```
 
@@ -111,27 +111,27 @@ For example:
 # A *list* of htest objects
 unif_test(data = cir_data, type = c("Watson", "PAD", "Ajne"))
 #> $Watson
-#> 
+#>
 #>  Watson test of circular uniformity
-#> 
+#>
 #> data:  cir_data
 #> statistic = 0.036003, p-value = 0.8694
 #> alternative hypothesis: any alternative to circular uniformity
-#> 
-#> 
+#>
+#>
 #> $PAD
-#> 
+#>
 #>  Projected Anderson-Darling test of circular uniformity
-#> 
+#>
 #> data:  cir_data
 #> statistic = 0.47247, p-value = 0.9051
 #> alternative hypothesis: any alternative to circular uniformity
-#> 
-#> 
+#>
+#>
 #> $Ajne
-#> 
+#>
 #>  Ajne test of circular uniformity
-#> 
+#>
 #> data:  cir_data
 #> statistic = 0.11016, p-value = 0.7361
 #> alternative hypothesis: any non-axial alternative to circular uniformity
@@ -155,9 +155,9 @@ The available spherical uniformity tests:
 
 ``` r
 avail_sph_tests
-#>  [1] "Ajne"        "Bakshaev"    "Bingham"     "CCF09"       "CJ12"       
-#>  [6] "Gine_Fn"     "Gine_Gn"     "PAD"         "PCvM"        "Poisson"    
-#> [11] "PRt"         "Pycke"       "Sobolev"     "Softmax"     "Stein"      
+#>  [1] "Ajne"        "Bakshaev"    "Bingham"     "CCF09"       "CJ12"
+#>  [6] "Gine_Fn"     "Gine_Gn"     "PAD"         "PCvM"        "Poisson"
+#> [11] "PRt"         "Pycke"       "Sobolev"     "Softmax"     "Stein"
 #> [16] "Stereo"      "Rayleigh"    "Rayleigh_HD" "Riesz"
 ```
 
@@ -166,61 +166,61 @@ The default `type = "all"` equals `type = avail_sph_tests`:
 ``` r
 head(unif_test(data = sph_data, type = "all", p_value = "MC"))
 #> $Ajne
-#> 
+#>
 #>  Ajne test of spherical uniformity
-#> 
+#>
 #> data:  sph_data
 #> statistic = 0.079876, p-value = 0.9578
 #> alternative hypothesis: any non-axial alternative to spherical uniformity
-#> 
-#> 
+#>
+#>
 #> $Bakshaev
-#> 
+#>
 #>  Bakshaev (2010) test of spherical uniformity
-#> 
+#>
 #> data:  sph_data
 #> statistic = 1.2727, p-value = 0.4418
 #> alternative hypothesis: any alternative to spherical uniformity
-#> 
-#> 
+#>
+#>
 #> $Bingham
-#> 
+#>
 #>  Bingham test of spherical uniformity
-#> 
+#>
 #> data:  sph_data
 #> statistic = 22.455, p-value < 2.2e-16
 #> alternative hypothesis: scatter matrix different from constant
-#> 
-#> 
+#>
+#>
 #> $CCF09
-#> 
+#>
 #>  Cuesta-Albertos et al. (2009) test of spherical uniformity with k = 50
-#> 
+#>
 #> data:  sph_data
 #> statistic = 1.4619, p-value = 0.2775
 #> alternative hypothesis: any alternative to spherical uniformity
-#> 
-#> 
+#>
+#>
 #> $CJ12
-#> 
+#>
 #>  Cai and Jiang (2012) test of spherical uniformity
-#> 
+#>
 #> data:  sph_data
 #> statistic = 27.401, p-value = 0.262
 #> alternative hypothesis: unclear consistency
-#> 
-#> 
+#>
+#>
 #> $Gine_Fn
-#> 
+#>
 #>  Gine's Fn test of spherical uniformity
-#> 
+#>
 #> data:  sph_data
 #> statistic = 1.8889, p-value = 0.2216
 #> alternative hypothesis: any alternative to spherical uniformity
 unif_test(data = sph_data, type = "Rayleigh", p_value = "asymp")
-#> 
+#>
 #>  Rayleigh test of spherical uniformity
-#> 
+#>
 #> data:  sph_data
 #> statistic = 0.52692, p-value = 0.9129
 #> alternative hypothesis: mean direction different from zero
@@ -240,9 +240,9 @@ hyp_data <- r_unif_sph(n = 50, p = 10)
 
 # Test
 unif_test(data = hyp_data, type = "Rayleigh", p_value = "asymp")
-#> 
+#>
 #>  Rayleigh test of spherical uniformity
-#> 
+#>
 #> data:  hyp_data
 #> statistic = 11.784, p-value = 0.2997
 #> alternative hypothesis: mean direction different from zero
@@ -270,7 +270,7 @@ rhea$X <- cbind(cos(rhea$theta) * cos(rhea$phi),
 
 # Distribution of diameter
 quantile(rhea$diameter)
-#>       0%      25%      50%      75%     100% 
+#>       0%      25%      50%      75%     100%
 #>  10.0000  13.2475  17.0500  24.5600 449.8200
 
 # Subsets of craters, according to diameter
@@ -295,53 +295,53 @@ tests_rhea_20 <- unif_test(data = rhea$X[ind_20, ], type = type_tests,
                            p_value = "asymp", K_max = 5e4)
 tests_rhea_15_20
 #> $PCvM
-#> 
+#>
 #>  Projected Cramer-von Mises test of spherical uniformity
-#> 
+#>
 #> data:  rhea$X[ind_15_20, ]
 #> statistic = 0.26452, p-value = 0.1176
 #> alternative hypothesis: any alternative to spherical uniformity
-#> 
-#> 
+#>
+#>
 #> $PAD
-#> 
+#>
 #>  Projected Anderson-Darling test of spherical uniformity
-#> 
+#>
 #> data:  rhea$X[ind_15_20, ]
 #> statistic = 1.6854, p-value = 0.07209
 #> alternative hypothesis: any alternative to spherical uniformity
-#> 
-#> 
+#>
+#>
 #> $PRt
-#> 
+#>
 #>  Projected Rothman test of spherical uniformity with t = 0.333
-#> 
+#>
 #> data:  rhea$X[ind_15_20, ]
 #> statistic = 0.31352, p-value = 0.1856
 #> alternative hypothesis: any alternative to spherical uniformity if t is irrational
 tests_rhea_20
 #> $PCvM
-#> 
+#>
 #>  Projected Cramer-von Mises test of spherical uniformity
-#> 
+#>
 #> data:  rhea$X[ind_20, ]
 #> statistic = 3.6494, p-value = 2.202e-09
 #> alternative hypothesis: any alternative to spherical uniformity
-#> 
-#> 
+#>
+#>
 #> $PAD
-#> 
+#>
 #>  Projected Anderson-Darling test of spherical uniformity
-#> 
+#>
 #> data:  rhea$X[ind_20, ]
 #> statistic = 18.482, p-value < 2.2e-16
 #> alternative hypothesis: any alternative to spherical uniformity
-#> 
-#> 
+#>
+#>
 #> $PRt
-#> 
+#>
 #>  Projected Rothman test of spherical uniformity with t = 0.333
-#> 
+#>
 #> data:  rhea$X[ind_20, ]
 #> statistic = 5.3485, p-value = 3.481e-09
 #> alternative hypothesis: any alternative to spherical uniformity if t is irrational
@@ -376,13 +376,13 @@ The scripts
 and
 [experiments-sobolev-hd.R](https://github.com/egarpor/sphunif/blob/master/simulations/experiments-sobolev-hd.R)
 respectively contain the simulations and numerical experiments in Ebner,
-García-Portugués, and Verdebout (2026).
+García-Portugués, and Verdebout (2025).
 
 ## References
 
-Ebner, B., García-Portugués, E., and Verdebout, T. (2026).
+Ebner, B., García-Portugués, E., and Verdebout, T. (2025).
 High-dimensional Sobolev tests on hyperspheres. *arXiv:2501.10898*.
-[doi:10.48550/arXiv.2501.10898](https://doi.org/10.48550/arXiv.2501.10898v2).
+[doi:10.48550/arXiv.2501.10898](https://doi.org/10.48550/arXiv.2501.10898).
 
 Fernández-de-Marcos, A. and García-Portugués, E. (2024). A stereographic
 test of spherical uniformity. *Statistics and Probability Letters*,

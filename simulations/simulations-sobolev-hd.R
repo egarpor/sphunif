@@ -248,7 +248,7 @@ H0.quan <- function(samplesize = 100, dimension = 100) {
 
 }
 
-set.seed(0815)
+set.seed(815)
 param_list <- list("samplesize" = c(100, 200), "dimension" = c(100, 200, 300))
 time_START <- Sys.time()
 s.hyb.quan <- MonteCarlo(

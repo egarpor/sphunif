@@ -154,6 +154,7 @@ g_i_k <- function(x, i = 1, k = 1, m = NULL, show_m = FALSE) {
 
     x <- rbind(x)
 
+
   }
 
   # Get dimension

@@ -183,7 +183,7 @@ The script [data-application-sobolev.R](https://github.com/egarpor/sphunif/blob/
 
 ### *High-dimensional Sobolev tests on hyperspheres*
 
-The scripts [simulations-sobolev-hd.R](https://github.com/egarpor/sphunif/blob/master/simulations/simulations-sobolev-hd.R) and [experiments-sobolev-hd.R](https://github.com/egarpor/sphunif/blob/master/simulations/experiments-sobolev-hd.R) respectively contain the simulations and numerical experiments in Ebner, García-Portugués, and Verdebout (2025).
+The scripts [simulations-sobolev-hd.R](https://github.com/egarpor/sphunif/blob/master/simulations/simulations-sobolev-hd.R) and [experiments-sobolev-hd.R](https://github.com/egarpor/sphunif/blob/master/simulations/experiments-sobolev-hd.R) respectively contain the simulations and numerical experiments in Ebner, García-Portugués, and Verdebout (2025). The script [data-application-sobolev-hd.R](https://github.com/egarpor/sphunif/blob/master/applications/data-application-sobolev-hd.R) reproduces the data application regarding the testing of Gaussianity of the CMB field.
 
 ## References
 

@@ -14,6 +14,7 @@ library(MASS)
 library(xtable)
 
 #-------------------------------------------------------------------------------
+<<<<<<< Updated upstream
 # Required functions
 #-------------------------------------------------------------------------------
 
@@ -89,82 +90,10 @@ BHEP_SH <- function(data, a = 1) {
 }
 
 #-------------------------------------------------------------------------------
+=======
+>>>>>>> Stashed changes
 # Simulation HD Sobolev - Normal -> Table 1
 #-------------------------------------------------------------------------------
-
-# Hybrid statistic
-stat_hyb <- function(X, Sobolev_vk2 = c(1, 0), u2 = 2 * (pi^2 / 3 - 3), nu = 1,
-                     type = c("norm", "t")[1]) {
-
-  ## Radiii and projections
-
-  # Squared radii
-  radii_2 <- rowSums(X^2)
-
-  # Projections
-  projs <- X / sqrt(radii_2)
-
-  ## Projections statistic
-
-  # Statistic for the projections
-  dim(projs) <- c(dim(projs), 1)
-  projs_stat <- unif_stat(
-    data = projs, type = "Sobolev",
-    Sobolev_vk2 = Sobolev_vk2
-  )$Sobolev
-
-  # Center to have Tn as in the paper
-  p <- ncol(X)
-  dpk <- d_p_k(p = p, k = seq_along(Sobolev_vk2))
-  mean_projs_stat <- sum(Sobolev_vk2 * dpk)
-  projs_stat <- projs_stat - mean_projs_stat
-
-  # Scale to have Tn / sigman
-  sd_projs_stat <- sqrt(2 * sum(Sobolev_vk2^2 * dpk))
-  projs_stat <- projs_stat / sd_projs_stat
-
-  # Square statistic to have a limiting chi-square
-  projs_stat <- projs_stat^2
-
-  ## Radii statistic
-
-  if (type == "norm") {
-
-    # Standardize squared radii
-    radii_2 <- (radii_2 - p) / sqrt(2 * p)
-
-    # Radii statistic
-    radii_stat <- goftest::ad.test(
-      x = radii_2,
-      null = function(x) pchisq(sqrt(2 * p) * x + p, df = p)
-    )$statistic
-
-  } else if (type == "t") {
-
-    stop("Preliminary version, does not work yet (does not respect significance
-         --- issues with the radii_2 distribution).")
-
-    # X'X / p ~ F(nu, p) https://en.wikipedia.org/wiki/Multivariate_t-distribution#Radial_Distribution)
-    radii_2 <- radii_2 / p
-
-    # nu * F(nu, p) -> chi^2(p) as p -> Inf (https://en.wikipedia.org/wiki/F-distribution#Properties_and_related_distributions)
-
-    # Radii statistic
-    radii_stat <- goftest::ad.test(
-      x = radii_2, null = "pf",
-      df1 = nu, df2 = p
-    )$p.value
-
-  } else {
-
-    stop("Invalid type. Choose 'norm' or 't'.")
-
-  }
-
-  ## Sum of statistics
-  return(u2 * projs_stat + radii_stat)
-
-}
 
 # Simulations of Quantiles (parallel computation)
 
@@ -551,6 +480,7 @@ xtable(t(t(round(Erg, 2) * 100)), digits = 0, include.rownames = FALSE)
 # Simulation HD Sobolev - t simple hypothesis -> Table 2 upper part
 #-------------------------------------------------------------------------------
 
+<<<<<<< Updated upstream
 # Hybrid statistic
 stat_hyb <- function(X, Sobolev_vk2 = c(1, 0), u2 = 2 * (pi^2 / 3 - 3),
                      type = c("norm", "t")[2], nu) {
@@ -623,6 +553,8 @@ stat_hyb <- function(X, Sobolev_vk2 = c(1, 0), u2 = 2 * (pi^2 / 3 - 3),
 
 }
 
+=======
+>>>>>>> Stashed changes
 # Check limit distribution chisq with 4 df
 
 H0.quan <- function(samplesize = c(20, 50, 100), dimension = c(2, 3, 5)) {
@@ -981,99 +913,6 @@ xtable(t(t(round(Erg, 2) * 100)), digits = 0, include.rownames = FALSE)
 #-------------------------------------------------------------------------------
 # Simulation HD Sobolev - t composite hypothesis -> Table 2 lower part
 #-------------------------------------------------------------------------------
-
-# Hybrid stat according to Fisher
-stat_hyb <- function(X, Sobolev_vk2 = c(1, 0), u2 = 2 * (pi^2 / 3 - 3),
-                     boot = 500) {
-
-  ## Radiii and projections
-
-  # Squared radii
-  radii_2 <- rowSums(X^2)
-  radii <- sqrt(radii_2)
-
-  # Projections
-  projs <- X / radii
-
-  ## Projections statistic
-
-  # Statistic for the projections
-  dim(projs) <- c(dim(projs), 1)
-  projs_stat <- unif_stat(
-    data = projs, type = "Sobolev",
-    Sobolev_vk2 = Sobolev_vk2
-  )$Sobolev
-
-  # Center to have Tn as in the paper
-  p <- ncol(X)
-  dpk <- d_p_k(p = p, k = seq_along(Sobolev_vk2))
-  mean_projs_stat <- sum(Sobolev_vk2 * dpk)
-  projs_stat <- projs_stat - mean_projs_stat
-
-  # Scale to have Tn / sigman
-  sd_projs_stat <- sqrt(2 * sum(Sobolev_vk2^2 * dpk))
-  projs_stat <- projs_stat / sd_projs_stat
-
-  # Square statistic to have a limiting chi-square
-  projs_stat <- 1 - pchisq(projs_stat^2, df = 1)
-
-  ## Radii statistic
-
-  mle.F.sp <- function(data, df1) {
-
-    if (df1 <= 0) {
-
-      stop("df1 must be positive")
-
-    } else {
-
-      diff.log.pdf <- function(x, d_1, d_2) {
-
-        ((d_1 * x + d_2) * digamma(d_1 / 2 + d_2 / 2) + (-d_1 * x - d_2) *
-          log(d_1 * x + d_2) + (-d_1 * x - d_2) * digamma(d_2 / 2) +
-          (d_1 * x + d_2) * log(d_2) + d_1 * (x - 1)) / (2 * d_1 * x + 2 * d_2)
-
-      }
-      hilf <- function(nu, data, df1) {
-
-        return(sum(diff.log.pdf(data, df1, nu)))
-
-      }
-      return(uniroot(hilf,
-        df1 = df1, data = data, lower = 0.01,
-        upper = 1000
-      )$root)
-
-    }
-
-  }
-
-  para <- mle.F.sp(radii_2 / p, df1 = p)
-
-  radii_stat <- ad.test(radii_2 / p,
-                        null = function(x) pf(x, df1 = p, df2 = para),
-                        estimated = TRUE)$p.value
-
-  # Bootstrap version
-  # y <- rep(0, boot)
-  # for (j in 1:boot)
-  # {
-
-  #  BS <- rf(n, df1=p,df2=para)
-  #  BS_estimator <- mle.F.sp(BS,df1=p)
-  # y[j] = ad.test(BS,null = function(x)
-  # pf(x,df1=p,df2=BS_estimator),estimated=T)
-  # }
-  # radii_stat=mean((y>radii_stat))
-
-  return(list(
-    statistic = -2 * (log(projs_stat) + log(radii_stat)),
-    p.value = 1 - pchisq(-2 * (log(projs_stat) + log(radii_stat)),
-      df = 4
-    )
-  ))
-
-}
 
 # Empirical powers of the test (parallel computation)
 

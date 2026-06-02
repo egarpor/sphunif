@@ -14,7 +14,6 @@ library(MASS)
 library(xtable)
 
 #-------------------------------------------------------------------------------
-<<<<<<< Updated upstream
 # Required functions
 #-------------------------------------------------------------------------------
 
@@ -90,8 +89,6 @@ BHEP_SH <- function(data, a = 1) {
 }
 
 #-------------------------------------------------------------------------------
-=======
->>>>>>> Stashed changes
 # Simulation HD Sobolev - Normal -> Table 1
 #-------------------------------------------------------------------------------
 
@@ -480,7 +477,6 @@ xtable(t(t(round(Erg, 2) * 100)), digits = 0, include.rownames = FALSE)
 # Simulation HD Sobolev - t simple hypothesis -> Table 2 upper part
 #-------------------------------------------------------------------------------
 
-<<<<<<< Updated upstream
 # Hybrid statistic
 stat_hyb <- function(X, Sobolev_vk2 = c(1, 0), u2 = 2 * (pi^2 / 3 - 3),
                      type = c("norm", "t")[2], nu) {
@@ -553,8 +549,6 @@ stat_hyb <- function(X, Sobolev_vk2 = c(1, 0), u2 = 2 * (pi^2 / 3 - 3),
 
 }
 
-=======
->>>>>>> Stashed changes
 # Check limit distribution chisq with 4 df
 
 H0.quan <- function(samplesize = c(20, 50, 100), dimension = c(2, 3, 5)) {

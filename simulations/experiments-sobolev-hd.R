@@ -14,8 +14,20 @@ M <- 1e4
 n <- c(5, 50, 100, 500)
 p <- c(5, 50, 100, 500) + 1
 
-# Standardization of statistics
-transf <- function(stat, n, p, vk2) {
+# Asymptotic standardization of statistics
+hd_std_asymp <- function(stat, n, p, vk2) {
+
+  # Only accept scalar n and p
+  stopifnot(length(n) == 1, length(p) == 1)
+
+  # Remove biases to make it a U-statistic
+  nonzero_vk2 <- which(vk2 != 0)
+  if (length(nonzero_vk2) == 0) stop("vk2 must contain at least one non-zero weight")
+  if (any(vk2 < 0)) stop("vk2 must be non-negative")
+
+  bk <- vk2_to_bk(vk2, p = p)
+  bias <- drop(bk[nonzero_vk2] %*%
+                 Gegen_polyn(theta = 0, k = nonzero_vk2, p = p))
 
   # # \sigma_n^{-1} for a single k0 s.t. v_{k0} != 0
   # # \sqrt{(2k_0!) / d_n^{k_0}} / 2 = \sqrt{k_0! / (2 * d_n^{k_0})}
@@ -27,7 +39,9 @@ transf <- function(stat, n, p, vk2) {
   k <- seq_along(vk2)
   inv_sigma <- 1 / sqrt(2 * sum(exp(2 * log(vk2) +
                                       d_p_k(p = p, k = k, log = TRUE))))
-  return(inv_sigma * stat)
+
+  # Standardize
+  return(inv_sigma * (stat - bias))
 
 }
 
@@ -35,7 +49,7 @@ transf <- function(stat, n, p, vk2) {
 {
 
 # Weights
-vk2 <- c(1, 1, 1)
+vk2 <- c(1, 0, 0)
 
 # # Loop on vk2's
 # vk2s <- rbind(diag(rep(1, 3)), c(1, 1, 0), c(1, 1, 1))
@@ -49,12 +63,6 @@ stats <- array(dim = c(length(p), length(n), M))
 for (ni in seq_along(n)) {
   for (pi in seq_along(p)) {
 
-    # Remove biases to make it a U-statistic
-    bk <- vk2_to_bk(vk2, p = p[pi])
-    nonzero_vk2 <- which(vk2 != 0)
-    bias <- drop(bk[nonzero_vk2] %*%
-                   Gegen_polyn(theta = 0, k = nonzero_vk2, p = p[pi]))
-
     # Monte Carlo
     cat("n =", n[ni], "p =", p[pi], "\n")
     with_progress(
@@ -62,7 +70,7 @@ for (ni in seq_along(n)) {
                                       M = M, r_H1 = NULL,
                                       Sobolev_vk2 = vk2,
                                       chunks = M / 10,
-                                      cores = cores)$stats_MC[, 1] - bias
+                                      cores = cores)$stats_MC[, 1]
     )
 
   }
@@ -80,11 +88,11 @@ save(stats, file = paste0(file_name_0, ".RData"))
 {
 
 # Weights
-vk2 <- c(1, 0, 0)
+vk2 <- c(1, 1, 1)
 vk2_orig <- vk2
 
 # Use dn modification according to Remark 5?
-dn_modif <- FALSE
+dn_modif <- TRUE
 
 # # Loop on vk2's
 # vk2s <- rbind(diag(rep(1, 3)), c(1, 1, 0), c(1, 1, 1))
@@ -113,12 +121,6 @@ for (ni in seq_along(n)) {
 
     }
 
-    # Remove biases to make it a U-statistic
-    bk <- vk2_to_bk(vk2, p = p[pi])
-    nonzero_vk2 <- which(vk2 != 0)
-    bias <- drop(bk[nonzero_vk2] %*%
-                   Gegen_polyn(theta = 0, k = nonzero_vk2, p = p[pi]))
-
     # Deviation (in asymptotic mean: Gamma * tau^2, with Gamma = 1 / sqrt(2)
     # if not blind)
     tau2 <- sqrt(2)
@@ -133,7 +135,7 @@ for (ni in seq_along(n)) {
                                       r_H1 = r_alt, alt = "vMF", kappa = kappa,
                                       Sobolev_vk2 = vk2,
                                       chunks = M / 10,
-                                      cores = cores)$stats_MC[, 1] - bias
+                                      cores = cores)$stats_MC[, 1]
     )
 
   }
@@ -178,8 +180,8 @@ for (ni in n) {
   for (pi in p) {
 
     # Statistics times standardizing factor
-    stats_n_p <- transf(stat = stats[which(p == pi), which(n == ni), ],
-                        n = ni, p = pi, vk2 = vk2)
+    stats_n_p <- hd_std_asymp(stat = stats[which(p == pi), which(n == ni), ],
+                              n = ni, p = pi, vk2 = vk2)
     stats_n_p <- na.omit(stats_n_p)
     if (all(is.na(stats_n_p))) stats_n_p <- rep(1, 2)
 
@@ -221,7 +223,7 @@ n <- c(5, 50, 100, 500)
 p <- c(5, 50, 100, 500) + 1
 
 # Weights
-vk2 <- c(1, 1, 0)
+vk2 <- c(1, 0, 0)
 
 # Use dn modification according to Remark 5?
 dn_modif <- TRUE
@@ -262,8 +264,8 @@ for (ni in n) {
     }
 
     # Statistics times standardizing factor
-    stats_n_p <- transf(stat = stats[which(p == pi), which(n == ni), ],
-                        n = ni, p = pi, vk2 = vk2)
+    stats_n_p <- hd_std_asymp(stat = stats[which(p == pi), which(n == ni), ],
+                              n = ni, p = pi, vk2 = vk2)
     stats_n_p <- na.omit(stats_n_p)
     if (all(is.na(stats_n_p))) stats_n_p <- rep(1, 2)
 

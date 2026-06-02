@@ -308,6 +308,72 @@
 "rhea"
 
 
+#' @title Cosmic microwave background spherical-harmonic coefficients
+#'
+#' @description Standardized spherical-harmonic coefficients of the
+#' foreground-cleaned SMICA temperature map of the Cosmic Microwave background
+#' (CMB) from the Planck mission.
+#'
+#' @docType data
+#' @format A numeric vector of length \code{10197} with the standardized real
+#' spherical-harmonic coefficients \eqn{a_{\ell m}} of the Planck SMICA CMB
+#' temperature map, for degrees \eqn{\ell = 2, \ldots, 100} and orders
+#' \eqn{m = -\ell, \ldots, \ell}. The \eqn{2\ell + 1} coefficients of each
+#' degree are stored consecutively, in increasing \eqn{\ell}, so the length is
+#' \eqn{\sum_{\ell = 2}^{100} (2\ell + 1) = 10197}. The coefficients of each
+#' degree \eqn{\ell} are divided by their root-mean-square.
+#' @details
+#' The coefficients were obtained from the foreground-cleaned SMICA temperature
+#' map of the Planck mission, coarsened to the \eqn{N_{\mathrm{side}} = 64}
+#' grid, and computed by HEALPix quadrature. Dividing the \eqn{2\ell + 1}
+#' coefficients of each degree by their empirical root-mean-square yields a
+#' pool of approximately independent standard normal variables under the
+#' isotropic Gaussian hypothesis.
+#'
+#' The script performing the data preprocessing is available at
+#' \href{https://github.com/egarpor/sphunif/blob/master/data-raw/cmb.R}{
+#' \code{cmb.R}}. The SMICA map was retrieved on 2026-06-02.
+#' @source The foreground-cleaned SMICA temperature map of the Planck mission,
+#' downloaded from the Planck Legacy Archive.
+#' @references
+#' Góorski, K. M., Hivon, E., Banday, A. J., Wandelt, B. D., Hansen,
+#' F. K., Reinecke, M., and Bartelmann, M. (2005). HEALPix: A framework for
+#' high-resolution discretization and fast analysis of data distributed on the
+#' sphere. \emph{The Astrophysical Journal}, 622(2):759--771.
+#' \doi{10.1086/427976}
+#'
+#' Planck Collaboration (2016a). Planck 2015 results. IX. Diffuse component
+#' separation: CMB maps. \emph{Astronomy & Astrophysics}, 594:A9.
+#' \doi{10.1051/0004-6361/201525936}
+#'
+#' Planck Collaboration (2016b). Planck 2015 results. XVI. Isotropy and
+#' statistics of the CMB. \emph{Astronomy & Astrophysics}, 594:A16.
+#' \doi{10.1051/0004-6361/201526681}
+#' @examples
+#' # Load data
+#' data("cmb")
+#'
+#' # Histogram of the standardized coefficients
+#' hist(cmb, breaks = 30, freq = FALSE,
+#'      main = "Standardized spherical-harmonic coefficients")
+#' lines(density(cmb), col = 2, lwd = 2)
+#' curve(dnorm(x), add = TRUE, col = 4, lwd = 2)
+#'
+#' # Gaussian is a good fit
+#' ks.test(cmb, "pnorm")
+#'
+#' # Reshape into n = 100 directions on S^100
+#' n <- 100
+#' p <- 101
+#' X <- matrix(cmb[seq_len(n * p)], nrow = n, ncol = p)
+#' X <- X / sqrt(rowSums(X^2))
+#'
+#' # Rayleigh_HD test of uniformity
+#' unif_test(data = array(X, c(n, p, 1)), type = "Rayleigh_HD",
+#'           p_value = "asymp")
+"cmb"
+
+
 #' #' @title TODO
 #' #'
 #' #' @description TODO.

@@ -53,3 +53,7 @@
 * Update reference García-Portugués et al. (2025).
 * Update vignette.
 * Fix typos in documentation.
+
+# sphunif 1.4.4
+
+* Add `cmb` dataset

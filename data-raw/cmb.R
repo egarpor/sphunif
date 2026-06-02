@@ -3,11 +3,11 @@
 
 # The map is the foreground-cleaned SMICA temperature map of the Planck
 # mission, read with rcosmo on the HEALPix pixelization of the sphere.
+
 # rcosmo is archived on CRAN; install with
 #   install.packages(c("geoR", "FITSio", "mmap"))
 #   install.packages(paste0("https://cran.r-project.org/src/contrib/Archive/",
 #                           "rcosmo/rcosmo_1.1.3.tar.gz"), repos = NULL)
-
 library(rcosmo)
 
 ## Import the raw data

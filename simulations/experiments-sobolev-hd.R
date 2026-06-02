@@ -21,8 +21,11 @@ hd_std_asymp <- function(stat, n, p, vk2) {
   stopifnot(length(n) == 1, length(p) == 1)
 
   # Remove biases to make it a U-statistic
-  bk <- vk2_to_bk(vk2, p = p)
   nonzero_vk2 <- which(vk2 != 0)
+  if (length(nonzero_vk2) == 0) stop("vk2 must contain at least one non-zero weight")
+  if (any(vk2 < 0)) stop("vk2 must be non-negative")
+
+  bk <- vk2_to_bk(vk2, p = p)
   bias <- drop(bk[nonzero_vk2] %*%
                  Gegen_polyn(theta = 0, k = nonzero_vk2, p = p))
 

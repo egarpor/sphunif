@@ -336,7 +336,7 @@
 #' @source The foreground-cleaned SMICA temperature map of the Planck mission,
 #' downloaded from the Planck Legacy Archive.
 #' @references
-#' G\enc{ó}{o}rski, K. M., Hivon, E., Banday, A. J., Wandelt, B. D., Hansen,
+#' Góorski, K. M., Hivon, E., Banday, A. J., Wandelt, B. D., Hansen,
 #' F. K., Reinecke, M., and Bartelmann, M. (2005). HEALPix: A framework for
 #' high-resolution discretization and fast analysis of data distributed on the
 #' sphere. \emph{The Astrophysical Journal}, 622(2):759--771.

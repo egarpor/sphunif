@@ -61,7 +61,7 @@ unif_test(data = array(X, c(n, p, 1)), type = "Rayleigh_HD",
           p_value = "asymp")
 }
 \references{
-G\enc{ó}{o}rski, K. M., Hivon, E., Banday, A. J., Wandelt, B. D., Hansen,
+Góorski, K. M., Hivon, E., Banday, A. J., Wandelt, B. D., Hansen,
 F. K., Reinecke, M., and Bartelmann, M. (2005). HEALPix: A framework for
 high-resolution discretization and fast analysis of data distributed on the
 sphere. \emph{The Astrophysical Journal}, 622(2):759--771.

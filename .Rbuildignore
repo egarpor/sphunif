@@ -15,3 +15,5 @@ Rplots.pdf
 ^\.github$
 ^CRAN-SUBMISSION$
 sphunif.pdf
+^\.positai$
+^\.claude$

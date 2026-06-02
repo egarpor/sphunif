@@ -223,7 +223,7 @@ p <- c(5, 50, 100, 500) + 1
 vk2 <- c(1, 0, 0)
 
 # Use dn modification according to Remark 5?
-dn_modif <- FALSE
+dn_modif <- TRUE
 
 # # Loop on vk2's
 # vk2s <- rbind(diag(rep(1, 3)), c(1, 1, 0), c(1, 1, 1))

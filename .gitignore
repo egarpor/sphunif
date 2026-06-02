@@ -22,3 +22,4 @@ sphunif.pdf
 simulations/*.RData
 simulations/*.pdf
 .positai
+*.fits

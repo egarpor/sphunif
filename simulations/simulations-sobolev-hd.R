@@ -1437,6 +1437,7 @@ difftime(time_END, time_START)
 save(s.hyb.alt1, file = "stable.RData")
 
 # Get results in one table
+load("stable.RData")
 Erg <- matrix(0, nrow = 7, ncol = 4)
 j.n <- 0
 for (n in c("samplesize=50", "samplesize=100")) {

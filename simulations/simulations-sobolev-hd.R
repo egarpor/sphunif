@@ -14,81 +14,6 @@ library(MASS)
 library(xtable)
 
 #-------------------------------------------------------------------------------
-# Required functions
-#-------------------------------------------------------------------------------
-
-cv.T <- function(alpha) {
-
-  require(PearsonDS)
-  w <- c(1, -3 + pi^2 / 3, -pi^2 + 10, -35 + 10 / 3 * pi^2 + 1 / 45 * pi^4)
-  # Exact values of the sum of powers of the weights.
-  u2 <- 2 * w[2]
-  kappa_j <- sapply(1:4, function(j) {
-
-    2^(j - 1) * factorial(j - 1) * (u2^j + w[j])
-
-  })
-  kum <- kappa_j
-  mom <- c(kum[1:2], kum[3] * kum[2]^(-3 / 2), 3 + kum[4] * kum[2]^(-2))
-  return(qpearson(1 - alpha, moments = mom))
-
-}
-
-BHEP_SH <- function(data, a = 1) {
-
-  n <- dim(data)[1]
-  d <- dim(data)[2]
-  if (is.null(n)) {
-
-    if (is.vector(data)) {
-
-      n <- length(data)
-      SUMME1 <- 0
-      SUMME2 <- 0
-      for (j in 1:n) {
-
-        SUMME2 <- SUMME2 + exp(-a^2 * data[j]^2 / (2 * (1 + a^2)))
-        for (k in 1:n) {
-
-          SUMME1 <- SUMME1 + exp(-a^2 * (data[j] - data[k])^2 / 2)
-
-        }
-
-      }
-      ret <- 1 / n * SUMME1 - (2 / sqrt(1 + a^2)) * SUMME2 +
-        n / sqrt(1 + 2 * a^2)
-      return(ret)
-
-    } else {
-
-      stop("Wrong dimensions of data!")
-
-    }
-
-  } else if (!is.numeric(data)) {
-
-    stop("The data contains non-numeric entries!")
-
-  } else if (a <= 0) {
-
-    stop("Tuning parameter a>0 needed!")
-
-  } else {
-
-    Djk <- data %*% t(data)
-    Rquad <- diag(Djk)
-    Dj <- matrix(Rquad, n, n)
-    Y <- exp((-a^2 / 2) * (Dj - 2 * Djk + t(Dj)))
-    Y2 <- exp((-a^2 / (2 * (1 + a^2))) * Rquad)
-    ret <- sum(Y) / n - 2 * ((1 + a^2)^(-d / 2)) * sum(Y2) +
-      ((1 + 2 * a^2)^(-d / 2)) * n
-    return(ret)
-
-  }
-
-}
-
-#-------------------------------------------------------------------------------
 # Simulation HD Sobolev - Normal -> Table 1
 #-------------------------------------------------------------------------------
 
@@ -442,6 +367,7 @@ difftime(time_END, time_START)
 save(s.hyb.norm, file = "norm.RData")
 
 # Arranging the results in a table
+load(file = "norm.RData")
 Erg <- matrix(0, nrow = 15, ncol = 12)
 j.n <- 0
 for (n in c("samplesize=100", "samplesize=200")) {
@@ -476,78 +402,6 @@ xtable(t(t(round(Erg, 2) * 100)), digits = 0, include.rownames = FALSE)
 #-------------------------------------------------------------------------------
 # Simulation HD Sobolev - t simple hypothesis -> Table 2 upper part
 #-------------------------------------------------------------------------------
-
-# Hybrid statistic
-stat_hyb <- function(X, Sobolev_vk2 = c(1, 0), u2 = 2 * (pi^2 / 3 - 3),
-                     type = c("norm", "t")[2], nu) {
-
-  ## Radiii and projections
-
-  # Squared radii
-  radii_2 <- rowSums(X^2)
-
-  # Projections
-  projs <- X / sqrt(radii_2)
-
-  ## Projections statistic
-
-  # Statistic for the projections
-  dim(projs) <- c(dim(projs), 1)
-  projs_stat <- unif_stat(
-    data = projs, type = "Sobolev",
-    Sobolev_vk2 = Sobolev_vk2
-  )$Sobolev
-
-  # Center to have Tn as in the paper
-  p <- ncol(X)
-  dpk <- d_p_k(p = p, k = seq_along(Sobolev_vk2))
-  mean_projs_stat <- sum(Sobolev_vk2 * dpk)
-  projs_stat <- projs_stat - mean_projs_stat
-
-  # Scale to have Tn / sigman
-  sd_projs_stat <- sqrt(2 * sum(Sobolev_vk2^2 * dpk))
-  projs_stat <- projs_stat / sd_projs_stat
-
-  # Square statistic to have a limiting chi-square
-  projs_stat <- 1 - pchisq(projs_stat^2, df = 1)
-
-  ## Radii statistic
-
-  if (type == "norm") {
-
-    # Standardize squared radii
-    radii_2 <- (radii_2 - p) / sqrt(2 * p)
-
-    # Radii statistic
-    radii_stat <- ad.test(
-      x = radii_2,
-      null = function(x) pchisq(sqrt(2 * p) * x + p, df = p)
-    )$statistic
-
-  } else if (type == "t") {
-
-    # X'X / p ~ F(nu, p) (https://en.wikipedia.org/wiki/Multivariate_t-distribution#Radial_Distribution)
-    radii_2 <- radii_2 / p
-
-    # nu * F(nu, p) -> chi^2(p) as p -> Inf (https://en.wikipedia.org/wiki/F-distribution#Properties_and_related_distributions)
-
-    # Radii statistic
-    radii_stat <- ad.test(x = radii_2,
-                          null = function(x) pf(x, df1 = p, df2 = nu))$p.value
-
-  } else {
-
-    stop("Invalid type. Choose 'norm' or 't'.")
-
-  }
-
-  ## Fisher's method for combination of independent statistics
-  return(list(
-    statistic = -2 * (log(projs_stat) + log(radii_stat)),
-    p.value = 1 - pchisq(-2 * (log(projs_stat) + log(radii_stat)), df = 4)
-  ))
-
-}
 
 # Check limit distribution chisq with 4 df
 
@@ -866,7 +720,7 @@ param_list <- list(
 time_START <- Sys.time()
 s.hyb.alt.t <- MonteCarlo(
   func = H1.s.hyb, nrep = 5000, param_list = param_list,
-  ncpus = 50
+  ncpus = 14
 )
 summary(s.hyb.alt.t)
 time_END <- Sys.time()
@@ -874,6 +728,7 @@ difftime(time_END, time_START)
 save(s.hyb.alt.t, file = "t_SH.RData")
 
 # Arranging the results in a table
+load("t_SH.RData")
 j.n <- 0
 for (n in c(
   "samplesize=100", "samplesize=200", "samplesize=500",
@@ -1131,7 +986,7 @@ param_list <- list(
 time_START <- Sys.time()
 s.hyb.alt.t.2 <- MonteCarlo(
   func = H1.s.hyb, nrep = 5000,
-  param_list = param_list, ncpus = 60 # Run in a cluster
+  param_list = param_list, ncpus = 14
 )
 summary(s.hyb.alt.t.2)
 time_END <- Sys.time()
@@ -1139,6 +994,7 @@ difftime(time_END, time_START)
 save(s.hyb.alt.t.2, file = "t_CH.RData")
 
 # Get results: For every sample size we have a new table
+load("t_CH.RData")
 j.n <- 0
 for (n in c(
   "samplesize=100", "samplesize=200", "samplesize=500",
@@ -1319,7 +1175,7 @@ param_list <- list("samplesize" = c(50, 100), "dimension" = c(50, 100))
 time_START <- Sys.time()
 s.hyb.quan <- MonteCarlo(
   func = H0.quan, nrep = 100, param_list = param_list,
-  ncpus = 10
+  ncpus = 14
 )
 summary(s.hyb.quan)
 time_END <- Sys.time()
@@ -1581,6 +1437,7 @@ s.hyb.alt1 <- MonteCarlo(
 summary(s.hyb.alt1)
 time_END <- Sys.time()
 difftime(time_END, time_START)
+save(s.hyb.alt1, file = "stable.RData")
 
 # Get results in one table
 Erg <- matrix(0, nrow = 7, ncol = 4)
@@ -1801,6 +1658,7 @@ difftime(time_END, time_START)
 save(s.hyb.alt3, file = "gamma.RData")
 
 # Get results in a single table
+load("gamma.RData")
 j.n <- 0
 Ergebnis <- matrix(0, nrow = 10, ncol = 8)
 for (n in c("samplesize=100", "samplesize=200")) {

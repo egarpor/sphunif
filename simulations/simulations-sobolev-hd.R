@@ -669,23 +669,22 @@ H1.s.hyb <- function(Choice = c(1, 2), samplesize = c(100, 200),
       sample1 <- rmvt(n, sigma = diag(1, d), df = true.nu + 1)
       sample2 <- rmvt(n, sigma = diag(1, d), df = true.nu + 2)
       sample3 <- rmvt(n, sigma = diag(1, d), df = true.nu + 3)
-      sample4 <- rmvt(n, sigma = diag(1, d), df = true.nu + 4)
-      sample5 <- rmvt(n, sigma = 0.9 * diag(1, d), df = true.nu)
-      sample6 <- rvmf(n, mu = c(1, rep(0, d - 1)), k = 5) *
+      sample4 <- rmvt(n, sigma = 0.9 * diag(1, d), df = true.nu)
+      sample5 <- rvmf(n, mu = c(1, rep(0, d - 1)), k = 5) *
         sqrt(d * matrix(rf(n, df1 = d, df2 = true.nu), nrow = n, ncol = d))
-      sample7 <- rvmf(n, mu = c(1, rep(0, d - 1)), k = 10) *
+      sample6 <- rvmf(n, mu = c(1, rep(0, d - 1)), k = 10) *
         sqrt(d * matrix(rf(n, df1 = d, df2 = true.nu), nrow = n, ncol = d))
       cov_matrix <- diag(0.75, d) + matrix(0.25, d, d)
       mean_vec <- rep(0, d) # Mean vector
       alpha0 <- rep(0, d)
       alpha1 <- c(1, rep(0, d - 1))
-      sample8 <- rmst(n, xi = mean_vec, Omega = cov_matrix, alpha = alpha0,
+      sample7 <- rmst(n, xi = mean_vec, Omega = cov_matrix, alpha = alpha0,
                       nu = true.nu)
-      sample9 <- rmst(n, xi = mean_vec, Omega = diag(1, d), alpha = alpha1,
+      sample8 <- rmst(n, xi = mean_vec, Omega = diag(1, d), alpha = alpha1,
                       nu = true.nu)
-      sample10 <- rmst(n, xi = mean_vec, Omega = cov_matrix, alpha = alpha0,
-                       nu = true.nu + 3)
-      sample11 <- rmst(n, xi = mean_vec, Omega = diag(1, d), alpha = alpha1,
+      sample9 <- rmst(n, xi = mean_vec, Omega = cov_matrix, alpha = alpha0,
+                      nu = true.nu + 3)
+      sample10 <- rmst(n, xi = mean_vec, Omega = diag(1, d), alpha = alpha1,
                        nu = true.nu + 3)
 
       sample <- switch(Choice,
@@ -699,8 +698,7 @@ H1.s.hyb <- function(Choice = c(1, 2), samplesize = c(100, 200),
         sample7,
         sample8,
         sample9,
-        sample10,
-        sample11
+        sample10
       )
       j.n <- j.n + 1
       RES[j.d, j.n] <- stat_hyb(sample, type = "t", nu = true.nu)$p.value < 0.05
@@ -714,7 +712,7 @@ H1.s.hyb <- function(Choice = c(1, 2), samplesize = c(100, 200),
 
 set.seed(0815)
 param_list <- list(
-  "Choice" = 1:12, "samplesize" = c(100, 200, 500, 1000),
+  "Choice" = 1:11, "samplesize" = c(100, 200, 500, 1000),
   "dimension" = c(100, 200, 300)
 )
 time_START <- Sys.time()
@@ -736,8 +734,8 @@ for (n in c(
 )) {
 
   j.n <- j.n + 1
-  RESULT <- matrix(0, nrow = 12, ncol = 3)
-  for (a in 1:12) {
+  RESULT <- matrix(0, nrow = 11, ncol = 3)
+  for (a in 1:11) {
 
     RESULT[a, 1] <- mean(as.numeric(s.hyb.alt.t$results$RES[a, j.n, 1, ]))
     RESULT[a, 2] <- mean(as.numeric(s.hyb.alt.t$results$RES[a, j.n, 2, ]))
@@ -950,9 +948,9 @@ H1.s.hyb <- function(Choice = 1, samplesize = 100, dimension = 100) {
         sqrt(d * matrix(rf(n, df1 = d, df2 = true.nu), nrow = n, ncol = d))
       sample8 <- rvmf(n, mu = c(1, rep(0, d - 1)), k = 10) *
         sqrt(d * matrix(rf(n, df1 = d, df2 = true.nu), nrow = n, ncol = d))
-      sample9 <- rmst(n, xi = mean_vec, Omega = diag(1, d), alpha = alpha1,
+      sample9 <- rmst(n, xi = mean_vec, Omega = cov_matrix, alpha = alpha0,
                       nu = true.nu)
-      sample10 <- rmst(n, xi = mean_vec, Omega = cov_matrix, alpha = alpha0,
+      sample10 <- rmst(n, xi = mean_vec, Omega = diag(1, d), alpha = alpha1,
                        nu = true.nu)
 
       sample <- switch(Choice,
@@ -1022,7 +1020,6 @@ for (n in c(
 
 }
 xtable(t(t(round(Erg, 2) * 100)), digits = 0, include.rownames = FALSE)
-# Note that the last two rows have to be switched in Table 2
 
 #-------------------------------------------------------------------------------
 # Simulation HD Sobolev - stable hypothesis -> Table 3
@@ -1392,13 +1389,13 @@ H1.s.hyb <- function(Choice = c(1, 2), samplesize = c(100, 200),
       B <- rstable(n, alpha1 / 2, 1, 2 * (cos(pi * alpha1 / 4))^(2 / alpha1), 0,
         pm = 1
       )
-      sample8 <- matrix(sqrt(B), ncol = d, nrow = n) * r_non_normal(n, d,
+      sample4 <- matrix(sqrt(B), ncol = d, nrow = n) * r_non_normal(n, d,
         rho = 0
       )
-      sample9 <- matrix(sqrt(B), ncol = d, nrow = n) * r_non_normal(n, d,
+      sample5 <- matrix(sqrt(B), ncol = d, nrow = n) * r_non_normal(n, d,
         rho = 0.25
       )
-      sample10 <- matrix(sqrt(B), ncol = d, nrow = n) * r_non_normal(n, d,
+      sample6 <- matrix(sqrt(B), ncol = d, nrow = n) * r_non_normal(n, d,
         rho = 0.5
       )
 
@@ -1407,9 +1404,9 @@ H1.s.hyb <- function(Choice = c(1, 2), samplesize = c(100, 200),
         sample1,
         sample2,
         sample3,
-        sample8,
-        sample9,
-        sample10
+        sample4,
+        sample5,
+        sample6
       )
       j.n <- j.n + 1
       Erg[j.d, j.n] <- stat_hyb(sample,
@@ -1599,26 +1596,27 @@ H1.s.hyb <- function(Choice = 1, samplesize = 100, dimension = 100) {
     j.n <- 0
     for (n in samplesize) {
 
+      # Defined in the same order as the rows of Table 4 in the paper
       sample0 <- rvmf(n, mu = c(1, rep(0, d - 1)), k = 0) *
         matrix(rgamma(n, 2, 5), nrow = n, ncol = d)
       sample1 <- rvmf(n, mu = c(1, rep(0, d - 1)), k = 0.25) *
         matrix(rchisq(n, df = 2), nrow = n, ncol = d)
-      sample2 <- rvmf(n, mu = c(1, rep(0, d - 1)), k = 0.25) *
-        matrix(abs(rcauchy(n, 2, 5)), nrow = n, ncol = d)
-      sample3 <- rvmf(n, mu = c(1, rep(0, d - 1)), k = 0.5) *
-        matrix(abs(rt(n, 2)), nrow = n, ncol = d)
-      sample4 <- rvmf(n, mu = c(1, rep(0, d - 1)), k = 10) *
-        matrix(rchisq(n, df = 20), nrow = n, ncol = d)
-      sample5 <- rvmf(n, mu = c(1, rep(0, d - 1)), k = 5) *
+      sample2 <- rvmf(n, mu = c(1, rep(0, d - 1)), k = 5) *
         matrix(rchisq(n, df = d), nrow = n, ncol = d)
-      sample6 <- rvmf(n, mu = c(1, rep(0, d - 1)), k = 2) *
+      sample3 <- rvmf(n, mu = c(1, rep(0, d - 1)), k = 10) *
+        matrix(rchisq(n, df = 20), nrow = n, ncol = d)
+      sample4 <- rvmf(n, mu = c(1, rep(0, d - 1)), k = 2) *
         matrix(rgamma(n, 2, 5), nrow = n, ncol = d)
-      sample7 <- rvmf(n, mu = c(1, rep(0, d - 1)), k = 5) *
+      sample5 <- rvmf(n, mu = c(1, rep(0, d - 1)), k = 5) *
         matrix(rgamma(n, 2, 5), nrow = n, ncol = d)
-      sample8 <- rvmf(n, mu = c(1, rep(0, d - 1)), k = 10) *
+      sample6 <- rvmf(n, mu = c(1, rep(0, d - 1)), k = 10) *
         matrix(rgamma(n, 2, 5), nrow = n, ncol = d)
-      sample9 <- rvmf(n, mu = c(1, rep(0, d - 1)), k = 20) *
+      sample7 <- rvmf(n, mu = c(1, rep(0, d - 1)), k = 20) *
         matrix(rgamma(n, 2, 5), nrow = n, ncol = d)
+      sample8 <- rvmf(n, mu = c(1, rep(0, d - 1)), k = 0.25) *
+        matrix(abs(rcauchy(n, 2, 5)), nrow = n, ncol = d)
+      sample9 <- rvmf(n, mu = c(1, rep(0, d - 1)), k = 0.5) *
+        matrix(abs(rt(n, 2)), nrow = n, ncol = d)
 
       sample <- switch(Choice,
         sample0,

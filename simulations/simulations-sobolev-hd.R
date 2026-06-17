@@ -14,86 +14,12 @@ library(MASS)
 library(xtable)
 
 #-------------------------------------------------------------------------------
-# Required functions
-#-------------------------------------------------------------------------------
-
-cv.T <- function(alpha) {
-
-  require(PearsonDS)
-  w <- c(1, -3 + pi^2 / 3, -pi^2 + 10, -35 + 10 / 3 * pi^2 + 1 / 45 * pi^4)
-  # Exact values of the sum of powers of the weights.
-  u2 <- 2 * w[2]
-  kappa_j <- sapply(1:4, function(j) {
-
-    2^(j - 1) * factorial(j - 1) * (u2^j + w[j])
-
-  })
-  kum <- kappa_j
-  mom <- c(kum[1:2], kum[3] * kum[2]^(-3 / 2), 3 + kum[4] * kum[2]^(-2))
-  return(qpearson(1 - alpha, moments = mom))
-
-}
-
-BHEP_SH <- function(data, a = 1) {
-
-  n <- dim(data)[1]
-  d <- dim(data)[2]
-  if (is.null(n)) {
-
-    if (is.vector(data)) {
-
-      n <- length(data)
-      SUMME1 <- 0
-      SUMME2 <- 0
-      for (j in 1:n) {
-
-        SUMME2 <- SUMME2 + exp(-a^2 * data[j]^2 / (2 * (1 + a^2)))
-        for (k in 1:n) {
-
-          SUMME1 <- SUMME1 + exp(-a^2 * (data[j] - data[k])^2 / 2)
-
-        }
-
-      }
-      ret <- 1 / n * SUMME1 - (2 / sqrt(1 + a^2)) * SUMME2 +
-        n / sqrt(1 + 2 * a^2)
-      return(ret)
-
-    } else {
-
-      stop("Wrong dimensions of data!")
-
-    }
-
-  } else if (!is.numeric(data)) {
-
-    stop("The data contains non-numeric entries!")
-
-  } else if (a <= 0) {
-
-    stop("Tuning parameter a>0 needed!")
-
-  } else {
-
-    Djk <- data %*% t(data)
-    Rquad <- diag(Djk)
-    Dj <- matrix(Rquad, n, n)
-    Y <- exp((-a^2 / 2) * (Dj - 2 * Djk + t(Dj)))
-    Y2 <- exp((-a^2 / (2 * (1 + a^2))) * Rquad)
-    ret <- sum(Y) / n - 2 * ((1 + a^2)^(-d / 2)) * sum(Y2) +
-      ((1 + 2 * a^2)^(-d / 2)) * n
-    return(ret)
-
-  }
-
-}
-
-#-------------------------------------------------------------------------------
 # Simulation HD Sobolev - Normal -> Table 1
 #-------------------------------------------------------------------------------
 
-# Simulations of Quantiles (parallel computation)
+## Simulations under H0
 
+# Simulation function
 H0.quan <- function(samplesize = 100, dimension = 100) {
 
   require(MASS)
@@ -174,6 +100,7 @@ H0.quan <- function(samplesize = 100, dimension = 100) {
 
 }
 
+# Carry out the simulation
 set.seed(815)
 param_list <- list("samplesize" = c(100, 200), "dimension" = c(100, 200, 300))
 time_START <- Sys.time()
@@ -185,6 +112,7 @@ summary(s.hyb.quan)
 time_END <- Sys.time()
 difftime(time_END, time_START)
 
+# Checks ecdf vs cdf
 par(mfrow = c(3, 3))
 q.s.hyb <- matrix(0, 2, 3)
 j.n <- 0
@@ -203,7 +131,9 @@ for (n in c("samplesize=100", "samplesize=200")) {
 
 }
 
-# Empirical powers of the test (parallel computation)
+## Simulations under H1
+
+# Simulation function
 H1.s.hyb <- function(Choice = c(1, 2), samplesize = c(100, 200),
                      dimension = c(100, 200)) {
 
@@ -426,6 +356,7 @@ H1.s.hyb <- function(Choice = c(1, 2), samplesize = c(100, 200),
 
 }
 
+# Carry out the simulation
 set.seed(0815)
 param_list <- list(
   "Choice" = 1:15, "samplesize" = c(100, 200),
@@ -441,7 +372,8 @@ time_END <- Sys.time()
 difftime(time_END, time_START)
 save(s.hyb.norm, file = "norm.RData")
 
-# Arranging the results in a table
+# LaTeX table
+load(file = "norm.RData")
 Erg <- matrix(0, nrow = 15, ncol = 12)
 j.n <- 0
 for (n in c("samplesize=100", "samplesize=200")) {
@@ -469,88 +401,15 @@ for (n in c("samplesize=100", "samplesize=200")) {
   }
 
 }
-
-# LaTeX table
 xtable(t(t(round(Erg, 2) * 100)), digits = 0, include.rownames = FALSE)
 
 #-------------------------------------------------------------------------------
 # Simulation HD Sobolev - t simple hypothesis -> Table 2 upper part
 #-------------------------------------------------------------------------------
 
-# Hybrid statistic
-stat_hyb <- function(X, Sobolev_vk2 = c(1, 0), u2 = 2 * (pi^2 / 3 - 3),
-                     type = c("norm", "t")[2], nu) {
+## Simulation under H0
 
-  ## Radiii and projections
-
-  # Squared radii
-  radii_2 <- rowSums(X^2)
-
-  # Projections
-  projs <- X / sqrt(radii_2)
-
-  ## Projections statistic
-
-  # Statistic for the projections
-  dim(projs) <- c(dim(projs), 1)
-  projs_stat <- unif_stat(
-    data = projs, type = "Sobolev",
-    Sobolev_vk2 = Sobolev_vk2
-  )$Sobolev
-
-  # Center to have Tn as in the paper
-  p <- ncol(X)
-  dpk <- d_p_k(p = p, k = seq_along(Sobolev_vk2))
-  mean_projs_stat <- sum(Sobolev_vk2 * dpk)
-  projs_stat <- projs_stat - mean_projs_stat
-
-  # Scale to have Tn / sigman
-  sd_projs_stat <- sqrt(2 * sum(Sobolev_vk2^2 * dpk))
-  projs_stat <- projs_stat / sd_projs_stat
-
-  # Square statistic to have a limiting chi-square
-  projs_stat <- 1 - pchisq(projs_stat^2, df = 1)
-
-  ## Radii statistic
-
-  if (type == "norm") {
-
-    # Standardize squared radii
-    radii_2 <- (radii_2 - p) / sqrt(2 * p)
-
-    # Radii statistic
-    radii_stat <- ad.test(
-      x = radii_2,
-      null = function(x) pchisq(sqrt(2 * p) * x + p, df = p)
-    )$statistic
-
-  } else if (type == "t") {
-
-    # X'X / p ~ F(nu, p) (https://en.wikipedia.org/wiki/Multivariate_t-distribution#Radial_Distribution)
-    radii_2 <- radii_2 / p
-
-    # nu * F(nu, p) -> chi^2(p) as p -> Inf (https://en.wikipedia.org/wiki/F-distribution#Properties_and_related_distributions)
-
-    # Radii statistic
-    radii_stat <- ad.test(x = radii_2,
-                          null = function(x) pf(x, df1 = p, df2 = nu))$p.value
-
-  } else {
-
-    stop("Invalid type. Choose 'norm' or 't'.")
-
-  }
-
-  ## Fisher's method for combination of independent statistics
-  return(list(
-    statistic = -2 * (log(projs_stat) + log(radii_stat)),
-    p.value = 1 - pchisq(-2 * (log(projs_stat) + log(radii_stat)), df = 4)
-  ))
-
-}
-
-# Check limit distribution chisq with 4 df
-
+# Simulation function
 H0.quan <- function(samplesize = c(20, 50, 100), dimension = c(2, 3, 5)) {
 
   require(MASS)
@@ -651,6 +510,7 @@ H0.quan <- function(samplesize = c(20, 50, 100), dimension = c(2, 3, 5)) {
 
 }
 
+# Carry out the simulation
 set.seed(0815)
 param_list <- list("samplesize" = c(100, 200, 500, 1000), "dimension" = c(
   100,
@@ -665,7 +525,9 @@ summary(s.hyb.quan)
 time_END <- Sys.time()
 difftime(time_END, time_START)
 
-# Empirical powers of the test (parallel computation)
+## Simulations under H1
+
+# Simulation function
 H1.s.hyb <- function(Choice = c(1, 2), samplesize = c(100, 200),
                      dimension = c(100, 200)) {
 
@@ -815,23 +677,22 @@ H1.s.hyb <- function(Choice = c(1, 2), samplesize = c(100, 200),
       sample1 <- rmvt(n, sigma = diag(1, d), df = true.nu + 1)
       sample2 <- rmvt(n, sigma = diag(1, d), df = true.nu + 2)
       sample3 <- rmvt(n, sigma = diag(1, d), df = true.nu + 3)
-      sample4 <- rmvt(n, sigma = diag(1, d), df = true.nu + 4)
-      sample5 <- rmvt(n, sigma = 0.9 * diag(1, d), df = true.nu)
-      sample6 <- rvmf(n, mu = c(1, rep(0, d - 1)), k = 5) *
+      sample4 <- rmvt(n, sigma = 0.9 * diag(1, d), df = true.nu)
+      sample5 <- rvmf(n, mu = c(1, rep(0, d - 1)), k = 5) *
         sqrt(d * matrix(rf(n, df1 = d, df2 = true.nu), nrow = n, ncol = d))
-      sample7 <- rvmf(n, mu = c(1, rep(0, d - 1)), k = 10) *
+      sample6 <- rvmf(n, mu = c(1, rep(0, d - 1)), k = 10) *
         sqrt(d * matrix(rf(n, df1 = d, df2 = true.nu), nrow = n, ncol = d))
       cov_matrix <- diag(0.75, d) + matrix(0.25, d, d)
       mean_vec <- rep(0, d) # Mean vector
       alpha0 <- rep(0, d)
       alpha1 <- c(1, rep(0, d - 1))
-      sample8 <- rmst(n, xi = mean_vec, Omega = cov_matrix, alpha = alpha0,
+      sample7 <- rmst(n, xi = mean_vec, Omega = cov_matrix, alpha = alpha0,
                       nu = true.nu)
-      sample9 <- rmst(n, xi = mean_vec, Omega = diag(1, d), alpha = alpha1,
+      sample8 <- rmst(n, xi = mean_vec, Omega = diag(1, d), alpha = alpha1,
                       nu = true.nu)
-      sample10 <- rmst(n, xi = mean_vec, Omega = cov_matrix, alpha = alpha0,
-                       nu = true.nu + 3)
-      sample11 <- rmst(n, xi = mean_vec, Omega = diag(1, d), alpha = alpha1,
+      sample9 <- rmst(n, xi = mean_vec, Omega = cov_matrix, alpha = alpha0,
+                      nu = true.nu + 3)
+      sample10 <- rmst(n, xi = mean_vec, Omega = diag(1, d), alpha = alpha1,
                        nu = true.nu + 3)
 
       sample <- switch(Choice,
@@ -845,8 +706,7 @@ H1.s.hyb <- function(Choice = c(1, 2), samplesize = c(100, 200),
         sample7,
         sample8,
         sample9,
-        sample10,
-        sample11
+        sample10
       )
       j.n <- j.n + 1
       RES[j.d, j.n] <- stat_hyb(sample, type = "t", nu = true.nu)$p.value < 0.05
@@ -858,22 +718,24 @@ H1.s.hyb <- function(Choice = c(1, 2), samplesize = c(100, 200),
 
 }
 
+# Carry out the simulation
 set.seed(0815)
 param_list <- list(
-  "Choice" = 1:12, "samplesize" = c(100, 200, 500, 1000),
+  "Choice" = 1:11, "samplesize" = c(100, 200, 500, 1000),
   "dimension" = c(100, 200, 300)
 )
 time_START <- Sys.time()
 s.hyb.alt.t <- MonteCarlo(
   func = H1.s.hyb, nrep = 5000, param_list = param_list,
-  ncpus = 50
+  ncpus = 14
 )
 summary(s.hyb.alt.t)
 time_END <- Sys.time()
 difftime(time_END, time_START)
 save(s.hyb.alt.t, file = "t_SH.RData")
 
-# Arranging the results in a table
+# LaTeX table
+load("t_SH.RData")
 j.n <- 0
 for (n in c(
   "samplesize=100", "samplesize=200", "samplesize=500",
@@ -881,8 +743,8 @@ for (n in c(
 )) {
 
   j.n <- j.n + 1
-  RESULT <- matrix(0, nrow = 12, ncol = 3)
-  for (a in 1:12) {
+  RESULT <- matrix(0, nrow = 11, ncol = 3)
+  for (a in 1:11) {
 
     RESULT[a, 1] <- mean(as.numeric(s.hyb.alt.t$results$RES[a, j.n, 1, ]))
     RESULT[a, 2] <- mean(as.numeric(s.hyb.alt.t$results$RES[a, j.n, 2, ]))
@@ -900,16 +762,13 @@ for (n in c(
   }
 
 }
-
-# LaTeX table
 xtable(t(t(round(Erg, 2) * 100)), digits = 0, include.rownames = FALSE)
 
 #-------------------------------------------------------------------------------
 # Simulation HD Sobolev - t composite hypothesis -> Table 2 lower part
 #-------------------------------------------------------------------------------
 
-# Empirical powers of the test (parallel computation)
-
+# Simulation function
 H1.s.hyb <- function(Choice = 1, samplesize = 100, dimension = 100) {
 
   require(MASS)
@@ -1095,9 +954,9 @@ H1.s.hyb <- function(Choice = 1, samplesize = 100, dimension = 100) {
         sqrt(d * matrix(rf(n, df1 = d, df2 = true.nu), nrow = n, ncol = d))
       sample8 <- rvmf(n, mu = c(1, rep(0, d - 1)), k = 10) *
         sqrt(d * matrix(rf(n, df1 = d, df2 = true.nu), nrow = n, ncol = d))
-      sample9 <- rmst(n, xi = mean_vec, Omega = diag(1, d), alpha = alpha1,
+      sample9 <- rmst(n, xi = mean_vec, Omega = cov_matrix, alpha = alpha0,
                       nu = true.nu)
-      sample10 <- rmst(n, xi = mean_vec, Omega = cov_matrix, alpha = alpha0,
+      sample10 <- rmst(n, xi = mean_vec, Omega = diag(1, d), alpha = alpha1,
                        nu = true.nu)
 
       sample <- switch(Choice,
@@ -1123,6 +982,7 @@ H1.s.hyb <- function(Choice = 1, samplesize = 100, dimension = 100) {
 
 }
 
+# Carry out the simulation
 set.seed(0815)
 param_list <- list(
   "Choice" = 1:11, "samplesize" = c(100, 200, 500, 1000),
@@ -1131,14 +991,15 @@ param_list <- list(
 time_START <- Sys.time()
 s.hyb.alt.t.2 <- MonteCarlo(
   func = H1.s.hyb, nrep = 5000,
-  param_list = param_list, ncpus = 60 # Run in a cluster
+  param_list = param_list, ncpus = 14
 )
 summary(s.hyb.alt.t.2)
 time_END <- Sys.time()
 difftime(time_END, time_START)
 save(s.hyb.alt.t.2, file = "t_CH.RData")
 
-# Get results: For every sample size we have a new table
+# LaTeX table
+load("t_CH.RData")
 j.n <- 0
 for (n in c(
   "samplesize=100", "samplesize=200", "samplesize=500",
@@ -1166,13 +1027,14 @@ for (n in c(
 
 }
 xtable(t(t(round(Erg, 2) * 100)), digits = 0, include.rownames = FALSE)
-# Note that the last two rows have to be switched in Table 2
 
 #-------------------------------------------------------------------------------
 # Simulation HD Sobolev - stable hypothesis -> Table 3
 #-------------------------------------------------------------------------------
 
-# Check limit distribution chisq with 4 df
+## Simulation under H0
+
+# Simulation function
 H0.quan <- function(samplesize = c(20, 50, 100), dimension = c(2, 3, 5)) {
 
   require(MASS)
@@ -1314,17 +1176,20 @@ H0.quan <- function(samplesize = c(20, 50, 100), dimension = c(2, 3, 5)) {
   return(list("Erg" = Erg))
 
 }
+
+# Carry out the simulation
 set.seed(0815)
 param_list <- list("samplesize" = c(50, 100), "dimension" = c(50, 100))
 time_START <- Sys.time()
 s.hyb.quan <- MonteCarlo(
   func = H0.quan, nrep = 100, param_list = param_list,
-  ncpus = 10
+  ncpus = 14
 )
 summary(s.hyb.quan)
 time_END <- Sys.time()
 difftime(time_END, time_START)
 
+# Check ecdf vs. cdf
 par(mfrow = c(2, 2))
 j.n <- 0
 for (n in c("samplesize=50", "samplesize=100")) {
@@ -1340,8 +1205,9 @@ for (n in c("samplesize=50", "samplesize=100")) {
 
 }
 
-# Power study
+## Simulation under H1
 
+# Simulation function
 H1.s.hyb <- function(Choice = c(1, 2), samplesize = c(100, 200),
                      dimension = c(100, 200)) {
 
@@ -1536,13 +1402,13 @@ H1.s.hyb <- function(Choice = c(1, 2), samplesize = c(100, 200),
       B <- rstable(n, alpha1 / 2, 1, 2 * (cos(pi * alpha1 / 4))^(2 / alpha1), 0,
         pm = 1
       )
-      sample8 <- matrix(sqrt(B), ncol = d, nrow = n) * r_non_normal(n, d,
+      sample4 <- matrix(sqrt(B), ncol = d, nrow = n) * r_non_normal(n, d,
         rho = 0
       )
-      sample9 <- matrix(sqrt(B), ncol = d, nrow = n) * r_non_normal(n, d,
+      sample5 <- matrix(sqrt(B), ncol = d, nrow = n) * r_non_normal(n, d,
         rho = 0.25
       )
-      sample10 <- matrix(sqrt(B), ncol = d, nrow = n) * r_non_normal(n, d,
+      sample6 <- matrix(sqrt(B), ncol = d, nrow = n) * r_non_normal(n, d,
         rho = 0.5
       )
 
@@ -1551,9 +1417,9 @@ H1.s.hyb <- function(Choice = c(1, 2), samplesize = c(100, 200),
         sample1,
         sample2,
         sample3,
-        sample8,
-        sample9,
-        sample10
+        sample4,
+        sample5,
+        sample6
       )
       j.n <- j.n + 1
       Erg[j.d, j.n] <- stat_hyb(sample,
@@ -1568,6 +1434,7 @@ H1.s.hyb <- function(Choice = c(1, 2), samplesize = c(100, 200),
 
 }
 
+# Carry out the simulation
 set.seed(0815)
 param_list <- list(
   "Choice" = 1:7, "samplesize" = c(50, 100),
@@ -1581,8 +1448,10 @@ s.hyb.alt1 <- MonteCarlo(
 summary(s.hyb.alt1)
 time_END <- Sys.time()
 difftime(time_END, time_START)
+save(s.hyb.alt1, file = "stable.RData")
 
-# Get results in one table
+# LaTeX table
+load("stable.RData")
 Erg <- matrix(0, nrow = 7, ncol = 4)
 j.n <- 0
 for (n in c("samplesize=50", "samplesize=100")) {
@@ -1612,6 +1481,7 @@ xtable::xtable(t(t(round(Erg, 2) * 100)), digits = 0, include.rownames = FALSE)
 # Simulation HD Sobolev - gamma radii composite hypothesis -> Table 4
 #-------------------------------------------------------------------------------
 
+# Simulation function
 H1.s.hyb <- function(Choice = 1, samplesize = 100, dimension = 100) {
 
   require(MASS)
@@ -1742,26 +1612,27 @@ H1.s.hyb <- function(Choice = 1, samplesize = 100, dimension = 100) {
     j.n <- 0
     for (n in samplesize) {
 
+      # Defined in the same order as the rows of Table 4 in the paper
       sample0 <- rvmf(n, mu = c(1, rep(0, d - 1)), k = 0) *
         matrix(rgamma(n, 2, 5), nrow = n, ncol = d)
       sample1 <- rvmf(n, mu = c(1, rep(0, d - 1)), k = 0.25) *
         matrix(rchisq(n, df = 2), nrow = n, ncol = d)
-      sample2 <- rvmf(n, mu = c(1, rep(0, d - 1)), k = 0.25) *
-        matrix(abs(rcauchy(n, 2, 5)), nrow = n, ncol = d)
-      sample3 <- rvmf(n, mu = c(1, rep(0, d - 1)), k = 0.5) *
-        matrix(abs(rt(n, 2)), nrow = n, ncol = d)
-      sample4 <- rvmf(n, mu = c(1, rep(0, d - 1)), k = 10) *
-        matrix(rchisq(n, df = 20), nrow = n, ncol = d)
-      sample5 <- rvmf(n, mu = c(1, rep(0, d - 1)), k = 5) *
+      sample2 <- rvmf(n, mu = c(1, rep(0, d - 1)), k = 5) *
         matrix(rchisq(n, df = d), nrow = n, ncol = d)
-      sample6 <- rvmf(n, mu = c(1, rep(0, d - 1)), k = 2) *
+      sample3 <- rvmf(n, mu = c(1, rep(0, d - 1)), k = 10) *
+        matrix(rchisq(n, df = 20), nrow = n, ncol = d)
+      sample4 <- rvmf(n, mu = c(1, rep(0, d - 1)), k = 2) *
         matrix(rgamma(n, 2, 5), nrow = n, ncol = d)
-      sample7 <- rvmf(n, mu = c(1, rep(0, d - 1)), k = 5) *
+      sample5 <- rvmf(n, mu = c(1, rep(0, d - 1)), k = 5) *
         matrix(rgamma(n, 2, 5), nrow = n, ncol = d)
-      sample8 <- rvmf(n, mu = c(1, rep(0, d - 1)), k = 10) *
+      sample6 <- rvmf(n, mu = c(1, rep(0, d - 1)), k = 10) *
         matrix(rgamma(n, 2, 5), nrow = n, ncol = d)
-      sample9 <- rvmf(n, mu = c(1, rep(0, d - 1)), k = 20) *
+      sample7 <- rvmf(n, mu = c(1, rep(0, d - 1)), k = 20) *
         matrix(rgamma(n, 2, 5), nrow = n, ncol = d)
+      sample8 <- rvmf(n, mu = c(1, rep(0, d - 1)), k = 0.25) *
+        matrix(abs(rcauchy(n, 2, 5)), nrow = n, ncol = d)
+      sample9 <- rvmf(n, mu = c(1, rep(0, d - 1)), k = 0.5) *
+        matrix(abs(rt(n, 2)), nrow = n, ncol = d)
 
       sample <- switch(Choice,
         sample0,
@@ -1785,6 +1656,7 @@ H1.s.hyb <- function(Choice = 1, samplesize = 100, dimension = 100) {
 
 }
 
+# Carry out the simulation
 set.seed(0815)
 param_list <- list(
   "Choice" = 1:10, "samplesize" = c(100, 200),
@@ -1800,7 +1672,8 @@ time_END <- Sys.time()
 difftime(time_END, time_START)
 save(s.hyb.alt3, file = "gamma.RData")
 
-# Get results in a single table
+# LaTeX table
+load("gamma.RData")
 j.n <- 0
 Ergebnis <- matrix(0, nrow = 10, ncol = 8)
 for (n in c("samplesize=100", "samplesize=200")) {

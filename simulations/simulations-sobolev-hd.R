@@ -17,8 +17,9 @@ library(xtable)
 # Simulation HD Sobolev - Normal -> Table 1
 #-------------------------------------------------------------------------------
 
-# Simulations of Quantiles (parallel computation)
+## Simulations under H0
 
+# Simulation function
 H0.quan <- function(samplesize = 100, dimension = 100) {
 
   require(MASS)
@@ -99,6 +100,7 @@ H0.quan <- function(samplesize = 100, dimension = 100) {
 
 }
 
+# Carry out the simulation
 set.seed(815)
 param_list <- list("samplesize" = c(100, 200), "dimension" = c(100, 200, 300))
 time_START <- Sys.time()
@@ -110,6 +112,7 @@ summary(s.hyb.quan)
 time_END <- Sys.time()
 difftime(time_END, time_START)
 
+# Checks ecdf vs cdf
 par(mfrow = c(3, 3))
 q.s.hyb <- matrix(0, 2, 3)
 j.n <- 0
@@ -128,7 +131,9 @@ for (n in c("samplesize=100", "samplesize=200")) {
 
 }
 
-# Empirical powers of the test (parallel computation)
+## Simulations under H1
+
+# Simulation function
 H1.s.hyb <- function(Choice = c(1, 2), samplesize = c(100, 200),
                      dimension = c(100, 200)) {
 
@@ -351,6 +356,7 @@ H1.s.hyb <- function(Choice = c(1, 2), samplesize = c(100, 200),
 
 }
 
+# Carry out the simulation
 set.seed(0815)
 param_list <- list(
   "Choice" = 1:15, "samplesize" = c(100, 200),
@@ -366,7 +372,7 @@ time_END <- Sys.time()
 difftime(time_END, time_START)
 save(s.hyb.norm, file = "norm.RData")
 
-# Arranging the results in a table
+# LaTeX table
 load(file = "norm.RData")
 Erg <- matrix(0, nrow = 15, ncol = 12)
 j.n <- 0
@@ -395,16 +401,15 @@ for (n in c("samplesize=100", "samplesize=200")) {
   }
 
 }
-
-# LaTeX table
 xtable(t(t(round(Erg, 2) * 100)), digits = 0, include.rownames = FALSE)
 
 #-------------------------------------------------------------------------------
 # Simulation HD Sobolev - t simple hypothesis -> Table 2 upper part
 #-------------------------------------------------------------------------------
 
-# Check limit distribution chisq with 4 df
+## Simulation under H0
 
+# Simulation function
 H0.quan <- function(samplesize = c(20, 50, 100), dimension = c(2, 3, 5)) {
 
   require(MASS)
@@ -505,6 +510,7 @@ H0.quan <- function(samplesize = c(20, 50, 100), dimension = c(2, 3, 5)) {
 
 }
 
+# Carry out the simulation
 set.seed(0815)
 param_list <- list("samplesize" = c(100, 200, 500, 1000), "dimension" = c(
   100,
@@ -519,7 +525,9 @@ summary(s.hyb.quan)
 time_END <- Sys.time()
 difftime(time_END, time_START)
 
-# Empirical powers of the test (parallel computation)
+## Simulations under H1
+
+# Simulation function
 H1.s.hyb <- function(Choice = c(1, 2), samplesize = c(100, 200),
                      dimension = c(100, 200)) {
 
@@ -710,6 +718,7 @@ H1.s.hyb <- function(Choice = c(1, 2), samplesize = c(100, 200),
 
 }
 
+# Carry out the simulation
 set.seed(0815)
 param_list <- list(
   "Choice" = 1:11, "samplesize" = c(100, 200, 500, 1000),
@@ -725,7 +734,7 @@ time_END <- Sys.time()
 difftime(time_END, time_START)
 save(s.hyb.alt.t, file = "t_SH.RData")
 
-# Arranging the results in a table
+# LaTeX table
 load("t_SH.RData")
 j.n <- 0
 for (n in c(
@@ -753,16 +762,13 @@ for (n in c(
   }
 
 }
-
-# LaTeX table
 xtable(t(t(round(Erg, 2) * 100)), digits = 0, include.rownames = FALSE)
 
 #-------------------------------------------------------------------------------
 # Simulation HD Sobolev - t composite hypothesis -> Table 2 lower part
 #-------------------------------------------------------------------------------
 
-# Empirical powers of the test (parallel computation)
-
+# Simulation function
 H1.s.hyb <- function(Choice = 1, samplesize = 100, dimension = 100) {
 
   require(MASS)
@@ -976,6 +982,7 @@ H1.s.hyb <- function(Choice = 1, samplesize = 100, dimension = 100) {
 
 }
 
+# Carry out the simulation
 set.seed(0815)
 param_list <- list(
   "Choice" = 1:11, "samplesize" = c(100, 200, 500, 1000),
@@ -991,7 +998,7 @@ time_END <- Sys.time()
 difftime(time_END, time_START)
 save(s.hyb.alt.t.2, file = "t_CH.RData")
 
-# Get results: For every sample size we have a new table
+# LaTeX table
 load("t_CH.RData")
 j.n <- 0
 for (n in c(
@@ -1025,7 +1032,9 @@ xtable(t(t(round(Erg, 2) * 100)), digits = 0, include.rownames = FALSE)
 # Simulation HD Sobolev - stable hypothesis -> Table 3
 #-------------------------------------------------------------------------------
 
-# Check limit distribution chisq with 4 df
+## Simulation under H0
+
+# Simulation function
 H0.quan <- function(samplesize = c(20, 50, 100), dimension = c(2, 3, 5)) {
 
   require(MASS)
@@ -1167,6 +1176,8 @@ H0.quan <- function(samplesize = c(20, 50, 100), dimension = c(2, 3, 5)) {
   return(list("Erg" = Erg))
 
 }
+
+# Carry out the simulation
 set.seed(0815)
 param_list <- list("samplesize" = c(50, 100), "dimension" = c(50, 100))
 time_START <- Sys.time()
@@ -1178,6 +1189,7 @@ summary(s.hyb.quan)
 time_END <- Sys.time()
 difftime(time_END, time_START)
 
+# Check ecdf vs. cdf
 par(mfrow = c(2, 2))
 j.n <- 0
 for (n in c("samplesize=50", "samplesize=100")) {
@@ -1193,8 +1205,9 @@ for (n in c("samplesize=50", "samplesize=100")) {
 
 }
 
-# Power study
+## Simulation under H1
 
+# Simulation function
 H1.s.hyb <- function(Choice = c(1, 2), samplesize = c(100, 200),
                      dimension = c(100, 200)) {
 
@@ -1421,6 +1434,7 @@ H1.s.hyb <- function(Choice = c(1, 2), samplesize = c(100, 200),
 
 }
 
+# Carry out the simulation
 set.seed(0815)
 param_list <- list(
   "Choice" = 1:7, "samplesize" = c(50, 100),
@@ -1436,7 +1450,7 @@ time_END <- Sys.time()
 difftime(time_END, time_START)
 save(s.hyb.alt1, file = "stable.RData")
 
-# Get results in one table
+# LaTeX table
 load("stable.RData")
 Erg <- matrix(0, nrow = 7, ncol = 4)
 j.n <- 0
@@ -1467,6 +1481,7 @@ xtable::xtable(t(t(round(Erg, 2) * 100)), digits = 0, include.rownames = FALSE)
 # Simulation HD Sobolev - gamma radii composite hypothesis -> Table 4
 #-------------------------------------------------------------------------------
 
+# Simulation function
 H1.s.hyb <- function(Choice = 1, samplesize = 100, dimension = 100) {
 
   require(MASS)
@@ -1641,6 +1656,7 @@ H1.s.hyb <- function(Choice = 1, samplesize = 100, dimension = 100) {
 
 }
 
+# Carry out the simulation
 set.seed(0815)
 param_list <- list(
   "Choice" = 1:10, "samplesize" = c(100, 200),
@@ -1656,7 +1672,7 @@ time_END <- Sys.time()
 difftime(time_END, time_START)
 save(s.hyb.alt3, file = "gamma.RData")
 
-# Get results in a single table
+# LaTeX table
 load("gamma.RData")
 j.n <- 0
 Ergebnis <- matrix(0, nrow = 10, ncol = 8)

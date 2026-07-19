@@ -100,6 +100,18 @@ test_that("Edge cases r", {
 
 })
 
+test_that("d_proj_unif_cap is supported on [cos(angle), 1]", {
+
+  # Regression: the density used to be identically zero (wrong support bound)
+  for (p in c(2:4, 11)) {
+    inside <- seq(cos(angle) + 1e-3, 1 - 1e-3, l = 20)
+    below <- seq(-1, cos(angle) - 1e-3, l = 20)
+    expect_true(all(d_proj_unif_cap(x = inside, p = p, angle = angle) > 0))
+    expect_true(all(d_proj_unif_cap(x = below, p = p, angle = angle) == 0))
+  }
+
+})
+
 ## chisq
 
 set.seed(13134)

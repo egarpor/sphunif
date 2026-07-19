@@ -318,7 +318,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
   } else if (is.numeric(type)) {
 
     type <- unique(type)
-    if (type > length(avail_stats)) {
+    if (any(type > length(avail_stats) | type < 1)) {
 
       stop("type must be a numeric vector with values between 1 and ",
            length(avail_stats), ".")
@@ -433,7 +433,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
     }
 
     # Rejection?
-    reject <- rbind(apply(crit_val, 1, function(x) x > stat))
+    reject <- rbind(apply(crit_val, 1, function(x) stat >= x))
 
     # p-values
     p_val <- matrix(NA, nrow = 1, ncol = n_stats)
@@ -464,14 +464,15 @@ unif_test <- function(data, type = "all", p_value = "asymp",
                data_sorted = TRUE, efic = TRUE, divide_n = TRUE)
     }, simplify = FALSE))
 
-    # Critical values (stats_MC columns are already sorted; use the shortcut)
-    crit_val <- apply(stats_MC, 2, function(x) {
+    # Critical values (stats_MC columns are already sorted; use the shortcut).
+    # rbind() keeps crit_val a matrix when length(alpha) == 1.
+    crit_val <- rbind(apply(stats_MC, 2, function(x) {
       if (!anyNA(x) && !is.unsorted(x)) {
         quantile_sorted(x_sorted = x, probs = 1 - alpha)
       } else {
         quantile(x, probs = 1 - alpha, na.rm = TRUE, names = FALSE)
       }
-    })
+    }))
     rownames(crit_val) <- alpha
 
     # Rejection?

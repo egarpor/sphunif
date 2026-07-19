@@ -101,7 +101,7 @@
 #' @return
 #' \itemize{
 #'   \item \code{Gegen_polyn}: a matrix of size
-#'   \code{c(length(theta), length(k))} containing the evaluation of the
+#'   \code{c(length(k), length(theta))} containing the evaluation of the
 #'   \code{length(k)} Gegenbauer polynomials at \code{theta}.
 #'   \item \code{Gegen_coefs}: a vector of size \code{length(k)} containing
 #'   the coefficients \eqn{b_{k, p}}.

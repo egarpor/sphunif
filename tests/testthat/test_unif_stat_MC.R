@@ -208,3 +208,31 @@ test_that("Parallelization is faster", {
   expect_gt(t1, t2)
 
 })
+
+test_that("chunks simulate at least M replications (ceiling)", {
+
+  # Regression: M %/% chunks silently dropped replications when M was not a
+  # multiple of chunks; ceiling(M / chunks) never simulates fewer than M.
+  M <- 1000
+  chunks <- 3
+  out <- unif_stat_MC(n = n, type = "Rayleigh", p = 3, M = M, chunks = chunks,
+                      return_stats = TRUE, seeds = 1:chunks)
+  expect_equal(nrow(out$stats_MC), chunks * ceiling(M / chunks))
+  expect_gte(nrow(out$stats_MC), M)
+
+})
+
+test_that("quantile_sorted reproduces stats::quantile(type = 7)", {
+
+  set.seed(5)
+  x_sorted <- sort(rnorm(37))
+  probs <- c(0, 0.1, 0.5, 0.9, 0.95, 1)
+  expect_equal(quantile_sorted(x_sorted = x_sorted, probs = probs),
+               quantile(x_sorted, probs = probs, type = 7, names = FALSE))
+  # Ties and a single-element vector are handled without NaNs
+  expect_equal(quantile_sorted(x_sorted = rep(2, 5), probs = probs),
+               rep(2, length(probs)))
+  expect_equal(quantile_sorted(x_sorted = 7, probs = probs),
+               rep(7, length(probs)))
+
+})

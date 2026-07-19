@@ -206,7 +206,7 @@ unif_stat_distr <- function(x, type, p, n, approx = "asymp", M = 1e4,
   } else if (is.numeric(type)) {
 
     type <- unique(type)
-    if (type > length(avail_stats)) {
+    if (any(type > length(avail_stats) | type < 1)) {
 
       stop("type must be a numeric vector with values between 1 and ",
            length(avail_stats), ".")
@@ -436,16 +436,21 @@ unif_stat_distr <- function(x, type, p, n, approx = "asymp", M = 1e4,
     # Is it required to sort x?
     if (any(apply(x, 2, is.unsorted))) {
 
-      # Indexes for sorting and then unsorting
-      ind_1 <- sort_index_each_col(x)
+      # Indexes for sorting and then unsorting (x columns are ordered as
+      # stats_type_vec, so column j of ind_1/ind_2 matches stats_type_vec[j]).
+      # sort_index_each_col() needs a numeric matrix, but x is a data frame.
+      ind_1 <- sort_index_each_col(as.matrix(x))
       ind_2 <- sort_index_each_col(ind_1)
 
-      # Approximate distributions
-      distrs <- sapply(stats_type_vec, function(distr) {
-        ecdf_bin(data = stats_MC[[distr]], sorted_x = x[[distr]][ind_1],
-                 data_sorted = TRUE, efic = TRUE, divide_n = TRUE)
+      # Approximate distributions on sorted x, then restore the original order
+      distrs <- sapply(seq_along(stats_type_vec), function(j) {
+        distr <- stats_type_vec[j]
+        cdf <- ecdf_bin(data = stats_MC[[distr]],
+                        sorted_x = x[[distr]][ind_1[, j]],
+                        data_sorted = TRUE, efic = TRUE, divide_n = TRUE)
+        cdf[ind_2[, j]]
       }, simplify = FALSE)
-      distrs <- distrs[ind_2, ]
+      names(distrs) <- stats_type_vec
 
     } else {
 

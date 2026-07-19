@@ -8,7 +8,7 @@ unif_stat(data, type = "all", data_sorted = FALSE, CCF09_dirs = NULL,
   CJ12_reg = 3, cov_a = 2 * pi, Cressie_t = 1/3, K_CCF09 = 25,
   Poisson_rho = 0.5, Pycke_q = 0.5, Rayleigh_m = 1, Riesz_s = 1,
   Rothman_t = 1/3, Sobolev_vk2 = c(0, 0, 1), Softmax_kappa = 1,
-  Stein_K = 10, Stein_cf = FALSE, Stereo_a = 0, Stein_vk2 = NULL)
+  Stein_K = 10, Stein_cf = FALSE, Stereo_a = 0)
 }
 \arguments{
 \item{data}{sample to compute the test statistic. An \bold{array} of size
@@ -83,12 +83,6 @@ function).}
 
 \item{Stereo_a}{\eqn{a} parameter for the Stereo test, a real in
 \eqn{[-1, 1]}. Defaults to \code{0}.}
-
-\item{Stein_vk2}{optional vector of precomputed weights for the Stein test,
-as returned by \code{weights_dfs_Sobolev(type = "Stein")$weights}. If
-\code{NULL} (default), the weights are computed internally from
-\code{Stein_K} and \code{Stein_cf}. Mainly intended for internal use, to
-avoid recomputing the (data-independent) weights on repeated calls.}
 }
 \value{
 A data frame of size \code{c(M, length(type))}, with column names

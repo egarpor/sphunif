@@ -112,3 +112,28 @@ test_that("Errors in edge cases", {
   expect_error(unif_test(data = X3, type = function(x) x))
 
 })
+
+test_that("crit_val calibration rejects only for large statistic values", {
+
+  # Tests reject for large values, so a crit_val below the observed statistic
+  # must reject and one above must not (regression for an inverted comparison)
+  st <- unif_stat(X3, type = "Rayleigh")$Rayleigh
+  expect_true(as.logical(unif_test(X3, type = "Rayleigh", p_value = "crit_val",
+                                   crit_val = data.frame(Rayleigh = st - 1))$reject))
+  expect_false(as.logical(unif_test(X3, type = "Rayleigh", p_value = "crit_val",
+                                    crit_val = data.frame(Rayleigh = st + 1))$reject))
+
+})
+
+test_that("MC calibration works with a single significance level", {
+
+  expect_no_error(unif_test(X3, type = "Rayleigh", p_value = "MC", M = 100,
+                            alpha = 0.05))
+
+})
+
+test_that("Numeric type vectors are accepted", {
+
+  expect_no_error(unif_test(X3, type = c(1, 2), p_value = "MC", M = 10))
+
+})

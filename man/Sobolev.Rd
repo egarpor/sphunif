@@ -19,19 +19,19 @@ weights_dfs_Sobolev(p, K_max = 1000, thre = 0.001, type,
 
 d_Sobolev(x, p, type, method = c("I", "SW", "HBE")[1], K_max = 1000,
   thre = 0.001, Rothman_t = 1/3, Pycke_q = 0.5, Riesz_s = 1,
-  Poisson_rho = 0.5, Softmax_kappa = 1, Stereo_a = 0,
+  Poisson_rho = 0.5, Softmax_kappa = 1, Stereo_a = 0, Stein_cf = FALSE,
   Sobolev_vk2 = c(0, 0, 1), ncps = 0, verbose = TRUE, N = 320,
   x_tail = NULL, ...)
 
 p_Sobolev(x, p, type, method = c("I", "SW", "HBE", "MC")[1], K_max = 1000,
   thre = 0.001, Rothman_t = 1/3, Pycke_q = 0.5, Riesz_s = 1,
-  Poisson_rho = 0.5, Softmax_kappa = 1, Stereo_a = 0,
+  Poisson_rho = 0.5, Softmax_kappa = 1, Stereo_a = 0, Stein_cf = FALSE,
   Sobolev_vk2 = c(0, 0, 1), ncps = 0, verbose = TRUE, N = 320,
   x_tail = NULL, ...)
 
 q_Sobolev(u, p, type, method = c("I", "SW", "HBE", "MC")[1], K_max = 1000,
   thre = 0.001, Rothman_t = 1/3, Pycke_q = 0.5, Riesz_s = 1,
-  Poisson_rho = 0.5, Softmax_kappa = 1, Stereo_a = 0,
+  Poisson_rho = 0.5, Softmax_kappa = 1, Stereo_a = 0, Stein_cf = FALSE,
   Sobolev_vk2 = c(0, 0, 1), ncps = 0, verbose = TRUE, N = 320,
   x_tail = NULL, ...)
 }

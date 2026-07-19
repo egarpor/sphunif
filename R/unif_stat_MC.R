@@ -1,16 +1,21 @@
 
 
 # Type-7 quantile of an already-sorted, NA-free numeric vector. Reproduces
-# stats::quantile(x, probs, type = 7, names = FALSE) exactly, but without
-# re-sorting the vector. Callers must fall back to stats::quantile() when the
-# input is not sorted in non-decreasing order or contains NAs.
+# stats::quantile(x, probs, type = 7, names = FALSE) bit-for-bit (it mirrors
+# the interpolation in stats:::quantile.default, including the tie guard), but
+# without re-sorting the vector. Callers must fall back to stats::quantile()
+# when the input is not sorted in non-decreasing order or contains NAs.
 quantile_sorted <- function(x_sorted, probs) {
 
   n <- length(x_sorted)
-  index <- 1 + (n - 1) * probs
+  index <- 1 + max(n - 1, 0) * probs
   lo <- floor(index)
   hi <- ceiling(index)
-  x_sorted[lo] + (index - lo) * (x_sorted[hi] - x_sorted[lo])
+  qs <- x_sorted[lo]
+  i <- which(index > lo & x_sorted[hi] != qs)
+  h <- (index - lo)[i]
+  qs[i] <- (1 - h) * qs[i] + h * x_sorted[hi[i]]
+  qs
 
 }
 
@@ -222,8 +227,9 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
 
   }
 
-  # Chunk large n * M to avoid memory issues
-  small_M <- M %/% chunks
+  # Chunk large n * M to avoid memory issues. Use ceiling so that the total
+  # number of simulated replications (chunks * small_M) is never fewer than M.
+  small_M <- ceiling(M / chunks)
 
   # Fix projections for the CCF09 test
   if ("CCF09" %in% type && is.null(CCF09_dirs)) {
@@ -236,17 +242,6 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
   if (is.null(r_H1)) {
 
     r_H1 <- r_unif_sph
-
-  }
-
-  # The Stein weights are data-independent, so compute them once here and pass
-  # them to unif_stat() instead of recomputing them on every chunk.
-  Stein_vk2 <- NULL
-  if (is.numeric(type) || any(c("all", "Stein") %in% type)) {
-
-    Stein_vk2 <- weights_dfs_Sobolev(p = p, K_max = Stein_K, thre = 0,
-                                     type = "Stein", Stein_cf = Stein_cf,
-                                     verbose = FALSE)$weights
 
   }
 
@@ -346,8 +341,7 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
                        Rayleigh_m = Rayleigh_m, Riesz_s = Riesz_s,
                        Rothman_t = Rothman_t, Sobolev_vk2 = Sobolev_vk2,
                        Softmax_kappa = Softmax_kappa, Stereo_a = Stereo_a,
-                       Stein_K = Stein_K, Stein_cf = Stein_cf,
-                       Stein_vk2 = Stein_vk2)
+                       Stein_K = Stein_K, Stein_cf = Stein_cf)
 
     # Remove X
     rm(X)

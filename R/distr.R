@@ -232,7 +232,7 @@ d_proj_unif_cap <- function(x, p, angle = pi / 10, scaled = TRUE) {
 
   }
   return(ifelse(scaled, c_unif_cap(p = p, angle = angle), 1) *
-           ((x >= (1 + cos(angle))) * (x <= 1)))
+           ((x >= cos(angle)) * (x <= 1)))
 
 }
 

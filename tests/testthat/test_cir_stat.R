@@ -57,7 +57,7 @@ test_that("Stephens modifications", {
 
   expect_equal(drop(cir_stat_Kuiper(Th1, KS = TRUE, Stephens = TRUE)),
                drop(cir_stat_Kuiper(Th1, KS = TRUE, Stephens = FALSE)) *
-                 (1 + 0.12 / sqrt(n) + 0.21 / n))
+                 (1 + 0.12 / sqrt(n) + 0.11 / n))
   expect_equal(drop(cir_stat_Kuiper(Th1, Stephens = TRUE)),
                drop(cir_stat_Kuiper(Th1, Stephens = FALSE)) *
                  (1 + 0.155 / sqrt(n) + 0.24 / n))

@@ -68,6 +68,10 @@
   support bound.
 * Fix the Stephens (1970) modification in `p_cir_stat_Watson()` (it used the
   Kuiper constants, breaking coherence with `d_cir_stat_Watson()`).
+* Fix the Stephens (1970) small-sample constant of the Kolmogorov-Smirnov
+  statistic in `cir_stat_Kuiper(KS = TRUE)` (was `0.21 / n`, should be
+  `0.11 / n`, per Stephens (1970) and Fernández-de-Marcos and
+  García-Portugués (2024, Table 8)).
 * Fix `unif_stat()`, `unif_test()`, and `unif_stat_distr()` to accept numeric
   `type` vectors of length greater than one.
 * Fix `unif_stat_distr(approx = "MC")` with unsorted evaluation points `x`.

@@ -1,5 +1,20 @@
 
 
+# Type-7 quantile of an already-sorted, NA-free numeric vector. Reproduces
+# stats::quantile(x, probs, type = 7, names = FALSE) exactly, but without
+# re-sorting the vector. Callers must fall back to stats::quantile() when the
+# input is not sorted in non-decreasing order or contains NAs.
+quantile_sorted <- function(x_sorted, probs) {
+
+  n <- length(x_sorted)
+  index <- 1 + (n - 1) * probs
+  lo <- floor(index)
+  hi <- ceiling(index)
+  x_sorted[lo] + (index - lo) * (x_sorted[hi] - x_sorted[lo])
+
+}
+
+
 #' @title Monte Carlo simulation of circular and (hyper)spherical uniformity
 #' statistics
 #'
@@ -224,6 +239,17 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
 
   }
 
+  # The Stein weights are data-independent, so compute them once here and pass
+  # them to unif_stat() instead of recomputing them on every chunk.
+  Stein_vk2 <- NULL
+  if (is.numeric(type) || any(c("all", "Stein") %in% type)) {
+
+    Stein_vk2 <- weights_dfs_Sobolev(p = p, K_max = Stein_K, thre = 0,
+                                     type = "Stein", Stein_cf = Stein_cf,
+                                     verbose = FALSE)$weights
+
+  }
+
   # Check if crit_val is a compatible data.frame with the output by unif_stat()
   if (!is.null(crit_val)) {
 
@@ -266,9 +292,20 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
 
   }
 
-  # Parallel backend
+  # Parallel backend. For cores == 1 use a sequential plan to avoid the
+  # overhead of spawning a background worker, serializing the foreach closure
+  # and reloading sphunif in the worker. doRNG makes the results reproducible
+  # and independent of the backend, so this does not alter the output.
   old_dopar <- doFuture::registerDoFuture()
-  old_plan <- future::plan(future::multisession(), workers = cores)
+  old_plan <- if (cores == 1) {
+
+    future::plan(future::sequential)
+
+  } else {
+
+    future::plan(future::multisession(), workers = cores)
+
+  }
   on.exit({
 
     with(old_dopar, foreach::setDoPar(fun = fun, data = data, info = info))
@@ -309,7 +346,8 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
                        Rayleigh_m = Rayleigh_m, Riesz_s = Riesz_s,
                        Rothman_t = Rothman_t, Sobolev_vk2 = Sobolev_vk2,
                        Softmax_kappa = Softmax_kappa, Stereo_a = Stereo_a,
-                       Stein_K = Stein_K, Stein_cf = Stein_cf)
+                       Stein_K = Stein_K, Stein_cf = Stein_cf,
+                       Stein_vk2 = Stein_vk2)
 
     # Remove X
     rm(X)
@@ -338,9 +376,14 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
   # Build tables
   if (is.null(crit_val)) {
 
-    # Critical values
-    crit_val <- rbind(apply(stats, 2, quantile, probs = 1 - alpha,
-                            na.rm = TRUE))
+    # Critical values (use the sorted-column shortcut when possible)
+    crit_val <- rbind(apply(stats, 2, function(x) {
+      if (!anyNA(x) && !is.unsorted(x)) {
+        quantile_sorted(x_sorted = x, probs = 1 - alpha)
+      } else {
+        quantile(x, probs = 1 - alpha, na.rm = TRUE, names = FALSE)
+      }
+    }))
     crit_val <- as.data.frame(crit_val)
     rownames(crit_val) <- alpha
 

@@ -746,10 +746,30 @@ sph_stat_Sobolev <- function(X, Psi_in_X = FALSE, p = 0, vk2 = c(0, 0, 1)) {
   vk2 <- rbind(vk2)
   nonzero_vk2 <- which(apply(vk2 != 0, 2, any))
   Tnk <- matrix(0, nrow = M, ncol = ncol(vk2))
-  for (j in seq_len(M)) {
+  if (length(nonzero_vk2) > 0) {
 
-      Tnk[j, nonzero_vk2] <- rowSums(Gegen_polyn(theta = X[, j],
-                                                 k = nonzero_vk2, p = p))
+    # Evaluate the Gegenbauer polynomials for all M samples at once instead of
+    # looping over samples in R (one Gegen_polyn/gsl call per sample). The
+    # L = n * (n - 1) / 2 pairwise angles of a block of columns are flattened
+    # into a single vector, Gegen_polyn is called once per block, and the L
+    # entries are summed back per sample. Columns are processed in blocks to
+    # bound the temporary (and, for p >= 3, the gsl gegenpoly_array workspace).
+    L <- nrow(X)
+    max_ord <- max(nonzero_vk2)
+    budget <- 2e7
+    nb <- max(1L, min(M, as.integer(budget %/% (max(max_ord + 1L, 1L) * L))))
+    for (s in seq.int(1L, M, by = nb)) {
+
+      cols <- s:min(s + nb - 1L, M)
+      Gk <- Gegen_polyn(theta = as.vector(X[, cols, drop = FALSE]),
+                        k = nonzero_vk2, p = p)
+      for (r in seq_along(nonzero_vk2)) {
+
+        Tnk[cols, nonzero_vk2[r]] <- colSums(matrix(Gk[r, ], nrow = L))
+
+      }
+
+    }
 
   }
 

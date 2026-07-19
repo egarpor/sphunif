@@ -464,8 +464,14 @@ unif_test <- function(data, type = "all", p_value = "asymp",
                data_sorted = TRUE, efic = TRUE, divide_n = TRUE)
     }, simplify = FALSE))
 
-    # Critical values
-    crit_val <- apply(stats_MC, 2, quantile, probs = 1 - alpha, na.rm = TRUE)
+    # Critical values (stats_MC columns are already sorted; use the shortcut)
+    crit_val <- apply(stats_MC, 2, function(x) {
+      if (!anyNA(x) && !is.unsorted(x)) {
+        quantile_sorted(x_sorted = x, probs = 1 - alpha)
+      } else {
+        quantile(x, probs = 1 - alpha, na.rm = TRUE, names = FALSE)
+      }
+    })
     rownames(crit_val) <- alpha
 
     # Rejection?

@@ -141,14 +141,16 @@ arma::mat Psi_mat(arma::cube data, arma::uvec ind_tri = 0,
   // Cartesian coordinates
   } else {
 
-    // Process first slice
-    arma::mat Psi = arma::trimatu(data.slice(0) * data.slice(0).t(), 1);
+    // Process first slice. Only the strict upper-triangular entries are
+    // extracted (via ind_tri), so there is no need to zero the lower triangle
+    // with arma::trimatu(): read them directly from the Gram matrix.
+    arma::mat Psi = data.slice(0) * data.slice(0).t();
     vec_Psi.col(0) = Psi.elem(ind_tri);
 
     // Loop on the remaining slices reusing ind
     for (arma::uword j = 1; j < M; j++) {
 
-      Psi = arma::trimatu(data.slice(j) * data.slice(j).t(), 1);
+      Psi = data.slice(j) * data.slice(j).t();
       vec_Psi.col(j) = Psi.elem(ind_tri);
 
     }

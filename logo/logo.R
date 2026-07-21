@@ -17,11 +17,23 @@
 # Output: man/figures/logo.png (this directory is NOT build-ignored, so the
 # logo ships with the package, matching usethis::use_logo() conventions).
 #
-# This script lives in data-raw/, which is in .Rbuildignore, so it never ships.
+# This script lives in logo/, which is in .Rbuildignore, so it never ships.
 
 library(hexSticker)
 library(ggplot2)
 library(sphunif)
+
+## ---- Shared logo standard (identical across egarpor packages) -------------
+# Aller_Rg is bundled with (and auto-registered by) hexSticker, so no
+# showtext/font_add setup is needed for the sticker() idiom.
+FONT    <- "Aller_Rg"   # typeface for the package name and the GitHub URL
+P_SIZE  <- 31.2         # package-name size (shared across packages)
+U_SIZE  <- 9.0          # GitHub URL size (large enough to read)
+U_X     <- 1.00         # GitHub URL position: along the lower-right hex edge
+U_Y     <- 0.08
+U_ANGLE <- 30
+H_SIZE  <- 1.5          # hexagon border thickness
+DPI     <- 600
 
 # ----------------------------------------------------------------------------
 # Tunable parameters
@@ -206,23 +218,25 @@ subplot <- ggplot() +
 # Hex sticker
 # ----------------------------------------------------------------------------
 
-if (!dir.exists("man/figures")) dir.create("man/figures", recursive = TRUE)
+dir.create("logo", showWarnings = FALSE)
+dir.create("man/figures", recursive = TRUE, showWarnings = FALSE)
 
 sticker(
   subplot   = subplot,
   s_x = 1, s_y = 1.16, s_width = 1.26, s_height = 1.26,
   package   = "sphunif",
-  p_x = 1, p_y = 0.40, p_size = 19, p_color = p_color, p_family = "Aller_Rg",
+  p_x = 1, p_y = 0.40, p_size = P_SIZE, p_color = p_color, p_family = FONT,
   url       = "github.com/egarpor/sphunif",
-  u_x = 1.00, u_y = 0.075, u_angle = 30, u_size = 4.6,
-  u_color = u_color, u_family = "Aller_Rg",
+  u_x = U_X, u_y = U_Y, u_angle = U_ANGLE, u_size = U_SIZE,
+  u_color = u_color, u_family = FONT,
   h_fill    = h_fill,
   h_color   = h_color,
-  h_size    = 1.4,
+  h_size    = H_SIZE,
   spotlight = FALSE,
   white_around_sticker = FALSE,
-  dpi       = 600,
-  filename  = "man/figures/logo.png"
+  dpi       = DPI,
+  filename  = "logo/logo.png"
 )
+file.copy("logo/logo.png", "man/figures/logo.png", overwrite = TRUE)
 
-message("Wrote man/figures/logo.png")
+message("Wrote logo/logo.png and man/figures/logo.png")

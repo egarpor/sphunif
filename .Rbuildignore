@@ -5,6 +5,7 @@
 ^checks$
 ^TODO$
 ^data-raw$
+^logo$
 ^applications$
 ^simulations$
 ^CRAN-RELEASE$

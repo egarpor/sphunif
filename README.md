@@ -11,7 +11,7 @@ status](https://github.com/egarpor/sphunif/workflows/test-coverage/badge.svg)](h
 [![](http://cranlogs.r-pkg.org/badges/grand-total/sphunif)](https://cran.r-project.org/package=sphunif)
 [![](http://cranlogs.r-pkg.org/badges/last-month/sphunif)](https://cran.r-project.org/package=sphunif)
 
-<!-- <img src="" alt="sphunif hexlogo" align="right" width="200" style="padding: 0 15px; float: right;"/> -->
+<img src="man/figures/logo.png" alt="sphunif hexlogo" align="right" width="200" style="padding: 0 15px; float: right;"/>
 
 ## Overview
 

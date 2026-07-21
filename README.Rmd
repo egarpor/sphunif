@@ -27,7 +27,7 @@ cat(
 )
 ```
 
-<!-- <img src="" alt="sphunif hexlogo" align="right" width="200" style="padding: 0 15px; float: right;"/> -->
+<img src="man/figures/logo.png" alt="sphunif hexlogo" align="right" width="200" style="padding: 0 15px; float: right;"/>
 
 ## Overview
 

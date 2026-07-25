@@ -10,22 +10,21 @@ Hypersphere}
 Implementation of uniformity tests on the circle and
 (hyper)sphere. The main function of the package is \code{\link{unif_test}},
 which conveniently collects more than 35 tests for assessing uniformity on
-\eqn{S^{p-1}=\{{\bf x}\in R^p:||{\bf x}||=1\}}{
-S^{p-1}=\{x\in R^p:||x||=1\}}, \eqn{p\ge 2}. The test statistics are
+\eqn{\mathbb{S}^{p-1}=\{\boldsymbol{x}\in
+\mathbb{R}^p:\|\boldsymbol{x}\|=1\}}, \eqn{p\ge 2}. The test statistics are
 implemented in the \code{\link{unif_stat}} function, which allows computing
 several statistics for different samples within a single call, thus
 facilitating Monte Carlo experiments. Furthermore, the
-\code{\link{unif_stat_MC}} function allows parallelizing them in
-a simple way. The asymptotic null distributions of the statistics are
-available through the function \code{\link{unif_stat_distr}}. The core of
+\code{\link{unif_stat_MC}} function allows parallelizing them in a simple
+way. The asymptotic null distributions of the statistics are available
+through the function \code{\link{unif_stat_distr}}. The core of
 \code{\link{sphunif-package}} is coded in C++ by relying on the
-\code{\link[Rcpp]{Rcpp-package}}. The package also provides several
-novel datasets and gives the replicability for the data applications/
-simulations in García-Portugués et al. (2021)
-<doi:10.1007/978-3-030-69944-4_12>, García-Portugués et al. (2023)
-<doi:10.3150/21-BEJ1454>, Fernández-de-Marcos and García-Portugués (2024)
-<doi:10.1016/j.spl.2024.110218> and García-Portugués et al. (2025)
-<doi:10.1080/01621459.2025.2566414>.
+\code{\link[Rcpp]{Rcpp-package}}. The package also provides several novel
+datasets and gives the replicability for the data applications/ simulations
+in García-Portugués et al. (2021) <doi:10.1007/978-3-030-69944-4_12>,
+García-Portugués et al. (2023) <doi:10.3150/21-BEJ1454>, Fernández-de-Marcos
+and García-Portugués (2024) <doi:10.1016/j.spl.2024.110218> and
+García-Portugués et al. (2025) <doi:10.1080/01621459.2025.2566414>.
 }
 \references{
 Fernández-de-Marcos, A. and García-Portugués, E. (2024) A stereographic test

@@ -9,8 +9,16 @@ variables}
 \usage{
 r_wschisq_Cpp(n, weights, dfs, ncps)
 
-p_wschisq_MC(x, weights = 0L, dfs = 0L, ncps = 0L, M = 10000L,
-  sample = 0L, use_sample = FALSE, x_sorted = FALSE)
+p_wschisq_MC(
+  x,
+  weights = 0L,
+  dfs = 0L,
+  ncps = 0L,
+  M = 10000L,
+  sample = 0L,
+  use_sample = FALSE,
+  x_sorted = FALSE
+)
 }
 \arguments{
 \item{n}{sample size.}
@@ -30,8 +38,8 @@ length as \code{weights}.}
 Defaults to \code{1e4}.}
 
 \item{sample}{if \code{use_sample = TRUE}, the Monte Carlo sample to
-approximate the distribution. If not, it is computed internally. Defaults
-to \code{1e4}.}
+approximate the distribution. If not, it is computed internally. Defaults to
+\code{1e4}.}
 
 \item{use_sample}{use the already computed \code{sample}? If \code{FALSE}
 (default), \code{sample} is computed internally.}

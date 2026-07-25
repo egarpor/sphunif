@@ -4,14 +4,24 @@
 \alias{r_alt}
 \title{Sample non-uniformly distributed spherical data}
 \usage{
-r_alt(n, p, M = 1, alt = "vMF", mu = c(rep(0, p - 1), 1), kappa = 1,
-  nu = 0.5, F_inv = NULL, K = 1000, axial_mix = TRUE)
+r_alt(
+  n,
+  p,
+  M = 1,
+  alt = "vMF",
+  mu = c(rep(0, p - 1), 1),
+  kappa = 1,
+  nu = 0.5,
+  F_inv = NULL,
+  K = 1000,
+  axial_mix = TRUE
+)
 }
 \arguments{
 \item{n}{sample size.}
 
-\item{p}{integer giving the dimension of the ambient space \eqn{R^p} that
-contains \eqn{S^{p-1}}.}
+\item{p}{integer giving the dimension of the ambient space
+\eqn{\mathbb{R}^p} that contains \eqn{\mathbb{S}^{p-1}}.}
 
 \item{M}{number of samples of size \code{n}. Defaults to \code{1}.}
 
@@ -25,9 +35,8 @@ details below.}
 \item{kappa}{non-negative parameter measuring the strength of the deviation
 with respect to uniformity (obtained with \eqn{\kappa = 0}).}
 
-\item{nu}{projection along \eqn{{\bf e}_p}{e_p} controlling the modal
-strip of the small circle distribution. Must be in (-1, 1). Defaults to
-\code{0.5}.}
+\item{nu}{projection along \eqn{\boldsymbol{e}_p} controlling the modal strip
+of the small circle distribution. Must be in (-1, 1). Defaults to \code{0.5}.}
 
 \item{F_inv}{quantile function returned by \code{\link{F_inv_from_f}}. Used
 for \code{"SC"}, \code{"W"}, and \code{"C"}. Computed by internally if
@@ -43,14 +52,14 @@ axial (i.e., symmetrically distributed about the origin)? Defaults to
 \value{
 An \bold{array} of size \code{c(n, p, M)} with \code{M} random
 samples of size \code{n} of non-uniformly-generated directions on
-\eqn{S^{p-1}}.
+\eqn{\mathbb{S}^{p-1}}.
 }
 \description{
 Simple simulation of prespecified non-uniform spherical
-distributions: von Mises--Fisher (vMF), Mixture of vMF (MvMF),
-Angular Central Gaussian (ACG), Small Circle (SC), Watson (W),
-Cauchy-like (C), Mixture of Cauchy-like (MC), or Uniform distribution with
-Antipodal-Dependent observations (UAD).
+distributions: von Mises--Fisher (vMF), Mixture of vMF (MvMF), Angular
+Central Gaussian (ACG), Small Circle (SC), Watson (W), Cauchy-like (C),
+Mixture of Cauchy-like (MC), or Uniform distribution with Antipodal-Dependent
+observations (UAD).
 }
 \details{
 The parameter \code{kappa} is used as \eqn{\kappa} in the following
@@ -60,7 +69,7 @@ distributions:
   \eqn{\kappa} and directional mean \eqn{\boldsymbol{\mu}}.
   \item \code{"MvMF"}: equally-weighted mixture of \eqn{p} von Mises--Fisher
   distributions with common concentration \eqn{\kappa} and directional means
-  \eqn{\pm{\bf e}_1, \ldots, \pm{\bf e}_p}{±e_1, \ldots, ±e_p} if
+  \eqn{\pm\boldsymbol{e}_1, \ldots, \pm\boldsymbol{e}_p} if
   \code{axial_mix = TRUE}. If \code{axial_mix = FALSE}, then only means
   with positive signs are considered.
   \item \code{"ACG"}: Angular Central Gaussian distribution with diagonal
@@ -78,12 +87,12 @@ distributions:
   distribution is a particular case of this Cauchy-like distribution.
   \item \code{"MC"}: equally-weighted mixture of \eqn{p} Cauchy-like
   distributions with common concentration \eqn{\kappa} and directional means
-  \eqn{\pm{\bf e}_1, \ldots, \pm{\bf e}_p}{±e_1, \ldots, ±e_p} if
+  \eqn{\pm\boldsymbol{e}_1, \ldots, \pm\boldsymbol{e}_p} if
   \code{axial_mix = TRUE}. If \code{axial_mix = FALSE}, then only means
   with positive signs are considered.
 }
 The alternative \code{"UAD"} generates a sample formed by
-\eqn{\lceil n/2\rceil} observations drawn uniformly on \eqn{S^{p-1}}
+\eqn{\lceil n/2\rceil} observations drawn uniformly on \eqn{\mathbb{S}^{p-1}}
 and the remaining observations drawn from a uniform spherical cap
 distribution of angle \eqn{\pi-\kappa} about each of the
 \eqn{\lceil n/2\rceil} observations (see \code{\link{unif_cap}}). Hence,

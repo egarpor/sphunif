@@ -8,9 +8,9 @@
 g_i_k(x, i = 1, k = 1, m = NULL, show_m = FALSE)
 }
 \arguments{
-\item{x}{locations in \eqn{S^{p-1}} to evaluate \eqn{g_{i,k}}. Either a
-matrix of size \code{c(nx, p)} or a vector of size \code{p}. Normalized
-internally if required (with a \code{warning} message).}
+\item{x}{locations in \eqn{\mathbb{S}^{p-1}} to evaluate \eqn{g_{i,k}}.
+Either a matrix of size \code{c(nx, p)} or a vector of size \code{p}.
+Normalized internally if required (with a \code{warning} message).}
 
 \item{i, k}{alternative indexing to refer to the \code{i}-th (hyper)spherical
 harmonic of order \code{k}. \code{i} is a positive integer smaller than
@@ -28,9 +28,8 @@ A vector of size \code{nrow(x)}.
 }
 \description{
 Computation of a certain explicit representation of
-(hyper)spherical harmonics on
-\eqn{S^{p-1}:=\{{\bf x}\in R^p:||{\bf x}||=1\}}{
-S^{p-1}:=\{x\in R^p:||x||=1\}}, \eqn{p\ge 2}. Details are available in
+(hyper)spherical harmonics on \eqn{\mathbb{S}^{p-1}:=\{\boldsymbol{x}\in
+\mathbb{R}^p:\|\boldsymbol{x}\|=1\}}, \eqn{p\ge 2}. Details are available in
 García-Portugués et al. (2025).
 }
 \details{

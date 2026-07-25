@@ -4,23 +4,45 @@
 \alias{unif_test}
 \title{Circular and (hyper)spherical uniformity tests}
 \usage{
-unif_test(data, type = "all", p_value = "asymp", alpha = c(0.1, 0.05,
-  0.01), M = 10000, stats_MC = NULL, crit_val = NULL,
-  data_sorted = FALSE, K_max = 10000, method = "I", CCF09_dirs = NULL,
-  CJ12_beta = 0, CJ12_reg = 3, cov_a = 2 * pi, Cressie_t = 1/3,
-  K_CCF09 = 25, Poisson_rho = 0.5, Pycke_q = 0.5, Rayleigh_m = 1,
-  Riesz_s = 1, Rothman_t = 1/3, Sobolev_vk2 = c(0, 0, 1),
-  Softmax_kappa = 1, Stein_K = 10, Stein_cf = FALSE, Stereo_a = 0, ...)
+unif_test(
+  data,
+  type = "all",
+  p_value = "asymp",
+  alpha = c(0.1, 0.05, 0.01),
+  M = 10000,
+  stats_MC = NULL,
+  crit_val = NULL,
+  data_sorted = FALSE,
+  K_max = 10000,
+  method = "I",
+  CCF09_dirs = NULL,
+  CJ12_beta = 0,
+  CJ12_reg = 3,
+  cov_a = 2 * pi,
+  Cressie_t = 1/3,
+  K_CCF09 = 25,
+  Poisson_rho = 0.5,
+  Pycke_q = 0.5,
+  Rayleigh_m = 1,
+  Riesz_s = 1,
+  Rothman_t = 1/3,
+  Sobolev_vk2 = c(0, 0, 1),
+  Softmax_kappa = 1,
+  Stein_K = 10,
+  Stein_cf = FALSE,
+  Stereo_a = 0,
+  ...
+)
 }
 \arguments{
 \item{data}{sample to perform the test. A matrix of size \code{c(n, p)}
-containing a sample of size \code{n} of directions (in Cartesian
-coordinates) on \eqn{S^{p-1}}. Alternatively if \code{p = 2}, a matrix of
-size \code{c(n, 1)} containing the \code{n} angles on \eqn{[0, 2\pi)} of the
-circular sample on \eqn{S^{1}}. Other objects accepted are an array of size
-\code{c(n, p, 1)} with directions (in Cartesian coordinates), or a vector of
-size \code{n} or an array of size \code{c(n, 1, 1)} with angular data.
-Must not contain \code{NA}'s.}
+containing a sample of size \code{n} of directions (in Cartesian coordinates)
+on \eqn{\mathbb{S}^{p-1}}. Alternatively if \code{p = 2}, a matrix of size
+\code{c(n, 1)} containing the \code{n} angles on \eqn{[0, 2\pi)} of the
+circular sample on \eqn{\mathbb{S}^{1}}. Other objects accepted are an array
+of size \code{c(n, p, 1)} with directions (in Cartesian coordinates), or a
+vector of size \code{n} or an array of size \code{c(n, 1, 1)} with angular
+data. Must not contain \code{NA}'s.}
 
 \item{type}{type of test to be applied. A character vector containing any of
 the following types of tests, depending on the dimension \eqn{p}:
@@ -58,9 +80,9 @@ Internally computed if \code{NULL} (default).}
 \item{crit_val}{table with critical values for the tests, to be used if
 \code{p_value = "crit_val"}. A data frame, with column names containing the
 character vector \code{type} and rows corresponding to the significance
-levels \code{alpha}, that results from extracting \code{$crit_val_MC} from
-a call to \code{\link{unif_stat_MC}}. Internally computed if
-\code{NULL} (default).}
+levels \code{alpha}, that results from extracting \code{$crit_val_MC} from a
+call to \code{\link{unif_stat_MC}}. Internally computed if \code{NULL}
+(default).}
 
 \item{data_sorted}{is the circular data sorted? If \code{TRUE}, certain
 statistics are faster to compute. Defaults to \code{FALSE}.}
@@ -68,16 +90,16 @@ statistics are faster to compute. Defaults to \code{FALSE}.}
 \item{K_max}{integer giving the truncation of the series that compute the
 asymptotic p-value of a Sobolev test. Defaults to \code{1e4}.}
 
-\item{method}{method for approximating the density, distribution, or
-quantile function of the weighted sum of chi squared random variables. Must
-be \code{"I"} (Imhof), \code{"SW"} (Satterthwaite--Welch), \code{"HBE"}
+\item{method}{method for approximating the density, distribution, or quantile
+function of the weighted sum of chi squared random variables. Must be
+\code{"I"} (Imhof), \code{"SW"} (Satterthwaite--Welch), \code{"HBE"}
 (Hall--Buckley--Eagleson), or \code{"MC"} (Monte Carlo; only for distribution
 or quantile functions). Defaults to \code{"I"}.}
 
 \item{CCF09_dirs}{a matrix of size \code{c(n_proj, p)} containing
-\code{n_proj} random directions (in Cartesian coordinates) on \eqn{S^{p-1}}
-to perform the CCF09 test. If \code{NULL} (default), a sample of size
-\code{n_proj = 50} directions is computed internally.}
+\code{n_proj} random directions (in Cartesian coordinates) on
+\eqn{\mathbb{S}^{p-1}} to perform the CCF09 test. If \code{NULL} (default), a
+sample of size \code{n_proj = 50} directions is computed internally.}
 
 \item{CJ12_beta}{\eqn{\beta} parameter in the exponential regime of CJ12
 test, a positive real.}
@@ -86,8 +108,8 @@ test, a positive real.}
 (sub-exponential regime), \code{2} (exponential), or \code{3}
 (super-exponential; default).}
 
-\item{cov_a}{\eqn{a_n = a / n} parameter used in the length of the arcs
-of the coverage-based tests. Must be positive. Defaults to \code{2 * pi}.}
+\item{cov_a}{\eqn{a_n = a / n} parameter used in the length of the arcs of
+the coverage-based tests. Must be positive. Defaults to \code{2 * pi}.}
 
 \item{Cressie_t}{\eqn{t} parameter for the Cressie test, a real in
 \eqn{(0, 1)}. Defaults to \code{1 / 3}.}
@@ -111,8 +133,8 @@ Defaults to \code{m = 1} (the standard Rayleigh test).}
 \item{Rothman_t}{\eqn{t} parameter for the Rothman test, a real in
 \eqn{(0, 1)}. Defaults to \code{1 / 3}.}
 
-\item{Sobolev_vk2}{weights for the finite Sobolev test. A non-negative
-vector or matrix. Defaults to \code{c(0, 0, 1)}.}
+\item{Sobolev_vk2}{weights for the finite Sobolev test. A non-negative vector
+or matrix. Defaults to \code{c(0, 0, 1)}.}
 
 \item{Softmax_kappa}{\eqn{\kappa} parameter for the Softmax test, a
 non-negative real. Defaults to \code{1}.}
@@ -120,9 +142,8 @@ non-negative real. Defaults to \code{1}.}
 \item{Stein_K}{truncation \eqn{K} parameter for the Stein test, a positive
 integer. Defaults to \code{10}.}
 
-\item{Stein_cf}{logical indicating whether to use the characteristic
-function in the Stein test. Defaults to \code{FALSE} (moment generating
-function).}
+\item{Stein_cf}{logical indicating whether to use the characteristic function
+in the Stein test. Defaults to \code{FALSE} (moment generating function).}
 
 \item{Stereo_a}{\eqn{a} parameter for the Stereo test, a real in
 \eqn{[-1, 1]}. Defaults to \code{0}.}
@@ -156,12 +177,13 @@ entries for each test given by the above list.
 }
 \description{
 Implementation of several uniformity tests on the (hyper)sphere
-\eqn{S^{p-1}:=\{{\bf x}\in R^p:||{\bf x}||=1\}}{
-S^{p-1}:=\{x\in R^p:||x||=1\}}, \eqn{p\ge 2}, with calibration either in
-terms of their asymptotic/exact distributions, if available, or Monte Carlo.
+\eqn{\mathbb{S}^{p-1}:=\{\boldsymbol{x}\in
+\mathbb{R}^p:\|\boldsymbol{x}\|=1\}}, \eqn{p\ge 2}, with calibration either
+in terms of their asymptotic/exact distributions, if available, or Monte
+Carlo.
 
 \code{unif_test} receives a sample of directions
-\eqn{{\bf X}_1,\ldots,{\bf X}_n\in S^{p-1}}{X_1,\ldots,X_n\in S^{p-1}} in
+\eqn{\boldsymbol{X}_1,\ldots,\boldsymbol{X}_n\in \mathbb{S}^{p-1}} in
 \emph{Cartesian coordinates}, except for the circular case (\eqn{p=2}) in
 which the sample can be represented in terms of \emph{angles}
 \eqn{\Theta_1,\ldots,\Theta_n\in [0, 2\pi)}.

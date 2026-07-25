@@ -11,13 +11,13 @@ Theta_to_X(Theta)
 X_to_Theta(X)
 }
 \arguments{
-\item{Theta}{a \bold{matrix} of size \code{c(n, M)} with \code{M} samples
-of size \code{n} of circular data on \eqn{[0, 2\pi)}. Must not contain
+\item{Theta}{a \bold{matrix} of size \code{c(n, M)} with \code{M} samples of
+size \code{n} of circular data on \eqn{[0, 2\pi)}. Must not contain
 \code{NA}'s.}
 
 \item{X}{an \bold{array} of size \code{c(n, 2, M)} containing the Cartesian
 coordinates of \code{M} samples of size \code{n} of directions on
-\eqn{S^{1}}. Must not contain \code{NA}'s.}
+\eqn{\mathbb{S}^{1}}. Must not contain \code{NA}'s.}
 }
 \value{
 \itemize{
@@ -29,7 +29,7 @@ coordinates of \code{M} samples of size \code{n} of directions on
 Transformation between a matrix \code{Theta} containing
 \code{M} circular samples of size \code{n} on \eqn{[0, 2\pi)} and an array
 \code{X} containing the associated Cartesian coordinates on
-\eqn{S^1:=\{{\bf x}\in R^2:||{\bf x}||=1\}}{S^1:=\{x\in R^2:||x||=1\}}.
+\eqn{\mathbb{S}^1:=\{\boldsymbol{x}\in \mathbb{R}^2:\|\boldsymbol{x}\|=1\}}.
 }
 \examples{
 # Sample

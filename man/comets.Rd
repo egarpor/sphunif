@@ -14,23 +14,23 @@ A data frame with 3798 rows and 13 variables:
   \item{pdes}{object primary designation.}
   \item{frag}{flag indicating if the record is a comet fragment.}
   \item{diameter}{diameter from equivalent sphere (in km).}
-  \item{i}{inclination; the orbit's plane angle with respect to the
-  ecliptic plane, in radians in \eqn{[0, \pi]}.}
+  \item{i}{inclination; the orbit's plane angle with respect to the ecliptic
+  plane, in radians in \eqn{[0, \pi]}.}
   \item{om}{longitude of the ascending node; the counterclockwise angle from
-  the vector pointing to the First Point of Aries and that pointing to
-  the ascending node (the intersection between orbit and ecliptic plane), in
-  radians in \eqn{[0, 2\pi)}. (Both vectors are heliocentric and within
-  the ecliptic plane.)}
+  the vector pointing to the First Point of Aries and that pointing to the
+  ascending node (the intersection between orbit and ecliptic plane), in
+  radians in \eqn{[0, 2\pi)}. (Both vectors are heliocentric and within the
+  ecliptic plane.)}
   \item{per_y}{sidereal orbital period (in years).}
   \item{class}{orbit classification. A factor with levels given below.}
   \item{e}{eccentricity of the orbit.}
   \item{a}{semi-major axis of the orbit (in AU).}
   \item{w}{argument of perihelion; the (shortest) angle between the vector
-  pointing to the ascending node and that pointing to the perihelion
-  (nearest orbit point to the Sun), in radians in \eqn{[0, \pi]}. (Both
-  vectors are heliocentric and within the orbit's plane.)}
-  \item{first_obs, last_obs}{\code{\link[=Dates]{Date}} of the first and
-  last recorded observations used in the orbit fit.}
+  pointing to the ascending node and that pointing to the perihelion (nearest
+  orbit point to the Sun), in radians in \eqn{[0, \pi]}. (Both vectors are
+  heliocentric and within the orbit's plane.)}
+  \item{first_obs, last_obs}{\code{\link[=Dates]{Date}} of the first and last
+  recorded observations used in the orbit fit.}
   \item{ccf09}{flag indicating if the comet was considered in the data
   application in Cuesta-Albertos et al. (2009); see details below.}
 }
@@ -43,18 +43,17 @@ comets
 }
 \description{
 Comet orbits data from the
-\href{https://ssd.jpl.nasa.gov/tools/sbdb_query.html}{
-JPL Small-Body Database Search Engine}. The normal vector of a comet orbit
-represents is a vector on \eqn{S^2}.
+\href{https://ssd.jpl.nasa.gov/tools/sbdb_query.html}{ JPL Small-Body Database Search Engine}.
+The normal vector of a comet orbit represents is a vector on
+\eqn{\mathbb{S}^2}.
 }
 \details{
 The normal vector to the ecliptic plane of the comet with inclination
 \eqn{i} and longitude of the ascending node \eqn{\omega} is
-\deqn{(\sin(i) \sin(\omega), -\sin(i) \cos(\omega), \cos(i))'.}{
-(sin(i) sin(\omega), -sin(i) cos(\omega), cos(i))'.}
+\deqn{(\sin(i) \sin(\omega), -\sin(i) \cos(\omega), \cos(i))'.}
 
-A prograde comet has positive \eqn{\cos(i)}{cos(i)}, negative
-\eqn{\cos(i)}{cos(i)} represents a retrograde comet.
+A prograde comet has positive \eqn{\cos(i)}, negative
+\eqn{\cos(i)} represents a retrograde comet.
 
 \code{class} has the following levels:
 \itemize{

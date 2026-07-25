@@ -12,15 +12,15 @@ F_inv_from_f(f, p, Gauss = TRUE, N = 320, K = 1000, tol = 1e-06, ...)
 \arguments{
 \item{f}{angular function defined on \eqn{[-1, 1]}. Must be vectorized.}
 
-\item{p}{integer giving the dimension of the ambient space \eqn{R^p} that
-contains \eqn{S^{p-1}}.}
+\item{p}{integer giving the dimension of the ambient space
+\eqn{\mathbb{R}^p} that contains \eqn{\mathbb{S}^{p-1}}.}
 
-\item{Gauss}{use a \link[=Gauss_Legen_nodes]{Gauss--Legendre quadrature}
-rule to integrate \eqn{f} with \code{N} nodes? Otherwise, rely on
+\item{Gauss}{use a \link[=Gauss_Legen_nodes]{Gauss--Legendre quadrature} rule
+to integrate \eqn{f} with \code{N} nodes? Otherwise, rely on
 \code{\link{integrate}} Defaults to \code{TRUE}.}
 
-\item{N}{number of points used in the Gauss--Legendre quadrature. Defaults
-to \code{320}.}
+\item{N}{number of points used in the Gauss--Legendre quadrature. Defaults to
+\code{320}.}
 
 \item{K}{number of equispaced points on \eqn{[-1, 1]} used for evaluating
 \eqn{F^{-1}} and then interpolating. Defaults to \code{1e3}.}
@@ -41,10 +41,9 @@ the quantile function \eqn{F^{-1}} for an \link[=locdev]{angular function}
 \eqn{f} in a \link[rotasym:d_tang_norm]{tangent-normal decomposition}.
 \eqn{F^{-1}(x)} results from the inversion of
 \deqn{F(x) = \int_{-1}^x \omega_{p - 1}c_f f(z) (1 - z^2)^{(p - 3) / 2}
-\,\mathrm{d}z}{F(x) = \int_{-1}^x \omega_{p - 1}c_f f(z)
-(1 - z^2)^{(p - 3) / 2} dz}
+\,\mathrm{d}z}
 for \eqn{x\in [-1, 1]}, where \eqn{c_f} is a normalizing constant and
-\eqn{\omega_{p - 1}} is the surface area of \eqn{S^{p - 2}}.
+\eqn{\omega_{p - 1}} is the surface area of \eqn{\mathbb{S}^{p - 2}}.
 }
 \details{
 The normalizing constant \eqn{c_f} is such that \eqn{F(1) = 1}. It does not

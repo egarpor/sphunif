@@ -14,8 +14,17 @@
 \usage{
 Gegen_polyn(theta, k, p)
 
-Gegen_coefs(k, p, psi, Gauss = TRUE, N = 320, normalize = TRUE,
-  only_const = FALSE, tol = 1e-06, ...)
+Gegen_coefs(
+  k,
+  p,
+  psi,
+  Gauss = TRUE,
+  N = 320,
+  normalize = TRUE,
+  only_const = FALSE,
+  tol = 1e-06,
+  ...
+)
 
 Gegen_series(theta, coefs, k, p, normalize = TRUE)
 
@@ -23,8 +32,18 @@ Gegen_norm(coefs, k, p, normalize = TRUE, cumulative = FALSE)
 
 Gegen_polyn_2d(theta_1, theta_2, k, m, p)
 
-Gegen_coefs_2d(k, m, p, psi, Gauss = TRUE, N = 320, normalize = TRUE,
-  only_const = FALSE, tol = 1e-06, ...)
+Gegen_coefs_2d(
+  k,
+  m,
+  p,
+  psi,
+  Gauss = TRUE,
+  N = 320,
+  normalize = TRUE,
+  only_const = FALSE,
+  tol = 1e-06,
+  ...
+)
 
 Gegen_series_2d(theta_1, theta_2, coefs, k, m, p, normalize = TRUE)
 
@@ -33,24 +52,24 @@ Gegen_norm_2d(coefs, k, m, p, normalize = TRUE)
 \arguments{
 \item{theta, theta_1, theta_2}{vectors with values in \eqn{[0, \pi]}.}
 
-\item{k, m}{vectors with the orders of the Gegenbauer polynomials. Must
-be integers larger or equal than \code{0}.}
+\item{k, m}{vectors with the orders of the Gegenbauer polynomials. Must be
+integers larger or equal than \code{0}.}
 
-\item{p}{integer giving the dimension of the ambient space \eqn{R^p} that
-contains \eqn{S^{p-1}}.}
+\item{p}{integer giving the dimension of the ambient space
+\eqn{\mathbb{R}^p} that contains \eqn{\mathbb{S}^{p-1}}.}
 
 \item{psi}{function defined in \eqn{[0, \pi]} and whose Gegenbauer
 coefficients are to be computed. Must be vectorized. For
 \code{Gegen_coefs_2d}, it must return a matrix of size
 \code{c(length(theta_1), length(theta_2))}.}
 
-\item{Gauss}{use a Gauss--Legendre quadrature rule of \code{N} nodes
-in the computation of the Gegenbauer coefficients? Otherwise, call
+\item{Gauss}{use a Gauss--Legendre quadrature rule of \code{N} nodes in the
+computation of the Gegenbauer coefficients? Otherwise, call
 \code{\link{integrate}}. Defaults to \code{TRUE}.}
 
-\item{N}{number of points used in the \link[=Gauss_Legen_nodes]{
-Gauss--Legendre quadrature} for computing the Gegenbauer coefficients.
-Defaults to \code{320}.}
+\item{N}{number of points used in the
+\link[=Gauss_Legen_nodes]{ Gauss--Legendre quadrature} for computing the
+Gegenbauer coefficients. Defaults to \code{320}.}
 
 \item{normalize}{consider normalized coefficients (divided by
 \eqn{c_{k, p}})? Defaults to \code{TRUE}.}
@@ -66,11 +85,11 @@ Defaults to \code{FALSE}.}
 \item{coefs}{for \code{Gegen_series} and \code{Gegen_norm}, a vector of
 coefficients \eqn{b_{k, p}} with length \code{length(k)}. For
 \code{Gegen_series_2d} and \code{Gegen_norm_2d}, a matrix of coefficients
-\eqn{b_{k, m, p}} with size \code{c(length(k), length(m))}. The
-order of the coefficients is given by \code{k} and \code{m}.}
+\eqn{b_{k, m, p}} with size \code{c(length(k), length(m))}. The order of the
+coefficients is given by \code{k} and \code{m}.}
 
-\item{cumulative}{return the cumulative norm for increasing truncation of
-the series? Defaults to \code{FALSE}.}
+\item{cumulative}{return the cumulative norm for increasing truncation of the
+series? Defaults to \code{FALSE}.}
 }
 \value{
 \itemize{
@@ -100,72 +119,52 @@ the series? Defaults to \code{FALSE}.}
 }
 \description{
 The \href{https://dlmf.nist.gov/18.3}{Gegenbauer polynomials}
-\eqn{\{C_k^{(\lambda)}(x)\}_{k = 0}^\infty}{
-{C_k^(\lambda)(x)}_{k = 0}^\infty}
-form a family of orthogonal polynomials on the interval \eqn{[-1, 1]}
-with respect to the weight function \eqn{(1 - x^2)^{\lambda - 1/2}},
-for \eqn{\lambda > -1/2}, \eqn{\lambda \neq 0}. They usually appear
-when dealing with functions defined on
-\eqn{S^{p-1} := \{{\bf x} \in R^p : ||{\bf x}|| = 1\}}{
-S^{p-1} := \{x \in R^p : ||x|| = 1\}} with index \eqn{\lambda = p / 2 - 1}.
+\eqn{\{C_k^{(\lambda)}(x)\}_{k = 0}^\infty} form a family of orthogonal
+polynomials on the interval \eqn{[-1, 1]} with respect to the weight function
+\eqn{(1 - x^2)^{\lambda - 1/2}}, for \eqn{\lambda > -1/2},
+\eqn{\lambda \neq 0}. They usually appear when dealing with functions defined
+on \eqn{\mathbb{S}^{p-1} := \{\boldsymbol{x} \in \mathbb{R}^p :
+\|\boldsymbol{x}\| = 1\}} with index \eqn{\lambda = p / 2 - 1}.
 
 The Gegenbauer polynomials are somehow simpler to evaluate for
-\eqn{x = \cos(\theta)}, with \eqn{\theta \in [0, \pi]}. This simplifies
-also the connection with the Chebyshev polynomials
-\eqn{\{T_k(x)\}_{k = 0}^\infty}{{T_k(x)}_{k = 0}^\infty}, which admit
-the \href{https://dlmf.nist.gov/18.5.E1}{explicit expression}
-\eqn{T_k(\cos(\theta)) = \cos(k\theta)}. The Chebyshev polynomials
-appear as the limit of the Gegenbauer polynomials
-(divided by \eqn{\lambda}) when \eqn{\lambda} goes to \eqn{0}, so they
-can be regarded as the extension by continuity of
-\eqn{\{C_k^{(p/2 - 1)}(x)\}_{k = 0}^\infty}{
-{C_k^(p/2 - 1)(x)}_{k = 0}^\infty} to the case \eqn{p = 2}.
+\eqn{x = \cos(\theta)}, with \eqn{\theta \in [0, \pi]}. This simplifies also
+the connection with the Chebyshev polynomials
+\eqn{\{T_k(x)\}_{k = 0}^\infty}, which admit the
+\href{https://dlmf.nist.gov/18.5.E1}{explicit expression}
+\eqn{T_k(\cos(\theta)) = \cos(k\theta)}. The Chebyshev polynomials appear as
+the limit of the Gegenbauer polynomials (divided by \eqn{\lambda}) when
+\eqn{\lambda} goes to \eqn{0}, so they can be regarded as the extension by
+continuity of \eqn{\{C_k^{(p/2 - 1)}(x)\}_{k = 0}^\infty} to the case
+\eqn{p = 2}.
 
 For a \href{https://dlmf.nist.gov/18.18.i}{reasonably smooth} function
 \eqn{\psi} defined on \eqn{[0, \pi]},
-\deqn{\psi(\theta) = \sum_{k = 0}^\infty b_{k, p}
-C_k^{(p/2 - 1)}(\cos(\theta)),}{\psi(\theta) = \sum_{k = 0}^\infty b_{k, p}
-C_k^(p/2 - 1)(\cos(\theta)),}
+\deqn{\psi(\theta) = \sum_{k = 0}^\infty b_{k, p} C_k^{(p/2 -
+1)}(\cos(\theta)),}
 provided that the coefficients
-\deqn{b_{k, p} := \frac{1}{c_{k, p}} \int_0^\pi \psi(\theta)
-C_k^{(p/2 - 1)}(\cos(\theta)) (\sin(\theta))^{p - 2}\,\mathrm{d}\theta}{
-b_{k, p} := \frac{1}{c_{k, p}} \int_0^\pi \psi(\theta)
-C_k^(p/2 - 1)(\cos(\theta)) (\sin(\theta))^{p - 2} d\theta}
+\deqn{b_{k, p} := \frac{1}{c_{k, p}} \int_0^\pi \psi(\theta) C_k^{(p/2 -
+1)}(\cos(\theta)) (\sin(\theta))^{p - 2}\,\mathrm{d}\theta}
 are finite, where the normalizing constants are
 \deqn{c_{k, p} := \int_0^\pi (C_k^{(p/2 - 1)}(\cos(\theta)))^2
-(\sin(\theta))^{p - 2} \,\mathrm{d}\theta.}{
-c_{k, p} := \int_0^\pi (C_k^(p/2 - 1)(\cos(\theta)))^2
-(\sin(\theta))^{p - 2} d\theta.}
+(\sin(\theta))^{p - 2} \,\mathrm{d}\theta.}
 The (squared) "Gegenbauer norm" of \eqn{\psi} is
-\deqn{\|\psi\|_{G, p}^2 := \int_0^\pi \psi(\theta)^2
-C_k^{(p/2 - 1)}(\cos(\theta)) (\sin(\theta))^{p - 2}\,\mathrm{d}\theta.}{
-||\psi||_{G, p}^2 := \int_0^\pi \psi(\theta)^2
-C_k^(p/2 - 1)(\cos(\theta)) (\sin(\theta))^{p - 2} d\theta.}
+\deqn{\|\psi\|_{G, p}^2 := \int_0^\pi \psi(\theta)^2 C_k^{(p/2 -
+1)}(\cos(\theta)) (\sin(\theta))^{p - 2}\,\mathrm{d}\theta.}
 
 The previous expansion can be generalized for a 2-dimensional function
 \eqn{\psi} defined on \eqn{[0, \pi] \times [0, \pi]}:
 \deqn{\psi(\theta_1, \theta_2) = \sum_{k = 0}^\infty \sum_{m = 0}^\infty
-b_{k, m, p} C_k^{(p/2 - 1)}(\cos(\theta_1))
-C_k^{(p/2 - 1)}(\cos(\theta_2)),}{
-\psi(\theta_1, \theta_2) = \sum_{k = 0}^\infty \sum_{m = 0}^\infty
-b_{k, m, p} C_k^(p/2 - 1)(\cos(\theta_1)) C_k^(p/2 - 1)(\cos(\theta_2))}
+b_{k, m, p} C_k^{(p/2 - 1)}(\cos(\theta_1)) C_k^{(p/2 - 1)}(\cos(\theta_2)),}
 with coefficients
 \deqn{b_{k, m, p} := \frac{1}{c_{k, p} c_{m, p}} \int_0^\pi\int_0^\pi
-\psi(\theta_1, \theta_2) C_k^{(p/2 - 1)}(\cos(\theta_1))
-C_k^{(p/2 - 1)}(\cos(\theta_2)) (\sin(\theta_1))^{p - 2}
-(\sin(\theta_2))^{p - 2}\,\mathrm{d}\theta_1\,\mathrm{d}\theta_2.}{
-b_{k, m, p} := \frac{1}{c_{k, p} c_{m, p}} \int_0^\pi \int_0^\pi
-\psi(\theta_1, \theta_2) C_k^(p/2 - 1)(\cos(\theta_1))
-C_k^(p/2 - 1)(\cos(\theta_2)) (\sin(\theta_1))^{p - 2}
-(\sin(\theta_2))^{p - 2} d\theta_1 d\theta_2.}
+\psi(\theta_1, \theta_2) C_k^{(p/2 - 1)}(\cos(\theta_1)) C_k^{(p/2 -
+1)}(\cos(\theta_2)) (\sin(\theta_1))^{p - 2} (\sin(\theta_2))^{p -
+2}\,\mathrm{d}\theta_1\,\mathrm{d}\theta_2.}
 The (squared) "Gegenbauer norm" of \eqn{\psi} is
 \deqn{\|\psi\|_{G, p}^2 := \int_0^\pi\int_0^\pi \psi(\theta_1, \theta_2)^2
 C_k^{(p/2 - 1)}(\cos(\theta_1)) C_k^{(p/2 - 1)}(\cos(\theta_2))
 (\sin(\theta_1))^{p - 2} (\sin(\theta_2))^{p - 2}
-\,\mathrm{d}\theta_1\,\mathrm{d}\theta_2.}{
-||\psi||_{G, p}^2 := \int_0^\pi\int_0^\pi \psi(\theta_1, \theta_2)^2
-C_k^(p/2 - 1)(\cos(\theta_1)) C_k^(p/2 - 1)(\cos(\theta_2))
-(\sin(\theta_1))^{p - 2} (\sin(\theta_2))^{p - 2} d\theta_1 d\theta_2.}
+\,\mathrm{d}\theta_1\,\mathrm{d}\theta_2.}
 }
 \details{
 The \code{Gegen_polyn} function is a wrapper to the functions

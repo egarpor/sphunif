@@ -4,19 +4,34 @@
 \alias{unif_stat}
 \title{Circular and (hyper)spherical uniformity statistics}
 \usage{
-unif_stat(data, type = "all", data_sorted = FALSE, CCF09_dirs = NULL,
-  CJ12_reg = 3, cov_a = 2 * pi, Cressie_t = 1/3, K_CCF09 = 25,
-  Poisson_rho = 0.5, Pycke_q = 0.5, Rayleigh_m = 1, Riesz_s = 1,
-  Rothman_t = 1/3, Sobolev_vk2 = c(0, 0, 1), Softmax_kappa = 1,
-  Stein_K = 10, Stein_cf = FALSE, Stereo_a = 0)
+unif_stat(
+  data,
+  type = "all",
+  data_sorted = FALSE,
+  CCF09_dirs = NULL,
+  CJ12_reg = 3,
+  cov_a = 2 * pi,
+  Cressie_t = 1/3,
+  K_CCF09 = 25,
+  Poisson_rho = 0.5,
+  Pycke_q = 0.5,
+  Rayleigh_m = 1,
+  Riesz_s = 1,
+  Rothman_t = 1/3,
+  Sobolev_vk2 = c(0, 0, 1),
+  Softmax_kappa = 1,
+  Stein_K = 10,
+  Stein_cf = FALSE,
+  Stereo_a = 0
+)
 }
 \arguments{
 \item{data}{sample to compute the test statistic. An \bold{array} of size
 \code{c(n, p, M)} containing \code{M} samples of size \code{n} of directions
-(in Cartesian coordinates) on \eqn{S^{p-1}}. Alternatively, a
+(in Cartesian coordinates) on \eqn{\mathbb{S}^{p-1}}. Alternatively, a
 \bold{matrix} of size \code{c(n, M)} with the angles on \eqn{[0, 2\pi)} of
-the \code{M} circular samples of size \code{n} on \eqn{S^{1}}. Other objects
-accepted are an array of size \code{c(n, 1, M)} or a vector of size
+the \code{M} circular samples of size \code{n} on \eqn{\mathbb{S}^{1}}. Other
+objects accepted are an array of size \code{c(n, 1, M)} or a vector of size
 \code{n} with angular data. Must not contain \code{NA}'s.}
 
 \item{type}{type of test to be applied. A character vector containing any of
@@ -35,16 +50,16 @@ If \code{type = "all"} (default), then \code{type} is set as
 statistics are faster to compute. Defaults to \code{FALSE}.}
 
 \item{CCF09_dirs}{a matrix of size \code{c(n_proj, p)} containing
-\code{n_proj} random directions (in Cartesian coordinates) on \eqn{S^{p-1}}
-to perform the CCF09 test. If \code{NULL} (default), a sample of size
-\code{n_proj = 50} directions is computed internally.}
+\code{n_proj} random directions (in Cartesian coordinates) on
+\eqn{\mathbb{S}^{p-1}} to perform the CCF09 test. If \code{NULL} (default), a
+sample of size \code{n_proj = 50} directions is computed internally.}
 
 \item{CJ12_reg}{type of asymptotic regime for CJ12 test, either \code{1}
 (sub-exponential regime), \code{2} (exponential), or \code{3}
 (super-exponential; default).}
 
-\item{cov_a}{\eqn{a_n = a / n} parameter used in the length of the arcs
-of the coverage-based tests. Must be positive. Defaults to \code{2 * pi}.}
+\item{cov_a}{\eqn{a_n = a / n} parameter used in the length of the arcs of
+the coverage-based tests. Must be positive. Defaults to \code{2 * pi}.}
 
 \item{Cressie_t}{\eqn{t} parameter for the Cressie test, a real in
 \eqn{(0, 1)}. Defaults to \code{1 / 3}.}
@@ -68,8 +83,8 @@ Defaults to \code{m = 1} (the standard Rayleigh test).}
 \item{Rothman_t}{\eqn{t} parameter for the Rothman test, a real in
 \eqn{(0, 1)}. Defaults to \code{1 / 3}.}
 
-\item{Sobolev_vk2}{weights for the finite Sobolev test. A non-negative
-vector or matrix. Defaults to \code{c(0, 0, 1)}.}
+\item{Sobolev_vk2}{weights for the finite Sobolev test. A non-negative vector
+or matrix. Defaults to \code{c(0, 0, 1)}.}
 
 \item{Softmax_kappa}{\eqn{\kappa} parameter for the Softmax test, a
 non-negative real. Defaults to \code{1}.}
@@ -77,9 +92,8 @@ non-negative real. Defaults to \code{1}.}
 \item{Stein_K}{truncation \eqn{K} parameter for the Stein test, a positive
 integer. Defaults to \code{10}.}
 
-\item{Stein_cf}{logical indicating whether to use the characteristic
-function in the Stein test. Defaults to \code{FALSE} (moment generating
-function).}
+\item{Stein_cf}{logical indicating whether to use the characteristic function
+in the Stein test. Defaults to \code{FALSE} (moment generating function).}
 
 \item{Stereo_a}{\eqn{a} parameter for the Stereo test, a real in
 \eqn{[-1, 1]}. Defaults to \code{0}.}
@@ -89,11 +103,10 @@ A data frame of size \code{c(M, length(type))}, with column names
 given by \code{type}, that contains the values of the test statistics.
 }
 \description{
-Implementation of several statistics for assessing uniformity
-on the (hyper)sphere
-\eqn{S^{p-1} := \{{\bf x} \in R^p : ||{\bf x}|| = 1\}}{
-S^{p-1} := \{x \in R^p : ||x|| = 1\}}, \eqn{p\ge 2}, for a sample
-\eqn{{\bf X}_1,\ldots,{\bf X}_n\in S^{p-1}}{X_1,\ldots,X_n\in S^{p-1}}.
+Implementation of several statistics for assessing uniformity on
+the (hyper)sphere \eqn{\mathbb{S}^{p-1} := \{\boldsymbol{x} \in \mathbb{R}^p
+: \|\boldsymbol{x}\| = 1\}}, \eqn{p\ge 2}, for a sample
+\eqn{\boldsymbol{X}_1,\ldots,\boldsymbol{X}_n\in \mathbb{S}^{p-1}}.
 
 \code{unif_stat} receives a (several) sample(s) of directions in
 \emph{Cartesian coordinates}, except for the circular case (\eqn{p=2}) in

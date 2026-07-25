@@ -35,8 +35,7 @@ Defaults to \code{FALSE}.}
 }
 \description{
 Computes the incomplete beta function
-\deqn{I_x(a,b):=\int_0^x u^{a-1}(1-u)^{b-1}\,d\mathrm{u},\quad a,b>0}{
-I_x(a,b):=\int_0^x u^{a-1}(1-u)^{b-1}du, a,b>0}
+\deqn{I_x(a,b):=\int_0^x u^{a-1}(1-u)^{b-1}\,d\mathrm{u},\quad a,b>0}
 and its inverse function.
 }
 \details{

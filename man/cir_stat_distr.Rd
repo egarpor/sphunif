@@ -99,11 +99,9 @@ p_cir_stat_Hodges_Ajne(x, n, exact = TRUE, asymp_std = FALSE)
 
 d_cir_stat_Hodges_Ajne(x, n, exact = TRUE, asymp_std = FALSE)
 
-p_cir_stat_Kuiper(x, n, K_Kuiper = 12L, second_term = TRUE,
-  Stephens = FALSE)
+p_cir_stat_Kuiper(x, n, K_Kuiper = 12L, second_term = TRUE, Stephens = FALSE)
 
-d_cir_stat_Kuiper(x, n, K_Kuiper = 12L, second_term = TRUE,
-  Stephens = FALSE)
+d_cir_stat_Kuiper(x, n, K_Kuiper = 12L, second_term = TRUE, Stephens = FALSE)
 
 p_cir_stat_Log_gaps(x, abs_val = TRUE)
 
@@ -173,23 +171,17 @@ p_cir_stat_PRt(x, t = 1/3, K_max = 1000, thre = 0, method = "I", ...)
 
 d_cir_stat_PRt(x, t = 1/3, K_max = 1000, thre = 0, method = "I", ...)
 
-p_cir_stat_Poisson(x, rho = 0.5, K_max = 1000, thre = 0, method = "I",
-  ...)
+p_cir_stat_Poisson(x, rho = 0.5, K_max = 1000, thre = 0, method = "I", ...)
 
-d_cir_stat_Poisson(x, rho = 0.5, K_max = 1000, thre = 0, method = "I",
-  ...)
+d_cir_stat_Poisson(x, rho = 0.5, K_max = 1000, thre = 0, method = "I", ...)
 
-p_cir_stat_Pycke_q(x, q = 0.5, K_max = 1000, thre = 0, method = "I",
-  ...)
+p_cir_stat_Pycke_q(x, q = 0.5, K_max = 1000, thre = 0, method = "I", ...)
 
-d_cir_stat_Pycke_q(x, q = 0.5, K_max = 1000, thre = 0, method = "I",
-  ...)
+d_cir_stat_Pycke_q(x, q = 0.5, K_max = 1000, thre = 0, method = "I", ...)
 
-p_cir_stat_Rothman(x, t = 1/3, K_max = 1000, thre = 0, method = "I",
-  ...)
+p_cir_stat_Rothman(x, t = 1/3, K_max = 1000, thre = 0, method = "I", ...)
 
-d_cir_stat_Rothman(x, t = 1/3, K_max = 1000, thre = 0, method = "I",
-  ...)
+d_cir_stat_Rothman(x, t = 1/3, K_max = 1000, thre = 0, method = "I", ...)
 
 p_cir_stat_Riesz(x, s = 1, K_max = 1000, thre = 0, method = "I", ...)
 
@@ -199,11 +191,9 @@ p_cir_stat_Sobolev(x, vk2 = c(0, 0, 1), method = "I", ...)
 
 d_cir_stat_Sobolev(x, vk2 = c(0, 0, 1), method = "I", ...)
 
-p_cir_stat_Softmax(x, kappa = 1, K_max = 1000, thre = 0, method = "I",
-  ...)
+p_cir_stat_Softmax(x, kappa = 1, K_max = 1000, thre = 0, method = "I", ...)
 
-d_cir_stat_Softmax(x, kappa = 1, K_max = 1000, thre = 0, method = "I",
-  ...)
+d_cir_stat_Softmax(x, kappa = 1, K_max = 1000, thre = 0, method = "I", ...)
 
 p_cir_stat_Stein(x, Stein_K = 10, Stein_cf = FALSE, method = "I", ...)
 
@@ -212,10 +202,10 @@ d_cir_stat_Stein(x, Stein_K = 10, Stein_cf = FALSE, method = "I", ...)
 \arguments{
 \item{x}{a vector of size \code{nx} or a matrix of size \code{c(nx, 1)}.}
 
-\item{K_Kolmogorov, K_Kuiper, K_Watson, K_Watson_1976, K_Ajne}{integer giving
-the truncation of the series present in the null asymptotic distributions.
-For the Kolmogorov-Smirnov-related series defaults to \code{25}; for the
-others series defaults to a smaller number.}
+\item{K_Kolmogorov, K_Kuiper, K_Watson, K_Watson_1976, K_Ajne}{integer giving the
+truncation of the series present in the null asymptotic distributions. For
+the Kolmogorov-Smirnov-related series defaults to \code{25}; for the others
+series defaults to a smaller number.}
 
 \item{alternating}{use the alternating series expansion for the distribution
 of the Kolmogorov-Smirnov statistic? Defaults to \code{TRUE}.}
@@ -228,8 +218,8 @@ Hodges-Ajne statistic? Defaults to \code{FALSE}.}
 \item{exact}{use the exact distribution for the Hodges-Ajne statistic?
 Defaults to \code{TRUE}.}
 
-\item{second_term}{use the second-order series expansion for the
-distribution of the Kuiper statistic? Defaults to \code{TRUE}.}
+\item{second_term}{use the second-order series expansion for the distribution
+of the Kuiper statistic? Defaults to \code{TRUE}.}
 
 \item{Stephens}{compute Stephens (1970) modification so that the null
 distribution of the is less dependent on the sample size?}
@@ -240,19 +230,19 @@ the Darling's log gaps statistic? Defaults to \code{TRUE}.}
 \item{N}{number of points used in the
 \link[=Gauss_Legen_nodes]{Gauss-Legendre quadrature}. Defaults to \code{40}.}
 
-\item{max_gap}{compute the distribution associated to the maximum gap for
-the range statistic? Defaults to \code{TRUE}.}
+\item{max_gap}{compute the distribution associated to the maximum gap for the
+range statistic? Defaults to \code{TRUE}.}
 
 \item{K_max}{integer giving the truncation of the series that compute the
 asymptotic p-value of a Sobolev test. Defaults to \code{1e3}.}
 
-\item{thre}{error threshold for the tail probability given by the
-the first terms of the truncated series of a Sobolev test. Defaults to
-\code{0} (no further truncation).}
+\item{thre}{error threshold for the tail probability given by the the first
+terms of the truncated series of a Sobolev test. Defaults to \code{0} (no
+further truncation).}
 
-\item{method}{method for approximating the density, distribution, or
-quantile function of the weighted sum of chi squared random variables. Must
-be \code{"I"} (Imhof), \code{"SW"} (Satterthwaite--Welch), \code{"HBE"}
+\item{method}{method for approximating the density, distribution, or quantile
+function of the weighted sum of chi squared random variables. Must be
+\code{"I"} (Imhof), \code{"SW"} (Satterthwaite--Welch), \code{"HBE"}
 (Hall--Buckley--Eagleson), or \code{"MC"} (Monte Carlo; only for distribution
 or quantile functions). Defaults to \code{"I"}.}
 
@@ -262,8 +252,8 @@ or quantile functions). Defaults to \code{"I"}.}
 \item{t}{\eqn{t} parameter for the Rothman and Cressie tests, a real in
 \eqn{(0, 1)}. Defaults to \code{1 / 3}.}
 
-\item{rho}{\eqn{\rho} parameter for the Poisson test, a real in
-\eqn{[0, 1)}. Defaults to \code{0.5}.}
+\item{rho}{\eqn{\rho} parameter for the Poisson test, a real in \eqn{[0, 1)}.
+Defaults to \code{0.5}.}
 
 \item{q}{\eqn{q} parameter for the Pycke "\eqn{q}-test", a real in
 \eqn{(0, 1)}. Defaults to \code{1 / 2}.}
@@ -274,15 +264,14 @@ or quantile functions). Defaults to \code{"I"}.}
 \item{vk2}{weights for the finite Sobolev test. A non-negative vector or
 matrix. Defaults to \code{c(0, 0, 1)}.}
 
-\item{kappa}{\eqn{\kappa} parameter for the Softmax test, a
-non-negative real. Defaults to \code{1}.}
+\item{kappa}{\eqn{\kappa} parameter for the Softmax test, a non-negative
+real. Defaults to \code{1}.}
 
 \item{Stein_K}{truncation \eqn{K} parameter for the Stein test, a positive
 integer. Defaults to \code{10}.}
 
-\item{Stein_cf}{logical indicating whether to use the characteristic
-function in the Stein test. Defaults to \code{FALSE} (moment generating
-function).}
+\item{Stein_cf}{logical indicating whether to use the characteristic function
+in the Stein test. Defaults to \code{FALSE} (moment generating function).}
 }
 \value{
 A matrix of size \code{c(nx, 1)} with the evaluation of the
@@ -309,142 +298,111 @@ curve(p_cir_stat_Bakshaev(x, method = "HBE"), n = 2e2, add = TRUE, col = 2)
 # Bingham
 curve(d_cir_stat_Bingham(x), to = 12, n = 2e2, ylim = c(0, 1))
 curve(p_cir_stat_Bingham(x), n = 2e2, col = 2, add = TRUE)
-# Greenwood
-curve(d_cir_stat_Greenwood(x), from = -6, to = 6, n = 2e2, ylim = c(0, 1))
-curve(p_cir_stat_Greenwood(x), n = 2e2, col = 2, add = TRUE)
+# Greenwood curve(d_cir_stat_Greenwood(x), from = -6, to = 6, n = 2e2, ylim =
+c(0, 1)) curve(p_cir_stat_Greenwood(x), n = 2e2, col = 2, add = TRUE)
 
-# Hermans-Rasson
-curve(p_cir_stat_Hermans_Rasson(x, method = "HBE"), to = 10, n = 2e2,
-      ylim = c(0, 1))
-curve(d_cir_stat_Hermans_Rasson(x, method = "HBE"), n = 2e2, add = TRUE,
-      col = 2)
+# Hermans-Rasson curve(p_cir_stat_Hermans_Rasson(x, method = "HBE"), to = 10,
+n = 2e2, ylim = c(0, 1)) curve(d_cir_stat_Hermans_Rasson(x, method = "HBE"),
+n = 2e2, add = TRUE, col = 2)
 
-# Hodges-Ajne
-plot(25:45, d_cir_stat_Hodges_Ajne(cbind(25:45), n = 50), type = "h",
-     lwd = 2, ylim = c(0, 1))
-lines(25:45, p_cir_stat_Hodges_Ajne(cbind(25:45), n = 50), type = "s",
-      col = 2)
+# Hodges-Ajne plot(25:45, d_cir_stat_Hodges_Ajne(cbind(25:45), n = 50), type
+= "h", lwd = 2, ylim = c(0, 1)) lines(25:45,
+p_cir_stat_Hodges_Ajne(cbind(25:45), n = 50), type = "s", col = 2)
 
-# Kolmogorov-Smirnov
-curve(d_Kolmogorov(x), to = 3, n = 2e2, ylim = c(0, 2))
+# Kolmogorov-Smirnov curve(d_Kolmogorov(x), to = 3, n = 2e2, ylim = c(0, 2))
 curve(p_Kolmogorov(x), n = 2e2, col = 2, add = TRUE)
 
-# Kuiper
-curve(d_cir_stat_Kuiper(x, n = 50), to = 3, n = 2e2, ylim = c(0, 2))
+# Kuiper curve(d_cir_stat_Kuiper(x, n = 50), to = 3, n = 2e2, ylim = c(0, 2))
 curve(p_cir_stat_Kuiper(x, n = 50), n = 2e2, col = 2, add = TRUE)
 
-# Kuiper and Watson with Stephens modification
-curve(d_cir_stat_Kuiper(x, n = 8, Stephens = TRUE), to = 2.5, n = 2e2,
-      ylim = c(0, 10))
-curve(d_cir_stat_Watson(x, n = 8, Stephens = TRUE), n = 2e2, lty = 2,
-      add = TRUE)
-n <- c(10, 20, 30, 40, 50, 100, 500)
-col <- rainbow(length(n))
-for (i in seq_along(n)) {
-  curve(d_cir_stat_Kuiper(x, n = n[i], Stephens = TRUE), n = 2e2,
-        col = col[i], add = TRUE)
-  curve(d_cir_stat_Watson(x, n = n[i], Stephens = TRUE), n = 2e2,
-        col = col[i], lty = 2, add = TRUE)
+# Kuiper and Watson with Stephens modification curve(d_cir_stat_Kuiper(x, n =
+8, Stephens = TRUE), to = 2.5, n = 2e2, ylim = c(0, 10))
+curve(d_cir_stat_Watson(x, n = 8, Stephens = TRUE), n = 2e2, lty = 2, add =
+TRUE) n <- c(10, 20, 30, 40, 50, 100, 500) col <- rainbow(length(n)) for (i
+in seq_along(n)) { curve(d_cir_stat_Kuiper(x, n = n[i], Stephens = TRUE), n =
+2e2, col = col[i], add = TRUE) curve(d_cir_stat_Watson(x, n = n[i], Stephens
+= TRUE), n = 2e2, col = col[i], lty = 2, add = TRUE)
 }
 
-# Maximum uncovered spacing
-curve(d_cir_stat_Max_uncover(x), from = -3, to = 6, n = 2e2, ylim = c(0, 1))
-curve(p_cir_stat_Max_uncover(x), n = 2e2, col = 2, add = TRUE)
+# Maximum uncovered spacing curve(d_cir_stat_Max_uncover(x), from = -3, to =
+6, n = 2e2, ylim = c(0, 1)) curve(p_cir_stat_Max_uncover(x), n = 2e2, col =
+2, add = TRUE)
 
-# Number of uncovered spacing
-curve(d_cir_stat_Num_uncover(x), from = -4, to = 4, n = 2e2, ylim = c(0, 1))
-curve(p_cir_stat_Num_uncover(x), n = 2e2, col = 2, add = TRUE)
+# Number of uncovered spacing curve(d_cir_stat_Num_uncover(x), from = -4, to
+= 4, n = 2e2, ylim = c(0, 1)) curve(p_cir_stat_Num_uncover(x), n = 2e2, col =
+2, add = TRUE)
 
-# Log gaps
-curve(d_cir_stat_Log_gaps(x), from = -1, to = 4, n = 2e2, ylim = c(0, 1))
-curve(p_cir_stat_Log_gaps(x), n = 2e2, col = 2, add = TRUE)
+# Log gaps curve(d_cir_stat_Log_gaps(x), from = -1, to = 4, n = 2e2, ylim =
+c(0, 1)) curve(p_cir_stat_Log_gaps(x), n = 2e2, col = 2, add = TRUE)
 
-# Gine Fn
-curve(d_cir_stat_Gine_Fn(x, method = "HBE"), to = 2.5, n = 2e2,
-      ylim = c(0, 2))
-curve(p_cir_stat_Gine_Fn(x, method = "HBE"), n = 2e2, add = TRUE, col = 2)
+# Gine Fn curve(d_cir_stat_Gine_Fn(x, method = "HBE"), to = 2.5, n = 2e2,
+ylim = c(0, 2)) curve(p_cir_stat_Gine_Fn(x, method = "HBE"), n = 2e2, add =
+TRUE, col = 2)
 
-# Gine Gn
-curve(d_cir_stat_Gine_Gn(x, method = "HBE"), to = 2.5, n = 2e2,
-      ylim = c(0, 2))
-curve(p_cir_stat_Gine_Gn(x, method = "HBE"), n = 2e2, add = TRUE, col = 2)
+# Gine Gn curve(d_cir_stat_Gine_Gn(x, method = "HBE"), to = 2.5, n = 2e2,
+ylim = c(0, 2)) curve(p_cir_stat_Gine_Gn(x, method = "HBE"), n = 2e2, add =
+TRUE, col = 2)
 
-# Gini mean difference
-curve(d_cir_stat_Gini(x), from = -4, to = 4, n = 2e2, ylim = c(0, 1))
-curve(p_cir_stat_Gini(x), n = 2e2, col = 2, add = TRUE)
+# Gini mean difference curve(d_cir_stat_Gini(x), from = -4, to = 4, n = 2e2,
+ylim = c(0, 1)) curve(p_cir_stat_Gini(x), n = 2e2, col = 2, add = TRUE)
 
-# Gini mean squared difference
-curve(d_cir_stat_Gini_squared(x), from = -10, to = 10, n = 2e2,
-      ylim = c(0, 1))
-curve(p_cir_stat_Gini_squared(x), n = 2e2, col = 2, add = TRUE)
+# Gini mean squared difference curve(d_cir_stat_Gini_squared(x), from = -10,
+to = 10, n = 2e2, ylim = c(0, 1)) curve(p_cir_stat_Gini_squared(x), n = 2e2,
+col = 2, add = TRUE)
 
-# PAD
-curve(d_cir_stat_PAD(x, method = "HBE"), to = 3, n = 2e2, ylim = c(0, 1.5))
-curve(p_cir_stat_PAD(x, method = "HBE"), n = 2e2, add = TRUE, col = 2)
+# PAD curve(d_cir_stat_PAD(x, method = "HBE"), to = 3, n = 2e2, ylim = c(0,
+1.5)) curve(p_cir_stat_PAD(x, method = "HBE"), n = 2e2, add = TRUE, col = 2)
 
-# PCvM
-curve(d_cir_stat_PCvM(x, method = "HBE"), to = 4, n = 2e2, ylim = c(0, 2))
-curve(p_cir_stat_PCvM(x, method = "HBE"), n = 2e2, add = TRUE, col = 2)
+# PCvM curve(d_cir_stat_PCvM(x, method = "HBE"), to = 4, n = 2e2, ylim = c(0,
+2)) curve(p_cir_stat_PCvM(x, method = "HBE"), n = 2e2, add = TRUE, col = 2)
 
-# PRt
-curve(d_cir_stat_PRt(x, method = "HBE"), n = 2e2, ylim = c(0, 5))
+# PRt curve(d_cir_stat_PRt(x, method = "HBE"), n = 2e2, ylim = c(0, 5))
 curve(p_cir_stat_PRt(x, method = "HBE"), n = 2e2, add = TRUE, col = 2)
 
-# Poisson
-curve(d_cir_stat_Poisson(x, method = "HBE"), from = -1, to = 5, n = 2e2,
-      ylim = c(0, 2))
-curve(p_cir_stat_Poisson(x, method = "HBE"), n = 2e2, col = 2, add = TRUE)
+# Poisson curve(d_cir_stat_Poisson(x, method = "HBE"), from = -1, to = 5, n =
+2e2, ylim = c(0, 2)) curve(p_cir_stat_Poisson(x, method = "HBE"), n = 2e2,
+col = 2, add = TRUE)
 
-# Pycke
-curve(d_cir_stat_Pycke(x), from = -5, to = 10, n = 2e2, ylim = c(0, 1))
-curve(p_cir_stat_Pycke(x), n = 2e2, col = 2, add = TRUE)
+# Pycke curve(d_cir_stat_Pycke(x), from = -5, to = 10, n = 2e2, ylim = c(0,
+1)) curve(p_cir_stat_Pycke(x), n = 2e2, col = 2, add = TRUE)
 
-# Pycke q
-curve(d_cir_stat_Pycke_q(x, method = "HBE"), to = 15, n = 2e2,
-      ylim = c(0, 1))
-curve(p_cir_stat_Pycke_q(x, method = "HBE"), n = 2e2, add = TRUE, col = 2)
+# Pycke q curve(d_cir_stat_Pycke_q(x, method = "HBE"), to = 15, n = 2e2, ylim
+= c(0, 1)) curve(p_cir_stat_Pycke_q(x, method = "HBE"), n = 2e2, add = TRUE,
+col = 2)
 
-# Range
-curve(d_cir_stat_Range(x, n = 50), to = 2, n = 2e2, ylim = c(0, 4))
+# Range curve(d_cir_stat_Range(x, n = 50), to = 2, n = 2e2, ylim = c(0, 4))
 curve(p_cir_stat_Range(x, n = 50), n = 2e2, col = 2, add = TRUE)
 
-# Rao
-curve(d_cir_stat_Rao(x), from = -6, to = 6, n = 2e2, ylim = c(0, 1))
+# Rao curve(d_cir_stat_Rao(x), from = -6, to = 6, n = 2e2, ylim = c(0, 1))
 curve(p_cir_stat_Rao(x), n = 2e2, col = 2, add = TRUE)
 
-# Rayleigh
-curve(d_cir_stat_Rayleigh(x), to = 12, n = 2e2, ylim = c(0, 1))
+# Rayleigh curve(d_cir_stat_Rayleigh(x), to = 12, n = 2e2, ylim = c(0, 1))
 curve(p_cir_stat_Rayleigh(x), n = 2e2, col = 2, add = TRUE)
 
-# Riesz
-curve(d_cir_stat_Riesz(x, method = "HBE"), to = 6, n = 2e2,
-      ylim = c(0, 1))
-curve(p_cir_stat_Riesz(x, method = "HBE"), n = 2e2, add = TRUE, col = 2)
+# Riesz curve(d_cir_stat_Riesz(x, method = "HBE"), to = 6, n = 2e2, ylim =
+c(0, 1)) curve(p_cir_stat_Riesz(x, method = "HBE"), n = 2e2, add = TRUE, col
+= 2)
 
-# Rothman
-curve(d_cir_stat_Rothman(x, method = "HBE"), n = 2e2, ylim = c(0, 5))
-curve(p_cir_stat_Rothman(x, method = "HBE"), n = 2e2, add = TRUE, col = 2)
+# Rothman curve(d_cir_stat_Rothman(x, method = "HBE"), n = 2e2, ylim = c(0,
+5)) curve(p_cir_stat_Rothman(x, method = "HBE"), n = 2e2, add = TRUE, col =
+2)
 
-# Vacancy
-curve(d_cir_stat_Vacancy(x), from = -4, to = 4, n = 2e2, ylim = c(0, 1))
-curve(p_cir_stat_Vacancy(x), n = 2e2, col = 2, add = TRUE)
+# Vacancy curve(d_cir_stat_Vacancy(x), from = -4, to = 4, n = 2e2, ylim =
+c(0, 1)) curve(p_cir_stat_Vacancy(x), n = 2e2, col = 2, add = TRUE)
 
-# Watson
-curve(d_cir_stat_Watson(x), to = 0.5, n = 2e2, ylim = c(0, 15))
+# Watson curve(d_cir_stat_Watson(x), to = 0.5, n = 2e2, ylim = c(0, 15))
 curve(p_cir_stat_Watson(x), n = 2e2, col = 2, add = TRUE)
 
-# Watson (1976)
-curve(d_cir_stat_Watson_1976(x), to = 1.5, n = 2e2, ylim = c(0, 3))
-curve(p_cir_stat_Watson_1976(x), n = 2e2, col = 2, add = TRUE)
+# Watson (1976) curve(d_cir_stat_Watson_1976(x), to = 1.5, n = 2e2, ylim =
+c(0, 3)) curve(p_cir_stat_Watson_1976(x), n = 2e2, col = 2, add = TRUE)
 
-# Softmax
-curve(d_cir_stat_Softmax(x, method = "HBE"), to = 3, n = 2e2, ylim = c(0, 2))
-curve(p_cir_stat_Softmax(x, method = "HBE"), n = 2e2, col = 2, add = TRUE)
+# Softmax curve(d_cir_stat_Softmax(x, method = "HBE"), to = 3, n = 2e2, ylim
+= c(0, 2)) curve(p_cir_stat_Softmax(x, method = "HBE"), n = 2e2, col = 2, add
+= TRUE)
 
-# Sobolev
-vk2 <- c(0.5, 0)
-curve(d_cir_stat_Sobolev(x = x, vk2 = vk2), to = 3, n = 2e2, ylim = c(0, 2))
-curve(p_cir_stat_Sobolev(x = x, vk2 = vk2), n = 2e2, col = 2, add = TRUE)
+# Sobolev vk2 <- c(0.5, 0) curve(d_cir_stat_Sobolev(x = x, vk2 = vk2), to =
+3, n = 2e2, ylim = c(0, 2)) curve(p_cir_stat_Sobolev(x = x, vk2 = vk2), n =
+2e2, col = 2, add = TRUE)
 }
 \references{
 García-Portugués, E. and Verdebout, T. (2018) An overview of

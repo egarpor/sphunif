@@ -39,8 +39,7 @@ sph_stat_Riesz(X, Psi_in_X = FALSE, p = 0L, s = 1)
 
 sph_stat_PCvM(X, Psi_in_X = FALSE, p = 0L, N = 160L, L = 1000L)
 
-sph_stat_PRt(X, Psi_in_X = FALSE, p = 0L, t = 1/3, N = 160L,
-  L = 1000L)
+sph_stat_PRt(X, Psi_in_X = FALSE, p = 0L, t = 1/3, N = 160L, L = 1000L)
 
 sph_stat_PAD(X, Psi_in_X = FALSE, p = 0L, N = 160L, L = 1000L)
 
@@ -59,22 +58,20 @@ sph_stat_CJ12(X, Psi_in_X = FALSE, p = 0L, regime = 3L)
 \arguments{
 \item{X}{an \bold{array} of size \code{c(n, p, M)} containing the Cartesian
 coordinates of \code{M} samples of size \code{n} of directions on
-\eqn{S^{p-1}}. Must not contain \code{NA}'s.}
+\eqn{\mathbb{S}^{p-1}}. Must not contain \code{NA}'s.}
 
 \item{Psi_in_X}{does \code{X} contain the shortest angles matrix
-\eqn{\boldsymbol\Psi}{\Psi} that is obtained with \code{\link{Psi_mat}(X)}?
-If \code{FALSE} (default), \eqn{\boldsymbol\Psi}{\Psi} is computed
-internally.}
+\eqn{\boldsymbol\Psi} that is obtained with \code{\link{Psi_mat}(X)}? If
+\code{FALSE} (default), \eqn{\boldsymbol\Psi} is computed internally.}
 
-\item{p}{integer giving the dimension of the ambient space \eqn{R^p} that
-contains \eqn{S^{p-1}}.}
+\item{p}{integer giving the dimension of the ambient space
+\eqn{\mathbb{R}^p} that contains \eqn{\mathbb{S}^{p-1}}.}
 
 \item{s}{\eqn{s} parameter for the \eqn{s}-Riesz test, a real in
 \eqn{(0, 2)}. Defaults to \code{1}.}
 
 \item{N}{number of points used in the
-\link[=Gauss_Legen_nodes]{Gauss-Legendre quadrature}. Defaults to
-\code{160}.}
+\link[=Gauss_Legen_nodes]{Gauss-Legendre quadrature}. Defaults to \code{160}.}
 
 \item{L}{number of discretization points to interpolate angular functions
 that require evaluating an integral. Defaults to \code{1e3}.}
@@ -82,30 +79,30 @@ that require evaluating an integral. Defaults to \code{1e3}.}
 \item{t}{\eqn{t} parameter for the Rothman and Cressie tests, a real in
 \eqn{(0, 1)}. Defaults to \code{1 / 3}.}
 
-\item{rho}{\eqn{\rho} parameter for the Poisson test, a real in
-\eqn{[0, 1)}. Defaults to \code{0.5}.}
+\item{rho}{\eqn{\rho} parameter for the Poisson test, a real in \eqn{[0, 1)}.
+Defaults to \code{0.5}.}
 
-\item{kappa}{\eqn{\kappa} parameter for the Softmax test, a
-non-negative real. Defaults to \code{1}.}
+\item{kappa}{\eqn{\kappa} parameter for the Softmax test, a non-negative
+real. Defaults to \code{1}.}
 
 \item{a}{either: \itemize{
-\item \eqn{a_n = a / n} parameter used in the length of the arcs
-of the coverage-based tests. Must be positive. Defaults to \code{2 * pi}.
+\item \eqn{a_n = a / n} parameter used in the length of the arcs of the
+coverage-based tests. Must be positive. Defaults to \code{2 * pi}.
 \item \eqn{a} parameter for the Stereo test, a real in \eqn{[-1, 1]}.
 Defaults to \code{0}.
 }}
 
 \item{dirs}{a matrix of size \code{c(n_proj, p)} containing \code{n_proj}
-random directions (in Cartesian coordinates) on \eqn{S^{p-1}} to perform
-the CCF09 test.}
+random directions (in Cartesian coordinates) on \eqn{\mathbb{S}^{p-1}} to
+perform the CCF09 test.}
 
 \item{K_CCF09}{integer giving the truncation of the series present in the
 asymptotic distribution of the Kolmogorov-Smirnov statistic. Defaults to
 \code{25}.}
 
-\item{original}{return the CCF09 statistic as originally defined?
-If \code{FALSE} (default), a faster and equivalent statistic is computed,
-and rejection happens for \emph{large} values of the statistic, which is
+\item{original}{return the CCF09 statistic as originally defined? If
+\code{FALSE} (default), a faster and equivalent statistic is computed, and
+rejection happens for \emph{large} values of the statistic, which is
 consistent with the rest of tests. Otherwise, rejection happens for
 \emph{low} values.}
 
@@ -119,9 +116,8 @@ of the \code{M} samples.
 }
 \description{
 Low-level implementation of several statistics for assessing
-uniformity on the (hyper)sphere
-\eqn{S^{p-1}:=\{{\bf x}\in R^p:||{\bf x}||=1\}}{S^{p-1}:=
-\{x\in R^p:||x||=1\}}, \eqn{p\ge 2}.
+uniformity on the (hyper)sphere \eqn{\mathbb{S}^{p-1}:=\{\boldsymbol{x}\in
+\mathbb{R}^p:\|\boldsymbol{x}\|=1\}}, \eqn{p\ge 2}.
 }
 \details{
 Detailed descriptions and references of the statistics are available
@@ -133,15 +129,14 @@ matrix is obtained by setting \code{scalar_prod = TRUE} in
 \code{\link{Psi_mat}}.
 }
 \section{Warning}{
-
-Be careful on avoiding the next bad usages of the functions, which will
-produce spurious results:
+ Be careful on avoiding the next bad usages of the
+functions, which will produce spurious results:
 \itemize{
   \item The directions in \code{X} do \emph{not} have unit norm.
   \item \code{X} does \emph{not} contain \code{Psi_mat(X)} when
   \code{X_in_Theta = TRUE}.
   \item The parameter \code{p} does \emph{not} match with the dimension of
-  \eqn{R^p}.
+  \eqn{\mathbb{R}^p}.
   \item \emph{Not} passing the scalar products matrix to \code{sph_stat_CJ12}
   when \code{Psi_in_X = TRUE}.
   \item The directions in \code{dirs} do \emph{not} have unit norm.

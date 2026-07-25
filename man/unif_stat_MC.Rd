@@ -5,14 +5,36 @@
 \title{Monte Carlo simulation of circular and (hyper)spherical uniformity
 statistics}
 \usage{
-unif_stat_MC(n, type = "all", p, M = 10000, r_H1 = NULL,
-  crit_val = NULL, alpha = c(0.1, 0.05, 0.01), return_stats = TRUE,
-  stats_sorted = FALSE, chunks = ceiling((n * M)/1e+05), cores = 1,
-  seeds = NULL, CCF09_dirs = NULL, CJ12_reg = 3, cov_a = 2 * pi,
-  Cressie_t = 1/3, K_CCF09 = 25, Poisson_rho = 0.5, Pycke_q = 0.5,
-  Rayleigh_m = 1, Riesz_s = 1, Rothman_t = 1/3, Sobolev_vk2 = c(0, 0,
-  1), Softmax_kappa = 1, Stein_K = 10, Stein_cf = FALSE, Stereo_a = 0,
-  ...)
+unif_stat_MC(
+  n,
+  type = "all",
+  p,
+  M = 10000,
+  r_H1 = NULL,
+  crit_val = NULL,
+  alpha = c(0.1, 0.05, 0.01),
+  return_stats = TRUE,
+  stats_sorted = FALSE,
+  chunks = ceiling((n * M)/1e+05),
+  cores = 1,
+  seeds = NULL,
+  CCF09_dirs = NULL,
+  CJ12_reg = 3,
+  cov_a = 2 * pi,
+  Cressie_t = 1/3,
+  K_CCF09 = 25,
+  Poisson_rho = 0.5,
+  Pycke_q = 0.5,
+  Rayleigh_m = 1,
+  Riesz_s = 1,
+  Rothman_t = 1/3,
+  Sobolev_vk2 = c(0, 0, 1),
+  Softmax_kappa = 1,
+  Stein_K = 10,
+  Stein_cf = FALSE,
+  Stereo_a = 0,
+  ...
+)
 }
 \arguments{
 \item{n}{sample size.}
@@ -29,21 +51,21 @@ If \code{type = "all"} (default), then \code{type} is set as
 \code{avail_cir_tests} or \code{avail_sph_tests}, depending on the value of
 \eqn{p}.}
 
-\item{p}{integer giving the dimension of the ambient space \eqn{R^p} that
-contains \eqn{S^{p-1}}.}
+\item{p}{integer giving the dimension of the ambient space
+\eqn{\mathbb{R}^p} that contains \eqn{\mathbb{S}^{p-1}}.}
 
 \item{M}{number of Monte Carlo replications. Defaults to \code{1e4}.}
 
-\item{r_H1}{if provided, the computation of empirical powers is
-carried out for the alternative hypothesis sampled with \code{r_H1}.
-This must be a function with the same arguments and value as
-\code{\link{r_unif_sph}} (see examples). Defaults to \code{NULL}, indicating
-that the critical values are estimated from samples of \code{r_unif_sph}.}
+\item{r_H1}{if provided, the computation of empirical powers is carried out
+for the alternative hypothesis sampled with \code{r_H1}. This must be a
+function with the same arguments and value as \code{\link{r_unif_sph}} (see
+examples). Defaults to \code{NULL}, indicating that the critical values are
+estimated from samples of \code{r_unif_sph}.}
 
 \item{crit_val}{if provided, must be the critical values as returned by
 \code{$stats_MC} in a call to \code{unif_stat_MC}. They are used for
-computing the empirical powers of the tests present in \code{type}.
-Defaults to \code{NULL}, which means that no power computation is done.}
+computing the empirical powers of the tests present in \code{type}. Defaults
+to \code{NULL}, which means that no power computation is done.}
 
 \item{alpha}{vector with significance levels. Defaults to
 \code{c(0.10, 0.05, 0.01)}.}
@@ -52,9 +74,9 @@ Defaults to \code{NULL}, which means that no power computation is done.}
 values or powers are desired, \code{FALSE} saves memory in the returned
 object. Defaults to \code{TRUE}.}
 
-\item{stats_sorted}{sort the returned Monte Carlo statistics? If
-\code{TRUE}, this is useful for evaluating faster the empirical cumulative
-distribution function when approximating the distribution in
+\item{stats_sorted}{sort the returned Monte Carlo statistics? If \code{TRUE},
+this is useful for evaluating faster the empirical cumulative distribution
+function when approximating the distribution in
 \code{\link{unif_stat_distr}}. Defaults to \code{FALSE}.}
 
 \item{chunks}{number of chunks to split the \code{M} Monte Carlo
@@ -65,23 +87,23 @@ avoiding memory bottlenecks when \code{M} is large. Defaults to
 
 \item{cores}{number of cores to perform the simulation. Defaults to \code{1}.}
 
-\item{seeds}{if provided, a vector of size \code{chunks} for fixing the
-seeds on each of the simulation chunks (useful for reproducing parallel
-simulations). Specifically, for \code{k in 1:chunks}, seeds are
-set as \code{set.seed(seeds[k], kind = "Mersenne-Twister")} in each chunk.
-Defaults to \code{NULL} (no seed setting is done).}
+\item{seeds}{if provided, a vector of size \code{chunks} for fixing the seeds
+on each of the simulation chunks (useful for reproducing parallel
+simulations). Specifically, for \code{k in 1:chunks}, seeds are set as
+\code{set.seed(seeds[k], kind = "Mersenne-Twister")} in each chunk. Defaults
+to \code{NULL} (no seed setting is done).}
 
 \item{CCF09_dirs}{a matrix of size \code{c(n_proj, p)} containing
-\code{n_proj} random directions (in Cartesian coordinates) on \eqn{S^{p-1}}
-to perform the CCF09 test. If \code{NULL} (default), a sample of size
-\code{n_proj = 50} directions is computed internally.}
+\code{n_proj} random directions (in Cartesian coordinates) on
+\eqn{\mathbb{S}^{p-1}} to perform the CCF09 test. If \code{NULL} (default), a
+sample of size \code{n_proj = 50} directions is computed internally.}
 
 \item{CJ12_reg}{type of asymptotic regime for CJ12 test, either \code{1}
 (sub-exponential regime), \code{2} (exponential), or \code{3}
 (super-exponential; default).}
 
-\item{cov_a}{\eqn{a_n = a / n} parameter used in the length of the arcs
-of the coverage-based tests. Must be positive. Defaults to \code{2 * pi}.}
+\item{cov_a}{\eqn{a_n = a / n} parameter used in the length of the arcs of
+the coverage-based tests. Must be positive. Defaults to \code{2 * pi}.}
 
 \item{Cressie_t}{\eqn{t} parameter for the Cressie test, a real in
 \eqn{(0, 1)}. Defaults to \code{1 / 3}.}
@@ -105,8 +127,8 @@ Defaults to \code{m = 1} (the standard Rayleigh test).}
 \item{Rothman_t}{\eqn{t} parameter for the Rothman test, a real in
 \eqn{(0, 1)}. Defaults to \code{1 / 3}.}
 
-\item{Sobolev_vk2}{weights for the finite Sobolev test. A non-negative
-vector or matrix. Defaults to \code{c(0, 0, 1)}.}
+\item{Sobolev_vk2}{weights for the finite Sobolev test. A non-negative vector
+or matrix. Defaults to \code{c(0, 0, 1)}.}
 
 \item{Softmax_kappa}{\eqn{\kappa} parameter for the Softmax test, a
 non-negative real. Defaults to \code{1}.}
@@ -114,9 +136,8 @@ non-negative real. Defaults to \code{1}.}
 \item{Stein_K}{truncation \eqn{K} parameter for the Stein test, a positive
 integer. Defaults to \code{10}.}
 
-\item{Stein_cf}{logical indicating whether to use the characteristic
-function in the Stein test. Defaults to \code{FALSE} (moment generating
-function).}
+\item{Stein_cf}{logical indicating whether to use the characteristic function
+in the Stein test. Defaults to \code{FALSE} (moment generating function).}
 
 \item{Stereo_a}{\eqn{a} parameter for the Stereo test, a real in
 \eqn{[-1, 1]}. Defaults to \code{0}.}
@@ -145,13 +166,12 @@ A list with the following entries:
 \description{
 Utility for performing Monte Carlo simulation of several
 statistics for assessing uniformity on the (hyper)sphere
-\eqn{S^{p-1}:=\{{\bf x}\in R^p:||{\bf x}||=1\}}{
-S^{p-1}:=\{x\in R^p:||x||=1\}}, \eqn{p\ge 2}.
+\eqn{\mathbb{S}^{p-1}:=\{\boldsymbol{x}\in
+\mathbb{R}^p:\|\boldsymbol{x}\|=1\}}, \eqn{p\ge 2}.
 
-\code{unif_stat_MC} provides a convenient wrapper for parallel
-evaluation of \code{unif_stat}, the estimation of critical values under the
-null distribution, and the computation of empirical powers under the
-alternative.
+\code{unif_stat_MC} provides a convenient wrapper for parallel evaluation of
+\code{unif_stat}, the estimation of critical values under the null
+distribution, and the computation of empirical powers under the alternative.
 }
 \details{
 It is possible to have a progress bar if \code{unif_stat_MC} is wrapped with

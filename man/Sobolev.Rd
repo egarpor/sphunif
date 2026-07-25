@@ -11,45 +11,107 @@
 \usage{
 d_p_k(p, k, log = FALSE)
 
-weights_dfs_Sobolev(p, K_max = 1000, thre = 0.001, type,
-  Poisson_rho = 0.5, Pycke_q = 0.5, Riesz_s = 1, Rothman_t = 1/3,
-  Sobolev_vk2 = c(0, 0, 1), Softmax_kappa = 1, Stein_cf = FALSE,
-  Stereo_a = 0, log = FALSE, verbose = TRUE, Gauss = TRUE, N = 320,
-  tol = 1e-06, force_positive = TRUE, x_tail = NULL)
+weights_dfs_Sobolev(
+  p,
+  K_max = 1000,
+  thre = 0.001,
+  type,
+  Poisson_rho = 0.5,
+  Pycke_q = 0.5,
+  Riesz_s = 1,
+  Rothman_t = 1/3,
+  Sobolev_vk2 = c(0, 0, 1),
+  Softmax_kappa = 1,
+  Stein_cf = FALSE,
+  Stereo_a = 0,
+  log = FALSE,
+  verbose = TRUE,
+  Gauss = TRUE,
+  N = 320,
+  tol = 1e-06,
+  force_positive = TRUE,
+  x_tail = NULL
+)
 
-d_Sobolev(x, p, type, method = c("I", "SW", "HBE")[1], K_max = 1000,
-  thre = 0.001, Rothman_t = 1/3, Pycke_q = 0.5, Riesz_s = 1,
-  Poisson_rho = 0.5, Softmax_kappa = 1, Stereo_a = 0, Stein_cf = FALSE,
-  Sobolev_vk2 = c(0, 0, 1), ncps = 0, verbose = TRUE, N = 320,
-  x_tail = NULL, ...)
+d_Sobolev(
+  x,
+  p,
+  type,
+  method = c("I", "SW", "HBE")[1],
+  K_max = 1000,
+  thre = 0.001,
+  Rothman_t = 1/3,
+  Pycke_q = 0.5,
+  Riesz_s = 1,
+  Poisson_rho = 0.5,
+  Softmax_kappa = 1,
+  Stereo_a = 0,
+  Stein_cf = FALSE,
+  Sobolev_vk2 = c(0, 0, 1),
+  ncps = 0,
+  verbose = TRUE,
+  N = 320,
+  x_tail = NULL,
+  ...
+)
 
-p_Sobolev(x, p, type, method = c("I", "SW", "HBE", "MC")[1], K_max = 1000,
-  thre = 0.001, Rothman_t = 1/3, Pycke_q = 0.5, Riesz_s = 1,
-  Poisson_rho = 0.5, Softmax_kappa = 1, Stereo_a = 0, Stein_cf = FALSE,
-  Sobolev_vk2 = c(0, 0, 1), ncps = 0, verbose = TRUE, N = 320,
-  x_tail = NULL, ...)
+p_Sobolev(
+  x,
+  p,
+  type,
+  method = c("I", "SW", "HBE", "MC")[1],
+  K_max = 1000,
+  thre = 0.001,
+  Rothman_t = 1/3,
+  Pycke_q = 0.5,
+  Riesz_s = 1,
+  Poisson_rho = 0.5,
+  Softmax_kappa = 1,
+  Stereo_a = 0,
+  Stein_cf = FALSE,
+  Sobolev_vk2 = c(0, 0, 1),
+  ncps = 0,
+  verbose = TRUE,
+  N = 320,
+  x_tail = NULL,
+  ...
+)
 
-q_Sobolev(u, p, type, method = c("I", "SW", "HBE", "MC")[1], K_max = 1000,
-  thre = 0.001, Rothman_t = 1/3, Pycke_q = 0.5, Riesz_s = 1,
-  Poisson_rho = 0.5, Softmax_kappa = 1, Stereo_a = 0, Stein_cf = FALSE,
-  Sobolev_vk2 = c(0, 0, 1), ncps = 0, verbose = TRUE, N = 320,
-  x_tail = NULL, ...)
+q_Sobolev(
+  u,
+  p,
+  type,
+  method = c("I", "SW", "HBE", "MC")[1],
+  K_max = 1000,
+  thre = 0.001,
+  Rothman_t = 1/3,
+  Pycke_q = 0.5,
+  Riesz_s = 1,
+  Poisson_rho = 0.5,
+  Softmax_kappa = 1,
+  Stereo_a = 0,
+  Stein_cf = FALSE,
+  Sobolev_vk2 = c(0, 0, 1),
+  ncps = 0,
+  verbose = TRUE,
+  N = 320,
+  x_tail = NULL,
+  ...
+)
 }
 \arguments{
-\item{p}{integer giving the dimension of the ambient space \eqn{R^p} that
-contains \eqn{S^{p-1}}.}
+\item{p}{integer giving the dimension of the ambient space
+\eqn{\mathbb{R}^p} that contains \eqn{\mathbb{S}^{p-1}}.}
 
 \item{k}{sequence of integer indexes.}
 
-\item{log}{compute the logarithm of \eqn{d_{p,k}}? Defaults to
-\code{FALSE}.}
+\item{log}{compute the logarithm of \eqn{d_{p,k}}? Defaults to \code{FALSE}.}
 
 \item{K_max}{integer giving the truncation of the series that compute the
 asymptotic p-value of a Sobolev test. Defaults to \code{1e3}.}
 
-\item{thre}{error threshold for the tail probability given by the
-the first terms of the truncated series of a Sobolev test. Defaults to
-\code{1e-3}.}
+\item{thre}{error threshold for the tail probability given by the the first
+terms of the truncated series of a Sobolev test. Defaults to \code{1e-3}.}
 
 \item{type}{name of the Sobolev statistic, using the naming from
 \code{\link{avail_cir_tests}} and \code{\link{avail_sph_tests}}.}
@@ -66,15 +128,14 @@ the first terms of the truncated series of a Sobolev test. Defaults to
 \item{Rothman_t}{\eqn{t} parameter for the Rothman test, a real in
 \eqn{(0, 1)}. Defaults to \code{1 / 3}.}
 
-\item{Sobolev_vk2}{weights for the finite Sobolev test. A non-negative
-vector or matrix. Defaults to \code{c(0, 0, 1)}.}
+\item{Sobolev_vk2}{weights for the finite Sobolev test. A non-negative vector
+or matrix. Defaults to \code{c(0, 0, 1)}.}
 
 \item{Softmax_kappa}{\eqn{\kappa} parameter for the Softmax test, a
 non-negative real. Defaults to \code{1}.}
 
-\item{Stein_cf}{logical indicating whether to use the characteristic
-function in the Stein test. Defaults to \code{FALSE} (moment generating
-function).}
+\item{Stein_cf}{logical indicating whether to use the characteristic function
+in the Stein test. Defaults to \code{FALSE} (moment generating function).}
 
 \item{Stereo_a}{\eqn{a} parameter for the Stereo test, a real in
 \eqn{[-1, 1]}. Defaults to \code{0}.}
@@ -82,13 +143,13 @@ function).}
 \item{verbose}{output information about the truncation? Defaults to
 \code{TRUE}.}
 
-\item{Gauss}{use a Gauss--Legendre quadrature rule of \code{N} nodes
-in the computation of the Gegenbauer coefficients? Otherwise, call
+\item{Gauss}{use a Gauss--Legendre quadrature rule of \code{N} nodes in the
+computation of the Gegenbauer coefficients? Otherwise, call
 \code{\link{integrate}}. Defaults to \code{TRUE}.}
 
-\item{N}{number of points used in the \link[=Gauss_Legen_nodes]{
-Gauss--Legendre quadrature} for computing the Gegenbauer coefficients.
-Defaults to \code{320}.}
+\item{N}{number of points used in the
+\link[=Gauss_Legen_nodes]{ Gauss--Legendre quadrature} for computing the
+Gegenbauer coefficients. Defaults to \code{320}.}
 
 \item{tol}{tolerance passed to \code{\link{integrate}}'s \code{rel.tol} and
 \code{abs.tol} if \code{Gauss = FALSE}. Defaults to \code{1e-6}.}
@@ -101,14 +162,14 @@ series, computed by the \code{"HBE"} approximation.}
 
 \item{x}{vector of quantiles.}
 
-\item{method}{method for approximating the density, distribution, or
-quantile function of the weighted sum of chi squared random variables. Must
-be \code{"I"} (Imhof), \code{"SW"} (Satterthwaite--Welch), \code{"HBE"}
+\item{method}{method for approximating the density, distribution, or quantile
+function of the weighted sum of chi squared random variables. Must be
+\code{"I"} (Imhof), \code{"SW"} (Satterthwaite--Welch), \code{"HBE"}
 (Hall--Buckley--Eagleson), or \code{"MC"} (Monte Carlo; only for distribution
 or quantile functions). Defaults to \code{"I"}.}
 
-\item{ncps}{non-centrality parameters. Either \code{0} (default) or a
-vector with the same length as \code{weights}.}
+\item{ncps}{non-centrality parameters. Either \code{0} (default) or a vector
+with the same length as \code{weights}.}
 
 \item{...}{further parameters passed to \code{*_\link{wschisq}}.}
 
@@ -129,15 +190,15 @@ vector with the same length as \code{weights}.}
 }
 \description{
 Approximated density, distribution, and quantile functions for
-the asymptotic null distributions of Sobolev statistics of uniformity
-on \eqn{S^{p-1}:=\{{\bf x}\in R^p:||{\bf x}||=1\}}{S^{p-1}:=
-\{x\in R^p:||x||=1\}}. These asymptotic distributions are infinite
-weighted sums of (central) chi squared random variables:
+the asymptotic null distributions of Sobolev statistics of uniformity on
+\eqn{\mathbb{S}^{p-1}:=\{\boldsymbol{x}\in
+\mathbb{R}^p:\|\boldsymbol{x}\|=1\}}. These asymptotic distributions are
+infinite weighted sums of (central) chi squared random variables:
 \deqn{\sum_{k = 1}^\infty v_k^2 \chi^2_{d_{p, k}},}
 where
 \deqn{d_{p, k} := {{p + k - 3}\choose{p - 2}} + {{p + k - 2}\choose{p - 2}}}
 is the dimension of the space of eigenfunctions of the Laplacian on
-\eqn{S^{p-1}}, \eqn{p\ge 2}, associated to the \eqn{k}-th
+\eqn{\mathbb{S}^{p-1}}, \eqn{p\ge 2}, associated to the \eqn{k}-th
 eigenvalue, \eqn{k\ge 1}.
 }
 \details{

@@ -21,17 +21,16 @@ const double inv_M_PI = 1.0 / M_PI;
 
 //' @title Projection of the spherical uniform distribution
 //'
-//' @description Density, distribution, and quantile functions of the
-//' projection of the spherical uniform random variable on an arbitrary
-//' direction, that is, the random variable
-//' \eqn{\boldsymbol{\gamma}'{\bf X}}{\gamma'X}, where \eqn{{\bf X}}{X}
-//' is uniformly distributed on the (hyper)sphere
-//' \eqn{S^{p-1}:=\{{\bf x}\in R^p:||{\bf x}||=1\}}{S^{p-1}:=
-//' \{x\in R^p:||x||=1\}}, \eqn{p\ge 2}, and
-//' \eqn{\boldsymbol{\gamma}\in S^{p-1}}{\gamma\in S^{p-1}} is an
-//' \emph{arbitrary} projection direction. Note that the distribution is
-//' invariant to the choice of \eqn{\boldsymbol{\gamma}}{\gamma}. Also,
-//' efficient simulation of \eqn{\boldsymbol{\gamma}'{\bf X}}{\gamma'X}.
+//' @description Density, distribution, and quantile functions of the projection
+//' of the spherical uniform random variable on an arbitrary direction, that is,
+//' the random variable \eqn{\boldsymbol{\gamma}'\boldsymbol{X}}, where
+//' \eqn{\boldsymbol{X}} is uniformly distributed on the (hyper)sphere
+//' \eqn{\mathbb{S}^{p-1}:=\{\boldsymbol{x}\in
+//' \mathbb{R}^p:\|\boldsymbol{x}\|=1\}}, \eqn{p\ge 2}, and
+//' \eqn{\boldsymbol{\gamma}\in \mathbb{S}^{p-1}} is an \emph{arbitrary}
+//' projection direction. Note that the distribution is invariant to the choice
+//' of \eqn{\boldsymbol{\gamma}}. Also, efficient simulation of
+//' \eqn{\boldsymbol{\gamma}'\boldsymbol{X}}.
 //'
 //' @inheritParams r_unif
 //' @inheritParams cir_stat_distr
@@ -216,13 +215,13 @@ arma::vec q_proj_unif(arma::vec u, arma::uword p) {
 //' @title Sample uniformly distributed circular and spherical data
 //'
 //' @description Simulation of the uniform distribution on \eqn{[0, 2\pi)} and
-//' \eqn{S^{p-1}:=\{{\bf x}\in R^p:||{\bf x}||=1\}}{
-//' S^{p-1}:=\{x\in R^p:||x||=1\}}, \eqn{p\ge 2}.
+//' \eqn{\mathbb{S}^{p-1}:=\{\boldsymbol{x}\in
+//' \mathbb{R}^p:\|\boldsymbol{x}\|=1\}}, \eqn{p\ge 2}.
 //'
 //' @param n sample size.
 //' @param M number of samples of size \code{n}. Defaults to \code{1}.
-//' @param p integer giving the dimension of the ambient space \eqn{R^p} that
-//' contains \eqn{S^{p-1}}.
+//' @param p integer giving the dimension of the ambient space
+//' \eqn{\mathbb{R}^p} that contains \eqn{\mathbb{S}^{p-1}}.
 //' @param sorted return each circular sample sorted? Defaults to \code{FALSE}.
 //' @return
 //' \itemize{
@@ -231,7 +230,7 @@ arma::vec q_proj_unif(arma::vec u, arma::uword p) {
 //'   data on \eqn{[0, 2\pi)}.
 //'   \item \code{r_unif_sph}: an \bold{array} of size \code{c(n, p, M)} with
 //'   \code{M} random samples of size \code{n} of uniformly-generated
-//'   directions on \eqn{S^{p-1}}.
+//'   directions on \eqn{\mathbb{S}^{p-1}}.
 //' }
 //' @examples
 //' # A sample on [0, 2*pi)
@@ -297,8 +296,8 @@ arma::cube r_unif_sph(arma::uword n, arma::uword p, arma::uword M = 1) {
 //' @param M number of Monte Carlo samples for approximating the distribution.
 //' Defaults to \code{1e4}.
 //' @param sample if \code{use_sample = TRUE}, the Monte Carlo sample to
-//' approximate the distribution. If not, it is computed internally. Defaults
-//' to \code{1e4}.
+//' approximate the distribution. If not, it is computed internally. Defaults to
+//' \code{1e4}.
 //' @param use_sample use the already computed \code{sample}? If \code{FALSE}
 //' (default), \code{sample} is computed internally.
 //' @return

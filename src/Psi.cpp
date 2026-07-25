@@ -10,43 +10,42 @@ arma::uvec upper_tri_ind(arma::uword n);
 //' @title Shortest angles matrix
 //'
 //' @description Efficient computation of the shortest angles matrix
-//' \eqn{\boldsymbol\Psi}{\Psi}, defined as
-//' \deqn{\Psi_{ij}:=\cos^{-1}({\bf X}_i'{\bf X}_j),\quad
-//' i,j=1,\ldots,n,}{\Psi_{ij} = \cos^{-1}(X_i'X_j), i, j = 1, \ldots, n,}
-//' for a sample \eqn{{\bf X}_1,\ldots,{\bf X}_n\in S^{p-1}:=\{{\bf x}\in
-//' R^p:||{\bf x}||=1\}}{X_1, \ldots, X_n \in
-//' S^{p - 1} := \{x \in R^p : ||x|| = 1\}}, \eqn{p\ge 2}.
+//' \eqn{\boldsymbol\Psi}, defined as
+//' \deqn{\Psi_{ij}:=\cos^{-1}(\boldsymbol{X}_i'\boldsymbol{X}_j),\quad
+//' i,j=1,\ldots,n,}
+//' for a sample \eqn{\boldsymbol{X}_1,\ldots,\boldsymbol{X}_n\in
+//' \mathbb{S}^{p-1}:=\{\boldsymbol{x}\in \mathbb{R}^p:\|\boldsymbol{x}\|=1\}},
+//' \eqn{p\ge 2}.
 //'
 //' For a circular sample \eqn{\Theta_1, \ldots, \Theta_n \in [0, 2\pi)},
-//' \eqn{\boldsymbol\Psi}{\Psi} can be expressed as
-//' \deqn{\Psi_{ij}=\pi-|\pi-|\Theta_i-\Theta_j||,\quad
-//' i,j=1,\ldots,n.}{\Psi_{ij}=\pi-|\pi-|\Theta_i-\Theta_j||, i,j=1,\ldots,n.}
+//' \eqn{\boldsymbol\Psi} can be expressed as
+//' \deqn{\Psi_{ij}=\pi-|\pi-|\Theta_i-\Theta_j\|,\quad i,j=1,\ldots,n.}
 //'
 //' @param data an array of size \code{c(n, p, M)} containing the Cartesian
 //' coordinates of \code{M} samples of size \code{n} of directions on
-//' \eqn{S^{p-1}}. Alternatively if \code{p = 2}, an array of size
+//' \eqn{\mathbb{S}^{p-1}}. Alternatively if \code{p = 2}, an array of size
 //' \code{c(n, 1, M)} containing the angles on \eqn{[0, 2\pi)} of the \code{M}
-//' circular samples of size \code{n} on \eqn{S^{1}}. Must not contain
+//' circular samples of size \code{n} on \eqn{\mathbb{S}^{1}}. Must not contain
 //' \code{NA}'s.
 //' @param ind_tri if \code{use_ind_tri = TRUE}, the vector of 0-based indexes
 //' provided by \code{upper_tri_ind(n)}, which allows to extract the upper
-//' triangular part of the matrix \eqn{\boldsymbol\Psi}{\Psi}. See the examples.
+//' triangular part of the matrix \eqn{\boldsymbol\Psi}. See the examples.
 //' @param use_ind_tri use the already computed vector index \code{ind_tri}? If
 //' \code{FALSE} (default), \code{ind_tri} is computed internally.
 //' @param scalar_prod return the scalar products
-//' \eqn{{\bf X}_i'{\bf X}}{X_i'X_j} instead of the shortest angles? Only taken
-//' into account for data in \emph{Cartesian} form. Defaults to
+//' \eqn{\boldsymbol{X}_i'\boldsymbol{X}} instead of the shortest angles? Only
+//' taken into account for data in \emph{Cartesian} form. Defaults to
 //' \code{FALSE}.
 //' @param angles_diff return the (unwrapped) angles difference
 //' \eqn{\Theta_i-\Theta_j} instead of the shortest angles? Only taken into
 //' account for data in \emph{angular} form. Defaults to \code{FALSE}.
 //' @param n sample size, used to determine the index vector that gives the
-//' upper triangular part of \eqn{\boldsymbol\Psi}{\Psi}.
+//' upper triangular part of \eqn{\boldsymbol\Psi}.
 //' @return
 //' \itemize{
 //'   \item \code{Psi_mat}: a matrix of size
 //'   \code{c(n * (n - 1) / 2, M)} containing, for each column, the vector
-//'   half of \eqn{\boldsymbol\Psi}{\Psi} for each of the \code{M} samples.
+//'   half of \eqn{\boldsymbol\Psi} for each of the \code{M} samples.
 //'   \item \code{upper_tri_ind}: a matrix of size \code{n * (n - 1) / 2}
 //'   containing the 0-based linear indexes for extracting the upper triangular
 //'   matrix of a matrix of size \code{c(n, n)}, diagonal excluded, assuming
@@ -60,8 +59,8 @@ arma::uvec upper_tri_ind(arma::uword n);
 //'   Cartesian coordinates are employed.
 //'   \item The entries of \code{data} are \emph{not} in \eqn{[0, 2\pi)} when
 //'   polar coordinates are employed.
-//'   \item \code{ind_tri} is a vector of size \code{n * (n - 1) / 2} that
-//'   does \emph{not} contain the indexes produced by \code{upper_tri_ind(n)}.
+//'   \item \code{ind_tri} is a vector of size \code{n * (n - 1) / 2} that does
+//'   \emph{not} contain the indexes produced by \code{upper_tri_ind(n)}.
 //' }
 //' @examples
 //' # Shortest angles

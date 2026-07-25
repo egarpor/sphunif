@@ -5,9 +5,9 @@
 #' @description Approximated density, distribution, and quantile functions for
 #' weighted sums of non-central chi squared random variables:
 #' \deqn{Q_K = \sum_{i = 1}^K w_i \chi^2_{d_i}(\lambda_i),}
-#' where \eqn{w_1, \ldots, w_n} are positive weights, \eqn{d_1, \ldots, d_n}
-#' are positive degrees of freedom, and \eqn{\lambda_1, \ldots, \lambda_n}
-#' are non-negative non-centrality parameters. Also, simulation of \eqn{Q_K}.
+#' where \eqn{w_1, \ldots, w_n} are positive weights, \eqn{d_1, \ldots, d_n} are
+#' positive degrees of freedom, and \eqn{\lambda_1, \ldots, \lambda_n} are
+#' non-negative non-centrality parameters. Also, simulation of \eqn{Q_K}.
 #'
 #' @inheritParams r_unif
 #' @param x vector of quantiles.
@@ -16,25 +16,24 @@
 #' same length as \code{dfs}.
 #' @param dfs vector with the positive degrees of freedom of the chi squared
 #' random variables. Must have the same length as \code{weights}.
-#' @param ncps non-centrality parameters. Either \code{0} (default) or a
-#' vector with the same length as \code{weights}.
-#' @param method method for approximating the density, distribution, or
-#' quantile function. Must be \code{"I"} (Imhof), \code{"SW"}
-#' (Satterthwaite--Welch), \code{"HBE"} (Hall--Buckley--Eagleson), or
-#' \code{"MC"} (Monte Carlo; only for distribution or quantile functions).
-#' Defaults to \code{"I"}.
+#' @param ncps non-centrality parameters. Either \code{0} (default) or a vector
+#' with the same length as \code{weights}.
+#' @param method method for approximating the density, distribution, or quantile
+#' function. Must be \code{"I"} (Imhof), \code{"SW"} (Satterthwaite--Welch),
+#' \code{"HBE"} (Hall--Buckley--Eagleson), or \code{"MC"} (Monte Carlo; only for
+#' distribution or quantile functions). Defaults to \code{"I"}.
 #' @param exact_chisq if \code{weights} and \code{dfs} have length one, shall
 #' the \code{\link[stats]{Chisquare}} functions be called? Otherwise, the
 #' approximations are computed for this exact case. Defaults to \code{TRUE}.
 #' @param imhof_epsabs,imhof_epsrel,imhof_limit precision parameters passed to
 #' \code{\link[CompQuadForm]{imhof}}'s \code{epsabs}, \code{epsrel}, and
-#' \code{limit}, respectively. They default to \code{1e-6}, \code{1e-6},
-#' and \code{1e4}.
+#' \code{limit}, respectively. They default to \code{1e-6}, \code{1e-6}, and
+#' \code{1e4}.
 #' @param grad_method,grad_method.args numerical differentiation parameters
 #' passed to \code{\link[numDeriv]{grad}}'s \code{method} and
-#' \code{method.args}, respectively. They default to \code{"simple"},
-#' and \code{list(eps = 1e-7)} (better precision than \code{imhof_epsabs} to
-#' avoid numerical artifacts).
+#' \code{method.args}, respectively. They default to \code{"simple"}, and
+#' \code{list(eps = 1e-7)} (better precision than \code{imhof_epsabs} to avoid
+#' numerical artifacts).
 #' @param M number of Monte Carlo samples for approximating the distribution if
 #' \code{method = "MC"}. Defaults to \code{1e4}.
 #' @param MC_sample if provided, it is employed when \code{method = "MC"}. If

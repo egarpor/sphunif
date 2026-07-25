@@ -25,32 +25,31 @@ quantile_sorted <- function(x_sorted, probs) {
 #'
 #' @description Utility for performing Monte Carlo simulation of several
 #' statistics for assessing uniformity on the (hyper)sphere
-#' \eqn{S^{p-1}:=\{{\bf x}\in R^p:||{\bf x}||=1\}}{
-#' S^{p-1}:=\{x\in R^p:||x||=1\}}, \eqn{p\ge 2}.
+#' \eqn{\mathbb{S}^{p-1}:=\{\boldsymbol{x}\in
+#' \mathbb{R}^p:\|\boldsymbol{x}\|=1\}}, \eqn{p\ge 2}.
 #'
-#' \code{unif_stat_MC} provides a convenient wrapper for parallel
-#' evaluation of \code{unif_stat}, the estimation of critical values under the
-#' null distribution, and the computation of empirical powers under the
-#' alternative.
+#' \code{unif_stat_MC} provides a convenient wrapper for parallel evaluation of
+#' \code{unif_stat}, the estimation of critical values under the null
+#' distribution, and the computation of empirical powers under the alternative.
 #'
 #' @inheritParams unif_test
 #' @inheritParams r_unif
 #' @param M number of Monte Carlo replications. Defaults to \code{1e4}.
-#' @param r_H1 if provided, the computation of empirical powers is
-#' carried out for the alternative hypothesis sampled with \code{r_H1}.
-#' This must be a function with the same arguments and value as
-#' \code{\link{r_unif_sph}} (see examples). Defaults to \code{NULL}, indicating
-#' that the critical values are estimated from samples of \code{r_unif_sph}.
+#' @param r_H1 if provided, the computation of empirical powers is carried out
+#' for the alternative hypothesis sampled with \code{r_H1}. This must be a
+#' function with the same arguments and value as \code{\link{r_unif_sph}} (see
+#' examples). Defaults to \code{NULL}, indicating that the critical values are
+#' estimated from samples of \code{r_unif_sph}.
 #' @param crit_val if provided, must be the critical values as returned by
 #' \code{$stats_MC} in a call to \code{unif_stat_MC}. They are used for
-#' computing the empirical powers of the tests present in \code{type}.
-#' Defaults to \code{NULL}, which means that no power computation is done.
+#' computing the empirical powers of the tests present in \code{type}. Defaults
+#' to \code{NULL}, which means that no power computation is done.
 #' @param return_stats return the Monte Carlo statistics? If only the critical
 #' values or powers are desired, \code{FALSE} saves memory in the returned
 #' object. Defaults to \code{TRUE}.
-#' @param stats_sorted sort the returned Monte Carlo statistics? If
-#' \code{TRUE}, this is useful for evaluating faster the empirical cumulative
-#' distribution function when approximating the distribution in
+#' @param stats_sorted sort the returned Monte Carlo statistics? If \code{TRUE},
+#' this is useful for evaluating faster the empirical cumulative distribution
+#' function when approximating the distribution in
 #' \code{\link{unif_stat_distr}}. Defaults to \code{FALSE}.
 #' @param chunks number of chunks to split the \code{M} Monte Carlo
 #' replications. Useful for parallelizing the simulation study in \code{chunks}
@@ -58,11 +57,11 @@ quantile_sorted <- function(x_sorted, probs) {
 #' avoiding memory bottlenecks when \code{M} is large. Defaults to
 #' \cr\code{ceiling((n * M) / 1e5)}.
 #' @param cores number of cores to perform the simulation. Defaults to \code{1}.
-#' @param seeds if provided, a vector of size \code{chunks} for fixing the
-#' seeds on each of the simulation chunks (useful for reproducing parallel
-#' simulations). Specifically, for \code{k in 1:chunks}, seeds are
-#' set as \code{set.seed(seeds[k], kind = "Mersenne-Twister")} in each chunk.
-#' Defaults to \code{NULL} (no seed setting is done).
+#' @param seeds if provided, a vector of size \code{chunks} for fixing the seeds
+#' on each of the simulation chunks (useful for reproducing parallel
+#' simulations). Specifically, for \code{k in 1:chunks}, seeds are set as
+#' \code{set.seed(seeds[k], kind = "Mersenne-Twister")} in each chunk. Defaults
+#' to \code{NULL} (no seed setting is done).
 #' @inheritParams unif_stat
 #' @param ... optional arguments to be passed to the \code{r_H1} sampler or to
 #' \code{\link[foreach]{foreach}} (for example, \code{.export} to export global

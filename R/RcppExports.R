@@ -4,18 +4,15 @@
 #' @title Surface area of the intersection of two hyperspherical caps
 #'
 #' @description Computation of
-#' \deqn{A_x(\theta_{ij}) := \frac{1}{\omega_p}
-#' \int_{S^{p - 1}} 1_{\{{\bf X}_i'\boldsymbol\gamma \le x,
-#' {\bf X}_j'\boldsymbol\gamma \le x\}}\,\mathrm{d}\boldsymbol\gamma,}{
-#' A_x(\theta_{ij}) := \frac{1}{\omega_p} \int_{S^{p - 1}}
-#' 1_{X_i'\gamma \le x, X_j'\gamma \le x} d\gamma,}
-#' where \eqn{\theta_{ij} := \cos^{-1}({\bf X}_i'{\bf X}_j)
-#' \in [0, \pi]}{\theta_{ij} := \cos^{-1}(X_i'X_j) \in [0, \pi]},
-#' \eqn{x \in [-1, 1]}, and \eqn{\omega_{p}} is the surface area of
-#' \eqn{S^{p - 1}}. \eqn{A_x(\theta_{ij})} is the proportion of surface area
-#' of \eqn{S^{p - 1}} covered by the intersection of two hyperspherical caps
-#' centered at \eqn{{\bf X}_i}{X_i} and \eqn{{\bf X}_j}{X_j} and with
-#' common solid angle \eqn{\pi - \cos^{-1}(x)}.
+#' \deqn{A_x(\theta_{ij}) := \frac{1}{\omega_p} \int_{\mathbb{S}^{p - 1}}
+#' 1_{\{\boldsymbol{X}_i'\boldsymbol\gamma \le x,
+#' \boldsymbol{X}_j'\boldsymbol\gamma \le x\}}\,\mathrm{d}\boldsymbol\gamma,}
+#' where \eqn{\theta_{ij} := \cos^{-1}(\boldsymbol{X}_i'\boldsymbol{X}_j) \in
+#' [0, \pi]}, \eqn{x \in [-1, 1]}, and \eqn{\omega_{p}} is the surface area of
+#' \eqn{\mathbb{S}^{p - 1}}. \eqn{A_x(\theta_{ij})} is the proportion of
+#' surface area of \eqn{\mathbb{S}^{p - 1}} covered by the intersection of two
+#' hyperspherical caps centered at \eqn{\boldsymbol{X}_i} and
+#' \eqn{\boldsymbol{X}_j} and with common solid angle \eqn{\pi - \cos^{-1}(x)}.
 #'
 #' @param theta vector with values in \eqn{[0, \pi]}.
 #' @param x vector with values in \eqn{[-1, 1]}.
@@ -23,10 +20,10 @@
 #' @param N number of points used in the
 #' \link[=Gauss_Legen_nodes]{Gauss-Legendre quadrature}. Defaults to
 #' \code{160}.
-#' @param as_matrix return a matrix with the values of \eqn{A_x(\theta)} on
-#' the grid formed by \code{theta} and \code{x}? If \code{FALSE},
-#' \eqn{A_x(\theta)} is evaluated on \code{theta} and \code{x} if they equal
-#' in size. Defaults to \code{TRUE}.
+#' @param as_matrix return a matrix with the values of \eqn{A_x(\theta)} on the
+#' grid formed by \code{theta} and \code{x}? If \code{FALSE}, \eqn{A_x(\theta)}
+#' is evaluated on \code{theta} and \code{x} if they equal in size. Defaults to
+#' \code{TRUE}.
 #' @return A matrix of size \code{c(length(theta), length(x))} containing the
 #' evaluation of \eqn{A_x(\theta)} if \code{as_matrix = TRUE}. Otherwise,
 #' a vector of size \code{c(length(theta)} if \code{theta} and \code{x} equal
@@ -100,58 +97,56 @@ A_theta_x <- function(theta, x, p, N = 160L, as_matrix = TRUE) {
 #' @title Shortest angles matrix
 #'
 #' @description Efficient computation of the shortest angles matrix
-#' \eqn{\boldsymbol\Psi}{\Psi}, defined as
-#' \deqn{\Psi_{ij}:=\cos^{-1}({\bf X}_i'{\bf X}_j),\quad
-#' i,j=1,\ldots,n,}{\Psi_{ij} = \cos^{-1}(X_i'X_j), i, j = 1, \ldots, n,}
-#' for a sample \eqn{{\bf X}_1,\ldots,{\bf X}_n\in S^{p-1}:=\{{\bf x}\in
-#' R^p:||{\bf x}||=1\}}{X_1, \ldots, X_n \in
-#' S^{p - 1} := \{x \in R^p : ||x|| = 1\}}, \eqn{p\ge 2}.
+#' \eqn{\boldsymbol\Psi}, defined as
+#' \deqn{\Psi_{ij}:=\cos^{-1}(\boldsymbol{X}_i'\boldsymbol{X}_j),\quad
+#' i,j=1,\ldots,n,}
+#' for a sample \eqn{\boldsymbol{X}_1,\ldots,\boldsymbol{X}_n\in
+#' \mathbb{S}^{p-1}:=\{\boldsymbol{x}\in \mathbb{R}^p:\|\boldsymbol{x}\|=1\}},
+#' \eqn{p\ge 2}.
 #'
 #' For a circular sample \eqn{\Theta_1, \ldots, \Theta_n \in [0, 2\pi)},
-#' \eqn{\boldsymbol\Psi}{\Psi} can be expressed as
-#' \deqn{\Psi_{ij}=\pi-|\pi-|\Theta_i-\Theta_j||,\quad
-#' i,j=1,\ldots,n.}{\Psi_{ij}=\pi-|\pi-|\Theta_i-\Theta_j||, i,j=1,\ldots,n.}
+#' \eqn{\boldsymbol\Psi} can be expressed as
+#' \deqn{\Psi_{ij}=\pi-|\pi-|\Theta_i-\Theta_j\|,\quad i,j=1,\ldots,n.}
 #'
 #' @param data an array of size \code{c(n, p, M)} containing the Cartesian
 #' coordinates of \code{M} samples of size \code{n} of directions on
-#' \eqn{S^{p-1}}. Alternatively if \code{p = 2}, an array of size
+#' \eqn{\mathbb{S}^{p-1}}. Alternatively if \code{p = 2}, an array of size
 #' \code{c(n, 1, M)} containing the angles on \eqn{[0, 2\pi)} of the \code{M}
-#' circular samples of size \code{n} on \eqn{S^{1}}. Must not contain
+#' circular samples of size \code{n} on \eqn{\mathbb{S}^{1}}. Must not contain
 #' \code{NA}'s.
 #' @param ind_tri if \code{use_ind_tri = TRUE}, the vector of 0-based indexes
 #' provided by \code{upper_tri_ind(n)}, which allows to extract the upper
-#' triangular part of the matrix \eqn{\boldsymbol\Psi}{\Psi}. See the examples.
+#' triangular part of the matrix \eqn{\boldsymbol\Psi}. See the examples.
 #' @param use_ind_tri use the already computed vector index \code{ind_tri}? If
 #' \code{FALSE} (default), \code{ind_tri} is computed internally.
 #' @param scalar_prod return the scalar products
-#' \eqn{{\bf X}_i'{\bf X}}{X_i'X_j} instead of the shortest angles? Only taken
-#' into account for data in \emph{Cartesian} form. Defaults to
+#' \eqn{\boldsymbol{X}_i'\boldsymbol{X}} instead of the shortest angles? Only
+#' taken into account for data in \emph{Cartesian} form. Defaults to
 #' \code{FALSE}.
 #' @param angles_diff return the (unwrapped) angles difference
 #' \eqn{\Theta_i-\Theta_j} instead of the shortest angles? Only taken into
 #' account for data in \emph{angular} form. Defaults to \code{FALSE}.
 #' @param n sample size, used to determine the index vector that gives the
-#' upper triangular part of \eqn{\boldsymbol\Psi}{\Psi}.
+#' upper triangular part of \eqn{\boldsymbol\Psi}.
 #' @return
 #' \itemize{
 #'   \item \code{Psi_mat}: a matrix of size
 #'   \code{c(n * (n - 1) / 2, M)} containing, for each column, the vector
-#'   half of \eqn{\boldsymbol\Psi}{\Psi} for each of the \code{M} samples.
+#'   half of \eqn{\boldsymbol\Psi} for each of the \code{M} samples.
 #'   \item \code{upper_tri_ind}: a matrix of size \code{n * (n - 1) / 2}
 #'   containing the 0-based linear indexes for extracting the upper triangular
 #'   matrix of a matrix of size \code{c(n, n)}, diagonal excluded, assuming
 #'   column-major order.
 #' }
-#' @section Warning:
-#' Be careful on avoiding the next bad usages of \code{Psi_mat}, which will
-#' produce spurious results:
+#' @section Warning: Be careful on avoiding the next bad usages of
+#' \code{Psi_mat}, which will produce spurious results:
 #' \itemize{
 #'   \item The directions in \code{data} do \emph{not} have unit norm when
 #'   Cartesian coordinates are employed.
 #'   \item The entries of \code{data} are \emph{not} in \eqn{[0, 2\pi)} when
 #'   polar coordinates are employed.
-#'   \item \code{ind_tri} is a vector of size \code{n * (n - 1) / 2} that
-#'   does \emph{not} contain the indexes produced by \code{upper_tri_ind(n)}.
+#'   \item \code{ind_tri} is a vector of size \code{n * (n - 1) / 2} that does
+#'   \emph{not} contain the indexes produced by \code{upper_tri_ind(n)}.
 #' }
 #' @examples
 #' # Shortest angles
@@ -217,12 +212,12 @@ sort_index_each_col <- function(A) {
 #' @description Transformation between a matrix \code{Theta} containing
 #' \code{M} circular samples of size \code{n} on \eqn{[0, 2\pi)} and an array
 #' \code{X} containing the associated Cartesian coordinates on
-#' \eqn{S^1:=\{{\bf x}\in R^2:||{\bf x}||=1\}}{S^1:=\{x\in R^2:||x||=1\}}.
+#' \eqn{\mathbb{S}^1:=\{\boldsymbol{x}\in \mathbb{R}^2:\|\boldsymbol{x}\|=1\}}.
 #'
 #' @inheritParams cir_stat
 #' @param X an \bold{array} of size \code{c(n, 2, M)} containing the Cartesian
 #' coordinates of \code{M} samples of size \code{n} of directions on
-#' \eqn{S^{1}}. Must not contain \code{NA}'s.
+#' \eqn{\mathbb{S}^{1}}. Must not contain \code{NA}'s.
 #' @return
 #' \itemize{
 #'   \item \code{Theta_to_X}: the corresponding \code{X}.
@@ -244,8 +239,8 @@ NULL
 #' @description Internal and undocumented low-level utilities for
 #' \pkg{sphunif}.
 #'
-#' @param n_dist a positive integer \eqn{(n - 1) * n / 2} for which \eqn{n}
-#' is to be recovered.
+#' @param n_dist a positive integer \eqn{(n - 1) * n / 2} for which \eqn{n} is
+#' to be recovered.
 #' @param t a vector to evaluate \eqn{t / \sqrt{1 - t^2}}.
 #' @name utils
 NULL
@@ -269,18 +264,17 @@ X_to_Theta <- function(X) {
 #' \deqn{\Theta_{(2)} - \Theta_{(1)},\ldots,\Theta_{(n)} - \Theta_{(n - 1)},
 #' 2\pi - \Theta_{(n)} - \Theta_{(1)},}
 #' where
-#' \deqn{0 \le \Theta_{(1)} \le \Theta_{(2)} \le \ldots \le
-#' \Theta_{(n)} \le 2\pi.}
+#' \deqn{0 \le \Theta_{(1)} \le \Theta_{(2)} \le \ldots \le \Theta_{(n)} \le
+#' 2\pi.}
 #'
 #' @inheritParams cir_stat
 #' @param sorted are the columns of \code{Theta} sorted increasingly? If
-#' \code{TRUE}, performance is improved. If \code{FALSE} (default), each
-#' column of \code{Theta} is sorted internally.
+#' \code{TRUE}, performance is improved. If \code{FALSE} (default), each column
+#' of \code{Theta} is sorted internally.
 #' @return A matrix of size \code{c(n, M)} containing the \code{n} circular
 #' gaps for each of the \code{M} circular samples.
-#' @section Warning:
-#' Be careful on avoiding the next bad usages of \code{cir_gaps}, which will
-#' produce spurious results:
+#' @section Warning: Be careful on avoiding the next bad usages of
+#' \code{cir_gaps}, which will produce spurious results:
 #' \itemize{
 #'   \item The entries of \code{Theta} are \emph{not} in \eqn{[0, 2\pi)}.
 #'   \item \code{Theta} is \emph{not} sorted increasingly when
@@ -297,26 +291,25 @@ cir_gaps <- function(Theta, sorted = FALSE) {
 #' @title Efficient evaluation of the empirical cumulative distribution
 #' function
 #'
-#' @description Evaluates the empirical cumulative distribution function
-#' (ecdf) of a sample \code{data} at the evaluation points \code{sorted_x}.
-#' This is done through binary search.
+#' @description Evaluates the empirical cumulative distribution function (ecdf)
+#' of a sample \code{data} at the evaluation points \code{sorted_x}. This is
+#' done through binary search.
 #'
 #' @param data a vector or column matrix containing the sample.
 #' @param sorted_x a vector or column matrix with the evaluation points
 #' \bold{sorted increasingly}.
-#' @param data_sorted is \code{data} is already sorted increasingly?
-#' This avoids sorting the data internally.
+#' @param data_sorted is \code{data} is already sorted increasingly? This
+#' avoids sorting the data internally.
 #' @param efic use the more efficient version of the ecdf evaluation? Set to
 #' \code{FALSE} only for debugging purposes.
-#' @param divide_n if \code{FALSE}, returns the absolute frequencies instead
-#' of the relative frequencies. Defaults to \code{TRUE}.
+#' @param divide_n if \code{FALSE}, returns the absolute frequencies instead of
+#' the relative frequencies. Defaults to \code{TRUE}.
 #' @return The ecdf evaluated at \code{sorted_x}.
 #' @author Original code from Douglas Bates'
 #' \url{https://github.com/dmbates/ecdfExample}. Minor adaptations by Eduardo
 #' García-Portugués.
-#' @section Warning:
-#' Be careful on avoiding the next bad usages of the function, which will
-#' produce spurious results:
+#' @section Warning: Be careful on avoiding the next bad usages of the
+#' function, which will produce spurious results:
 #' \itemize{
 #'   \item \code{sorted_x} is not sorted increasingly.
 #'   \item \code{data} is not sorted increasingly when
@@ -330,8 +323,7 @@ ecdf_bin <- function(data, sorted_x, data_sorted = FALSE, efic = TRUE, divide_n 
 #' @title The incomplete beta function and its inverse
 #'
 #' @description Computes the incomplete beta function
-#' \deqn{I_x(a,b):=\int_0^x u^{a-1}(1-u)^{b-1}\,d\mathrm{u},\quad a,b>0}{
-#' I_x(a,b):=\int_0^x u^{a-1}(1-u)^{b-1}du, a,b>0}
+#' \deqn{I_x(a,b):=\int_0^x u^{a-1}(1-u)^{b-1}\,d\mathrm{u},\quad a,b>0}
 #' and its inverse function.
 #'
 #' @inheritParams cir_stat_distr
@@ -817,17 +809,16 @@ cir_stat_CCF09 <- function(Theta, dirs, K_CCF09 = 25L, original = FALSE) {
 
 #' @title Projection of the spherical uniform distribution
 #'
-#' @description Density, distribution, and quantile functions of the
-#' projection of the spherical uniform random variable on an arbitrary
-#' direction, that is, the random variable
-#' \eqn{\boldsymbol{\gamma}'{\bf X}}{\gamma'X}, where \eqn{{\bf X}}{X}
-#' is uniformly distributed on the (hyper)sphere
-#' \eqn{S^{p-1}:=\{{\bf x}\in R^p:||{\bf x}||=1\}}{S^{p-1}:=
-#' \{x\in R^p:||x||=1\}}, \eqn{p\ge 2}, and
-#' \eqn{\boldsymbol{\gamma}\in S^{p-1}}{\gamma\in S^{p-1}} is an
-#' \emph{arbitrary} projection direction. Note that the distribution is
-#' invariant to the choice of \eqn{\boldsymbol{\gamma}}{\gamma}. Also,
-#' efficient simulation of \eqn{\boldsymbol{\gamma}'{\bf X}}{\gamma'X}.
+#' @description Density, distribution, and quantile functions of the projection
+#' of the spherical uniform random variable on an arbitrary direction, that is,
+#' the random variable \eqn{\boldsymbol{\gamma}'\boldsymbol{X}}, where
+#' \eqn{\boldsymbol{X}} is uniformly distributed on the (hyper)sphere
+#' \eqn{\mathbb{S}^{p-1}:=\{\boldsymbol{x}\in
+#' \mathbb{R}^p:\|\boldsymbol{x}\|=1\}}, \eqn{p\ge 2}, and
+#' \eqn{\boldsymbol{\gamma}\in \mathbb{S}^{p-1}} is an \emph{arbitrary}
+#' projection direction. Note that the distribution is invariant to the choice
+#' of \eqn{\boldsymbol{\gamma}}. Also, efficient simulation of
+#' \eqn{\boldsymbol{\gamma}'\boldsymbol{X}}.
 #'
 #' @inheritParams r_unif
 #' @inheritParams cir_stat_distr
@@ -868,13 +859,13 @@ NULL
 #' @title Sample uniformly distributed circular and spherical data
 #'
 #' @description Simulation of the uniform distribution on \eqn{[0, 2\pi)} and
-#' \eqn{S^{p-1}:=\{{\bf x}\in R^p:||{\bf x}||=1\}}{
-#' S^{p-1}:=\{x\in R^p:||x||=1\}}, \eqn{p\ge 2}.
+#' \eqn{\mathbb{S}^{p-1}:=\{\boldsymbol{x}\in
+#' \mathbb{R}^p:\|\boldsymbol{x}\|=1\}}, \eqn{p\ge 2}.
 #'
 #' @param n sample size.
 #' @param M number of samples of size \code{n}. Defaults to \code{1}.
-#' @param p integer giving the dimension of the ambient space \eqn{R^p} that
-#' contains \eqn{S^{p-1}}.
+#' @param p integer giving the dimension of the ambient space
+#' \eqn{\mathbb{R}^p} that contains \eqn{\mathbb{S}^{p-1}}.
 #' @param sorted return each circular sample sorted? Defaults to \code{FALSE}.
 #' @return
 #' \itemize{
@@ -883,7 +874,7 @@ NULL
 #'   data on \eqn{[0, 2\pi)}.
 #'   \item \code{r_unif_sph}: an \bold{array} of size \code{c(n, p, M)} with
 #'   \code{M} random samples of size \code{n} of uniformly-generated
-#'   directions on \eqn{S^{p-1}}.
+#'   directions on \eqn{\mathbb{S}^{p-1}}.
 #' }
 #' @examples
 #' # A sample on [0, 2*pi)
@@ -917,8 +908,8 @@ NULL
 #' @param M number of Monte Carlo samples for approximating the distribution.
 #' Defaults to \code{1e4}.
 #' @param sample if \code{use_sample = TRUE}, the Monte Carlo sample to
-#' approximate the distribution. If not, it is computed internally. Defaults
-#' to \code{1e4}.
+#' approximate the distribution. If not, it is computed internally. Defaults to
+#' \code{1e4}.
 #' @param use_sample use the already computed \code{sample}? If \code{FALSE}
 #' (default), \code{sample} is computed internally.
 #' @return
@@ -1001,17 +992,15 @@ p_chisq <- function(x, df, ncp = 0L) {
 #' @title Gauss--Legendre quadrature
 #'
 #' @description Convenience for computing the nodes \eqn{x_k} and weights
-#' \eqn{w_k} of the \emph{Gauss--Legendre} quadrature formula
-#' in \eqn{(a, b)}:
-#' \deqn{\int_a^b f(x) w(x)\,\mathrm{d}x\approx\sum_{k=1}^N w_k f(x_k).}{
-#' \int_a^b f(x) dx\approx\sum_{k=1}^N w_k f(x_k)}.
+#' \eqn{w_k} of the \emph{Gauss--Legendre} quadrature formula in \eqn{(a, b)}:
+#' \deqn{\int_a^b f(x) w(x)\,\mathrm{d}x\approx\sum_{k=1}^N w_k f(x_k).}.
 #'
 #' @param a,b scalars giving the interval \eqn{(a, b)}. Defaults to
 #' \eqn{(-1, 1)}.
 #' @param N number of points used in the Gauss--Legendre quadrature. The
-#' following choices are supported: \code{5}, \code{10}, \code{20},
-#' \code{40}, \code{80}, \code{160}, \code{320}, \code{640}, \code{1280},
-#' \code{2560}, and \code{5120}. Defaults to \code{40}.
+#' following choices are supported: \code{5}, \code{10}, \code{20}, \code{40},
+#' \code{80}, \code{160}, \code{320}, \code{640}, \code{1280}, \code{2560}, and
+#' \code{5120}. Defaults to \code{40}.
 #' @return A matrix of size \code{c(N, 1)} with the nodes \eqn{x_k}
 #' (\code{Gauss_Legen_nodes}) or the corresponding weights \eqn{w_k}
 #' (\code{Gauss_Legen_weights}).

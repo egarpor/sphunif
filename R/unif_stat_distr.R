@@ -5,9 +5,9 @@
 #'
 #' @description Approximate computation of the null distributions of several
 #' statistics for assessing uniformity on the (hyper)sphere
-#' \eqn{S^{p-1}:=\{{\bf x}\in R^p:||{\bf x}||=1\}}{S^{p-1}:=
-#' \{x\in R^p:||x||=1\}}, \eqn{p\ge 2}. The approximation is done either by
-#' means of the asymptotic distribution or by Monte Carlo.
+#' \eqn{\mathbb{S}^{p-1}:=\{\boldsymbol{x}\in
+#' \mathbb{R}^p:\|\boldsymbol{x}\|=1\}}, \eqn{p\ge 2}. The approximation is done
+#' either by means of the asymptotic distribution or by Monte Carlo.
 #'
 #' @param x evaluation points for the null distribution(s). Either a vector of
 #' size \code{nx}, if the evaluation points are common for the tests in
@@ -18,8 +18,8 @@
 #' @param n sample size employed for computing the statistic.
 #' @param approx type of approximation to the null distribution, either
 #' \code{"asymp"} (default) for employing the asymptotic null distribution, if
-#' available, or \code{"MC"}, for employing the Monte Carlo approximation of
-#' the exact null distribution.
+#' available, or \code{"MC"}, for employing the Monte Carlo approximation of the
+#' exact null distribution.
 #' @param M number of Monte Carlo replications for approximating the null
 #' distribution when \code{approx = "MC"}. Also, number of Monte Carlo samples
 #' for approximating the asymptotic distributions based on weighted sums of chi
@@ -43,8 +43,8 @@
 #' asymptotic p-value of a Sobolev test. Defaults to \code{1e4}.
 #' @inheritParams Sobolev method
 #' @param ... if \code{approx = "MC"}, optional performance parameters to be
-#' passed to \cr\code{\link{unif_stat_MC}}: \code{chunks}, \code{cores},
-#' and \code{seed}.
+#' passed to \cr\code{\link{unif_stat_MC}}: \code{chunks}, \code{cores}, and
+#' \code{seed}.
 #' @return A data frame of size \code{c(nx, length(type))}, with column names
 #' given by \code{type}, that contains the values of the null distributions of
 #' the statistics evaluated at \code{x}.
@@ -74,7 +74,7 @@
 #' unif_stat_distr(x = x, type = "Kuiper", p = 2, n = 10)
 #' unif_stat_distr(x = x, type = c("Ajne", "Kuiper"), p = 2, n = 10)
 #' unif_stat_distr(x = x, type = c("Ajne", "Kuiper"), p = 2, n = 10, K_Ajne = 5)
-#'\donttest{
+#' \donttest{
 #' # All circular statistics
 #' unif_stat_distr(x = x, type = avail_cir_tests, p = 2, n = 10, K_max = 1e3)
 #' }
@@ -83,7 +83,7 @@
 #'                 p = 3, n = 10)
 #' unif_stat_distr(x = cbind(x, x + 1), type = c("Rayleigh", "Bingham"),
 #'                 p = 3, n = 10, M = 100)
-#'\donttest{
+#' \donttest{
 #' # All spherical statistics
 #' unif_stat_distr(x = x, type = avail_sph_tests, p = 3, n = 10, K_max = 1e3)
 #'

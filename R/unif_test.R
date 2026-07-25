@@ -3,12 +3,13 @@
 #' @title Circular and (hyper)spherical uniformity tests
 #'
 #' @description Implementation of several uniformity tests on the (hyper)sphere
-#' \eqn{S^{p-1}:=\{{\bf x}\in R^p:||{\bf x}||=1\}}{
-#' S^{p-1}:=\{x\in R^p:||x||=1\}}, \eqn{p\ge 2}, with calibration either in
-#' terms of their asymptotic/exact distributions, if available, or Monte Carlo.
+#' \eqn{\mathbb{S}^{p-1}:=\{\boldsymbol{x}\in
+#' \mathbb{R}^p:\|\boldsymbol{x}\|=1\}}, \eqn{p\ge 2}, with calibration either
+#' in terms of their asymptotic/exact distributions, if available, or Monte
+#' Carlo.
 #'
 #' \code{unif_test} receives a sample of directions
-#' \eqn{{\bf X}_1,\ldots,{\bf X}_n\in S^{p-1}}{X_1,\ldots,X_n\in S^{p-1}} in
+#' \eqn{\boldsymbol{X}_1,\ldots,\boldsymbol{X}_n\in \mathbb{S}^{p-1}} in
 #' \emph{Cartesian coordinates}, except for the circular case (\eqn{p=2}) in
 #' which the sample can be represented in terms of \emph{angles}
 #' \eqn{\Theta_1,\ldots,\Theta_n\in [0, 2\pi)}.
@@ -17,13 +18,13 @@
 #' facilitating thus the exploration of a dataset by applying several tests.
 #'
 #' @param data sample to perform the test. A matrix of size \code{c(n, p)}
-#' containing a sample of size \code{n} of directions (in Cartesian
-#' coordinates) on \eqn{S^{p-1}}. Alternatively if \code{p = 2}, a matrix of
-#' size \code{c(n, 1)} containing the \code{n} angles on \eqn{[0, 2\pi)} of the
-#' circular sample on \eqn{S^{1}}. Other objects accepted are an array of size
-#' \code{c(n, p, 1)} with directions (in Cartesian coordinates), or a vector of
-#' size \code{n} or an array of size \code{c(n, 1, 1)} with angular data.
-#' Must not contain \code{NA}'s.
+#' containing a sample of size \code{n} of directions (in Cartesian coordinates)
+#' on \eqn{\mathbb{S}^{p-1}}. Alternatively if \code{p = 2}, a matrix of size
+#' \code{c(n, 1)} containing the \code{n} angles on \eqn{[0, 2\pi)} of the
+#' circular sample on \eqn{\mathbb{S}^{1}}. Other objects accepted are an array
+#' of size \code{c(n, p, 1)} with directions (in Cartesian coordinates), or a
+#' vector of size \code{n} or an array of size \code{c(n, 1, 1)} with angular
+#' data. Must not contain \code{NA}'s.
 #' @param type type of test to be applied. A character vector containing any of
 #' the following types of tests, depending on the dimension \eqn{p}:
 #' \itemize{
@@ -47,9 +48,9 @@
 #' @param crit_val table with critical values for the tests, to be used if
 #' \code{p_value = "crit_val"}. A data frame, with column names containing the
 #' character vector \code{type} and rows corresponding to the significance
-#' levels \code{alpha}, that results from extracting \code{$crit_val_MC} from
-#' a call to \code{\link{unif_stat_MC}}. Internally computed if
-#' \code{NULL} (default).
+#' levels \code{alpha}, that results from extracting \code{$crit_val_MC} from a
+#' call to \code{\link{unif_stat_MC}}. Internally computed if \code{NULL}
+#' (default).
 #' @inheritParams unif_stat
 #' @param ... If \code{p_value = "MC"} or \code{p_value = "crit_val"}, optional
 #' performance parameters to be passed to \code{\link{unif_stat_MC}}:

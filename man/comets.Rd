@@ -43,9 +43,9 @@ comets
 }
 \description{
 Comet orbits data from the
-\href{https://ssd.jpl.nasa.gov/tools/sbdb_query.html}{ JPL Small-Body Database Search Engine}.
-The normal vector of a comet orbit represents is a vector on
-\eqn{\mathbb{S}^2}.
+\href{https://ssd.jpl.nasa.gov/tools/sbdb_query.html}{
+JPL Small-Body Database Search Engine}. The normal vector of a comet orbit
+represents is a vector on \eqn{\mathbb{S}^2}.
 }
 \details{
 The normal vector to the ecliptic plane of the comet with inclination

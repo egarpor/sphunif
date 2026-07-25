@@ -25,7 +25,8 @@ planets
 }
 \description{
 Planet orbits data from the
-\href{https://ssd.jpl.nasa.gov/planets/approx_pos.html}{ JPL Keplerian Elements for Approximate Positions of the Major Planets}.
+\href{https://ssd.jpl.nasa.gov/planets/approx_pos.html}{
+JPL Keplerian Elements for Approximate Positions of the Major Planets}.
 The normal vector of a planet orbit represents is a vector on
 \eqn{\mathbb{S}^2}.
 }

@@ -29,8 +29,8 @@ craters
 }
 \description{
 \emph{Named} craters of the Solar System by the
-\href{https://planetarynames.wr.usgs.gov}{Gazetteer of Planetary Nomenclature}
-of the International Astronomical Union (IAU).
+\href{https://planetarynames.wr.usgs.gov}{Gazetteer of Planetary
+Nomenclature} of the International Astronomical Union (IAU).
 }
 \details{
 "Craters" are understood in the Gazetteer of Planetary Nomenclature as

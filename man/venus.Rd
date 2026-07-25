@@ -23,7 +23,8 @@ venus
 }
 \description{
 Craters on Venus from the
-\href{https://web.archive.org/web/20240221073126/https://astrogeology.usgs.gov/search/map/Venus/venuscraters}{ USGS Astrogeology Science Center}.
+\href{https://web.archive.org/web/20240221073126/https://astrogeology.usgs.gov/search/map/Venus/venuscraters}{
+USGS Astrogeology Science Center}.
 }
 \details{
 The \eqn{(\theta, \phi)} angles are such their associated planetocentric

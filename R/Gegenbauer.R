@@ -3,76 +3,56 @@
 #' @title Gegenbauer polynomials and coefficients
 #'
 #' @description The \href{https://dlmf.nist.gov/18.3}{Gegenbauer polynomials}
-#' \eqn{\{C_k^{(\lambda)}(x)\}_{k = 0}^\infty}{
-#' {C_k^(\lambda)(x)}_{k = 0}^\infty}
-#' form a family of orthogonal polynomials on the interval \eqn{[-1, 1]}
-#' with respect to the weight function \eqn{(1 - x^2)^{\lambda - 1/2}},
-#' for \eqn{\lambda > -1/2}, \eqn{\lambda \neq 0}. They usually appear
-#' when dealing with functions defined on
-#' \eqn{S^{p-1} := \{{\bf x} \in R^p : ||{\bf x}|| = 1\}}{
-#' S^{p-1} := \{x \in R^p : ||x|| = 1\}} with index \eqn{\lambda = p / 2 - 1}.
+#' \eqn{\{C_k^{(\lambda)}(x)\}_{k = 0}^\infty} form a family of orthogonal
+#' polynomials on the interval \eqn{[-1, 1]} with respect to the weight function
+#' \eqn{(1 - x^2)^{\lambda - 1/2}}, for \eqn{\lambda > -1/2},
+#' \eqn{\lambda \neq 0}. They usually appear when dealing with functions defined
+#' on \eqn{\mathbb{S}^{p-1} := \{\boldsymbol{x} \in \mathbb{R}^p :
+#' \|\boldsymbol{x}\| = 1\}} with index \eqn{\lambda = p / 2 - 1}.
 #'
 #' The Gegenbauer polynomials are somehow simpler to evaluate for
-#' \eqn{x = \cos(\theta)}, with \eqn{\theta \in [0, \pi]}. This simplifies
-#' also the connection with the Chebyshev polynomials
-#' \eqn{\{T_k(x)\}_{k = 0}^\infty}{{T_k(x)}_{k = 0}^\infty}, which admit
-#' the \href{https://dlmf.nist.gov/18.5.E1}{explicit expression}
-#' \eqn{T_k(\cos(\theta)) = \cos(k\theta)}. The Chebyshev polynomials
-#' appear as the limit of the Gegenbauer polynomials
-#' (divided by \eqn{\lambda}) when \eqn{\lambda} goes to \eqn{0}, so they
-#' can be regarded as the extension by continuity of
-#' \eqn{\{C_k^{(p/2 - 1)}(x)\}_{k = 0}^\infty}{
-#' {C_k^(p/2 - 1)(x)}_{k = 0}^\infty} to the case \eqn{p = 2}.
+#' \eqn{x = \cos(\theta)}, with \eqn{\theta \in [0, \pi]}. This simplifies also
+#' the connection with the Chebyshev polynomials
+#' \eqn{\{T_k(x)\}_{k = 0}^\infty}, which admit the
+#' \href{https://dlmf.nist.gov/18.5.E1}{explicit expression}
+#' \eqn{T_k(\cos(\theta)) = \cos(k\theta)}. The Chebyshev polynomials appear as
+#' the limit of the Gegenbauer polynomials (divided by \eqn{\lambda}) when
+#' \eqn{\lambda} goes to \eqn{0}, so they can be regarded as the extension by
+#' continuity of \eqn{\{C_k^{(p/2 - 1)}(x)\}_{k = 0}^\infty} to the case
+#' \eqn{p = 2}.
 #'
 #' For a \href{https://dlmf.nist.gov/18.18.i}{reasonably smooth} function
 #' \eqn{\psi} defined on \eqn{[0, \pi]},
-#' \deqn{\psi(\theta) = \sum_{k = 0}^\infty b_{k, p}
-#' C_k^{(p/2 - 1)}(\cos(\theta)),}{\psi(\theta) = \sum_{k = 0}^\infty b_{k, p}
-#' C_k^(p/2 - 1)(\cos(\theta)),}
+#' \deqn{\psi(\theta) = \sum_{k = 0}^\infty b_{k, p} C_k^{(p/2 -
+#' 1)}(\cos(\theta)),}
 #' provided that the coefficients
-#' \deqn{b_{k, p} := \frac{1}{c_{k, p}} \int_0^\pi \psi(\theta)
-#' C_k^{(p/2 - 1)}(\cos(\theta)) (\sin(\theta))^{p - 2}\,\mathrm{d}\theta}{
-#' b_{k, p} := \frac{1}{c_{k, p}} \int_0^\pi \psi(\theta)
-#' C_k^(p/2 - 1)(\cos(\theta)) (\sin(\theta))^{p - 2} d\theta}
+#' \deqn{b_{k, p} := \frac{1}{c_{k, p}} \int_0^\pi \psi(\theta) C_k^{(p/2 -
+#' 1)}(\cos(\theta)) (\sin(\theta))^{p - 2}\,\mathrm{d}\theta}
 #' are finite, where the normalizing constants are
 #' \deqn{c_{k, p} := \int_0^\pi (C_k^{(p/2 - 1)}(\cos(\theta)))^2
-#' (\sin(\theta))^{p - 2} \,\mathrm{d}\theta.}{
-#' c_{k, p} := \int_0^\pi (C_k^(p/2 - 1)(\cos(\theta)))^2
-#' (\sin(\theta))^{p - 2} d\theta.}
+#' (\sin(\theta))^{p - 2} \,\mathrm{d}\theta.}
 #' The (squared) "Gegenbauer norm" of \eqn{\psi} is
-#' \deqn{\|\psi\|_{G, p}^2 := \int_0^\pi \psi(\theta)^2
-#' C_k^{(p/2 - 1)}(\cos(\theta)) (\sin(\theta))^{p - 2}\,\mathrm{d}\theta.}{
-#' ||\psi||_{G, p}^2 := \int_0^\pi \psi(\theta)^2
-#' C_k^(p/2 - 1)(\cos(\theta)) (\sin(\theta))^{p - 2} d\theta.}
+#' \deqn{\|\psi\|_{G, p}^2 := \int_0^\pi \psi(\theta)^2 C_k^{(p/2 -
+#' 1)}(\cos(\theta)) (\sin(\theta))^{p - 2}\,\mathrm{d}\theta.}
 #'
 #' The previous expansion can be generalized for a 2-dimensional function
 #' \eqn{\psi} defined on \eqn{[0, \pi] \times [0, \pi]}:
 #' \deqn{\psi(\theta_1, \theta_2) = \sum_{k = 0}^\infty \sum_{m = 0}^\infty
-#' b_{k, m, p} C_k^{(p/2 - 1)}(\cos(\theta_1))
-#' C_k^{(p/2 - 1)}(\cos(\theta_2)),}{
-#' \psi(\theta_1, \theta_2) = \sum_{k = 0}^\infty \sum_{m = 0}^\infty
-#' b_{k, m, p} C_k^(p/2 - 1)(\cos(\theta_1)) C_k^(p/2 - 1)(\cos(\theta_2))}
+#' b_{k, m, p} C_k^{(p/2 - 1)}(\cos(\theta_1)) C_k^{(p/2 - 1)}(\cos(\theta_2)),}
 #' with coefficients
 #' \deqn{b_{k, m, p} := \frac{1}{c_{k, p} c_{m, p}} \int_0^\pi\int_0^\pi
-#' \psi(\theta_1, \theta_2) C_k^{(p/2 - 1)}(\cos(\theta_1))
-#' C_k^{(p/2 - 1)}(\cos(\theta_2)) (\sin(\theta_1))^{p - 2}
-#' (\sin(\theta_2))^{p - 2}\,\mathrm{d}\theta_1\,\mathrm{d}\theta_2.}{
-#' b_{k, m, p} := \frac{1}{c_{k, p} c_{m, p}} \int_0^\pi \int_0^\pi
-#' \psi(\theta_1, \theta_2) C_k^(p/2 - 1)(\cos(\theta_1))
-#' C_k^(p/2 - 1)(\cos(\theta_2)) (\sin(\theta_1))^{p - 2}
-#' (\sin(\theta_2))^{p - 2} d\theta_1 d\theta_2.}
+#' \psi(\theta_1, \theta_2) C_k^{(p/2 - 1)}(\cos(\theta_1)) C_k^{(p/2 -
+#' 1)}(\cos(\theta_2)) (\sin(\theta_1))^{p - 2} (\sin(\theta_2))^{p -
+#' 2}\,\mathrm{d}\theta_1\,\mathrm{d}\theta_2.}
 #' The (squared) "Gegenbauer norm" of \eqn{\psi} is
 #' \deqn{\|\psi\|_{G, p}^2 := \int_0^\pi\int_0^\pi \psi(\theta_1, \theta_2)^2
 #' C_k^{(p/2 - 1)}(\cos(\theta_1)) C_k^{(p/2 - 1)}(\cos(\theta_2))
 #' (\sin(\theta_1))^{p - 2} (\sin(\theta_2))^{p - 2}
-#' \,\mathrm{d}\theta_1\,\mathrm{d}\theta_2.}{
-#' ||\psi||_{G, p}^2 := \int_0^\pi\int_0^\pi \psi(\theta_1, \theta_2)^2
-#' C_k^(p/2 - 1)(\cos(\theta_1)) C_k^(p/2 - 1)(\cos(\theta_2))
-#' (\sin(\theta_1))^{p - 2} (\sin(\theta_2))^{p - 2} d\theta_1 d\theta_2.}
+#' \,\mathrm{d}\theta_1\,\mathrm{d}\theta_2.}
 #'
 #' @param theta,theta_1,theta_2 vectors with values in \eqn{[0, \pi]}.
-#' @param k,m vectors with the orders of the Gegenbauer polynomials. Must
-#' be integers larger or equal than \code{0}.
+#' @param k,m vectors with the orders of the Gegenbauer polynomials. Must be
+#' integers larger or equal than \code{0}.
 #' @inheritParams r_unif
 #' @param psi function defined in \eqn{[0, \pi]} and whose Gegenbauer
 #' coefficients are to be computed. Must be vectorized. For
@@ -81,14 +61,14 @@
 #' @param coefs for \code{Gegen_series} and \code{Gegen_norm}, a vector of
 #' coefficients \eqn{b_{k, p}} with length \code{length(k)}. For
 #' \code{Gegen_series_2d} and \code{Gegen_norm_2d}, a matrix of coefficients
-#' \eqn{b_{k, m, p}} with size \code{c(length(k), length(m))}. The
-#' order of the coefficients is given by \code{k} and \code{m}.
-#' @param Gauss use a Gauss--Legendre quadrature rule of \code{N} nodes
-#' in the computation of the Gegenbauer coefficients? Otherwise, call
+#' \eqn{b_{k, m, p}} with size \code{c(length(k), length(m))}. The order of the
+#' coefficients is given by \code{k} and \code{m}.
+#' @param Gauss use a Gauss--Legendre quadrature rule of \code{N} nodes in the
+#' computation of the Gegenbauer coefficients? Otherwise, call
 #' \code{\link{integrate}}. Defaults to \code{TRUE}.
-#' @param N number of points used in the \link[=Gauss_Legen_nodes]{
-#' Gauss--Legendre quadrature} for computing the Gegenbauer coefficients.
-#' Defaults to \code{320}.
+#' @param N number of points used in the
+#' \link[=Gauss_Legen_nodes]{ Gauss--Legendre quadrature} for computing the
+#' Gegenbauer coefficients. Defaults to \code{320}.
 #' @param normalize consider normalized coefficients (divided by
 #' \eqn{c_{k, p}})? Defaults to \code{TRUE}.
 #' @param only_const return only the normalizing constants \eqn{c_{k, p}}?
@@ -96,8 +76,8 @@
 #' @param tol tolerance passed to \code{\link{integrate}}'s \code{rel.tol} and
 #' \code{abs.tol} if \code{Gauss = FALSE}. Defaults to \code{1e-6}.
 #' @param ... further arguments to be passed to \code{psi}.
-#' @param cumulative return the cumulative norm for increasing truncation of
-#' the series? Defaults to \code{FALSE}.
+#' @param cumulative return the cumulative norm for increasing truncation of the
+#' series? Defaults to \code{FALSE}.
 #' @return
 #' \itemize{
 #'   \item \code{Gegen_polyn}: a matrix of size

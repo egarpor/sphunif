@@ -11,8 +11,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-sphunif
-=======
+# sphunif <img src="man/figures/logo.png" align="right" height="175" alt="sphunif logo"/>
 
 ```{r, badges, echo = FALSE, results = 'asis'}
 cat(
@@ -27,25 +26,27 @@ cat(
 )
 ```
 
-<img src="man/figures/logo.png" alt="sphunif hexlogo" align="right" width="200" style="padding: 0 15px; float: right;"/>
-
 ## Overview
 
 Implementation of more than 35 tests of uniformity on the circle, sphere, and hypersphere. Software companion for the (evolving) review *An overview of uniformity tests on the hypersphere* (García-Portugués and Verdebout, 2018) and the paper *On a projection-based class of uniformity tests on the hypersphere* (García-Portugués, Navarro-Esteban, and Cuesta-Albertos, 2023). The package also provides several novel datasets and gives the replicability for the data applications/simulations in [different publications](https://github.com/egarpor/sphunif?tab=readme-ov-file#replicability).
 
 ## Installation
 
-Get the latest version from GitHub:
-
-```{r, install-devtools, eval = FALSE}
-# Install the package and the vignettes
-library(devtools)
-install_github("egarpor/sphunif", build_vignettes = TRUE)
-
-# Load package
+```{r, install-CRAN, eval = FALSE}
+# Install it from CRAN
+install.packages("sphunif")
 library(sphunif)
+```
 
-# See main vignette
+```{r, install-GitHub, eval = FALSE}
+# Alternatively, from GitHub
+library(pak)
+pak("egarpor/sphunif")
+library(sphunif)
+```
+
+```{r, install-vignette, eval = FALSE}
+# See the main vignette
 vignette("sphunif")
 ```
 

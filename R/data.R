@@ -5,7 +5,7 @@
 #' @description Comet orbits data from the
 #' \href{https://ssd.jpl.nasa.gov/tools/sbdb_query.html}{
 #' JPL Small-Body Database Search Engine}. The normal vector of a comet orbit
-#' represents is a vector on \eqn{S^2}.
+#' represents is a vector on \eqn{\mathbb{S}^2}.
 #'
 #' @docType data
 #' @format A data frame with 3798 rows and 13 variables:
@@ -17,34 +17,33 @@
 #'   \item{pdes}{object primary designation.}
 #'   \item{frag}{flag indicating if the record is a comet fragment.}
 #'   \item{diameter}{diameter from equivalent sphere (in km).}
-#'   \item{i}{inclination; the orbit's plane angle with respect to the
-#'   ecliptic plane, in radians in \eqn{[0, \pi]}.}
+#'   \item{i}{inclination; the orbit's plane angle with respect to the ecliptic
+#'   plane, in radians in \eqn{[0, \pi]}.}
 #'   \item{om}{longitude of the ascending node; the counterclockwise angle from
-#'   the vector pointing to the First Point of Aries and that pointing to
-#'   the ascending node (the intersection between orbit and ecliptic plane), in
-#'   radians in \eqn{[0, 2\pi)}. (Both vectors are heliocentric and within
-#'   the ecliptic plane.)}
+#'   the vector pointing to the First Point of Aries and that pointing to the
+#'   ascending node (the intersection between orbit and ecliptic plane), in
+#'   radians in \eqn{[0, 2\pi)}. (Both vectors are heliocentric and within the
+#'   ecliptic plane.)}
 #'   \item{per_y}{sidereal orbital period (in years).}
 #'   \item{class}{orbit classification. A factor with levels given below.}
 #'   \item{e}{eccentricity of the orbit.}
 #'   \item{a}{semi-major axis of the orbit (in AU).}
 #'   \item{w}{argument of perihelion; the (shortest) angle between the vector
-#'   pointing to the ascending node and that pointing to the perihelion
-#'   (nearest orbit point to the Sun), in radians in \eqn{[0, \pi]}. (Both
-#'   vectors are heliocentric and within the orbit's plane.)}
-#'   \item{first_obs, last_obs}{\code{\link[=Dates]{Date}} of the first and
-#'   last recorded observations used in the orbit fit.}
+#'   pointing to the ascending node and that pointing to the perihelion (nearest
+#'   orbit point to the Sun), in radians in \eqn{[0, \pi]}. (Both vectors are
+#'   heliocentric and within the orbit's plane.)}
+#'   \item{first_obs, last_obs}{\code{\link[=Dates]{Date}} of the first and last
+#'   recorded observations used in the orbit fit.}
 #'   \item{ccf09}{flag indicating if the comet was considered in the data
 #'   application in Cuesta-Albertos et al. (2009); see details below.}
 #' }
 #' @details
 #' The normal vector to the ecliptic plane of the comet with inclination
 #' \eqn{i} and longitude of the ascending node \eqn{\omega} is
-#' \deqn{(\sin(i) \sin(\omega), -\sin(i) \cos(\omega), \cos(i))'.}{
-#' (sin(i) sin(\omega), -sin(i) cos(\omega), cos(i))'.}
+#' \deqn{(\sin(i) \sin(\omega), -\sin(i) \cos(\omega), \cos(i))'.}
 #'
-#' A prograde comet has positive \eqn{\cos(i)}{cos(i)}, negative
-#' \eqn{\cos(i)}{cos(i)} represents a retrograde comet.
+#' A prograde comet has positive \eqn{\cos(i)}, negative
+#' \eqn{\cos(i)} represents a retrograde comet.
 #'
 #' \code{class} has the following levels:
 #' \itemize{
@@ -59,7 +58,7 @@
 #'  (2 < T_Jupiter < 3).
 #'  \item \code{JFC}: Jupiter-family comet, classical definition (P < 20y).
 #'  \item \code{PAR}: comets on parabolic orbits.
-#'}
+#' }
 #' Hyperbolic and parabolic comets are not periodic; only elliptical comets
 #' are periodic.
 #'
@@ -113,25 +112,25 @@
 #' @description Planet orbits data from the
 #' \href{https://ssd.jpl.nasa.gov/planets/approx_pos.html}{
 #' JPL Keplerian Elements for Approximate Positions of the Major Planets}.
-#' The normal vector of a planet orbit represents is a vector on \eqn{S^2}.
+#' The normal vector of a planet orbit represents is a vector on
+#' \eqn{\mathbb{S}^2}.
 #'
 #' @docType data
 #' @format A data frame with 9 rows and 3 variables:
 #' \describe{
 #'   \item{planet}{names of the planets and Pluto.}
-#'   \item{i}{inclination; the orbit's plane angle with respect to the
-#'   ecliptic plane, in radians in \eqn{[0, \pi]}.}
+#'   \item{i}{inclination; the orbit's plane angle with respect to the ecliptic
+#'   plane, in radians in \eqn{[0, \pi]}.}
 #'   \item{om}{longitude of the ascending node; the counterclockwise angle from
-#'   the vector pointing to the First Point of Aries and that pointing to
-#'   the ascending node (the intersection between orbit and ecliptic plane), in
-#'   radians in \eqn{[0, 2\pi)}. (Both vectors are heliocentric and within
-#'   the ecliptic plane.)}
+#'   the vector pointing to the First Point of Aries and that pointing to the
+#'   ascending node (the intersection between orbit and ecliptic plane), in
+#'   radians in \eqn{[0, 2\pi)}. (Both vectors are heliocentric and within the
+#'   ecliptic plane.)}
 #' }
 #' @details
 #' The normal vector to the ecliptic plane of the planet with inclination
 #' \eqn{i} and longitude of the ascending node \eqn{\omega} is
-#' \deqn{(\sin(i) \sin(\omega), -\sin(i) \cos(\omega), \cos(i))'.}{
-#' (sin(i) sin(\omega), -sin(i) cos(\omega), cos(i))'.}
+#' \deqn{(\sin(i) \sin(\omega), -\sin(i) \cos(\omega), \cos(i))'.}
 #'
 #' The script performing the data preprocessing is available at
 #' \href{https://github.com/egarpor/sphunif/blob/master/data-raw/planets.R}{
@@ -168,16 +167,16 @@
 #' \describe{
 #'   \item{ID}{database ID.}
 #'   \item{name}{name of the crater.}
-#'   \item{target}{name of the celestial body. A factor with 43 levels,
-#'   such as \code{"Moon"}, \code{"Venus"}, or \code{"Europa"}.}
+#'   \item{target}{name of the celestial body. A factor with 43 levels, such as
+#'   \code{"Moon"}, \code{"Venus"}, or \code{"Europa"}.}
 #'   \item{target_type}{type of celestial body. A factor with 3 levels:
 #'   \code{"Planet"}, \code{"Moon"}, \code{"Dwarf planet"}, or
 #'   \code{"Asteroid"}.}
 #'   \item{diameter}{diameter of the crater (in km).}
-#'   \item{theta}{longitude angle \eqn{\theta \in [0, 2\pi)} of the
-#'   crater center.}
-#'   \item{phi}{latitude angle \eqn{\phi \in [-\pi/2, \pi/2]} of the
-#'   crater center.}
+#'   \item{theta}{longitude angle \eqn{\theta \in [0, 2\pi)} of the crater
+#'   center.}
+#'   \item{phi}{latitude angle \eqn{\phi \in [-\pi/2, \pi/2]} of the crater
+#'   center.}
 #' }
 #' @details
 #' "Craters" are understood in the Gazetteer of Planetary Nomenclature as
@@ -195,8 +194,7 @@
 #'
 #' The \eqn{(\theta, \phi)} angles are such the associated planetocentric
 #' coordinates are:
-#' \deqn{(\cos(\phi) \cos(\theta), \cos(\phi) \sin(\theta), \sin(\phi))',}{
-#' (cos(\phi) cos(\theta), cos(\phi) sin(\theta), sin(\phi))',}
+#' \deqn{(\cos(\phi) \cos(\theta), \cos(\phi) \sin(\theta), \sin(\phi))',}
 #' with \eqn{(0, 0, 1)'} denoting the north pole.
 #'
 #' The script performing the data preprocessing is available at
@@ -234,16 +232,15 @@
 #' \describe{
 #'   \item{name}{name of the crater (if named).}
 #'   \item{diameter}{diameter of the crater (in km).}
-#'   \item{theta}{longitude angle \eqn{\theta \in [0, 2\pi)} of the
-#'   crater center.}
-#'   \item{phi}{latitude angle \eqn{\phi \in [-\pi/2, \pi/2]} of the
-#'   crater center.}
+#'   \item{theta}{longitude angle \eqn{\theta \in [0, 2\pi)} of the crater
+#'   center.}
+#'   \item{phi}{latitude angle \eqn{\phi \in [-\pi/2, \pi/2]} of the crater
+#'   center.}
 #' }
 #' @details
 #' The \eqn{(\theta, \phi)} angles are such their associated planetocentric
 #' coordinates are:
-#' \deqn{(\cos(\phi) \cos(\theta), \cos(\phi) \sin(\theta), \sin(\phi))',}{
-#' (cos(\phi) cos(\theta), cos(\phi) sin(\theta), sin(\phi))',}
+#' \deqn{(\cos(\phi) \cos(\theta), \cos(\phi) \sin(\theta), \sin(\phi))',}
 #' with \eqn{(0, 0, 1)'} denoting the north pole.
 #'
 #' The script performing the data preprocessing is available at
@@ -273,16 +270,15 @@
 #' \describe{
 #'   \item{name}{name of the crater (if named).}
 #'   \item{diameter}{diameter of the crater (in km).}
-#'   \item{theta}{longitude angle \eqn{\theta \in [0, 2\pi)} of the
-#'   crater center.}
-#'   \item{phi}{latitude angle \eqn{\phi \in [-\pi/2, \pi/2]} of the
-#'   crater center.}
+#'   \item{theta}{longitude angle \eqn{\theta \in [0, 2\pi)} of the crater
+#'   center.}
+#'   \item{phi}{latitude angle \eqn{\phi \in [-\pi/2, \pi/2]} of the crater
+#'   center.}
 #' }
 #' @details
 #' The \eqn{(\theta, \phi)} angles are such their associated planetocentric
 #' coordinates are:
-#' \deqn{(\cos(\phi) \cos(\theta), \cos(\phi) \sin(\theta), \sin(\phi))',}{
-#' (cos(\phi) cos(\theta), cos(\phi) sin(\theta), sin(\phi))',}
+#' \deqn{(\cos(\phi) \cos(\theta), \cos(\phi) \sin(\theta), \sin(\phi))',}
 #' with \eqn{(0, 0, 1)'} denoting the north pole.
 #'
 #' The script performing the data preprocessing is available at

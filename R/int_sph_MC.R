@@ -3,21 +3,20 @@
 #' @title Monte Carlo integration of functions on the (hyper)sphere
 #'
 #' @description Monte Carlo approximation of the integral
-#' \deqn{\int_{S^{p-1}}f(x)\,\mathrm{d}x}{\int_{S^{p-1}} f(x) dx}
-#' of a function \eqn{f:S^{p-1} \rightarrow R} defined on the (hyper)sphere
-#' \eqn{S^{p-1}:=\{{\bf x}\in R^p:||{\bf x}||=1\}}{
-#' S^{p-1}:=\{x\in R^p:||x||=1\}}, \eqn{p\ge 2}.
+#' \deqn{\int_{\mathbb{S}^{p-1}}f(x)\,\mathrm{d}x}
+#' of a function \eqn{f:\mathbb{S}^{p-1} \rightarrow \mathbb{R}} defined on the
+#' (hyper)sphere \eqn{\mathbb{S}^{p-1}:=\{\boldsymbol{x}\in\mathbb{R}^p:
+#' \|\boldsymbol{x}\|=1\}}, \eqn{p\ge 2}.
 #'
 #' @param f function to be integrated. Its first argument must be the
 #' (hyper)sphere position. Must be vectorized and return a vector of size
 #' \code{nrow(x)} for a matrix input \code{x}. See examples.
 #' @inheritParams r_unif
 #' @param M number of Monte Carlo samples. Defaults to \code{1e4}.
-#' @param chunks number of chunks to split the \code{M} Monte Carlo
-#' samples. Useful for parallelizing the integration in \code{chunks}
-#' tasks containing \code{ceiling(M / chunks)} replications. Useful also for
-#' avoiding memory bottlenecks when \code{M} is large. Defaults to
-#' \cr\code{ceiling(M / 1e3)}.
+#' @param chunks number of chunks to split the \code{M} Monte Carlo samples.
+#' Useful for parallelizing the integration in \code{chunks} tasks containing
+#' \code{ceiling(M / chunks)} replications. Useful also for avoiding memory
+#' bottlenecks when \code{M} is large. Defaults to \cr\code{ceiling(M / 1e3)}.
 #' @param cores number of cores to perform the integration. Defaults to
 #' \code{1}.
 #' @inheritParams unif_stat_MC

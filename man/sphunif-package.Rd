@@ -21,15 +21,15 @@ through the function \code{\link{unif_stat_distr}}. The core of
 \code{\link{sphunif-package}} is coded in C++ by relying on the
 \code{\link[Rcpp]{Rcpp-package}}. The package also provides several novel
 datasets and gives the replicability for the data applications/ simulations
-in García-Portugués et al. (2021) <doi:10.1007/978-3-030-69944-4_12>,
-García-Portugués et al. (2023) <doi:10.3150/21-BEJ1454>, Fernández-de-Marcos
-and García-Portugués (2024) <doi:10.1016/j.spl.2024.110218> and
-García-Portugués et al. (2025) <doi:10.1080/01621459.2025.2566414>.
+in García-Portugués et al. (2021) \doi{10.1007/978-3-030-69944-4_12},
+García-Portugués et al. (2023) \doi{10.3150/21-BEJ1454}, Fernández-de-Marcos
+and García-Portugués (2024) \doi{10.1016/j.spl.2024.110218} and
+García-Portugués et al. (2025) \doi{10.1080/01621459.2025.2566414}.
 }
 \references{
 Fernández-de-Marcos, A. and García-Portugués, E. (2024) A stereographic test
 of spherical uniformity. \emph{Statistics & Probability Letters},
-215:110218. \doi{doi:10.1016/j.spl.2024.110218}
+215:110218. \doi{10.1016/j.spl.2024.110218}
 
 García-Portugués, E. and Verdebout, T. (2018) An overview of uniformity
 tests on the hypersphere. \emph{arXiv:1804.00286}.

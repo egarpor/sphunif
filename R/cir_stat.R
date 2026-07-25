@@ -4,22 +4,22 @@
 #'
 #' @description Low-level implementation of several statistics for assessing
 #' circular uniformity on \eqn{[0, 2\pi)} or, equivalently,
-#' \eqn{S^1:=\{{\bf x}\in R^2:||{\bf x}||=1\}}{S^1:=\{x\in R^2:||x||=1\}}.
+#' \eqn{\mathbb{S}^1:=\{\boldsymbol{x}\in \mathbb{R}^2:\|\boldsymbol{x}\|=1\}}.
 #'
-#' @param Theta a \bold{matrix} of size \code{c(n, M)} with \code{M} samples
-#' of size \code{n} of circular data on \eqn{[0, 2\pi)}. Must not contain
+#' @param Theta a \bold{matrix} of size \code{c(n, M)} with \code{M} samples of
+#' size \code{n} of circular data on \eqn{[0, 2\pi)}. Must not contain
 #' \code{NA}'s.
-#' @param gaps_in_Theta does \code{Theta} contain the matrix of
-#' \emph{circular gaps} that is obtained with \cr\code{\link{cir_gaps}(Theta)}?
-#' If \code{FALSE} (default), the circular gaps are computed internally.
+#' @param gaps_in_Theta does \code{Theta} contain the matrix of \emph{circular
+#' gaps} that is obtained with \cr\code{\link{cir_gaps}(Theta)}? If \code{FALSE}
+#' (default), the circular gaps are computed internally.
 #' @inheritParams cir_gaps
 #' @param Psi_in_Theta does \code{Theta} contain the shortest angles matrix
-#' \eqn{\boldsymbol\Psi}{\Psi} that is obtained with
+#' \eqn{\boldsymbol\Psi} that is obtained with
 #' \cr\code{\link{Psi_mat}(array(Theta, dim = c(n, 1, M)))}? If \code{FALSE}
-#' (default), \eqn{\boldsymbol\Psi}{\Psi} is computed internally.
-#' @param KS compute the Kolmogorov-Smirnov statistic (which is
-#' \emph{not} invariant under origin shifts) instead of the Kuiper statistic?
-#' Defaults to \code{FALSE}.
+#' (default), \eqn{\boldsymbol\Psi} is computed internally.
+#' @param KS compute the Kolmogorov-Smirnov statistic (which is \emph{not}
+#' invariant under origin shifts) instead of the Kuiper statistic? Defaults to
+#' \code{FALSE}.
 #' @param CvM compute the Cramér-von Mises statistic (which is \emph{not}
 #' invariant under origin shifts) instead of the Watson statistic? Defaults to
 #' \code{FALSE}.
@@ -29,19 +29,19 @@
 #' @param m integer \eqn{m} for the \eqn{m}-modal Rayleigh test. Defaults to
 #' \code{m = 1} (the standard Rayleigh test).
 #' @param max_gap compute the maximum gap for the range statistic? If
-#' \code{TRUE} (default), rejection happens for \emph{large} values of
-#' the statistic, which is consistent with the rest of tests. Otherwise,
-#' the minimum gap is computed and rejection happens for \emph{low} values.
+#' \code{TRUE} (default), rejection happens for \emph{large} values of the
+#' statistic, which is consistent with the rest of tests. Otherwise, the minimum
+#' gap is computed and rejection happens for \emph{low} values.
 #' @param asymp_std normalize the Hodges-Ajne statistic in terms of its
 #' asymptotic distribution? Defaults to \code{FALSE}.
-#' @param use_Cressie compute the Hodges-Ajne statistic as a particular case
-#' of the Cressie statistic? Defaults to \code{TRUE} as it is more efficient.
-#' If \code{FALSE}, the geometric construction in Ajne (1968) is employed.
+#' @param use_Cressie compute the Hodges-Ajne statistic as a particular case of
+#' the Cressie statistic? Defaults to \code{TRUE} as it is more efficient. If
+#' \code{FALSE}, the geometric construction in Ajne (1968) is employed.
 #' @param minus compute the invariant \eqn{D_n^-} instead of \eqn{D_n^+}?
 #' Defaults to \code{FALSE}.
 #' @param a either: \itemize{
-#' \item \eqn{a_n = a / n} parameter used in the length of the arcs
-#' of the coverage-based tests. Must be positive. Defaults to \code{2 * pi}.
+#' \item \eqn{a_n = a / n} parameter used in the length of the arcs of the
+#' coverage-based tests. Must be positive. Defaults to \code{2 * pi}.
 #' \item \eqn{a} parameter for the Stereo test, a real in \eqn{[-1, 1]}.
 #' Defaults to \code{0}.
 #' }
@@ -51,37 +51,35 @@
 #' \eqn{(0, 1)}. Defaults to \code{1 / 2}.
 #' @param s \eqn{s} parameter for the \eqn{s}-Riesz test, a real in
 #' \eqn{(0, 2)}. Defaults to \code{1}.
-#' @param abs_val return the absolute value of the Darling's log gaps
-#' statistic? If \code{TRUE} (default), rejection happens for \emph{large}
-#' values of the statistic, which is consistent with the rest of tests.
-#' Otherwise, the signed statistic is computed and rejection happens for
-#' large \emph{absolute} values.
+#' @param abs_val return the absolute value of the Darling's log gaps statistic?
+#' If \code{TRUE} (default), rejection happens for \emph{large} values of the
+#' statistic, which is consistent with the rest of tests. Otherwise, the signed
+#' statistic is computed and rejection happens for large \emph{absolute} values.
 #' @param minus_val return the negative value of the (standardized) number of
 #' uncovered spacings? If \code{TRUE} (default), rejection happens for
 #' \emph{large} values of the statistic, which is consistent with the rest of
 #' tests. Otherwise, rejection happens for \emph{low} values.
 #' @param dirs a matrix of size \code{c(n_proj, 2)} containing \code{n_proj}
-#' random directions (in Cartesian coordinates) on \eqn{S^1} to perform the
-#' CCF09 test.
+#' random directions (in Cartesian coordinates) on \eqn{\mathbb{S}^1} to perform
+#' the CCF09 test.
 #' @param K_CCF09 integer giving the truncation of the series present in the
 #' asymptotic distribution of the Kolmogorov-Smirnov statistic. Defaults to
 #' \code{25}.
-#' @param original return the CCF09 statistic as originally defined?
-#' If \code{FALSE} (default), a faster and equivalent statistic is computed,
-#' and rejection happens for \emph{large} values of the statistic, which is
+#' @param original return the CCF09 statistic as originally defined? If
+#' \code{FALSE} (default), a faster and equivalent statistic is computed, and
+#' rejection happens for \emph{large} values of the statistic, which is
 #' consistent with the rest of tests. Otherwise, rejection happens for
 #' \emph{low} values.
 #' @param Stephens compute Stephens (1970) modification so that the null
 #' distribution of the is less dependent on the sample size?
-#' @param rho \eqn{\rho} parameter for the Poisson test, a real in
-#' \eqn{[0, 1)}. Defaults to \code{0.5}.
-#' @param kappa \eqn{\kappa} parameter for the Softmax test, a
-#' non-negative real. Defaults to \code{1}.
+#' @param rho \eqn{\rho} parameter for the Poisson test, a real in \eqn{[0, 1)}.
+#' Defaults to \code{0.5}.
+#' @param kappa \eqn{\kappa} parameter for the Softmax test, a non-negative
+#' real. Defaults to \code{1}.
 #' @return A matrix of size \code{c(M, 1)} containing the statistics for each
 #' of the \code{M} samples.
-#' @section Warning:
-#' Be careful on avoiding the next bad usages of the functions, which will
-#' produce spurious results:
+#' @section Warning: Be careful on avoiding the next bad usages of the
+#' functions, which will produce spurious results:
 #' \itemize{
 #'   \item The entries of \code{Theta} are \emph{not} in \eqn{[0, 2\pi)}.
 #'   \item \code{Theta} does \emph{not} contain the circular gaps when

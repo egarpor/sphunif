@@ -7,27 +7,27 @@
 #'
 #' @param x a vector of size \code{nx} or a matrix of size \code{c(nx, 1)}.
 #' @inheritParams Sobolev
-#' @param thre error threshold for the tail probability given by the
-#' the first terms of the truncated series of a Sobolev test. Defaults to
-#' \code{0} (no further truncation).
-#' @param K_Kolmogorov,K_Kuiper,K_Watson,K_Watson_1976,K_Ajne integer giving
-#' the truncation of the series present in the null asymptotic distributions.
-#' For the Kolmogorov-Smirnov-related series defaults to \code{25}; for the
-#' others series defaults to a smaller number.
+#' @param thre error threshold for the tail probability given by the the first
+#' terms of the truncated series of a Sobolev test. Defaults to \code{0} (no
+#' further truncation).
+#' @param K_Kolmogorov,K_Kuiper,K_Watson,K_Watson_1976,K_Ajne integer giving the
+#' truncation of the series present in the null asymptotic distributions. For
+#' the Kolmogorov-Smirnov-related series defaults to \code{25}; for the others
+#' series defaults to a smaller number.
 #' @inheritParams unif_stat_distr
 #' @inheritParams cir_stat
 #' @param alternating use the alternating series expansion for the distribution
 #' of the Kolmogorov-Smirnov statistic? Defaults to \code{TRUE}.
-#' @param second_term use the second-order series expansion for the
-#' distribution of the Kuiper statistic? Defaults to \code{TRUE}.
+#' @param second_term use the second-order series expansion for the distribution
+#' of the Kuiper statistic? Defaults to \code{TRUE}.
 #' @param N number of points used in the
 #' \link[=Gauss_Legen_nodes]{Gauss-Legendre quadrature}. Defaults to \code{40}.
 #' @param exact use the exact distribution for the Hodges-Ajne statistic?
 #' Defaults to \code{TRUE}.
 #' @param asymp_std compute the distribution associated to the normalized
 #' Hodges-Ajne statistic? Defaults to \code{FALSE}.
-#' @param max_gap compute the distribution associated to the maximum gap for
-#' the range statistic? Defaults to \code{TRUE}.
+#' @param max_gap compute the distribution associated to the maximum gap for the
+#' range statistic? Defaults to \code{TRUE}.
 #' @param abs_val compute the distribution associated to the absolute value of
 #' the Darling's log gaps statistic? Defaults to \code{TRUE}.
 #' @inheritParams sph_stat_distr

@@ -46,8 +46,8 @@ cutoff_locdev(
 \link[=Gauss_Legen_nodes]{ Gauss--Legendre quadrature} for computing the
 Gegenbauer coefficients. Defaults to \code{320}.}
 
-\item{x}{locations in \eqn{S^{p-1}} to evaluate the density. Either a
-matrix of size \code{c(nx, p)} or a vector of length \code{p}. Normalized
+\item{x}{locations in \eqn{\mathcal{S}^{p-1}} to evaluate the density. Either
+a matrix of size \code{c(nx, p)} or a vector of length \code{p}. Normalized
 internally if required (with a \code{warning} message).}
 
 \item{mu}{a unit norm vector of size \code{p} giving the axis of rotational

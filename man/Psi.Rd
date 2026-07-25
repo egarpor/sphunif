@@ -68,8 +68,9 @@ For a circular sample \eqn{\Theta_1, \ldots, \Theta_n \in [0, 2\pi)},
 \deqn{\Psi_{ij}=\pi-|\pi-|\Theta_i-\Theta_j\|,\quad i,j=1,\ldots,n.}
 }
 \section{Warning}{
- Be careful on avoiding the next bad usages of
-\code{Psi_mat}, which will produce spurious results:
+
+Be careful on avoiding the next bad usages of \code{Psi_mat}, which will
+produce spurious results:
 \itemize{
   \item The directions in \code{data} do \emph{not} have unit norm when
   Cartesian coordinates are employed.

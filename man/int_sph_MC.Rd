@@ -49,8 +49,8 @@ A scalar with the approximate integral.
 Monte Carlo approximation of the integral
 \deqn{\int_{\mathbb{S}^{p-1}}f(x)\,\mathrm{d}x}
 of a function \eqn{f:\mathbb{S}^{p-1} \rightarrow \mathbb{R}} defined on the
-(hyper)sphere \eqn{\mathbb{S}^{p-1}:=\{\boldsymbol{x}\in
-\mathbb{R}^p:\|\boldsymbol{x}\|=1\}}, \eqn{p\ge 2}.
+(hyper)sphere \eqn{\mathbb{S}^{p-1}:=\{\boldsymbol{x}\in\mathbb{R}^p:
+\|\boldsymbol{x}\|=1\}}, \eqn{p\ge 2}.
 }
 \details{
 It is possible to have a progress bar if \code{int_sph_MC} is wrapped with

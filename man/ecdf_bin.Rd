@@ -31,8 +31,9 @@ of a sample \code{data} at the evaluation points \code{sorted_x}. This is
 done through binary search.
 }
 \section{Warning}{
- Be careful on avoiding the next bad usages of the
-function, which will produce spurious results:
+
+Be careful on avoiding the next bad usages of the function, which will
+produce spurious results:
 \itemize{
   \item \code{sorted_x} is not sorted increasingly.
   \item \code{data} is not sorted increasingly when

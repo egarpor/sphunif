@@ -126,12 +126,13 @@ proportion of \link[=Gegenbauer]{"Gegenbauer norm"} explained.
 See the definitions of local alternatives in Prentice (1978) and in
 García-Portugués et al. (2023).
 
-The truncation of \eqn{\sum_{k = 1}^\infty u_{k, p} C_k^{p / 2 - 1}(z)} is done to the first
-\code{K_max} terms and then up to the index such that the first terms
-leave unexplained the proportion \code{thre} of the norm of the whole series.
-Setting \code{thre = 0} truncates to \code{K_max} terms exactly. If the
-series only contains odd or even non-zero terms, then only \code{K_max / 2}
-addends are \emph{effectively} taken into account in the first truncation.
+The truncation of \eqn{\sum_{k = 1}^\infty u_{k, p} C_k^{p / 2 - 1}(z)}
+is done to the first \code{K_max} terms and then up to the index such that
+the first terms leave unexplained the proportion \code{thre} of the norm of
+the whole series. Setting \code{thre = 0} truncates to \code{K_max} terms
+exactly. If the series only contains odd or even non-zero terms, then only
+\code{K_max / 2} addends are \emph{effectively} taken into account in the
+first truncation.
 }
 \examples{
 ## Local alternatives diagnostics

@@ -463,6 +463,7 @@ test_that("sph_stat_Sobolev with X and Psi", {
 
 test_that("sph_stat_Sobolev(vk2 = 1) is a linear form of Rayleigh statistic", {
 
+  set.seed(46868)
   for (p in 2:9) {
     stats <- unif_stat_MC(n = 5, type = c("Rayleigh", "Sobolev"), p = p, M = 5,
                           return_stats = TRUE, Sobolev_vk2 = 1)
@@ -474,6 +475,7 @@ test_that("sph_stat_Sobolev(vk2 = 1) is a linear form of Rayleigh statistic", {
 test_that("sph_stat_Sobolev(vk2 = c(0, 1)) is a linear form of Bingham
           statistic", {
 
+  set.seed(46868)
   for (p in 2:9) {
     stats <- unif_stat_MC(n = 5, type = c("Bingham", "Sobolev"), p = p, M = 5,
                           return_stats = TRUE, Sobolev_vk2 = c(0, 1))

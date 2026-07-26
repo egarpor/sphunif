@@ -142,7 +142,7 @@ test_that("Bakshaev is a particular case of Riesz", {
 test_that("PAD with data repetitions is computable", {
 
   expect_warning(expect_true(is.finite(cir_stat_PAD(Th1_rep))))
-  expect_warning(expect_warning(
-    expect_true(all(is.finite(cir_stat_PAD(Th2_rep))))))
+  expect_warning(
+    expect_true(all(is.finite(cir_stat_PAD(Th2_rep)))))
 
 })

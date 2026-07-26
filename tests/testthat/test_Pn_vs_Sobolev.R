@@ -282,6 +282,7 @@ bvk_PAD <- vk2_to_bvk(vk2 = vk2_PAD, p = p)
 test_that("vk2_to_bvk vs. bvk_to_wk", {
 
   skip_on_cran()
+  set.seed(42)
   for (i in 1:10) {
     vk2r <- runif(10)
     bvkr <- runif(10)

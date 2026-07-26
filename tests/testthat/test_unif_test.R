@@ -9,6 +9,7 @@ Sobolev_vk2 <- diag(1, nrow = 2)
 
 test_that("All test work for p = 2 and return valid class information", {
 
+  set.seed(1234567)
   for (type in avail_cir_tests) {
     expect_no_error(test <- unif_test(X2, type = type, p_value = "MC", M = 2))
     expect_true(is.numeric(test$statistic))
@@ -21,6 +22,7 @@ test_that("All test work for p = 2 and return valid class information", {
 
 test_that("All test work for p = 3 and return valid class information", {
 
+  set.seed(1234567)
   for (type in avail_sph_tests) {
     expect_no_error(test <- unif_test(X3, type = type, p_value = "MC", M = 2))
     expect_true(is.numeric(test$statistic))
@@ -33,6 +35,7 @@ test_that("All test work for p = 3 and return valid class information", {
 
 test_that("All test work for p = 4 and return valid class information", {
 
+  set.seed(1234567)
   for (type in avail_sph_tests) {
     if (type == "Pycke") {
       suppressWarnings(expect_no_error(expect_warning(
@@ -50,6 +53,7 @@ test_that("All test work for p = 4 and return valid class information", {
 
 test_that("All test work for p = 5 and return valid class information", {
 
+  set.seed(1234567)
   for (type in avail_sph_tests) {
     if (type == "Pycke") {
       suppressWarnings(expect_no_error(expect_warning(
@@ -67,6 +71,7 @@ test_that("All test work for p = 5 and return valid class information", {
 
 test_that("Vectorization works for Sobolev test", {
 
+    set.seed(1234567)
     expect_no_error(test_mc <- unif_test(X2, type = "Sobolev",
                                          p_value = "MC", M = 100,
                                          Sobolev_vk2 = Sobolev_vk2))
@@ -86,6 +91,7 @@ test_that("Vectorization works for Sobolev test", {
 
 test_that("Vectorization works for Sobolev test with other tests", {
 
+  set.seed(1234567)
   expect_no_error(test_mc <- unif_test(X2, type = c("Sobolev", "Ajne"),
                                        p_value = "MC", M = 100,
                                        Sobolev_vk2 = Sobolev_vk2))
@@ -127,6 +133,7 @@ test_that("crit_val calibration rejects only for large statistic values", {
 
 test_that("MC calibration works with a single significance level", {
 
+  set.seed(1234567)
   expect_no_error(unif_test(X3, type = "Rayleigh", p_value = "MC", M = 100,
                             alpha = 0.05))
 
@@ -134,6 +141,7 @@ test_that("MC calibration works with a single significance level", {
 
 test_that("Numeric type vectors are accepted", {
 
+  set.seed(1234567)
   expect_no_error(unif_test(X3, type = c(1, 2), p_value = "MC", M = 10))
 
 })

@@ -541,9 +541,9 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
                    ((run_test$Rayleigh && any(Rayleigh_m == 1)) ||
                     !Psi_in_Theta)) {
 
-          if (run_test$Rayleigh) {
+          if (run_test$Rayleigh && any(Rayleigh_m == 1)) {
 
-            Riesz[, i] <- stats$Rayleigh[, which(Rayleigh_m == 1)]
+            Riesz[, i] <- stats$Rayleigh[, match(1, Rayleigh_m)]
 
           } else {
 
@@ -645,7 +645,7 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
 
       if (run_test$Riesz && any(Riesz_s == 0)) {
 
-        stats$Pycke <- (2 * n) / (n - 1) * stats$Riesz[, which(Riesz_s == 0)]
+        stats$Pycke <- (2 * n) / (n - 1) * stats$Riesz[, match(0, Riesz_s)]
 
       } else {
 
@@ -676,7 +676,7 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
 
           if (run_test$Rayleigh && any(Rayleigh_m == 1)) {
 
-            Poisson[, i] <- stats$Rayleigh[, which(Rayleigh_m == 1)]
+            Poisson[, i] <- stats$Rayleigh[, match(1, Rayleigh_m)]
 
           } else {
 
@@ -705,7 +705,7 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
 
           if (run_test$Rayleigh && any(Rayleigh_m == 1)) {
 
-            Softmax[, i] <- stats$Rayleigh[, which(Rayleigh_m == 1)]
+            Softmax[, i] <- stats$Rayleigh[, match(1, Rayleigh_m)]
 
           } else {
 
@@ -953,14 +953,14 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
         if (p == 3) {
 
           stats$Pycke <- n / (2 * pi * (n - 1)) *
-            (stats$Riesz[, which(Riesz_s == 0)] - (log(4) - 1) / 2)
+            (stats$Riesz[, match(0, Riesz_s)] - (log(4) - 1) / 2)
 
         } else {
 
           warning(paste("Pycke statistic is only defined for p = 2,3.",
                         "Using Riesz statistic with s = 0 instead,",
                         "which behaves consistently across dimensions."))
-          stats$Pycke <- stats$Riesz[, which(Riesz_s == 0)]
+          stats$Pycke <- stats$Riesz[, match(0, Riesz_s)]
 
         }
 

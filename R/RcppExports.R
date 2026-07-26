@@ -138,8 +138,9 @@ A_theta_x <- function(theta, x, p, N = 160L, as_matrix = TRUE) {
 #'   matrix of a matrix of size \code{c(n, n)}, diagonal excluded, assuming
 #'   column-major order.
 #' }
-#' @section Warning: Be careful on avoiding the next bad usages of
-#' \code{Psi_mat}, which will produce spurious results:
+#' @section Warning:
+#' Be careful on avoiding the next bad usages of \code{Psi_mat}, which will
+#' produce spurious results:
 #' \itemize{
 #'   \item The directions in \code{data} do \emph{not} have unit norm when
 #'   Cartesian coordinates are employed.
@@ -308,8 +309,9 @@ cir_gaps <- function(Theta, sorted = FALSE) {
 #' @author Original code from Douglas Bates'
 #' \url{https://github.com/dmbates/ecdfExample}. Minor adaptations by Eduardo
 #' García-Portugués.
-#' @section Warning: Be careful on avoiding the next bad usages of the
-#' function, which will produce spurious results:
+#' @section Warning:
+#' Be careful on avoiding the next bad usages of the function, which will
+#' produce spurious results:
 #' \itemize{
 #'   \item \code{sorted_x} is not sorted increasingly.
 #'   \item \code{data} is not sorted increasingly when

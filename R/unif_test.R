@@ -467,13 +467,7 @@ unif_test <- function(data, type = "all", p_value = "asymp",
 
     # Critical values (stats_MC columns are already sorted; use the shortcut).
     # rbind() keeps crit_val a matrix when length(alpha) == 1.
-    crit_val <- rbind(apply(stats_MC, 2, function(x) {
-      if (!anyNA(x) && !is.unsorted(x)) {
-        quantile_sorted(x_sorted = x, probs = 1 - alpha)
-      } else {
-        quantile(x, probs = 1 - alpha, na.rm = TRUE, names = FALSE)
-      }
-    }))
+    crit_val <- rbind(apply(stats_MC, 2, quantile_col, probs = 1 - alpha))
     rownames(crit_val) <- alpha
 
     # Rejection?

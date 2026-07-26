@@ -7,6 +7,7 @@ u <- cbind(seq(0, 1, l = 20))
 
 test_that("r_proj_unif vs. p_proj_unif", {
 
+  set.seed(412131)
   for (p in c(2:4, 11)) {
     expect_gt(ks.test(r_proj_unif(n = 1e3, p = p),
                       "p_proj_unif", p = p)$p.value, 0.05)
@@ -16,6 +17,7 @@ test_that("r_proj_unif vs. p_proj_unif", {
 
 test_that("r_proj_unif vs. r_unif_sph", {
 
+  set.seed(412131)
   for (p in c(2:4, 11)) {
     expect_gt(ks.test(r_proj_unif(n = 1e3, p = p),
                       r_unif_sph(n = 1e3, p = p)[, 1, 1])$p.value, 0.05)
@@ -50,11 +52,11 @@ test_that("Wrong dimensions", {
 
 ## unif_cap
 
-angle <- 0.5
-set.seed(7281123)
+angle <- pi / 3
 
 test_that("r_proj_unif_cap vs. p_proj_unif_cap", {
 
+  set.seed(7281123)
   for (p in c(2:4, 11)) {
     expect_gt(ks.test(r_proj_unif_cap(n = 1e3, p = p, angle = angle),
                       "p_proj_unif_cap", p = p, angle = angle)$p.value, 0.05)
@@ -65,6 +67,7 @@ test_that("r_proj_unif_cap vs. p_proj_unif_cap", {
 test_that("r_proj_unif_cap vs. simulating from a uniform cap by
           rejection sampling", {
 
+  set.seed(422)
   for (p in c(2:4, 11)) {
     proj_unif_samp <- r_unif_sph(n = 1e4, p = p)[, , 1]
     proj_unif_samp <- proj_unif_samp[proj_unif_samp[, 1] > cos(angle), 1]
@@ -129,6 +132,7 @@ test_that("d_chisq and p_chisq", {
 
 test_that("r_wschisq_Cpp vs. p_wschisq_MC", {
 
+  set.seed(981586072)
   samp1 <- r_wschisq_Cpp(n = 1e3, weights = weights, dfs = dfs, ncps = ncps)
   samp2 <- r_wschisq_Cpp(n = 1e4, weights = weights, dfs = dfs, ncps = ncps)
   expect_gt(ks.test(samp1, "p_wschisq_MC", weights = weights, dfs = dfs,

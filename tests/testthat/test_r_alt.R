@@ -15,10 +15,10 @@ f4 <- function(x, kappa, q) {
     rotasym::w_p(p = q + 1)
 }
 
-
 test_that("r_alt for rotationally symmetric alternatives", {
 
   skip_on_cran()
+  set.seed(21332)
   for (p in 2:4) {
 
     samp_g <- r_alt(n = 100, p = p, M = 1, kappa = 2, alt = "vMF")[, p, 1]
@@ -53,6 +53,7 @@ test_that("r_alt for rotationally symmetric alternatives", {
 test_that("r_alt for non-rotationally symmetric alternatives", {
 
   skip_on_cran()
+  set.seed(21332)
   for (p in c(2:4, 11)) {
 
     samp_1a <- r_alt(n = 1e3, p = p, M = 1, kappa = 2, alt = "MvMF",
@@ -95,6 +96,7 @@ test_that("r_alt for non-rotationally symmetric alternatives", {
 test_that("Edge cases in r_alt", {
 
   skip_on_cran()
+  set.seed(21332)
   for (p in 2:3) {
 
     expect_length(r_alt(n = 5, p = p, M = 1, alt = "MvMF"), 5 * p)
@@ -122,6 +124,7 @@ test_that("Edge cases in r_alt", {
 
 test_that("Idempotency of rot_ab and H_ab", {
 
+  set.seed(21332)
   for (p in 2:4) {
 
     X <- r_unif_sph(n = 10, p = p, M = 2)
@@ -138,6 +141,7 @@ test_that("Idempotency of rot_ab and H_ab", {
 
 test_that("Edge cases of rot_ab and H_ab", {
 
+  set.seed(21332)
   p <- 3
   X <- r_unif_sph(n = 10, p = p, M = 1)[, , 1]
   a <- r_unif_sph(n = 1, p = p)[, , 1]

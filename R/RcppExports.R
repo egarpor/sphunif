@@ -325,7 +325,7 @@ ecdf_bin <- function(data, sorted_x, data_sorted = FALSE, efic = TRUE, divide_n 
 #' @title The incomplete beta function and its inverse
 #'
 #' @description Computes the incomplete beta function
-#' \deqn{I_x(a,b):=\int_0^x u^{a-1}(1-u)^{b-1}\,d\mathrm{u},\quad a,b>0}
+#' \deqn{I_x(a,b):=\int_0^x u^{a-1}(1-u)^{b-1}\,\mathrm{d}u,\quad a,b>0}
 #' and its inverse function.
 #'
 #' @inheritParams cir_stat_distr

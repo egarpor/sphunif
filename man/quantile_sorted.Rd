@@ -22,7 +22,7 @@ A vector of size \code{length(probs)} with the type-7 quantiles.
 }
 \description{
 Computation of the type-7 quantiles of a vector, avoiding
-sorting it if it is already sorted.
+sorting if observations are already sorted.
 }
 \details{
 \code{quantile_sorted} reproduces \code{quantile(x_sorted, probs,

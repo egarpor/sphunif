@@ -204,7 +204,7 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
       # Halve K_max since we compute the odd/even coefficients separately
       K_max <- K_max %/% 2
 
-      # Sequence of indexes (seq_len is empty, not c(1, 0), when K_max < 2)
+      # Sequence of indexes
       k <- seq_len(K_max)
 
       # log(v_{2 * k - 1}^2)
@@ -248,7 +248,7 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
       # Halve K_max since the even coefficients are zero
       K_max <- K_max %/% 2
 
-      # Sequence of indexes (seq_len is empty, not c(1, 0), when K_max < 2)
+      # Sequence of indexes
       k <- seq_len(K_max)
 
       # log(v_{2 * k - 1}^2)
@@ -271,7 +271,7 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
       # Halve K_max since the odd coefficients are zero
       K_max <- K_max %/% 2
 
-      # Sequence of indexes (seq_len is empty, not c(1, 0), when K_max < 2)
+      # Sequence of indexes
       k <- seq_len(K_max)
 
       # log(v_{2 * k}^2)
@@ -293,7 +293,7 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
       # Halve K_max since we sum 4 * Ajne and Gine_Gn
       K_max <- K_max %/% 2
 
-      # Sequence of indexes (seq_len is empty, not c(1, 0), when K_max < 2)
+      # Sequence of indexes
       k <- seq_len(K_max)
 
       # log(v_{2 * k - 1}^2)
@@ -548,7 +548,7 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
       # Halve K_max since we compute the odd/even coefficients separately
       K_max <- K_max %/% 2
 
-      # Sequence of indexes (seq_len is empty, not c(1, 0), when K_max < 2)
+      # Sequence of indexes
       k <- seq_len(K_max)
 
       # log(v_{2 * k - 1}^2)

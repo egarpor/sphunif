@@ -25,8 +25,9 @@
 #' that require evaluating an integral. Defaults to \code{1e3}.
 #' @return A matrix of size \code{c(M, 1)} containing the statistics for each
 #' of the \code{M} samples.
-#' @section Warning: Be careful on avoiding the next bad usages of the
-#' functions, which will produce spurious results:
+#' @section Warning:
+#' Be careful on avoiding the next bad usages of the functions, which will
+#' produce spurious results:
 #' \itemize{
 #'   \item The directions in \code{X} do \emph{not} have unit norm.
 #'   \item \code{X} does \emph{not} contain \code{Psi_mat(X)} when

@@ -78,8 +78,9 @@
 #' real. Defaults to \code{1}.
 #' @return A matrix of size \code{c(M, 1)} containing the statistics for each
 #' of the \code{M} samples.
-#' @section Warning: Be careful on avoiding the next bad usages of the
-#' functions, which will produce spurious results:
+#' @section Warning:
+#' Be careful on avoiding the next bad usages of the functions, which will
+#' produce spurious results:
 #' \itemize{
 #'   \item The entries of \code{Theta} are \emph{not} in \eqn{[0, 2\pi)}.
 #'   \item \code{Theta} does \emph{not} contain the circular gaps when

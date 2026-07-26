@@ -7,8 +7,8 @@
 #' \deqn{f_{\kappa, \boldsymbol{\mu}}(\boldsymbol{x}): = \frac{1 -
 #' \kappa}{\omega_p} + \kappa f(\boldsymbol{x}'\boldsymbol{\mu})}
 #' where
-#' \deqn{f(z) = \frac{1}{\omega_p}\left\{1 + \sum_{k = 1}^\infty u_{k, p} C_k^{p
-#' / 2 - 1}(z)\right\}}
+#' \deqn{f(z) = \frac{1}{\omega_p}\left\{1 + \sum_{k = 1}^\infty u_{k, p}
+#' C_k^{p / 2 - 1}(z)\right\}}
 #' is the \emph{angular function} controlling the local alternative in a
 #' \link[=Gegenbauer]{Gegenbauer series}, \eqn{0\le \kappa \le 1},
 #' \eqn{\boldsymbol{\mu}} is a direction on \eqn{\mathbb{S}^{p - 1}}, and

@@ -346,8 +346,8 @@ r_alt <- function(n, p, M = 1, alt = "vMF", mu = c(rep(0, p - 1), 1),
 #'
 #' @description Rotate a sample of spherical data by a rotation matrix
 #' \eqn{\boldsymbol{H}_{\boldsymbol{a},\boldsymbol{b}} =
-#' (\boldsymbol{a}+\boldsymbol{b})(\boldsymbol{a}+\boldsymbol{b})' / (1 +
-#' \boldsymbol{a}'\boldsymbol{b}) - \boldsymbol{I}_p}.
+#' (\boldsymbol{a}+\boldsymbol{b})(\boldsymbol{a}+\boldsymbol{b})' /
+#' (1 + \boldsymbol{a}'\boldsymbol{b}) - \boldsymbol{I}_p}.
 #' @param X a sample of spherical data, an array of size \code{c(n, p, M)} or a
 #' matrix of size \code{c(n, p)}.
 #' @param a vector on \eqn{\mathbb{S}^{p-1}} to rotate from.

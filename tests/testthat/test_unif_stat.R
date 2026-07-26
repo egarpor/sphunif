@@ -288,6 +288,7 @@ test_that("Rayleigh vs. Softmax and Poisson", {
 
 test_that("Pycke_q vs. Poisson", {
 
+  set.seed(131121)
   mc <- unif_stat_MC(n = 10, type = c("Pycke_q", "Poisson"), p = 2,
                      Poisson_rho = 0.3, Pycke_q = 0.3, M = 20)$stats_MC
   expect_equal(cor(mc)[1, 2], 1)

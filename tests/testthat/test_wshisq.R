@@ -11,6 +11,7 @@ M <- 1e4
 
 test_that("r_wschisq vs. r_wschisq_Cpp and definition", {
 
+  set.seed(14323)
   samp1 <- r_wschisq(n = M, weights = weights, dfs = dfs, ncps = ncps)
   samp2 <- r_wschisq_Cpp(n = M, weights = weights, dfs = dfs, ncps = ncps)
   expect_gt(ks.test(samp1, samp2)$p.value, 0.10)
@@ -67,6 +68,7 @@ test_that("Zero weights method", {
 
 test_that("p_wschisq methods", {
 
+  set.seed(14323)
   expect_lt(max(abs(p_wschisq(x = x, weights = weights, dfs = dfs,
                               ncps = ncps, method = "HBE") -
                       p_wschisq(x = x, weights = weights, dfs = dfs,

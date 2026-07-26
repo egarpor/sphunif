@@ -221,18 +221,3 @@ test_that("chunks simulate at least M replications (ceiling)", {
   expect_gte(nrow(out$stats_MC), M)
 
 })
-
-test_that("quantile_sorted reproduces stats::quantile(type = 7)", {
-
-  set.seed(5)
-  x_sorted <- sort(rnorm(37))
-  probs <- c(0, 0.1, 0.5, 0.9, 0.95, 1)
-  expect_equal(quantile_sorted(x_sorted = x_sorted, probs = probs),
-               quantile(x_sorted, probs = probs, type = 7, names = FALSE))
-  # Ties and a single-element vector are handled without NaNs
-  expect_equal(quantile_sorted(x_sorted = rep(2, 5), probs = probs),
-               rep(2, length(probs)))
-  expect_equal(quantile_sorted(x_sorted = 7, probs = probs),
-               rep(7, length(probs)))
-
-})

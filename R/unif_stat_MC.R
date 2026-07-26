@@ -1,25 +1,5 @@
 
 
-# Type-7 quantile of an already-sorted, NA-free numeric vector. Reproduces
-# stats::quantile(x, probs, type = 7, names = FALSE) bit-for-bit (it mirrors
-# the interpolation in stats:::quantile.default, including the tie guard), but
-# without re-sorting the vector. Callers must fall back to stats::quantile()
-# when the input is not sorted in non-decreasing order or contains NAs.
-quantile_sorted <- function(x_sorted, probs) {
-
-  n <- length(x_sorted)
-  index <- 1 + max(n - 1, 0) * probs
-  lo <- floor(index)
-  hi <- ceiling(index)
-  qs <- x_sorted[lo]
-  i <- which(index > lo & x_sorted[hi] != qs)
-  h <- (index - lo)[i]
-  qs[i] <- (1 - h) * qs[i] + h * x_sorted[hi[i]]
-  qs
-
-}
-
-
 #' @title Monte Carlo simulation of circular and (hyper)spherical uniformity
 #' statistics
 #'
@@ -370,13 +350,7 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
   if (is.null(crit_val)) {
 
     # Critical values (use the sorted-column shortcut when possible)
-    crit_val <- rbind(apply(stats, 2, function(x) {
-      if (!anyNA(x) && !is.unsorted(x)) {
-        quantile_sorted(x_sorted = x, probs = 1 - alpha)
-      } else {
-        quantile(x, probs = 1 - alpha, na.rm = TRUE, names = FALSE)
-      }
-    }))
+    crit_val <- rbind(apply(stats, 2, quantile_col, probs = 1 - alpha))
     crit_val <- as.data.frame(crit_val)
     rownames(crit_val) <- alpha
 

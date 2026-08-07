@@ -17,34 +17,44 @@ d_locdev(x, mu, f, kappa)
 
 r_locdev(n, mu, f, kappa, F_inv = NULL, ...)
 
-cutoff_locdev(p, K_max = 10000, thre = 0.001, type, Rothman_t = 1/3,
-  Pycke_q = 0.5, verbose = FALSE, Gauss = TRUE, N = 320, tol = 1e-06)
+cutoff_locdev(
+  p,
+  K_max = 10000,
+  thre = 0.001,
+  type,
+  Rothman_t = 1/3,
+  Pycke_q = 0.5,
+  verbose = FALSE,
+  Gauss = TRUE,
+  N = 320,
+  tol = 1e-06
+)
 }
 \arguments{
 \item{z}{projected evaluation points for \eqn{f}, a vector with entries on
 \eqn{[-1, 1]}.}
 
-\item{p}{integer giving the dimension of the ambient space \eqn{R^p} that
-contains \eqn{S^{p-1}}.}
+\item{p}{integer giving the dimension of the ambient space
+\eqn{\mathbb{R}^p} that contains \eqn{\mathbb{S}^{p-1}}.}
 
 \item{uk}{coefficients \eqn{u_{k, p}} associated to the indexes
 \code{1:length(uk)}, a vector.}
 
 \item{f}{angular function defined on \eqn{[-1, 1]}. Must be vectorized.}
 
-\item{N}{number of points used in the \link[=Gauss_Legen_nodes]{
-Gauss--Legendre quadrature} for computing the Gegenbauer coefficients.
-Defaults to \code{320}.}
+\item{N}{number of points used in the
+\link[=Gauss_Legen_nodes]{ Gauss--Legendre quadrature} for computing the
+Gegenbauer coefficients. Defaults to \code{320}.}
 
-\item{x}{locations in \eqn{S^{p-1}} to evaluate the density. Either a
-matrix of size \code{c(nx, p)} or a vector of length \code{p}. Normalized
+\item{x}{locations in \eqn{\mathcal{S}^{p-1}} to evaluate the density. Either
+a matrix of size \code{c(nx, p)} or a vector of length \code{p}. Normalized
 internally if required (with a \code{warning} message).}
 
 \item{mu}{a unit norm vector of size \code{p} giving the axis of rotational
 symmetry.}
 
-\item{kappa}{the strength of the local alternative, between \code{0}
-and \code{1}.}
+\item{kappa}{the strength of the local alternative, between \code{0} and
+\code{1}.}
 
 \item{n}{sample size, a positive integer.}
 
@@ -71,8 +81,8 @@ truncated series. Defaults to \code{1e-3}.}
 \item{verbose}{output information about the truncation (\code{TRUE} or
 \code{1}) and a diagnostic plot (\code{2})? Defaults to \code{FALSE}.}
 
-\item{Gauss}{use a Gauss--Legendre quadrature rule of \code{N} nodes
-in the computation of the Gegenbauer coefficients? Otherwise, call
+\item{Gauss}{use a Gauss--Legendre quadrature rule of \code{N} nodes in the
+computation of the Gegenbauer coefficients? Otherwise, call
 \code{\link{integrate}}. Defaults to \code{TRUE}.}
 
 \item{tol}{tolerance passed to \code{\link{integrate}}'s \code{rel.tol} and
@@ -84,8 +94,7 @@ in the computation of the Gegenbauer coefficients? Otherwise, call
   \item \code{con_f}: normalizing constant \eqn{c_f} of \eqn{f}, a scalar.
   \item \code{d_locdev}: density function evaluated at \code{x}, a vector.
   \item \code{r_locdev}: a matrix of size \code{c(n, p)} containing a random
-  sample from the density \eqn{f_{\kappa, \boldsymbol{\mu}}}{
-  f_{\kappa, \mu}}.
+  sample from the density \eqn{f_{\kappa, \boldsymbol{\mu}}}.
   \item \code{cutoff_locdev}: vector of coefficients \eqn{\{u_{k, p}\}}
   automatically truncated according to \code{K_max} and \code{thre}
   (see details).
@@ -94,40 +103,36 @@ in the computation of the Gegenbauer coefficients? Otherwise, call
 \description{
 Density and random generation for local projected alternatives
 to uniformity with densities
-\deqn{f_{\kappa, \boldsymbol{\mu}}({\bf x}): =
-\frac{1 - \kappa}{\omega_p} + \kappa f({\bf x}'\boldsymbol{\mu})}{
-f_{\kappa, \mu}(x) = (1 - \kappa) / \omega_p + \kappa f(x'\mu)}
+\deqn{f_{\kappa, \boldsymbol{\mu}}(\boldsymbol{x}): = \frac{1 -
+\kappa}{\omega_p} + \kappa f(\boldsymbol{x}'\boldsymbol{\mu})}
 where
-\deqn{f(z) = \frac{1}{\omega_p}\left\{1 + \sum_{k = 1}^\infty u_{k, p}
-C_k^{p / 2 - 1}(z)\right\}}{f(x) = (1 / \omega_p)
-\{1 + \sum_{k = 1}^\infty u_{k, p} C_k^(p / 2 - 1)(z)\}}
+\deqn{f(z) = \frac{1}{\omega_p}\left\{1 + \sum_{k = 1}^\infty u_{k, p} C_k^{p
+/ 2 - 1}(z)\right\}}
 is the \emph{angular function} controlling the local alternative in a
 \link[=Gegenbauer]{Gegenbauer series}, \eqn{0\le \kappa \le 1},
-\eqn{\boldsymbol{\mu}}{\mu} is a direction on \eqn{S^{p - 1}}, and
-\eqn{\omega_p} is the surface area of \eqn{S^{p - 1}}. The sequence
+\eqn{\boldsymbol{\mu}} is a direction on \eqn{\mathbb{S}^{p - 1}}, and
+\eqn{\omega_p} is the surface area of \eqn{\mathbb{S}^{p - 1}}. The sequence
 \eqn{\{u_{k, p}\}} is typically such that
-\eqn{u_{k, p} = \left(1 + \frac{2k}{p - 2}\right) b_{k, p}}{
-u_{k, p} = (1 + 2k / (p - 2)) b_{k, p}} for the Gegenbauer coefficients
-\eqn{\{b_{k, p}\}} of the kernel function of a Sobolev statistic (see the
-\link[=Sobolev_coefs]{transformation} between the coefficients \eqn{u_{k, p}}
-and \eqn{b_{k, p}}).
+\eqn{u_{k, p} = \left(1 + \frac{2k}{p - 2}\right) b_{k, p}} for the
+Gegenbauer coefficients \eqn{\{b_{k, p}\}} of the kernel function of a
+Sobolev statistic (see the \link[=Sobolev_coefs]{transformation} between the
+coefficients \eqn{u_{k, p}} and \eqn{b_{k, p}}).
 
-Also, automatic truncation of the series \eqn{\sum_{k = 1}^\infty u_{k, p}
-C_k^{p / 2 - 1}(z)}{\sum_{k = 1}^\infty u_{k, p} C_k^(p / 2 - 1)(z)}
-according to the proportion of \link[=Gegenbauer]{"Gegenbauer norm"}
-explained.
+Also, automatic truncation of the series
+\eqn{\sum_{k = 1}^\infty u_{k, p} C_k^{p / 2 - 1}(z)} according to the
+proportion of \link[=Gegenbauer]{"Gegenbauer norm"} explained.
 }
 \details{
 See the definitions of local alternatives in Prentice (1978) and in
 García-Portugués et al. (2023).
 
-The truncation of \eqn{\sum_{k = 1}^\infty u_{k, p} C_k^{p / 2 - 1}(z)}{
-\sum_{k = 1}^\infty u_{k, p} C_k^(p / 2 - 1)(z)} is done to the first
-\code{K_max} terms and then up to the index such that the first terms
-leave unexplained the proportion \code{thre} of the norm of the whole series.
-Setting \code{thre = 0} truncates to \code{K_max} terms exactly. If the
-series only contains odd or even non-zero terms, then only \code{K_max / 2}
-addends are \emph{effectively} taken into account in the first truncation.
+The truncation of \eqn{\sum_{k = 1}^\infty u_{k, p} C_k^{p / 2 - 1}(z)}
+is done to the first \code{K_max} terms and then up to the index such that
+the first terms leave unexplained the proportion \code{thre} of the norm of
+the whole series. Setting \code{thre = 0} truncates to \code{K_max} terms
+exactly. If the series only contains odd or even non-zero terms, then only
+\code{K_max / 2} addends are \emph{effectively} taken into account in the
+first truncation.
 }
 \examples{
 ## Local alternatives diagnostics

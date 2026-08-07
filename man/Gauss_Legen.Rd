@@ -15,9 +15,9 @@ Gauss_Legen_weights(a = -1, b = 1, N = 40L)
 \eqn{(-1, 1)}.}
 
 \item{N}{number of points used in the Gauss--Legendre quadrature. The
-following choices are supported: \code{5}, \code{10}, \code{20},
-\code{40}, \code{80}, \code{160}, \code{320}, \code{640}, \code{1280},
-\code{2560}, and \code{5120}. Defaults to \code{40}.}
+following choices are supported: \code{5}, \code{10}, \code{20}, \code{40},
+\code{80}, \code{160}, \code{320}, \code{640}, \code{1280}, \code{2560}, and
+\code{5120}. Defaults to \code{40}.}
 }
 \value{
 A matrix of size \code{c(N, 1)} with the nodes \eqn{x_k}
@@ -26,10 +26,8 @@ A matrix of size \code{c(N, 1)} with the nodes \eqn{x_k}
 }
 \description{
 Convenience for computing the nodes \eqn{x_k} and weights
-\eqn{w_k} of the \emph{Gauss--Legendre} quadrature formula
-in \eqn{(a, b)}:
-\deqn{\int_a^b f(x) w(x)\,\mathrm{d}x\approx\sum_{k=1}^N w_k f(x_k).}{
-\int_a^b f(x) dx\approx\sum_{k=1}^N w_k f(x_k)}.
+\eqn{w_k} of the \emph{Gauss--Legendre} quadrature formula in \eqn{(a, b)}:
+\deqn{\int_a^b f(x) w(x)\,\mathrm{d}x\approx\sum_{k=1}^N w_k f(x_k).}.
 }
 \details{
 For \eqn{C^\infty} functions, Gauss--Legendre quadrature

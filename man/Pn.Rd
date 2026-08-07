@@ -8,21 +8,45 @@
 \alias{f_locdev_Pn}
 \title{Utilities for projected-ecdf statistics of spherical uniformity}
 \usage{
-psi_Pn(theta, q, type, Rothman_t = 1/3, tilde = FALSE, psi_Gauss = TRUE,
-  psi_N = 320, tol = 1e-06)
+psi_Pn(
+  theta,
+  q,
+  type,
+  Rothman_t = 1/3,
+  tilde = FALSE,
+  psi_Gauss = TRUE,
+  psi_N = 320,
+  tol = 1e-06
+)
 
-Gegen_coefs_Pn(k, p, type, Rothman_t = 1/3, Gauss = TRUE, N = 320,
-  tol = 1e-06, verbose = FALSE)
+Gegen_coefs_Pn(
+  k,
+  p,
+  type,
+  Rothman_t = 1/3,
+  Gauss = TRUE,
+  N = 320,
+  tol = 1e-06,
+  verbose = FALSE
+)
 
 akx(x, p, k, sqr = FALSE)
 
-f_locdev_Pn(p, type, K = 1000, N = 320, K_max = 10000, thre = 0.001,
-  Rothman_t = 1/3, verbose = FALSE)
+f_locdev_Pn(
+  p,
+  type,
+  K = 1000,
+  N = 320,
+  K_max = 10000,
+  thre = 0.001,
+  Rothman_t = 1/3,
+  verbose = FALSE
+)
 }
 \arguments{
 \item{theta}{vector with values in \eqn{[0, \pi]}.}
 
-\item{q}{integer giving the dimension of the sphere \eqn{S^q}.}
+\item{q}{integer giving the dimension of the sphere \eqn{\mathbb{S}^q}.}
 
 \item{type}{type of projected-ecdf test statistic. Must be either
 \code{"PCvM"} (Cramér--von Mises), \code{"PAD"} (Anderson--Darling), or
@@ -45,24 +69,24 @@ computing the kernel function. Defaults to \code{320}.}
 
 \item{k}{vector with the index of coefficients.}
 
-\item{p}{integer giving the dimension of the ambient space \eqn{R^p} that
-contains \eqn{S^{p-1}}.}
+\item{p}{integer giving the dimension of the ambient space
+\eqn{\mathbb{R}^p} that contains \eqn{\mathbb{S}^{p-1}}.}
 
-\item{Gauss}{use a Gauss--Legendre quadrature rule of \code{N} nodes
-in the computation of the Gegenbauer coefficients? Otherwise, call
+\item{Gauss}{use a Gauss--Legendre quadrature rule of \code{N} nodes in the
+computation of the Gegenbauer coefficients? Otherwise, call
 \code{\link{integrate}}. Defaults to \code{TRUE}.}
 
-\item{N}{number of points used in the \link[=Gauss_Legen_nodes]{
-Gauss--Legendre quadrature} for computing the Gegenbauer coefficients.
-Defaults to \code{320}.}
+\item{N}{number of points used in the
+\link[=Gauss_Legen_nodes]{ Gauss--Legendre quadrature} for computing the
+Gegenbauer coefficients. Defaults to \code{320}.}
 
 \item{verbose}{flag to print informative messages. Defaults to \code{FALSE}.}
 
 \item{x}{evaluation points for \eqn{a_{k, p}^x}, a vector with values in
 \eqn{[-1, 1]}.}
 
-\item{sqr}{return the \emph{signed} square root of \eqn{a_{k, p}^x}?
-Defaults to \code{FALSE}.}
+\item{sqr}{return the \emph{signed} square root of \eqn{a_{k, p}^x}? Defaults
+to \code{FALSE}.}
 
 \item{K}{number of equispaced points on \eqn{[-1, 1]} used for evaluating
 \eqn{f} and then interpolating. Defaults to \code{1e3}.}
@@ -87,26 +111,21 @@ truncated series. Defaults to \code{1e-3}.}
 }
 \description{
 Computation of the kernels
-\deqn{\psi_p^W(\theta) := \int_{-1}^1 A_x(\theta)\,\mathrm{d}W(F_p(x)),}{
-\psi_p^W(\theta) := \int_{-1}^1 A_x(\theta) dW(F_p(x)),
-}
+\deqn{\psi_p^W(\theta) := \int_{-1}^1 A_x(\theta)\,\mathrm{d}W(F_p(x)),}
 where \eqn{A_x(\theta)} is the proportion of area surface of
-\eqn{S^{p - 1}} covered by the
+\eqn{\mathbb{S}^{p - 1}} covered by the
 \link[=A_theta_x]{intersection of two hyperspherical caps} with common solid
-angle \eqn{\pi - \cos^{-1}(x)} and centers separated by
-an angle \eqn{\theta \in [0, \pi]}, \eqn{F_p} is the distribution function
-of the \link[=p_proj_unif]{projected spherical uniform distribution},
-and \eqn{W} is a measure on \eqn{[0, 1]}.
+angle \eqn{\pi - \cos^{-1}(x)} and centers separated by an angle
+\eqn{\theta \in [0, \pi]}, \eqn{F_p} is the distribution function of the
+\link[=p_proj_unif]{projected spherical uniform distribution}, and \eqn{W} is
+a measure on \eqn{[0, 1]}.
 
 Also, computation of the \link[=Gegen_coefs]{Gegenbauer coefficients} of
 \eqn{\psi_p^W}:
-\deqn{b_{k, p}^W := \frac{1}{c_{k, p}}\int_0^\pi \psi_p^W(\theta)
-C_k^{p / 2 - 1}(\cos\theta)\,\mathrm{d}\theta.}{
-b_{k, p}^W := \frac{1}{c_{k, p}} \int_0^\pi \psi_p^W(\theta)
-C_k^(p / 2 - 1)(\cos\theta) d\theta.}
+\deqn{b_{k, p}^W := \frac{1}{c_{k, p}}\int_0^\pi \psi_p^W(\theta) C_k^{p / 2
+- 1}(\cos\theta)\,\mathrm{d}\theta.}
 These coefficients can also be computed via
-\deqn{b_{k, p}^W = \int_{-1}^1 a_{k, p}^x\,\mathrm{d}W(F_p(x))}{
-b_{k, p}^W = \int_{-1}^1 a_{k, p}^x dW(F_p(x))}
+\deqn{b_{k, p}^W = \int_{-1}^1 a_{k, p}^x\,\mathrm{d}W(F_p(x))}
 for a certain function \eqn{x\rightarrow a_{k, p}^x}. They serve to define
 \link[=locdev]{projected alternatives to uniformity}.
 }

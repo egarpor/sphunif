@@ -27,12 +27,12 @@ const double two_M_PI = 2.0 * M_PI;
 //' @description Transformation between a matrix \code{Theta} containing
 //' \code{M} circular samples of size \code{n} on \eqn{[0, 2\pi)} and an array
 //' \code{X} containing the associated Cartesian coordinates on
-//' \eqn{S^1:=\{{\bf x}\in R^2:||{\bf x}||=1\}}{S^1:=\{x\in R^2:||x||=1\}}.
+//' \eqn{\mathbb{S}^1:=\{\boldsymbol{x}\in \mathbb{R}^2:\|\boldsymbol{x}\|=1\}}.
 //'
 //' @inheritParams cir_stat
 //' @param X an \bold{array} of size \code{c(n, 2, M)} containing the Cartesian
 //' coordinates of \code{M} samples of size \code{n} of directions on
-//' \eqn{S^{1}}. Must not contain \code{NA}'s.
+//' \eqn{\mathbb{S}^{1}}. Must not contain \code{NA}'s.
 //' @return
 //' \itemize{
 //'   \item \code{Theta_to_X}: the corresponding \code{X}.
@@ -98,18 +98,17 @@ arma::mat X_to_Theta(arma::cube X) {
 //' \deqn{\Theta_{(2)} - \Theta_{(1)},\ldots,\Theta_{(n)} - \Theta_{(n - 1)},
 //' 2\pi - \Theta_{(n)} - \Theta_{(1)},}
 //' where
-//' \deqn{0 \le \Theta_{(1)} \le \Theta_{(2)} \le \ldots \le
-//' \Theta_{(n)} \le 2\pi.}
+//' \deqn{0 \le \Theta_{(1)} \le \Theta_{(2)} \le \ldots \le \Theta_{(n)} \le
+//' 2\pi.}
 //'
 //' @inheritParams cir_stat
 //' @param sorted are the columns of \code{Theta} sorted increasingly? If
-//' \code{TRUE}, performance is improved. If \code{FALSE} (default), each
-//' column of \code{Theta} is sorted internally.
+//' \code{TRUE}, performance is improved. If \code{FALSE} (default), each column
+//' of \code{Theta} is sorted internally.
 //' @return A matrix of size \code{c(n, M)} containing the \code{n} circular
 //' gaps for each of the \code{M} circular samples.
-//' @section Warning:
-//' Be careful on avoiding the next bad usages of \code{cir_gaps}, which will
-//' produce spurious results:
+//' @section Warning: Be careful on avoiding the next bad usages of
+//' \code{cir_gaps}, which will produce spurious results:
 //' \itemize{
 //'   \item The entries of \code{Theta} are \emph{not} in \eqn{[0, 2\pi)}.
 //'   \item \code{Theta} is \emph{not} sorted increasingly when
@@ -146,19 +145,19 @@ arma::mat cir_gaps(arma::mat Theta, bool sorted = false) {
 //' @title Efficient evaluation of the empirical cumulative distribution
 //' function
 //'
-//' @description Evaluates the empirical cumulative distribution function
-//' (ecdf) of a sample \code{data} at the evaluation points \code{sorted_x}.
-//' This is done through binary search.
+//' @description Evaluates the empirical cumulative distribution function (ecdf)
+//' of a sample \code{data} at the evaluation points \code{sorted_x}. This is
+//' done through binary search.
 //'
 //' @param data a vector or column matrix containing the sample.
 //' @param sorted_x a vector or column matrix with the evaluation points
 //' \bold{sorted increasingly}.
-//' @param data_sorted is \code{data} is already sorted increasingly?
-//' This avoids sorting the data internally.
+//' @param data_sorted is \code{data} is already sorted increasingly? This
+//' avoids sorting the data internally.
 //' @param efic use the more efficient version of the ecdf evaluation? Set to
 //' \code{FALSE} only for debugging purposes.
-//' @param divide_n if \code{FALSE}, returns the absolute frequencies instead
-//' of the relative frequencies. Defaults to \code{TRUE}.
+//' @param divide_n if \code{FALSE}, returns the absolute frequencies instead of
+//' the relative frequencies. Defaults to \code{TRUE}.
 //' @return The ecdf evaluated at \code{sorted_x}.
 //' @author Original code from Douglas Bates'
 //' \url{https://github.com/dmbates/ecdfExample}. Minor adaptations by Eduardo
@@ -227,8 +226,7 @@ arma::vec ecdf_bin(arma::vec data, arma::vec sorted_x, bool data_sorted = false,
 //' @title The incomplete beta function and its inverse
 //'
 //' @description Computes the incomplete beta function
-//' \deqn{I_x(a,b):=\int_0^x u^{a-1}(1-u)^{b-1}\,d\mathrm{u},\quad a,b>0}{
-//' I_x(a,b):=\int_0^x u^{a-1}(1-u)^{b-1}du, a,b>0}
+//' \deqn{I_x(a,b):=\int_0^x u^{a-1}(1-u)^{b-1}\,\mathrm{d}u,\quad a,b>0}
 //' and its inverse function.
 //'
 //' @inheritParams cir_stat_distr
@@ -322,8 +320,8 @@ arma::vec beta_inc_inv(arma::vec u, double a, double b, bool lower_tail = true,
 //' @description Internal and undocumented low-level utilities for
 //' \pkg{sphunif}.
 //'
-//' @param n_dist a positive integer \eqn{(n - 1) * n / 2} for which \eqn{n}
-//' is to be recovered.
+//' @param n_dist a positive integer \eqn{(n - 1) * n / 2} for which \eqn{n} is
+//' to be recovered.
 //' @param t a vector to evaluate \eqn{t / \sqrt{1 - t^2}}.
 //' @name utils
 

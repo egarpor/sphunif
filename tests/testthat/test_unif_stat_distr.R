@@ -142,3 +142,24 @@ test_that("Coherency of unif_stat_distr() vs. p_Sobolev()", {
   expect_equal(tail_asymp_p4, tail_Sobolev_p4, tolerance = 1e-2)
 
 })
+
+test_that("approx = 'MC' handles unsorted evaluation points x", {
+
+  # Regression: the sort/unsort branch used to index columns incorrectly and
+  # error out. Use a fixed null sample so sorted/unsorted share a distribution.
+  n0 <- 10
+  x_unsorted <- c(0.3, 0.1, 0.9, 0.5, 0.7)
+  stats_MC <- unif_stat_MC(n = n0, type = "Rayleigh", p = 3, M = 800,
+                           return_stats = TRUE, seeds = 1,
+                           stats_sorted = TRUE)$stats_MC
+  d_unsorted <- unif_stat_distr(x = x_unsorted, type = "Rayleigh", p = 3,
+                                n = n0, approx = "MC", stats_MC = stats_MC)
+  d_sorted <- unif_stat_distr(x = sort(x_unsorted), type = "Rayleigh", p = 3,
+                              n = n0, approx = "MC", stats_MC = stats_MC)
+
+  # Right length, valid probabilities, and consistent with the sorted call
+  expect_equal(nrow(d_unsorted), length(x_unsorted))
+  expect_true(all(d_unsorted[[1]] >= 0 & d_unsorted[[1]] <= 1))
+  expect_equal(d_unsorted[[1]][order(x_unsorted)], d_sorted[[1]])
+
+})

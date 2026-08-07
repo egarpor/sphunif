@@ -99,11 +99,9 @@ p_cir_stat_Hodges_Ajne(x, n, exact = TRUE, asymp_std = FALSE)
 
 d_cir_stat_Hodges_Ajne(x, n, exact = TRUE, asymp_std = FALSE)
 
-p_cir_stat_Kuiper(x, n, K_Kuiper = 12L, second_term = TRUE,
-  Stephens = FALSE)
+p_cir_stat_Kuiper(x, n, K_Kuiper = 12L, second_term = TRUE, Stephens = FALSE)
 
-d_cir_stat_Kuiper(x, n, K_Kuiper = 12L, second_term = TRUE,
-  Stephens = FALSE)
+d_cir_stat_Kuiper(x, n, K_Kuiper = 12L, second_term = TRUE, Stephens = FALSE)
 
 p_cir_stat_Log_gaps(x, abs_val = TRUE)
 
@@ -173,23 +171,17 @@ p_cir_stat_PRt(x, t = 1/3, K_max = 1000, thre = 0, method = "I", ...)
 
 d_cir_stat_PRt(x, t = 1/3, K_max = 1000, thre = 0, method = "I", ...)
 
-p_cir_stat_Poisson(x, rho = 0.5, K_max = 1000, thre = 0, method = "I",
-  ...)
+p_cir_stat_Poisson(x, rho = 0.5, K_max = 1000, thre = 0, method = "I", ...)
 
-d_cir_stat_Poisson(x, rho = 0.5, K_max = 1000, thre = 0, method = "I",
-  ...)
+d_cir_stat_Poisson(x, rho = 0.5, K_max = 1000, thre = 0, method = "I", ...)
 
-p_cir_stat_Pycke_q(x, q = 0.5, K_max = 1000, thre = 0, method = "I",
-  ...)
+p_cir_stat_Pycke_q(x, q = 0.5, K_max = 1000, thre = 0, method = "I", ...)
 
-d_cir_stat_Pycke_q(x, q = 0.5, K_max = 1000, thre = 0, method = "I",
-  ...)
+d_cir_stat_Pycke_q(x, q = 0.5, K_max = 1000, thre = 0, method = "I", ...)
 
-p_cir_stat_Rothman(x, t = 1/3, K_max = 1000, thre = 0, method = "I",
-  ...)
+p_cir_stat_Rothman(x, t = 1/3, K_max = 1000, thre = 0, method = "I", ...)
 
-d_cir_stat_Rothman(x, t = 1/3, K_max = 1000, thre = 0, method = "I",
-  ...)
+d_cir_stat_Rothman(x, t = 1/3, K_max = 1000, thre = 0, method = "I", ...)
 
 p_cir_stat_Riesz(x, s = 1, K_max = 1000, thre = 0, method = "I", ...)
 
@@ -199,11 +191,9 @@ p_cir_stat_Sobolev(x, vk2 = c(0, 0, 1), method = "I", ...)
 
 d_cir_stat_Sobolev(x, vk2 = c(0, 0, 1), method = "I", ...)
 
-p_cir_stat_Softmax(x, kappa = 1, K_max = 1000, thre = 0, method = "I",
-  ...)
+p_cir_stat_Softmax(x, kappa = 1, K_max = 1000, thre = 0, method = "I", ...)
 
-d_cir_stat_Softmax(x, kappa = 1, K_max = 1000, thre = 0, method = "I",
-  ...)
+d_cir_stat_Softmax(x, kappa = 1, K_max = 1000, thre = 0, method = "I", ...)
 
 p_cir_stat_Stein(x, Stein_K = 10, Stein_cf = FALSE, method = "I", ...)
 
@@ -212,10 +202,10 @@ d_cir_stat_Stein(x, Stein_K = 10, Stein_cf = FALSE, method = "I", ...)
 \arguments{
 \item{x}{a vector of size \code{nx} or a matrix of size \code{c(nx, 1)}.}
 
-\item{K_Kolmogorov, K_Kuiper, K_Watson, K_Watson_1976, K_Ajne}{integer giving
-the truncation of the series present in the null asymptotic distributions.
-For the Kolmogorov-Smirnov-related series defaults to \code{25}; for the
-others series defaults to a smaller number.}
+\item{K_Kolmogorov, K_Kuiper, K_Watson, K_Watson_1976, K_Ajne}{integer giving the
+truncation of the series present in the null asymptotic distributions. For
+the Kolmogorov-Smirnov-related series defaults to \code{25}; for the others
+series defaults to a smaller number.}
 
 \item{alternating}{use the alternating series expansion for the distribution
 of the Kolmogorov-Smirnov statistic? Defaults to \code{TRUE}.}
@@ -228,8 +218,8 @@ Hodges-Ajne statistic? Defaults to \code{FALSE}.}
 \item{exact}{use the exact distribution for the Hodges-Ajne statistic?
 Defaults to \code{TRUE}.}
 
-\item{second_term}{use the second-order series expansion for the
-distribution of the Kuiper statistic? Defaults to \code{TRUE}.}
+\item{second_term}{use the second-order series expansion for the distribution
+of the Kuiper statistic? Defaults to \code{TRUE}.}
 
 \item{Stephens}{compute Stephens (1970) modification so that the null
 distribution of the is less dependent on the sample size?}
@@ -240,19 +230,19 @@ the Darling's log gaps statistic? Defaults to \code{TRUE}.}
 \item{N}{number of points used in the
 \link[=Gauss_Legen_nodes]{Gauss-Legendre quadrature}. Defaults to \code{40}.}
 
-\item{max_gap}{compute the distribution associated to the maximum gap for
-the range statistic? Defaults to \code{TRUE}.}
+\item{max_gap}{compute the distribution associated to the maximum gap for the
+range statistic? Defaults to \code{TRUE}.}
 
 \item{K_max}{integer giving the truncation of the series that compute the
 asymptotic p-value of a Sobolev test. Defaults to \code{1e3}.}
 
-\item{thre}{error threshold for the tail probability given by the
-the first terms of the truncated series of a Sobolev test. Defaults to
-\code{0} (no further truncation).}
+\item{thre}{error threshold for the tail probability given by the the first
+terms of the truncated series of a Sobolev test. Defaults to \code{0} (no
+further truncation).}
 
-\item{method}{method for approximating the density, distribution, or
-quantile function of the weighted sum of chi squared random variables. Must
-be \code{"I"} (Imhof), \code{"SW"} (Satterthwaite--Welch), \code{"HBE"}
+\item{method}{method for approximating the density, distribution, or quantile
+function of the weighted sum of chi squared random variables. Must be
+\code{"I"} (Imhof), \code{"SW"} (Satterthwaite--Welch), \code{"HBE"}
 (Hall--Buckley--Eagleson), or \code{"MC"} (Monte Carlo; only for distribution
 or quantile functions). Defaults to \code{"I"}.}
 
@@ -262,8 +252,8 @@ or quantile functions). Defaults to \code{"I"}.}
 \item{t}{\eqn{t} parameter for the Rothman and Cressie tests, a real in
 \eqn{(0, 1)}. Defaults to \code{1 / 3}.}
 
-\item{rho}{\eqn{\rho} parameter for the Poisson test, a real in
-\eqn{[0, 1)}. Defaults to \code{0.5}.}
+\item{rho}{\eqn{\rho} parameter for the Poisson test, a real in \eqn{[0, 1)}.
+Defaults to \code{0.5}.}
 
 \item{q}{\eqn{q} parameter for the Pycke "\eqn{q}-test", a real in
 \eqn{(0, 1)}. Defaults to \code{1 / 2}.}
@@ -274,15 +264,14 @@ or quantile functions). Defaults to \code{"I"}.}
 \item{vk2}{weights for the finite Sobolev test. A non-negative vector or
 matrix. Defaults to \code{c(0, 0, 1)}.}
 
-\item{kappa}{\eqn{\kappa} parameter for the Softmax test, a
-non-negative real. Defaults to \code{1}.}
+\item{kappa}{\eqn{\kappa} parameter for the Softmax test, a non-negative
+real. Defaults to \code{1}.}
 
 \item{Stein_K}{truncation \eqn{K} parameter for the Stein test, a positive
 integer. Defaults to \code{10}.}
 
-\item{Stein_cf}{logical indicating whether to use the characteristic
-function in the Stein test. Defaults to \code{FALSE} (moment generating
-function).}
+\item{Stein_cf}{logical indicating whether to use the characteristic function
+in the Stein test. Defaults to \code{FALSE} (moment generating function).}
 }
 \value{
 A matrix of size \code{c(nx, 1)} with the evaluation of the

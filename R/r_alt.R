@@ -3,10 +3,10 @@
 #' @title Sample non-uniformly distributed spherical data
 #'
 #' @description Simple simulation of prespecified non-uniform spherical
-#' distributions: von Mises--Fisher (vMF), Mixture of vMF (MvMF),
-#' Angular Central Gaussian (ACG), Small Circle (SC), Watson (W),
-#' Cauchy-like (C), Mixture of Cauchy-like (MC), or Uniform distribution with
-#' Antipodal-Dependent observations (UAD).
+#' distributions: von Mises--Fisher (vMF), Mixture of vMF (MvMF), Angular
+#' Central Gaussian (ACG), Small Circle (SC), Watson (W), Cauchy-like (C),
+#' Mixture of Cauchy-like (MC), or Uniform distribution with Antipodal-Dependent
+#' observations (UAD).
 #'
 #' @inheritParams r_unif
 #' @param alt alternative, must be \code{"vMF"}, \code{"MvMF"}, \code{"ACG"},
@@ -16,9 +16,8 @@
 #' \code{"C"}. Defaults to \code{c(rep(0, p - 1), 1)}.
 #' @param kappa non-negative parameter measuring the strength of the deviation
 #' with respect to uniformity (obtained with \eqn{\kappa = 0}).
-#' @param nu projection along \eqn{{\bf e}_p}{e_p} controlling the modal
-#' strip of the small circle distribution. Must be in (-1, 1). Defaults to
-#' \code{0.5}.
+#' @param nu projection along \eqn{\boldsymbol{e}_p} controlling the modal strip
+#' of the small circle distribution. Must be in (-1, 1). Defaults to \code{0.5}.
 #' @inheritParams unif_cap
 #' @param F_inv quantile function returned by \code{\link{F_inv_from_f}}. Used
 #' for \code{"SC"}, \code{"W"}, and \code{"C"}. Computed by internally if
@@ -35,7 +34,7 @@
 #'   \eqn{\kappa} and directional mean \eqn{\boldsymbol{\mu}}.
 #'   \item \code{"MvMF"}: equally-weighted mixture of \eqn{p} von Mises--Fisher
 #'   distributions with common concentration \eqn{\kappa} and directional means
-#'   \eqn{\pm{\bf e}_1, \ldots, \pm{\bf e}_p}{±e_1, \ldots, ±e_p} if
+#'   \eqn{\pm\boldsymbol{e}_1, \ldots, \pm\boldsymbol{e}_p} if
 #'   \code{axial_mix = TRUE}. If \code{axial_mix = FALSE}, then only means
 #'   with positive signs are considered.
 #'   \item \code{"ACG"}: Angular Central Gaussian distribution with diagonal
@@ -53,12 +52,12 @@
 #'   distribution is a particular case of this Cauchy-like distribution.
 #'   \item \code{"MC"}: equally-weighted mixture of \eqn{p} Cauchy-like
 #'   distributions with common concentration \eqn{\kappa} and directional means
-#'   \eqn{\pm{\bf e}_1, \ldots, \pm{\bf e}_p}{±e_1, \ldots, ±e_p} if
+#'   \eqn{\pm\boldsymbol{e}_1, \ldots, \pm\boldsymbol{e}_p} if
 #'   \code{axial_mix = TRUE}. If \code{axial_mix = FALSE}, then only means
 #'   with positive signs are considered.
 #' }
 #' The alternative \code{"UAD"} generates a sample formed by
-#' \eqn{\lceil n/2\rceil} observations drawn uniformly on \eqn{S^{p-1}}
+#' \eqn{\lceil n/2\rceil} observations drawn uniformly on \eqn{\mathbb{S}^{p-1}}
 #' and the remaining observations drawn from a uniform spherical cap
 #' distribution of angle \eqn{\pi-\kappa} about each of the
 #' \eqn{\lceil n/2\rceil} observations (see \code{\link{unif_cap}}). Hence,
@@ -69,7 +68,7 @@
 #' is achieved providing \code{F_inv}; see examples.
 #' @return An \bold{array} of size \code{c(n, p, M)} with \code{M} random
 #' samples of size \code{n} of non-uniformly-generated directions on
-#' \eqn{S^{p-1}}.
+#' \eqn{\mathbb{S}^{p-1}}.
 #' @examples
 #' ## Simulation with p = 2
 #'
@@ -346,12 +345,13 @@ r_alt <- function(n, p, M = 1, alt = "vMF", mu = c(rep(0, p - 1), 1),
 #' @title Rotate a sample of spherical data
 #'
 #' @description Rotate a sample of spherical data by a rotation matrix
-#' \eqn{{\bf H}_{{\bf a},{\bf b}} = ({\bf a}+{\bf b})({\bf a}+{\bf b})' /
-#' (1 + {\bf a}'{\bf b}) - {\bf I}_p}.
-#' @param X a sample of spherical data, an array of size \code{c(n, p, M)} or
-#' a matrix of size \code{c(n, p)}.
-#' @param a vector on \eqn{S^{p-1}} to rotate from.
-#' @param b vector on \eqn{S^{p-1}} to rotate to.
+#' \eqn{\boldsymbol{H}_{\boldsymbol{a},\boldsymbol{b}} =
+#' (\boldsymbol{a}+\boldsymbol{b})(\boldsymbol{a}+\boldsymbol{b})' /
+#' (1 + \boldsymbol{a}'\boldsymbol{b}) - \boldsymbol{I}_p}.
+#' @param X a sample of spherical data, an array of size \code{c(n, p, M)} or a
+#' matrix of size \code{c(n, p)}.
+#' @param a vector on \eqn{\mathbb{S}^{p-1}} to rotate from.
+#' @param b vector on \eqn{\mathbb{S}^{p-1}} to rotate to.
 #' @details
 #' The vectors \code{a} and \code{b} are checked for unit norms.
 #' @return

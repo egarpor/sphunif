@@ -9,24 +9,60 @@
 \alias{cutoff_wschisq}
 \title{Weighted sums of non-central chi squared random variables}
 \usage{
-d_wschisq(x, weights, dfs, ncps = 0, method = c("I", "SW", "HBE")[1],
-  exact_chisq = TRUE, imhof_epsabs = 1e-06, imhof_epsrel = 1e-06,
-  imhof_limit = 10000, grad_method = "simple",
-  grad_method.args = list(eps = 1e-07))
+d_wschisq(
+  x,
+  weights,
+  dfs,
+  ncps = 0,
+  method = c("I", "SW", "HBE")[1],
+  exact_chisq = TRUE,
+  imhof_epsabs = 1e-06,
+  imhof_epsrel = 1e-06,
+  imhof_limit = 10000,
+  grad_method = "simple",
+  grad_method.args = list(eps = 1e-07)
+)
 
-p_wschisq(x, weights, dfs, ncps = 0, method = c("I", "SW", "HBE", "MC")[1],
-  exact_chisq = TRUE, imhof_epsabs = 1e-06, imhof_epsrel = 1e-06,
-  imhof_limit = 10000, M = 10000, MC_sample = NULL)
+p_wschisq(
+  x,
+  weights,
+  dfs,
+  ncps = 0,
+  method = c("I", "SW", "HBE", "MC")[1],
+  exact_chisq = TRUE,
+  imhof_epsabs = 1e-06,
+  imhof_epsrel = 1e-06,
+  imhof_limit = 10000,
+  M = 10000,
+  MC_sample = NULL
+)
 
-q_wschisq(u, weights, dfs, ncps = 0, method = c("I", "SW", "HBE", "MC")[1],
-  exact_chisq = TRUE, imhof_epsabs = 1e-06, imhof_epsrel = 1e-06,
-  imhof_limit = 10000, nlm_gradtol = 1e-06, nlm_iterlim = 1000,
-  M = 10000, MC_sample = NULL)
+q_wschisq(
+  u,
+  weights,
+  dfs,
+  ncps = 0,
+  method = c("I", "SW", "HBE", "MC")[1],
+  exact_chisq = TRUE,
+  imhof_epsabs = 1e-06,
+  imhof_epsrel = 1e-06,
+  imhof_limit = 10000,
+  nlm_gradtol = 1e-06,
+  nlm_iterlim = 1000,
+  M = 10000,
+  MC_sample = NULL
+)
 
 r_wschisq(n, weights, dfs, ncps = 0)
 
-cutoff_wschisq(thre = 1e-04, weights, dfs, ncps = 0, log = FALSE,
-  x_tail = NULL)
+cutoff_wschisq(
+  thre = 1e-04,
+  weights,
+  dfs,
+  ncps = 0,
+  log = FALSE,
+  x_tail = NULL
+)
 }
 \arguments{
 \item{x}{vector of quantiles.}
@@ -37,14 +73,13 @@ same length as \code{dfs}.}
 \item{dfs}{vector with the positive degrees of freedom of the chi squared
 random variables. Must have the same length as \code{weights}.}
 
-\item{ncps}{non-centrality parameters. Either \code{0} (default) or a
-vector with the same length as \code{weights}.}
+\item{ncps}{non-centrality parameters. Either \code{0} (default) or a vector
+with the same length as \code{weights}.}
 
-\item{method}{method for approximating the density, distribution, or
-quantile function. Must be \code{"I"} (Imhof), \code{"SW"}
-(Satterthwaite--Welch), \code{"HBE"} (Hall--Buckley--Eagleson), or
-\code{"MC"} (Monte Carlo; only for distribution or quantile functions).
-Defaults to \code{"I"}.}
+\item{method}{method for approximating the density, distribution, or quantile
+function. Must be \code{"I"} (Imhof), \code{"SW"} (Satterthwaite--Welch),
+\code{"HBE"} (Hall--Buckley--Eagleson), or \code{"MC"} (Monte Carlo; only for
+distribution or quantile functions). Defaults to \code{"I"}.}
 
 \item{exact_chisq}{if \code{weights} and \code{dfs} have length one, shall
 the \code{\link[stats]{Chisquare}} functions be called? Otherwise, the
@@ -52,14 +87,14 @@ approximations are computed for this exact case. Defaults to \code{TRUE}.}
 
 \item{imhof_epsabs, imhof_epsrel, imhof_limit}{precision parameters passed to
 \code{\link[CompQuadForm]{imhof}}'s \code{epsabs}, \code{epsrel}, and
-\code{limit}, respectively. They default to \code{1e-6}, \code{1e-6},
-and \code{1e4}.}
+\code{limit}, respectively. They default to \code{1e-6}, \code{1e-6}, and
+\code{1e4}.}
 
 \item{grad_method, grad_method.args}{numerical differentiation parameters
 passed to \code{\link[numDeriv]{grad}}'s \code{method} and
-\code{method.args}, respectively. They default to \code{"simple"},
-and \code{list(eps = 1e-7)} (better precision than \code{imhof_epsabs} to
-avoid numerical artifacts).}
+\code{method.args}, respectively. They default to \code{"simple"}, and
+\code{list(eps = 1e-7)} (better precision than \code{imhof_epsabs} to avoid
+numerical artifacts).}
 
 \item{M}{number of Monte Carlo samples for approximating the distribution if
 \code{method = "MC"}. Defaults to \code{1e4}.}
@@ -104,9 +139,9 @@ series, computed by the \code{"HBE"} approximation.}
 Approximated density, distribution, and quantile functions for
 weighted sums of non-central chi squared random variables:
 \deqn{Q_K = \sum_{i = 1}^K w_i \chi^2_{d_i}(\lambda_i),}
-where \eqn{w_1, \ldots, w_n} are positive weights, \eqn{d_1, \ldots, d_n}
-are positive degrees of freedom, and \eqn{\lambda_1, \ldots, \lambda_n}
-are non-negative non-centrality parameters. Also, simulation of \eqn{Q_K}.
+where \eqn{w_1, \ldots, w_n} are positive weights, \eqn{d_1, \ldots, d_n} are
+positive degrees of freedom, and \eqn{\lambda_1, \ldots, \lambda_n} are
+non-negative non-centrality parameters. Also, simulation of \eqn{Q_K}.
 }
 \details{
 Four methods are implemented for approximating the distribution of a

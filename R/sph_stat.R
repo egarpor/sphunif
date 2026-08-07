@@ -3,27 +3,24 @@
 #' @title Statistics for testing (hyper)spherical uniformity
 #'
 #' @description Low-level implementation of several statistics for assessing
-#' uniformity on the (hyper)sphere
-#' \eqn{S^{p-1}:=\{{\bf x}\in R^p:||{\bf x}||=1\}}{S^{p-1}:=
-#' \{x\in R^p:||x||=1\}}, \eqn{p\ge 2}.
+#' uniformity on the (hyper)sphere \eqn{\mathbb{S}^{p-1}:=\{\boldsymbol{x}\in
+#' \mathbb{R}^p:\|\boldsymbol{x}\|=1\}}, \eqn{p\ge 2}.
 #'
 #' @param X an \bold{array} of size \code{c(n, p, M)} containing the Cartesian
 #' coordinates of \code{M} samples of size \code{n} of directions on
-#' \eqn{S^{p-1}}. Must not contain \code{NA}'s.
+#' \eqn{\mathbb{S}^{p-1}}. Must not contain \code{NA}'s.
 #' @param Psi_in_X does \code{X} contain the shortest angles matrix
-#' \eqn{\boldsymbol\Psi}{\Psi} that is obtained with \code{\link{Psi_mat}(X)}?
-#' If \code{FALSE} (default), \eqn{\boldsymbol\Psi}{\Psi} is computed
-#' internally.
+#' \eqn{\boldsymbol\Psi} that is obtained with \code{\link{Psi_mat}(X)}? If
+#' \code{FALSE} (default), \eqn{\boldsymbol\Psi} is computed internally.
 #' @inheritParams unif_stat_distr
 #' @inheritParams unif_stat
 #' @inheritParams sph_stat_distr
 #' @inheritParams cir_stat
 #' @param dirs a matrix of size \code{c(n_proj, p)} containing \code{n_proj}
-#' random directions (in Cartesian coordinates) on \eqn{S^{p-1}} to perform
-#' the CCF09 test.
+#' random directions (in Cartesian coordinates) on \eqn{\mathbb{S}^{p-1}} to
+#' perform the CCF09 test.
 #' @param N number of points used in the
-#' \link[=Gauss_Legen_nodes]{Gauss-Legendre quadrature}. Defaults to
-#' \code{160}.
+#' \link[=Gauss_Legen_nodes]{Gauss-Legendre quadrature}. Defaults to \code{160}.
 #' @param L number of discretization points to interpolate angular functions
 #' that require evaluating an integral. Defaults to \code{1e3}.
 #' @return A matrix of size \code{c(M, 1)} containing the statistics for each
@@ -36,7 +33,7 @@
 #'   \item \code{X} does \emph{not} contain \code{Psi_mat(X)} when
 #'   \code{X_in_Theta = TRUE}.
 #'   \item The parameter \code{p} does \emph{not} match with the dimension of
-#'   \eqn{R^p}.
+#'   \eqn{\mathbb{R}^p}.
 #'   \item \emph{Not} passing the scalar products matrix to \code{sph_stat_CJ12}
 #'   when \code{Psi_in_X = TRUE}.
 #'   \item The directions in \code{dirs} do \emph{not} have unit norm.

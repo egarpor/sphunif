@@ -7,13 +7,13 @@
 cir_gaps(Theta, sorted = FALSE)
 }
 \arguments{
-\item{Theta}{a \bold{matrix} of size \code{c(n, M)} with \code{M} samples
-of size \code{n} of circular data on \eqn{[0, 2\pi)}. Must not contain
+\item{Theta}{a \bold{matrix} of size \code{c(n, M)} with \code{M} samples of
+size \code{n} of circular data on \eqn{[0, 2\pi)}. Must not contain
 \code{NA}'s.}
 
 \item{sorted}{are the columns of \code{Theta} sorted increasingly? If
-\code{TRUE}, performance is improved. If \code{FALSE} (default), each
-column of \code{Theta} is sorted internally.}
+\code{TRUE}, performance is improved. If \code{FALSE} (default), each column
+of \code{Theta} is sorted internally.}
 }
 \value{
 A matrix of size \code{c(n, M)} containing the \code{n} circular
@@ -25,13 +25,12 @@ Computation of the circular gaps of an angular sample
 \deqn{\Theta_{(2)} - \Theta_{(1)},\ldots,\Theta_{(n)} - \Theta_{(n - 1)},
 2\pi - \Theta_{(n)} - \Theta_{(1)},}
 where
-\deqn{0 \le \Theta_{(1)} \le \Theta_{(2)} \le \ldots \le
-\Theta_{(n)} \le 2\pi.}
+\deqn{0 \le \Theta_{(1)} \le \Theta_{(2)} \le \ldots \le \Theta_{(n)} \le
+2\pi.}
 }
 \section{Warning}{
-
-Be careful on avoiding the next bad usages of \code{cir_gaps}, which will
-produce spurious results:
+ Be careful on avoiding the next bad usages of
+\code{cir_gaps}, which will produce spurious results:
 \itemize{
   \item The entries of \code{Theta} are \emph{not} in \eqn{[0, 2\pi)}.
   \item \code{Theta} is \emph{not} sorted increasingly when

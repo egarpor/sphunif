@@ -1,4 +1,4 @@
-# sphunif
+# sphunif <img src="man/figures/logo.png" align="right" height="175" alt="sphunif logo"/>
 
 [![License:
 GPLv3](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
@@ -10,8 +10,6 @@ status](https://github.com/egarpor/sphunif/workflows/test-coverage/badge.svg)](h
 [![](https://www.r-pkg.org/badges/version/sphunif?color=green)](https://cran.r-project.org/package=sphunif)
 [![](http://cranlogs.r-pkg.org/badges/grand-total/sphunif)](https://cran.r-project.org/package=sphunif)
 [![](http://cranlogs.r-pkg.org/badges/last-month/sphunif)](https://cran.r-project.org/package=sphunif)
-
-<!-- <img src="" alt="sphunif hexlogo" align="right" width="200" style="padding: 0 15px; float: right;"/> -->
 
 ## Overview
 
@@ -27,17 +25,21 @@ publications](https://github.com/egarpor/sphunif?tab=readme-ov-file#replicabilit
 
 ## Installation
 
-Get the latest version from GitHub:
+``` r
+# Install it from CRAN
+install.packages("sphunif")
+library(sphunif)
+```
 
 ``` r
-# Install the package and the vignettes
-library(devtools)
-install_github("egarpor/sphunif", build_vignettes = TRUE)
-
-# Load package
+# Alternatively, from GitHub
+library(pak)
+pak("egarpor/sphunif")
 library(sphunif)
+```
 
-# See main vignette
+``` r
+# See the main vignette
 vignette("sphunif")
 ```
 

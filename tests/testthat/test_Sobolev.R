@@ -416,6 +416,23 @@ test_that("sph_stat_Sobolev for a single and several vk2's", {
 
 })
 
+test_that("sph_stat_Sobolev is vectorized correctly across many samples", {
+
+  # The block-vectorized evaluation over samples must match a per-sample loop
+  set.seed(202406)
+  M_multi <- 60
+  vk2_multi <- c(0, 1, 0, 1)
+  for (p in c(2, 3, 4)) {
+    XM <- r_unif_sph(n = 8, p = p, M = M_multi)
+    block <- drop(sph_stat_Sobolev(XM, p = p, vk2 = vk2_multi))
+    loop <- vapply(seq_len(M_multi), function(m)
+      drop(sph_stat_Sobolev(XM[, , m, drop = FALSE], p = p, vk2 = vk2_multi)),
+      numeric(1))
+    expect_equal(block, loop)
+  }
+
+})
+
 test_that("sph_stat_Sobolev vs. cir_stat_Sobolev", {
 
   expect_equal(sph_stat_Sobolev(X2, vk2 = vk2),
@@ -446,6 +463,7 @@ test_that("sph_stat_Sobolev with X and Psi", {
 
 test_that("sph_stat_Sobolev(vk2 = 1) is a linear form of Rayleigh statistic", {
 
+  set.seed(46868)
   for (p in 2:9) {
     stats <- unif_stat_MC(n = 5, type = c("Rayleigh", "Sobolev"), p = p, M = 5,
                           return_stats = TRUE, Sobolev_vk2 = 1)
@@ -457,6 +475,7 @@ test_that("sph_stat_Sobolev(vk2 = 1) is a linear form of Rayleigh statistic", {
 test_that("sph_stat_Sobolev(vk2 = c(0, 1)) is a linear form of Bingham
           statistic", {
 
+  set.seed(46868)
   for (p in 2:9) {
     stats <- unif_stat_MC(n = 5, type = c("Bingham", "Sobolev"), p = p, M = 5,
                           return_stats = TRUE, Sobolev_vk2 = c(0, 1))

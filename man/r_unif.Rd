@@ -17,8 +17,8 @@ r_unif_sph(n, p, M = 1L)
 
 \item{sorted}{return each circular sample sorted? Defaults to \code{FALSE}.}
 
-\item{p}{integer giving the dimension of the ambient space \eqn{R^p} that
-contains \eqn{S^{p-1}}.}
+\item{p}{integer giving the dimension of the ambient space
+\eqn{\mathbb{R}^p} that contains \eqn{\mathbb{S}^{p-1}}.}
 }
 \value{
 \itemize{
@@ -27,13 +27,13 @@ contains \eqn{S^{p-1}}.}
   data on \eqn{[0, 2\pi)}.
   \item \code{r_unif_sph}: an \bold{array} of size \code{c(n, p, M)} with
   \code{M} random samples of size \code{n} of uniformly-generated
-  directions on \eqn{S^{p-1}}.
+  directions on \eqn{\mathbb{S}^{p-1}}.
 }
 }
 \description{
 Simulation of the uniform distribution on \eqn{[0, 2\pi)} and
-\eqn{S^{p-1}:=\{{\bf x}\in R^p:||{\bf x}||=1\}}{
-S^{p-1}:=\{x\in R^p:||x||=1\}}, \eqn{p\ge 2}.
+\eqn{\mathbb{S}^{p-1}:=\{\boldsymbol{x}\in
+\mathbb{R}^p:\|\boldsymbol{x}\|=1\}}, \eqn{p\ge 2}.
 }
 \examples{
 # A sample on [0, 2*pi)

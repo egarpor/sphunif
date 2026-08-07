@@ -57,7 +57,7 @@ test_that("Stephens modifications", {
 
   expect_equal(drop(cir_stat_Kuiper(Th1, KS = TRUE, Stephens = TRUE)),
                drop(cir_stat_Kuiper(Th1, KS = TRUE, Stephens = FALSE)) *
-                 (1 + 0.12 / sqrt(n) + 0.21 / n))
+                 (1 + 0.12 / sqrt(n) + 0.11 / n))
   expect_equal(drop(cir_stat_Kuiper(Th1, Stephens = TRUE)),
                drop(cir_stat_Kuiper(Th1, Stephens = FALSE)) *
                  (1 + 0.155 / sqrt(n) + 0.24 / n))
@@ -142,7 +142,7 @@ test_that("Bakshaev is a particular case of Riesz", {
 test_that("PAD with data repetitions is computable", {
 
   expect_warning(expect_true(is.finite(cir_stat_PAD(Th1_rep))))
-  expect_warning(expect_warning(
-    expect_true(all(is.finite(cir_stat_PAD(Th2_rep))))))
+  expect_warning(
+    expect_true(all(is.finite(cir_stat_PAD(Th2_rep)))))
 
 })

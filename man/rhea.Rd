@@ -9,10 +9,10 @@ A data frame with 3596 rows and 4 variables:
 \describe{
   \item{name}{name of the crater (if named).}
   \item{diameter}{diameter of the crater (in km).}
-  \item{theta}{longitude angle \eqn{\theta \in [0, 2\pi)} of the
-  crater center.}
-  \item{phi}{latitude angle \eqn{\phi \in [-\pi/2, \pi/2]} of the
-  crater center.}
+  \item{theta}{longitude angle \eqn{\theta \in [0, 2\pi)} of the crater
+  center.}
+  \item{phi}{latitude angle \eqn{\phi \in [-\pi/2, \pi/2]} of the crater
+  center.}
 }
 }
 \source{
@@ -27,8 +27,7 @@ Craters on Rhea from Hirata (2016).
 \details{
 The \eqn{(\theta, \phi)} angles are such their associated planetocentric
 coordinates are:
-\deqn{(\cos(\phi) \cos(\theta), \cos(\phi) \sin(\theta), \sin(\phi))',}{
-(cos(\phi) cos(\theta), cos(\phi) sin(\theta), sin(\phi))',}
+\deqn{(\cos(\phi) \cos(\theta), \cos(\phi) \sin(\theta), \sin(\phi))',}
 with \eqn{(0, 0, 1)'} denoting the north pole.
 
 The script performing the data preprocessing is available at

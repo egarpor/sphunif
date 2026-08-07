@@ -3,33 +3,31 @@
 #' @title Asymptotic distributions of Sobolev statistics of spherical uniformity
 #'
 #' @description Approximated density, distribution, and quantile functions for
-#' the asymptotic null distributions of Sobolev statistics of uniformity
-#' on \eqn{S^{p-1}:=\{{\bf x}\in R^p:||{\bf x}||=1\}}{S^{p-1}:=
-#' \{x\in R^p:||x||=1\}}. These asymptotic distributions are infinite
-#' weighted sums of (central) chi squared random variables:
+#' the asymptotic null distributions of Sobolev statistics of uniformity on
+#' \eqn{\mathbb{S}^{p-1}:=\{\boldsymbol{x}\in
+#' \mathbb{R}^p:\|\boldsymbol{x}\|=1\}}. These asymptotic distributions are
+#' infinite weighted sums of (central) chi squared random variables:
 #' \deqn{\sum_{k = 1}^\infty v_k^2 \chi^2_{d_{p, k}},}
 #' where
 #' \deqn{d_{p, k} := {{p + k - 3}\choose{p - 2}} + {{p + k - 2}\choose{p - 2}}}
 #' is the dimension of the space of eigenfunctions of the Laplacian on
-#' \eqn{S^{p-1}}, \eqn{p\ge 2}, associated to the \eqn{k}-th
+#' \eqn{\mathbb{S}^{p-1}}, \eqn{p\ge 2}, associated to the \eqn{k}-th
 #' eigenvalue, \eqn{k\ge 1}.
 #'
 #' @inheritParams r_unif
 #' @param k sequence of integer indexes.
-#' @param method method for approximating the density, distribution, or
-#' quantile function of the weighted sum of chi squared random variables. Must
-#' be \code{"I"} (Imhof), \code{"SW"} (Satterthwaite--Welch), \code{"HBE"}
+#' @param method method for approximating the density, distribution, or quantile
+#' function of the weighted sum of chi squared random variables. Must be
+#' \code{"I"} (Imhof), \code{"SW"} (Satterthwaite--Welch), \code{"HBE"}
 #' (Hall--Buckley--Eagleson), or \code{"MC"} (Monte Carlo; only for distribution
 #' or quantile functions). Defaults to \code{"I"}.
 #' @param K_max integer giving the truncation of the series that compute the
 #' asymptotic p-value of a Sobolev test. Defaults to \code{1e3}.
-#' @param thre error threshold for the tail probability given by the
-#' the first terms of the truncated series of a Sobolev test. Defaults to
-#' \code{1e-3}.
+#' @param thre error threshold for the tail probability given by the the first
+#' terms of the truncated series of a Sobolev test. Defaults to \code{1e-3}.
 #' @param type name of the Sobolev statistic, using the naming from
 #' \code{\link{avail_cir_tests}} and \code{\link{avail_sph_tests}}.
-#' @param log compute the logarithm of \eqn{d_{p,k}}? Defaults to
-#' \code{FALSE}.
+#' @param log compute the logarithm of \eqn{d_{p,k}}? Defaults to \code{FALSE}.
 #' @param verbose output information about the truncation? Defaults to
 #' \code{TRUE}.
 #' @inheritParams unif_stat
@@ -207,7 +205,7 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
       K_max <- K_max %/% 2
 
       # Sequence of indexes
-      k <- 1:K_max
+      k <- seq_len(K_max)
 
       # log(v_{2 * k - 1}^2)
       log_v2km12 <- log(2 / pi) - log((2 * k - 1)^2)
@@ -251,7 +249,7 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
       K_max <- K_max %/% 2
 
       # Sequence of indexes
-      k <- 1:K_max
+      k <- seq_len(K_max)
 
       # log(v_{2 * k - 1}^2)
       log_v2km12 <- (p - 2) * log(2) + lgamma(alpha + 1) + lgamma(k + alpha) +
@@ -262,7 +260,7 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
       log_v2km12 <- c(rbind(log_v2km12, -Inf))
 
       # log(d_{p, k})
-      log_dk <- d_p_k(p = p, k = 1:(2 * K_max), log = TRUE)
+      log_dk <- d_p_k(p = p, k = seq_len(2 * K_max), log = TRUE)
 
       # Log weights and dfs
       log_weights <- log_v2km12
@@ -274,7 +272,7 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
       K_max <- K_max %/% 2
 
       # Sequence of indexes
-      k <- 1:K_max
+      k <- seq_len(K_max)
 
       # log(v_{2 * k}^2)
       log_v2k2 <- log((p - 1) * (2 * k - 1) / (8 * pi * (2 * k + p - 1))) +
@@ -284,7 +282,7 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
       log_v2k2 <- c(rbind(-Inf, log_v2k2))
 
       # log(d_{p, k})
-      log_dk <- d_p_k(p = p, k = 1:(2 * K_max), log = TRUE)
+      log_dk <- d_p_k(p = p, k = seq_len(2 * K_max), log = TRUE)
 
       # Log weights and dfs
       log_weights <- log_v2k2
@@ -296,7 +294,7 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
       K_max <- K_max %/% 2
 
       # Sequence of indexes
-      k <- 1:K_max
+      k <- seq_len(K_max)
 
       # log(v_{2 * k - 1}^2)
       log_v2km12 <- (p - 2) * log(2) + lgamma(alpha + 1) + lgamma(k + alpha) +
@@ -308,7 +306,7 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
         2 * (lgamma(alpha + 0.5) + lgamma(k - 0.5) - lgamma(k + alpha + 0.5))
 
       # log(d_{p, k})
-      log_dk <- d_p_k(p = p, k = 1:(2 * K_max), log = TRUE)
+      log_dk <- d_p_k(p = p, k = seq_len(2 * K_max), log = TRUE)
 
       # Log weights and dfs
       log_weights <- c(rbind(log(4) + log_v2km12, log_v2k2))
@@ -551,7 +549,7 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
       K_max <- K_max %/% 2
 
       # Sequence of indexes
-      k <- 1:K_max
+      k <- seq_len(K_max)
 
       # log(v_{2 * k - 1}^2)
       log_v2km12 <- log(2 * k - 1) + log(4 * (k - 1) + p) - log(2 * k + p - 3) +
@@ -571,7 +569,7 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
       log_vk2 <- bk_to_vk2(bk = log_vk2, p = p, log = TRUE)
 
       # log(d_{p, k})
-      log_dk <- d_p_k(p = p, k = 1:(2 * K_max), log = TRUE)
+      log_dk <- d_p_k(p = p, k = seq_len(2 * K_max), log = TRUE)
 
       # Log weights and dfs
       log_weights <- log_vk2
@@ -640,7 +638,8 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
 d_Sobolev <- function(x, p, type, method = c("I", "SW", "HBE")[1], K_max = 1e3,
                       thre = 1e-3, Rothman_t = 1 / 3, Pycke_q = 0.5,
                       Riesz_s = 1, Poisson_rho = 0.5, Softmax_kappa = 1,
-                      Stereo_a = 0, Sobolev_vk2 = c(0, 0, 1), ncps = 0,
+                      Stereo_a = 0, Stein_cf = FALSE,
+                      Sobolev_vk2 = c(0, 0, 1), ncps = 0,
                       verbose = TRUE, N = 320, x_tail = NULL, ...) {
 
   weights_dfs <- weights_dfs_Sobolev(p = p, K_max = K_max, thre = thre,
@@ -648,7 +647,7 @@ d_Sobolev <- function(x, p, type, method = c("I", "SW", "HBE")[1], K_max = 1e3,
                                      Pycke_q = Pycke_q, Riesz_s = Riesz_s,
                                      Poisson_rho = Poisson_rho,
                                      Softmax_kappa = Softmax_kappa,
-                                     Stereo_a = Stereo_a,
+                                     Stereo_a = Stereo_a, Stein_cf = Stein_cf,
                                      Sobolev_vk2 = Sobolev_vk2,
                                      verbose = verbose, Gauss = TRUE, N = N,
                                      x_tail = x_tail)
@@ -663,7 +662,8 @@ d_Sobolev <- function(x, p, type, method = c("I", "SW", "HBE")[1], K_max = 1e3,
 p_Sobolev <- function(x, p, type, method = c("I", "SW", "HBE", "MC")[1],
                       K_max = 1e3, thre = 1e-3, Rothman_t = 1 / 3,
                       Pycke_q = 0.5, Riesz_s = 1, Poisson_rho = 0.5,
-                      Softmax_kappa = 1, Stereo_a = 0, Sobolev_vk2 = c(0, 0, 1),
+                      Softmax_kappa = 1, Stereo_a = 0, Stein_cf = FALSE,
+                      Sobolev_vk2 = c(0, 0, 1),
                       ncps = 0, verbose = TRUE, N = 320, x_tail = NULL, ...) {
 
   weights_dfs <- weights_dfs_Sobolev(p = p, K_max = K_max, thre = thre,
@@ -671,7 +671,7 @@ p_Sobolev <- function(x, p, type, method = c("I", "SW", "HBE", "MC")[1],
                                      Pycke_q = Pycke_q, Riesz_s = Riesz_s,
                                      Poisson_rho = Poisson_rho,
                                      Softmax_kappa = Softmax_kappa,
-                                     Stereo_a = Stereo_a,
+                                     Stereo_a = Stereo_a, Stein_cf = Stein_cf,
                                      Sobolev_vk2 = Sobolev_vk2,
                                      verbose = verbose, Gauss = TRUE, N = N,
                                      x_tail = x_tail)
@@ -686,7 +686,8 @@ p_Sobolev <- function(x, p, type, method = c("I", "SW", "HBE", "MC")[1],
 q_Sobolev <- function(u, p, type, method = c("I", "SW", "HBE", "MC")[1],
                       K_max = 1e3, thre = 1e-3, Rothman_t = 1 / 3,
                       Pycke_q = 0.5, Riesz_s = 1, Poisson_rho = 0.5,
-                      Softmax_kappa = 1, Stereo_a = 0, Sobolev_vk2 = c(0, 0, 1),
+                      Softmax_kappa = 1, Stereo_a = 0, Stein_cf = FALSE,
+                      Sobolev_vk2 = c(0, 0, 1),
                       ncps = 0, verbose = TRUE, N = 320, x_tail = NULL, ...) {
 
   weights_dfs <- weights_dfs_Sobolev(p = p, K_max = K_max, thre = thre,
@@ -694,7 +695,7 @@ q_Sobolev <- function(u, p, type, method = c("I", "SW", "HBE", "MC")[1],
                                      Pycke_q = Pycke_q, Riesz_s = Riesz_s,
                                      Poisson_rho = Poisson_rho,
                                      Softmax_kappa = Softmax_kappa,
-                                     Stereo_a = Stereo_a,
+                                     Stereo_a = Stereo_a, Stein_cf = Stein_cf,
                                      Sobolev_vk2 = Sobolev_vk2,
                                      verbose = verbose, Gauss = TRUE, N = N,
                                      x_tail = x_tail)
@@ -706,10 +707,10 @@ q_Sobolev <- function(u, p, type, method = c("I", "SW", "HBE", "MC")[1],
 
 #' @title Finite Sobolev statistics for testing (hyper)spherical uniformity
 #'
-#' @description Computes the finite Sobolev statistic \deqn{
-#' S_{n, p}(\{b_{k, p}\}_{k=1}^K) = \sum_{i, j = 1}^n
-#' \sum_{k = 1}^K b_{k, p}C_k^(p / 2 - 1)(\cos^{-1}({\bf X}_i'{\bf X}_j)),}
-#' for a sequence  \eqn{\{b_{k, p}\}_{k = 1}^K} of non-negative weights. For
+#' @description Computes the finite Sobolev statistic
+#' \deqn{S_{n, p}(\{b_{k, p}\}_{k=1}^K) = \sum_{i, j = 1}^n \sum_{k = 1}^K b_{k,
+#' p}C_k^(p / 2 - 1)(\cos^{-1}(\boldsymbol{X}_i'\boldsymbol{X}_j)),}
+#' for a sequence \eqn{\{b_{k, p}\}_{k = 1}^K} of non-negative weights. For
 #' \eqn{p = 2}, the Gegenbauer polynomials are replaced by Chebyshev ones.
 #' @inheritParams sph_stat
 #' @inheritParams cir_stat
@@ -793,30 +794,26 @@ cir_stat_Sobolev <- function(Theta, Psi_in_Theta = FALSE, vk2 = c(0, 0, 1)) {
 #' @title Transformation between different coefficients in Sobolev statistics
 #'
 #' @description Given a Sobolev statistic
-#' \deqn{S_{n, p} = \sum_{i, j = 1}^n \psi(\cos^{-1}({\bf X}_i'{\bf X}_j)),}{
-#' S_{n, p} = \sum_{i, j = 1}^n \psi(\cos^{-1}(X_i'X_j)),}
-#' for a sample \eqn{{\bf X}_1, \ldots, {\bf X}_n \in S^{p - 1} := \{{\bf x}
-#' \in R^p : ||{\bf x}|| = 1\}}{X_1, \ldots, X_n \in S^{p - 1} :=
-#' \{x \in R^p : ||x|| = 1\}}, \eqn{p\ge 2}, three important sequences
-#' are related to \eqn{S_{n, p}}.
+#' \deqn{S_{n, p} = \sum_{i, j = 1}^n
+#' \psi(\cos^{-1}(\boldsymbol{X}_i'\boldsymbol{X}_j)),}
+#' for a sample \eqn{\boldsymbol{X}_1, \ldots, \boldsymbol{X}_n \in
+#' \mathbb{S}^{p - 1} := \{\boldsymbol{x} \in \mathbb{R}^p : \|\boldsymbol{x}\|
+#' = 1\}}, \eqn{p\ge 2}, three important sequences are related to
+#' \eqn{S_{n, p}}.
 #' \itemize{
 #' \item \link[=Gegen_coefs]{Gegenbauer coefficients} \eqn{\{b_{k, p}\}} of
-#' \eqn{\psi_p} (see, e.g., the \link[=Pn]{projected-ecdf statistics}), given
-#' by
-#' \deqn{b_{k, p} := \frac{1}{c_{k, p}}\int_0^\pi \psi_p(\theta)
-#' C_k^{p / 2 - 1}(\cos\theta)\,\mathrm{d}\theta.}{
-#' b_{k, p} := \frac{1}{c_{k, p}} \int_0^\pi \psi_p(\theta)
-#' C_k^(p / 2 - 1)(\cos\theta) d\theta.}
+#' \eqn{\psi_p} (see, e.g., the \link[=Pn]{projected-ecdf statistics}), given by
+#' \deqn{b_{k, p} := \frac{1}{c_{k, p}}\int_0^\pi \psi_p(\theta) C_k^{p / 2 -
+#' 1}(\cos\theta)\,\mathrm{d}\theta.}
 #' \item Weights \eqn{\{v_{k, p}^2\}} of the
 #' \link[=Sobolev]{asymptotic distribution} of the Sobolev statistic,
 #' \eqn{\sum_{k = 1}^\infty v_k^2 \chi^2_{d_{p, k}}}, given by
-#' \deqn{v_{k, p}^2 = \left(1 + \frac{2k}{p - 2}\right)^{-1} b_{k, p},
-#' \quad p \ge 3.}{v_{k, p}^2 = (1 + 2k / (p - 2))^{-1} b_{k, p}, p \ge 3.}
+#' \deqn{v_{k, p}^2 = \left(1 + \frac{2k}{p - 2}\right)^{-1} b_{k, p}, \quad p
+#' \ge 3.}
 #' \item Gegenbauer coefficients \eqn{\{u_{k, p}\}} of the
 #' \link[=locdev]{local projected alternative} associated to \eqn{S_{n, p}},
 #' given by
-#' \deqn{u_{k, p} = \left(1 + \frac{2k}{p - 2}\right) v_{k, p},
-#' \quad p \ge 3.}{u_{k, p} = (1 + 2k / (p - 2)) b_{k, p}, p \ge 3.}
+#' \deqn{u_{k, p} = \left(1 + \frac{2k}{p - 2}\right) v_{k, p}, \quad p \ge 3.}
 #' }
 #' For \eqn{p = 2}, the factor \eqn{(1 + 2k / (p - 2))} is replaced by \eqn{2}.
 #'
@@ -827,8 +824,8 @@ cir_stat_Sobolev <- function(Theta, Psi_in_Theta = FALSE, vk2 = c(0, 0, 1)) {
 #' @param uk coefficients \eqn{u_{k, p}} associated to the indexes
 #' \code{1:length(uk)}, a vector.
 #' @inheritParams r_unif_sph
-#' @param signs signs of the coefficients \eqn{u_{k, p}}, a vector of the
-#' same size as \code{vk2} or \code{bk}, or a scalar. Defaults to \code{1}.
+#' @param signs signs of the coefficients \eqn{u_{k, p}}, a vector of the same
+#' size as \code{vk2} or \code{bk}, or a scalar. Defaults to \code{1}.
 #' @param log do operations in log scale (log-in, log-out)? Defaults to
 #' \code{FALSE}.
 #' @return The corresponding vectors of coefficients \code{vk2}, \code{bk}, or

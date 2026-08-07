@@ -762,10 +762,12 @@ arma::vec p_cir_stat_Watson(arma::vec x, arma::uword n = 0,
   // Feasible values?
   if (ind.n_elem > 0) {
 
-    // Add Stephens (1970) modification?
+    // Add Stephens (1970) modification? Invert the Watson transform applied in
+    // cir_stat_Watson()/d_cir_stat_Watson(): (U2 - 0.1/n + 0.1/n^2)(1 + 0.8/n).
     if (Stephens) {
 
-      x /= (1 + 0.155 / std::sqrt(n) + 0.24 / n);
+      x /= (1 + 0.8 / n);
+      x += 0.1 / n - 0.1 / (n * n);
 
     }
 

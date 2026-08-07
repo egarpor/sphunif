@@ -5,8 +5,7 @@
 \title{Efficient evaluation of the empirical cumulative distribution
 function}
 \usage{
-ecdf_bin(data, sorted_x, data_sorted = FALSE, efic = TRUE,
-  divide_n = TRUE)
+ecdf_bin(data, sorted_x, data_sorted = FALSE, efic = TRUE, divide_n = TRUE)
 }
 \arguments{
 \item{data}{a vector or column matrix containing the sample.}
@@ -14,22 +13,22 @@ ecdf_bin(data, sorted_x, data_sorted = FALSE, efic = TRUE,
 \item{sorted_x}{a vector or column matrix with the evaluation points
 \bold{sorted increasingly}.}
 
-\item{data_sorted}{is \code{data} is already sorted increasingly?
-This avoids sorting the data internally.}
+\item{data_sorted}{is \code{data} is already sorted increasingly? This
+avoids sorting the data internally.}
 
 \item{efic}{use the more efficient version of the ecdf evaluation? Set to
 \code{FALSE} only for debugging purposes.}
 
-\item{divide_n}{if \code{FALSE}, returns the absolute frequencies instead
-of the relative frequencies. Defaults to \code{TRUE}.}
+\item{divide_n}{if \code{FALSE}, returns the absolute frequencies instead of
+the relative frequencies. Defaults to \code{TRUE}.}
 }
 \value{
 The ecdf evaluated at \code{sorted_x}.
 }
 \description{
-Evaluates the empirical cumulative distribution function
-(ecdf) of a sample \code{data} at the evaluation points \code{sorted_x}.
-This is done through binary search.
+Evaluates the empirical cumulative distribution function (ecdf)
+of a sample \code{data} at the evaluation points \code{sorted_x}. This is
+done through binary search.
 }
 \section{Warning}{
 

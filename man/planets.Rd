@@ -8,13 +8,13 @@
 A data frame with 9 rows and 3 variables:
 \describe{
   \item{planet}{names of the planets and Pluto.}
-  \item{i}{inclination; the orbit's plane angle with respect to the
-  ecliptic plane, in radians in \eqn{[0, \pi]}.}
+  \item{i}{inclination; the orbit's plane angle with respect to the ecliptic
+  plane, in radians in \eqn{[0, \pi]}.}
   \item{om}{longitude of the ascending node; the counterclockwise angle from
-  the vector pointing to the First Point of Aries and that pointing to
-  the ascending node (the intersection between orbit and ecliptic plane), in
-  radians in \eqn{[0, 2\pi)}. (Both vectors are heliocentric and within
-  the ecliptic plane.)}
+  the vector pointing to the First Point of Aries and that pointing to the
+  ascending node (the intersection between orbit and ecliptic plane), in
+  radians in \eqn{[0, 2\pi)}. (Both vectors are heliocentric and within the
+  ecliptic plane.)}
 }
 }
 \source{
@@ -27,13 +27,13 @@ planets
 Planet orbits data from the
 \href{https://ssd.jpl.nasa.gov/planets/approx_pos.html}{
 JPL Keplerian Elements for Approximate Positions of the Major Planets}.
-The normal vector of a planet orbit represents is a vector on \eqn{S^2}.
+The normal vector of a planet orbit represents is a vector on
+\eqn{\mathbb{S}^2}.
 }
 \details{
 The normal vector to the ecliptic plane of the planet with inclination
 \eqn{i} and longitude of the ascending node \eqn{\omega} is
-\deqn{(\sin(i) \sin(\omega), -\sin(i) \cos(\omega), \cos(i))'.}{
-(sin(i) sin(\omega), -sin(i) cos(\omega), cos(i))'.}
+\deqn{(\sin(i) \sin(\omega), -\sin(i) \cos(\omega), \cos(i))'.}
 
 The script performing the data preprocessing is available at
 \href{https://github.com/egarpor/sphunif/blob/master/data-raw/planets.R}{

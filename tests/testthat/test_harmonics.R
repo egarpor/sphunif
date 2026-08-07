@@ -52,6 +52,7 @@ test_that("c_p_k = (1 + (2 * k) / (p - 2))^(-2) * d_p_k *
 
 test_that("angles_to_sphere vs. sphere_to_angles", {
 
+  set.seed(12314)
   n <- 10
   for (p in c(2:4, 11)) {
     X <- r_unif_sph(n = n, p = p, M = 1)[, , 1]
@@ -71,6 +72,7 @@ test_that("angles_to_sphere vs. sphere_to_angles", {
 test_that("Harmonics with (i, k) vs. m", {
 
   skip_on_cran()
+  set.seed(12314)
   for (p in 2:5) {
     repeat {
       m <- c(rpois(n = p - 1, lambda = 2), sample(c(0, 1), size = 1))
@@ -231,6 +233,7 @@ test_that("Alternative version Funk-Hecke formula", {
 
 test_that("Eigenvalues and eigenfunctions of the Laplace-Beltrami operator", {
 
+  set.seed(12314)
   Y <- function(x, k, i) {
     xi <- x / sqrt(sum(x^2))
     g_i_k(x = xi, k = k, i = i)

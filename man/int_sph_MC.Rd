@@ -4,33 +4,39 @@
 \alias{int_sph_MC}
 \title{Monte Carlo integration of functions on the (hyper)sphere}
 \usage{
-int_sph_MC(f, p, M = 10000, cores = 1, chunks = ceiling(M/1000),
-  seeds = NULL, ...)
+int_sph_MC(
+  f,
+  p,
+  M = 10000,
+  cores = 1,
+  chunks = ceiling(M/1000),
+  seeds = NULL,
+  ...
+)
 }
 \arguments{
 \item{f}{function to be integrated. Its first argument must be the
 (hyper)sphere position. Must be vectorized and return a vector of size
 \code{nrow(x)} for a matrix input \code{x}. See examples.}
 
-\item{p}{integer giving the dimension of the ambient space \eqn{R^p} that
-contains \eqn{S^{p-1}}.}
+\item{p}{integer giving the dimension of the ambient space
+\eqn{\mathbb{R}^p} that contains \eqn{\mathbb{S}^{p-1}}.}
 
 \item{M}{number of Monte Carlo samples. Defaults to \code{1e4}.}
 
 \item{cores}{number of cores to perform the integration. Defaults to
 \code{1}.}
 
-\item{chunks}{number of chunks to split the \code{M} Monte Carlo
-samples. Useful for parallelizing the integration in \code{chunks}
-tasks containing \code{ceiling(M / chunks)} replications. Useful also for
-avoiding memory bottlenecks when \code{M} is large. Defaults to
-\cr\code{ceiling(M / 1e3)}.}
+\item{chunks}{number of chunks to split the \code{M} Monte Carlo samples.
+Useful for parallelizing the integration in \code{chunks} tasks containing
+\code{ceiling(M / chunks)} replications. Useful also for avoiding memory
+bottlenecks when \code{M} is large. Defaults to \cr\code{ceiling(M / 1e3)}.}
 
-\item{seeds}{if provided, a vector of size \code{chunks} for fixing the
-seeds on each of the simulation chunks (useful for reproducing parallel
-simulations). Specifically, for \code{k in 1:chunks}, seeds are
-set as \code{set.seed(seeds[k], kind = "Mersenne-Twister")} in each chunk.
-Defaults to \code{NULL} (no seed setting is done).}
+\item{seeds}{if provided, a vector of size \code{chunks} for fixing the seeds
+on each of the simulation chunks (useful for reproducing parallel
+simulations). Specifically, for \code{k in 1:chunks}, seeds are set as
+\code{set.seed(seeds[k], kind = "Mersenne-Twister")} in each chunk. Defaults
+to \code{NULL} (no seed setting is done).}
 
 \item{...}{optional arguments to be passed to \code{f} or to
 \code{\link[foreach]{foreach}} (for example, \code{.export} to export global
@@ -41,10 +47,10 @@ A scalar with the approximate integral.
 }
 \description{
 Monte Carlo approximation of the integral
-\deqn{\int_{S^{p-1}}f(x)\,\mathrm{d}x}{\int_{S^{p-1}} f(x) dx}
-of a function \eqn{f:S^{p-1} \rightarrow R} defined on the (hyper)sphere
-\eqn{S^{p-1}:=\{{\bf x}\in R^p:||{\bf x}||=1\}}{
-S^{p-1}:=\{x\in R^p:||x||=1\}}, \eqn{p\ge 2}.
+\deqn{\int_{\mathbb{S}^{p-1}}f(x)\,\mathrm{d}x}
+of a function \eqn{f:\mathbb{S}^{p-1} \rightarrow \mathbb{R}} defined on the
+(hyper)sphere \eqn{\mathbb{S}^{p-1}:=\{\boldsymbol{x}\in\mathbb{R}^p:
+\|\boldsymbol{x}\|=1\}}, \eqn{p\ge 2}.
 }
 \details{
 It is possible to have a progress bar if \code{int_sph_MC} is wrapped with

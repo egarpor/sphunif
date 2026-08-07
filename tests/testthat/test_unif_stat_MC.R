@@ -208,3 +208,16 @@ test_that("Parallelization is faster", {
   expect_gt(t1, t2)
 
 })
+
+test_that("chunks simulate at least M replications (ceiling)", {
+
+  # Regression: M %/% chunks silently dropped replications when M was not a
+  # multiple of chunks; ceiling(M / chunks) never simulates fewer than M.
+  M <- 1000
+  chunks <- 3
+  out <- unif_stat_MC(n = n, type = "Rayleigh", p = 3, M = M, chunks = chunks,
+                      return_stats = TRUE, seeds = 1:chunks)
+  expect_equal(nrow(out$stats_MC), chunks * ceiling(M / chunks))
+  expect_gte(nrow(out$stats_MC), M)
+
+})

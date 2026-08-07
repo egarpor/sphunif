@@ -1,8 +1,8 @@
 Package: sphunif
 Type: Package
 Title: Uniformity Tests on the Circle, Sphere, and Hypersphere
-Version: 1.4.4
-Date: 2026-06-02
+Version: 1.5.0
+Date: 2026-07-27
 Authors@R: c(
      person(given = "Eduardo", family = "García-Portugués",
             role = c("aut", "cre"), email = "edgarcia@est-econ.uc3m.es",
@@ -17,7 +17,7 @@ Authors@R: c(
 Description: Implementation of uniformity tests on the circle and
     (hyper)sphere. The main function of the package is unif_test(), which
     conveniently collects more than 35 tests for assessing uniformity on
-    S^{p-1} = {x in R^p : ||x|| = 1}, p >= 2. The test statistics are 
+    S^{p-1} = {x in R^p : ||x|| = 1}, p >= 2. The test statistics are
     implemented in the unif_stat() function, which allows computing several
     statistics for different samples within a single call, thus facilitating
     Monte Carlo experiments. Furthermore, the unif_stat_MC() function allows
@@ -60,6 +60,4 @@ URL: https://github.com/egarpor/sphunif
 BugReports: https://github.com/egarpor/sphunif/issues
 Encoding: UTF-8
 RoxygenNote: 7.3.3
-Roxygen: list(old_usage = TRUE)
 VignetteBuilder: knitr
-Config/testthat/edition: 3

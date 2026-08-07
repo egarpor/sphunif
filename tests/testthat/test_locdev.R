@@ -31,6 +31,7 @@ test_that("Correct integration of con_f", {
 test_that("d_locdev", {
 
   skip_on_cran()
+  set.seed(21332)
   for (p in 2:4) {
     xp <- r_unif_sph(n = 5, p = p)[, , 1]
     mu <- c(rep(0, p - 1), 1)
@@ -54,6 +55,7 @@ test_that("d_locdev", {
 test_that("r_locdev coherence with d_locdev", {
 
   skip_on_cran()
+  set.seed(50)
   for (p in 2:4) {
     mu <- c(rep(0, p - 1), 1)
     samp_1 <- r_locdev(n = 1e3, mu = mu, kappa = 0.25,
@@ -72,6 +74,7 @@ test_that("r_locdev coherence with d_locdev", {
 test_that("Edge cases d_locdev and r_locdev", {
 
   skip_on_cran()
+  set.seed(21332)
   expect_error(d_locdev(x = 1, mu = 1, kappa = -1, f = NULL))
   expect_error(d_locdev(x = 1:2, mu = 1:3, kappa = -1, f = NULL))
   expect_error(r_locdev(n = 1, mu = 1, kappa = -1))
@@ -101,6 +104,7 @@ test_that("F_from_f via integrate()", {
 test_that("F_from_f for vMF", {
 
   skip_on_cran()
+  set.seed(981575698)
   for (p in c(2:4, 11)) {
     samp_g <- drop(rotasym::r_g_vMF(n = 100, p = p, kappa = 3))
     expect_gt(ks.test(x = F_from_f(f = f1, p = p, Gauss = TRUE,
@@ -134,6 +138,7 @@ test_that("F_inv_from_f via integrate()", {
 test_that("F_inv_from_f for vMF", {
 
   skip_on_cran()
+  set.seed(987204452)
   expect_gt(ks.test(x = F_inv_from_f(f = f1, p = 2, Gauss = TRUE,
                                      K = 1e2, kappa = 3)(v),
                     y = rotasym::r_g_vMF(n = 100, p = 2,

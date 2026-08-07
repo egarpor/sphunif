@@ -19,8 +19,8 @@ r_proj_unif(n, p)
 \arguments{
 \item{x}{a vector of size \code{nx} or a matrix of size \code{c(nx, 1)}.}
 
-\item{p}{integer giving the dimension of the ambient space \eqn{R^p} that
-contains \eqn{S^{p-1}}.}
+\item{p}{integer giving the dimension of the ambient space
+\eqn{\mathbb{R}^p} that contains \eqn{\mathbb{S}^{p-1}}.}
 
 \item{log}{compute the logarithm of the density or distribution?}
 
@@ -34,17 +34,16 @@ density, distribution, or quantile function at \code{x} or \code{u}.
 For \code{r_proj_unif}, a random vector of size \code{n}.
 }
 \description{
-Density, distribution, and quantile functions of the
-projection of the spherical uniform random variable on an arbitrary
-direction, that is, the random variable
-\eqn{\boldsymbol{\gamma}'{\bf X}}{\gamma'X}, where \eqn{{\bf X}}{X}
-is uniformly distributed on the (hyper)sphere
-\eqn{S^{p-1}:=\{{\bf x}\in R^p:||{\bf x}||=1\}}{S^{p-1}:=
-\{x\in R^p:||x||=1\}}, \eqn{p\ge 2}, and
-\eqn{\boldsymbol{\gamma}\in S^{p-1}}{\gamma\in S^{p-1}} is an
-\emph{arbitrary} projection direction. Note that the distribution is
-invariant to the choice of \eqn{\boldsymbol{\gamma}}{\gamma}. Also,
-efficient simulation of \eqn{\boldsymbol{\gamma}'{\bf X}}{\gamma'X}.
+Density, distribution, and quantile functions of the projection
+of the spherical uniform random variable on an arbitrary direction, that is,
+the random variable \eqn{\boldsymbol{\gamma}'\boldsymbol{X}}, where
+\eqn{\boldsymbol{X}} is uniformly distributed on the (hyper)sphere
+\eqn{\mathbb{S}^{p-1}:=\{\boldsymbol{x}\in
+\mathbb{R}^p:\|\boldsymbol{x}\|=1\}}, \eqn{p\ge 2}, and
+\eqn{\boldsymbol{\gamma}\in \mathbb{S}^{p-1}} is an \emph{arbitrary}
+projection direction. Note that the distribution is invariant to the choice
+of \eqn{\boldsymbol{\gamma}}. Also, efficient simulation of
+\eqn{\boldsymbol{\gamma}'\boldsymbol{X}}.
 }
 \examples{
 # Density function

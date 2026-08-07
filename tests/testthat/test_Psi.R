@@ -1,9 +1,9 @@
 
 n <- 5
+set.seed(98720222)
 X <- r_unif_sph(n = n, p = 2, M = 2)
 Theta <- X_to_Theta(X)
 dim(Theta) <- c(n, 1, 2)
-set.seed(98720222)
 A <- matrix(rnorm(4 * 7), nrow = 4, ncol = 7)
 B1 <- tcrossprod(X[, , 1])
 B2 <- tcrossprod(X[, , 2])

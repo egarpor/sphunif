@@ -42,24 +42,25 @@ cir_stat_Watson(Theta, sorted = FALSE, CvM = FALSE, Stephens = FALSE)
 
 cir_stat_Watson_1976(Theta, sorted = FALSE, minus = FALSE)
 
-cir_stat_Range(Theta, sorted = FALSE, gaps_in_Theta = FALSE,
-  max_gap = TRUE)
+cir_stat_Range(Theta, sorted = FALSE, gaps_in_Theta = FALSE, max_gap = TRUE)
 
 cir_stat_Rao(Theta, sorted = FALSE, gaps_in_Theta = FALSE)
 
 cir_stat_Greenwood(Theta, sorted = FALSE, gaps_in_Theta = FALSE)
 
-cir_stat_Log_gaps(Theta, sorted = FALSE, gaps_in_Theta = FALSE,
-  abs_val = TRUE)
+cir_stat_Log_gaps(Theta, sorted = FALSE, gaps_in_Theta = FALSE, abs_val = TRUE)
 
-cir_stat_Vacancy(Theta, a = 2 * pi, sorted = FALSE,
-  gaps_in_Theta = FALSE)
+cir_stat_Vacancy(Theta, a = 2 * pi, sorted = FALSE, gaps_in_Theta = FALSE)
 
-cir_stat_Max_uncover(Theta, a = 2 * pi, sorted = FALSE,
-  gaps_in_Theta = FALSE)
+cir_stat_Max_uncover(Theta, a = 2 * pi, sorted = FALSE, gaps_in_Theta = FALSE)
 
-cir_stat_Num_uncover(Theta, a = 2 * pi, sorted = FALSE,
-  gaps_in_Theta = FALSE, minus_val = TRUE)
+cir_stat_Num_uncover(
+  Theta,
+  a = 2 * pi,
+  sorted = FALSE,
+  gaps_in_Theta = FALSE,
+  minus_val = TRUE
+)
 
 cir_stat_Gini(Theta, sorted = FALSE, gaps_in_Theta = FALSE)
 
@@ -69,8 +70,12 @@ cir_stat_Ajne(Theta, Psi_in_Theta = FALSE)
 
 cir_stat_Rothman(Theta, Psi_in_Theta = FALSE, t = 1/3)
 
-cir_stat_Hodges_Ajne(Theta, asymp_std = FALSE, sorted = FALSE,
-  use_Cressie = TRUE)
+cir_stat_Hodges_Ajne(
+  Theta,
+  asymp_std = FALSE,
+  sorted = FALSE,
+  use_Cressie = TRUE
+)
 
 cir_stat_Cressie(Theta, t = 1/3, sorted = FALSE)
 
@@ -107,17 +112,17 @@ cir_stat_Softmax(Theta, Psi_in_Theta = FALSE, kappa = 1)
 cir_stat_CCF09(Theta, dirs, K_CCF09 = 25L, original = FALSE)
 }
 \arguments{
-\item{Theta}{a \bold{matrix} of size \code{c(n, M)} with \code{M} samples
-of size \code{n} of circular data on \eqn{[0, 2\pi)}. Must not contain
+\item{Theta}{a \bold{matrix} of size \code{c(n, M)} with \code{M} samples of
+size \code{n} of circular data on \eqn{[0, 2\pi)}. Must not contain
 \code{NA}'s.}
 
 \item{sorted}{are the columns of \code{Theta} sorted increasingly? If
-\code{TRUE}, performance is improved. If \code{FALSE} (default), each
-column of \code{Theta} is sorted internally.}
+\code{TRUE}, performance is improved. If \code{FALSE} (default), each column
+of \code{Theta} is sorted internally.}
 
-\item{KS}{compute the Kolmogorov-Smirnov statistic (which is
-\emph{not} invariant under origin shifts) instead of the Kuiper statistic?
-Defaults to \code{FALSE}.}
+\item{KS}{compute the Kolmogorov-Smirnov statistic (which is \emph{not}
+invariant under origin shifts) instead of the Kuiper statistic? Defaults to
+\code{FALSE}.}
 
 \item{Stephens}{compute Stephens (1970) modification so that the null
 distribution of the is less dependent on the sample size?}
@@ -129,24 +134,23 @@ invariant under origin shifts) instead of the Watson statistic? Defaults to
 \item{minus}{compute the invariant \eqn{D_n^-} instead of \eqn{D_n^+}?
 Defaults to \code{FALSE}.}
 
-\item{gaps_in_Theta}{does \code{Theta} contain the matrix of
-\emph{circular gaps} that is obtained with \cr\code{\link{cir_gaps}(Theta)}?
-If \code{FALSE} (default), the circular gaps are computed internally.}
+\item{gaps_in_Theta}{does \code{Theta} contain the matrix of \emph{circular
+gaps} that is obtained with \cr\code{\link{cir_gaps}(Theta)}? If \code{FALSE}
+(default), the circular gaps are computed internally.}
 
 \item{max_gap}{compute the maximum gap for the range statistic? If
-\code{TRUE} (default), rejection happens for \emph{large} values of
-the statistic, which is consistent with the rest of tests. Otherwise,
-the minimum gap is computed and rejection happens for \emph{low} values.}
+\code{TRUE} (default), rejection happens for \emph{large} values of the
+statistic, which is consistent with the rest of tests. Otherwise, the minimum
+gap is computed and rejection happens for \emph{low} values.}
 
-\item{abs_val}{return the absolute value of the Darling's log gaps
-statistic? If \code{TRUE} (default), rejection happens for \emph{large}
-values of the statistic, which is consistent with the rest of tests.
-Otherwise, the signed statistic is computed and rejection happens for
-large \emph{absolute} values.}
+\item{abs_val}{return the absolute value of the Darling's log gaps statistic?
+If \code{TRUE} (default), rejection happens for \emph{large} values of the
+statistic, which is consistent with the rest of tests. Otherwise, the signed
+statistic is computed and rejection happens for large \emph{absolute} values.}
 
 \item{a}{either: \itemize{
-\item \eqn{a_n = a / n} parameter used in the length of the arcs
-of the coverage-based tests. Must be positive. Defaults to \code{2 * pi}.
+\item \eqn{a_n = a / n} parameter used in the length of the arcs of the
+coverage-based tests. Must be positive. Defaults to \code{2 * pi}.
 \item \eqn{a} parameter for the Stereo test, a real in \eqn{[-1, 1]}.
 Defaults to \code{0}.
 }}
@@ -157,9 +161,9 @@ uncovered spacings? If \code{TRUE} (default), rejection happens for
 tests. Otherwise, rejection happens for \emph{low} values.}
 
 \item{Psi_in_Theta}{does \code{Theta} contain the shortest angles matrix
-\eqn{\boldsymbol\Psi}{\Psi} that is obtained with
+\eqn{\boldsymbol\Psi} that is obtained with
 \cr\code{\link{Psi_mat}(array(Theta, dim = c(n, 1, M)))}? If \code{FALSE}
-(default), \eqn{\boldsymbol\Psi}{\Psi} is computed internally.}
+(default), \eqn{\boldsymbol\Psi} is computed internally.}
 
 \item{t}{\eqn{t} parameter for the Rothman and Cressie tests, a real in
 \eqn{(0, 1)}. Defaults to \code{1 / 3}.}
@@ -167,9 +171,9 @@ tests. Otherwise, rejection happens for \emph{low} values.}
 \item{asymp_std}{normalize the Hodges-Ajne statistic in terms of its
 asymptotic distribution? Defaults to \code{FALSE}.}
 
-\item{use_Cressie}{compute the Hodges-Ajne statistic as a particular case
-of the Cressie statistic? Defaults to \code{TRUE} as it is more efficient.
-If \code{FALSE}, the geometric construction in Ajne (1968) is employed.}
+\item{use_Cressie}{compute the Hodges-Ajne statistic as a particular case of
+the Cressie statistic? Defaults to \code{TRUE} as it is more efficient. If
+\code{FALSE}, the geometric construction in Ajne (1968) is employed.}
 
 \item{m}{integer \eqn{m} for the \eqn{m}-modal Rayleigh test. Defaults to
 \code{m = 1} (the standard Rayleigh test).}
@@ -184,23 +188,23 @@ If \code{FALSE}, the geometric construction in Ajne (1968) is employed.}
 invariant under origin shifts) instead of the Projected Anderson-Darling
 statistic? Defaults to \code{FALSE}.}
 
-\item{rho}{\eqn{\rho} parameter for the Poisson test, a real in
-\eqn{[0, 1)}. Defaults to \code{0.5}.}
+\item{rho}{\eqn{\rho} parameter for the Poisson test, a real in \eqn{[0, 1)}.
+Defaults to \code{0.5}.}
 
-\item{kappa}{\eqn{\kappa} parameter for the Softmax test, a
-non-negative real. Defaults to \code{1}.}
+\item{kappa}{\eqn{\kappa} parameter for the Softmax test, a non-negative
+real. Defaults to \code{1}.}
 
 \item{dirs}{a matrix of size \code{c(n_proj, 2)} containing \code{n_proj}
-random directions (in Cartesian coordinates) on \eqn{S^1} to perform the
-CCF09 test.}
+random directions (in Cartesian coordinates) on \eqn{\mathbb{S}^1} to perform
+the CCF09 test.}
 
 \item{K_CCF09}{integer giving the truncation of the series present in the
 asymptotic distribution of the Kolmogorov-Smirnov statistic. Defaults to
 \code{25}.}
 
-\item{original}{return the CCF09 statistic as originally defined?
-If \code{FALSE} (default), a faster and equivalent statistic is computed,
-and rejection happens for \emph{large} values of the statistic, which is
+\item{original}{return the CCF09 statistic as originally defined? If
+\code{FALSE} (default), a faster and equivalent statistic is computed, and
+rejection happens for \emph{large} values of the statistic, which is
 consistent with the rest of tests. Otherwise, rejection happens for
 \emph{low} values.}
 }
@@ -211,7 +215,7 @@ of the \code{M} samples.
 \description{
 Low-level implementation of several statistics for assessing
 circular uniformity on \eqn{[0, 2\pi)} or, equivalently,
-\eqn{S^1:=\{{\bf x}\in R^2:||{\bf x}||=1\}}{S^1:=\{x\in R^2:||x||=1\}}.
+\eqn{\mathbb{S}^1:=\{\boldsymbol{x}\in \mathbb{R}^2:\|\boldsymbol{x}\|=1\}}.
 }
 \details{
 Descriptions and references for most of the statistics are available
@@ -223,9 +227,8 @@ statistics \code{2 * cir_stat_Watson} and \code{cir_stat_Rothman},
 respectively.
 }
 \section{Warning}{
-
-Be careful on avoiding the next bad usages of the functions, which will
-produce spurious results:
+ Be careful on avoiding the next bad usages of the
+functions, which will produce spurious results:
 \itemize{
   \item The entries of \code{Theta} are \emph{not} in \eqn{[0, 2\pi)}.
   \item \code{Theta} does \emph{not} contain the circular gaps when

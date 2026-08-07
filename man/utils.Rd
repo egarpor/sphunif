@@ -11,8 +11,8 @@ n_from_dist_vector(n_dist)
 t_inv_sqrt_one(t)
 }
 \arguments{
-\item{n_dist}{a positive integer \eqn{(n - 1) * n / 2} for which \eqn{n}
-is to be recovered.}
+\item{n_dist}{a positive integer \eqn{(n - 1) * n / 2} for which \eqn{n} is
+to be recovered.}
 
 \item{t}{a vector to evaluate \eqn{t / \sqrt{1 - t^2}}.}
 }

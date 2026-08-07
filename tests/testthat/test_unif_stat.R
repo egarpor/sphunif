@@ -288,6 +288,7 @@ test_that("Rayleigh vs. Softmax and Poisson", {
 
 test_that("Pycke_q vs. Poisson", {
 
+  set.seed(131121)
   mc <- unif_stat_MC(n = 10, type = c("Pycke_q", "Poisson"), p = 2,
                      Poisson_rho = 0.3, Pycke_q = 0.3, M = 20)$stats_MC
   expect_equal(cor(mc)[1, 2], 1)
@@ -387,5 +388,31 @@ test_that("Passing edge cases", {
                                      CCF09_dirs = r_d_3)))))
   expect_equal(unif_stat(data = 1:6, type = c("Ajne", "Ajne", "Watson")),
                unif_stat(data = 1:6, type = c("Ajne", "Watson")))
+
+})
+
+test_that("Numeric type vectors select the corresponding statistics", {
+
+  expect_named(unif_stat(X_3, type = c(1, 2)), avail_sph_tests[1:2])
+  expect_named(unif_stat(Theta_1, type = c(3, 1)),
+               avail_cir_tests[c(3, 1)])
+
+})
+
+test_that("Pycke for p >= 4 uses only the Riesz s = 0 column", {
+
+  # With a vectorized Riesz_s, Pycke must stay a single column (the s = 0 one)
+  s <- suppressWarnings(unif_stat(X_4, type = c("Pycke", "Riesz"),
+                                  Riesz_s = c(0, 1)))
+  expect_equal(NCOL(s$Pycke), 1L)
+  expect_equal(NROW(s$Pycke), dim(X_4)[3])
+
+})
+
+test_that("Vectorized columns are flattened also for type = 'all'", {
+
+  s <- unif_stat(X_3, type = "all", Riesz_s = c(1, 2), CCF09_dirs = r_d_3)
+  expect_true(all(c("Riesz.1", "Riesz.2") %in% names(s)))
+  expect_false(any(vapply(s, function(col) !is.null(dim(col)), logical(1))))
 
 })

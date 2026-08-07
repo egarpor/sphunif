@@ -2,8 +2,8 @@
 
 #' @title Asymptotic distributions for spherical uniformity statistics
 #'
-#' @description Computation of the asymptotic null distributions of
-#' spherical uniformity statistics.
+#' @description Computation of the asymptotic null distributions of spherical
+#' uniformity statistics.
 #'
 #' @inheritParams cir_stat_distr
 #' @inheritParams Sobolev
@@ -15,8 +15,8 @@
 #' @param regime type of asymptotic regime for the CJ12 test, either \code{1}
 #' (sub-exponential regime), \code{2} (exponential), or \code{3}
 #' (super-exponential; default).
-#' @param beta \eqn{\beta} parameter in the exponential regime of the CJ12
-#' test, a non-negative real. Defaults to \code{0}.
+#' @param beta \eqn{\beta} parameter in the exponential regime of the CJ12 test,
+#' a non-negative real. Defaults to \code{0}.
 #' @inheritParams cir_stat
 #' @inheritParams unif_stat
 #' @param ... further parameters passed to \code{\link{p_Sobolev}} or

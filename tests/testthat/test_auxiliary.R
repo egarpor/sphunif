@@ -72,3 +72,34 @@ test_that("t_inv_sqrt_one and n_from_dist_vector", {
     sum(lower.tri(tcrossprod(1:n), diag = FALSE)))), n)
 
 })
+
+test_that("quantile_sorted", {
+
+  x_sorted <- sort(rnorm(37))
+  probs <- c(0, 0.1, 0.5, 0.9, 0.95, 1)
+  expect_equal(sphunif:::quantile_sorted(x_sorted = x_sorted, probs = probs),
+               quantile(x_sorted, probs = probs, type = 7, names = FALSE))
+  expect_equal(sphunif:::quantile_sorted(x_sorted = rep(2, 5), probs = probs),
+               quantile(rep(2, 5), probs = probs, type = 7, names = FALSE))
+  expect_equal(sphunif:::quantile_sorted(x_sorted = 3, probs = probs),
+               quantile(3, probs = probs, type = 7, names = FALSE))
+
+})
+
+test_that("quantile_col", {
+
+  probs <- c(0, 0.1, 0.5, 0.9, 0.95, 1)
+  q_ref <- quantile(samp_s, probs = probs, type = 7, names = FALSE)
+  samp_na <- c(NA, samp_s)
+  expect_equal(sphunif:::quantile_col(x = samp_s, probs = probs), q_ref)
+  expect_equal(sphunif:::quantile_col(x = samp_s, probs = probs),
+               sphunif:::quantile_sorted(x_sorted = samp_s, probs = probs))
+  expect_equal(sphunif:::quantile_col(x = samp, probs = probs), q_ref)
+  expect_equal(sphunif:::quantile_col(x = samp_na, probs = probs),
+               quantile(samp_na, probs = probs, na.rm = TRUE, names = FALSE))
+  expect_equal(sphunif:::quantile_col(x = c(NA, samp), probs = probs), q_ref)
+  expect_null(names(sphunif:::quantile_col(x = samp, probs = probs)))
+  expect_length(sphunif:::quantile_col(x = samp_na, probs = probs),
+                length(probs))
+
+})

@@ -18,18 +18,15 @@ const double inv_two_M_PI = 0.5 / M_PI;
 //' @title Surface area of the intersection of two hyperspherical caps
 //'
 //' @description Computation of
-//' \deqn{A_x(\theta_{ij}) := \frac{1}{\omega_p}
-//' \int_{S^{p - 1}} 1_{\{{\bf X}_i'\boldsymbol\gamma \le x,
-//' {\bf X}_j'\boldsymbol\gamma \le x\}}\,\mathrm{d}\boldsymbol\gamma,}{
-//' A_x(\theta_{ij}) := \frac{1}{\omega_p} \int_{S^{p - 1}}
-//' 1_{X_i'\gamma \le x, X_j'\gamma \le x} d\gamma,}
-//' where \eqn{\theta_{ij} := \cos^{-1}({\bf X}_i'{\bf X}_j)
-//' \in [0, \pi]}{\theta_{ij} := \cos^{-1}(X_i'X_j) \in [0, \pi]},
-//' \eqn{x \in [-1, 1]}, and \eqn{\omega_{p}} is the surface area of
-//' \eqn{S^{p - 1}}. \eqn{A_x(\theta_{ij})} is the proportion of surface area
-//' of \eqn{S^{p - 1}} covered by the intersection of two hyperspherical caps
-//' centered at \eqn{{\bf X}_i}{X_i} and \eqn{{\bf X}_j}{X_j} and with
-//' common solid angle \eqn{\pi - \cos^{-1}(x)}.
+//' \deqn{A_x(\theta_{ij}) := \frac{1}{\omega_p} \int_{\mathbb{S}^{p - 1}}
+//' 1_{\{\boldsymbol{X}_i'\boldsymbol\gamma \le x,
+//' \boldsymbol{X}_j'\boldsymbol\gamma \le x\}}\,\mathrm{d}\boldsymbol\gamma,}
+//' where \eqn{\theta_{ij} := \cos^{-1}(\boldsymbol{X}_i'\boldsymbol{X}_j) \in
+//' [0, \pi]}, \eqn{x \in [-1, 1]}, and \eqn{\omega_{p}} is the surface area of
+//' \eqn{\mathbb{S}^{p - 1}}. \eqn{A_x(\theta_{ij})} is the proportion of
+//' surface area of \eqn{\mathbb{S}^{p - 1}} covered by the intersection of two
+//' hyperspherical caps centered at \eqn{\boldsymbol{X}_i} and
+//' \eqn{\boldsymbol{X}_j} and with common solid angle \eqn{\pi - \cos^{-1}(x)}.
 //'
 //' @param theta vector with values in \eqn{[0, \pi]}.
 //' @param x vector with values in \eqn{[-1, 1]}.
@@ -37,10 +34,10 @@ const double inv_two_M_PI = 0.5 / M_PI;
 //' @param N number of points used in the
 //' \link[=Gauss_Legen_nodes]{Gauss-Legendre quadrature}. Defaults to
 //' \code{160}.
-//' @param as_matrix return a matrix with the values of \eqn{A_x(\theta)} on
-//' the grid formed by \code{theta} and \code{x}? If \code{FALSE},
-//' \eqn{A_x(\theta)} is evaluated on \code{theta} and \code{x} if they equal
-//' in size. Defaults to \code{TRUE}.
+//' @param as_matrix return a matrix with the values of \eqn{A_x(\theta)} on the
+//' grid formed by \code{theta} and \code{x}? If \code{FALSE}, \eqn{A_x(\theta)}
+//' is evaluated on \code{theta} and \code{x} if they equal in size. Defaults to
+//' \code{TRUE}.
 //' @return A matrix of size \code{c(length(theta), length(x))} containing the
 //' evaluation of \eqn{A_x(\theta)} if \code{as_matrix = TRUE}. Otherwise,
 //' a vector of size \code{c(length(theta)} if \code{theta} and \code{x} equal

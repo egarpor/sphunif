@@ -2,11 +2,10 @@
 
 #' @title Circular and (hyper)spherical uniformity statistics
 #'
-#' @description Implementation of several statistics for assessing uniformity
-#' on the (hyper)sphere
-#' \eqn{S^{p-1} := \{{\bf x} \in R^p : ||{\bf x}|| = 1\}}{
-#' S^{p-1} := \{x \in R^p : ||x|| = 1\}}, \eqn{p\ge 2}, for a sample
-#' \eqn{{\bf X}_1,\ldots,{\bf X}_n\in S^{p-1}}{X_1,\ldots,X_n\in S^{p-1}}.
+#' @description Implementation of several statistics for assessing uniformity on
+#' the (hyper)sphere \eqn{\mathbb{S}^{p-1} := \{\boldsymbol{x} \in \mathbb{R}^p
+#' : \|\boldsymbol{x}\| = 1\}}, \eqn{p\ge 2}, for a sample
+#' \eqn{\boldsymbol{X}_1,\ldots,\boldsymbol{X}_n\in \mathbb{S}^{p-1}}.
 #'
 #' \code{unif_stat} receives a (several) sample(s) of directions in
 #' \emph{Cartesian coordinates}, except for the circular case (\eqn{p=2}) in
@@ -18,18 +17,18 @@
 #'
 #' @param data sample to compute the test statistic. An \bold{array} of size
 #' \code{c(n, p, M)} containing \code{M} samples of size \code{n} of directions
-#' (in Cartesian coordinates) on \eqn{S^{p-1}}. Alternatively, a
+#' (in Cartesian coordinates) on \eqn{\mathbb{S}^{p-1}}. Alternatively, a
 #' \bold{matrix} of size \code{c(n, M)} with the angles on \eqn{[0, 2\pi)} of
-#' the \code{M} circular samples of size \code{n} on \eqn{S^{1}}. Other objects
-#' accepted are an array of size \code{c(n, 1, M)} or a vector of size
+#' the \code{M} circular samples of size \code{n} on \eqn{\mathbb{S}^{1}}. Other
+#' objects accepted are an array of size \code{c(n, 1, M)} or a vector of size
 #' \code{n} with angular data. Must not contain \code{NA}'s.
 #' @inheritParams unif_test
 #' @param data_sorted is the circular data sorted? If \code{TRUE}, certain
 #' statistics are faster to compute. Defaults to \code{FALSE}.
 #' @param Rayleigh_m integer \eqn{m} for the \eqn{m}-modal Rayleigh test.
 #' Defaults to \code{m = 1} (the standard Rayleigh test).
-#' @param cov_a \eqn{a_n = a / n} parameter used in the length of the arcs
-#' of the coverage-based tests. Must be positive. Defaults to \code{2 * pi}.
+#' @param cov_a \eqn{a_n = a / n} parameter used in the length of the arcs of
+#' the coverage-based tests. Must be positive. Defaults to \code{2 * pi}.
 #' @param Rothman_t \eqn{t} parameter for the Rothman test, a real in
 #' \eqn{(0, 1)}. Defaults to \code{1 / 3}.
 #' @param Cressie_t \eqn{t} parameter for the Cressie test, a real in
@@ -39,9 +38,9 @@
 #' @param Riesz_s \eqn{s} parameter for the \eqn{s}-Riesz test, a real in
 #' \eqn{(0, 2)}. Defaults to \code{1}.
 #' @param CCF09_dirs a matrix of size \code{c(n_proj, p)} containing
-#' \code{n_proj} random directions (in Cartesian coordinates) on \eqn{S^{p-1}}
-#' to perform the CCF09 test. If \code{NULL} (default), a sample of size
-#' \code{n_proj = 50} directions is computed internally.
+#' \code{n_proj} random directions (in Cartesian coordinates) on
+#' \eqn{\mathbb{S}^{p-1}} to perform the CCF09 test. If \code{NULL} (default), a
+#' sample of size \code{n_proj = 50} directions is computed internally.
 #' @param K_CCF09 integer giving the truncation of the series present in the
 #' asymptotic distribution of the Kolmogorov-Smirnov statistic. Defaults to
 #' \code{25}.
@@ -54,13 +53,12 @@
 #' non-negative real. Defaults to \code{1}.
 #' @param Stein_K truncation \eqn{K} parameter for the Stein test, a positive
 #' integer. Defaults to \code{10}.
-#' @param Stein_cf logical indicating whether to use the characteristic
-#' function in the Stein test. Defaults to \code{FALSE} (moment generating
-#' function).
+#' @param Stein_cf logical indicating whether to use the characteristic function
+#' in the Stein test. Defaults to \code{FALSE} (moment generating function).
 #' @param Stereo_a \eqn{a} parameter for the Stereo test, a real in
 #' \eqn{[-1, 1]}. Defaults to \code{0}.
-#' @param Sobolev_vk2 weights for the finite Sobolev test. A non-negative
-#' vector or matrix. Defaults to \code{c(0, 0, 1)}.
+#' @param Sobolev_vk2 weights for the finite Sobolev test. A non-negative vector
+#' or matrix. Defaults to \code{c(0, 0, 1)}.
 #' @return A data frame of size \code{c(M, length(type))}, with column names
 #' given by \code{type}, that contains the values of the test statistics.
 #' @details
@@ -223,7 +221,7 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
   } else if (is.numeric(type)) {
 
     type <- unique(type)
-    if (type > length(avail_stats)) {
+    if (any(type > length(avail_stats) | type < 1)) {
 
       stop("type must be a numeric vector with values between 1 and ",
            length(avail_stats), ".")
@@ -543,9 +541,9 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
                    ((run_test$Rayleigh && any(Rayleigh_m == 1)) ||
                     !Psi_in_Theta)) {
 
-          if (run_test$Rayleigh) {
+          if (run_test$Rayleigh && any(Rayleigh_m == 1)) {
 
-            Riesz[, i] <- stats$Rayleigh[, which(Rayleigh_m == 1)]
+            Riesz[, i] <- stats$Rayleigh[, match(1, Rayleigh_m)]
 
           } else {
 
@@ -647,7 +645,7 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
 
       if (run_test$Riesz && any(Riesz_s == 0)) {
 
-        stats$Pycke <- (2 * n) / (n - 1) * stats$Riesz[, which(Riesz_s == 0)]
+        stats$Pycke <- (2 * n) / (n - 1) * stats$Riesz[, match(0, Riesz_s)]
 
       } else {
 
@@ -678,7 +676,7 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
 
           if (run_test$Rayleigh && any(Rayleigh_m == 1)) {
 
-            Poisson[, i] <- stats$Rayleigh[, which(Rayleigh_m == 1)]
+            Poisson[, i] <- stats$Rayleigh[, match(1, Rayleigh_m)]
 
           } else {
 
@@ -707,7 +705,7 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
 
           if (run_test$Rayleigh && any(Rayleigh_m == 1)) {
 
-            Softmax[, i] <- stats$Rayleigh[, which(Rayleigh_m == 1)]
+            Softmax[, i] <- stats$Rayleigh[, match(1, Rayleigh_m)]
 
           } else {
 
@@ -955,14 +953,14 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
         if (p == 3) {
 
           stats$Pycke <- n / (2 * pi * (n - 1)) *
-            (stats$Riesz[, which(Riesz_s == 0)] - (log(4) - 1) / 2)
+            (stats$Riesz[, match(0, Riesz_s)] - (log(4) - 1) / 2)
 
         } else {
 
           warning(paste("Pycke statistic is only defined for p = 2,3.",
                         "Using Riesz statistic with s = 0 instead,",
                         "which behaves consistently across dimensions."))
-          stats$Pycke <- stats$Riesz
+          stats$Pycke <- stats$Riesz[, match(0, Riesz_s)]
 
         }
 
@@ -1075,7 +1073,7 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
     return(ifelse(is.null(dim(obj)), length(obj), nrow(obj)))
 
   })
-  if (any(stats_vectorized %in% type) && any(n_param_vectorized > 1)) {
+  if (any(stats_vectorized %in% stats_type) && any(n_param_vectorized > 1)) {
 
     stats <- do.call(data.frame, stats)
 

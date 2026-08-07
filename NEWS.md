@@ -57,3 +57,19 @@
 # sphunif 1.4.4
 
 * Add `cmb` dataset
+
+# sphunif 1.5.0
+
+* Efficiency improvements in `unif_stat_MC()`, `unif_test()`, and `sph_stat_Sobolev()`.
+* Fix the rejection direction in `unif_test(p_value = "crit_val")`.
+* Fix `d_proj_unif_cap()`, whose density was identically zero due to a wrong support bound.
+* Fix the Stephens (1970) modification in `p_cir_stat_Watson()`, which used the Kuiper constants.
+* Fix the Stephens (1970) small-sample constant of the Kolmogorov-Smirnov statistic in `cir_stat_Kuiper(KS = TRUE)` (was `0.21 / n`, should be `0.11 / n`).
+* Fix `unif_stat()`, `unif_test()`, and `unif_stat_distr()` to accept numeric `type` vectors of length greater than one.
+* Fix `unif_stat_distr(approx = "MC")` with unsorted evaluation points `x`.
+* Fix `unif_stat()` so that `Pycke` for `p >= 4` and vectorized columns for `type = "all"` are handled correctly.
+* Fix `unif_stat()` when a vectorized parameter has repeated values that are reused by other statistics (e.g., `Riesz_s = c(0, 0)` for `Pycke`, or `Rayleigh_m = c(1, 1)` for `Riesz`, `Softmax`, and `Poisson`).
+* Fix `unif_test(p_value = "MC")` with a single significance level.
+* `unif_stat_MC()` now simulates `ceiling(M / chunks)` replications per chunk.
+* Forward `Stein_cf` in `d_Sobolev()`, `p_Sobolev()`, and `q_Sobolev()`.
+* More unit tests.

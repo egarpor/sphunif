@@ -78,33 +78,25 @@ p_sph_stat_PCvM(x, p, K_max = 1000, thre = 0, method = "I", ...)
 
 d_sph_stat_PCvM(x, p, K_max = 1000, thre = 0, method = "I", ...)
 
-p_sph_stat_Poisson(x, p, rho = 0.5, K_max = 1000, thre = 0,
-  method = "I", ...)
+p_sph_stat_Poisson(x, p, rho = 0.5, K_max = 1000, thre = 0, method = "I", ...)
 
-d_sph_stat_Poisson(x, p, rho = 0.5, K_max = 1000, thre = 0,
-  method = "I", ...)
+d_sph_stat_Poisson(x, p, rho = 0.5, K_max = 1000, thre = 0, method = "I", ...)
 
-p_sph_stat_PRt(x, p, t = 1/3, K_max = 1000, thre = 0, method = "I",
-  ...)
+p_sph_stat_PRt(x, p, t = 1/3, K_max = 1000, thre = 0, method = "I", ...)
 
-d_sph_stat_PRt(x, p, t = 1/3, K_max = 1000, thre = 0, method = "I",
-  ...)
+d_sph_stat_PRt(x, p, t = 1/3, K_max = 1000, thre = 0, method = "I", ...)
 
-p_sph_stat_Riesz(x, p, s = 1, K_max = 1000, thre = 0, method = "I",
-  ...)
+p_sph_stat_Riesz(x, p, s = 1, K_max = 1000, thre = 0, method = "I", ...)
 
-d_sph_stat_Riesz(x, p, s = 1, K_max = 1000, thre = 0, method = "I",
-  ...)
+d_sph_stat_Riesz(x, p, s = 1, K_max = 1000, thre = 0, method = "I", ...)
 
 p_sph_stat_Sobolev(x, p, vk2 = c(0, 0, 1), method = "I", ...)
 
 d_sph_stat_Sobolev(x, p, vk2 = c(0, 0, 1), method = "I", ...)
 
-p_sph_stat_Softmax(x, p, kappa = 1, K_max = 1000, thre = 0,
-  method = "I", ...)
+p_sph_stat_Softmax(x, p, kappa = 1, K_max = 1000, thre = 0, method = "I", ...)
 
-d_sph_stat_Softmax(x, p, kappa = 1, K_max = 1000, thre = 0,
-  method = "I", ...)
+d_sph_stat_Softmax(x, p, kappa = 1, K_max = 1000, thre = 0, method = "I", ...)
 
 p_sph_stat_Stein(x, p, Stein_K = 10, Stein_cf = FALSE, method = "I", ...)
 
@@ -117,34 +109,34 @@ d_sph_stat_Stereo(x, p, a = 0, K_max = 1000, method = "I", ...)
 \arguments{
 \item{x}{a vector of size \code{nx} or a matrix of size \code{c(nx, 1)}.}
 
-\item{p}{integer giving the dimension of the ambient space \eqn{R^p} that
-contains \eqn{S^{p-1}}.}
+\item{p}{integer giving the dimension of the ambient space
+\eqn{\mathbb{R}^p} that contains \eqn{\mathbb{S}^{p-1}}.}
 
 \item{regime}{type of asymptotic regime for the CJ12 test, either \code{1}
 (sub-exponential regime), \code{2} (exponential), or \code{3}
 (super-exponential; default).}
 
-\item{beta}{\eqn{\beta} parameter in the exponential regime of the CJ12
-test, a non-negative real. Defaults to \code{0}.}
+\item{beta}{\eqn{\beta} parameter in the exponential regime of the CJ12 test,
+a non-negative real. Defaults to \code{0}.}
 
 \item{K_max}{integer giving the truncation of the series that compute the
 asymptotic p-value of a Sobolev test. Defaults to \code{1e3}.}
 
-\item{thre}{error threshold for the tail probability given by the
-the first terms of the truncated series of a Sobolev test. Defaults to
-\code{0} (no further truncation).}
+\item{thre}{error threshold for the tail probability given by the the first
+terms of the truncated series of a Sobolev test. Defaults to \code{0} (no
+further truncation).}
 
-\item{method}{method for approximating the density, distribution, or
-quantile function of the weighted sum of chi squared random variables. Must
-be \code{"I"} (Imhof), \code{"SW"} (Satterthwaite--Welch), \code{"HBE"}
+\item{method}{method for approximating the density, distribution, or quantile
+function of the weighted sum of chi squared random variables. Must be
+\code{"I"} (Imhof), \code{"SW"} (Satterthwaite--Welch), \code{"HBE"}
 (Hall--Buckley--Eagleson), or \code{"MC"} (Monte Carlo; only for distribution
 or quantile functions). Defaults to \code{"I"}.}
 
 \item{...}{further parameters passed to \code{\link{p_Sobolev}} or
 \code{\link{d_Sobolev}} (such as \code{x_tail}).}
 
-\item{rho}{\eqn{\rho} parameter for the Poisson test, a real in
-\eqn{[0, 1)}. Defaults to \code{0.5}.}
+\item{rho}{\eqn{\rho} parameter for the Poisson test, a real in \eqn{[0, 1)}.
+Defaults to \code{0.5}.}
 
 \item{t}{\eqn{t} parameter for the Rothman and Cressie tests, a real in
 \eqn{(0, 1)}. Defaults to \code{1 / 3}.}
@@ -155,19 +147,18 @@ or quantile functions). Defaults to \code{"I"}.}
 \item{vk2}{weights for the finite Sobolev test. A non-negative vector or
 matrix. Defaults to \code{c(0, 0, 1)}.}
 
-\item{kappa}{\eqn{\kappa} parameter for the Softmax test, a
-non-negative real. Defaults to \code{1}.}
+\item{kappa}{\eqn{\kappa} parameter for the Softmax test, a non-negative
+real. Defaults to \code{1}.}
 
 \item{Stein_K}{truncation \eqn{K} parameter for the Stein test, a positive
 integer. Defaults to \code{10}.}
 
-\item{Stein_cf}{logical indicating whether to use the characteristic
-function in the Stein test. Defaults to \code{FALSE} (moment generating
-function).}
+\item{Stein_cf}{logical indicating whether to use the characteristic function
+in the Stein test. Defaults to \code{FALSE} (moment generating function).}
 
 \item{a}{either: \itemize{
-\item \eqn{a_n = a / n} parameter used in the length of the arcs
-of the coverage-based tests. Must be positive. Defaults to \code{2 * pi}.
+\item \eqn{a_n = a / n} parameter used in the length of the arcs of the
+coverage-based tests. Must be positive. Defaults to \code{2 * pi}.
 \item \eqn{a} parameter for the Stereo test, a real in \eqn{[-1, 1]}.
 Defaults to \code{0}.
 }}
@@ -182,8 +173,8 @@ Defaults to \code{0}.
 }
 }
 \description{
-Computation of the asymptotic null distributions of
-spherical uniformity statistics.
+Computation of the asymptotic null distributions of spherical
+uniformity statistics.
 }
 \details{
 Descriptions and references on most of the asymptotic distributions

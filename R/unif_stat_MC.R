@@ -5,32 +5,31 @@
 #'
 #' @description Utility for performing Monte Carlo simulation of several
 #' statistics for assessing uniformity on the (hyper)sphere
-#' \eqn{S^{p-1}:=\{{\bf x}\in R^p:||{\bf x}||=1\}}{
-#' S^{p-1}:=\{x\in R^p:||x||=1\}}, \eqn{p\ge 2}.
+#' \eqn{\mathbb{S}^{p-1}:=\{\boldsymbol{x}\in
+#' \mathbb{R}^p:\|\boldsymbol{x}\|=1\}}, \eqn{p\ge 2}.
 #'
-#' \code{unif_stat_MC} provides a convenient wrapper for parallel
-#' evaluation of \code{unif_stat}, the estimation of critical values under the
-#' null distribution, and the computation of empirical powers under the
-#' alternative.
+#' \code{unif_stat_MC} provides a convenient wrapper for parallel evaluation of
+#' \code{unif_stat}, the estimation of critical values under the null
+#' distribution, and the computation of empirical powers under the alternative.
 #'
 #' @inheritParams unif_test
 #' @inheritParams r_unif
 #' @param M number of Monte Carlo replications. Defaults to \code{1e4}.
-#' @param r_H1 if provided, the computation of empirical powers is
-#' carried out for the alternative hypothesis sampled with \code{r_H1}.
-#' This must be a function with the same arguments and value as
-#' \code{\link{r_unif_sph}} (see examples). Defaults to \code{NULL}, indicating
-#' that the critical values are estimated from samples of \code{r_unif_sph}.
+#' @param r_H1 if provided, the computation of empirical powers is carried out
+#' for the alternative hypothesis sampled with \code{r_H1}. This must be a
+#' function with the same arguments and value as \code{\link{r_unif_sph}} (see
+#' examples). Defaults to \code{NULL}, indicating that the critical values are
+#' estimated from samples of \code{r_unif_sph}.
 #' @param crit_val if provided, must be the critical values as returned by
 #' \code{$stats_MC} in a call to \code{unif_stat_MC}. They are used for
-#' computing the empirical powers of the tests present in \code{type}.
-#' Defaults to \code{NULL}, which means that no power computation is done.
+#' computing the empirical powers of the tests present in \code{type}. Defaults
+#' to \code{NULL}, which means that no power computation is done.
 #' @param return_stats return the Monte Carlo statistics? If only the critical
 #' values or powers are desired, \code{FALSE} saves memory in the returned
 #' object. Defaults to \code{TRUE}.
-#' @param stats_sorted sort the returned Monte Carlo statistics? If
-#' \code{TRUE}, this is useful for evaluating faster the empirical cumulative
-#' distribution function when approximating the distribution in
+#' @param stats_sorted sort the returned Monte Carlo statistics? If \code{TRUE},
+#' this is useful for evaluating faster the empirical cumulative distribution
+#' function when approximating the distribution in
 #' \code{\link{unif_stat_distr}}. Defaults to \code{FALSE}.
 #' @param chunks number of chunks to split the \code{M} Monte Carlo
 #' replications. Useful for parallelizing the simulation study in \code{chunks}
@@ -38,11 +37,11 @@
 #' avoiding memory bottlenecks when \code{M} is large. Defaults to
 #' \cr\code{ceiling((n * M) / 1e5)}.
 #' @param cores number of cores to perform the simulation. Defaults to \code{1}.
-#' @param seeds if provided, a vector of size \code{chunks} for fixing the
-#' seeds on each of the simulation chunks (useful for reproducing parallel
-#' simulations). Specifically, for \code{k in 1:chunks}, seeds are
-#' set as \code{set.seed(seeds[k], kind = "Mersenne-Twister")} in each chunk.
-#' Defaults to \code{NULL} (no seed setting is done).
+#' @param seeds if provided, a vector of size \code{chunks} for fixing the seeds
+#' on each of the simulation chunks (useful for reproducing parallel
+#' simulations). Specifically, for \code{k in 1:chunks}, seeds are set as
+#' \code{set.seed(seeds[k], kind = "Mersenne-Twister")} in each chunk. Defaults
+#' to \code{NULL} (no seed setting is done).
 #' @inheritParams unif_stat
 #' @param ... optional arguments to be passed to the \code{r_H1} sampler or to
 #' \code{\link[foreach]{foreach}} (for example, \code{.export} to export global
@@ -207,8 +206,9 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
 
   }
 
-  # Chunk large n * M to avoid memory issues
-  small_M <- M %/% chunks
+  # Chunk large n * M to avoid memory issues. Use ceiling so that the total
+  # number of simulated replications (chunks * small_M) is never fewer than M.
+  small_M <- ceiling(M / chunks)
 
   # Fix projections for the CCF09 test
   if ("CCF09" %in% type && is.null(CCF09_dirs)) {
@@ -266,9 +266,20 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
 
   }
 
-  # Parallel backend
+  # Parallel backend. For cores == 1 use a sequential plan to avoid the
+  # overhead of spawning a background worker, serializing the foreach closure
+  # and reloading sphunif in the worker. doRNG makes the results reproducible
+  # and independent of the backend, so this does not alter the output.
   old_dopar <- doFuture::registerDoFuture()
-  old_plan <- future::plan(future::multisession(), workers = cores)
+  old_plan <- if (cores == 1) {
+
+    future::plan(future::sequential)
+
+  } else {
+
+    future::plan(future::multisession(), workers = cores)
+
+  }
   on.exit({
 
     with(old_dopar, foreach::setDoPar(fun = fun, data = data, info = info))
@@ -338,9 +349,8 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
   # Build tables
   if (is.null(crit_val)) {
 
-    # Critical values
-    crit_val <- rbind(apply(stats, 2, quantile, probs = 1 - alpha,
-                            na.rm = TRUE))
+    # Critical values (use the sorted-column shortcut when possible)
+    crit_val <- rbind(apply(stats, 2, quantile_col, probs = 1 - alpha))
     crit_val <- as.data.frame(crit_val)
     rownames(crit_val) <- alpha
 

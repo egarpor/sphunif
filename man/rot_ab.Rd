@@ -10,12 +10,12 @@ rot_ab(X, a, b)
 H_ab(a, b)
 }
 \arguments{
-\item{X}{a sample of spherical data, an array of size \code{c(n, p, M)} or
-a matrix of size \code{c(n, p)}.}
+\item{X}{a sample of spherical data, an array of size \code{c(n, p, M)} or a
+matrix of size \code{c(n, p)}.}
 
-\item{a}{vector on \eqn{S^{p-1}} to rotate from.}
+\item{a}{vector on \eqn{\mathbb{S}^{p-1}} to rotate from.}
 
-\item{b}{vector on \eqn{S^{p-1}} to rotate to.}
+\item{b}{vector on \eqn{\mathbb{S}^{p-1}} to rotate to.}
 }
 \value{
 \itemize{
@@ -26,8 +26,9 @@ a matrix of size \code{c(n, p)}.}
 }
 \description{
 Rotate a sample of spherical data by a rotation matrix
-\eqn{{\bf H}_{{\bf a},{\bf b}} = ({\bf a}+{\bf b})({\bf a}+{\bf b})' /
-(1 + {\bf a}'{\bf b}) - {\bf I}_p}.
+\eqn{\boldsymbol{H}_{\boldsymbol{a},\boldsymbol{b}} =
+(\boldsymbol{a}+\boldsymbol{b})(\boldsymbol{a}+\boldsymbol{b})' / (1 +
+\boldsymbol{a}'\boldsymbol{b}) - \boldsymbol{I}_p}.
 }
 \details{
 The vectors \code{a} and \code{b} are checked for unit norms.

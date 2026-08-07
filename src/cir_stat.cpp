@@ -91,7 +91,7 @@ arma::vec cir_stat_Kuiper(arma::mat Theta, bool sorted = false,
     // Add Stephens (1970) modification?
     if (Stephens) {
 
-      Vn *= (1 + 0.12 / std::sqrt(n) + 0.21 / n);
+      Vn *= (1 + 0.12 / std::sqrt(n) + 0.11 / n);
 
     }
 

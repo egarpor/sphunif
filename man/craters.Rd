@@ -9,16 +9,16 @@ A data frame with 5235 rows and 7 variables:
 \describe{
   \item{ID}{database ID.}
   \item{name}{name of the crater.}
-  \item{target}{name of the celestial body. A factor with 43 levels,
-  such as \code{"Moon"}, \code{"Venus"}, or \code{"Europa"}.}
+  \item{target}{name of the celestial body. A factor with 43 levels, such as
+  \code{"Moon"}, \code{"Venus"}, or \code{"Europa"}.}
   \item{target_type}{type of celestial body. A factor with 3 levels:
   \code{"Planet"}, \code{"Moon"}, \code{"Dwarf planet"}, or
   \code{"Asteroid"}.}
   \item{diameter}{diameter of the crater (in km).}
-  \item{theta}{longitude angle \eqn{\theta \in [0, 2\pi)} of the
-  crater center.}
-  \item{phi}{latitude angle \eqn{\phi \in [-\pi/2, \pi/2]} of the
-  crater center.}
+  \item{theta}{longitude angle \eqn{\theta \in [0, 2\pi)} of the crater
+  center.}
+  \item{phi}{latitude angle \eqn{\phi \in [-\pi/2, \pi/2]} of the crater
+  center.}
 }
 }
 \source{
@@ -48,8 +48,7 @@ listed bodies than those named by the IAU. See \code{\link{venus}} and
 
 The \eqn{(\theta, \phi)} angles are such the associated planetocentric
 coordinates are:
-\deqn{(\cos(\phi) \cos(\theta), \cos(\phi) \sin(\theta), \sin(\phi))',}{
-(cos(\phi) cos(\theta), cos(\phi) sin(\theta), sin(\phi))',}
+\deqn{(\cos(\phi) \cos(\theta), \cos(\phi) \sin(\theta), \sin(\phi))',}
 with \eqn{(0, 0, 1)'} denoting the north pole.
 
 The script performing the data preprocessing is available at
